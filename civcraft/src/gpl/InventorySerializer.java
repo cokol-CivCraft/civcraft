@@ -206,7 +206,7 @@ public class InventorySerializer {
         
         if (inv instanceof PlayerInventory) {
         	PlayerInventory pInv = (PlayerInventory)inv;
-        	invString = inventorySplit[1];
+        	invString = inventorySplit[0]; // was 1
             String[] serializedBlocksArmor = invString.split(";");
            
             ItemStack[] contents = new ItemStack[4];

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
+import org.bukkit.Sound;
 import org.bukkit.block.Biome;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -256,6 +257,7 @@ public class FisheryAsyncTask extends CivAsyncTask {
 						try {
 							debug(fishHatchery, "Updating inventory:"+newItem);
 							this.updateInventory(Action.ADD, dest_inv, newItem);
+							fishHatchery.getCorner().getBlock().getWorld().playSound(fishHatchery.getCenterLocation().getLocation(), Sound.BLOCK_BREWING_STAND_BREW, 1f, 1f);
 						} catch (InterruptedException e) {
 							return;
 						}
@@ -269,77 +271,67 @@ public class FisheryAsyncTask extends CivAsyncTask {
 	
 	private int getBiome() {
 		Biome biome = this.fishHatchery.getBiome();
-		
-		if (biome.equals(Biome.BIRCH_FOREST_HILLS) ||
-				biome.equals(Biome.MUTATED_BIRCH_FOREST) ||
-				biome.equals(Biome.MUTATED_BIRCH_FOREST_HILLS) ||
-				biome.equals(Biome.MUTATED_TAIGA_COLD) ||
-				biome.equals(Biome.MUTATED_EXTREME_HILLS) ||
-				biome.equals(Biome.MUTATED_EXTREME_HILLS_WITH_TREES ) ||
-				biome.equals(Biome.ICE_MOUNTAINS) ||
-				biome.equals(Biome.MUTATED_JUNGLE_EDGE) ||
-				biome.equals(Biome.JUNGLE_HILLS) ||
-				biome.equals(Biome.MUTATED_JUNGLE) ||
-				biome.equals(Biome.MUTATED_MESA) ||
-				biome.equals(Biome.MUTATED_MESA_CLEAR_ROCK) ||
-				biome.equals(Biome.MUTATED_MESA_CLEAR_ROCK) ||
-				biome.equals(Biome.MUTATED_MESA_ROCK) ||
-				biome.equals(Biome.MUTATED_SAVANNA) ||
-				biome.equals(Biome.MUTATED_SAVANNA_ROCK) ||
-				biome.equals(Biome.SMALLER_EXTREME_HILLS) ||
-				biome.equals(Biome.MUTATED_SWAMPLAND) ||
-				biome.equals(Biome.MUTATED_TAIGA))
-		{
-			return 1;
-		}
-		else if (biome.equals(Biome.BIRCH_FOREST) ||
-				biome.equals(Biome.EXTREME_HILLS) ||
-				biome.equals(Biome.FOREST) ||
-				biome.equals(Biome.FOREST_HILLS) ||
-				biome.equals(Biome.ICE_FLATS) ||
-				biome.equals(Biome.ICE_MOUNTAINS) ||
-				biome.equals(Biome.MUTATED_ICE_FLATS) ||
-				biome.equals(Biome.JUNGLE) ||
-				biome.equals(Biome.JUNGLE_EDGE) ||
-				biome.equals(Biome.MUTATED_REDWOOD_TAIGA) ||
-				biome.equals(Biome.MUTATED_REDWOOD_TAIGA_HILLS) ||
-				biome.equals(Biome.REDWOOD_TAIGA) ||
-				biome.equals(Biome.REDWOOD_TAIGA_HILLS) ||
-				biome.equals(Biome.ROOFED_FOREST) ||
-				biome.equals(Biome.MESA) ||
-				biome.equals(Biome.MESA_CLEAR_ROCK) ||
-				biome.equals(Biome.MESA_ROCK ) ||
-				biome.equals(Biome.EXTREME_HILLS_WITH_TREES) ||
-				biome.equals(Biome.ROOFED_FOREST) ||
-				biome.equals(Biome.SAVANNA) ||
-				biome.equals(Biome.SAVANNA_ROCK) ||
-				biome.equals(Biome.TAIGA) ||
-				biome.equals(Biome.TAIGA_HILLS))
-		{
-			return 2;
-		}
-		else if (biome.equals(Biome.BEACHES) ||
-				biome.equals(Biome.COLD_BEACH) ||
-				biome.equals(Biome.TAIGA_COLD) ||
-				biome.equals(Biome.DEEP_OCEAN) ||
-				biome.equals(Biome.DESERT) ||
-				biome.equals(Biome.DESERT_HILLS) ||
-				biome.equals(Biome.MUTATED_DESERT) ||
-				biome.equals(Biome.FROZEN_OCEAN) ||
-				biome.equals(Biome.FROZEN_RIVER) ||
-				biome.equals(Biome.MUSHROOM_ISLAND) ||
-				biome.equals(Biome.MUSHROOM_ISLAND_SHORE) ||
-				biome.equals(Biome.OCEAN) ||
-				biome.equals(Biome.PLAINS) ||
-				biome.equals(Biome.RIVER) ||
-				biome.equals(Biome.STONE_BEACH) ||
-				biome.equals(Biome.SWAMPLAND) )
-		{
-			return 3;
-		}
-		else
-		{
-			return 0;
+		switch (biome) {
+			case BIRCH_FOREST_HILLS:
+			case MUTATED_BIRCH_FOREST:
+			case MUTATED_BIRCH_FOREST_HILLS:
+			case MUTATED_TAIGA_COLD:
+			case MUTATED_EXTREME_HILLS:
+			case MUTATED_EXTREME_HILLS_WITH_TREES:
+			case ICE_MOUNTAINS:
+			case MUTATED_JUNGLE_EDGE:
+			case JUNGLE_HILLS:
+			case MUTATED_JUNGLE:
+			case MUTATED_MESA:
+			case MUTATED_MESA_CLEAR_ROCK:
+			case MUTATED_MESA_ROCK:
+			case MUTATED_SAVANNA:
+			case MUTATED_SAVANNA_ROCK:
+			case SMALLER_EXTREME_HILLS:
+			case MUTATED_SWAMPLAND:
+			case MUTATED_TAIGA:
+				return 1;
+			case BIRCH_FOREST:
+			case EXTREME_HILLS:
+			case FOREST:
+			case FOREST_HILLS:
+			case ICE_FLATS:
+			case MUTATED_ICE_FLATS:
+			case JUNGLE:
+			case JUNGLE_EDGE:
+			case MUTATED_REDWOOD_TAIGA:
+			case MUTATED_REDWOOD_TAIGA_HILLS:
+			case REDWOOD_TAIGA:
+			case REDWOOD_TAIGA_HILLS:
+			case ROOFED_FOREST:
+			case MESA:
+			case MESA_CLEAR_ROCK:
+			case MESA_ROCK:
+			case EXTREME_HILLS_WITH_TREES:
+			case SAVANNA:
+			case SAVANNA_ROCK:
+			case TAIGA:
+			case TAIGA_HILLS:
+				return 2;
+			case BEACHES:
+			case COLD_BEACH:
+			case TAIGA_COLD:
+			case DEEP_OCEAN:
+			case DESERT:
+			case DESERT_HILLS:
+			case MUTATED_DESERT:
+			case FROZEN_OCEAN:
+			case FROZEN_RIVER:
+			case MUSHROOM_ISLAND:
+			case MUSHROOM_ISLAND_SHORE:
+			case OCEAN:
+			case PLAINS:
+			case RIVER:
+			case STONE_BEACH:
+			case SWAMPLAND:
+				return 3;
+			default:
+				return 0;
 		}
 	}
 	

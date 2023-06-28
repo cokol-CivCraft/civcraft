@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -227,7 +228,7 @@ public class Bank extends Structure {
 			if (LoreMaterial.isCustom(player.getInventory().getItemInMainHand())) {
 				throw new CivException(CivSettings.localize.localizedString("bank_invalidItem"));
 			}
-			
+			player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1.1f, 1.1f);
 			switch (sign.getAction()) {
 			case "iron":
 				exchange_for_coins(resident, CivData.IRON_INGOT, CivSettings.iron_rate);

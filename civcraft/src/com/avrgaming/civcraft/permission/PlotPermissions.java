@@ -144,6 +144,7 @@ public class PlotPermissions {
 			
 			if (owner != null && owner.isFriend(resident) && node.isPermitOwner()) 
 				return true;
+
 			
 			if (groups.size() != 0 && node.isPermitGroup()) {
 				for (PermissionGroup group : groups) {

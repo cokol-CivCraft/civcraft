@@ -52,80 +52,71 @@ public class Library extends Structure {
 	private NonMemberFeeComponent nonMemberFeeComponent;
 	
 	public static Enchantment getEnchantFromString(String name) {
-		
-		// Armor Enchantments
-		if (name.equalsIgnoreCase("protection")) {
-			return Enchantment.PROTECTION_ENVIRONMENTAL;
+		switch (name.toLowerCase()) {
+			case "protection":
+				return Enchantment.PROTECTION_ENVIRONMENTAL;
+			case "fire_protection":
+				return Enchantment.PROTECTION_FIRE;
+			case "feather_falling":
+				return Enchantment.PROTECTION_FALL;
+			case "blast_protection":
+				return Enchantment.PROTECTION_EXPLOSIONS;
+			case "projectile_protection":
+				return Enchantment.PROTECTION_PROJECTILE;
+			case "respiration":
+				return Enchantment.OXYGEN;
+			case "aqua_affinity":
+				return Enchantment.WATER_WORKER;
+			case "sharpness":
+				return Enchantment.DAMAGE_ALL;
+			case "smite":
+				return Enchantment.DAMAGE_UNDEAD;
+			case "bane_of_arthropods":
+				return Enchantment.DAMAGE_ARTHROPODS;
+			case "knockback":
+				return Enchantment.KNOCKBACK;
+			case "fire_aspect":
+				return Enchantment.FIRE_ASPECT;
+			case "looting":
+				return Enchantment.LOOT_BONUS_MOBS;
+			case "efficiency":
+				return Enchantment.DIG_SPEED;
+			case "silk_touch":
+				return Enchantment.SILK_TOUCH;
+			case "unbreaking":
+				return Enchantment.DURABILITY;
+			case "fortune":
+				return Enchantment.LOOT_BONUS_BLOCKS;
+			case "power":
+				return Enchantment.ARROW_DAMAGE;
+			case "punch":
+				return Enchantment.ARROW_KNOCKBACK;
+			case "flame":
+				return Enchantment.ARROW_FIRE;
+			case "infinity":
+				return Enchantment.ARROW_INFINITE;
+			case "mending":
+				return Enchantment.MENDING;
+			case "lure":
+				return Enchantment.LURE;
+			case "frost_walker":
+				return Enchantment.FROST_WALKER;
+			case "depth_strider":
+				return Enchantment.DEPTH_STRIDER;
+			case "curse_of_vanishing":
+				return Enchantment.VANISHING_CURSE;
+			case "curse_of_binding":
+				return Enchantment.BINDING_CURSE;
+			case "thorns":
+				return Enchantment.THORNS;
+			case "sweeping_edge":
+				return Enchantment.SWEEPING_EDGE;
+			case "luck_of_the_sea":
+				return Enchantment.LUCK;
+			default:
+				return null;
+
 		}
-		if (name.equalsIgnoreCase("fire_protection")) {
-			return Enchantment.PROTECTION_FIRE;
-		}
-		if (name.equalsIgnoreCase("feather_falling")) {
-			return Enchantment.PROTECTION_FALL;
-		}
-		if (name.equalsIgnoreCase("blast_protection")) {
-			return Enchantment.PROTECTION_EXPLOSIONS;
-		}
-		if (name.equalsIgnoreCase("projectile_protection")) {
-			return Enchantment.PROTECTION_PROJECTILE;
-		}
-		if (name.equalsIgnoreCase("respiration")) {
-			return Enchantment.OXYGEN;
-		}
-		if (name.equalsIgnoreCase("aqua_affinity")) {
-			return Enchantment.WATER_WORKER;
-		}
-		
-		// Sword Enchantments
-		if (name.equalsIgnoreCase("sharpness")) {
-			return Enchantment.DAMAGE_ALL;
-		}
-		if (name.equalsIgnoreCase("smite")) {
-			return Enchantment.DAMAGE_UNDEAD;
-		}
-		if (name.equalsIgnoreCase("bane_of_arthropods")) {
-			return Enchantment.DAMAGE_ARTHROPODS;
-		}
-		if (name.equalsIgnoreCase("knockback")) {
-			return Enchantment.KNOCKBACK;
-		}
-		if (name.equalsIgnoreCase("fire_aspect")) {
-			return Enchantment.FIRE_ASPECT;
-		}
-		if (name.equalsIgnoreCase("looting")) {
-			return Enchantment.LOOT_BONUS_MOBS;
-		}
-		
-		// Tool Enchantments
-		if (name.equalsIgnoreCase("efficiency")) {
-			return Enchantment.DIG_SPEED;
-		}
-		if (name.equalsIgnoreCase("silk_touch")) {
-			return Enchantment.SILK_TOUCH;
-		}
-		if (name.equalsIgnoreCase("unbreaking")) {
-			return Enchantment.DURABILITY;
-		}
-		if (name.equalsIgnoreCase("fortune")) {
-			return Enchantment.LOOT_BONUS_BLOCKS;
-		}
-		
-		// Bow Enchantments
-		if (name.equalsIgnoreCase("power")) {
-			return Enchantment.ARROW_DAMAGE;
-		}
-		if (name.equalsIgnoreCase("punch")) {
-			return Enchantment.ARROW_KNOCKBACK;
-		}
-		if (name.equalsIgnoreCase("flame")) {
-			return Enchantment.ARROW_FIRE;
-		}
-		if (name.equalsIgnoreCase("infinity")) {
-			return Enchantment.ARROW_INFINITE;
-		}
-		
-		return null;
-		
 	}
 
 	public double getNonResidentFee() {

@@ -471,55 +471,56 @@ public class FortifiedWall extends Wall {
 	private SimpleBlock getBlock(int block)
 	{
 		String template = this.getTEMPLATE();
-		if (template.equals("atlantean")) {
+		switch (template) {
+		case "atlantean":
 			if (block == 0 || block == FortifiedWall.HEIGHT/2) {
 				return new SimpleBlock(CivData.PRISMARINE, CivData.DARK_PRISMARINE);
 			} else {
 				return new SimpleBlock(CivData.PRISMARINE, CivData.PRISMARINE_BRICKS);
 			}
-		} else if (template.equals("arctic")) {
+			case "arctic":
 			if (block == 0 || block == FortifiedWall.HEIGHT/2) {
 				return new SimpleBlock(CivData.PACKED_ICE, 0);
 			} else {
 				return new SimpleBlock(CivData.SNOW, 0);
 			}
-		} else if (template.equals("aztec")) {
+			 case "aztec":
 			if (block == 0 || block == FortifiedWall.HEIGHT/2) {
 				return new SimpleBlock(CivData.MOSS_STONE, 0);
 			} else {
 				return new SimpleBlock(CivData.COBBLESTONE, 0);
 			}
-		} else if (template.equals("cultist")) {
+			 case "cultist":
 			if (block == 0 || block == FortifiedWall.HEIGHT/2) {
 				return new SimpleBlock(159, 11);
 			} else {
 				return new SimpleBlock(159, 3);
 			}
-		} else if (template.equals("egyptian")) {
+			 case "egyptian":
 			if (block == 0 || block == FortifiedWall.HEIGHT/2) {
 				return new SimpleBlock(CivData.SANDSTONE, CivData.CHISELED_SANDSTONE);
 			} else {
 				return new SimpleBlock(CivData.SANDSTONE, CivData.SMOOTH_SANDSTONE);
 			}
-		} else if (template.equals("elven")) {
+			 case "elven":
 			if (block == 0 || block == FortifiedWall.HEIGHT/2) {
 				return new SimpleBlock(CivData.WOOD, 3);
 			} else {
 				return new SimpleBlock(CivData.LEAF, 3);
 			}
-		} else if (template.equals("hell")) {
+			 case "hell":
 			if (block == 0 || block == FortifiedWall.HEIGHT/2) {
 				return new SimpleBlock(112, 0);
 			} else {
 				return new SimpleBlock(CivData.NETHERRACK, 0);
 			}
-		} else if (template.equals("roman")) {
+			 case "roman":
 			if (block == 0 || block == FortifiedWall.HEIGHT/2) {
 				return new SimpleBlock(155, 1);
 			} else {
 				return new SimpleBlock(155, 0);
 			}
-		} else {
+			 default:
 			if (block == 0 || block == FortifiedWall.HEIGHT/2) {
 				return new SimpleBlock(CivData.STONE_BRICK, 0x1);
 			} else {

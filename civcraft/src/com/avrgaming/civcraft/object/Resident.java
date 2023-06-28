@@ -105,6 +105,7 @@ public class Resident extends SQLObject {
 	private boolean adminChat = false;
 	private boolean combatInfo = false;
 	private boolean titleAPI = true;
+	private int respawntime;
 	
 	private boolean usesAntiCheat = false;
 	
@@ -1538,6 +1539,18 @@ public class Resident extends SQLObject {
 
 	public void setLastKilledTime(Date lastKilledTime) {
 		this.lastKilledTime = lastKilledTime;
+	}
+	public int getRespawnTimeArena() {
+		return this.respawntime;
+	}
+	public void clearRespawnTimeArena() {
+		respawntime = 0;
+	}
+	public void increaseRespawnTime() {
+		this.respawntime += 2;
+		if (respawntime > 30) {
+			respawntime = 30;
+		}
 	}
 
 	public Date getMuteExpires() {

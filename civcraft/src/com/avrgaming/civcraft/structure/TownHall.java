@@ -448,6 +448,7 @@ public class TownHall extends Structure implements RespawnLocationHolder {
 	public void onControlBlockHit(ControlPoint cp, World world, Player player, StructureBlock hit) {
 		world.playSound(hit.getCoord().getLocation(), Sound.BLOCK_ANVIL_USE, 0.2f, 1);
 		world.playEffect(hit.getCoord().getLocation(), Effect.MOBSPAWNER_FLAMES, 0);
+		CivMessage.sendActionBar(player, CivData.getStringForBar(CivData.TaskType.CONTROL, cp.getHitpoints(), cp.getMaxHitpoints()));
 		
 		CivMessage.send(player, CivColor.LightGray+CivSettings.localize.localizedString("var_townHall_damagedControlBlock",("("+cp.getHitpoints()+" / "+cp.getMaxHitpoints()+")")));
 		CivMessage.sendTown(hit.getTown(), CivColor.Yellow+CivSettings.localize.localizedString("townHall_cbUnderAttack"));

@@ -23,6 +23,11 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import com.avrgaming.civcraft.exception.CivException;
+import com.avrgaming.civcraft.main.CivGlobal;
+import com.avrgaming.civcraft.object.Resident;
+import com.avrgaming.civcraft.object.Town;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 
 import com.avrgaming.civcraft.config.CivSettings;
@@ -38,6 +43,7 @@ import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.SimpleBlock;
 import com.avrgaming.civcraft.util.SimpleBlock.Type;
+import org.bukkit.entity.Player;
 
 public class BuildAsyncTask extends CivAsyncTask {
 	/*
@@ -132,7 +138,7 @@ public class BuildAsyncTask extends CivAsyncTask {
 				}
 			}
 
-			if (build() == true) { 
+			if (build()) {
 				//skip to next run.
 				continue;
 			}		
@@ -144,7 +150,7 @@ public class BuildAsyncTask extends CivAsyncTask {
 			}
 			
 			count = 0; //reset count, this tick is over.
-			// Add all of the blocks from this tick to the sync task.
+			// Add all the blocks from this tick to the sync task.
 			synchronized (this.aborted) {
 				if (!this.aborted) {
 					this.updateBlocksQueue(sbs);
@@ -160,11 +166,18 @@ public class BuildAsyncTask extends CivAsyncTask {
 					this.percent_complete = nextPercentComplete;
 					if ((this.percent_complete % 10 == 0)) {
 						if (buildable instanceof Wonder) {
-							CivMessage.global(CivSettings.localize.localizedString("var_buildAsync_progressWonder",buildable.getDisplayName(),buildable.getTown().getName(),nextPercentComplete));
+							CivMessage.global(CivSettings.localize.localizedString("var_buildAsync_progressWonder", buildable.getDisplayName(), buildable.getTown().getName(), nextPercentComplete));
+							for (Player p : buildable.getCiv().getOnlinePlayers()) {
+								CivMessage.sendActionBar(p, CivData.getStringForBar(CivData.TaskType.WONDERBUILD, this.percent_complete, 100));
+								p.playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 1.0f, 1.0f);
+							}
+						}
 						} else {
-														
-							CivMessage.sendTown(buildable.getTown(),
-									CivColor.Yellow+CivSettings.localize.localizedString("var_buildAsync_progressOther",buildable.getDisplayName(),nextPercentComplete));
+						CivMessage.sendTown(buildable.getTown(),
+								CivColor.Yellow + CivSettings.localize.localizedString("var_buildAsync_progressOther", buildable.getDisplayName(), nextPercentComplete));
+						for (Player p : buildable.getTown().getOnlinePlayers()) {
+							CivMessage.sendActionBar(p, CivData.getStringForBar(CivData.TaskType.STRUCTUREBUILD, this.percent_complete, 100));
+							p.playSound(p.getLocation(), Sound.ITEM_SHIELD_BLOCK, 1.0f, 1.0f);
 						}
 					}
 				}

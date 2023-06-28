@@ -31,6 +31,8 @@ import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.structure.TownHall;
 import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 
 public class CivResearchCommand extends CommandBase {
 
@@ -45,6 +47,10 @@ public class CivResearchCommand extends CommandBase {
 		commands.put("change", CivSettings.localize.localizedString("cmd_civ_research_changeDesc"));
 		commands.put("finished", CivSettings.localize.localizedString("cmd_civ_research_finishedDesc"));
 		commands.put("era", CivSettings.localize.localizedString("cmd_civ_research_eraDesc"));
+		commands.put("e", null);
+		commands.put("f", null);
+		commands.put("l", null);
+		commands.put("p",  null);
 	}
 	
 	public void change_cmd() throws CivException {
@@ -76,6 +82,10 @@ public class CivResearchCommand extends CommandBase {
 		}
 	
 		civ.startTechnologyResearch(tech);
+		if (sender instanceof Player) {
+			Player p = (Player) sender;
+			p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.1f, 1.0f);
+		}
 		CivMessage.sendCiv(civ, CivSettings.localize.localizedString("var_cmd_civ_research_start",tech.name));
 	}
 	
@@ -88,6 +98,13 @@ public class CivResearchCommand extends CommandBase {
 			out += tech.name+", ";
 		}
 		CivMessage.send(sender, out);
+	}
+	public void f_cmd() {
+		try {
+			finished_cmd();
+		} catch (CivException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void on_cmd() throws CivException {
@@ -118,7 +135,18 @@ public class CivResearchCommand extends CommandBase {
 		}
 		
 		civ.startTechnologyResearch(tech);
+		if (sender instanceof Player) {
+			Player p = (Player) sender;
+			p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.1f, 1.0f);
+		}
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_civ_research_start",tech.name));
+	}
+	public void p_cmd() {
+		try {
+			progress_cmd();
+		} catch (CivException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void progress_cmd() throws CivException {
@@ -147,6 +175,13 @@ public class CivResearchCommand extends CommandBase {
 		}
 				
 	}
+	public void l_cmd() {
+		try {
+			list_cmd();
+		} catch (CivException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public void era_cmd() throws CivException {
 		Civilization civ = getSenderCiv();
@@ -161,6 +196,13 @@ public class CivResearchCommand extends CommandBase {
 		} else {
 			CivMessage.send(sender, CivColor.Green+CivSettings.localize.localizedString("var_cmd_civ_research_eraDiscount",(eraRate*100),CivSettings.CURRENCY_NAME));
 			
+		}
+	}
+	public void e_cmd() {
+		try {
+			era_cmd();
+		} catch (CivException e) {
+			e.printStackTrace();
 		}
 	}
 	

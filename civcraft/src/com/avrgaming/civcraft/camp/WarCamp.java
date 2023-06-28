@@ -531,7 +531,9 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
 	public void onControlBlockHit(ControlPoint cp, World world, Player player, StructureBlock hit) {
 		world.playSound(hit.getCoord().getLocation(), Sound.BLOCK_ANVIL_USE, 0.2f, 1);
 		world.playEffect(hit.getCoord().getLocation(), Effect.MOBSPAWNER_FLAMES, 0);
-		
+		CivMessage.sendActionBar(player, CivData.getStringForBar(CivData.TaskType.CONTROL, cp.getHitpoints(), cp.getMaxHitpoints()));
+
+
 		CivMessage.send(player, CivColor.LightGray+CivSettings.localize.localizedString("warcamp_hitControlBlock")+" ("+cp.getHitpoints()+" / "+cp.getMaxHitpoints()+")");
 		CivMessage.sendCiv(getCiv(), CivColor.Yellow+CivSettings.localize.localizedString("warcamp_controlBlockUnderAttack"));
 	}

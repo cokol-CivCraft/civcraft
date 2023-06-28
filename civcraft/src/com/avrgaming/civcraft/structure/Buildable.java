@@ -276,11 +276,8 @@ public abstract class Buildable extends SQLObject {
 	
 	public double getHammerCost() {
 		double rate = 1;
-		if (this.getTown().getBuffManager().hasBuff(Buff.RUSH)) {
 			rate -= this.getTown().getBuffManager().getEffectiveDouble(Buff.RUSH);
-		}
-		if (this.isTileImprovement() && this.getTown().getBuffManager().hasBuff("buff_mother_tree_tile_improvement_cost")) {
-
+		if (this.isTileImprovement()) {
 			rate -= this.getTown().getBuffManager().getEffectiveDouble("buff_mother_tree_tile_improvement_cost");
 		}
 		return rate*info.hammer_cost;
@@ -358,14 +355,11 @@ public abstract class Buildable extends SQLObject {
 	}
 	
 	public boolean isDestroyed() {
-		if ((hitpoints == 0) && (this.getMaxHitPoints() != 0)) {
-			return true;
-		}
-		return false;
+		return (hitpoints == 0) && (this.getMaxHitPoints() != 0);
 	}
 	
 	public boolean isDestroyable() {
-		return (info.destroyable != null) && (info.destroyable == true);
+		return (info.destroyable != null) && (info.destroyable);
 	}
 	
 	public boolean isComplete() {
@@ -426,14 +420,11 @@ public abstract class Buildable extends SQLObject {
 		Template tpl;
 		try {
 			tpl = Template.getTemplate(this.templateName, null);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return;
-		} catch (CivException e) {
+		} catch (IOException | CivException e) {
 			e.printStackTrace();
 			return;
 		}
-		
+
 		this.setTemplateX(tpl.size_x);
 		this.setTemplateY(tpl.size_y);
 		this.setTemplateZ(tpl.size_z);
@@ -455,12 +446,8 @@ public abstract class Buildable extends SQLObject {
 					if (tpl.blocks[x][y][z].specialType == SimpleBlock.Type.COMMAND) {
 						continue;
 					}
-						
-					if (y == 0) {
-						this.addStructureBlock(coord, false);	
-					} else {
-						this.addStructureBlock(coord, true);
-					}
+
+					this.addStructureBlock(coord, y != 0);
 				}
 			}
 		}
@@ -523,14 +510,11 @@ public abstract class Buildable extends SQLObject {
 		tpl = new Template();
 		try {
 			tpl.initTemplate(centerLoc, this);
-		} catch (CivException e) {
-			e.printStackTrace();
-			throw e;
-		} catch (IOException e) {
+		} catch (CivException | IOException e) {
 			e.printStackTrace();
 			throw e;
 		}
-		
+
 		buildPlayerPreview(player, centerLoc, tpl);
 	}
 	
@@ -864,7 +848,7 @@ public abstract class Buildable extends SQLObject {
 			ignoreBorders = true;
 			ConfigTownLevel level = CivSettings.townLevels.get(getTown().getLevel());
 
-			Integer maxTileImprovements  = level.tile_improvements;
+			int maxTileImprovements  = level.tile_improvements;
 			if (town.getBuffManager().hasBuff("buff_mother_tree_tile_improvement_bonus"))
 			{
 				maxTileImprovements *= 2;
@@ -887,7 +871,7 @@ public abstract class Buildable extends SQLObject {
 		}
 		
 		TownChunk centertc = CivGlobal.getTownChunk(origin);
-		if (centertc == null && ignoreBorders == false) {
+		if (centertc == null && !ignoreBorders) {
 			throw new CivException(CivSettings.localize.localizedString("buildable_errorNotInTown"));
 		}
 		
@@ -1086,9 +1070,21 @@ public abstract class Buildable extends SQLObject {
 	
 	public int getBuildSpeed() {
 		// buildTime is in hours, we need to return milliseconds.
+		boolean hour = true;
+		double millisecondsPerBlock = 0;
+		try {
+			hour = CivSettings.getBoolean(CivSettings.civConfig, "structurespeed");
+		} catch (InvalidConfiguration e) {
+			hour = true;
+			e.printStackTrace();
+		}
 		// We should return the number of milliseconds to wait between each block placement.
 		double hoursPerBlock = ( this.getHammerCost() / this.town.getHammers().total ) / this.totalBlockCount;
-		double millisecondsPerBlock = hoursPerBlock * 60 * 60 * 1000;
+		if (hour) {
+			millisecondsPerBlock = hoursPerBlock * 60 * 60 * 1000;
+		} else {
+			millisecondsPerBlock = hoursPerBlock * 60 * 30 * 1000;
+		}
 		// Clip millisecondsPerBlock to 500 milliseconds.
 		if (millisecondsPerBlock < 500) {
 			millisecondsPerBlock = 500;
@@ -1181,7 +1177,7 @@ public abstract class Buildable extends SQLObject {
 	
 	public String getSavedTemplatePath() {
 		if (templateName == null)
-			return templateName;
+			return null;
 		if (templateName.contains("capital"))
 		{
 			CivLog.debug("getSavedTemplatePath - Replacing Capital occurence");
@@ -1292,6 +1288,9 @@ public abstract class Buildable extends SQLObject {
 		
 		world.playSound(hit.getCoord().getLocation(), Sound.BLOCK_ANVIL_USE, 0.2f, 1);
 		world.playEffect(hit.getCoord().getLocation(), Effect.MOBSPAWNER_FLAMES, 0);
+		if (player != null) {
+			CivMessage.sendActionBar(player, CivData.getStringForBar(CivData.TaskType.STRUCTURE, this.getHitPoints(), this.getMaxHitPoints()));
+		}
 		
 		if ((hit.getOwner().getDamagePercentage() % 10) == 0 && !wasTenPercent) {
 			if (player != null) {
@@ -1328,7 +1327,7 @@ public abstract class Buildable extends SQLObject {
 	}
 	
 	public boolean isAllowOutsideTown() {
-		return (info.allow_outside_town != null) && (info.allow_outside_town == true);
+		return (info.allow_outside_town != null) && (info.allow_outside_town);
 	}
 	
 	public boolean isStrategic() {
@@ -1362,25 +1361,16 @@ public abstract class Buildable extends SQLObject {
 					if (CivGlobal.getStructureSign(coord) != null) {
 						continue;
 					}
-					
-					if (ItemManager.getId(coord.getBlock()) == CivData.AIR) {
-						continue;
-					}
-					
-					if (ItemManager.getId(coord.getBlock()) == CivData.CHEST) {
-						continue;
-					}
-					
-					if (ItemManager.getId(coord.getBlock()) == CivData.SIGN) {
-						continue;
-					}
-					
-					if (ItemManager.getId(coord.getBlock()) == CivData.WALL_SIGN) {
-						continue;
+					switch (coord.getBlock().getTypeId()) {
+						case CivData.AIR:
+						case CivData.CHEST:
+						case CivData.SIGN:
+						case CivData.WALL_SIGN:
+							continue;
 					}
 					
 					if (CivSettings.alwaysCrumble.contains(ItemManager.getId(coord.getBlock()))) {
-						ItemManager.setTypeId(coord.getBlock(), CivData.GRAVEL);
+						ItemManager.setTypeId(coord.getBlock(), CivData.COBBLESTONE);
 						continue;
 					}
 								
@@ -1395,7 +1385,7 @@ public abstract class Buildable extends SQLObject {
 					
 					// Each block has a 30% chance to turn into gravel
 					if (rand.nextInt(100) <= 30) {
-						ItemManager.setTypeId(coord.getBlock(), CivData.GRAVEL);
+						ItemManager.setTypeId(coord.getBlock(), CivData.COBBLESTONE);
 						ItemManager.setData(coord.getBlock(), 0, true);
 						continue;
 					}
@@ -1538,6 +1528,11 @@ public abstract class Buildable extends SQLObject {
 		
 		int chunkX = ChunkCoord.castToChunkX(absX);
 		int chunkZ = ChunkCoord.castToChunkZ(absZ);
+		ChunkCoord coord = new ChunkCoord(worldName, chunkX, chunkZ);
+		ChunkSnapshot snapshot = snapshots.get(coord);
+		if (snapshot == null) {
+			throw new CivException("Snapshot for chunk "+chunkX+", "+chunkZ+" in "+worldName+" not found for abs:"+absX+","+absZ);
+		}
 		
 		int blockChunkX = absX % 16;
 		int blockChunkZ = absZ % 16;
@@ -1549,14 +1544,7 @@ public abstract class Buildable extends SQLObject {
 		if (blockChunkZ < 0) {
 			blockChunkZ += 16;
 		}
-		
-		ChunkCoord coord = new ChunkCoord(worldName, chunkX, chunkZ);
-		
-		ChunkSnapshot snapshot = snapshots.get(coord);
-		if (snapshot == null) {
-			throw new CivException("Snapshot for chunk "+chunkX+", "+chunkZ+" in "+worldName+" not found for abs:"+absX+","+absZ);
-		}
-		
+
 		return ItemManager.getBlockTypeId(snapshot, blockChunkX, absY, blockChunkZ);
 	}
 	

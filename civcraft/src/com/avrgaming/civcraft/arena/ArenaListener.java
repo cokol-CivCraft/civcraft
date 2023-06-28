@@ -3,6 +3,7 @@ package com.avrgaming.civcraft.arena;
 import java.util.Date;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -13,10 +14,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.Inventory;
 
 import com.avrgaming.civcraft.config.CivSettings;
@@ -29,6 +27,8 @@ import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.DateUtil;
 import com.avrgaming.civcraft.util.TimeTools;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class ArenaListener implements Listener {
 
@@ -38,6 +38,7 @@ public class ArenaListener implements Listener {
 			event.setCancelled(true);
 		}
 	}
+
 	
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerLogin(PlayerLoginEvent event) {
@@ -155,6 +156,7 @@ public class ArenaListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerRespawn(PlayerRespawnEvent event) {
 		Resident resident = CivGlobal.getResident(event.getPlayer());
+		resident.increaseRespawnTime();
 		
 		if (!resident.isInsideArena()) {
 			return;
@@ -246,11 +248,11 @@ public class ArenaListener implements Listener {
 				}
 				
 				@Override
-				public void run() {					
-					if (!DateUtil.isAfterSeconds(resident.getLastKilledTime(), 30)) {
+				public void run() {
+					if (!DateUtil.isAfterSeconds(resident.getLastKilledTime(), resident.getRespawnTimeArena())) {
 						Date now = new Date();
 						long secondsLeft = (now.getTime() - resident.getLastKilledTime().getTime()) / 1000;
-						secondsLeft = 30 - secondsLeft;
+						secondsLeft = resident.getRespawnTimeArena() - secondsLeft;
 						
 						CivMessage.sendError(resident, CivSettings.localize.localizedString("var_arena_respawningIn",secondsLeft));
 						TaskMaster.syncTask(this, TimeTools.toTicks(1));

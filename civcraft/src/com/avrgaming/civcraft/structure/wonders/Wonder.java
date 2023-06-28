@@ -23,7 +23,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
@@ -269,6 +271,9 @@ public abstract class Wonder extends Buildable {
 		this.save();
 		CivGlobal.addWonder(this);
 		CivMessage.global(CivSettings.localize.localizedString("var_wonder_startedByCiv",this.getCiv().getName(),this.getDisplayName(),this.getTown().getName()));
+		for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+			p.playSound(p.getLocation(), Sound.ITEM_TOTEM_USE, 1.25f, 0.75f);
+		}
 	}
 
 

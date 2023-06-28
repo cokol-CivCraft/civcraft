@@ -26,6 +26,9 @@ public class TutorialBook extends ItemComponent {
 				!event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 			return;
 		}
+		if (event.getPlayer().getWorld().getName().contains("_instance_")) {
+			return;
+		} // FIXED bug with /res book in arena worlds...
 		
 		//CivTutorial.showCraftingHelp(event.getPlayer());
 		CivTutorial.spawnGuiBook(event.getPlayer());

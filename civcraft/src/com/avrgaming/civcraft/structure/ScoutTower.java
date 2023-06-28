@@ -24,6 +24,7 @@ import java.util.HashSet;
 
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import com.avrgaming.civcraft.cache.PlayerLocationCache;
@@ -181,7 +182,10 @@ public class ScoutTower extends Structure {
 							(relationColor+player.getName()+"("+relationName+")"+CivColor.White),(player.getLocation().getBlockX()+","+player.getLocation().getBlockY()+","+player.getLocation().getBlockZ()),
 							this.getTown().getName()));
 					alreadyAnnounced.add(this.getCiv().getName()+":"+player.getName());
-				
+				player.playSound(player.getLocation(), Sound.ITEM_SHIELD_BREAK, 1.11f, 1.11f);
+				CivMessage.sendActionBar(player, CivSettings.localize.localizedString("var_scoutTower_you_detected", CivColor.Gold + CivColor.Rose + CivColor.LightGreen + this.getTown().getName() + CivColor.Rose));
+
+
 			}
 		}
 		

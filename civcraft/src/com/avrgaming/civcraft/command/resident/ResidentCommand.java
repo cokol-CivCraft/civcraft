@@ -60,7 +60,20 @@ public class ResidentCommand extends CommandBase {
 		commands.put("refresh", CivSettings.localize.localizedString("cmd_res_refreshDesc"));
 		commands.put("timezone", CivSettings.localize.localizedString("cmd_res_timezoneDesc"));
 		commands.put("pvptimer", CivSettings.localize.localizedString("cmd_res_pvptimerDesc"));
+		commands.put("pt", null); // pvptimer
+		commands.put("t", null); // timezone
+		commands.put("f", null); // friend
+		commands.put("i", null); // info
+		commands.put("b", null); // book
+
 		//commands.put("switchtown", "[town] - Allows you to instantly change your town to this town, if this town belongs to your civ.");
+	}
+	public void pt_cmd() {
+		try {
+			pvptimer_cmd();
+		} catch (CivException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void pvptimer_cmd() throws CivException {
@@ -73,12 +86,19 @@ public class ResidentCommand extends CommandBase {
 		resident.setisProtected(false);
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_res_pvptimerSuccess"));
 	}
+	public void t_cmd() throws CivException {
+		Resident resident = getResident();
+		if (args.length < 2) {
+			CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_res_timezoneCurrent")+" "+resident.getTimezone());
+		} else {
+			timezone_cmd();
+		}
+	}
 	
 	public void timezone_cmd() throws CivException {
 		Resident resident = getResident();
 		
 		if (args.length < 2) {
-;
 			CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_res_timezoneCurrent")+" "+resident.getTimezone());
 			return;
 		}
@@ -120,6 +140,13 @@ public class ResidentCommand extends CommandBase {
 		//	CivMessage.send(sender, "Perk:"+p.getIdent());
 		//}
 		resident.showPerkPage(0);
+	}
+	public void b_cmd() {
+		try {
+			book_cmd();
+		} catch (CivException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void book_cmd() throws CivException {
@@ -294,6 +321,9 @@ public class ResidentCommand extends CommandBase {
 		ResidentFriendCommand cmd = new ResidentFriendCommand();	
 		cmd.onCommand(sender, null, "friend", this.stripArgs(args, 1));
 	}
+	public void f_cmd() {
+		friend_cmd();
+	}
 
 	public void paydebt_cmd() throws CivException {
 		Resident resident = getResident();
@@ -314,6 +344,13 @@ public class ResidentCommand extends CommandBase {
 	public void info_cmd() throws CivException {
 		Resident resident = getResident();
     	show(sender, resident);
+	}
+	public void i_cmd() {
+		try {
+			info_cmd();
+		} catch (CivException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static void show(CommandSender sender, Resident resident) {

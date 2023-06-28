@@ -121,6 +121,15 @@ public final class CivCraft extends JavaPlugin {
 	private boolean isError = false;	
 	private static JavaPlugin plugin;	
 	public static boolean isDisable = false;
+
+	public static boolean isValidate = true;
+
+	public static void setIsValidate(boolean b) {
+		isValidate = b;
+	}
+	public static boolean getIsValidate() {
+		return isValidate;
+	}
 	
 	private void startTimers() {
 		
@@ -216,7 +225,7 @@ public final class CivCraft extends JavaPlugin {
 		pluginManager.registerEvents(new LoreCraftableMaterialListener(), this);
 		pluginManager.registerEvents(new LoreGuiItemListener(), this);
 		
-		Boolean useEXPAsCurrency= true;
+		boolean useEXPAsCurrency= true;
 		try {
 			useEXPAsCurrency = CivSettings.getBoolean(CivSettings.civConfig, "global.use_exp_as_currency");
 			

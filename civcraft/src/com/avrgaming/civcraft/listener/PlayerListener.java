@@ -441,10 +441,11 @@ public class PlayerListener implements Listener {
 	private boolean isPotionDisabled(PotionEffect type) {
 		if (type.getType().equals(PotionEffectType.SPEED) ||
 			type.getType().equals(PotionEffectType.FIRE_RESISTANCE) ||
-			type.getType().equals(PotionEffectType.HEAL)) {
+			type.getType().equals(PotionEffectType.HEAL) ||
+			type.getType().equals(PotionEffectType.SPEED) && type.getAmplifier() == 2) {
 			return false;
 		}
-		
+//added speed II
 		return true;
 	}
 	
@@ -586,6 +587,7 @@ public class PlayerListener implements Listener {
 			if (attackerResident.isCombatInfo()) {
 				if (defender != null) {
 					CivMessage.send(attacker, CivColor.LightGray+"   "+CivSettings.localize.localizedString("playerListen_combatHeading")+" "+CivSettings.localize.localizedString("var_playerListen_attack",CivColor.Rose+defender.getName()+CivColor.LightGray,CivColor.LightGreen+damage+CivColor.LightGray));
+					CivMessage.sendActionBar(attacker, CivData.getStringForBar(CivData.TaskType.PLAYER, defender.getHealth(), (int) defender.getMaxHealth()));
 				} else {
 					String entityName = null;
 					

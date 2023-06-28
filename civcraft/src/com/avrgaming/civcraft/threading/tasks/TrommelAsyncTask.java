@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
+import org.bukkit.Sound;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -257,6 +258,8 @@ public class TrommelAsyncTask extends CivAsyncTask {
 						try {
 							debug(trommel, "Updating inventory:"+newItem);
 							this.updateInventory(Action.ADD, dest_inv, newItem);
+							trommel.getCorner().getBlock().getWorld().playSound(trommel.getCenterLocation().getLocation(), Sound.ENTITY_MINECART_RIDING, 1.2f, 1.2f);
+
 						} catch (InterruptedException e) {
 							return;
 						}
@@ -333,6 +336,8 @@ public class TrommelAsyncTask extends CivAsyncTask {
 						try {
 							debug(trommel, "Updating inventory:"+newItem);
 							this.updateInventory(Action.ADD, dest_inv, newItem);
+							trommel.getCorner().getBlock().getWorld().playSound(trommel.getCenterLocation().getLocation(), Sound.ENTITY_MINECART_RIDING, 1.2f, 1.2f);
+
 						} catch (InterruptedException e) {
 							return;
 						}
@@ -409,6 +414,8 @@ public class TrommelAsyncTask extends CivAsyncTask {
 						try {
 							debug(trommel, "Updating inventory:"+newItem);
 							this.updateInventory(Action.ADD, dest_inv, newItem);
+							trommel.getCorner().getBlock().getWorld().playSound(trommel.getCenterLocation().getLocation(), Sound.ENTITY_MINECART_RIDING, 1.2f, 1.2f);
+
 						} catch (InterruptedException e) {
 							return;
 						}

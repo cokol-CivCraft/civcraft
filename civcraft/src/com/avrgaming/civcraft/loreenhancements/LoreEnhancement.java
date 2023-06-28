@@ -1,10 +1,12 @@
 package com.avrgaming.civcraft.loreenhancements;
 
+import com.avrgaming.civcraft.items.components.DurabilityOnDeath;
 import gpl.AttributeUtil;
 
 import java.util.HashMap;
 
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.avrgaming.civcraft.main.CivData;
@@ -25,9 +27,12 @@ public abstract class LoreEnhancement {
 		enhancements.put("LoreEnhancementDefense", new LoreEnhancementDefense());
 		enhancements.put("LoreEnhancementPunchout", new LoreEnhancementPunchout());
 		enhancements.put("LoreEnhancementArenaItem", new LoreEnhancementArenaItem());
+		enhancements.put("LoreEnhancementUnbreaking", new LoreEnhancementUnbreaking());
 	}
 	
 	public boolean onDeath(PlayerDeathEvent event, ItemStack stack) { return false; }
+	public void onDurabilityChange(PlayerItemDamageEvent event) {
+	}
 
 	public boolean canEnchantItem(ItemStack item) {
 		return true;

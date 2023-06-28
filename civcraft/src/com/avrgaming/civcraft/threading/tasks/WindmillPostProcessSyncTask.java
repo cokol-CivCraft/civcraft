@@ -27,6 +27,7 @@ import com.avrgaming.civcraft.structure.Windmill;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.MultiInventory;
+import org.bukkit.Sound;
 
 public class WindmillPostProcessSyncTask implements Runnable {
 
@@ -67,6 +68,7 @@ public class WindmillPostProcessSyncTask implements Runnable {
 					breadCount--;
 					ItemManager.setTypeId(coord.getBlock(), CivData.WHEAT);
 					ItemManager.setData(coord.getBlock(), 0, true);
+					coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
 					continue;
 				}
 			case 1:
@@ -80,6 +82,7 @@ public class WindmillPostProcessSyncTask implements Runnable {
 					carrotCount--;
 					ItemManager.setTypeId(coord.getBlock(), CivData.CARROTS);
 					ItemManager.setData(coord.getBlock(), 0, true);
+					coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
 
 					continue;
 				}
@@ -95,6 +98,7 @@ public class WindmillPostProcessSyncTask implements Runnable {
 					potatoCount--;
 					ItemManager.setTypeId(coord.getBlock(), CivData.POTATOES);
 					ItemManager.setData(coord.getBlock(), 0, true);
+					coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
 
 					continue;
 				}
@@ -111,6 +115,7 @@ public class WindmillPostProcessSyncTask implements Runnable {
 				breadCount--;
 				ItemManager.setTypeId(coord.getBlock(), CivData.WHEAT);
 				ItemManager.setData(coord.getBlock(), 0, true);
+				coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
 
 				continue;
 			}
@@ -124,6 +129,7 @@ public class WindmillPostProcessSyncTask implements Runnable {
 				carrotCount--;
 				ItemManager.setTypeId(coord.getBlock(), CivData.CARROTS);
 				ItemManager.setData(coord.getBlock(), 0, true);
+				coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
 
 				continue;
 			}
@@ -137,6 +143,7 @@ public class WindmillPostProcessSyncTask implements Runnable {
 				potatoCount--;
 				ItemManager.setTypeId(coord.getBlock(), CivData.POTATOES);
 				ItemManager.setData(coord.getBlock(), 0, true);
+				coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
 				continue;
 			}
 			

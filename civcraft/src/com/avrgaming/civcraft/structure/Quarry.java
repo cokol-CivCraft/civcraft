@@ -16,6 +16,7 @@ import com.avrgaming.civcraft.util.SimpleBlock;
 
 public class Quarry extends Structure {
 	public static final int MAX_CHANCE = CivSettings.getIntegerStructure("quarry.max");
+	public static final String NO_DIRT = CivSettings.getStringStructure("quarry.nodirtbuff");
 	private static final double COBBLESTONE_RATE = CivSettings.getDoubleStructure("quarry.cobblestone_rate"); //100%
 	private static final double OTHER_RATE = CivSettings.getDoubleStructure("quarry.other_rate"); //10%
 	private static final double COAL_RATE = CivSettings.getDoubleStructure("quarry.coal_rate"); //10%
@@ -89,7 +90,7 @@ public class Quarry extends Structure {
 			chance = COBBLESTONE_RATE;
 			break;
 		}
-		return this.modifyChance(chance);
+		return this.modifyChance(chance) * MAX_CHANCE;
 	}
 	
 	private double modifyChance(Double chance) {

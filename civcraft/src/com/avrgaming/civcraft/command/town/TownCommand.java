@@ -98,6 +98,18 @@ public class TownCommand extends CommandBase {
 //		commands.put("movestructure", "[coord] [town] moves the structure specified by the coord to the specfied town.");
 		commands.put("enablestructure", CivSettings.localize.localizedString("cmd_town_enableStructureDesc"));
 		commands.put("location", CivSettings.localize.localizedString("cmd_town_locationDesc"));
+		commands.put("e", null); // event
+		commands.put("s", null); // select
+		commands.put("l", null); // list
+		commands.put("w", null); // withdraw
+		commands.put("d", null); // deposit
+		commands.put("up", null); // upgrade -_-
+		commands.put("i", null); // info
+		commands.put("loc", null);
+		commands.put("m", null); // members
+		commands.put("u", null); // upgrade
+		commands.put("invite", null); // add
+		commands.put("kick", null); // evict
 	}
 	
 	public void location_cmd() throws CivException {
@@ -113,6 +125,13 @@ public class TownCommand extends CommandBase {
                 CivMessage.send(sender, CivColor.LightGreen+CivSettings.localize.localizedString("Location")+" "+CivColor.LightPurple+townhall.getCorner());
             }
         }
+	}
+	public void loc_cmd() {
+		try {
+			location_cmd();
+		} catch (CivException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void enablestructure_cmd() throws CivException {
@@ -210,6 +229,13 @@ public class TownCommand extends CommandBase {
 	public void event_cmd() throws CivException {
 		TownEventCommand cmd = new TownEventCommand();	
 		cmd.onCommand(sender, null, "event", this.stripArgs(args, 1));
+	}
+	public void e_cmd() {
+		try {
+			event_cmd();
+		} catch (CivException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void templates_cmd() throws CivException {
@@ -407,6 +433,13 @@ public class TownCommand extends CommandBase {
 		resident.setSelectedTown(selectTown);
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_selecteSuccess",selectTown.getName()));
 	}
+	public void s_cmd() throws CivException{
+		if (args.length <= 1) {
+			throw new CivException(CivSettings.localize.localizedString("EnterTownName"));
+		} else {
+			select_cmd();
+		}
+	}
 	
 	public void leavegroup_cmd() throws CivException {
 		Town town = getNamedTown(1);
@@ -498,6 +531,9 @@ public class TownCommand extends CommandBase {
 		
 		CivMessage.send(sender, out);
 	}
+	public void l_cmd() {
+		list_cmd();
+	}
 	
 	public void evict_cmd() throws CivException {
 		Town town = getSelectedTown();
@@ -537,6 +573,13 @@ public class TownCommand extends CommandBase {
 		residentToKick.warnEvict();
 		residentToKick.save();
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_evictAlert2",args[1],CivSettings.GRACE_DAYS));
+	}
+	public void kick_cmd() throws CivException {
+		if (args.length < 2) {
+			throw new CivException(CivSettings.localize.localizedString("cmd_town_evictPrompt"));
+		} else {
+			evict_cmd();
+		}
 	}
 	
 	public void show_cmd() throws CivException {
@@ -633,6 +676,20 @@ public class TownCommand extends CommandBase {
 		TownUpgradeCommand cmd = new TownUpgradeCommand();	
 		cmd.onCommand(sender, null, "upgrade", this.stripArgs(args, 1));
 	}
+	public void up_cmd() {
+		try {
+			upgrade_cmd();
+		} catch (CivException e) {
+			e.printStackTrace();
+		}
+	}
+	public void u_cmd() {
+		try {
+			upgrade_cmd();
+		} catch (CivException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public void withdraw_cmd() throws CivException {
 		if (args.length < 2) {
@@ -662,6 +719,13 @@ public class TownCommand extends CommandBase {
 		}
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_civ_withdrawSuccess",args[1],CivSettings.CURRENCY_NAME));
 	}
+	public void w_cmd() throws CivException {
+		if (args.length < 2) {
+			throw new CivException(CivSettings.localize.localizedString("cmd_town_withdrawPrompt"));
+		} else {
+			withdraw_cmd();
+		}
+	}
 	
 	public void deposit_cmd() throws CivException {
 		if (args.length < 2) {
@@ -684,6 +748,13 @@ public class TownCommand extends CommandBase {
 		}
 		
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_civ_despositSuccess",args[1],CivSettings.CURRENCY_NAME));
+	}
+	public void d_cmd() throws CivException {
+		if (args.length < 2) {
+			throw new CivException(CivSettings.localize.localizedString("cmd_civ_despositPrompt"));
+		} else {
+			deposit_cmd();
+		}
 	}
 	
 	public void add_cmd() throws CivException {
@@ -732,10 +803,24 @@ public class TownCommand extends CommandBase {
 		
 		CivMessage.sendSuccess(sender, CivColor.LightGray+CivSettings.localize.localizedString("var_cmd_town_addSuccess",args[1],town.getName()));
 	}
+	public void invite_cmd() throws CivException{
+		if (args.length <= 1) {
+			throw new CivException(CivSettings.localize.localizedString("EnterResidentName"));
+		} else {
+			add_cmd();
+		}
+	}
 	
 	public void info_cmd() throws CivException {
 		TownInfoCommand cmd = new TownInfoCommand();	
 		cmd.onCommand(sender, null, "info", this.stripArgs(args, 1));
+	}
+	public void i_cmd() {
+		try {
+			info_cmd();
+		} catch (CivException e) {
+			e.printStackTrace();
+		}
 	}
 	
 //	public void new_cmd() throws CivException {
@@ -838,6 +923,9 @@ public class TownCommand extends CommandBase {
 			out += res.getName() + ", ";
 		}
 		CivMessage.send(sender, out);
+	}
+	public void m_cmd() throws CivException {
+		members_cmd();
 	}
 	
 	public void showHelp() {

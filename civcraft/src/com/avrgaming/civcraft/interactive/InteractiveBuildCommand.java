@@ -19,6 +19,7 @@
 package com.avrgaming.civcraft.interactive;
 
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import com.avrgaming.civcraft.config.CivSettings;
@@ -92,8 +93,10 @@ public class InteractiveBuildCommand implements InteractiveResponse {
 				try {
 					if (buildable instanceof Wonder) {
 						town.buildWonder(player, buildable.getConfigId(), center, tpl);
+						player.playSound(player.getLocation(), Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 0.9f, 0.9f);
 					} else {
 						town.buildStructure(player, buildable.getConfigId(), center, tpl);
+						player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.9f, 0.9f);
 					}
 					resident.clearInteractiveMode();
 				} catch (CivException e) {

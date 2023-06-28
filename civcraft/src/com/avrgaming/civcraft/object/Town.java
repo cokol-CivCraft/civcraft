@@ -2607,7 +2607,7 @@ public class Town extends SQLObject {
 				resident.getTreasury().withdraw(amount);
 			}
 			
-			if (this.getTreasury().inDebt() == false) {
+			if (!this.getTreasury().inDebt()) {
 				this.daysInDebt = 0;
 				CivMessage.global(CivSettings.localize.localizedString("town_ruin_nolongerInDebt",this.getName()));
 			}
@@ -2638,10 +2638,8 @@ public class Town extends SQLObject {
 				//player offline
 			}
 		}
-		
-		for (Resident resident : this.fakeResidents.values()) {
-			residents.add(resident);
-		}
+
+		residents.addAll(this.fakeResidents.values());
 		
 		return residents;
 	}
@@ -2696,7 +2694,7 @@ public class Town extends SQLObject {
 		additional += rate*getBuffManager().getEffectiveDouble("buff_greatlibrary_extra_beakers");
 		rate += additional;
 		rates.put("Goodies/Wonders", additional);
-		
+
 //		double education = 0.0;
 //		for (Structure struct : this.structures.values()) {
 //			for (Component comp : struct.attachedComponents) {
@@ -2718,7 +2716,7 @@ public class Town extends SQLObject {
 //				}
 //			}
 //		}
-//		
+//
 //		rate += education;
 //		rates.put("Education", education);
 
@@ -2744,8 +2742,10 @@ public class Town extends SQLObject {
 		
 		/* Grab beakers generated from culture. */
 		double fromCulture = 0;
-		for (CultureChunk cc : this.cultureChunks.values()) {
-			fromCulture += cc.getBeakers();
+		if (this.cultureChunks != null) {
+			for (CultureChunk cc : this.cultureChunks.values()) {
+				fromCulture += cc.getBeakers();
+			}
 		}
 		sources.put("Culture Biomes", fromCulture);
 		beakers += fromCulture;
@@ -3348,6 +3348,23 @@ public class Town extends SQLObject {
 			return false;
 		}
 		return true;
+	}
+
+	public ArrayList<Player> getOnlinePlayers() {
+		ArrayList<Player> online = new ArrayList<>();
+		Player p = null;
+		for (Resident r : this.getResidents()) {
+			try {
+				p = CivGlobal.getPlayer(r);
+			} catch (CivException e) {
+				e.printStackTrace();
+			}
+			assert p != null;
+			if (p.isOnline()) {
+				online.add(p);
+			}
+		}
+		return online;
 	}
 
 	public Collection<Buildable> getDisabledBuildables() {

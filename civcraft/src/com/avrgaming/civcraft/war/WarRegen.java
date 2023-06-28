@@ -292,7 +292,7 @@ public class WarRegen {
 			out.close();
 			fstream.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			e.getCause();
 		}
 	}
 	

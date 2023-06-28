@@ -72,23 +72,27 @@ public class WarListener implements Listener {
 		if (!cc.getCiv().getDiplomacyManager().isAtWar()) {
 			return;
 		}
-				
-		if (event.getBlock().getType().equals(Material.DIRT) || 
-			event.getBlock().getType().equals(Material.GRASS) ||
-			event.getBlock().getType().equals(Material.SAND) ||
-			event.getBlock().getType().equals(Material.GRAVEL) ||
-			event.getBlock().getType().equals(Material.TORCH) ||
-			event.getBlock().getType().equals(Material.REDSTONE_TORCH_OFF) ||
-			event.getBlock().getType().equals(Material.REDSTONE_TORCH_ON) ||
-			event.getBlock().getType().equals(Material.REDSTONE) ||
-			event.getBlock().getType().equals(Material.TNT) ||
-			event.getBlock().getType().equals(Material.LADDER) ||
-			event.getBlock().getType().equals(Material.VINE) ||
-			event.getBlock().getType().equals(Material.IRON_BLOCK) || 
-			event.getBlock().getType().equals(Material.GOLD_BLOCK) ||
-			event.getBlock().getType().equals(Material.DIAMOND_BLOCK) ||
-			event.getBlock().getType().equals(Material.EMERALD_BLOCK) ||
-			!event.getBlock().getType().isSolid()) {
+		switch (event.getBlock().getType()) {
+			case DIRT:
+			case GRASS:
+			case SAND:
+			case GRAVEL:
+			case TORCH:
+			case REDSTONE_TORCH_OFF:
+			case REDSTONE_TORCH_ON:
+			case REDSTONE:
+			case TNT:
+			case LADDER:
+			case VINE:
+			case IRON_BLOCK:
+			case GOLD_BLOCK:
+			case DIAMOND_BLOCK:
+			case EMERALD_BLOCK:
+				return;
+			default:
+				break;
+		}
+		if (!event.getBlock().getType().isSolid()) {
 			return;
 		}
 		
@@ -102,42 +106,41 @@ public class WarListener implements Listener {
 		if (event.isCancelled()) {
 			return;
 		}
-		
+
 		if (!War.isWarTime()) {
 			return;
 		}
-		
+
 		coord.setFromLocation(event.getBlock().getLocation());
 		CultureChunk cc = CivGlobal.getCultureChunk(coord);
-		
+
 		if (cc == null) {
 			return;
 		}
-		
+
 		if (!cc.getCiv().getDiplomacyManager().isAtWar()) {
 			return;
 		}
-				
-		if (event.getBlock().getType().equals(Material.DIRT) || 
-			event.getBlock().getType().equals(Material.GRASS) ||
-			event.getBlock().getType().equals(Material.SAND) ||
-			event.getBlock().getType().equals(Material.GRAVEL) ||
-			event.getBlock().getType().equals(Material.TORCH) ||
-			event.getBlock().getType().equals(Material.REDSTONE_TORCH_OFF) ||
-			event.getBlock().getType().equals(Material.REDSTONE_TORCH_ON) ||
-			event.getBlock().getType().equals(Material.REDSTONE) ||
-			event.getBlock().getType().equals(Material.LADDER) ||
-			event.getBlock().getType().equals(Material.VINE) ||
-			event.getBlock().getType().equals(Material.TNT)) {
-			
-			if (event.getBlock().getLocation().subtract(0, 1, 0).getBlock().getType() != Material.AIR) {
+		switch (event.getBlock().getType()) {
+			case DIRT:
+			case GRASS:
+			case SAND:
+			case GRAVEL:
+			case TORCH:
+			case REDSTONE_TORCH_OFF:
+			case REDSTONE_TORCH_ON:
+			case REDSTONE:
+			case TNT:
+			case LADDER:
+			case VINE:
+				if (event.getBlock().getLocation().subtract(0, 1, 0).getBlock().getType() != Material.AIR) {
+					return;
+				}
+
+				event.getBlock().getWorld().spawnFallingBlock(event.getBlock().getLocation(), event.getBlock().getType(), ItemManager.getData(event.getBlock()));
+				event.getBlock().setType(Material.AIR);
+
 				return;
-			}
-			
-			event.getBlock().getWorld().spawnFallingBlock(event.getBlock().getLocation(), event.getBlock().getType(), ItemManager.getData(event.getBlock()));
-			event.getBlock().setType(Material.AIR);
-			
-			return;
 		}
 		
 		if (event.getBlock().getType().equals(Material.IRON_BLOCK) || 

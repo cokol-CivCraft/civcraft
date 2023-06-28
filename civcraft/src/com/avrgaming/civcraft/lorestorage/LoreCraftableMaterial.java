@@ -5,8 +5,10 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.avrgaming.civcraft.main.CivCraft;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -193,12 +195,7 @@ public class LoreCraftableMaterial extends LoreMaterial {
 					
 					itemCompClass.createComponent();
 					this.components.put(itemCompClass.getName(), itemCompClass);
-				} catch (InstantiationException e) {
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-				}
-				catch (ClassNotFoundException e) {
+				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 					e.printStackTrace();
 				}
 			}
@@ -216,11 +213,11 @@ public class LoreCraftableMaterial extends LoreMaterial {
 			
 			ItemStack stack = LoreMaterial.spawn(loreMat);			
 			ConfigMaterial configMaterial = loreMat.configMaterial;
+			NamespacedKey mm = new NamespacedKey(CivCraft.getPlugin(), "CivCraft" + configMaterial.id + configMaterial.item_id + configMaterial.item_data);
 			
 			if (loreMat.isShaped()) {
 				ItemStack[] matrix = new ItemStack[9];
-				@SuppressWarnings("deprecation")
-				ShapedRecipe recipe = new ShapedRecipe(stack);
+				ShapedRecipe recipe = new ShapedRecipe(mm, stack);
 				recipe.shape(configMaterial.shape[0], configMaterial.shape[1], configMaterial.shape[2]);
 				
 				/* Setup the ingredients. */
@@ -235,7 +232,8 @@ public class LoreCraftableMaterial extends LoreMaterial {
 						if (customLoreMat == null) {
 							CivLog.warning("Couldn't find custom material id:"+ingred.custom_id);
 						}
-						
+
+						assert customLoreMat != null;
 						ConfigMaterial customMat = customLoreMat.configMaterial;
 						if (customMat != null) {
 							recipe.setIngredient(ingred.letter.charAt(0), ItemManager.getMaterialData(customMat.item_id, customMat.item_data));
@@ -270,13 +268,12 @@ public class LoreCraftableMaterial extends LoreMaterial {
 				Bukkit.getServer().addRecipe(recipe);
 			} else {
 				/* Shapeless Recipe */
-				@SuppressWarnings("deprecation")
-				ShapelessRecipe recipe = new ShapelessRecipe(stack);
+				ShapelessRecipe recipe = new ShapelessRecipe(mm, stack);
 				LinkedList<ItemStack> items = new LinkedList<ItemStack>();
 				ItemStack[] matrix = new ItemStack[9];
 				int matrixIndex = 0;
 				
-				/* Setup the ingredients. */
+				/* Set up the ingredients. */
 				for (ConfigIngredient ingred : configMaterial.ingredients.values()) {
 					ItemStack ingredStack = null;
 					
@@ -289,6 +286,7 @@ public class LoreCraftableMaterial extends LoreMaterial {
 						if (customLoreMat == null) {
 							CivLog.error("Couldn't configure ingredient:"+ingred.custom_id+" in config mat:"+configMaterial.id);
 						}
+						assert customLoreMat != null;
 						ConfigMaterial customMat = customLoreMat.configMaterial;
 						if (customMat != null) {
 							recipe.addIngredient(ingred.count, ItemManager.getMaterialData(customMat.item_id, customMat.item_data));

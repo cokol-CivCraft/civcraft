@@ -570,10 +570,10 @@ public class BlockListener implements Listener {
 	  };
 
 	public BlockCoord generatesCobble(int id, Block b) {
-		int mirrorID1 = (id == CivData.WATER_RUNNING || id == CivData.WATER_STILL ? CivData.LAVA_RUNNING : CivData.WATER_RUNNING);
-		int mirrorID2 = (id == CivData.WATER_RUNNING || id == CivData.WATER_STILL ? CivData.LAVA_STILL : CivData.WATER_STILL);
-		int mirrorID3 = (id == CivData.WATER_RUNNING || id == CivData.WATER_STILL ? CivData.LAVA_RUNNING : CivData.WATER_STILL);
-		int mirrorID4 = (id == CivData.WATER_RUNNING || id == CivData.WATER_STILL ? CivData.LAVA_STILL : CivData.WATER_RUNNING);
+		int mirrorID1 = (id == CivData.WATER_RUNNING || id == CivData.WATER ? CivData.LAVA_RUNNING : CivData.WATER_RUNNING);
+		int mirrorID2 = (id == CivData.WATER_RUNNING || id == CivData.WATER ? CivData.LAVA : CivData.WATER);
+		int mirrorID3 = (id == CivData.WATER_RUNNING || id == CivData.WATER ? CivData.LAVA_RUNNING : CivData.WATER);
+		int mirrorID4 = (id == CivData.WATER_RUNNING || id == CivData.WATER ? CivData.LAVA : CivData.WATER_RUNNING);
 		for(BlockFace face : faces) {
 			Block r = b.getRelative(face, 1);
 			if(ItemManager.getId(r) == mirrorID1 || ItemManager.getId(r) == mirrorID2 ||
@@ -612,7 +612,7 @@ public class BlockListener implements Listener {
 	public void OnBlockFromToEvent(BlockFromToEvent event) {
 		/* Disable cobblestone generators. */
 		int id = ItemManager.getId(event.getBlock());
-		if(id >= CivData.WATER_STILL && id <= CivData.LAVA_STILL) {
+		if(id >= CivData.WATER && id <= CivData.LAVA) {
 			Block b = event.getToBlock();
 			bcoord.setFromLocation(b.getLocation());
 

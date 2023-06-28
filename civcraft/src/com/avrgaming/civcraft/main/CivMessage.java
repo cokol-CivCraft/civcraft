@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import net.md_5.bungee.api.ChatMessageType;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
@@ -86,6 +87,14 @@ public class CivMessage {
 		} catch (CivException e) {
 		}
 		CivLog.info(line);	
+	}
+	public static void sendActionBar(Player p, String actionbar) {
+		if (CivSettings.hasTitleAPI) {
+			if (p != null) {
+				p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(actionbar));
+			}
+		}
+		// send(sender, actionbar); (отправляет хуйню)
 	}
 	public static void sendTitle(Object sender, int fadeIn, int show, int fadeOut, String title, String subTitle) {
 		if (CivSettings.hasTitleAPI) {

@@ -18,6 +18,7 @@
  */
 package com.avrgaming.civcraft.structure;
 
+import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import gpl.AttributeUtil;
 
 import java.sql.ResultSet;
@@ -29,6 +30,7 @@ import java.util.HashMap;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -75,6 +77,16 @@ public class Blacksmith extends Structure {
 		nonMemberFeeComponent = new NonMemberFeeComponent(this);
 		nonMemberFeeComponent.onSave();
 	}
+	private long getCooldown() {
+		long cd = COOLDOWN;
+		try {
+			cd = CivSettings.getInteger(CivSettings.structureConfig, "blacksmith.cooldown");
+		} catch (InvalidConfiguration e) {
+			e.printStackTrace();
+			cd = 5;
+		}
+		return cd;
+	}
 
 	public Blacksmith(ResultSet rs) throws SQLException, CivException {
 		super(rs);
@@ -113,7 +125,7 @@ public class Blacksmith extends Structure {
 		long diff = now.getTime() - lastUse.getTime();
 		diff /= 1000;
 		
-		if (diff < Blacksmith.COOLDOWN) {
+		if (diff < getCooldown()) {
 			throw new CivException(CivSettings.localize.localizedString("var_blacksmith_onCooldown",(Blacksmith.COOLDOWN - diff)));
 		}
 		
@@ -235,6 +247,7 @@ public class Blacksmith extends Structure {
 				player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
 			//	player.getInventory().remove(item);
 			}
+			player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 1.0f, 1.0f);
 			
 			CivMessage.sendSuccess(player, CivSettings.localize.localizedString("blacksmith_deposit_success"));
 		} else {
@@ -348,10 +361,12 @@ public class Blacksmith extends Structure {
 			 */
 			player.getInventory().setItemInMainHand(ItemManager.createItemStack(CivData.AIR, 1));
 			CivMessage.sendError(player, CivSettings.localize.localizedString("blacksmith_forge_failed"));
+			player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_HURT, 1.0f, 1.0f);
 			return;
 		} else {
 			player.getInventory().setItemInMainHand(enhancedItem);
 			CivMessage.sendSuccess(player, CivSettings.localize.localizedString("blacksmith_forge_success"));
+			player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_YES, 1.0f, 1.0f);
 			return;
 		}
 	}

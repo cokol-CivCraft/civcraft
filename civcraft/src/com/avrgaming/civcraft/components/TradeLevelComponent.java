@@ -2,10 +2,12 @@ package com.avrgaming.civcraft.components;
 
 import gpl.AttributeUtil;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import com.avrgaming.civcraft.config.CivSettings;
@@ -24,10 +26,11 @@ import com.avrgaming.civcraft.util.MultiInventory;
 
 public class TradeLevelComponent extends Component {
 
-	private static final double PACK_CHANCE = CivSettings.getDoubleStructure("tradeship.pack_chance"); //0.5%
-	private static final double MEDIUMPACK_CHANCE = CivSettings.getDoubleStructure("tradeship.mediumpack_chance"); //0.1%
-	private static final double BIGPACK_CHANCE = CivSettings.getDoubleStructure("tradeship.bigpack_chance"); //0.05%
-	private static final double HUGEPACK_CHANCE = CivSettings.getDoubleStructure("tradeship.hugepack_chance"); //0.01%
+	private static int MaxRand = 10000;
+	private static final double PACK_CHANCE = MaxRand * CivSettings.getDoubleStructure("tradeship.pack_chance"); //0.5%
+	private static final double MEDIUMPACK_CHANCE = MaxRand * CivSettings.getDoubleStructure("tradeship.mediumpack_chance"); //0.1%
+	private static final double BIGPACK_CHANCE = MaxRand * CivSettings.getDoubleStructure("tradeship.bigpack_chance"); //0.05%
+	private static final double HUGEPACK_CHANCE = MaxRand * CivSettings.getDoubleStructure("tradeship.hugepack_chance"); //0.01%
 	
 
 	/* Current level we're operating at. */
@@ -206,157 +209,238 @@ public class TradeLevelComponent extends Component {
 		}
 		return stacksToConsume;
 	}
+	private int getEggTier(ItemStack is) {
+		String ss = LoreMaterial.getMaterial(is).getId();
+		int i;
+		int r = 1;
+		for (i = 4 ; i > 0 ; i--) {
+			if (ss.contains("_egg_" + i)) {
+				r = i;
+				return i;
+			}
+			if (i == 1) {
+				if (ss.contains("_egg")) {
+					r = 1;
+					return 1;
+				}
+			}
+		}
+		return r;
+	}
+	private String getEggMob(ItemStack is) {
+		String s = null;
+		String ss = LoreMaterial.getMaterial(is).getId();
+		if (ss.contains("creeper") || ss.contains("skeleton") || ss.contains("spider") || ss.equals("zombie") || ss.contains("slime") || ss.contains("enderman")) {
+			s = "A";
+		}
+		if (ss.contains("pig") || ss.contains("cow") || ss.contains("chicken") || ss.contains("sheep")) {
+			s = "P";
+		}
+		return s;
+	}
+	private ArrayList<ItemStack> getSetByTier(int tier, String mobType, boolean isWeapon) {
+		String s;
+		ArrayList<ItemStack> newItems = new ArrayList<>();
+		switch (mobType) {
+			case "A": s = "aggressive";
+				break;
+			case "P": s = "peaceful";
+				break;
+			default:
+				return null;
+		}
+		if (s != null) {
+			switch (tier) {
+				case 1:
+					switch (s) {
+						case "peaceful":
+							if (isWeapon) {
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_hunting_bow")));
+							} else {
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_leather_leggings")));
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_leather_chestplate")));
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_leather_helmet")));
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_leather_boots")));
+							}
+							break;
+						case "aggressive":
+							if (isWeapon) {
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_iron_sword")));
+							} else {
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_iron_chestplate")));
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_iron_leggings")));
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_iron_helmet")));
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_iron_boots")));
+							}
+							break;
+					}
+					break;
+				case 2:
+					switch (s) {
+						case "peaceful":
+							if (isWeapon) {
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_recurve_bow")));
+							} else {
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_refined_leather_leggings")));
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_refined_leather_chestplate")));
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_refined_leather_helmet")));
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_refined_leather_boots")));
+							}
+							break;
+						case "aggressive":
+							if (isWeapon) {
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_steel_sword")));
+							} else {
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_steel_chestplate")));
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_steel_leggings")));
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_steel_helmet")));
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_steel_boots")));
+							}
+							break;
+					}
+					break;
+				case 3:
+					switch (s) {
+						case "peaceful":
+							if (isWeapon) {
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_longbow")));
+							} else {
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_hardened_leather_leggings")));
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_hardened_leather_chestplate")));
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_hardened_leather_helmet")));
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_hardened_leather_boots")));
+							}
+						break;
+						case "aggressive":
+							if (isWeapon) {
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_carbide_steel_sword")));
+							} else {
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_carbide_steel_chestplate")));
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_carbide_steel_leggings")));
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_carbide_steel_helmet")));
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_carbide_steel_boots")));
+							}
+						break;
+					}
+					break;
+				case 4:
+					switch (s) {
+						case "peaceful":
+							if (isWeapon) {
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_marksmen_bow")));
+							} else {
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_leggings")));
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_chestplate")));
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_helmet")));
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_boots")));
+							}
+							break;
+						case "aggressive":
+							if (isWeapon) {
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_sword")));
+							} else {
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_chestplate")));
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_leggings")));
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_helmet")));
+								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_boots")));
+							}
+							break;
+					}
+				}
+			}
+		return newItems;
+	}
 	
 	private void processItemsFromStack(ItemStack stack) {
 		String itemID = LoreMaterial.getMaterial(stack).getId();
 		Integer countInStack = stack.getAmount();
 		Random rand = new Random();
-		int MaxRand = 10000;
 		ArrayList<ItemStack> newItems = new ArrayList<ItemStack>();
 		for (int i = 0; i < countInStack; i++) {
 			int rand1 = rand.nextInt(MaxRand);
-
-			if (rand1 < (int)(HUGEPACK_CHANCE*MaxRand)) {
-				if (itemID.contains("_egg")) {
-					if (itemID.contains("_egg_4")) {
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_4"),2));
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_4"),2));
-						if (itemID.contains("creeper") || itemID.contains("skeleton") || itemID.contains("spider") || itemID.equals("zombie") || itemID.contains("slime") || itemID.contains("enderman")) {
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_chestplate")));
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_leggings")));
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_helmet")));
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_boots")));
-						}  else if (itemID.contains("pig") || itemID.contains("cow") || itemID.contains("chicken") || itemID.contains("sheep")) {
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_leggings")));
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_chestplate")));
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_helmet")));
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_boots")));
+			if (rand1 < (int)(HUGEPACK_CHANCE)) {
+				switch (getEggTier(stack)) {
+					case 4:
+						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_4"), 2));
+						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_4"), 2));
+						newItems.addAll(getSetByTier(getEggTier(stack), getEggMob(stack), false));
+						break;
+					case 3:
+						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_3"), 2));
+						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_3"), 2));
+						newItems.addAll(getSetByTier(getEggTier(stack), getEggMob(stack), false));
+						break;
+					case 2:
+						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_2"), 2));
+						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_2"), 2));
+						newItems.addAll(getSetByTier(getEggTier(stack), getEggMob(stack), false));
+						break;
+					case 1:
+						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_1"), 2));
+						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_1"), 2));
+						newItems.addAll(getSetByTier(getEggTier(stack), getEggMob(stack), false));
+						break;
+					default:
+						int emeraldRand = (rand.nextInt(4)) + 1;
+						if (emeraldRand >= 3) {
+							newItems.add(ItemManager.createItemStack(CivData.GUNPOWDER, 3));
+						} else {
+							newItems.add(ItemManager.createItemStack(CivData.EMERALD, 1));
 						}
 						break;
-					} else if (itemID.contains("_egg_3")) {
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_3"),2));
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_3"),2));
-						if (itemID.contains("creeper") || itemID.contains("skeleton") || itemID.contains("spider") || itemID.equals("zombie") || itemID.contains("slime") || itemID.contains("enderman")) {
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_carbide_steel_chestplate")));
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_carbide_steel_leggings")));
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_carbide_steel_helmet")));
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_carbide_steel_boots")));
-						}  else if (itemID.contains("pig") || itemID.contains("cow") || itemID.contains("chicken") || itemID.contains("sheep")) {
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_hardened_leather_leggings")));
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_hardened_leather_chestplate")));
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_hardened_leather_helmet")));
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_hardened_leather_boots")));
-						}
-						break;
-					} else if (itemID.contains("_egg_2")) {
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_2"),2));
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_2"),2));
-						if (itemID.contains("creeper") || itemID.contains("skeleton") || itemID.contains("spider") || itemID.equals("zombie") || itemID.contains("slime") || itemID.contains("enderman")) {
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_steel_chestplate")));
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_steel_leggings")));
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_steel_helmet")));
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_steel_boots")));
-						}  else if (itemID.contains("pig") || itemID.contains("cow") || itemID.contains("chicken") || itemID.contains("sheep")) {
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_refined_leather_leggings")));
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_refined_leather_chestplate")));
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_refined_leather_helmet")));
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_refined_leather_boots")));
-						}
-						break;
-					} else {
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_1"),2));
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_1"),2));
-						if (itemID.contains("creeper") || itemID.contains("skeleton") || itemID.contains("spider") || itemID.equals("zombie") || itemID.contains("slime") || itemID.contains("enderman")) {
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_iron_chestplate")));
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_iron_leggings")));
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_iron_helmet")));
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_iron_boots")));
-						}  else if (itemID.contains("pig") || itemID.contains("cow") || itemID.contains("chicken") || itemID.contains("sheep")) {
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_leather_leggings")));
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_leather_chestplate")));
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_leather_helmet")));
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_leather_boots")));
-						}
-						break;
-					}
-				} else {
-					int emeraldRand = (rand.nextInt(4))+1;
-					if (emeraldRand >= 3) {
-						newItems.add(ItemManager.createItemStack(CivData.GUNPOWDER, 3));
-					} else {
-						newItems.add(ItemManager.createItemStack(CivData.EMERALD, 1));
-					}
 				}
-			} else if (rand1 < (int)(BIGPACK_CHANCE*MaxRand)) {
-				if (itemID.contains("_egg")) {
-					if (itemID.contains("_egg_4")) {
+			} else if (rand1 < (int)(BIGPACK_CHANCE)) {
+				switch (getEggTier(stack)) {
+					case 4:
 						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_4")));
 						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_4")));
-						if (itemID.contains("creeper") || itemID.contains("skeleton") || itemID.contains("spider") || itemID.equals("zombie") || itemID.contains("slime") || itemID.contains("enderman")) {
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_sword")));
-						}  else if (itemID.contains("pig") || itemID.contains("cow") || itemID.contains("chicken") || itemID.contains("sheep")) {
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_marksmen_bow")));
-						}
+						newItems.addAll(getSetByTier(getEggTier(stack), getEggMob(stack), true));
 						break;
-					} else if (itemID.contains("_egg_3")) {
+					case 3:
 						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_3")));
 						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_3")));
-						if (itemID.contains("creeper") || itemID.contains("skeleton") || itemID.contains("spider") || itemID.equals("zombie") || itemID.contains("slime") || itemID.contains("enderman")) {
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_carbide_steel_sword")));
-						}  else if (itemID.contains("pig") || itemID.contains("cow") || itemID.contains("chicken") || itemID.contains("sheep")) {
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_longbow")));
-						}
+						newItems.addAll(getSetByTier(getEggTier(stack), getEggMob(stack), true));
 						break;
-					} else if (itemID.contains("_egg_2")) {
+					case 2:
 						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_2")));
 						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_2")));
-						if (itemID.contains("creeper") || itemID.contains("skeleton") || itemID.contains("spider") || itemID.equals("zombie") || itemID.contains("slime") || itemID.contains("enderman")) {
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_steel_sword")));
-						}  else if (itemID.contains("pig") || itemID.contains("cow") || itemID.contains("chicken") || itemID.contains("sheep")) {
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_recurve_bow")));
-						}
+						newItems.addAll(getSetByTier(getEggTier(stack), getEggMob(stack), true));
 						break;
-					} else {
+					case 1:
 						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_1")));
 						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_1")));
-						if (itemID.contains("creeper") || itemID.contains("skeleton") || itemID.contains("spider") || itemID.equals("zombie") || itemID.contains("slime") || itemID.contains("enderman")) {
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_iron_sword")));
-						}  else if (itemID.contains("pig") || itemID.contains("cow") || itemID.contains("chicken") || itemID.contains("sheep")) {
-							newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_hunting_bow")));
-						}
+						newItems.addAll(getSetByTier(getEggTier(stack), getEggMob(stack), true));
 						break;
-					}
-				} else {
+					default:
 					int diamondRand = (rand.nextInt(4))+1;
 					if (diamondRand >= 3) {
 						newItems.add(ItemManager.createItemStack(CivData.GUNPOWDER, 2));
 					} else {
 						newItems.add(ItemManager.createItemStack(CivData.DIAMOND, 1));
 					}
-
 					newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_fragment_3"), (rand.nextInt(3))+1));
 					newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_fragment_3"), (rand.nextInt(3))+1));
+					break;
 				}
-			} else if (rand1 < (int)(MEDIUMPACK_CHANCE*MaxRand)) {
-				if (itemID.contains("_egg")) {
-					if (itemID.contains("_egg_4")) {
+			} else if (rand1 < (int)(MEDIUMPACK_CHANCE)) {
+				switch (getEggTier(stack)) {
+					case 4:
 						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_4")));
 						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_4")));
 						break;
-					} else if (itemID.contains("_egg_3")) {
+					case 3:
 						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_3")));
 						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_3")));
 						break;
-					} else if (itemID.contains("_egg_2")) {
+					case 2:
 						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_2")));
 						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_2")));
 						break;
-					} else {
+					case 1:
 						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_1")));
 						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_1")));
 						break;
-					}
-				} else {
+					default:
 					int goldRand = (rand.nextInt(4))+1;
 					if (goldRand >= 3) {
 						newItems.add(ItemManager.createItemStack(CivData.GUNPOWDER, 2));
@@ -366,33 +450,34 @@ public class TradeLevelComponent extends Component {
 					
 					newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_fragment_2"), (rand.nextInt(3))+1));
 					newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_fragment_2"), (rand.nextInt(3))+1));
+					break;
 				}
-			}  else if (rand1 < (int)(PACK_CHANCE*MaxRand)) {
-				if (itemID.contains("_egg")) {
-					if (itemID.contains("_egg_4")) {
+			}  else if (rand1 < (int)(PACK_CHANCE)) {
+				switch (getEggTier(stack)) {
+					case 4:
 						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_fragment_4")));
 						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_fragment_4")));
 						break;
-					} else if (itemID.contains("_egg_3")) {
+					case 3:
 						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_fragment_3")));
 						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_fragment_3")));
 						break;
-					} else if (itemID.contains("_egg_2")) {
+					case 2:
 						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_fragment_2")));
 						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_fragment_2")));
 						break;
-					} else {
+					case 1:
 						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_fragment_1")));
 						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_fragment_1")));
 						break;
-					}
-				} else {
+					default:
 					int ironRand = (rand.nextInt(4))+1;
 					if (ironRand >= 3) {
 						newItems.add(ItemManager.createItemStack(CivData.GUNPOWDER, 1));
 					} else {
 						newItems.add(ItemManager.createItemStack(CivData.IRON_INGOT, 1));
 					}
+					break;
 				}
 			}
 		}
@@ -423,7 +508,7 @@ public class TradeLevelComponent extends Component {
 			if (tradeable != null) {
 				if (tradeable.equalsIgnoreCase("true")) {
 					if (stacksToConsume > 0) {
-						Integer countInStack = stack.getAmount();
+						int countInStack = stack.getAmount();
 						String tradeValue = attrs.getCivCraftProperty("tradeValue");
 						if (tradeValue != null) {
 							double valueForStack = Double.parseDouble(tradeValue);

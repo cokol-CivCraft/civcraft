@@ -42,6 +42,9 @@ import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
 import com.avrgaming.civcraft.siege.Cannon;
 import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 
 public class War {
 
@@ -218,6 +221,9 @@ public class War {
 			
 			/* War time has started. */
 			CivMessage.globalTitle(CivColor.Red+CivColor.BOLD+CivSettings.localize.localizedString("war_wartimeBeginHeading"),CivSettings.localize.localizedString("war_wartimeBegin_title_length",mins/60.0));
+			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+				p.playSound(p.getLocation(), Sound.ITEM_TOTEM_USE, 1.25f, 1.25f);
+			}
 			War.setStart(new Date());
 			War.repositionPlayers(CivSettings.localize.localizedString("war_wartimeBeginOutOfPosition"));
 			//War.vassalTownsWithNoTownHalls();

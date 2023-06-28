@@ -129,6 +129,7 @@ public class DebugCommand extends CommandBase {
 		displayName = "Debug";
 		
 		commands.put("resident", "[name] - prints out the resident identified by name.");
+		commands.put("stopvalidate", "stops structure validator");
 		commands.put("town", "[name] - prints out the town identified by name.");
 		commands.put("townchunk", " gets the town chunk you are standing in and prints it.");
 		commands.put("newday", "Runs the new day code, collects taxes ... etc.");
@@ -219,6 +220,15 @@ public class DebugCommand extends CommandBase {
 		commands.put("restoreinv", "restore your inventory.");
 		commands.put("arenainfo", "Shows arena info for this player.");
 	}
+
+	public void stopvalidate_cmd() {
+		CivCraft.setIsValidate(false);
+		CivMessage.sendError(sender, "StructureValidator is turned OFF!");
+		if (!CivCraft.getIsValidate()) {
+			CivCraft.setIsValidate(true);
+			CivMessage.sendSuccess(sender, "StructureValidator is turned ON!");
+		}
+	}
 	
 	public void arenainfo_cmd() throws CivException {
 		Resident resident = getResident();
@@ -258,8 +268,8 @@ public class DebugCommand extends CommandBase {
 	
 	public void disablemap_cmd() throws CivException {
 		Player player = getPlayer();
-		player.sendMessage("§3§6§3§6§3§6§e");
-		player.sendMessage("§3§6§3§6§3§6§d");
+		player.sendMessage("ï¿½3ï¿½6ï¿½3ï¿½6ï¿½3ï¿½6ï¿½e");
+		player.sendMessage("ï¿½3ï¿½6ï¿½3ï¿½6ï¿½3ï¿½6ï¿½d");
 		CivMessage.sendSuccess(player, "Disabled.");
 	}
 	

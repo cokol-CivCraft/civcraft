@@ -74,6 +74,14 @@ public class CivCommand extends CommandBase {
 		commands.put("claimleader", CivSettings.localize.localizedString("cmd_civ_claimleaderDesc"));
 		commands.put("motd", CivSettings.localize.localizedString("cmd_civ_motdDesc"));
 		commands.put("location", CivSettings.localize.localizedString("cmd_civ_locationDesc"));
+		commands.put("v", null); // TODO: add some info about commands and shortcuts;
+		commands.put("t", null);
+		commands.put("r", null);
+		commands.put("l", null);
+		commands.put("s", null);
+		commands.put("i", null);
+		commands.put("w", null);
+		commands.put("d", null);
 	}
 
 	public void location_cmd() throws CivException {
@@ -124,10 +132,18 @@ public class CivCommand extends CommandBase {
 			}
 		}
 	}
+	public void v_cmd() {
+		victory_cmd();
+	}
 	
 	public void victory_cmd() {
-		
-		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_civ_victoryHeading"));
+		Resident r;
+		try {
+			r = getResident();
+		} catch (CivException e) {
+			throw new RuntimeException(e);
+		}
+		CivMessage.sendHeading(r, CivSettings.localize.localizedString("cmd_civ_victoryHeading"));
 		boolean anybody = false;
 
 		for (EndGameCondition endCond : EndGameCondition.endConditions) {
@@ -139,14 +155,14 @@ public class CivCommand extends CommandBase {
 			anybody = true;
 			for (SessionEntry entry : entries) {
 				Civilization civ = EndGameCondition.getCivFromSessionData(entry.value);
-				Integer daysLeft = endCond.getDaysToHold() - endCond.getDaysHeldFromSessionData(entry.value);
-				CivMessage.send(sender, CivColor.LightBlue+CivColor.BOLD+civ.getName()+CivColor.White+": "+
+				int daysLeft = endCond.getDaysToHold() - endCond.getDaysHeldFromSessionData(entry.value);
+				CivMessage.send(r, CivColor.LightBlue+CivColor.BOLD+civ.getName()+CivColor.White+": "+
 				CivSettings.localize.localizedString("var_cmd_civ_victoryDays",(CivColor.Yellow+CivColor.BOLD+daysLeft+CivColor.White),(CivColor.LightPurple+CivColor.BOLD+endCond.getVictoryName()+CivColor.White)));
 			}
 		}
 		
 		if (!anybody) {
-			CivMessage.send(sender, CivColor.LightGray+CivSettings.localize.localizedString("cmd_civ_victoryNoOne"));
+			CivMessage.send(r, CivColor.LightGray+CivSettings.localize.localizedString("cmd_civ_victoryNoOne"));
 		}
 		
 	}
@@ -351,6 +367,13 @@ public class CivCommand extends CommandBase {
 		
 		CivMessage.send(sender, out);
 	}
+	public void t_cmd() {
+		try {
+			time_cmd();
+		} catch (CivException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public void gov_cmd() {
 		CivGovCommand cmd = new CivGovCommand();	
@@ -360,6 +383,9 @@ public class CivCommand extends CommandBase {
 	public void research_cmd() {
 		CivResearchCommand cmd = new CivResearchCommand();	
 		cmd.onCommand(sender, null, "research", this.stripArgs(args, 1));	
+	}
+	public void r_cmd() {
+		research_cmd();
 	}
 	
 	public void list_cmd() throws CivException {
@@ -384,6 +410,13 @@ public class CivCommand extends CommandBase {
 		}
 		
 		CivMessage.send(sender, out);
+	}
+	public void l_cmd() {
+		try {
+			list_cmd();
+		} catch (CivException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void show_cmd() throws CivException {
@@ -425,6 +458,20 @@ public class CivCommand extends CommandBase {
 		
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("Deposited")+args[1]+" "+CivSettings.CURRENCY_NAME);
 	}
+	public void d_cmd() throws  CivException{
+		if (args.length < 2) {
+			throw new CivException(CivSettings.localize.localizedString("cmd_civ_despositPrompt"));
+		} else {
+			deposit_cmd();
+		}
+	}
+	public void loc_cmd() {
+		try {
+			location_cmd();
+		} catch (CivException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void withdraw_cmd() throws CivException {
 		if (args.length < 2) {
@@ -454,6 +501,13 @@ public class CivCommand extends CommandBase {
 		
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_civ_withdrawSuccess",args[1],CivSettings.CURRENCY_NAME));
 	}
+	public void w_cmd() throws CivException{
+		if (args.length < 2) {
+			throw new CivException(CivSettings.localize.localizedString("cmd_civ_withdrawPrompt"));
+		} else {
+			withdraw_cmd();
+		}
+	}
 	
 	public void townlist_cmd() throws CivException {
 		Civilization civ = getSenderCiv();
@@ -469,6 +523,13 @@ public class CivCommand extends CommandBase {
 	public void info_cmd() throws CivException {
 		CivInfoCommand cmd = new CivInfoCommand();	
 		cmd.onCommand(sender, null, "info", this.stripArgs(args, 1));		
+	}
+	public void i_cmd() {
+		try {
+			info_cmd();
+		} catch (CivException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void vote_cmd() throws CivException {

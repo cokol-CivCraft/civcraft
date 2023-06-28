@@ -7,13 +7,14 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.bukkit.ChunkSnapshot;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
-import com.avrgaming.civcraft.main.CivData;
+import com.avrgaming.civcraft.main.CivCraft;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.structure.Buildable;
@@ -56,6 +57,7 @@ public class StructureValidator implements Runnable {
 	private String iTemplateName = null;
 	private BlockCoord iCornerLoc = null;
 	private CallbackInterface iCallback = null;
+	private boolean isWork = CivCraft.getIsValidate();
 	
 	public static boolean isEnabled() {
 		String enabledStr;
@@ -135,6 +137,13 @@ public class StructureValidator implements Runnable {
 		boolean valid = true;
 		String message = "";
 
+		if (buildable == null) {
+			return;
+		}
+		if (!isWork) {
+			return;
+		}
+
 		for (int y = cornerLoc.getY()-1; y > 0; y--) {
 			checkedLevelCount++;
 			double totalBlocks = 0;
@@ -142,10 +151,9 @@ public class StructureValidator implements Runnable {
 			
 			for (SimpleBlock sb : bottomLayer) {				
 				/* We only want the bottom layer of a template to be checked. */
-				if (sb.getType() == CivData.AIR) {
+				if (sb.getMaterial() == Material.AIR) {
 					continue;
 				}
-				
 				try {
 					int absX;
 					int absZ;
@@ -162,10 +170,7 @@ public class StructureValidator implements Runnable {
 			}
 			
 			double percentValid = reinforcementValue / totalBlocks;
-			if (buildable != null) {
-
 				buildable.layerValidPercentages.put(y, new BuildableLayer((int)reinforcementValue, (int)totalBlocks));
-			}
 			
 			if (valid) {
 				if (percentValid < Buildable.getReinforcementRequirementForLevel(checkedLevelCount)) {
@@ -176,12 +181,10 @@ public class StructureValidator implements Runnable {
 				}
 			}
 		}
-		
-		if (buildable != null) {
+
 			buildable.validated  = true;
 			buildable.invalidLayerMessage = message;
 			buildable.setValid(valid);
-		}
 	
 		if (player != null) {
 			CivMessage.sendError(player, message);
@@ -192,10 +195,8 @@ public class StructureValidator implements Runnable {
 			
 			if (valid) {
 				CivMessage.send(player, CivColor.LightGreen+CivSettings.localize.localizedString("structureValidator_isValid"));
-				if (buildable != null) {
 					buildable.setValid(true);
 					buildable.invalidLayerMessage = "";
-				}	
 			}
 		}
 						

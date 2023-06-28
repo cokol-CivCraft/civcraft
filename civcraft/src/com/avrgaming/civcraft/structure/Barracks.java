@@ -29,6 +29,7 @@ import java.util.TreeMap;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -295,6 +296,7 @@ public class Barracks extends Structure {
 		
 		resident.getTreasury().withdraw(cost);
 		player.getInventory().getItemInMainHand().setDurability((short)0);
+		player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 1.0f, 1.0f);
 		
 		CivMessage.sendSuccess(player, CivSettings.localize.localizedString("var_barracks_repair_Success",craftMat.getName(),cost,CivSettings.CURRENCY_NAME));
 		

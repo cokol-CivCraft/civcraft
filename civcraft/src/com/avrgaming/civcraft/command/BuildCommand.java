@@ -21,6 +21,7 @@ package com.avrgaming.civcraft.command;
 import java.io.IOException;
 import java.text.DecimalFormat;
 
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import com.avrgaming.civcraft.config.CivSettings;
@@ -55,6 +56,10 @@ public class BuildCommand extends CommandBase {
 		commands.put("refreshnearest", CivSettings.localize.localizedString("cmd_build_refreshnearestDesc"));
 		commands.put("validatenearest", CivSettings.localize.localizedString("cmd_build_validateNearestDesc"));
 		//commands.put("preview", "shows a preview of this structure at this location.");
+		commands.put("d", null); // demolish
+		commands.put("p", null); // progress (TODO: add approx time [~7h])
+		commands.put("l", null); // list
+		commands.put("u", null); // undo
 	}
 	
 	public void validatenearest_cmd() throws CivException {
@@ -166,10 +171,24 @@ public class BuildCommand extends CommandBase {
 			CivMessage.sendError(sender, CivSettings.localize.localizedString("cmd_build_demolishFormatError"));
 		}
 	}
+	public void d_cmd() {
+		try {
+			demolish_cmd();
+		} catch (CivException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public void undo_cmd() throws CivException {
 		Town town = getSelectedTown();
 		town.processUndo();
+	}
+	public void u_cmd() {
+		try {
+			undo_cmd();
+		} catch (CivException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void progress_cmd() throws CivException {
@@ -190,6 +209,13 @@ public class BuildCommand extends CommandBase {
 				//	b.builtBlockCount+" / "+b.getTotalBlockCount()+")");
 		}
 		
+	}
+	public void p_cmd() {
+		try {
+			progress_cmd();
+		} catch (CivException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void list_available_structures() throws CivException {
@@ -242,6 +268,13 @@ public class BuildCommand extends CommandBase {
 	public void list_cmd() throws CivException {
 		this.list_available_structures();
 		this.list_available_wonders();
+	}
+	public void l_cmd() {
+		try {
+			list_cmd();
+		} catch (CivException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
@@ -316,6 +349,7 @@ public class BuildCommand extends CommandBase {
 				throw new CivException(CivSettings.localize.localizedString("internalIOException"));
 			}
 		}
+		getPlayer().playSound(getPlayer().getLocation(), Sound.ITEM_ARMOR_EQUIP_IRON, 0.9f, 0.9f);
 		
 //		if (sinfo.isWonder) {
 //			town.buildWonder(getPlayer(), sinfo.id, getPlayer().getLocation());

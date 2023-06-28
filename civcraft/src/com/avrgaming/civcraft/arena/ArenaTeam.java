@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.UUID;
 
+import com.avrgaming.civcraft.object.Civilization;
 import org.bukkit.scoreboard.Team;
 
 import com.avrgaming.civcraft.config.CivSettings;
@@ -30,6 +31,7 @@ public class ArenaTeam extends SQLObject implements Comparable<ArenaTeam> {
 	private Arena currentArena;
 	private Team team;
 	private String teamColor;
+	private Civilization teamCivilization;
 	
 	public static HashMap<String, ArenaTeam> arenaTeams = new HashMap<String, ArenaTeam>();
 	public static LinkedList<ArenaTeam> teamRankings = new LinkedList<ArenaTeam>();
@@ -37,6 +39,7 @@ public class ArenaTeam extends SQLObject implements Comparable<ArenaTeam> {
 	public ArenaTeam(String name, Resident leader) throws InvalidNameException {
 		this.setName(name);
 		this.leader = leader;
+		this.teamCivilization = leader.getCiv();
 		teamMembers.add(leader);
 	}
 	
@@ -98,6 +101,7 @@ public class ArenaTeam extends SQLObject implements Comparable<ArenaTeam> {
 		
 		this.setLadderPoints(rs.getInt("ladderPoints"));
 		loadMembers(rs.getString("members"));
+		loadTeamCivilization();
 		
 		arenaTeams.put(this.getName(), this);
 		teamRankings.add(this);
@@ -135,6 +139,12 @@ public class ArenaTeam extends SQLObject implements Comparable<ArenaTeam> {
 	public Resident getLeader() {
 		return leader;
 	}
+	public Civilization getCivilization() {
+		return teamCivilization;
+	}
+	public void loadTeamCivilization() {
+		teamCivilization = getLeader().getCiv();
+	}
 	
 	public void setLeader(Resident leader) {
 		this.leader = leader;
@@ -156,6 +166,11 @@ public class ArenaTeam extends SQLObject implements Comparable<ArenaTeam> {
 		try {
 			if (arenaTeams.containsKey(name)) {
 				throw new CivException(CivSettings.localize.localizedString("arena_teamExists"));
+			}
+			for (ArenaTeam at : arenaTeams.values()) {
+				if (at.getCivilization() == leader.getCiv()) {
+					throw new CivException(CivSettings.localize.localizedString("arena_civhaveteam"));
+				}
 			}
 			
 			ArenaTeam team = new ArenaTeam(name, leader);

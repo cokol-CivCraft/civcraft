@@ -168,13 +168,15 @@ public abstract class CommandBase implements CommandExecutor {
 		CivMessage.sendHeading(sender, displayName+" "+CivSettings.localize.localizedString("cmd_CommandHelpTitle"));
 		for (String c : commands.keySet()) {
 			String info = commands.get(c);
-			
-			info = info.replace("[", CivColor.Yellow+"[");
-			info = info.replace("]", "]"+CivColor.LightGray);
-			info = info.replace("(", CivColor.Yellow+"(");
-			info = info.replace(")", ")"+CivColor.LightGray);
-						
-			CivMessage.send(sender, CivColor.LightPurple+command+" "+c+CivColor.LightGray+" "+info);
+			if (info != null) {
+
+				info = info.replace("[", CivColor.Yellow + "[");
+				info = info.replace("]", "]" + CivColor.LightGray);
+				info = info.replace("(", CivColor.Yellow + "(");
+				info = info.replace(")", ")" + CivColor.LightGray);
+
+				CivMessage.send(sender, CivColor.LightPurple + command + " " + c + CivColor.LightGray + " " + info);
+			}
 		}
 	}
 	

@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 
+import com.avrgaming.civcraft.object.Civilization;
 import org.apache.commons.io.FileUtils;
 
 import org.bukkit.Bukkit;
@@ -90,7 +91,7 @@ public class ArenaManager implements Runnable {
 				}
 				i++;
 			}
-			
+
 			if (arena == null) {
 				CivLog.error("Couldn't find an arena configured....");
 				return;
@@ -150,7 +151,7 @@ public class ArenaManager implements Runnable {
 				CivMessage.sendTeam(team, CivSettings.localize.localizedString("arena_disabled"));
 			} else {
 				if (i < 2) {
-					CivMessage.sendTeam(team, CivSettings.localize.localizedString("arena_waitingBusy"));			
+					CivMessage.sendTeam(team, CivSettings.localize.localizedString("arena_waitingBusy"));
 				} else {
 					CivMessage.sendTeam(team, CivSettings.localize.localizedString("arena_waitingQueue")+i);
 				}
@@ -176,29 +177,27 @@ public class ArenaManager implements Runnable {
 		
 		Score score1Team1 = points1.getScore(team1.getTeamScoreboardName());
 		Score score1Team2 = points1.getScore(team2.getTeamScoreboardName());
-		Score timeout1 = points1.getScore("Time Left");
+		Score timeout1 = points1.getScore("TimeLeft");
 		try {
 			timeout1.setScore(CivSettings.getInteger(CivSettings.arenaConfig, "timeout"));
-		} catch (IllegalStateException e1) {
-			e1.printStackTrace();
-		} catch (InvalidConfiguration e1) {
+		} catch (IllegalStateException | InvalidConfiguration e1) {
+			timeout1.setScore(1800);
 			e1.printStackTrace();
 		}
-		
+
 		score1Team1.setScore(activeArena.config.teams.get(0).controlPoints.size()*activeArena.config.control_block_hp);
 		score1Team2.setScore(activeArena.config.teams.get(1).controlPoints.size()*activeArena.config.control_block_hp);
 		
 		Score score2Team1 = points2.getScore(team1.getTeamScoreboardName());
 		Score score2Team2 = points2.getScore(team2.getTeamScoreboardName());
-		Score timeout2 = points1.getScore("Time Left");
+		Score timeout2 = points1.getScore("TimeLeft");
 		try {
 			timeout2.setScore(CivSettings.getInteger(CivSettings.arenaConfig, "timeout"));
-		} catch (IllegalStateException e1) {
-			e1.printStackTrace();
-		} catch (InvalidConfiguration e1) {
+		} catch (IllegalStateException | InvalidConfiguration e1) {
+			timeout2.setScore(1800);
 			e1.printStackTrace();
 		}
-		
+
 		score2Team1.setScore(activeArena.config.teams.get(0).controlPoints.size()*activeArena.config.control_block_hp);
 		score2Team2.setScore(activeArena.config.teams.get(1).controlPoints.size()*activeArena.config.control_block_hp);
 		
@@ -208,8 +207,8 @@ public class ArenaManager implements Runnable {
 	//	names2.setDisplaySlot(DisplaySlot.BELOW_NAME);
 	//	names2.setDisplayName(team2.getTeamColor()+team2.getName());
 		
-		activeArena.objectives.put(team1.getName()+";score", points1);
-		activeArena.objectives.put(team2.getName()+";score", points2);
+		activeArena.objectives.put(team1.getName(), points1);
+		activeArena.objectives.put(team2.getName(), points2);
 		
 		/* Save and clear inventories */
 		for (Resident resident : team1.teamMembers) {
@@ -256,7 +255,7 @@ public class ArenaManager implements Runnable {
 			}
 
 			
-			if (!resident.isUsesAntiCheat()) {
+			if (!resident.isUsesAntiCheat() && CivSettings.isUsingAC()) {
 				throw new CivException(CivSettings.localize.localizedString("var_arena_errorMissingAntiCheat",resident.getName()));
 			}
 		}
@@ -288,7 +287,7 @@ public class ArenaManager implements Runnable {
 		if (!srcFolder.exists()) {
 			throw new CivException("No world source found at:"+arena.world_source);
 		}
-				
+
 		Arena activeArena = new Arena(arena);
 		String instanceWorldName = activeArena.getInstanceName();
 				
@@ -543,7 +542,16 @@ public class ArenaManager implements Runnable {
 						
 						winner.save();
 						loser.save();
-						
+						Civilization c = winner.getCivilization();
+						c.getTreasury().deposit(c.getCurrentEra() * points * 150);
+						Civilization bc = loser.getCivilization();
+						bc.getTreasury().deposit(bc.getCurrentEra() * 1500);
+						for (Resident r : winner.teamMembers) {
+							r.clearRespawnTimeArena();
+						}
+						for (Resident r : loser.teamMembers) {
+							r.clearRespawnTimeArena();
+						}
 						CivMessage.global(CivColor.LightGreen+CivColor.BOLD+winner.getName()+"(+"+points+")"+CivColor.RESET+" defeated "+
 								CivColor.Rose+CivColor.BOLD+loser.getName()+"(-"+points+")"+CivColor.RESET+" in Arena!");
 						

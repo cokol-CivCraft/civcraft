@@ -6,6 +6,7 @@ import java.util.HashSet;
 
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import com.avrgaming.civcraft.cache.PlayerLocationCache;
@@ -150,7 +151,9 @@ public class ScoutShip extends WaterStructure {
 					CivMessage.sendScout(this.getCiv(), CivSettings.localize.localizedString("var_scoutTower_detection",
 							(relationColor+player.getName()+"("+relationName+")"+CivColor.White),(player.getLocation().getBlockX()+","+player.getLocation().getBlockY()+","+player.getLocation().getBlockZ()),
 							this.getTown().getName()));
+					player.playSound(player.getLocation(), Sound.ITEM_SHIELD_BLOCK, 1.11f, 1.11f);
 					alreadyAnnounced.add(this.getCiv().getName()+":"+player.getName());
+					CivMessage.sendActionBar(player, CivSettings.localize.localizedString("var_scoutShip_you_detected", CivColor.Yellow + CivColor.Rose + CivColor.LightGreen + this.getTown().getName() + CivColor.Rose));
 				
 			}
 		}

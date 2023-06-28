@@ -20,7 +20,7 @@ public class ConnectionPool {
 		/* Load any dependent classes. */
 		
 		/* load the database driver */
-        Class.forName("com.mysql.jdbc.Driver");
+        Class.forName("org.sqlite.JDBC");
 	}
 	
 	

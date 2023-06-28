@@ -32,8 +32,10 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.avrgaming.civcraft.main.CivData;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -1037,33 +1039,36 @@ public class Civilization extends SQLObject {
 	}
 
 	public void addBeakers(double beakers) {
-		
+
 		if (beakers == 0) {
 			return;
 		}
-		
+
 		TaskMaster.asyncTask(new UpdateTechBar(this), 0);
 		setResearchProgress(getResearchProgress() + beakers);
-		
+
 		if (getResearchProgress() >= getResearchTech().getAdjustedBeakerCost(this)) {
-			CivMessage.sendCiv(this, CivSettings.localize.localizedString("var_civ_research_Discovery",getResearchTech().name));
+			CivMessage.sendCiv(this, CivSettings.localize.localizedString("var_civ_research_Discovery", getResearchTech().name));
 			this.addTech(this.getResearchTech());
 			this.setResearchProgress(0);
 			this.setResearchTech(null);
-			
+
 			this.save();
-			
+
 			return;
 		}
-		
-		int percentageComplete = (int)((getResearchProgress() / this.getResearchTech().getAdjustedBeakerCost(this))*100);
+
+		int percentageComplete = (int) ((getResearchProgress() / this.getResearchTech().getAdjustedBeakerCost(this)) * 100);
 		if ((percentageComplete % 10) == 0) {
-			
+
 			if (percentageComplete != lastTechPercentage) {
-				CivMessage.sendCiv(this, CivSettings.localize.localizedString("var_civ_research_currentProgress",getResearchTech().name,percentageComplete));
+				CivMessage.sendCiv(this, CivSettings.localize.localizedString("var_civ_research_currentProgress", getResearchTech().name, percentageComplete));
 				lastTechPercentage = percentageComplete;
+				for (Player p : this.getOnlinePlayers()) {
+					CivMessage.sendActionBar(p, CivData.getStringForBar(CivData.TaskType.TECH, percentageComplete, 100));
+					p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_BOTTLE_THROW, 1.25f, 1.25f);
+				}
 			}
-			
 		}
 		
 		this.save();
@@ -1902,6 +1907,13 @@ public class Civilization extends SQLObject {
 		{
 			CivGlobal.setCurrentEra(this.currentEra, this);
 		}
+	}
+	public ArrayList<Player> getOnlinePlayers() {
+		 ArrayList<Player> online = new ArrayList<>();
+		 for (Town t : getTowns()) {
+			 online.addAll(t.getOnlinePlayers());
+		 }
+		 return online;
 	}
 	
 }

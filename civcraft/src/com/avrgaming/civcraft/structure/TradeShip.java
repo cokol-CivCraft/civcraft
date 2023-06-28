@@ -316,7 +316,7 @@ public class TradeShip extends WaterStructure {
 			this.getTown().save();
 		}
 		if (tradeResult.getMoney() >= 1) {
-			double total_coins = tradeResult.getMoney();
+			double total_coins = tradeResult.getMoney() * (getTown().getTradeRate() / 2);
 			if (this.getTown().getBuffManager().hasBuff("buff_ingermanland_trade_ship_income")) {
 				total_coins *= this.getTown().getBuffManager().getEffectiveDouble("buff_ingermanland_trade_ship_income");
 			}
@@ -324,8 +324,7 @@ public class TradeShip extends WaterStructure {
 			if (this.getTown().getBuffManager().hasBuff("buff_great_lighthouse_trade_ship_income")) {
 				total_coins *= this.getTown().getBuffManager().getEffectiveDouble("buff_great_lighthouse_trade_ship_income");
 			}
-			if (this.getTown().getStructureTypeCount("s_lighthouse") >=1)
-			{
+			if (this.getTown().hasStructure("s_lighthouse")) {
 				total_coins *= CivSettings.getDouble(CivSettings.townConfig, "town.lighthouse_trade_ship_boost");
 			}
 			

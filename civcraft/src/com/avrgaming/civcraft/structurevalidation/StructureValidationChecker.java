@@ -40,7 +40,7 @@ public class StructureValidationChecker implements Runnable {
 			
 			synchronized (this) {
 				try {
-					this.wait(10000);
+					this.wait(12500);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

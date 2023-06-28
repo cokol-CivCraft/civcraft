@@ -211,6 +211,8 @@ public class CivTutorial {
 				}
 				else if (cat.name.contains("Eggs")) {
 					identifier = ItemManager.getId(Material.MONSTER_EGG);
+				} else if (cat.name.contains("Arena")) {
+					identifier = ItemManager.getId(Material.DIAMOND_HOE);
 				}
 				else {
 					identifier = ItemManager.getId(Material.WRITTEN_BOOK);
@@ -259,6 +261,9 @@ public class CivTutorial {
 	}
 	
 	public static void spawnGuiBook(Player player) {
+		if (player.getWorld().getName().contains("_instance_")) {
+			return;
+		} // FIXED bug with /res book in arena worlds...
 		if (guiInventory == null) {
 			guiInventory = Bukkit.getServer().createInventory(player, 3*9, CivSettings.localize.localizedString("tutorial_lore_CivcraftInfo"));
 

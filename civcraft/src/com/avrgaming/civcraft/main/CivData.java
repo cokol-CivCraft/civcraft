@@ -18,6 +18,10 @@
  */
 package com.avrgaming.civcraft.main;
 
+import com.avrgaming.civcraft.config.CivSettings;
+import com.avrgaming.civcraft.exception.InvalidConfiguration;
+import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
@@ -94,10 +98,10 @@ public class CivData {
 	public static final int GUNPOWDER = 289;
 	
 	public static final int MONSTER_EGG = 383;
-	public static final String BOOK_UNDERLINE = "�n";
-	public static final String BOOK_BOLD = "�l";
-	public static final String BOOK_ITALIC = "�o";
-	public static final String BOOK_NORMAL = "�r";
+	public static final String BOOK_UNDERLINE = "�n";
+	public static final String BOOK_BOLD = "�l";
+	public static final String BOOK_ITALIC = "�o";
+	public static final String BOOK_NORMAL = "�r";
 	
 	public static final byte DATA_SIGN_EAST = 0x5;
 	public static final int DATA_SIGN_WEST = 0x4;
@@ -228,19 +232,89 @@ public class CivData {
 	public static final int DATA_WOOL_WHITE = 0;
 	public static final int GOLDEN_APPLE = 322;
 	public static final int TNT = 46;
-	
-	public static String getDisplayName(int id) {
-		
-		if (id == GOLD_ORE)
-			return "Gold Ore";
-		if (id == IRON_ORE)
-			return "Iron Ore";
-		if (id == IRON_INGOT)
-			return "Iron";
-		if (id == GOLD_INGOT)
-			return "Gold";
-		
-		return "Unknown_Id";
+	private static final String hp = "❤";
+	private static String hpCFG;
+
+	private static String getHP() {
+		try {
+			hpCFG = CivSettings.getString(CivSettings.civConfig, "global.health");
+		} catch (InvalidConfiguration e){
+			hpCFG = hp;
+			e.printStackTrace();
+		}
+		return hpCFG;
+	}
+	public enum TaskType {
+		STRUCTURE, CONTROL, PLAYER, TECH, WONDERBUILD, STRUCTUREBUILD, NULL
+	}
+
+	public static String getStringForBar(TaskType type, double HP, int maxHP) {
+		String s;
+		String open = "<";
+		String close = ">";
+		int tenPercentOfMax = maxHP / 10;
+		int sizeOfChars = (int) (HP / tenPercentOfMax);
+		int emptyChars = 10 - sizeOfChars;
+		switch (type) {
+			case STRUCTURE:
+				open = "❰";
+				close = "❱";
+				break;
+			case CONTROL:
+				open ="⟪";
+				close ="⟫";
+				break;
+			case PLAYER:
+				open ="﴾";
+				close ="﴿";
+				break;
+			case NULL:
+			default:
+				break;
+			case TECH:
+				open = "〖";
+				close = "〗";
+				break;
+			case STRUCTUREBUILD:
+				open = "⧼";
+				close = "⧽";
+				break;
+			case WONDERBUILD:
+				open ="⸨";
+				close ="⸩";
+				break;
+		}
+		s = paintString(open, close, sizeOfChars, emptyChars);
+
+		return s;
+	}
+	private static String paintString(String open, String close, int full, int empty) {
+		String s = CivColor.LightGray + open;
+		s += CivColor.Rose;
+		for (; full > 0 ; full--) {
+			s += getHP();
+		}
+		s += CivColor.White;
+		for (; empty > 0 ; empty--) {
+			s += getHP();
+		}
+		s += CivColor.LightGray + close;
+		return s;
+	}
+
+    public static String getDisplayName(int id) {
+		switch (id) {
+			case GOLD_ORE:
+				return "Gold Ore";
+			case IRON_ORE:
+				return "Iron Ore";
+			case IRON_INGOT:
+				return "Iron";
+			case GOLD_INGOT:
+				return "Gold";
+			default:
+				return "Unknown_Id";
+		}
 	}
 	
 	

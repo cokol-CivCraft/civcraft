@@ -9,7 +9,10 @@ import java.util.HashMap;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -99,6 +102,13 @@ public class Arena {
 		} else {
 			team.setTeamColor(CivColor.Gold);
 		}
+		for (Resident r : team.teamMembers) {
+			Player p = CivGlobal.getPlayer(r);
+			p.setHealth(p.getMaxHealth());
+			p.setFoodLevel(20);
+			p.setGameMode(GameMode.SURVIVAL);
+			p.setDisplayName(team.getTeamColor() + CivColor.BOLD + p.getDisplayName());
+		}
 		
 		for (Resident resident : team.teamMembers) {
 			try {
@@ -109,7 +119,7 @@ public class Arena {
 			
 			try {
 				teleportToRandomRevivePoint(resident, teamCount);
-				createInventory(resident);
+				createInventory(resident, teamCount);
 				team.getScoreboardTeam().addPlayer(Bukkit.getOfflinePlayer(resident.getUUID()));
 			} catch (CivException e) {
 				e.printStackTrace();
@@ -120,41 +130,71 @@ public class Arena {
 		teamCount++;
 	}
 	
-	private void createInventory(Resident resident) {
+	private void createInventory(Resident resident, int teamnumber) {
 		Player player;
 			try {
 				player = CivGlobal.getPlayer(resident);
-			
-			Inventory inv = Bukkit.createInventory(player, 9*6, resident.getName()+"'s Gear");
 
-			for (int i = 0; i < 3; i++) {
-				addCivCraftItemToInventory("mat_iron_sword", inv);
-				addCivCraftItemToInventory("mat_iron_boots", inv);
-				addCivCraftItemToInventory("mat_iron_chestplate", inv);
-				addCivCraftItemToInventory("mat_iron_leggings", inv);
-				addCivCraftItemToInventory("mat_iron_helmet", inv);
-		
-				addCivCraftItemToInventory("mat_hunting_bow", inv);
-				addCivCraftItemToInventory("mat_leather_boots", inv);
-				addCivCraftItemToInventory("mat_leather_chestplate", inv);
-				addCivCraftItemToInventory("mat_leather_leggings", inv);
-				addCivCraftItemToInventory("mat_leather_helmet", inv);
-			}
+				Inventory inv = Bukkit.createInventory(player, 9 * 6, resident.getName() + "'s Gear");
+				if (teamnumber == 0) {
+					for (int i = 0; i < 3; i++) {
+						addCivCraftItemToInventory("mat_arena_iron_sword", inv);
+						addCivCraftItemToInventory("mat_arena_iron_boots", inv);
+						addCivCraftItemToInventory("mat_arena_iron_chestplate", inv);
+						addCivCraftItemToInventory("mat_arena_iron_leggings", inv);
+						addCivCraftItemToInventory("mat_arena_iron_helmet", inv);
 
-			
-			playerInvs.put(resident.getName(), inv);
-			} catch (CivException e) {
+						addCivCraftItemToInventory("mat_arena_hunting_bow", inv);
+						addCivCraftItemToInventory("mat_arena_leather_boots", inv);
+						addCivCraftItemToInventory("mat_arena_leather_chestplate", inv);
+						addCivCraftItemToInventory("mat_arena_leather_leggings", inv);
+						addCivCraftItemToInventory("mat_arena_leather_helmet", inv);
+						addCivCraftItemToInventory("mat_vanilla_diamond_pickaxe", inv);
+					}
+				} else {
+					for (int i = 0; i < 3; i++) {
+						addCivCraftItemToInventory("mat_arena_iron_sword_two", inv);
+						addCivCraftItemToInventory("mat_arena_iron_boots_two", inv);
+						addCivCraftItemToInventory("mat_arena_iron_chestplate_two", inv);
+						addCivCraftItemToInventory("mat_arena_iron_leggings_two", inv);
+						addCivCraftItemToInventory("mat_arena_iron_helmet_two", inv);
+
+						addCivCraftItemToInventory("mat_arena_hunting_bow_two", inv);
+						addCivCraftItemToInventory("mat_arena_leather_boots_two", inv);
+						addCivCraftItemToInventory("mat_arena_leather_chestplate_two", inv);
+						addCivCraftItemToInventory("mat_arena_leather_leggings_two", inv);
+						addCivCraftItemToInventory("mat_arena_leather_helmet_two", inv);
+						addCivCraftItemToInventory("mat_vanilla_diamond_pickaxe", inv);
+					}
+				}
+					playerInvs.put(resident.getName(), inv);
+			} catch(CivException e){
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	}
-        
+
     private void addCivCraftItemToInventory(String id, Inventory inv) {
 		LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterialFromId(id);
 		ItemStack stack = LoreCraftableMaterial.spawn(craftMat);
+		ItemStack sis = new ItemStack(Material.GOLDEN_CARROT, 16);
 		stack = LoreCraftableMaterial.addEnhancement(stack, LoreEnhancement.enhancements.get("LoreEnhancementArenaItem"));
         stack = LoreCraftableMaterial.addEnhancement(stack, LoreEnhancement.enhancements.get("LoreEnhancementSoulBound"));
+		stack = LoreCraftableMaterial.addEnhancement(stack, LoreEnhancement.enhancements.get("LoreEnhancementUnbreaking"));
+		switch (stack.getType()) {
+			case BOW:
+				stack.addEnchantment(Enchantment.ARROW_INFINITE, 1);
+				ItemStack is = new ItemStack(Material.ARROW, 5);
+				inv.addItem(is);
+				break;
+			case DIAMOND_PICKAXE:
+				stack.addEnchantment(Enchantment.DIG_SPEED, 5);
+
+				break;
+
+		}
 		inv.addItem(stack);
+		inv.addItem(sis);
 	}
 	
 	private ConfigArenaTeam getConfigTeam(int id) throws CivException {
@@ -284,7 +324,7 @@ public class Arena {
 		ArenaTeam team = getTeamFromID(teamID);
 		
 		for (ArenaTeam t : this.teams.values()) {
-			Objective obj = this.objectives.get(t.getName()+";score");
+			Objective obj = this.objectives.get(t.getName());
 			
 			for (ArenaTeam t2 : this.teams.values()) {
 				Score score = obj.getScore(t2.getTeamScoreboardName());
@@ -305,10 +345,12 @@ public class Arena {
 		} else {
 			this.timeleft--;
 
-			for (ArenaTeam team : this.teams.values()) {	
-				Objective obj = objectives.get(team.getName()+";score");
-				Score score = obj.getScore("Time Left");
-				score.setScore(timeleft);
+			for (ArenaTeam team : this.teams.values()) {
+				Objective obj = objectives.get(team.getName());
+				if (obj != null) {
+					Score score = obj.getScore("TimeLeft");
+					score.setScore(timeleft);
+				}
 			}
 		}
 	}
