@@ -26,9 +26,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import pvptimer.PvPListener;
-import pvptimer.PvPTimer;
-
 import com.avrgaming.civcraft.arena.ArenaListener;
 import com.avrgaming.civcraft.arena.ArenaManager;
 import com.avrgaming.civcraft.arena.ArenaTimer;
@@ -203,7 +200,6 @@ public final class CivCraft extends JavaPlugin {
 		TaskMaster.asyncTask(new StructureValidationChecker(), TimeTools.toTicks(120));
 		TaskMaster.asyncTimer("StructureValidationPunisher", new StructureValidationPunisher(), TimeTools.toTicks(3600));
 		TaskMaster.asyncTimer("SessionDBAsyncTimer", new SessionDBAsyncTimer(), 10);
-		TaskMaster.asyncTimer("pvptimer", new PvPTimer(), TimeTools.toTicks(30));
 		
 		TaskMaster.syncTimer("ArenaTimer", new ArenaManager(), TimeTools.toTicks(30));
 		TaskMaster.syncTimer("ArenaTimeoutTimer", new ArenaTimer(), TimeTools.toTicks(1));
@@ -239,8 +235,7 @@ public final class CivCraft extends JavaPlugin {
 		pluginManager.registerEvents(new ArenaListener(), this);
 		pluginManager.registerEvents(new CannonListener(), this);
 		pluginManager.registerEvents(new WarListener(), this);
-		pluginManager.registerEvents(new FishingListener(), this);	
-		pluginManager.registerEvents(new PvPListener(), this);
+		pluginManager.registerEvents(new FishingListener(), this);
 		pluginManager.registerEvents(new LoreEnhancementArenaItem(), this);
 		
 		if (hasPlugin("HeroChat")) {
