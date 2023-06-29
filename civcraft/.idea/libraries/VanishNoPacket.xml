@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="VanishNoPacket">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/VanishNoPacket.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="CustomMobs-4.17">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/CustomMobs-4.17.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

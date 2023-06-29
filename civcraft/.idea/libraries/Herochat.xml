@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Herochat">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/Herochat.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

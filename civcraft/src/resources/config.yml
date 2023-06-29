@@ -1,0 +1,66 @@
+# ======================================================================
+# CivCraft Configuration File.
+# ======================================================================
+
+
+# =========================== civcraft.net Server Listing Service (SLS) =========================
+
+# Set if you want to use civcraft.net's server listing service (SLS). By setting this to true
+# the civcraft plugin will send your server's information to civcraft.net so players can find
+# your server while looking for civcraft servers to play on.
+use_server_listing_service: 'true'
+
+# IP address or URL of your server. The SLS will use this to inform users how to connect to your server.
+# if left blank, the SLS will attempt to obtain it automatically from packets sent to the SLS.
+server_address: "127.0.0.1"
+
+# Name of your server which will appear on civcraft.net, will be clipped to 64 characters.
+server_name: 'CivilizationCraft'
+
+# Timezone hint that will tell users what timezone your server is in. This will help them join
+# servers that are in their own timezone.
+server_timezone: 'CST'
+
+# A short message to display on civcraft.net to advertise your server or explain what it's about.
+server_description: 'Just another MineTexas CivCraft server.'
+
+# The URL to the homepage of your server
+server_url: 'http://www.civilizationcraft.net/'
+server_url_description: 'CivCraft Homepage'
+
+# Prints a message to the console for every heartbeat packet sent to the server. Useful for debugging.
+debug_heartbeat: 'false'
+
+# ============================== Language Configuration ====================================
+# If you wish to localize CivilizationCraft, run the server once to generate a default_lang.yml file
+# Then rename the file. For example "ru_lang.yml" and then translate the strings to Russian.
+# Update this config line below to match the name of your translated file.
+localization_file: "default_lang.yml"
+
+# ============================== Database Configuration ====================================
+
+# MySQL database to store game data in across reloads. 
+mysql:
+   hostname: localhost
+   port: '3306'
+   database: game
+   username: user
+   password: 'PasswordForDatabaseUser'
+   table_prefix: ''
+   min_conns: '5'
+   max_conns: '10'
+   parts: '3'
+   
+global_database:
+    database: global
+    hostname: localhost
+    port: '3306'
+    username: user
+    password: 'PasswordForDatabaseUser'
+    min_conns: '5'
+    max_conns: '10'
+    parts: '3'
+
+server_phase: 'beta8'
+
+ 
