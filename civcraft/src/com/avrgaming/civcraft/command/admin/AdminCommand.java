@@ -59,7 +59,6 @@ import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.ItemManager;
-import com.avrgaming.sls.SLSManager;
 
 public class AdminCommand extends CommandBase {
 
@@ -110,10 +109,7 @@ public class AdminCommand extends CommandBase {
 		}
 		CivMessage.send(sender, CivColor.Gold+CivSettings.localize.localizedString("adcmd_reloadgovSuccess"));
 	}
-	
-	public void heartbeat_cmd() {
-		SLSManager.sendHeartbeat();
-	}
+
 	
 	public void reloadac_cmd() throws FileNotFoundException, IOException, InvalidConfigurationException, InvalidConfiguration {
 		CivSettings.reloadNoCheat();

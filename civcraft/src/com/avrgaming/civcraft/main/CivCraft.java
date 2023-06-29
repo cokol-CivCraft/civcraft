@@ -108,7 +108,6 @@ import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.TimeTools;
 import com.avrgaming.civcraft.war.WarListener;
 import com.avrgaming.global.scores.CalculateScoreTimer;
-import com.avrgaming.sls.SLSManager;
 
 public final class CivCraft extends JavaPlugin {
 
@@ -267,14 +266,6 @@ public final class CivCraft extends JavaPlugin {
 			ChunkCoord.buildWorldList();
 			CivGlobal.loadGlobals();
 
-			try {
-				SLSManager.init();
-			} catch (CivException e1) {
-				e1.printStackTrace();
-			} catch (InvalidConfiguration e1) {
-				e1.printStackTrace();
-			}
-			
 
 		} catch (InvalidConfiguration | SQLException | IOException | InvalidConfigurationException | CivException | ClassNotFoundException e) {
 			e.printStackTrace();
