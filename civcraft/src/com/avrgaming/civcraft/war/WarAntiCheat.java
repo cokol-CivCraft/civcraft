@@ -3,7 +3,6 @@ package com.avrgaming.civcraft.war;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import com.avrgaming.anticheat.ACManager;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivGlobal;
@@ -20,8 +19,8 @@ public class WarAntiCheat {
 		if (CivGlobal.isCasualMode()) {
 			return;
 		}
-		
-		if (!ACManager.isEnabled()) {
+
+		if (true){//!ACManager.isEnabled()) {
 			return;
 		}
 		

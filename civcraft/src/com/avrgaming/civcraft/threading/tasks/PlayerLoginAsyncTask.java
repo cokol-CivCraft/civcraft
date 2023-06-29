@@ -24,7 +24,6 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import com.avrgaming.anticheat.ACManager;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.endgame.EndConditionDiplomacy;
 import com.avrgaming.civcraft.exception.CivException;
@@ -186,18 +185,6 @@ public class PlayerLoginAsyncTask implements Runnable {
 			resident.showWarnings(getPlayer());
 			resident.loadPerks(getPlayer());
 			resident.calculateWalkingModifier(getPlayer());
-			
-			/* Send Anti-Cheat challenge to player. */
-			if (ACManager.isEnabled())
-			{
-				if (!getPlayer().hasPermission("civ.ac_valid")) {
-					resident.setUsesAntiCheat(false);
-					ACManager.sendChallenge(getPlayer());
-					
-				} else {
-					resident.setUsesAntiCheat(true);
-				}
-			}
 	
 			// Check for pending respawns.
 			ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup("global:respawnPlayer");

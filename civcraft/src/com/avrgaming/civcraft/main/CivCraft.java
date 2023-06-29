@@ -29,7 +29,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import pvptimer.PvPListener;
 import pvptimer.PvPTimer;
 
-import com.avrgaming.anticheat.ACManager;
 import com.avrgaming.civcraft.arena.ArenaListener;
 import com.avrgaming.civcraft.arena.ArenaManager;
 import com.avrgaming.civcraft.arena.ArenaTimer;
@@ -76,7 +75,6 @@ import com.avrgaming.civcraft.listener.armor.ArmorListener;
 import com.avrgaming.civcraft.loreenhancements.LoreEnhancementArenaItem;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterialListener;
 import com.avrgaming.civcraft.lorestorage.LoreGuiItemListener;
-import com.avrgaming.civcraft.nocheat.NoCheatPlusSurvialFlyHandler;
 import com.avrgaming.civcraft.populators.MobSpawnerPopulator;
 import com.avrgaming.civcraft.populators.TradeGoodPopulator;
 import com.avrgaming.civcraft.randomevents.RandomEventSweeper;
@@ -261,10 +259,7 @@ public final class CivCraft extends JavaPlugin {
 
 		pluginManager.registerEvents(new ArmorListener(getConfig().getStringList("blocked")), this);
 	}
-	
-	private void registerNPCHooks() {
-		NoCheatPlusSurvialFlyHandler.init();
-	}
+
 	
 	@Override
 	public void onEnable() {
@@ -286,8 +281,7 @@ public final class CivCraft extends JavaPlugin {
 			SQL.initCivObjectTables();
 			ChunkCoord.buildWorldList();
 			CivGlobal.loadGlobals();
-			
-			ACManager.init();
+
 			try {
 				SLSManager.init();
 			} catch (CivException e1) {
@@ -329,12 +323,7 @@ public final class CivCraft extends JavaPlugin {
 		getCommand("team").setExecutor(new TeamCommand());
 	
 		registerEvents();
-		
-		if (hasPlugin("NoCheatPlus")) {
-			registerNPCHooks();
-		} else {
-			CivLog.warning("NoCheatPlus not found, not registering NCP hooks. This is fine if you're not using NCP.");
-		}
+
 		
 		startTimers();
 				
