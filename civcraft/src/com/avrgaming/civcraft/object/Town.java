@@ -90,8 +90,6 @@ import com.avrgaming.civcraft.war.War;
 import com.avrgaming.global.perks.Perk;
 import com.avrgaming.global.perks.components.CustomTemplate;
 
-import net.md_5.itag.iTag;
-
 public class Town extends SQLObject {
 
 	private ConcurrentHashMap<String, Resident> residents = new ConcurrentHashMap<String, Resident>();
@@ -515,10 +513,6 @@ public class Town extends SQLObject {
 			this.defaultGroup.save();
 		}
 		Player player = Bukkit.getPlayer(res.getUUID());
-		if (player != null && CivSettings.hasITag)
-		{
-			iTag.getInstance().refreshPlayer(player, new HashSet<>(Bukkit.getOnlinePlayers()));
-		}
 	}
 	
 	public void addTownChunk(TownChunk tc) throws AlreadyRegisteredException {
@@ -1292,10 +1286,6 @@ public class Town extends SQLObject {
 		resident.save();
 		this.save();
 		Player player = Bukkit.getPlayer(resident.getUUID());
-		if (player != null && CivSettings.hasITag)
-		{
-			iTag.getInstance().refreshPlayer(player, new HashSet<>(Bukkit.getOnlinePlayers()));
-		}
 	}
 
 	public double collectPlotTax() {	

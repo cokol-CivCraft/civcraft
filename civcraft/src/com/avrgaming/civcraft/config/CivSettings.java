@@ -228,7 +228,6 @@ public class CivSettings {
 	public static Localize localize;
 
 	public static boolean hasTitleAPI = false;
-	public static boolean hasITag = false;
 
 	public static boolean hasCustomMobs = false;
 

@@ -18,14 +18,10 @@
  */
 package com.avrgaming.civcraft.threading.sync;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import net.md_5.itag.iTag;
-
 import org.bukkit.entity.Player;
 
-import com.avrgaming.civcraft.config.CivSettings;
+import java.util.HashSet;
+import java.util.Set;
 
 
 public class SyncUpdateTagsBetweenCivs implements Runnable {
@@ -39,19 +35,6 @@ public class SyncUpdateTagsBetweenCivs implements Runnable {
 
 	@Override
 	public void run() {
-		if (CivSettings.hasITag) {
-			for (Player player : civList) {
-				if (!otherCivList.isEmpty()) {
-					iTag.getInstance().refreshPlayer(player, otherCivList);
-				}
-			}
-			
-			for (Player player : otherCivList) {
-				if (!civList.isEmpty()) {
-					iTag.getInstance().refreshPlayer(player, civList);
-				}
-			}
-		}
 	}
 	
 }
