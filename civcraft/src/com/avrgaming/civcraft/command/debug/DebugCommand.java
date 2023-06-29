@@ -571,10 +571,7 @@ public class DebugCommand extends CommandBase {
 	}
 	
 	public void sql_cmd() {
-		HashMap<String, String> stats = new HashMap<String, String>();
-		CivMessage.send(sender, "ConnectionsRequested: "+SQL.gameDatabase.getStats().getConnectionsRequested());
-		CivMessage.send(sender,"Free Pool Members: "+SQL.gameDatabase.getStats().getTotalFree());
-		CivMessage.send(sender,"Leased Pool Members: "+SQL.gameDatabase.getStats().getTotalLeased());
+		HashMap<String, String> stats = new HashMap<String, String>();;
 		CivMessage.send(sender,"--------------------------");
 
 		stats.clear();

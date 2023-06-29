@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="bonecp">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/bonecp.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
