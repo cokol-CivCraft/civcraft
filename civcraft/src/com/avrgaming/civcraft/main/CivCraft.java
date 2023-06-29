@@ -64,7 +64,6 @@ import com.avrgaming.civcraft.listener.ChatListener;
 import com.avrgaming.civcraft.listener.CustomItemManager;
 import com.avrgaming.civcraft.listener.DebugListener;
 import com.avrgaming.civcraft.listener.DisableXPListener;
-import com.avrgaming.civcraft.listener.HeroChatListener;
 import com.avrgaming.civcraft.listener.MarkerPlacementManager;
 import com.avrgaming.civcraft.listener.PlayerListener;
 import com.avrgaming.civcraft.listener.armor.ArmorListener;
@@ -236,10 +235,6 @@ public final class CivCraft extends JavaPlugin {
 		pluginManager.registerEvents(new WarListener(), this);
 		pluginManager.registerEvents(new FishingListener(), this);
 		pluginManager.registerEvents(new LoreEnhancementArenaItem(), this);
-		
-		if (hasPlugin("HeroChat")) {
-			pluginManager.registerEvents(new HeroChatListener(), this);
-		}
 
 		pluginManager.registerEvents(new ArmorListener(getConfig().getStringList("blocked")), this);
 	}
