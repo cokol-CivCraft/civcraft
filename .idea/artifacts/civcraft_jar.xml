@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="unnamed">
-    <output-path>$PROJECT_DIR$/out/artifacts/unnamed</output-path>
+  <artifact type="jar" name="civcraft:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/civcraft_jar</output-path>
     <root id="archive" name="civcraft.jar">
       <element id="module-output" name="civcraft" />
       <element id="dir-copy" path="$PROJECT_DIR$/src/resources" />
