@@ -181,8 +181,8 @@ public class Blacksmith extends Structure {
 	}
 
 	public void saveItem(ItemStack item, String key) {
-		
-		String value = ""+ItemManager.getId(item)+":";
+
+        String value = ""+ item.getTypeId() +":";
 		
 		for (Enchantment e : item.getEnchantments().keySet()) {
 			value += ItemManager.getId(e)+","+item.getEnchantmentLevel(e);

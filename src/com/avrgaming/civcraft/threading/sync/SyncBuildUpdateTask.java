@@ -80,8 +80,8 @@ public class SyncBuildUpdateTask implements Runnable {
 					Sign s;
 					switch (next.specialType) {
 					case COMMAND:
-						ItemManager.setTypeId(block, CivData.AIR);
-						ItemManager.setData(block, 0);
+                        block.setTypeId(CivData.AIR);
+                        ItemManager.setData(block, 0);
 						break;
 					case LITERAL:
 						if (block.getState() instanceof Sign) {
@@ -93,8 +93,8 @@ public class SyncBuildUpdateTask implements Runnable {
 						
 						s.update();
 						} else {
-							ItemManager.setTypeId(block, CivData.AIR);
-							ItemManager.setData(block, 0);
+                            block.setTypeId(CivData.AIR);
+                            ItemManager.setData(block, 0);
 						}
 						break;
 					case NORMAL:

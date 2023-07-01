@@ -160,7 +160,8 @@ public class TradeOutpost extends Structure {
 		/* Build the bedrock tower. */
 		for (int i = 0; i < 3; i++) {
 			Block b = centerLoc.getBlock().getRelative(0, i, 0);
-			ItemManager.setTypeId(b, CivData.BEDROCK); ItemManager.setData(b, 0);
+            b.setTypeId(CivData.BEDROCK);
+            ItemManager.setData(b, 0);
 			
 			StructureBlock sb = new StructureBlock(new BlockCoord(b), this);
 			this.addStructureBlock(sb.getCoord(), false);
@@ -169,8 +170,8 @@ public class TradeOutpost extends Structure {
 		
 		/* Place the sign. */
 		Block b = centerLoc.getBlock().getRelative(1, 2, 0);
-		ItemManager.setTypeId(b, CivData.WALL_SIGN); 
-		ItemManager.setData(b, CivData.DATA_SIGN_EAST);
+        b.setTypeId(CivData.WALL_SIGN);
+        ItemManager.setData(b, CivData.DATA_SIGN_EAST);
 		Sign s = (Sign)b.getState();
 		s.setLine(0, good.getInfo().name);
 		s.update();
@@ -311,8 +312,10 @@ public class TradeOutpost extends Structure {
 			if (CivGlobal.getStructureSign(coord) != null) {
 				continue;
 			}
-			
-			if (ItemManager.getId(coord.getBlock()) == CivData.BEDROCK || ItemManager.getId(coord.getBlock()) == CivData.AIR) {
+
+			Block block1 = coord.getBlock();
+			Block block2 = coord.getBlock();
+			if (block2.getTypeId() == CivData.BEDROCK || block1.getTypeId() == CivData.AIR) {
 				//Be a bit more careful not to destroy any of the item frames..
 				continue;
 			}
@@ -321,14 +324,16 @@ public class TradeOutpost extends Structure {
 			
 			// Each block has a 10% chance to turn into gravel
 			if (rand.nextInt(100) <= 10) {
-				ItemManager.setTypeId(coord.getBlock(), CivData.GRAVEL);
-				continue;
+                Block block = coord.getBlock();
+                block.setTypeId(CivData.GRAVEL);
+                continue;
 			}
 			
 			// Each block has a 50% chance of starting a fire
 			if (rand.nextInt(100) <= 50) {
-				ItemManager.setTypeId(coord.getBlock(), CivData.FIRE);
-				continue;
+                Block block = coord.getBlock();
+                block.setTypeId(CivData.FIRE);
+                continue;
 			}
 			
 			// Each block has a 1% chance of launching an explosion effect

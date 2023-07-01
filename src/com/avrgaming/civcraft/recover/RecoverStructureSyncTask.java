@@ -77,8 +77,8 @@ public class RecoverStructureSyncTask implements Runnable {
 					if (tpl.blocks[x][y][z].specialType != Type.NORMAL) {
 						continue;
 					}
-					
-					if (ItemManager.getId(nextBlock) != CivData.BEDROCK) {
+
+                    if (nextBlock.getTypeId() != CivData.BEDROCK) {
 						if (tpl.blocks[x][y][z].isAir()) {
 							continue;
 						}

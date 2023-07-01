@@ -98,7 +98,7 @@ public class FarmChunk {
 		Block beneath = block.getRelative(0, -1, 0);
 				
 		if (beneath != null) {
-			if (ItemManager.getId(beneath) == CivData.FARMLAND) {
+            if (beneath.getTypeId() == CivData.FARMLAND) {
 				if (ItemManager.getData(beneath) != 0x0)
 					return true;
 			}

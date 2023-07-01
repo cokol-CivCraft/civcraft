@@ -32,7 +32,6 @@ import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.lorestorage.LoreMaterial;
 import com.avrgaming.civcraft.main.CivData;
-import com.avrgaming.civcraft.util.ItemManager;
 
 public abstract class Unit {
 	
@@ -134,19 +133,23 @@ public abstract class Unit {
 	public static boolean isWearingFullLeather(Player player) {
 		
 		try {
-			if (ItemManager.getId(player.getEquipment().getBoots()) != CivData.LEATHER_BOOTS) {
+            ItemStack stack3 = player.getEquipment().getBoots();
+            if (stack3.getTypeId() != CivData.LEATHER_BOOTS) {
 				return false;
 			}
-			
-			if (ItemManager.getId(player.getEquipment().getChestplate()) != CivData.LEATHER_CHESTPLATE) {
+
+            ItemStack stack2 = player.getEquipment().getChestplate();
+            if (stack2.getTypeId() != CivData.LEATHER_CHESTPLATE) {
 				return false;
 			}
-			
-			if (ItemManager.getId(player.getEquipment().getHelmet()) != CivData.LEATHER_HELMET) {
+
+            ItemStack stack1 = player.getEquipment().getHelmet();
+            if (stack1.getTypeId() != CivData.LEATHER_HELMET) {
 				return false;
 			}
-			
-			if (ItemManager.getId(player.getEquipment().getLeggings()) != CivData.LEATHER_LEGGINGS) {
+
+            ItemStack stack = player.getEquipment().getLeggings();
+            if (stack.getTypeId() != CivData.LEATHER_LEGGINGS) {
 				return false;
 			}
 		
@@ -290,25 +293,29 @@ public abstract class Unit {
 	public static boolean isWearingAnyIron(Player player) {
 		
 		if (player.getEquipment().getBoots() != null) {
-			if (ItemManager.getId(player.getEquipment().getBoots()) == CivData.IRON_BOOTS) {
+            ItemStack stack = player.getEquipment().getBoots();
+            if (stack.getTypeId() == CivData.IRON_BOOTS) {
 				return true;
 			}
 		}
 		
 		if (player.getEquipment().getChestplate() != null) {
-			if (ItemManager.getId(player.getEquipment().getChestplate()) == CivData.IRON_CHESTPLATE) {
+            ItemStack stack = player.getEquipment().getChestplate();
+            if (stack.getTypeId() == CivData.IRON_CHESTPLATE) {
 				return true;
 			}
 		}
 		
 		if (player.getEquipment().getHelmet() != null) {
-			if (ItemManager.getId(player.getEquipment().getHelmet()) == CivData.IRON_HELMET) {
+            ItemStack stack = player.getEquipment().getHelmet();
+            if (stack.getTypeId() == CivData.IRON_HELMET) {
 				return true;
 			}
 		}
 		
 		if (player.getEquipment().getLeggings() != null) {
-			if (ItemManager.getId(player.getEquipment().getLeggings()) == CivData.IRON_LEGGINGS) {
+            ItemStack stack = player.getEquipment().getLeggings();
+            if (stack.getTypeId() == CivData.IRON_LEGGINGS) {
 				return true;
 			}
 		}
@@ -319,25 +326,29 @@ public abstract class Unit {
 	public static boolean isWearingAnyDiamond(Player player) {
 		
 		if (player.getEquipment().getBoots() != null) {
-			if (ItemManager.getId(player.getEquipment().getBoots()) == CivData.DIAMOND_BOOTS) {
+            ItemStack stack = player.getEquipment().getBoots();
+            if (stack.getTypeId() == CivData.DIAMOND_BOOTS) {
 				return true;
 			}
 		}
 		
 		if (player.getEquipment().getChestplate() != null) {
-			if (ItemManager.getId(player.getEquipment().getChestplate()) == CivData.DIAMOND_CHESTPLATE) {
+            ItemStack stack = player.getEquipment().getChestplate();
+            if (stack.getTypeId() == CivData.DIAMOND_CHESTPLATE) {
 				return true;
 			}
 		}
 		
 		if (player.getEquipment().getHelmet() != null) {
-			if (ItemManager.getId(player.getEquipment().getHelmet()) == CivData.DIAMOND_HELMET) {
+            ItemStack stack = player.getEquipment().getHelmet();
+            if (stack.getTypeId() == CivData.DIAMOND_HELMET) {
 				return true;
 			}
 		}
 		
 		if (player.getEquipment().getLeggings() != null) {
-			if (ItemManager.getId(player.getEquipment().getLeggings()) == CivData.DIAMOND_LEGGINGS) {
+            ItemStack stack = player.getEquipment().getLeggings();
+            if (stack.getTypeId() == CivData.DIAMOND_LEGGINGS) {
 				return true;
 			}
 		}

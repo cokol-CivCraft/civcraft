@@ -202,8 +202,8 @@ public class Cannon extends Buildable {
 			for (int y = 0; y < regionY; y++) {
 				for (int z = 0; z < regionZ; z++) {
 					Block b = centerBlock.getRelative(x, y, z);
-					
-					if (ItemManager.getId(b) == CivData.CHEST) {
+
+                    if (b.getTypeId() == CivData.CHEST) {
 						throw new CivException(CivSettings.localize.localizedString("cannotBuild_chestInWay"));
 					}
 		
@@ -452,8 +452,8 @@ public class Cannon extends Buildable {
 							nextBlock.setType(tpl.blocks[x][y][z].getMaterial());
 							ItemManager.setData(nextBlock, tpl.blocks[x][y][z].getData());
 						}
-						
-						if (ItemManager.getId(nextBlock) != CivData.AIR) {
+
+                        if (nextBlock.getTypeId() != CivData.AIR) {
 							BlockCoord b = new BlockCoord(nextBlock.getLocation());
 							cannonBlocks.put(b, this);
 							blocks.add(b);
@@ -540,7 +540,7 @@ public class Cannon extends Buildable {
 			if (event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
 				ItemStack stack = event.getPlayer().getInventory().getItemInMainHand();
 				if (stack != null) {
-					if (ItemManager.getId(stack) == CivData.TNT) {
+					if (stack.getTypeId() == CivData.TNT) {
 						if (ItemManager.removeItemFromPlayer(event.getPlayer(), Material.TNT, 1)) {
 							this.tntLoaded++;
 							CivMessage.sendSuccess(event.getPlayer(), CivSettings.localize.localizedString("cannon_addedTNT"));

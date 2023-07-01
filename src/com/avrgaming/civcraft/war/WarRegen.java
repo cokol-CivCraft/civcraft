@@ -57,7 +57,7 @@ public class WarRegen {
 	}
 	
 	private static String blockBasicString(Block blk) {
-		return ItemManager.getId(blk)+":"+ItemManager.getData(blk)+":"+blk.getX()+":"+blk.getY()+":"+blk.getZ()+":"+blk.getWorld().getName();
+		return blk.getTypeId() +":"+ItemManager.getData(blk)+":"+blk.getX()+":"+blk.getY()+":"+blk.getZ()+":"+blk.getWorld().getName();
 	}
 	
 	public static String blockInventoryString(Inventory inv) {
@@ -134,9 +134,9 @@ public class WarRegen {
 		String world = split[5];
 		
 		Block block = BukkitObjects.getWorld(world).getBlockAt(x,y,z);
-		
-		ItemManager.setTypeId(block, type);
-		ItemManager.setData(block, data, false);
+
+        block.setTypeId(type);
+        ItemManager.setData(block, data, false);
 
 		// End of basic block info, try to get more now.
 		Inventory inv = null;
@@ -222,9 +222,9 @@ public class WarRegen {
 		default:
 			break;
 		}
-		
-		ItemManager.setTypeId(blk, CivData.AIR);
-		ItemManager.setData(blk, 0x0, true);
+
+        blk.setTypeId(CivData.AIR);
+        ItemManager.setData(blk, 0x0, true);
 		
 	}
 	
@@ -255,9 +255,9 @@ public class WarRegen {
 		default:
 			break;
 		}
-		
-		ItemManager.setTypeId(blk, CivData.AIR);
-		ItemManager.setData(blk, 0x0, true);
+
+        blk.setTypeId(CivData.AIR);
+        ItemManager.setData(blk, 0x0, true);
 		
 	}
 	

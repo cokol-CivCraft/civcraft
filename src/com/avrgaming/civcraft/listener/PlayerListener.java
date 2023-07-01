@@ -83,7 +83,6 @@ import com.avrgaming.civcraft.threading.timers.PlayerLocationCacheUpdate;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.CivColor;
-import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.war.War;
 import com.avrgaming.civcraft.war.WarStats;
 
@@ -466,7 +465,8 @@ public class PlayerListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.LOW) 
 	public void onConsume(PlayerItemConsumeEvent event) {
-		if (ItemManager.getId(event.getItem()) == CivData.GOLDEN_APPLE) {
+        ItemStack stack = event.getItem();
+        if (stack.getTypeId() == CivData.GOLDEN_APPLE) {
 			CivMessage.sendError(event.getPlayer(), CivSettings.localize.localizedString("itemUse_errorGoldenApple"));
 			event.setCancelled(true);
 			return;

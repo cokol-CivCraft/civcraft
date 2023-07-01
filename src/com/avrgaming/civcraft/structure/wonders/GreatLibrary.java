@@ -39,7 +39,6 @@ import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.StructureSign;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.util.CivColor;
-import com.avrgaming.civcraft.util.ItemManager;
 
 public class GreatLibrary extends Wonder {
 
@@ -175,7 +174,7 @@ public class GreatLibrary extends Wonder {
 			hand.addEnchantment(Enchantment.ARROW_FIRE, 1);	
 			break;
 		case "3":
-			switch (ItemManager.getId(hand)) {
+            switch (hand.getTypeId()) {
 			case CivData.WOOD_PICKAXE:
 			case CivData.STONE_PICKAXE:
 			case CivData.IRON_PICKAXE:

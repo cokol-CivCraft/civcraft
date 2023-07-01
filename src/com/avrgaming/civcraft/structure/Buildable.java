@@ -913,8 +913,8 @@ public abstract class Buildable extends SQLObject {
 			for (int y = 0; y < regionY; y++) {
 				for (int z = 0; z < regionZ; z++) {
 					Block b = centerBlock.getRelative(x, y, z);
-					
-					if (ItemManager.getId(b) == CivData.CHEST) {
+
+					if (b.getTypeId() == CivData.CHEST) {
 						throw new CivException(CivSettings.localize.localizedString("cannotBuild_chestInWay"));
 					}
 										
@@ -1040,8 +1040,8 @@ public abstract class Buildable extends SQLObject {
 						}
 						
 						chunkUpdates.put(b.getChunk(), b.getChunk());
-						
-						if (ItemManager.getId(b) == CivData.WALL_SIGN || ItemManager.getId(b) == CivData.SIGN) {
+
+					if (b.getTypeId() == CivData.WALL_SIGN || b.getTypeId() == CivData.SIGN) {
 							Sign s2 = (Sign)b.getState();
 							s2.setLine(0, tpl.blocks[x][y][z].message[0]);
 							s2.setLine(1, tpl.blocks[x][y][z].message[1]);
@@ -1368,33 +1368,38 @@ public abstract class Buildable extends SQLObject {
 						case CivData.WALL_SIGN:
 							continue;
 					}
-					
-					if (CivSettings.alwaysCrumble.contains(ItemManager.getId(coord.getBlock()))) {
-						ItemManager.setTypeId(coord.getBlock(), CivData.COBBLESTONE);
-						continue;
+
+					Block block1 = coord.getBlock();
+					if (CivSettings.alwaysCrumble.contains(block1.getTypeId())) {
+                        Block block = coord.getBlock();
+                        block.setTypeId(CivData.COBBLESTONE);
+                        continue;
 					}
 								
 					Random rand = new Random();
 
 					// Each block has a 70% chance to turn into Air
 					if (rand.nextInt(100) <= 70) {
-						ItemManager.setTypeId(coord.getBlock(), CivData.AIR);
-						ItemManager.setData(coord.getBlock(), 0, true);
+                        Block block = coord.getBlock();
+                        block.setTypeId(CivData.AIR);
+                        ItemManager.setData(coord.getBlock(), 0, true);
 						continue;
 					}
 					
 					// Each block has a 30% chance to turn into gravel
 					if (rand.nextInt(100) <= 30) {
-						ItemManager.setTypeId(coord.getBlock(), CivData.COBBLESTONE);
-						ItemManager.setData(coord.getBlock(), 0, true);
+                        Block block = coord.getBlock();
+                        block.setTypeId(CivData.COBBLESTONE);
+                        ItemManager.setData(coord.getBlock(), 0, true);
 						continue;
 					}
 
 					
 					// Each block has a 10% chance of starting a fire
 					if (rand.nextInt(100) <= 10) {
-						ItemManager.setTypeId(coord.getBlock(), CivData.FIRE);
-						ItemManager.setData(coord.getBlock(), 0, true);
+                        Block block = coord.getBlock();
+                        block.setTypeId(CivData.FIRE);
+                        ItemManager.setData(coord.getBlock(), 0, true);
 						continue;
 					}
 					

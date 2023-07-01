@@ -202,9 +202,9 @@ public class PostBuildSyncTask implements Runnable {
 				
 				/* Convert sign data to chest data.*/
 				block = absCoord.getBlock();
-				if (ItemManager.getId(block) != CivData.CHEST) {		
+				if (block.getTypeId() != CivData.CHEST) {
 					byte chestData = CivData.convertSignDataToChestData((byte)sb.getData());
-					ItemManager.setTypeId(block, CivData.CHEST);
+					block.setTypeId(CivData.CHEST);
 					ItemManager.setData(block, chestData, true);}
 				
 					Chest chest = (Chest)block.getState();
@@ -399,9 +399,9 @@ public class PostBuildSyncTask implements Runnable {
 				
 				/* Convert sign data to chest data.*/
 				block = absCoord.getBlock();
-				if (ItemManager.getId(block) != CivData.CHEST) {		
+				if (block.getTypeId() != CivData.CHEST) {
 					byte chestData = CivData.convertSignDataToChestData((byte)sb.getData());
-					ItemManager.setTypeId(block, CivData.CHEST);
+					block.setTypeId(CivData.CHEST);
 					ItemManager.setData(block, chestData, true); }
 				
 					Chest chest = (Chest)block.getState();

@@ -31,6 +31,7 @@ import com.avrgaming.civcraft.structure.farm.FarmChunk;
 import com.avrgaming.civcraft.structure.farm.GrowBlock;
 import com.avrgaming.civcraft.threading.sync.request.GrowRequest;
 import com.avrgaming.civcraft.util.ItemManager;
+import org.bukkit.block.Block;
 
 public class SyncGrowTask implements Runnable {
 	
@@ -81,14 +82,16 @@ public class SyncGrowTask implements Runnable {
 								}
 								break;
 							}
-							
-							if (!growBlock.spawn && ItemManager.getId(growBlock.bcoord.getBlock()) != growBlock.typeId) {
+
+							Block block1 = growBlock.bcoord.getBlock();
+							if (!growBlock.spawn && block1.getTypeId() != growBlock.typeId) {
 								continue;
 							} else {
 								if (growBlock.spawn) {
 									// Only allow block to change its type if its marked as spawnable.
-									ItemManager.setTypeId(growBlock.bcoord.getBlock(), growBlock.typeId);
-								}
+                                    Block block = growBlock.bcoord.getBlock();
+                                    block.setTypeId(growBlock.typeId);
+                                }
 								ItemManager.setData(growBlock.bcoord.getBlock(), growBlock.data);
 								request.result = true;
 							}

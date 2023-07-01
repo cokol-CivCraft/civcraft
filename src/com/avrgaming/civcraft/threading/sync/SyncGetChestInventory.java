@@ -24,11 +24,11 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 
 import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.threading.sync.request.GetChestRequest;
-import com.avrgaming.civcraft.util.ItemManager;
 
 public class SyncGetChestInventory implements Runnable {
 	
@@ -69,9 +69,10 @@ public class SyncGetChestInventory implements Runnable {
 							chest = (Chest)b.getState();
 						} catch (ClassCastException e) {
 							/* The block wasn't a chest, but force it. */
-							ItemManager.setTypeId(b, CivData.CHEST);
-							ItemManager.setTypeId(b.getState(), CivData.CHEST);
-							b.getState().update();
+                            b.setTypeId(CivData.CHEST);
+                            BlockState block = b.getState();
+                            block.setTypeId(CivData.CHEST);
+                            b.getState().update();
 							chest = (Chest)b.getState();
 							
 						}

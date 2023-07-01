@@ -90,7 +90,7 @@ public class WindmillPreProcessTask extends CivAsyncTask {
 				continue;
 			}
 
-			switch (ItemManager.getId(stack)) {
+            switch (stack.getTypeId()) {
 			case CivData.BREAD_SEED:
 				breadCount += stack.getAmount();
 				break;

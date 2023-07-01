@@ -127,9 +127,10 @@ public class FortifiedWall extends Wall {
 			if (CivSettings.restrictedUndoBlocks.contains(material)) {
 				continue;
 			}
-			
-			ItemManager.setTypeId(wb.getCoord().getBlock(), wb.getOldId());
-			ItemManager.setData(wb.getCoord().getBlock(), wb.getOldData());
+
+            Block block = wb.getCoord().getBlock();
+            block.setTypeId(wb.getOldId());
+            ItemManager.setData(wb.getCoord().getBlock(), wb.getOldData());
 			refund += COST_PER_SEGMENT;
 			try {
 				wb.delete();
@@ -201,8 +202,9 @@ public class FortifiedWall extends Wall {
 		if (this.nextWallBuilt == null) {
 			for (BlockCoord coord : wallBlocks.keySet()) {
 				WallBlock wb = wallBlocks.get(coord);
-				ItemManager.setTypeId(coord.getBlock(), wb.getOldId());
-				ItemManager.setData(coord.getBlock(), wb.getOldData());
+                Block block = coord.getBlock();
+                block.setTypeId(wb.getOldId());
+                ItemManager.setData(coord.getBlock(), wb.getOldData());
 				try {
 					wb.delete();
 				} catch (SQLException e) {
@@ -421,8 +423,8 @@ public class FortifiedWall extends Wall {
 	
 	private void validateBlockLocation(Player player, Location loc) throws CivException {
 		Block b = loc.getBlock();
-		
-		if (ItemManager.getId(b) == CivData.CHEST) {
+
+		if (b.getTypeId() == CivData.CHEST) {
 			throw new CivException(CivSettings.localize.localizedString("cannotBuild_chestInWay"));
 		}
 							
@@ -675,7 +677,8 @@ public class FortifiedWall extends Wall {
 		
 		for (SimpleBlock sb : simpleBlocks.values()) {
 			BlockCoord bcoord = new BlockCoord(sb);
-			int old_id = ItemManager.getId(bcoord.getBlock());
+			Block block = bcoord.getBlock();
+			int old_id = block.getTypeId();
 			int old_data = ItemManager.getData(bcoord.getBlock());
 			if (!wallBlocks.containsKey(bcoord)) {
 				try {
@@ -730,8 +733,9 @@ public class FortifiedWall extends Wall {
 		
 		for (WallBlock wb : this.wallBlocks.values()) {
 			BlockCoord bcoord = wb.getCoord();
-			ItemManager.setTypeId(bcoord.getBlock(), wb.getTypeId());
-			ItemManager.setData(bcoord.getBlock(), wb.getData());
+            Block block = bcoord.getBlock();
+            block.setTypeId(wb.getTypeId());
+            ItemManager.setData(bcoord.getBlock(), wb.getData());
 		}
 		
 		save();
@@ -754,8 +758,9 @@ public class FortifiedWall extends Wall {
 		
 		for (WallBlock wb : this.wallBlocks.values()) {
 			BlockCoord bcoord = wb.getCoord();
-			ItemManager.setTypeId(bcoord.getBlock(), wb.getTypeId());
-			ItemManager.setData(bcoord.getBlock(), wb.getData());
+            Block block = bcoord.getBlock();
+            block.setTypeId(wb.getTypeId());
+            ItemManager.setData(bcoord.getBlock(), wb.getData());
 		}
 		
 		save();

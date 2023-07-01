@@ -399,7 +399,7 @@ public class ArenaManager implements Runnable {
 				BlockCoord bcoord = new BlockCoord(world.getName(), c.getX(), c.getY(), c.getZ());
 				chests.put(bcoord, activeArena);
 				
-				ItemManager.setTypeId(bcoord.getBlock(), ItemManager.getId(Material.ENDER_CHEST));
+				bcoord.getBlock().setType(Material.ENDER_CHEST);
 			}
 			
 		}

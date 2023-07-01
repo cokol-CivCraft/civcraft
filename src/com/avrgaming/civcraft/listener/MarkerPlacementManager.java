@@ -49,9 +49,12 @@ public class MarkerPlacementManager implements Listener {
 	
 	public static void addToPlacementMode(Player player, Structure structure, String markerName) throws CivException {
 
-		if (player.getInventory().getItemInMainHand() != null && ItemManager.getId(player.getInventory().getItemInMainHand()) != CivData.AIR) {
-			throw new CivException(CivSettings.localize.localizedString("placement_errorHolding"));
-		}
+		if (player.getInventory().getItemInMainHand() != null) {
+            ItemStack stack = player.getInventory().getItemInMainHand();
+            if (stack.getTypeId() != CivData.AIR) {
+                throw new CivException(CivSettings.localize.localizedString("placement_errorHolding"));
+            }
+        }
 		
 		playersInPlacementMode.put(player.getName(), structure);
 		markers.put(player.getName(), new ArrayList<Location>());

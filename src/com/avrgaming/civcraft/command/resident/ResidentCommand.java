@@ -271,8 +271,8 @@ public class ResidentCommand extends CommandBase {
 			if (CivGlobal.isBonusGoodie(is)) {
 				throw new CivException(CivSettings.localize.localizedString("cmd_res_exchangeNoTradeGoods"));
 			}
-			
-			if (ItemManager.getId(is) == exchangeID) {
+
+            if (is.getTypeId() == exchangeID) {
 				total += is.getAmount();
 				break;
 			}

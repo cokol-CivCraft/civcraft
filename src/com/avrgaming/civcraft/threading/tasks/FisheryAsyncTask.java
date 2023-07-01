@@ -135,8 +135,8 @@ public class FisheryAsyncTask extends CivAsyncTask {
 				if (stack == null) {
 					continue;
 				}
-				
-				if (ItemManager.getId(stack) == CivData.FISHING_ROD) {
+
+                if (stack.getTypeId() == CivData.FISHING_ROD) {
 					try {
 						short damage = ItemManager.getData(stack);
 						this.updateInventory(Action.REMOVE, source_inv0, ItemManager.createItemStack(CivData.FISHING_ROD, 1, damage));
@@ -169,8 +169,8 @@ public class FisheryAsyncTask extends CivAsyncTask {
 					if (stack == null) {
 						continue;
 					}
-					
-					if (ItemManager.getId(stack) == CivData.FISHING_ROD) {
+
+                    if (stack.getTypeId() == CivData.FISHING_ROD) {
 						try {
 							short damage = ItemManager.getData(stack);
 							this.updateInventory(Action.REMOVE, source_inv1, ItemManager.createItemStack(CivData.FISHING_ROD, 1, damage));
@@ -204,8 +204,8 @@ public class FisheryAsyncTask extends CivAsyncTask {
 					if (stack == null) {
 						continue;
 					}
-					
-					if (ItemManager.getId(stack) == CivData.FISHING_ROD) {
+
+                    if (stack.getTypeId() == CivData.FISHING_ROD) {
 						try {
 							short damage = ItemManager.getData(stack);
 							this.updateInventory(Action.REMOVE, source_inv2, ItemManager.createItemStack(CivData.FISHING_ROD, 1, damage));
@@ -238,8 +238,8 @@ public class FisheryAsyncTask extends CivAsyncTask {
 					if (stack == null) {
 						continue;
 					}
-					
-					if (ItemManager.getId(stack) == CivData.FISHING_ROD) {
+
+                    if (stack.getTypeId() == CivData.FISHING_ROD) {
 						try {
 							short damage = ItemManager.getData(stack);
 							this.updateInventory(Action.REMOVE, source_inv3, ItemManager.createItemStack(CivData.FISHING_ROD, 1, damage));

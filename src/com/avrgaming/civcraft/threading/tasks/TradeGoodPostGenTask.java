@@ -172,34 +172,34 @@ public class TradeGoodPostGenTask implements Runnable {
 					if (!top.getChunk().isLoaded()) {
 						top.getChunk().load();
 					}
-					
-					if (ItemManager.getId(top) == CivData.BEDROCK) {
-						ItemManager.setTypeId(top, CivData.AIR);
-		    			ItemManager.setData(top, 0, true);
+
+					if (top.getTypeId() == CivData.BEDROCK) {
+                        top.setTypeId(CivData.AIR);
+                        ItemManager.setData(top, 0, true);
 		    			bcoord2.setY(bcoord2.getY() - 1);
 		    			
 		    			top = top.getRelative(BlockFace.NORTH);
-		    			if (ItemManager.getId(top) == CivData.WALL_SIGN) {
-		    				ItemManager.setTypeId(top, CivData.AIR);
-			    			ItemManager.setData(top, 0, true);	    			
+						if (top.getTypeId() == CivData.WALL_SIGN) {
+                            top.setTypeId(CivData.AIR);
+                            ItemManager.setData(top, 0, true);
 			    		}
 		    			
 		    			top = top.getRelative(BlockFace.SOUTH);
-		    			if (ItemManager.getId(top) == CivData.WALL_SIGN) {
-		    				ItemManager.setTypeId(top, CivData.AIR);
-			    			ItemManager.setData(top, 0, true);	    			
+						if (top.getTypeId() == CivData.WALL_SIGN) {
+                            top.setTypeId(CivData.AIR);
+                            ItemManager.setData(top, 0, true);
 			    		}
 		    			
 		    			top = top.getRelative(BlockFace.EAST);
-		    			if (ItemManager.getId(top) == CivData.WALL_SIGN) {
-		    				ItemManager.setTypeId(top, CivData.AIR);
-			    			ItemManager.setData(top, 0, true);	    			
+						if (top.getTypeId() == CivData.WALL_SIGN) {
+                            top.setTypeId(CivData.AIR);
+                            ItemManager.setData(top, 0, true);
 			    		}
 		    			
 		    			top = top.getRelative(BlockFace.WEST);
-		    			if (ItemManager.getId(top) == CivData.WALL_SIGN) {
-		    				ItemManager.setTypeId(top, CivData.AIR);
-			    			ItemManager.setData(top, 0, true);
+						if (top.getTypeId() == CivData.WALL_SIGN) {
+                            top.setTypeId(CivData.AIR);
+                            ItemManager.setData(top, 0, true);
 			    		}
 					} else {
 						break;

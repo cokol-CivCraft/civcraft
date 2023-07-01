@@ -61,7 +61,6 @@ import com.avrgaming.civcraft.config.ConfigBuildableInfo;
 import com.avrgaming.civcraft.config.ConfigMobSpawner;
 import com.avrgaming.civcraft.config.ConfigPerk;
 import com.avrgaming.civcraft.config.ConfigTradeGood;
-import com.avrgaming.civcraft.database.SQL;
 import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.event.EventTimer;
 import com.avrgaming.civcraft.event.GoodieRepoEvent;
@@ -619,7 +618,7 @@ public class DebugCommand extends CommandBase {
 		long value = Long.decode(hex);
 		
 		ItemStack inHand = player.getInventory().getItemInMainHand();
-		if (inHand == null || ItemManager.getId(inHand) == CivData.AIR) {
+		if (inHand == null || inHand.getTypeId() == CivData.AIR) {
 			throw new CivException("please have an item in your hand.");
 		}
 		
@@ -868,8 +867,8 @@ public class DebugCommand extends CommandBase {
 		int z = getNamedInteger(3);
 		
 		Block b = Bukkit.getWorld("world").getBlockAt(x,y,z);
-		
-		CivMessage.send(sender, "type:"+ItemManager.getId(b)+" data:"+ItemManager.getData(b)+" name:"+b.getType().name());
+
+		CivMessage.send(sender, "type:"+ b.getTypeId() +" data:"+ItemManager.getData(b)+" name:"+b.getType().name());
 		
 	}
 	
@@ -1088,7 +1087,7 @@ public class DebugCommand extends CommandBase {
 			
 			BlockCoord bcoord = sign.getCoord();
 			Block block = bcoord.getBlock();
-			ItemManager.setTypeId(block, CivData.WALL_SIGN);
+			block.setTypeId(CivData.WALL_SIGN);
 			ItemManager.setData(block, sign.getDirection());
 			
 			Sign s = (Sign)block.getState();
@@ -1394,8 +1393,9 @@ public class DebugCommand extends CommandBase {
 	
 	public void dupe_cmd() throws CivException {
 		Player player = getPlayer();
-		
-		if (player.getInventory().getItemInMainHand() == null || ItemManager.getId(player.getInventory().getItemInMainHand()) == 0) {
+
+		ItemStack stack = player.getInventory().getItemInMainHand();
+		if (player.getInventory().getItemInMainHand() == null || stack.getTypeId() == 0) {
 			throw new CivException("No item in hand.");
 		}
 		

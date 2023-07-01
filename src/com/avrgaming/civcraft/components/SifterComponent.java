@@ -111,7 +111,7 @@ public class SifterComponent extends Component {
 		Random rand = new Random();
 		int i = 0;
 		for (ItemStack stack : source.getContents()) {
-			if (stack == null || ItemManager.getId(stack) == 0) {
+            if (stack == null || stack.getTypeId() == 0) {
 				continue;
 			}
 
@@ -122,8 +122,8 @@ public class SifterComponent extends Component {
 				if (si == null) { 
 					continue;
 				}
-				
-				if (si.source_type != ItemManager.getId(stack)) {
+
+                if (si.source_type != stack.getTypeId()) {
 					continue;
 				}
 				

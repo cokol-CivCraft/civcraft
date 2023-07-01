@@ -82,39 +82,39 @@ public class TradeGoodSignCleanupTask implements Runnable {
 			
 			while(bcoord2.getY() < 256) {
 				Block top = world.getBlockAt(bcoord2.getX(), bcoord2.getY(), bcoord2.getZ());
-				ItemManager.setTypeId(top, CivData.AIR);
-	    			ItemManager.setData(top, 0, true);
+                top.setTypeId(CivData.AIR);
+                ItemManager.setData(top, 0, true);
 	    			bcoord2.setY(bcoord2.getY() + 1);
 	    			
 	    			top = top.getRelative(BlockFace.NORTH);
-	    			if (ItemManager.getId(top) == CivData.WALL_SIGN || ItemManager.getId(top) == CivData.SIGN) {
+				if (top.getTypeId() == CivData.WALL_SIGN || top.getTypeId() == CivData.SIGN) {
 	    				count++;
 	    			}
-	    			ItemManager.setTypeId(top, CivData.AIR);
-		    		ItemManager.setData(top, 0, true);
+                top.setTypeId(CivData.AIR);
+                ItemManager.setData(top, 0, true);
 
 	    			top = top.getRelative(BlockFace.SOUTH);
-	    			if (ItemManager.getId(top) == CivData.WALL_SIGN || ItemManager.getId(top) == CivData.SIGN) {
+				if (top.getTypeId() == CivData.WALL_SIGN || top.getTypeId() == CivData.SIGN) {
 	    				count++;
-	    				ItemManager.setTypeId(top, CivData.AIR);
-			    		ItemManager.setData(top, 0, true);
+                        top.setTypeId(CivData.AIR);
+                        ItemManager.setData(top, 0, true);
 	    			}
 	    			
 	    		
 		    		top = top.getRelative(BlockFace.EAST);
-	    			if (ItemManager.getId(top) == CivData.WALL_SIGN || ItemManager.getId(top) == CivData.SIGN) {
+				if (top.getTypeId() == CivData.WALL_SIGN || top.getTypeId() == CivData.SIGN) {
 	    				count++;
-	    				ItemManager.setTypeId(top, CivData.AIR);
-			    		ItemManager.setData(top, 0, true);
+                        top.setTypeId(CivData.AIR);
+                        ItemManager.setData(top, 0, true);
 
 	    			}
 	    			
 	    		
 		    		top = top.getRelative(BlockFace.WEST);
-	    			if (ItemManager.getId(top) == CivData.WALL_SIGN || ItemManager.getId(top) == CivData.SIGN) {
+				if (top.getTypeId() == CivData.WALL_SIGN || top.getTypeId() == CivData.SIGN) {
 	    				count++;
-	    				ItemManager.setTypeId(top, CivData.AIR);
-			    		ItemManager.setData(top, 0, true);
+                        top.setTypeId(CivData.AIR);
+                        ItemManager.setData(top, 0, true);
 	    			}
 			}
 			

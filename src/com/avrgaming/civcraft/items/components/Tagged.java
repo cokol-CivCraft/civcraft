@@ -6,7 +6,6 @@ import org.bukkit.inventory.ItemStack;
 
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.main.CivData;
-import com.avrgaming.civcraft.util.ItemManager;
 
 public class Tagged extends ItemComponent {
 
@@ -29,7 +28,7 @@ public class Tagged extends ItemComponent {
 		String tag = null;
 		
 		for (ItemStack stack : matrix) {
-			if ((stack == null) || (ItemManager.getId(stack) == CivData.AIR)) {
+            if ((stack == null) || (stack.getTypeId() == CivData.AIR)) {
 				continue;
 			}
 			

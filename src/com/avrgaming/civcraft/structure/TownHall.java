@@ -207,9 +207,9 @@ public class TownHall extends Structure implements RespawnLocationHolder {
 		}
 		
 		Block itemFrameBlock = absCoord.getBlock();
-		if (ItemManager.getId(itemFrameBlock) != CivData.AIR) {
-			ItemManager.setTypeId(itemFrameBlock, CivData.AIR);
-		}
+		if (itemFrameBlock.getTypeId() != CivData.AIR) {
+            itemFrameBlock.setTypeId(CivData.AIR);
+        }
 		
 		ItemFrameStorage itemStore;
 		ItemFrame frame = null;
@@ -307,7 +307,8 @@ public class TownHall extends Structure implements RespawnLocationHolder {
 		/* Build the bedrock tower. */
 		//for (int i = 0; i < 1; i++) {
 		Block b = centerLoc.getBlock();
-		ItemManager.setTypeId(b, CivData.FENCE); ItemManager.setData(b, 0);
+        b.setTypeId(CivData.FENCE);
+        ItemManager.setData(b, 0);
 		
 		StructureBlock sb = new StructureBlock(new BlockCoord(b), this);
 		this.addStructureBlock(sb.getCoord(), true);
@@ -315,8 +316,8 @@ public class TownHall extends Structure implements RespawnLocationHolder {
 		
 		/* Build the control block. */
 		b = centerLoc.getBlock().getRelative(0, 1, 0);
-		ItemManager.setTypeId(b, CivData.OBSIDIAN);
-		sb = new StructureBlock(new BlockCoord(b), this);
+        b.setTypeId(CivData.OBSIDIAN);
+        sb = new StructureBlock(new BlockCoord(b), this);
 		this.addStructureBlock(sb.getCoord(), true);
 		
 		int townhallControlHitpoints;
@@ -334,9 +335,10 @@ public class TownHall extends Structure implements RespawnLocationHolder {
 	public void onControlBlockDestroy(ControlPoint cp, World world, Player player, StructureBlock hit) {
 		//Should always have a resident and a town at this point.
 		Resident attacker = CivGlobal.getResident(player);
-		
-		ItemManager.setTypeId(hit.getCoord().getLocation().getBlock(), CivData.AIR);
-		world.playSound(hit.getCoord().getLocation(), Sound.BLOCK_ANVIL_BREAK, 1.0f, -1.0f);
+
+        Block block = hit.getCoord().getLocation().getBlock();
+        block.setTypeId(CivData.AIR);
+        world.playSound(hit.getCoord().getLocation(), Sound.BLOCK_ANVIL_BREAK, 1.0f, -1.0f);
 		world.playSound(hit.getCoord().getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f);
 		
 		FireworkEffect effect = FireworkEffect.builder().with(Type.BURST).withColor(Color.YELLOW).withColor(Color.RED).withTrail().withFlicker().build();
@@ -397,10 +399,11 @@ public class TownHall extends Structure implements RespawnLocationHolder {
 	public void onControlBlockCannonDestroy(ControlPoint cp, Player player, StructureBlock hit) {
 		//Should always have a resident and a town at this point.
 		Resident attacker = CivGlobal.getResident(player);
-		
-		ItemManager.setTypeId(hit.getCoord().getLocation().getBlock(), CivData.AIR);
-		
-		boolean allDestroyed = true;
+
+        Block block = hit.getCoord().getLocation().getBlock();
+        block.setTypeId(CivData.AIR);
+
+        boolean allDestroyed = true;
 		for (ControlPoint c : this.controlPoints.values()) {
 			if (c.isDestroyed() == false) {
 				allDestroyed = false;
@@ -489,10 +492,11 @@ public class TownHall extends Structure implements RespawnLocationHolder {
 	}
 
 	public void regenControlBlocks() {
-		for (BlockCoord coord : this.controlPoints.keySet()) { 
-			ItemManager.setTypeId(coord.getBlock(), CivData.OBSIDIAN);
-			
-			ControlPoint cp = this.controlPoints.get(coord);
+		for (BlockCoord coord : this.controlPoints.keySet()) {
+            Block block = coord.getBlock();
+            block.setTypeId(CivData.OBSIDIAN);
+
+            ControlPoint cp = this.controlPoints.get(coord);
 			cp.setHitpoints(cp.getMaxHitpoints());
 		}
 	}

@@ -1,6 +1,5 @@
 package com.avrgaming.civcraft.loreenhancements;
 
-import com.avrgaming.civcraft.items.components.DurabilityOnDeath;
 import gpl.AttributeUtil;
 
 import java.util.HashMap;
@@ -11,7 +10,6 @@ import org.bukkit.inventory.ItemStack;
 
 import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.object.BuildableDamageBlock;
-import com.avrgaming.civcraft.util.ItemManager;
 
 public abstract class LoreEnhancement {
 	public AttributeUtil add(AttributeUtil attrs) {
@@ -38,7 +36,7 @@ public abstract class LoreEnhancement {
 	}
 	
 	public static boolean isWeapon(ItemStack item) {
-		switch (ItemManager.getId(item)) {
+        switch (item.getTypeId()) {
 		case CivData.WOOD_SWORD:
 		case CivData.STONE_SWORD:
 		case CivData.IRON_SWORD:
@@ -57,7 +55,7 @@ public abstract class LoreEnhancement {
 	}
 	
 	public static boolean isArmor(ItemStack item) {
-		switch (ItemManager.getId(item)) {
+        switch (item.getTypeId()) {
 		case CivData.LEATHER_BOOTS:
 		case CivData.LEATHER_CHESTPLATE:
 		case CivData.LEATHER_HELMET:
@@ -85,7 +83,7 @@ public abstract class LoreEnhancement {
 	}
 	
 	public static boolean isTool(ItemStack item) {
-		switch (ItemManager.getId(item)) {
+        switch (item.getTypeId()) {
 		case CivData.WOOD_SHOVEL:
 		case CivData.WOOD_PICKAXE:
 		case CivData.WOOD_AXE:

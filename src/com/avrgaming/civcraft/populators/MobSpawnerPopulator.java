@@ -52,8 +52,8 @@ public class MobSpawnerPopulator extends BlockPopulator {
         //clear any stack goodies
         for (int y = coord.getY(); y < 256; y++) {
             top = world.getBlockAt(coord.getX(), y, coord.getZ());
-            if (ItemManager.getId(top) == CivData.BEDROCK) {
-                ItemManager.setTypeId(top, CivData.AIR);
+            if (top.getTypeId() == CivData.BEDROCK) {
+                top.setTypeId(CivData.AIR);
             }
         }
         

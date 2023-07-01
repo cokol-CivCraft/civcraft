@@ -81,7 +81,7 @@ public class LoreGuiItem {
 
 	public static ItemStack asGuiItem(ItemStack stack) {
 		AttributeUtil attrs = new AttributeUtil(stack);
-		attrs.setCivCraftProperty("GUI", ""+ItemManager.getId(stack));
+        attrs.setCivCraftProperty("GUI", ""+ stack.getTypeId());
 		return attrs.getStack();
 	}
 

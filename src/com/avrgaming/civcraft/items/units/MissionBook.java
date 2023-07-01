@@ -62,7 +62,6 @@ import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.util.BookUtil;
 import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.CivColor;
-import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.war.War;
 
 public class MissionBook extends UnitItemMaterial {
@@ -383,9 +382,9 @@ public class MissionBook extends UnitItemMaterial {
 		}
 		
 		TradeOutpost outpost = (TradeOutpost)tradeoutpost;
-		ItemStack stack = outpost.getItemFrameStore().getItem(); 
-		
-		if (stack == null || ItemManager.getId(stack) == CivData.AIR) {
+		ItemStack stack = outpost.getItemFrameStore().getItem();
+
+        if (stack == null || stack.getTypeId() == CivData.AIR) {
 			throw new CivException(CivSettings.localize.localizedString("missionBook_pirate_errorNoGoodie"));
 		}
 		

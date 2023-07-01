@@ -82,23 +82,6 @@ import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.ItemManager;
 import gpl.AttributeUtil;
 import gpl.HorseModifier;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.*;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.*;
-import org.bukkit.event.inventory.*;
-import org.bukkit.event.player.*;
-import org.bukkit.inventory.*;
-
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Random;
 
 @SuppressWarnings("deprecation")
 public class CustomItemManager implements Listener {
@@ -239,7 +222,7 @@ public class CustomItemManager implements Listener {
 	}	
 	
 	private static String isCustomDrop(ItemStack stack) {
-		if (stack == null || ItemManager.getId(stack) != 166) {
+        if (stack == null || stack.getTypeId() != 166) {
 			return null;
 		}
 		
@@ -610,7 +593,7 @@ public class CustomItemManager implements Listener {
 		/* Remove any vanilla item IDs that can't be crafted from vanilla drops. */
 		LinkedList<ItemStack> removed = new LinkedList<ItemStack>();
 		for (ItemStack stack : event.getDrops()) {
-			Integer key = ItemManager.getId(stack);
+            Integer key = stack.getTypeId();
 			
 			if (CivSettings.removedRecipies.containsKey(key)) {
 				if (!LoreMaterial.isCustom(stack)) {
@@ -625,7 +608,8 @@ public class CustomItemManager implements Listener {
 	@EventHandler(priority = EventPriority.LOW)
 	public void onItemPickup(PlayerPickupItemEvent event) {
 
-		if (ItemManager.getId(event.getItem().getItemStack()) == ItemManager.getId(Material.SLIME_BALL)) {
+        ItemStack stack4 = event.getItem().getItemStack();
+        if (stack4.getTypeId() == ItemManager.getId(Material.SLIME_BALL)) {
 			LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(event.getItem().getItemStack());
 			if (craftMat == null) {
 				/* Found a vanilla slime ball. */
@@ -637,70 +621,84 @@ public class CustomItemManager implements Listener {
 				event.getItem().remove();
 				event.setCancelled(true);
 			}
-		} else if (ItemManager.getId(event.getItem().getItemStack()) == ItemManager.getId(Material.ENDER_PEARL)) {
-			LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(event.getItem().getItemStack());
-			if (craftMat == null) {
-				/* Found a vanilla ender peral. */
-				LoreCraftableMaterial slime = LoreCraftableMaterial.getCraftMaterialFromId("mat_ender_pearl");
-				ItemStack newStack = LoreCraftableMaterial.spawn(slime);
-				newStack.setAmount(event.getItem().getItemStack().getAmount());
-				event.getPlayer().getInventory().addItem(newStack);
-				event.getPlayer().updateInventory();
-				event.getItem().remove();
-				event.setCancelled(true);
-			}
-		} else if (ItemManager.getId(event.getItem().getItemStack()) == ItemManager.getId(Material.TNT)) {
-			LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(event.getItem().getItemStack());
-			if (craftMat == null) {
-				/* Found a vanilla tnt. */
-				LoreCraftableMaterial slime = LoreCraftableMaterial.getCraftMaterialFromId("mat_vanilla_tnt");
-				ItemStack newStack = LoreCraftableMaterial.spawn(slime);
-				newStack.setAmount(event.getItem().getItemStack().getAmount());
-				event.getPlayer().getInventory().addItem(newStack);
-				event.getPlayer().updateInventory();
-				event.getItem().remove();
-				event.setCancelled(true);
-			}
-		} else if (ItemManager.getId(event.getItem().getItemStack()) == ItemManager.getId(Material.RAW_FISH)
-				&& ItemManager.getData(event.getItem().getItemStack()) == 
-					ItemManager.getData(ItemManager.getMaterialData(CivData.FISH_RAW, CivData.CLOWNFISH))) {
-			LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(event.getItem().getItemStack());
-			if (craftMat == null) {
-				/* Found a vanilla clownfish. */
-				LoreCraftableMaterial clown = LoreCraftableMaterial.getCraftMaterialFromId("mat_vanilla_clownfish");
-				ItemStack newStack = LoreCraftableMaterial.spawn(clown);
-				newStack.setAmount(event.getItem().getItemStack().getAmount());
-				event.getPlayer().getInventory().addItem(newStack);
-				event.getPlayer().updateInventory();
-				event.getItem().remove();
-				event.setCancelled(true);
-			}
-		} else if (ItemManager.getId(event.getItem().getItemStack()) == ItemManager.getId(Material.RAW_FISH)
-				&& ItemManager.getData(event.getItem().getItemStack()) == 
-					ItemManager.getData(ItemManager.getMaterialData(CivData.FISH_RAW, CivData.PUFFERFISH))) {
-			LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(event.getItem().getItemStack());
-			if (craftMat == null) {
-				/* Found a vanilla pufferfish. */
-				LoreCraftableMaterial clown = LoreCraftableMaterial.getCraftMaterialFromId("mat_vanilla_pufferfish");
-				ItemStack newStack = LoreCraftableMaterial.spawn(clown);
-				newStack.setAmount(event.getItem().getItemStack().getAmount());
-				event.getPlayer().getInventory().addItem(newStack);
-				event.getPlayer().updateInventory();
-				event.getItem().remove();
-				event.setCancelled(true);			
-			}
-		}
+		} else {
+            ItemStack stack3 = event.getItem().getItemStack();
+            if (stack3.getTypeId() == ItemManager.getId(Material.ENDER_PEARL)) {
+                LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(event.getItem().getItemStack());
+                if (craftMat == null) {
+                    /* Found a vanilla ender peral. */
+                    LoreCraftableMaterial slime = LoreCraftableMaterial.getCraftMaterialFromId("mat_ender_pearl");
+                    ItemStack newStack = LoreCraftableMaterial.spawn(slime);
+                    newStack.setAmount(event.getItem().getItemStack().getAmount());
+                    event.getPlayer().getInventory().addItem(newStack);
+                    event.getPlayer().updateInventory();
+                    event.getItem().remove();
+                    event.setCancelled(true);
+                }
+            } else {
+                ItemStack stack2 = event.getItem().getItemStack();
+                if (stack2.getTypeId() == ItemManager.getId(Material.TNT)) {
+                    LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(event.getItem().getItemStack());
+                    if (craftMat == null) {
+                        /* Found a vanilla tnt. */
+                        LoreCraftableMaterial slime = LoreCraftableMaterial.getCraftMaterialFromId("mat_vanilla_tnt");
+                        ItemStack newStack = LoreCraftableMaterial.spawn(slime);
+                        newStack.setAmount(event.getItem().getItemStack().getAmount());
+                        event.getPlayer().getInventory().addItem(newStack);
+                        event.getPlayer().updateInventory();
+                        event.getItem().remove();
+                        event.setCancelled(true);
+                    }
+                } else {
+                    ItemStack stack1 = event.getItem().getItemStack();
+                    if (stack1.getTypeId() == ItemManager.getId(Material.RAW_FISH)
+                            && ItemManager.getData(event.getItem().getItemStack()) ==
+                            ItemManager.getData(ItemManager.getMaterialData(CivData.FISH_RAW, CivData.CLOWNFISH))) {
+                        LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(event.getItem().getItemStack());
+                        if (craftMat == null) {
+                            /* Found a vanilla clownfish. */
+                            LoreCraftableMaterial clown = LoreCraftableMaterial.getCraftMaterialFromId("mat_vanilla_clownfish");
+                            ItemStack newStack = LoreCraftableMaterial.spawn(clown);
+                            newStack.setAmount(event.getItem().getItemStack().getAmount());
+                            event.getPlayer().getInventory().addItem(newStack);
+                            event.getPlayer().updateInventory();
+                            event.getItem().remove();
+                            event.setCancelled(true);
+                        }
+                    } else {
+                        ItemStack stack = event.getItem().getItemStack();
+                        if (stack.getTypeId() == ItemManager.getId(Material.RAW_FISH)
+                                && ItemManager.getData(event.getItem().getItemStack()) ==
+                                ItemManager.getData(ItemManager.getMaterialData(CivData.FISH_RAW, CivData.PUFFERFISH))) {
+                            LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(event.getItem().getItemStack());
+                            if (craftMat == null) {
+                                /* Found a vanilla pufferfish. */
+                                LoreCraftableMaterial clown = LoreCraftableMaterial.getCraftMaterialFromId("mat_vanilla_pufferfish");
+                                ItemStack newStack = LoreCraftableMaterial.spawn(clown);
+                                newStack.setAmount(event.getItem().getItemStack().getAmount());
+                                event.getPlayer().getInventory().addItem(newStack);
+                                event.getPlayer().updateInventory();
+                                event.getItem().remove();
+                                event.setCancelled(true);
+                            }
+                        }
+                    }
+                }
+            }
+        }
 	}
 	
 	/* Called when we click on an object, used for conversion to fix up reverse compat problems. */
 	public void convertLegacyItem(InventoryClickEvent event) {
-		boolean currentEmpty = (event.getCurrentItem() == null) || (ItemManager.getId(event.getCurrentItem()) == CivData.AIR);
+        ItemStack stack3 = event.getCurrentItem();
+        boolean currentEmpty = (event.getCurrentItem() == null) || (stack3.getTypeId() == CivData.AIR);
 
 		if (currentEmpty) {
 			return;
 		}
-		
-		if (ItemManager.getId(event.getCurrentItem()) == ItemManager.getId(Material.SLIME_BALL)) {
+
+        ItemStack stack2 = event.getCurrentItem();
+        if (stack2.getTypeId() == ItemManager.getId(Material.SLIME_BALL)) {
 			LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(event.getCurrentItem());
 			if (craftMat == null) {
 				/* Found a vanilla slime ball. */
@@ -710,8 +708,9 @@ public class CustomItemManager implements Listener {
 				event.setCurrentItem(newStack);
 			}
 		}
-		
-		if (ItemManager.getId(event.getCurrentItem()) == ItemManager.getId(Material.RAW_FISH)
+
+        ItemStack stack1 = event.getCurrentItem();
+        if (stack1.getTypeId() == ItemManager.getId(Material.RAW_FISH)
 				&& ItemManager.getData(event.getCurrentItem()) == 
 					ItemManager.getData(ItemManager.getMaterialData(CivData.FISH_RAW, CivData.CLOWNFISH))) {
 			LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(event.getCurrentItem());
@@ -723,8 +722,9 @@ public class CustomItemManager implements Listener {
 				event.setCurrentItem(newStack);
 			}
 		}
-		
-		if (ItemManager.getId(event.getCurrentItem()) == ItemManager.getId(Material.RAW_FISH)
+
+        ItemStack stack = event.getCurrentItem();
+        if (stack.getTypeId() == ItemManager.getId(Material.RAW_FISH)
 				&& ItemManager.getData(event.getCurrentItem()) == 
 					ItemManager.getData(ItemManager.getMaterialData(CivData.FISH_RAW, CivData.PUFFERFISH))) {
 			LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(event.getCurrentItem());
@@ -743,8 +743,10 @@ public class CustomItemManager implements Listener {
 	 */
 	@EventHandler(priority = EventPriority.HIGHEST) 
 	public void OnInventoryClick(InventoryClickEvent event) {
-		boolean currentEmpty = (event.getCurrentItem() == null) || (ItemManager.getId(event.getCurrentItem()) == CivData.AIR);
-		boolean cursorEmpty = (event.getCursor() == null) || (ItemManager.getId(event.getCursor()) == CivData.AIR);
+        ItemStack stack1 = event.getCurrentItem();
+        boolean currentEmpty = (event.getCurrentItem() == null) || (stack1.getTypeId() == CivData.AIR);
+        ItemStack stack = event.getCursor();
+        boolean cursorEmpty = (event.getCursor() == null) || (stack.getTypeId() == CivData.AIR);
 		
 		if (currentEmpty && cursorEmpty) {
 			return;
@@ -887,8 +889,8 @@ public class CustomItemManager implements Listener {
 		if(LoreGuiItem.isGUIItem(stack)) {
 			return false;
 		}
-		
-		ConfigRemovedRecipes removed = CivSettings.removedRecipies.get(ItemManager.getId(stack));
+
+        ConfigRemovedRecipes removed = CivSettings.removedRecipies.get(stack.getTypeId());
 		if (removed == null && !stack.getType().equals(Material.ENCHANTED_BOOK)) {
 			/* Check for badly enchanted tools */
 			if (stack.containsEnchantment(Enchantment.DAMAGE_ALL) ||

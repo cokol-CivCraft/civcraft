@@ -99,7 +99,6 @@ import com.avrgaming.civcraft.util.BukkitObjects;
 import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.ItemFrameStorage;
-import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.war.War;
 import com.avrgaming.civcraft.war.WarRegen;
 import com.avrgaming.global.perks.PerkManager;
@@ -1359,8 +1358,8 @@ public class CivGlobal {
 		if (item == null) {
 			return false;
 		}
-		
-		if (ItemManager.getId(item) == CivData.AIR) {
+
+        if (item.getTypeId() == CivData.AIR) {
 			return false;
 		}
 		
@@ -1447,7 +1446,8 @@ public class CivGlobal {
 		
 		try {
 			if (!frame.isEmpty()) {
-				droppedItems.put(ItemManager.getId(frame.getItem()), true);
+                ItemStack stack = frame.getItem();
+                droppedItems.put(stack.getTypeId(), true);
 			}
 		} catch (CivException e1) {
 			e1.printStackTrace();
@@ -1473,9 +1473,11 @@ public class CivGlobal {
 					boolean eFrameEmpty = (eFrame.getItem() == null || eFrame.getItem().getType().equals(Material.AIR));
 				
 					if (!eFrameEmpty) {
-						Boolean droppedAlready = droppedItems.get(ItemManager.getId(eFrame.getItem()));
+                        ItemStack stack1 = eFrame.getItem();
+                        Boolean droppedAlready = droppedItems.get(stack1.getTypeId());
 						if (droppedAlready == null || droppedAlready == false) {
-							droppedItems.put(ItemManager.getId(eFrame.getItem()), true);
+                            ItemStack stack = eFrame.getItem();
+                            droppedItems.put(stack.getTypeId(), true);
 							eFrame.getLocation().getWorld().dropItemNaturally(eFrame.getLocation(), eFrame.getItem());
 						}
 					}

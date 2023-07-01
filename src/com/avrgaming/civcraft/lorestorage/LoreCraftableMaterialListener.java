@@ -50,8 +50,8 @@ public class LoreCraftableMaterialListener implements Listener {
 					event.setCancelled(true);
 					return;
 				}
-				
-				ConfigTechItem restrictedTechItem = CivSettings.techItems.get(ItemManager.getId(resultStack));
+
+                ConfigTechItem restrictedTechItem = CivSettings.techItems.get(resultStack.getTypeId());
 				if (restrictedTechItem != null) {
 					ConfigTech tech = CivSettings.techs.get(restrictedTechItem.require_tech);
 					CivMessage.sendError(player, CivSettings.localize.localizedString("var_loreCraft_missingTech",tech.name));

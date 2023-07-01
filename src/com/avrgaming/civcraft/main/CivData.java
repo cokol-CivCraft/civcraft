@@ -21,7 +21,6 @@ package com.avrgaming.civcraft.main;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.util.CivColor;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
@@ -355,7 +354,7 @@ public class CivData {
 		boolean hasAir = false;
 		for (int i = 0; i < 4; i++) {
 			Block nextBlock = blockState.getBlock().getRelative(offset[i][0], 0, offset[i][1]);
-			if (ItemManager.getId(nextBlock) == CivData.AIR) {
+			if (nextBlock.getTypeId() == CivData.AIR) {
 				hasAir = true;
 			}
 		}

@@ -14,7 +14,6 @@ import com.avrgaming.civcraft.randomevents.RandomEventComponent;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.ItemManager;
 
 public class PickRandomBlock extends RandomEventComponent {
 
@@ -65,8 +64,8 @@ public class PickRandomBlock extends RandomEventComponent {
 								for (int y = startY; y < 50; y++) { /* no need to check higher than 128, unlikely to find a good block. */
 									Block block = coord.getChunk().getBlock(x, y, z);
 									//CivLog.debug("checking a block:"+block.toString());
-									
-									if (ItemManager.getId(block) == CivData.STONE || ItemManager.getId(block) == CivData.GRAVEL) {
+
+                                    if (block.getTypeId() == CivData.STONE || block.getTypeId() == CivData.GRAVEL) {
 										bcoord = new BlockCoord(block);
 										break;
 									}

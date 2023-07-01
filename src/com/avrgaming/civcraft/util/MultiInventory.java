@@ -57,7 +57,7 @@ public class MultiInventory {
 				return false;
 			}
 		} else {
-			if (ItemManager.getId(stack) != type) {
+            if (stack.getTypeId() != type) {
 				return false;
 			}
 			
@@ -277,7 +277,7 @@ public class MultiInventory {
 			return removeItem(loreMat.getId(), 0, (short)0, item.getAmount(), direct);
 		} else {
 			/* Vanilla item. no custom id. */
-			return removeItem(null, ItemManager.getId(item), ItemManager.getData(item), item.getAmount(), direct);
+            return removeItem(null, item.getTypeId(), ItemManager.getData(item), item.getAmount(), direct);
 		}
 	}
 	
@@ -309,7 +309,7 @@ public class MultiInventory {
 					}
 				} else {
 					/* Vanilla item. */
-					if (ItemManager.getId(item) != type) {
+                    if (item.getTypeId() != type) {
 						continue;
 					}
 					

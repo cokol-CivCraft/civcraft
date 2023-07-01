@@ -18,7 +18,6 @@ import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.util.CivColor;
-import com.avrgaming.civcraft.util.ItemManager;
 
 public class DisableXPListener implements Listener {
 
@@ -45,8 +44,9 @@ public class DisableXPListener implements Listener {
 		if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 			return;
 		}
-		
-		if (event.getClickedBlock() == null || ItemManager.getId(event.getClickedBlock()) == CivData.AIR) {
+
+        Block block1 = event.getClickedBlock();
+        if (event.getClickedBlock() == null || block1.getTypeId() == CivData.AIR) {
 			return;
 		}
 		

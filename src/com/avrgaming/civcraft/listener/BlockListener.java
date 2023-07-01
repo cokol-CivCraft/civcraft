@@ -31,6 +31,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftLivingEntity;
@@ -576,8 +577,8 @@ public class BlockListener implements Listener {
 		int mirrorID4 = (id == CivData.WATER_RUNNING || id == CivData.WATER ? CivData.LAVA : CivData.WATER_RUNNING);
 		for(BlockFace face : faces) {
 			Block r = b.getRelative(face, 1);
-			if(ItemManager.getId(r) == mirrorID1 || ItemManager.getId(r) == mirrorID2 ||
-					ItemManager.getId(r) == mirrorID3 || ItemManager.getId(r) == mirrorID4) {
+            if(r.getTypeId() == mirrorID1 || r.getTypeId() == mirrorID2 ||
+					r.getTypeId() == mirrorID3 || r.getTypeId() == mirrorID4) {
 				return new BlockCoord(r);
 			}
 		}
@@ -611,12 +612,12 @@ public class BlockListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void OnBlockFromToEvent(BlockFromToEvent event) {
 		/* Disable cobblestone generators. */
-		int id = ItemManager.getId(event.getBlock());
+        int id = event.getBlock().getTypeId();
 		if(id >= CivData.WATER && id <= CivData.LAVA) {
 			Block b = event.getToBlock();
 			bcoord.setFromLocation(b.getLocation());
 
-			int toid = ItemManager.getId(b);
+            int toid = b.getTypeId();
 			if(toid == CivData.COBBLESTONE || toid == CivData.OBSIDIAN) {
 				BlockCoord other = generatesCobble(id, b);
 				if(other != null && other.getBlock().getType() != Material.AIR) {
@@ -630,7 +631,8 @@ public class BlockListener implements Listener {
 	public void OnBlockFormEvent (BlockFormEvent event) {
 		/* Disable cobblestone generators. */
 		if (ItemManager.getId(event.getNewState()) == CivData.COBBLESTONE || ItemManager.getId(event.getNewState()) == CivData.OBSIDIAN) {
-			ItemManager.setTypeId(event.getNewState(), CivData.NETHERRACK);
+			BlockState block = event.getNewState();
+			block.setTypeId(CivData.NETHERRACK);
 			return;
 		}
 
@@ -745,7 +747,8 @@ public class BlockListener implements Listener {
 				}
 
 				/* Update the layer. */
-				layer.current += Buildable.getReinforcementValue(ItemManager.getId(event.getBlockPlaced()));
+                Block block = event.getBlockPlaced();
+                layer.current += Buildable.getReinforcementValue(block.getTypeId());
 				if (layer.current < 0) {
 					layer.current = 0;
 				}
@@ -882,7 +885,7 @@ public class BlockListener implements Listener {
 					continue;
 				}
 
-				double current = layer.current - Buildable.getReinforcementValue(ItemManager.getId(event.getBlock()));
+                double current = layer.current - Buildable.getReinforcementValue(event.getBlock().getTypeId());
 				if (current < 0) {
 					current = 0;
 				}
@@ -935,7 +938,8 @@ public class BlockListener implements Listener {
 		ItemStack stack = event.getItem();
 
 		/* Disable notch apples */
-		if (ItemManager.getId(event.getItem()) == ItemManager.getId(Material.GOLDEN_APPLE)) {
+		ItemStack stack1 = event.getItem();
+		if (stack1.getTypeId() == ItemManager.getId(Material.GOLDEN_APPLE)) {
 			if (event.getItem().getDurability() == (short)0x1) {
 				CivMessage.sendError(event.getPlayer(), CivSettings.localize.localizedString("itemUse_errorGoldenApple"));
 				event.setCancelled(true);
@@ -986,7 +990,8 @@ public class BlockListener implements Listener {
 		if (event.isCancelled()) {
 			// Fix for bucket bug.
 			if (event.getAction() == Action.RIGHT_CLICK_AIR) {
-				Integer item = ItemManager.getId(event.getPlayer().getInventory().getItemInMainHand());
+				ItemStack stack = event.getPlayer().getInventory().getItemInMainHand();
+				Integer item = stack.getTypeId();
 				// block cheats for placing water/lava/fire/lighter use.
 				if (item == 326 || item == 327 || item == 259 || (item >= 8 && item <= 11) || item == 51) { 
 					event.setCancelled(true);
@@ -1008,9 +1013,9 @@ public class BlockListener implements Listener {
 
 			if (event.getItem().getType().equals(Material.INK_SACK) && event.getItem().getDurability() == 15) {
 				Block clickedBlock = event.getClickedBlock();
-				if (ItemManager.getId(clickedBlock) == CivData.WHEAT || 
-					ItemManager.getId(clickedBlock) == CivData.CARROTS || 
-					ItemManager.getId(clickedBlock) == CivData.POTATOES) {
+                if (clickedBlock.getTypeId() == CivData.WHEAT ||
+					clickedBlock.getTypeId() == CivData.CARROTS ||
+					clickedBlock.getTypeId() == CivData.POTATOES) {
 					event.setCancelled(true);
 					CivMessage.sendError(event.getPlayer(), CivSettings.localize.localizedString("itemUse_errorBoneMeal"));
 					return;
@@ -1603,7 +1608,7 @@ public class BlockListener implements Listener {
 		final int PISTON_EXTEND_LENGTH = 13;
 		Block currentBlock = event.getBlock().getRelative(event.getDirection());
 		for (int i = 0; i < PISTON_EXTEND_LENGTH; i++) {
-			if(ItemManager.getId(currentBlock) == CivData.AIR) {
+            if(currentBlock.getTypeId() == CivData.AIR) {
 				if (!allowPistonAction(currentBlock.getLocation())) {
 					event.setCancelled(true);
 					return;
@@ -1896,13 +1901,13 @@ public class BlockListener implements Listener {
 
 		CampBlock cb = CivGlobal.getCampBlock(bcoord);
 		if (cb != null) {
-			if (ItemManager.getId(event.getBlock()) == CivData.WOOD_DOOR ||
-					ItemManager.getId(event.getBlock()) == CivData.IRON_DOOR||
-					ItemManager.getId(event.getBlock()) == CivData.SPRUCE_DOOR||
-					ItemManager.getId(event.getBlock()) == CivData.BIRCH_DOOR||
-					ItemManager.getId(event.getBlock()) == CivData.JUNGLE_DOOR||
-					ItemManager.getId(event.getBlock()) == CivData.ACACIA_DOOR||
-					ItemManager.getId(event.getBlock()) == CivData.DARK_OAK_DOOR) {
+            if (event.getBlock().getTypeId() == CivData.WOOD_DOOR ||
+					event.getBlock().getTypeId() == CivData.IRON_DOOR||
+					event.getBlock().getTypeId() == CivData.SPRUCE_DOOR||
+					event.getBlock().getTypeId() == CivData.BIRCH_DOOR||
+					event.getBlock().getTypeId() == CivData.JUNGLE_DOOR||
+					event.getBlock().getTypeId() == CivData.ACACIA_DOOR||
+					event.getBlock().getTypeId() == CivData.DARK_OAK_DOOR) {
 				event.setNewCurrent(0);
 				return;
 			}

@@ -137,8 +137,8 @@ public class TrommelAsyncTask extends CivAsyncTask {
 				if (stack == null) {
 					continue;
 				}
-				
-				if (ItemManager.getId(stack) == CivData.COBBLESTONE) {
+
+                if (stack.getTypeId() == CivData.COBBLESTONE) {
 					try {
 						this.updateInventory(Action.REMOVE, source_inv, ItemManager.createItemStack(CivData.COBBLESTONE, 1));
 					} catch (InterruptedException e) {
@@ -184,7 +184,7 @@ public class TrommelAsyncTask extends CivAsyncTask {
 					}
 					break;
 				}
-				if (ItemManager.getId(stack) == CivData.STONE) {
+                if (stack.getTypeId() == CivData.STONE) {
 
 					if (this.trommel.getLevel() >= 2 && ItemManager.getData(stack) == 
 							ItemManager.getData(ItemManager.getMaterialData(CivData.STONE, CivData.GRANITE))) {

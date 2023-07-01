@@ -227,12 +227,12 @@ public class ConsumeLevelComponent extends Component {
 			if (stack == null) {
 				continue;
 			}
-			
-			boolean isRequire = thisLevelConsumptions.containsKey(ItemManager.getId(stack));
+
+            boolean isRequire = thisLevelConsumptions.containsKey(stack.getTypeId());
 			boolean isEquiv = false;
 			
 			for (ConsumeLevelEquivExchange ee : this.exchanges.values()) {
-				if (ee.altType == ItemManager.getId(stack)) {
+                if (ee.altType == stack.getTypeId()) {
 					isEquiv = true;
 					break;
 				}
@@ -242,14 +242,14 @@ public class ConsumeLevelComponent extends Component {
 			if (!isRequire && !isEquiv) {
 				continue;
 			}
-			
-			Integer count = foundCounts.get(ItemManager.getId(stack));
+
+            Integer count = foundCounts.get(stack.getTypeId());
 			if (count == null) {
 				count = stack.getAmount();
 			} else {
 				count += stack.getAmount();
 			}
-			foundCounts.put(ItemManager.getId(stack), count);
+            foundCounts.put(stack.getTypeId(), count);
 		}
 			
 		boolean found = true;

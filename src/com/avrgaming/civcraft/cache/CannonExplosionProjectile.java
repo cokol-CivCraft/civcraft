@@ -25,6 +25,7 @@ import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -178,8 +179,8 @@ public class CannonExplosionProjectile {
 			for (int y = -3; y < 3; y++) {
 				for (int z = -radius; z < radius; z++) {
 					Block block = loc.getWorld().getBlockAt(loc.getBlockX()+x, loc.getBlockY()+y, loc.getBlockZ()+z);
-					if (ItemManager.getId(block) == CivData.AIR) {
-						ItemManager.setTypeId(block, CivData.FIRE);
+                    if (block.getTypeId() == CivData.AIR) {
+						block.setType(Material.FIRE);
 						ItemManager.setData(block, 0, true);
 					}
 				}

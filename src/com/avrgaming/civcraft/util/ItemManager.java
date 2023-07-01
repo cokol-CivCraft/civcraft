@@ -54,27 +54,7 @@ public class ItemManager {
 	public static int getId(Enchantment e) {
 		return e.getId();
 	}
-	
-	@SuppressWarnings("deprecation")
-	public static int getId(ItemStack stack) {
-		return stack.getTypeId();
-	}
-	
-	@SuppressWarnings("deprecation")
-	public static int getId(Block block) {
-		return block.getTypeId();
-	}
-	
-	@SuppressWarnings("deprecation")
-	public static void setTypeId(Block block, int typeId) {
-		block.setTypeId(typeId);
-	}
-	
-	@SuppressWarnings("deprecation")
-	public static void setTypeId(BlockState block, int typeId) {
-		block.setTypeId(typeId);
-	}
-	
+
 	@SuppressWarnings("deprecation")
 	public static byte getData(Block block) {
 		return block.getData();

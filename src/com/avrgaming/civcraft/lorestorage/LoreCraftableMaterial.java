@@ -101,7 +101,7 @@ public class LoreCraftableMaterial extends LoreMaterial {
 				key += loreMat.getId()+",";
 			} else {
 	//			key += "mc_"+stack.getTypeId()+"_"+stack.getDurability()+",";
-				key += "mc_"+ItemManager.getId(stack)+",";
+                key += "mc_"+ stack.getTypeId() +",";
 
 			}
 		}
@@ -116,8 +116,8 @@ public class LoreCraftableMaterial extends LoreMaterial {
 		/* Gather the counts for all the items in the matrix. */
 		for (int i = 0; i < matrix.length; i++) {
 			ItemStack stack = matrix[i];
-			
-			if (stack == null || ItemManager.getId(stack) == CivData.AIR) {
+
+            if (stack == null || stack.getTypeId() == CivData.AIR) {
 				continue;
 			}
 			
@@ -126,7 +126,7 @@ public class LoreCraftableMaterial extends LoreMaterial {
 				item = LoreMaterial.getMaterial(stack).getId();
 			} else {
 			//	item = "mc_"+stack.getTypeId()+"_"+stack.getDurability();
-				item = "mc_"+ItemManager.getId(stack)+",";
+                item = "mc_"+ stack.getTypeId() +",";
 			}
 			
 			Integer count = counts.get(item);

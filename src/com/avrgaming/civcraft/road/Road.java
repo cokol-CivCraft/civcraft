@@ -13,7 +13,6 @@ import org.bukkit.Color;
 import org.bukkit.Effect;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -145,8 +144,8 @@ public class Road extends Structure {
 	public void onDemolish() throws CivException {
 		for (RoadBlock rb : roadBlocks.values()) {
 			Block block = rb.getCoord().getBlock();
-			ItemManager.setTypeId(block, rb.getOldType());
-			ItemManager.setData(block, rb.getOldData());		
+            block.setTypeId(rb.getOldType());
+            ItemManager.setData(block, rb.getOldData());
 		}
 	}
 	
@@ -305,8 +304,9 @@ public class Road extends Structure {
 				BlockCoord bcoord2 = new BlockCoord(bcoord);
 				bcoord2.setY(sb.y + i);
 				if (!simpleBlocks.containsKey(SimpleBlock.getKeyFromBlockCoord(bcoord2))) {
-					ItemManager.setTypeId(bcoord2.getBlock(), CivData.AIR);
-				}
+                    Block block = bcoord2.getBlock();
+                    block.setTypeId(CivData.AIR);
+                }
 			}
 			
 		}
@@ -354,8 +354,9 @@ public class Road extends Structure {
 			BlockCoord bcoord = new BlockCoord(startCoord);
 			ChunkCoord coord = new ChunkCoord(bcoord);
 			bcoord.setY(startCoord.getY() + i);
-			
-			if (ItemManager.getId(bcoord.getBlock()) == CivData.CHEST) {
+
+			Block block = bcoord.getBlock();
+			if (block.getTypeId() == CivData.CHEST) {
 				throw new CivException(CivSettings.localize.localizedString("var_road_validate_wouldDestroyChest",bcoord.toString()));
 			}
 			
@@ -694,42 +695,50 @@ public class Road extends Structure {
 			if (CivGlobal.getStructureSign(coord) != null) {
 				continue;
 			}
-			
-			if (ItemManager.getId(coord.getBlock()) == CivData.AIR) {
+
+			Block block5 = coord.getBlock();
+			if (block5.getTypeId() == CivData.AIR) {
 				continue;
 			}
-			
-			if (ItemManager.getId(coord.getBlock()) == CivData.CHEST) {
+
+			Block block4 = coord.getBlock();
+			if (block4.getTypeId() == CivData.CHEST) {
 				continue;
 			}
-			
-			if (ItemManager.getId(coord.getBlock()) == CivData.SIGN) {
+
+			Block block3 = coord.getBlock();
+			if (block3.getTypeId() == CivData.SIGN) {
 				continue;
 			}
-			
-			if (ItemManager.getId(coord.getBlock()) == CivData.WALL_SIGN) {
+
+			Block block2 = coord.getBlock();
+			if (block2.getTypeId() == CivData.WALL_SIGN) {
 				continue;
 			}
-			
-			if (CivSettings.alwaysCrumble.contains(ItemManager.getId(coord.getBlock()))) {
-				ItemManager.setTypeId(coord.getBlock(), CivData.GRAVEL);
-				continue;
+
+			Block block1 = coord.getBlock();
+			if (CivSettings.alwaysCrumble.contains(block1.getTypeId())) {
+                Block block = coord.getBlock();
+                block.setTypeId(CivData.GRAVEL);
+                continue;
 			}
 						
 			Random rand = new Random();
 			
 			// Each block has a 10% chance to turn into gravel
 			if (rand.nextInt(100) <= 10) {
-				ItemManager.setTypeId(coord.getBlock(), CivData.GRAVEL);
-				ItemManager.setData(coord.getBlock(), 0, true);
+                Block block = coord.getBlock();
+                block.setTypeId(CivData.GRAVEL);
+                ItemManager.setData(coord.getBlock(), 0, true);
 
 				continue;
 			}
 			
 			// Each block has a 50% chance of starting a fire
 			if (rand.nextInt(100) <= 50) {
-				ItemManager.setTypeId(coord.getBlock(), CivData.FIRE);
-				ItemManager.setData(coord.getBlock(), 0, true);
+                Block block = coord.getBlock();
+                block.setTypeId(CivData.FIRE);
+                ItemManager.setData(coord.getBlock(), 0, true);
 				continue;
 			}
 			

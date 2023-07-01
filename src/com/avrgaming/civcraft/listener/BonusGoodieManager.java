@@ -315,7 +315,8 @@ public class BonusGoodieManager implements Listener {
 			/* No goodie item, make sure they dont go into protected frames. */
 			if (frameStore != null) {
 				/* Make sure we're trying to place an item into the frame, test if the frame is empty. */
-				if (frame.getItem() == null || ItemManager.getId(frame.getItem()) == CivData.AIR) {
+                ItemStack stack = frame.getItem();
+                if (frame.getItem() == null || stack.getTypeId() == CivData.AIR) {
 					CivMessage.sendError(event.getPlayer(), CivSettings.localize.localizedString("bonusGoodie_errorNotGoodie"));
 					event.setCancelled(true);
 					return;
@@ -442,7 +443,7 @@ public class BonusGoodieManager implements Listener {
 		ItemFrame frame = clickedFrame.getItemFrame();
 		ItemStack stack = frame.getItem();
 		//if goodie in frame, break it out
-		if (stack != null && ItemManager.getId(stack) != CivData.AIR) {
+        if (stack != null && stack.getTypeId() != CivData.AIR) {
 			// FYI sometimes the item pops out from the player entity interact event...
 			BonusGoodie goodieInFrame = CivGlobal.getBonusGoodie(frame.getItem());
 			if (goodieInFrame != null) {

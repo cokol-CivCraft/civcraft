@@ -28,6 +28,7 @@ import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.MultiInventory;
 import org.bukkit.Sound;
+import org.bukkit.block.Block;
 
 public class WindmillPostProcessSyncTask implements Runnable {
 
@@ -66,8 +67,9 @@ public class WindmillPostProcessSyncTask implements Runnable {
 						e.printStackTrace();
 					}
 					breadCount--;
-					ItemManager.setTypeId(coord.getBlock(), CivData.WHEAT);
-					ItemManager.setData(coord.getBlock(), 0, true);
+                    Block block = coord.getBlock();
+                    block.setTypeId(CivData.WHEAT);
+                    ItemManager.setData(coord.getBlock(), 0, true);
 					coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
 					continue;
 				}
@@ -80,8 +82,9 @@ public class WindmillPostProcessSyncTask implements Runnable {
 						e.printStackTrace();
 					}
 					carrotCount--;
-					ItemManager.setTypeId(coord.getBlock(), CivData.CARROTS);
-					ItemManager.setData(coord.getBlock(), 0, true);
+                    Block block = coord.getBlock();
+                    block.setTypeId(CivData.CARROTS);
+                    ItemManager.setData(coord.getBlock(), 0, true);
 					coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
 
 					continue;
@@ -96,8 +99,9 @@ public class WindmillPostProcessSyncTask implements Runnable {
 						e.printStackTrace();
 					}
 					potatoCount--;
-					ItemManager.setTypeId(coord.getBlock(), CivData.POTATOES);
-					ItemManager.setData(coord.getBlock(), 0, true);
+                    Block block = coord.getBlock();
+                    block.setTypeId(CivData.POTATOES);
+                    ItemManager.setData(coord.getBlock(), 0, true);
 					coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
 
 					continue;
@@ -113,8 +117,9 @@ public class WindmillPostProcessSyncTask implements Runnable {
 					e.printStackTrace();
 				}
 				breadCount--;
-				ItemManager.setTypeId(coord.getBlock(), CivData.WHEAT);
-				ItemManager.setData(coord.getBlock(), 0, true);
+                Block block = coord.getBlock();
+                block.setTypeId(CivData.WHEAT);
+                ItemManager.setData(coord.getBlock(), 0, true);
 				coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
 
 				continue;
@@ -127,8 +132,9 @@ public class WindmillPostProcessSyncTask implements Runnable {
 					e.printStackTrace();
 				}
 				carrotCount--;
-				ItemManager.setTypeId(coord.getBlock(), CivData.CARROTS);
-				ItemManager.setData(coord.getBlock(), 0, true);
+                Block block = coord.getBlock();
+                block.setTypeId(CivData.CARROTS);
+                ItemManager.setData(coord.getBlock(), 0, true);
 				coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
 
 				continue;
@@ -141,8 +147,9 @@ public class WindmillPostProcessSyncTask implements Runnable {
 					e.printStackTrace();
 				}
 				potatoCount--;
-				ItemManager.setTypeId(coord.getBlock(), CivData.POTATOES);
-				ItemManager.setData(coord.getBlock(), 0, true);
+                Block block = coord.getBlock();
+                block.setTypeId(CivData.POTATOES);
+                ItemManager.setData(coord.getBlock(), 0, true);
 				coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
 				continue;
 			}

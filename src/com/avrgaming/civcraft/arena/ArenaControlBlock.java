@@ -1,11 +1,7 @@
 package com.avrgaming.civcraft.arena;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
+import org.bukkit.*;
 import org.bukkit.FireworkEffect.Type;
-import org.bukkit.Sound;
-import org.bukkit.World;
 
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.main.CivData;
@@ -59,7 +55,7 @@ public class ArenaControlBlock {
 	
 	public void explode() {
 		World world = Bukkit.getWorld(coord.getWorldname());
-		ItemManager.setTypeId(coord.getLocation().getBlock(), CivData.AIR);
+		coord.getLocation().getBlock().setType(Material.AIR);
 		world.playSound(coord.getLocation(), Sound.BLOCK_ANVIL_BREAK, 1.0f, -1.0f);
 		world.playSound(coord.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f);
 		
