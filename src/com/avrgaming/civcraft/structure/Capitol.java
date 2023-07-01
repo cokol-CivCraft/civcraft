@@ -177,7 +177,7 @@ public class Capitol extends TownHall {
 				arrowTowers.put(towerID, arrowTower);
 			}
 		} else if (commandBlock.command.equals("/next")) {
-			ItemManager.setTypeId(absCoord.getBlock(), commandBlock.getType());
+			absCoord.getBlock().setType(commandBlock.getMaterial());
 			ItemManager.setData(absCoord.getBlock(), commandBlock.getData());
 
 			structSign = new StructureSign(absCoord, this);
@@ -189,7 +189,7 @@ public class Capitol extends TownHall {
 			CivGlobal.addStructureSign(structSign);
 			
 		} else if (commandBlock.command.equals("/prev")) {
-			ItemManager.setTypeId(absCoord.getBlock(), commandBlock.getType());
+			absCoord.getBlock().setType(commandBlock.getMaterial());
 			ItemManager.setData(absCoord.getBlock(), commandBlock.getData());
 			structSign = new StructureSign(absCoord, this);
 			structSign.setText("\n"+ChatColor.BOLD+ChatColor.UNDERLINE+CivSettings.localize.localizedString("capitol_sign_previousLocation"));
@@ -200,7 +200,7 @@ public class Capitol extends TownHall {
 			CivGlobal.addStructureSign(structSign);
 			
 		} else if (commandBlock.command.equals("/respawndata")) {
-			ItemManager.setTypeId(absCoord.getBlock(), commandBlock.getType());
+			absCoord.getBlock().setType(commandBlock.getMaterial());
 			ItemManager.setData(absCoord.getBlock(), commandBlock.getData());
 			structSign = new StructureSign(absCoord, this);
 			structSign.setText(CivSettings.localize.localizedString("capitol_sign_Capitol"));

@@ -170,7 +170,7 @@ public class TemplateStream {
 			bcoord.setX(bcoord.getX() + block.x);
 			bcoord.setY(bcoord.getY() + block.y);
 			bcoord.setZ(bcoord.getZ() + block.z);
-			ItemManager.setTypeIdAndData(bcoord.getBlock(), block.getType(), block.getData(), false);
+			ItemManager.setTypeIdAndData(bcoord.getBlock(), block.getMaterial().getId(), block.getData(), false);
 		}
 		
 	}

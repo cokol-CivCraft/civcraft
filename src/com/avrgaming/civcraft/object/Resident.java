@@ -1075,7 +1075,7 @@ public class Resident extends SQLObject {
 			PlayerBlockChangeUtil util = new PlayerBlockChangeUtil();
 			for (BlockCoord coord : this.previewUndo.keySet()) {
 				SimpleBlock sb = this.previewUndo.get(coord);
-				util.addUpdateBlock(player.getName(), coord, sb.getType(), sb.getData());
+				util.addUpdateBlock(player.getName(), coord, sb.getMaterial().getId(), sb.getData());
  			}
 			
 			util.sendUpdate(player.getName());

@@ -27,6 +27,7 @@ import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 
@@ -287,21 +288,21 @@ public class BuildAsyncTask extends CivAsyncTask {
 		// of the build task async.
 		synchronized (this.aborted) {
 			if (!this.aborted) {
-				if (sb.getType() == CivData.WOOD_DOOR || 
-					sb.getType() == CivData.IRON_DOOR || 
-					sb.getType() == CivData.SPRUCE_DOOR || 
-					sb.getType() == CivData.BIRCH_DOOR || 
-					sb.getType() == CivData.JUNGLE_DOOR || 
-					sb.getType() == CivData.ACACIA_DOOR || 
-					sb.getType() == CivData.DARK_OAK_DOOR ||
-					Template.isAttachable(sb.getType())) {
+				if (sb.getMaterial() == Material.WOODEN_DOOR ||
+						sb.getMaterial() == Material.IRON_DOOR ||
+						sb.getMaterial() == Material.SPRUCE_DOOR ||
+						sb.getMaterial() == Material.BIRCH_DOOR ||
+						sb.getMaterial() == Material.JUNGLE_DOOR ||
+						sb.getMaterial() == Material.ACACIA_DOOR ||
+						sb.getMaterial() == Material.DARK_OAK_DOOR ||
+					Template.isAttachable(sb.getMaterial().getId())) {
 					// dont build doors, save it for post sync build.
 				}
 				else {
 					sbs.add(sb);
 				}
 			
-				if (buildable.isDestroyable() == false && sb.getType() != CivData.AIR) {
+				if (buildable.isDestroyable() == false && sb.getMaterial().getId() != CivData.AIR) {
 					if (sb.specialType != Type.COMMAND) {
 						BlockCoord coord = new BlockCoord(sb.worldname, sb.x, sb.y, sb.z);
 						if (sb.y == 0) {

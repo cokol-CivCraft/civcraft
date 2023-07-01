@@ -125,7 +125,7 @@ public class PlayerBlockChangeUtil {
 			
 			for (SimpleBlock sb : blocks) {
 			//	count++;
-				ItemManager.sendBlockChange(player, sb.getLocation(), sb.getType(), sb.getData());
+				ItemManager.sendBlockChange(player, sb.getLocation(), sb.getMaterial().getId(), sb.getData());
 			}
 		}		
 	}

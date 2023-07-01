@@ -790,8 +790,8 @@ public class Camp extends Buildable {
 					}
 
 					try {
-						if (ItemManager.getId(nextBlock) != tpl.blocks[x][y][z].getType()) {
-								ItemManager.setTypeId(nextBlock, tpl.blocks[x][y][z].getType());
+						if (nextBlock.getType() != tpl.blocks[x][y][z].getMaterial()) {
+								nextBlock.setType(tpl.blocks[x][y][z].getMaterial());
 								ItemManager.setData(nextBlock, tpl.blocks[x][y][z].getData());
 								
 						}
@@ -834,7 +834,7 @@ public class Camp extends Buildable {
 					
 					BlockCoord coord = new BlockCoord(this.getCorner().getWorldname(), (relx), (rely), (relz));
 					
-					if (tpl.blocks[x][y][z].getType() == CivData.AIR) {
+					if (tpl.blocks[x][y][z].getMaterial() == Material.AIR) {
 						continue;
 					}
 					

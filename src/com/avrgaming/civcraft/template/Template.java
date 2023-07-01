@@ -754,7 +754,7 @@ public class Template {
                     Block b = cornerBlock.getRelative(x, y, z);
                     //b.setTypeIdAndData(tpl.blocks[x][y][z].getType(), (byte)tpl.blocks[x][y][z].getData(), false);
                     try {
-                        util.addUpdateBlock("", new BlockCoord(b), tpl.blocks[x][y][z].getType(), tpl.blocks[x][y][z].getData());
+                        util.addUpdateBlock("", new BlockCoord(b), tpl.blocks[x][y][z].getMaterial().getId(), tpl.blocks[x][y][z].getData());
 
 //							nms.setBlockFast(b.getWorld(), b.getX(), b.getY(), b.getZ(), tpl.blocks[x][y][z].getType(), 
 //								(byte)tpl.blocks[x][y][z].getData());

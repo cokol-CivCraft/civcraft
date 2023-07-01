@@ -85,8 +85,8 @@ public class RecoverStructureSyncTask implements Runnable {
 					}
 					
 					try {
-						if (ItemManager.getId(nextBlock) != tpl.blocks[x][y][z].getType()) {
-							ItemManager.setTypeId(nextBlock, tpl.blocks[x][y][z].getType());
+						if (nextBlock.getType() != tpl.blocks[x][y][z].getMaterial()) {
+							nextBlock.setType( tpl.blocks[x][y][z].getMaterial());
 							ItemManager.setData(nextBlock, tpl.blocks[x][y][z].getData());			
 						}
 					} catch (Exception e) {

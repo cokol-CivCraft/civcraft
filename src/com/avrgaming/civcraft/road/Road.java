@@ -106,14 +106,13 @@ public class Road extends Structure {
 		
 		for (BlockCoord bcoord : oldBlockData.keySet()) {
 			SimpleBlock sb = oldBlockData.get(bcoord);
-			
-			Material material = ItemManager.getMaterial(sb.getType());
-			if (CivSettings.restrictedUndoBlocks.contains(material)) {
+
+			if (CivSettings.restrictedUndoBlocks.contains(sb.getMaterial())) {
 				continue;
 			}
 			
 			Block block = bcoord.getBlock();
-			ItemManager.setTypeId(block, sb.getType());
+			block.setType(sb.getMaterial());
 			ItemManager.setData(block, sb.getData());
 		}
 		
@@ -298,7 +297,7 @@ public class Road extends Structure {
 			addRoadBlock(bcoord);
 
 			/* Set new block data. */
-			ItemManager.setTypeId(bcoord.getBlock(), sb.getType());
+			bcoord.getBlock().setType(sb.getMaterial());
 			ItemManager.setData(bcoord.getBlock(), sb.getData());
 			
 			/* Set air blocks above road. */
@@ -566,7 +565,7 @@ public class Road extends Structure {
 			bcoord.setY(rb.getCoord().getY() + i);
 			
 			SimpleBlock sb = this.oldBlockData.get(bcoord);
-			RoadBlock rb2 = new RoadBlock(sb.getType(), sb.getData());
+			RoadBlock rb2 = new RoadBlock(sb.getMaterial().getId(), sb.getData());
 			rb2.setCoord(bcoord);
 			rb2.setRoad(rb.getRoad());
 			rb2.setAboveRoadBlock(true);
@@ -577,7 +576,7 @@ public class Road extends Structure {
 	
 	public void addRoadBlock(BlockCoord coord) {
 		SimpleBlock sb = this.oldBlockData.get(coord);
-		RoadBlock rb = new RoadBlock(sb.getType(), sb.getData());
+		RoadBlock rb = new RoadBlock(sb.getMaterial().getId(), sb.getData());
 		rb.setCoord(coord);
 		rb.setRoad(this);
 		

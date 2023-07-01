@@ -331,7 +331,7 @@ public class Barracks extends Structure {
 
 		switch (sb.command) {
 		case "/prev":
-			ItemManager.setTypeId(absCoord.getBlock(), sb.getType());
+			absCoord.getBlock().setType(sb.getMaterial());
 			ItemManager.setData(absCoord.getBlock(), sb.getData());
 			structSign = new StructureSign(absCoord, this);
 			structSign.setText("\n"+ChatColor.BOLD+ChatColor.UNDERLINE+CivSettings.localize.localizedString("barracks_sign_previousUnit"));
@@ -343,7 +343,7 @@ public class Barracks extends Structure {
 			
 			break;
 		case "/unitname":
-			ItemManager.setTypeId(absCoord.getBlock(), sb.getType());
+			absCoord.getBlock().setType(sb.getMaterial());
 			ItemManager.setData(absCoord.getBlock(), sb.getData());
 
 			structSign = new StructureSign(absCoord, this);
@@ -359,7 +359,7 @@ public class Barracks extends Structure {
 			
 			break;
 		case "/next":
-			ItemManager.setTypeId(absCoord.getBlock(), sb.getType());
+			absCoord.getBlock().setType(sb.getMaterial());
 			ItemManager.setData(absCoord.getBlock(), sb.getData());
 
 			structSign = new StructureSign(absCoord, this);
@@ -372,7 +372,7 @@ public class Barracks extends Structure {
 						
 			break;
 		case "/train":
-			ItemManager.setTypeId(absCoord.getBlock(), sb.getType());
+			absCoord.getBlock().setType(sb.getMaterial());
 			ItemManager.setData(absCoord.getBlock(), sb.getData());
 
 			structSign = new StructureSign(absCoord, this);
@@ -385,7 +385,7 @@ public class Barracks extends Structure {
 			
 			break;
 		case "/progress":
-			ItemManager.setTypeId(absCoord.getBlock(), sb.getType());
+			absCoord.getBlock().setType(sb.getMaterial());
 			ItemManager.setData(absCoord.getBlock(), sb.getData());
 
 			structSign = new StructureSign(absCoord, this);
@@ -400,7 +400,7 @@ public class Barracks extends Structure {
 			
 			break;
 		case "/repair":
-			ItemManager.setTypeId(absCoord.getBlock(), sb.getType());
+			absCoord.getBlock().setType(sb.getMaterial());
 			ItemManager.setData(absCoord.getBlock(), sb.getData());
 
 			structSign = new StructureSign(absCoord, this);

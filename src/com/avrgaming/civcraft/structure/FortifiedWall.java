@@ -408,7 +408,7 @@ public class FortifiedWall extends Wall {
 		// build the blocks
 		for (SimpleBlock sb : simpleBlocks.values()) {
 			BlockCoord bcoord = new BlockCoord(sb);
-			ItemManager.setTypeId(bcoord.getBlock(), sb.getType());
+			bcoord.getBlock().setType(sb.getMaterial());
 			ItemManager.setData(bcoord.getBlock(), sb.getData());
 			
 		}
@@ -679,7 +679,7 @@ public class FortifiedWall extends Wall {
 			int old_data = ItemManager.getData(bcoord.getBlock());
 			if (!wallBlocks.containsKey(bcoord)) {
 				try {
-					WallBlock wb = new WallBlock(bcoord, this, old_id, old_data, sb.getType(), sb.getData());
+					WallBlock wb = new WallBlock(bcoord, this, old_id, old_data, sb.getMaterial().getId(), sb.getData());
 					
 					wallBlocks.put(bcoord, wb);
 					this.addStructureBlock(bcoord, true);

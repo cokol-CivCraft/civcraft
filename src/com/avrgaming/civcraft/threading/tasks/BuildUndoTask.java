@@ -94,7 +94,7 @@ public class BuildUndoTask implements Runnable {
 	   
 	    public void build(Queue<SimpleBlock> syncBlockQueue, SimpleBlock sb) throws InterruptedException {
 	        builtBlockCount++;
-	        if (builtBlockCount < savedBlockCount || CivSettings.restrictedUndoBlocks.contains(ItemManager.getMaterial(sb.getType()))) {
+	        if (builtBlockCount < savedBlockCount || CivSettings.restrictedUndoBlocks.contains(sb.getMaterial())) {
 	                /* We're resuming an undo task after reboot and this block is already built.
 	                 * Or This block is restricted */
 	                return;

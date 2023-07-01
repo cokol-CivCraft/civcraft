@@ -501,7 +501,8 @@ public class DebugCommand extends CommandBase {
 									} else if (sb.specialType.equals(SimpleBlock.Type.LITERAL)) {
 										try {
 										Block block = next.getBlock();
-										ItemManager.setTypeIdAndData(block, sb.getType(), sb.getData(), false);
+										block.setType(sb.getMaterial());
+										ItemManager.setData(block, sb.getData());
 										
 										Sign s = (Sign)block.getState();
 										for (int j = 0; j < 4; j++) {
@@ -515,7 +516,7 @@ public class DebugCommand extends CommandBase {
 									} else {
 										try {
 										Block block = next.getBlock();
-										ItemManager.setTypeIdAndData(block, sb.getType(), sb.getData(), false);
+										ItemManager.setTypeIdAndData(block, sb.getMaterial().getId(), sb.getData(), false);
 										} catch (Exception e) {
 											e.printStackTrace();
 										}
@@ -641,7 +642,7 @@ public class DebugCommand extends CommandBase {
 		
 		for (SimpleBlock sb : simpleBlocks.values()) {
 			Block block = player.getWorld().getBlockAt(sb.x, sb.y, sb.z);
-			ItemManager.setTypeId(block, sb.getType());
+			block.setType(sb.getMaterial());
 		}
 		
 		CivMessage.sendSuccess(player, "Built a circle at your feet.");

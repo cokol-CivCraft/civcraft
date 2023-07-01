@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 
@@ -42,7 +43,7 @@ import com.avrgaming.civcraft.util.SimpleBlock.Type;
 public class RecoverStructuresAsyncTask implements Runnable {
 
 	
-	public static HashSet<Integer> ignoreBlocks = new HashSet<Integer>();
+	public static HashSet<Material> ignoreBlocks = new HashSet<>();
 	boolean listOnly = false;
 	CommandSender sender;
 	
@@ -69,11 +70,11 @@ public class RecoverStructuresAsyncTask implements Runnable {
 				for (int z = 0; z < tpl.size_z; z++) {
 					Block nextBlock = cornerBlock.getRelative(x, y, z);
 					
-					if (ignoreBlocks.contains(ItemManager.getId(nextBlock))) {
+					if (ignoreBlocks.contains(nextBlock.getType())) {
 						continue;
 					}
 					
-					if (ignoreBlocks.contains(tpl.blocks[x][y][z].getType())) {
+					if (ignoreBlocks.contains(tpl.blocks[x][y][z].getMaterial())) {
 						continue;
 					}
 					
@@ -85,7 +86,7 @@ public class RecoverStructuresAsyncTask implements Runnable {
 						continue;
 					}
 					
-					if (ItemManager.getId(nextBlock) != tpl.blocks[x][y][z].getType()) { // ||
+					if (nextBlock.getType() != tpl.blocks[x][y][z].getMaterial()) { // ||
 					//	nextBlock.getData() != tpl.blocks[x][y][z].getData()) {
 					//	CivLog.debug("\tBLOCK:"+nextBlock.getTypeId() + " is not "+tpl.blocks[x][y][z].getType());
 						return true;
@@ -109,9 +110,9 @@ public class RecoverStructuresAsyncTask implements Runnable {
 		// these structures accidentally.
 		// XXX shouldn't broken structures be mostly air anyway?
 		
-		ignoreBlocks.add(CivData.OBSIDIAN);
-		ignoreBlocks.add(CivData.FENCE);
-		ignoreBlocks.add(CivData.LADDER);
+		ignoreBlocks.add(Material.OBSIDIAN);
+		ignoreBlocks.add(Material.FENCE);
+		ignoreBlocks.add(Material.LADDER);
 		
 		ArrayList<Structure> repairStructures = new ArrayList<Structure>();
 		

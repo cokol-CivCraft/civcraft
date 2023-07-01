@@ -317,7 +317,7 @@ public class Stable extends Structure {
 		
 		switch (sb.command) {
 		case "/prev":
-			ItemManager.setTypeId(absCoord.getBlock(), sb.getType());
+			absCoord.getBlock().setType(sb.getMaterial());
 			ItemManager.setData(absCoord.getBlock(), sb.getData());
 			structSign = new StructureSign(absCoord, this);
 			structSign.setText("\n"+ChatColor.BOLD+ChatColor.UNDERLINE+CivSettings.localize.localizedString("stable_sign_previousUnit"));
@@ -329,7 +329,7 @@ public class Stable extends Structure {
 			CivGlobal.addStructureSign(structSign);			
 			break;
 		case "/item":
-			ItemManager.setTypeId(absCoord.getBlock(), sb.getType());
+			absCoord.getBlock().setType(sb.getMaterial());
 			ItemManager.setData(absCoord.getBlock(), sb.getData());
 
 			structSign = new StructureSign(absCoord, this);
@@ -353,7 +353,7 @@ public class Stable extends Structure {
 			
 			break;
 		case "/next":
-			ItemManager.setTypeId(absCoord.getBlock(), sb.getType());
+			absCoord.getBlock().setType(sb.getMaterial());
 			ItemManager.setData(absCoord.getBlock(), sb.getData());
 
 			structSign = new StructureSign(absCoord, this);

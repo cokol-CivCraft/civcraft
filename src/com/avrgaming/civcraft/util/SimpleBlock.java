@@ -101,14 +101,7 @@ public class SimpleBlock {
         this.specialType = Type.NORMAL;
 
 	}
-	
-	/**
-	 * @return the type
-	 */
-	public int getType() {
-	    return (int) type;
-	}
-	
+
 	@SuppressWarnings("deprecation")
 	public Material getMaterial() {
 		return Material.getMaterial(type);

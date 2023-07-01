@@ -439,7 +439,7 @@ public abstract class Buildable extends SQLObject {
 					
 					BlockCoord coord = new BlockCoord(this.getCorner().getWorldname(), (relx), (rely), (relz));
 					
-					if (tpl.blocks[x][y][z].getType() == CivData.AIR) {
+					if (tpl.blocks[x][y][z].getMaterial() == Material.AIR) {
 						continue;
 					}
 					
@@ -1036,7 +1036,7 @@ public abstract class Buildable extends SQLObject {
 						if (tpl.blocks[x][y][z].specialType == Type.COMMAND) {
 							ItemManager.setTypeIdAndData(b, CivData.AIR, (byte)0, false);
 						} else {
-							ItemManager.setTypeIdAndData(b, tpl.blocks[x][y][z].getType(), (byte)tpl.blocks[x][y][z].getData(), false);
+							ItemManager.setTypeIdAndData(b, tpl.blocks[x][y][z].getMaterial().getId(), (byte)tpl.blocks[x][y][z].getData(), false);
 						}
 						
 						chunkUpdates.put(b.getChunk(), b.getChunk());
