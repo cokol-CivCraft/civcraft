@@ -40,8 +40,8 @@ public class ConfigFishing {
 			   ConfigFishing g = new ConfigFishing();
 
                   g.craftMatId = (String) item.get("craftMatId");
-                  g.type_id = Material.getMaterial((Integer) item.get("type_id"));
-                  g.drop_chance = (Double) item.get("drop_chance");
+				  g.type_id = Material.getMaterial((String) item.get("type_id"));
+				  g.drop_chance = (Double) item.get("drop_chance");
 			   
 			   configList.add(g);
 			   

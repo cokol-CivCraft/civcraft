@@ -21,6 +21,7 @@ package com.avrgaming.civcraft.config;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -58,7 +59,7 @@ public class ConfigCampLonghouseLevel {
 			Map<Material, Integer> consumes_list = new HashMap<>();
 			for (Object consume : consumes) {
 				String[] split = ((String) consume).split(",");
-				consumes_list.put(Material.getMaterial(Integer.parseInt(split[0])), Integer.valueOf(split[1]));
+				consumes_list.put(Objects.requireNonNull(Material.getMaterial(split[0])), Integer.valueOf(split[1]));
 			}
 
 

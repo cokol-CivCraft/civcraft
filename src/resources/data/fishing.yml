@@ -8,33 +8,33 @@
 
 fishing_drops:
     - craftMatId: 'mat_mercury'
-      type_id: 0
+      type_id: AIR
       drop_chance: 0.05
 
     - craftMatId: 'mat_mercury_bath'
-      type_id: 0
+      type_id: AIR
       drop_chance: 0.005
 
     - craftMatId: 'mat_crafted_reeds'
-      type_id: 0
+      type_id: AIR
       drop_chance: 0.06
 
     - craftMatId: 'mat_vanilla_slime'
-      type_id: 0
+      type_id: AIR
       drop_chance: 0.03
 
     - craftMatId: 'mat_vanilla_lead'
-      type_id: 0
+      type_id: AIR
       drop_chance: 0.07
 
     - craftMatId: ''
-      type_id: 334
+      type_id: LEATHER
       drop_chance: 0.04
 
     - craftMatId: ''
-      type_id: 280
+      type_id: STICK
       drop_chance: 0.03
 
     - craftMatId: ''
-      type_id: 349:3
+      type_id: RAW_FISH
       drop_chance: 0.01
