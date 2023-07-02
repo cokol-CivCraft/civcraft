@@ -46,7 +46,7 @@ public class BuildChooseTemplate implements GuiAction {
 		/* Build an inventory full of templates to select. */
 		Inventory inv = Bukkit.getServer().createInventory(player, CivTutorial.MAX_CHEST_SIZE*9);
 		ItemStack infoRec = LoreGuiItem.build("Default "+struct.getDisplayName(),
-				Material.WRITTEN_BOOK.getId(),
+				Material.WRITTEN_BOOK,
 				0, CivColor.Gold+CivSettings.localize.localizedString("loreGui_template_clickToBuild"));
 		infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
 		inv.addItem(infoRec);
@@ -68,7 +68,7 @@ public class BuildChooseTemplate implements GuiAction {
 			if (!perk.getIdent().contains("template"))
 			{
 			infoRec = LoreGuiItem.build(perk.getDisplayName(),
-                    Material.BEDROCK.getId(),
+                    Material.BEDROCK,
 					perk.configPerk.data, CivColor.Gold+CivSettings.localize.localizedString("loreGui_template_clickToBuild"),
 					CivColor.Gray+CivSettings.localize.localizedString("loreGui_template_unbound"),
 					CivColor.Gray+CivSettings.localize.localizedString("loreGui_template_unbound2"),

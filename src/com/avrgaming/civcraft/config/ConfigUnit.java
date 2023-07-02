@@ -21,6 +21,7 @@ package com.avrgaming.civcraft.config;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import com.avrgaming.civcraft.main.CivGlobal;
@@ -38,7 +39,7 @@ public class ConfigUnit {
 	public double cost;
 	public double hammer_cost;
 	public int limit;
-	public int item_id;
+	public Material item_id;
 	public int item_data;
 	
 	public static void loadConfig(FileConfiguration cfg, Map<String, ConfigUnit> units){
@@ -57,7 +58,7 @@ public class ConfigUnit {
 			unit.cost = (Double)b.get("cost");
 			unit.hammer_cost = (Double)b.get("hammer_cost");
 			unit.limit = (Integer)b.get("limit");
-			unit.item_id = (Integer)b.get("item_id");
+			unit.item_id = Material.getMaterial((Integer)b.get("item_id"));
 			unit.item_data = (Integer)b.get("item_data");
 			
 			units.put(unit.id, unit);
@@ -75,9 +76,7 @@ public class ConfigUnit {
 		if (town.hasTechnology(require_tech)) {
 			if (town.hasUpgrade(require_upgrade)) {
 				if (town.hasStructure(require_struct)) {
-					if (limit == 0 || town.getUnitTypeCount(id) < limit) {
-						return true;
-					}
+					return limit == 0 || town.getUnitTypeCount(id) < limit;
 				}
 			}
 		}

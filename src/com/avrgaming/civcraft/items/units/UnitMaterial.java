@@ -21,6 +21,7 @@ package com.avrgaming.civcraft.items.units;
 import java.util.HashSet;
 import java.util.List;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -58,9 +59,9 @@ public class UnitMaterial extends LoreMaterial {
 	private ConfigUnit unit = null;
 	private static final int LAST_SLOT = 8;
 	
-	public HashSet<Integer> allowedSubslots = new HashSet<Integer>(); 
-	
-	public UnitMaterial(String id, int itemId, short damage) {
+	public HashSet<Integer> allowedSubslots = new HashSet<Integer>();
+	@SuppressWarnings("unused")
+	public UnitMaterial(String id, Material itemId, short damage) {
 		super(id, itemId, damage);
 	}
 

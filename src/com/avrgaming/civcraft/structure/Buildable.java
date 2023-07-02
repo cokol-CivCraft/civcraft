@@ -474,7 +474,7 @@ public abstract class Buildable extends SQLObject {
             /* Build an inventory full of templates to select. */
             Inventory inv = Bukkit.getServer().createInventory(player, CivTutorial.MAX_CHEST_SIZE * 9);
             ItemStack infoRec = LoreGuiItem.build(CivSettings.localize.localizedString("buildable_lore_default") + " " + this.getDisplayName(),
-                    Material.WRITTEN_BOOK.getId(),
+                    Material.WRITTEN_BOOK,
                     0, CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"));
             infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
             inv.addItem(infoRec);
@@ -491,7 +491,7 @@ public abstract class Buildable extends SQLObject {
 
             for (Perk perk : personalUnboundPerks) {
                 infoRec = LoreGuiItem.build(perk.getDisplayName(),
-                        Material.BEDROCK.getId(),
+                        Material.BEDROCK,
                         perk.configPerk.data, CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"),
                         CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_unbound"),
                         CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_unbound2"),
@@ -564,7 +564,7 @@ public abstract class Buildable extends SQLObject {
             /* Build an inventory full of templates to select. */
             Inventory inv = Bukkit.getServer().createInventory(player, CivTutorial.MAX_CHEST_SIZE * 9);
             ItemStack infoRec = LoreGuiItem.build("Default " + info.displayName,
-                    Material.WRITTEN_BOOK.getId(),
+                    Material.WRITTEN_BOOK,
                     0, CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"));
             infoRec = LoreGuiItem.setAction(infoRec, "BuildWithDefaultPersonalTemplate");
             inv.addItem(infoRec);

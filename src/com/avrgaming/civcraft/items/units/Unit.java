@@ -36,7 +36,7 @@ public abstract class Unit {
 	
 	public static Spy SPY_UNIT;
 	public static Settler SETTLER_UNIT;
-	public static ArrayList<MissionBook> SPY_MISSIONS = new ArrayList<MissionBook>();
+	public static ArrayList<MissionBook> SPY_MISSIONS = new ArrayList<>();
 	public static MissionBook SPY_INVESTIGATE_TOWN;
 	public static MissionBook SPY_STEAL_TREASURY;
 	public static MissionBook SPY_SUBVERT_GOVERNMENT;
@@ -50,7 +50,7 @@ public abstract class Unit {
 		
 		for (ConfigMission mission : CivSettings.missions.values()) {
 			if (mission.slot > 0) {
-				MissionBook book = new MissionBook(mission.id, Spy.BOOK_ID, (short)0);
+				MissionBook book = new MissionBook(mission.id, Material.ENCHANTED_BOOK, (short)0);
 				book.setName(mission.name);
 				book.setupLore(book.getId());
 				book.setParent(SPY_UNIT);

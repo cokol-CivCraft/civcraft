@@ -266,7 +266,7 @@ public class AttributeUtil {
      */
     public ItemStack getStack() {
     	if (nmsStack == null) {
-            return new ItemStack(Material.WOOL.getId(), 0, (short)0);
+            return new ItemStack(Material.WOOL, 0, (short)0);
         }
     	
     	if (nmsStack.getTag() != null) {

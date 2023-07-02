@@ -1,11 +1,13 @@
 package com.avrgaming.civcraft.config;
 
 
+import org.bukkit.Material;
+
 public class ConfigIngredient {
 
 	//public static HashMap<String, ConfigIngredient> ingredientMap = new HashMap<String, ConfigIngredient>();
 	
-	public int type_id;
+	public Material type_id;
 	public int data;
 	
 	/* optional */

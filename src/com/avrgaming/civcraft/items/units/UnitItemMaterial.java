@@ -20,6 +20,7 @@ package com.avrgaming.civcraft.items.units;
 
 import java.util.List;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
@@ -51,7 +52,7 @@ public class UnitItemMaterial extends LoreMaterial {
 	private UnitMaterial parent = null;	
 	private int socketSlot = 0;
 
-	public UnitItemMaterial(String id, int minecraftId, short damage) {
+	public UnitItemMaterial(String id, Material minecraftId, short damage) {
 		super(id, minecraftId, damage);
 	}
 	

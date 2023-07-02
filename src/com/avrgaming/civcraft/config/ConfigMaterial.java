@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -17,7 +18,7 @@ public class ConfigMaterial {
 
 	/* Required */
 	public String id;
-	public int item_id;
+	public Material item_id;
 	public int item_data;
 	public String name;
 	public String category = CivSettings.localize.localizedString("config_material_misc");
@@ -47,7 +48,7 @@ public class ConfigMaterial {
 			
 			/* Mandatory Settings */
 			mat.id = (String)b.get("id");
-			mat.item_id = (Integer)b.get("item_id");
+			mat.item_id = Material.getMaterial((Integer)b.get("item_id"));
 			mat.item_data = (Integer)b.get("item_data");
 			mat.name = (String)b.get("name");
 			mat.name = CivColor.colorize(mat.name);
@@ -147,7 +148,7 @@ public class ConfigMaterial {
 				
 				for (Map<?, ?> ingred : configIngredients) {
 					ConfigIngredient ingredient = new ConfigIngredient();
-					ingredient.type_id = (Integer)ingred.get("type_id");
+					ingredient.type_id = Material.getMaterial((Integer)ingred.get("type_id"));
 					ingredient.data = (Integer)ingred.get("data");
 					String key = null;
 					
@@ -161,11 +162,7 @@ public class ConfigMaterial {
 					}
 					
 					Boolean ignore_data = (Boolean)ingred.get("ignore_data");
-					if (ignore_data == null || ignore_data == false) {
-						ingredient.ignore_data = false;
-					} else {
-						ingredient.ignore_data = true;
-					}
+					ingredient.ignore_data = ignore_data != null && ignore_data;
 					
 					Integer count = (Integer)ingred.get("count");
 					if (count != null) {

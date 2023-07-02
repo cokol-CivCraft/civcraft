@@ -253,9 +253,7 @@ public class LoreCraftableMaterialListener implements Listener {
 				loreMat.applyAttributes(attrs);
 				newStack.setAmount(loreMat.getCraftAmount());
 			} else {
-				int typeId = loreMat.getTypeID();
-				int amount = loreMat.getCraftAmount();
-				newStack = new ItemStack(typeId, amount, (short) 0);
+				newStack = new ItemStack(loreMat.getType(), loreMat.getCraftAmount(), (short) 0);
 			}
 			
 			event.getInventory().setResult(newStack);
@@ -299,9 +297,7 @@ public class LoreCraftableMaterialListener implements Listener {
 				loreMat.applyAttributes(attrs);
 				newStack.setAmount(loreMat.getCraftAmount());
 			} else {
-				int typeId = loreMat.getTypeID();
-				int amount = loreMat.getCraftAmount();
-				newStack = new ItemStack(typeId, amount, (short) 0);
+				newStack = new ItemStack(loreMat.getType(), loreMat.getCraftAmount(), (short) 0);
 			}	
 			
 			event.getInventory().setResult(newStack);

@@ -41,8 +41,6 @@ import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.util.BookUtil;
 
 public class Spy extends UnitMaterial {
-	
-	public static final int BOOK_ID = 403;
 
 	public ArrayList<UnitItemMaterial> missionBooks = new ArrayList<UnitItemMaterial>();
 	

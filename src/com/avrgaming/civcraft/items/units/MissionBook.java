@@ -65,7 +65,7 @@ import com.avrgaming.civcraft.war.War;
 
 public class MissionBook extends UnitItemMaterial {
 	
-	public MissionBook(String id, int minecraftId, short damage) {
+	public MissionBook(String id, Material minecraftId, short damage) {
 		super(id, minecraftId, damage);
 	}
 
@@ -383,7 +383,7 @@ public class MissionBook extends UnitItemMaterial {
 		TradeOutpost outpost = (TradeOutpost)tradeoutpost;
 		ItemStack stack = outpost.getItemFrameStore().getItem();
 
-        if (stack == null || stack.getTypeId() == Material.AIR.getId()) {
+        if (stack == null || stack.getType() == Material.AIR) {
 			throw new CivException(CivSettings.localize.localizedString("missionBook_pirate_errorNoGoodie"));
 		}
 		

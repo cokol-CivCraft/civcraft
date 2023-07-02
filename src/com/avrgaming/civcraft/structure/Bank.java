@@ -123,11 +123,11 @@ public class Bank extends Structure {
 	}
 	
 	private String getExchangeRateString() {
-		return ((int)(getBankExchangeRate()*100) + "%").toString();		
+		return ((int)(getBankExchangeRate()*100) + "%");
 	}
 	
 	private String getNonResidentFeeString() {
-		return CivSettings.localize.localizedString("bank_sign_fee")+" "+((int)(this.nonMemberFeeComponent.getFeeRate()*100) + "%").toString();		
+		return CivSettings.localize.localizedString("bank_sign_fee")+" "+ ((int)(this.nonMemberFeeComponent.getFeeRate()*100) + "%");
 	}
 	
 	private String getSignItemPrice(int signId) {
@@ -163,18 +163,18 @@ public class Bank extends Structure {
 		return out;
 	}
 	
-	public void exchange_for_coins(Resident resident, int itemId, double coins) throws CivException {
+	public void exchange_for_coins(Resident resident, Material itemId, double coins) throws CivException {
 		double exchange_rate = 0.0;
 		String itemName;
 		Player player = CivGlobal.getPlayer(resident);
 		
-		if (itemId == Material.IRON_INGOT.getId() || itemId == Material.IRON_BLOCK.getId())
+		if (itemId == Material.IRON_INGOT || itemId == Material.IRON_BLOCK)
 			itemName = CivSettings.localize.localizedString("bank_itemName_iron");
-		else if (itemId == Material.GOLD_INGOT.getId() || itemId == Material.GOLD_BLOCK.getId())
+		else if (itemId == Material.GOLD_INGOT || itemId == Material.GOLD_BLOCK)
 			itemName = CivSettings.localize.localizedString("bank_itemName_gold");
-		else if (itemId == Material.DIAMOND.getId() || itemId == Material.DIAMOND_BLOCK.getId())
+		else if (itemId == Material.DIAMOND || itemId == Material.DIAMOND_BLOCK)
 			itemName = CivSettings.localize.localizedString("bank_itemName_diamond");
-		else if (itemId == Material.EMERALD.getId() || itemId == Material.EMERALD_BLOCK.getId())
+		else if (itemId == Material.EMERALD || itemId == Material.EMERALD_BLOCK)
 			itemName = CivSettings.localize.localizedString("bank_itemName_emerald");
 		else 
 			itemName = CivSettings.localize.localizedString("bank_itemName_stuff");
@@ -185,21 +185,19 @@ public class Bank extends Structure {
 		{
 			throw new CivException(CivSettings.localize.localizedString("var_bank_notEnoughInHand",itemName));
 		}
-		
-		Town usersTown = resident.getTown();
-		
+
 		// Resident is in his own town.
-		if (usersTown == this.getTown()) {		
+		if (resident.getTown() == this.getTown()) {
 			DecimalFormat df = new DecimalFormat();
-			resident.getTreasury().deposit((double)((int)((coins*count)*exchange_rate)));
+			resident.getTreasury().deposit((int)((coins*count)*exchange_rate));
 			CivMessage.send(player,
 					CivColor.LightGreen + CivSettings.localize.localizedString("var_bank_exchanged",count,itemName,(df.format((coins*count)*exchange_rate)),CivSettings.CURRENCY_NAME));	
 			return;
 		}
 		
 		// non-resident must pay the town's non-resident tax
-		double giveToPlayer = (double)((int)((coins*count)*exchange_rate));
-		double giveToTown = (double)((int)giveToPlayer*this.getNonResidentFee());
+		double giveToPlayer = (int)((coins*count)*exchange_rate);
+		double giveToTown = (int)giveToPlayer*this.getNonResidentFee();
 		giveToPlayer -= giveToTown;
 		
 		giveToTown = Math.round(giveToTown);
@@ -210,8 +208,7 @@ public class Bank extends Structure {
 		
 		CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("var_bank_exchanged",count,itemName,giveToPlayer,CivSettings.CURRENCY_NAME));
 		CivMessage.send(player,CivColor.Yellow+" "+CivSettings.localize.localizedString("var_taxes_paid",giveToTown,CivSettings.CURRENCY_NAME));
-		return;
-		
+
 	}
 	
 	@Override
@@ -231,28 +228,28 @@ public class Bank extends Structure {
 			player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1.1f, 1.1f);
 			switch (sign.getAction()) {
 			case "iron":
-				exchange_for_coins(resident, Material.IRON_INGOT.getId(), CivSettings.iron_rate);
+				exchange_for_coins(resident, Material.IRON_INGOT, CivSettings.iron_rate);
 				break;
 			case "gold":
-				exchange_for_coins(resident, Material.GOLD_INGOT.getId(), CivSettings.gold_rate);
+				exchange_for_coins(resident, Material.GOLD_INGOT, CivSettings.gold_rate);
 				break;
 			case "diamond":
-				exchange_for_coins(resident, Material.DIAMOND.getId(), CivSettings.diamond_rate);
+				exchange_for_coins(resident, Material.DIAMOND, CivSettings.diamond_rate);
 				break;
 			case "emerald":
-				exchange_for_coins(resident, Material.EMERALD.getId(), CivSettings.emerald_rate);
+				exchange_for_coins(resident, Material.EMERALD, CivSettings.emerald_rate);
 				break;
 			case "ironB":
-				exchange_for_coins(resident, Material.IRON_INGOT.getId(), CivSettings.iron_rate*9);
+				exchange_for_coins(resident, Material.IRON_INGOT, CivSettings.iron_rate*9);
 				break;
 			case "goldB":
-				exchange_for_coins(resident, Material.GOLD_INGOT.getId(), CivSettings.gold_rate*9);
+				exchange_for_coins(resident, Material.GOLD_INGOT, CivSettings.gold_rate*9);
 				break;
 			case "diamondB":
-				exchange_for_coins(resident, Material.DIAMOND.getId(), CivSettings.diamond_rate*9);
+				exchange_for_coins(resident, Material.DIAMOND, CivSettings.diamond_rate*9);
 				break;
 			case "emeraldB":
-				exchange_for_coins(resident, Material.EMERALD.getId(), CivSettings.emerald_rate*9);
+				exchange_for_coins(resident, Material.EMERALD, CivSettings.emerald_rate*9);
 				break;
 			}
 		} catch (CivException e) {
