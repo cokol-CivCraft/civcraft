@@ -23,12 +23,7 @@ public class Hospital extends Structure {
 		super(rs);
 	}
 
-	@Override
-	public String getDynmapDescription() {
-		return null;
-	}
-	
-	@Override
+    @Override
 	public String getMarkerIconName() {
 		return "bed";
 	}

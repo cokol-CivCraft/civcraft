@@ -47,7 +47,7 @@ import com.avrgaming.civcraft.util.SimpleBlock;
 
 public class Market extends Structure {
 
-	public HashMap<Integer, LinkedList<StructureSign>> signIndex = new HashMap<Integer, LinkedList<StructureSign>>();
+	public HashMap<Integer, LinkedList<StructureSign>> signIndex = new HashMap<>();
 	
 	public static int BULK_AMOUNT = 64;
 		
@@ -82,7 +82,6 @@ public class Market extends Structure {
 					market.setSignText(sign, item);
 					} catch (ClassCastException e) {
 						CivLog.error("Can't cast structure sign to sign for market update. "+sign.getCoord().getX()+" "+sign.getCoord().getY()+" "+sign.getCoord().getZ());
-						continue;
 					}
 				}
 			}
@@ -99,9 +98,9 @@ public class Market extends Structure {
 	
 	@Override
 	public void processSignAction(Player player, StructureSign sign, PlayerInteractEvent event) throws CivException {
-		
-		Integer id = Integer.valueOf(sign.getType());
-		ConfigMarketItem item = CivSettings.marketItems.get(id);
+
+        int id = Integer.parseInt(sign.getType());
+        ConfigMarketItem item = CivSettings.marketItems.get(id);
 		Resident resident = CivGlobal.getResident(player);
 
 		if (resident == null) {
@@ -205,10 +204,10 @@ public class Market extends Structure {
 		if (structSign == null) {
 			structSign = new StructureSign(absCoord, this);
 		}
-		
-		structSign.setDirection(ItemManager.getData(b.getState()));
-		structSign.setType(""+id);
-		structSign.setAction(action);
+
+        structSign.setDirection(ItemManager.getData(b.getState()));
+        structSign.setType(String.valueOf(id));
+        structSign.setAction(action);
 
 		structSign.setOwner(this);
 		this.addStructureSign(structSign);
@@ -216,7 +215,7 @@ public class Market extends Structure {
 		
 		LinkedList<StructureSign> signs = this.signIndex.get(id);
 		if (signs == null) {
-			signs = new LinkedList<StructureSign>();
+            signs = new LinkedList<>();
 		}
 	
 		signs.add(structSign);

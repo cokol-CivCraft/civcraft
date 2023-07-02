@@ -24,14 +24,14 @@ public class InteractiveConfirmWeatherChange implements InteractiveResponse {
 		if (message.equalsIgnoreCase("yes")) {
 			Player player;
 			try {
-				player = CivGlobal.getPlayer(resident);
-				player.getWorld().setStorm(false);
-				player.getWorld().setThundering(false);
-				player.getWorld().setWeatherDuration((int) TimeTools.toTicks(20*60));
-				CivMessage.global(CivSettings.localize.localizedString("var_interactive_weather_success",resident.getName()));
-				perk.markAsUsed(resident);
-			} catch (CivException e) {
-			}
+                player = CivGlobal.getPlayer(resident);
+                player.getWorld().setStorm(false);
+                player.getWorld().setThundering(false);
+                player.getWorld().setWeatherDuration((int) TimeTools.toTicks(20 * 60));
+                CivMessage.global(CivSettings.localize.localizedString("var_interactive_weather_success", resident.getName()));
+                perk.markAsUsed(resident);
+            } catch (CivException ignored) {
+            }
 		} else {
 			CivMessage.send(resident, CivSettings.localize.localizedString("interactive_weather_cancel"));
 		}

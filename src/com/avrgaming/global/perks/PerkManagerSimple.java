@@ -64,16 +64,16 @@ public class PerkManagerSimple extends PerkManager {
 	}
 	
 	@Override
-	public void loadPerksForResident(Resident resident) throws SQLException, NotVerifiedException, CivException {
-		String sql;
-		Connection context = null;
-		ResultSet rs = null;
-		PreparedStatement s = null;
-		HashMap<String, Integer> perkCounts = new HashMap<String, Integer>();
-		
+    public void loadPerksForResident(Resident resident) throws SQLException {
+        String sql;
+        Connection context = null;
+        ResultSet rs = null;
+        PreparedStatement s = null;
+        HashMap<String, Integer> perkCounts = new HashMap<>();
 
-		try {
-			context = SQL.getGlobalConnection();
+
+        try {
+            context = SQL.getGlobalConnection();
 			
 			String uuid = resident.getUUIDString();
 		
@@ -86,18 +86,13 @@ public class PerkManagerSimple extends PerkManager {
 				rs = s.executeQuery();
 		
 				while (rs.next()) {
-					/* 'used' is now deprecated. */
-					String usedPhase = rs.getString("used_phase");					
-					String id = rs.getString("perk_id");
-					if ((usedPhase == null) || !usedPhase.equals(CivGlobal.getPhase())) {					
-						Integer count = perkCounts.get(id);
-						if (count == null) {
-							perkCounts.put(id, 1);
-						} else {
-							perkCounts.put(id, count+1);
-						}
-					}
-				}
+                    /* 'used' is now deprecated. */
+                    String usedPhase = rs.getString("used_phase");
+                    String id = rs.getString("perk_id");
+                    if ((usedPhase == null) || !usedPhase.equals(CivGlobal.getPhase())) {
+                        perkCounts.merge(id, 1, Integer::sum);
+                    }
+                }
 			} finally {
 				SQL.close(rs, s, null);
 			}
@@ -114,24 +109,23 @@ public class PerkManagerSimple extends PerkManager {
 				p.count = count;
 				resident.perks.put(p.getIdent(), p);
 			}
-			
-			return;
+
 		} finally {
 			SQL.close(rs, s, context);
 		}
 	}
-	
-	@Override
-	public int addPerkToResident(Resident resident, String perk_id, Integer count) throws SQLException, CivException {
-		String sql;
-		Connection context = null;
-		ResultSet rs = null;
-		PreparedStatement s = null;
-		
-		try {
-			context = SQL.getGlobalConnection();
-			
-			String uuid = resident.getUUIDString();
+
+    @Override
+    public int addPerkToResident(Resident resident, String perk_id, Integer count) throws SQLException {
+        String sql;
+        Connection context = null;
+        ResultSet rs = null;
+        PreparedStatement s = null;
+
+        try {
+            context = SQL.getGlobalConnection();
+
+            String uuid = resident.getUUIDString();
 
 			int added = 0;
 			for (int i = 0; i < count; i++) {
@@ -144,21 +138,21 @@ public class PerkManagerSimple extends PerkManager {
 			}
 			return added;
 		} finally {
-			SQL.close(rs, s, context);
+            SQL.close(null, s, context);
 		}
 	}
-	
-	@Override
-	public int removePerkFromResident(Resident resident, String perk_id, Integer count) throws SQLException, CivException {
-		String sql;
-		Connection context = null;
-		ResultSet rs = null;
-		PreparedStatement s = null;
-		
-		try {
-			context = SQL.getGlobalConnection();
-			
-			String uuid = resident.getUUIDString();
+
+    @Override
+    public int removePerkFromResident(Resident resident, String perk_id, Integer count) throws SQLException {
+        String sql;
+        Connection context = null;
+        ResultSet rs = null;
+        PreparedStatement s = null;
+
+        try {
+            context = SQL.getGlobalConnection();
+
+            String uuid = resident.getUUIDString();
 
 			/* Lookup join table for perks and users. */
 			sql = "DELETE FROM `"+USER_PERKS_TABLE_NAME+"` WHERE `uuid` = ? AND `perk_id` = ? LIMIT ?";
@@ -168,7 +162,7 @@ public class PerkManagerSimple extends PerkManager {
 			s.setInt(3, count);
 			return s.executeUpdate();
 		} finally {
-			SQL.close(rs, s, context);
+            SQL.close(null, s, context);
 		}
 	}
 	

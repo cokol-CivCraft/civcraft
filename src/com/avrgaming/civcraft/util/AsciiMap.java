@@ -34,7 +34,7 @@ public class AsciiMap {
 	private static final int height = 40;	
 	
 	public static List<String> getMapAsString(Location center) {
-		ArrayList<String> out = new ArrayList<String>();
+		ArrayList<String> out = new ArrayList<>();
 		
 	//	ChunkCoord[][] chunkmap = new ChunkCoord[width][height]; 
 		ChunkCoord centerChunk = new ChunkCoord(center);
@@ -51,7 +51,7 @@ public class AsciiMap {
 		
 		//ChunkCoord currentChunk = new ChunkCoord(center);
 		for (int x = 0; x < width; x++) {
-			String outRow = new String("         ");
+            StringBuilder outRow = new StringBuilder("         ");
 			for (int z = 0; z < height; z++) {
 				String color = CivColor.White;
 								
@@ -75,17 +75,17 @@ public class AsciiMap {
 					}
 					
 					if (tc.isForSale()) {
-						outRow += CivColor.Yellow+"$";
-					} else if (tc.isOutpost()) { 
-						outRow += CivColor.Yellow+"O";
+                        outRow.append(CivColor.Yellow + "$");
+					} else if (tc.isOutpost()) {
+                        outRow.append(CivColor.Yellow + "O");
 					} else {
-						outRow += color+"T";
+                        outRow.append(color).append("T");
 					}
 				} else {
-					outRow += color+"-";
+                    outRow.append(color).append("-");
 				}
 			}
-			out.add(outRow);
+            out.add(outRow.toString());
 		}
 		
 		

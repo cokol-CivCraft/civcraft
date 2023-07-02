@@ -56,16 +56,14 @@ public class Buff {
 	
 	@Override
 	public int hashCode() {
-		return config.id.toString().hashCode();
+		return config.id.hashCode();
 	}
 	
 	@Override
 	public boolean equals(Object other) {
 		if (other instanceof Buff) {
 			Buff otherBuff = (Buff)other;
-			if (otherBuff.getConfig().id.equals(this.getConfig().id)) {
-				return true;
-			}
+			return otherBuff.getConfig().id.equals(this.getConfig().id);
 		}
 		return false;
 	}
@@ -116,8 +114,8 @@ public class Buff {
 	
 	public String getDisplayDouble() {
 		try {
-			double d = Double.valueOf(config.value);
-			DecimalFormat df = new DecimalFormat();
+            double d = Double.parseDouble(config.value);
+            DecimalFormat df = new DecimalFormat();
 			return df.format(d*100)+"%";
 		} catch (NumberFormatException e) {
 			return "NAN!";
@@ -126,9 +124,9 @@ public class Buff {
 	
 	public String getDisplayInt() {
 		try {
-			int i = Integer.valueOf(config.value);
-			return ""+i;
-		} catch (NumberFormatException e) {
+            int i = Integer.parseInt(config.value);
+            return String.valueOf(i);
+        } catch (NumberFormatException e) {
 			return "NAN!";
 		}
 	}

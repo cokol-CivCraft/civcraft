@@ -43,8 +43,8 @@ public abstract class ItemComponent {
 	//public static ConcurrentHashMap<String, ArrayList<ItemComponent>> componentsByType = new ConcurrentHashMap<String, ArrayList<ItemComponent>>();
 	public static ReentrantLock lock = new ReentrantLock();
 	
-	private HashMap<String, String> attributes = new HashMap<String, String>();
-	private String name;
+	private final HashMap<String, String> attributes = new HashMap<>();
+    private String name;
 	
 	public void createComponent() {
 		
@@ -67,7 +67,7 @@ public abstract class ItemComponent {
 	}
 	
 	public double getDouble(String key) {
-		return Double.valueOf(attributes.get(key));
+        return Double.parseDouble(attributes.get(key));
 	}
 	
 	public void setAttribute(String key, String value) {

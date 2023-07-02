@@ -38,7 +38,7 @@ public class Defense extends ItemComponent {
 
 	@Override
 	public void onPrepareCreate(AttributeUtil attrs) {
-		attrs.addLore(CivColor.Blue+""+this.getDouble("value")+" "+CivSettings.localize.localizedString("newItemLore_Defense"));
+		attrs.addLore(CivColor.Blue + this.getDouble("value") + " " + CivSettings.localize.localizedString("newItemLore_Defense"));
 	}
 	
 	@Override

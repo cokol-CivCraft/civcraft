@@ -30,24 +30,24 @@ import com.avrgaming.civcraft.questions.QuestionResponseInterface;
 import com.avrgaming.civcraft.util.CivColor;
 
 public class CivQuestionTask implements Runnable {
-	
-	Civilization askedCiv; /* player who is being asked a question. */
-	Civilization questionCiv; /* player who has asked the question. */
-	String question; /* Question being asked. */
-	long timeout; /* Timeout after question expires. */
-	QuestionResponseInterface finishedFunction;
-	
-	private String response = new String(); /* Response to the question. */
-	private Boolean responded = new Boolean(false); /*Question was answered. */
-	
-	public CivQuestionTask(Civilization askedciv, Civilization questionciv, String question, long timeout, 
-			QuestionResponseInterface finishedFunction) {
-		
-		this.askedCiv = askedciv;
-		this.questionCiv = questionciv;
-		this.question = question;
-		this.timeout = timeout;
-		this.finishedFunction = finishedFunction;
+
+    Civilization askedCiv; /* player who is being asked a question. */
+    Civilization questionCiv; /* player who has asked the question. */
+    String question; /* Question being asked. */
+    long timeout; /* Timeout after question expires. */
+    QuestionResponseInterface finishedFunction;
+
+    private String response = ""; /* Response to the question. */
+    private Boolean responded = false; /*Question was answered. */
+
+    public CivQuestionTask(Civilization askedciv, Civilization questionciv, String question, long timeout,
+                           QuestionResponseInterface finishedFunction) {
+
+        this.askedCiv = askedciv;
+        this.questionCiv = questionciv;
+        this.question = question;
+        this.timeout = timeout;
+        this.finishedFunction = finishedFunction;
 		
 	}
 	
@@ -65,17 +65,17 @@ public class CivQuestionTask implements Runnable {
 	@Override
 	public void run() {
 		for (Resident res : askedCiv.getLeaderGroup().getMemberList()) {
-			try {
-				askPlayer(CivGlobal.getPlayer(res));
-			} catch (CivException e) {
-			}
+            try {
+                askPlayer(CivGlobal.getPlayer(res));
+            } catch (CivException ignored) {
+            }
 		}
 		
 		for (Resident res : askedCiv.getAdviserGroup().getMemberList()) {
-			try {
-				askPlayer(CivGlobal.getPlayer(res));
-			} catch (CivException e) {
-			}
+            try {
+                askPlayer(CivGlobal.getPlayer(res));
+            } catch (CivException ignored) {
+            }
 		}
 		
 		try {
@@ -94,17 +94,17 @@ public class CivQuestionTask implements Runnable {
 		}
 		
 		for (Resident res : askedCiv.getLeaderGroup().getMemberList()) {
-			try {
-				notifyExpired(CivGlobal.getPlayer(res));
-			} catch (CivException e) {
-			}
+            try {
+                notifyExpired(CivGlobal.getPlayer(res));
+            } catch (CivException ignored) {
+            }
 		}
 		
 		for (Resident res : askedCiv.getAdviserGroup().getMemberList()) {
-			try {
-				notifyExpired(CivGlobal.getPlayer(res));
-			} catch (CivException e) {
-			}
+            try {
+                notifyExpired(CivGlobal.getPlayer(res));
+            } catch (CivException ignored) {
+            }
 		}
 		
 		CivMessage.sendCiv(questionCiv, CivColor.LightGray+CivSettings.localize.localizedString("var_civQtast_NoResponse",askedCiv.getName()));

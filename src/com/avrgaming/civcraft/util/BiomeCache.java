@@ -16,14 +16,14 @@ import com.avrgaming.civcraft.threading.TaskMaster;
 
 public class BiomeCache {
 	/*
-	 * We need to figure out which "biome" a chunk is when we create a culture chunk.
-	 * The problem is, this requires us to load the ENTIRE CHUNK to get at this little
-	 * snippet of data. (the biome at a particlar block in a chunk). This can cause us
-	 * to load literally gigabytes of extra data for "no reason" other than to find out
-	 * what the biome is. Hence this cache.
-	 * 
-	 */
-	public static HashMap<String, String> biomeCache = new HashMap<String, String>();	
+     * We need to figure out which "biome" a chunk is when we create a culture chunk.
+     * The problem is, this requires us to load the ENTIRE CHUNK to get at this little
+     * snippet of data. (the biome at a particlar block in a chunk). This can cause us
+     * to load literally gigabytes of extra data for "no reason" other than to find out
+     * what the biome is. Hence this cache.
+     *
+     */
+    public static HashMap<String, String> biomeCache = new HashMap<>();
 	
 	public static String TABLE_NAME = "CHUNK_BIOMES";
 	public static void init() throws SQLException {
@@ -67,7 +67,7 @@ public class BiomeCache {
 	
 	public static void saveBiomeInfo(CultureChunk cc) {
 		class AsyncTask implements Runnable {
-			CultureChunk cc;
+			final CultureChunk cc;
 			
 			public AsyncTask(CultureChunk cc) {
 				this.cc = cc;
@@ -113,7 +113,7 @@ public class BiomeCache {
 			return Biome.valueOf(biomeCache.get(cc.getChunkCoord().toString()));
 		} else {
 			class SyncTask implements Runnable {
-				CultureChunk cc;
+				final CultureChunk cc;
 				
 				public SyncTask(CultureChunk cc) {
 					this.cc = cc;

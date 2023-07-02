@@ -43,13 +43,12 @@ public class Tagged extends ItemComponent {
 			}
 			
 			if (tag == null) {
-				tag = tagged.getTag(stack);
-				continue;
-			} else {
-				if (!tagged.getTag(stack).equals(tag)) {
-					return null;
-				}
-			}
+                tag = tagged.getTag(stack);
+            } else {
+                if (!tagged.getTag(stack).equals(tag)) {
+                    return null;
+                }
+            }
 		}
 		
 		return tag;

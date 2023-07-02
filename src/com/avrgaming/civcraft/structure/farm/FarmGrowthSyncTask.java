@@ -53,8 +53,7 @@ public class FarmGrowthSyncTask extends CivAsyncTask {
 					fc.processGrowth(this);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
-					continue;
-				}
+                }
 			} finally {
 				fc.lock.unlock();
 			}

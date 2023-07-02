@@ -50,9 +50,9 @@ public class PlayerLoginAsyncTask implements Runnable {
 		this.playerUUID = playerUUID;
 	}
 	
-	public Player getPlayer() throws CivException {
-		return Bukkit.getPlayer(playerUUID);
-	}
+	public Player getPlayer() {
+        return Bukkit.getPlayer(playerUUID);
+    }
 	
 	@Override
 	public void run() {
@@ -187,8 +187,8 @@ public class PlayerLoginAsyncTask implements Runnable {
 			resident.calculateWalkingModifier(getPlayer());
 	
 			// Check for pending respawns.
-			ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup("global:respawnPlayer");
-			ArrayList<SessionEntry> deleted = new ArrayList<SessionEntry>();
+            ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup("global:respawnPlayer");
+            ArrayList<SessionEntry> deleted = new ArrayList<>();
 		
 			for (SessionEntry e : entries) {
 				String[] split = e.value.split(":");
@@ -214,7 +214,7 @@ public class PlayerLoginAsyncTask implements Runnable {
 				if (deathEvents.size() != 0) {
 					CivMessage.send(resident, CivColor.Rose+CivColor.BOLD+CivSettings.localize.localizedString("PlayerLoginAsync_killedWhilePVPLogged"));
 					class SyncTask implements Runnable {
-						String playerName; 
+						final String playerName;
 						
 						public SyncTask(String playerName) {
 							this.playerName = playerName;
@@ -241,22 +241,19 @@ public class PlayerLoginAsyncTask implements Runnable {
 			
 			if (EndConditionDiplomacy.canPeopleVote()) {
 				CivMessage.send(resident, CivColor.LightGreen+CivSettings.localize.localizedString("PlayerLoginAsync_councilOf8"));
-			}
-			Civilization civ = resident.getCiv();
-			if (civ != null)
-			{
-			if (civ.MOTD() != null)
-			{
-			CivMessage.send(resident, CivColor.LightPurple+"[Civ MOTD] "+CivColor.White+resident.getCiv().MOTD());
-			}
-			}
-			
-		} catch (CivException playerNotFound) {
-			// Player logged out while async task was running.
-		} catch (InvalidNameException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+            }
+            Civilization civ = resident.getCiv();
+            if (civ != null) {
+                if (civ.MOTD() != null) {
+                    CivMessage.send(resident, CivColor.LightPurple + "[Civ MOTD] " + CivColor.White + resident.getCiv().MOTD());
+                }
+            }
+
+        } // Player logged out while async task was running.
+        catch (InvalidNameException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
 	}
 	
 

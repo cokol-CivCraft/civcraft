@@ -150,12 +150,12 @@ public class MissionBook extends UnitItemMaterial {
 					int spyRegisterTime = CivSettings.getInteger(CivSettings.espionageConfig, "espionage.spy_register_time");
 					int spyOnlineTime = CivSettings.getInteger(CivSettings.espionageConfig, "espionage.spy_online_time");
 					
-					long expire = resident.getRegistered() + (spyRegisterTime*60*1000);
+					long expire = resident.getRegistered() + ((long) spyRegisterTime * 60 * 1000);
 					if (now.getTime() <= expire) {
 						throw new CivException(CivSettings.localize.localizedString("missionBook_errorTooSoon"));
 					}
-					
-					expire = resident.getLastOnline() + (spyOnlineTime*60*1000);
+
+                    expire = resident.getLastOnline() + ((long) spyOnlineTime * 60 * 1000);
 					if (now.getTime() <= expire) {
 						throw new CivException(CivSettings.localize.localizedString("missionBook_errorPlayLonger"));
 					}
@@ -177,10 +177,10 @@ public class MissionBook extends UnitItemMaterial {
 			if (cc == null || cc.getCiv() == resident.getCiv()) {
 				throw new CivException(CivSettings.localize.localizedString("missionBook_errorDifferentCiv"));
 			}
-			
-			if ((cc != null && cc.getCiv().isAdminCiv()) || (tc != null && tc.getTown().getCiv().isAdminCiv())) {
-				throw new CivException(CivSettings.localize.localizedString("missionBook_errorAdminCiv"));
-			}
+
+            if (cc.getCiv().isAdminCiv() || tc != null && tc.getTown().getCiv().isAdminCiv()) {
+                throw new CivException(CivSettings.localize.localizedString("missionBook_errorAdminCiv"));
+            }
 			
 			if (CivGlobal.isCasualMode()) {
 				if (!cc.getCiv().getDiplomacyManager().isHostileWith(resident.getCiv()) &&
@@ -444,8 +444,8 @@ public class MissionBook extends UnitItemMaterial {
 			}
 			
 			Random rand = new Random();
-			int posion_ticks = rand.nextInt((max -min)) + min;
-			String value = ""+posion_ticks;
+            int posion_ticks = rand.nextInt((max - min)) + min;
+            String value = String.valueOf(posion_ticks);
 			
 			CivGlobal.getSessionDB().add("posiongranary:"+tc.getTown().getName(), value, tc.getTown().getId(), tc.getTown().getId(), granary.getId());
 			
@@ -532,8 +532,8 @@ public class MissionBook extends UnitItemMaterial {
 		
 		if(processMissionResult(player, tc.getTown(), mission)) {
 			ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
-			BookMeta meta = (BookMeta) book.getItemMeta();
-			ArrayList<String> lore = new ArrayList<String>();
+            BookMeta meta = (BookMeta) book.getItemMeta();
+            ArrayList<String> lore = new ArrayList<>();
 			lore.add(CivSettings.localize.localizedString("missionBook_investigate_addLore"));
 			
 			meta.setAuthor(CivSettings.localize.localizedString("missionBook_investigate_setAuthor"));

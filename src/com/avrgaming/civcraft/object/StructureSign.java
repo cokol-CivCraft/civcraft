@@ -105,7 +105,7 @@ import com.avrgaming.civcraft.util.BlockCoord;
 	
 	@Override
 	public void saveNow() throws SQLException {
-		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		HashMap<String, Object> hashmap = new HashMap<>();
 		hashmap.put("text", this.getText());
 		
 		if (this.owner == null) {

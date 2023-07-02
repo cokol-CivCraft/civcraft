@@ -25,26 +25,26 @@ import com.avrgaming.civcraft.object.SQLObject;
 
 public class ArenaTeam extends SQLObject implements Comparable<ArenaTeam> {
 
-	public LinkedList<Resident> teamMembers = new LinkedList<Resident>();
-	private Resident leader;
-	private int ladderPoints;
-	private Arena currentArena;
-	private Team team;
-	private String teamColor;
-	private Civilization teamCivilization;
-	
-	public static HashMap<String, ArenaTeam> arenaTeams = new HashMap<String, ArenaTeam>();
-	public static LinkedList<ArenaTeam> teamRankings = new LinkedList<ArenaTeam>();
-	
-	public ArenaTeam(String name, Resident leader) throws InvalidNameException {
-		this.setName(name);
-		this.leader = leader;
-		this.teamCivilization = leader.getCiv();
-		teamMembers.add(leader);
-	}
-	
-	public ArenaTeam(ResultSet rs) throws SQLException, InvalidNameException, InvalidObjectException, CivException {
-		load(rs);
+    public LinkedList<Resident> teamMembers = new LinkedList<>();
+    private Resident leader;
+    private int ladderPoints;
+    private Arena currentArena;
+    private Team team;
+    private String teamColor;
+    private Civilization teamCivilization;
+
+    public static HashMap<String, ArenaTeam> arenaTeams = new HashMap<>();
+    public static LinkedList<ArenaTeam> teamRankings = new LinkedList<>();
+
+    public ArenaTeam(String name, Resident leader) throws InvalidNameException {
+        this.setName(name);
+        this.leader = leader;
+        this.teamCivilization = leader.getCiv();
+        teamMembers.add(leader);
+    }
+
+    public ArenaTeam(ResultSet rs) throws SQLException, InvalidNameException, InvalidObjectException, CivException {
+        load(rs);
 	}
 
 	public static final String TABLE_NAME = "ARENA_TEAMS";
@@ -78,28 +78,27 @@ public class ArenaTeam extends SQLObject implements Comparable<ArenaTeam> {
 	}
 	
 	public String getMemberListSaveString() {
-		String out = "";
+        StringBuilder out = new StringBuilder();
 
 			for (Resident resident : teamMembers) {
-				out += resident.getUUIDString()+",";
-			}	
-		
-		return out;
+                out.append(resident.getUUIDString()).append(",");
+			}
+
+        return out.toString();
 	}
-	
-	@Override
-	public void load(ResultSet rs) throws SQLException, InvalidNameException,
-			InvalidObjectException, CivException {
-		this.setId(rs.getInt("id"));
-		this.setName(rs.getString("name"));
-		
-			this.leader = CivGlobal.getResidentViaUUID(UUID.fromString(rs.getString("leader")));
-		if (leader == null) {
-			CivLog.error("Couldn't load leader for team:"+this.getName()+"("+this.getId()+")");
-			return;
-		}
-		
-		this.setLadderPoints(rs.getInt("ladderPoints"));
+
+    @Override
+    public void load(ResultSet rs) throws SQLException, InvalidNameException {
+        this.setId(rs.getInt("id"));
+        this.setName(rs.getString("name"));
+
+        this.leader = CivGlobal.getResidentViaUUID(UUID.fromString(rs.getString("leader")));
+        if (leader == null) {
+            CivLog.error("Couldn't load leader for team:" + this.getName() + "(" + this.getId() + ")");
+            return;
+        }
+
+        this.setLadderPoints(rs.getInt("ladderPoints"));
 		loadMembers(rs.getString("members"));
 		loadTeamCivilization();
 		
@@ -114,7 +113,7 @@ public class ArenaTeam extends SQLObject implements Comparable<ArenaTeam> {
 	
 	@Override
 	public void saveNow() throws SQLException {
-		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+        HashMap<String, Object> hashmap = new HashMap<>();
 		hashmap.put("name", this.getName());
 			hashmap.put("leader", this.leader.getUUIDString());
 		hashmap.put("ladderPoints", this.getLadderPoints());

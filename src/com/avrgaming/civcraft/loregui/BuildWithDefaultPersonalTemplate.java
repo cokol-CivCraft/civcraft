@@ -37,7 +37,7 @@ public class BuildWithDefaultPersonalTemplate implements GuiAction {
 				return;
 			}
 			
-			Location centerLoc = Buildable.repositionCenterStatic(player.getLocation(), info, Template.getDirection(player.getLocation()), (double)tpl.size_x, (double)tpl.size_z);	
+			Location centerLoc = Buildable.repositionCenterStatic(player.getLocation(), info, Template.getDirection(player.getLocation()), tpl.size_x, tpl.size_z);
 			//Buildable.validate(player, null, tpl, centerLoc, resident.pendingCallback);
 			TaskMaster.asyncTask(new StructureValidator(player, tpl.getFilepath(), centerLoc, resident.pendingCallback), 0);
 			player.closeInventory();

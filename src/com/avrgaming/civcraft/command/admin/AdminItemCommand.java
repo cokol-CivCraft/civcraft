@@ -56,8 +56,8 @@ public class AdminItemCommand extends CommandBase {
 	
 	public void enhance_cmd() throws CivException {
 		Player player = getPlayer();
-		HashMap<String, LoreEnhancement> enhancements = new HashMap<String, LoreEnhancement>();
-		ItemStack inHand = getPlayer().getInventory().getItemInMainHand();
+        HashMap<String, LoreEnhancement> enhancements = new HashMap<>();
+        ItemStack inHand = getPlayer().getInventory().getItemInMainHand();
 		
 		enhancements.put("soulbound", new LoreEnhancementSoulBound());
 		enhancements.put("attack", new LoreEnhancementAttack());
@@ -70,11 +70,11 @@ public class AdminItemCommand extends CommandBase {
 		
 		if (args.length < 2) {
 			CivMessage.sendHeading(sender, CivSettings.localize.localizedString("adcmd_item_enhancementList"));
-			String out = "";
+            StringBuilder out = new StringBuilder();
 			for (String str : enhancements.keySet()) {
-				out += str + ", ";
+                out.append(str).append(", ");
 			}
-			CivMessage.send(sender, out);
+            CivMessage.send(sender, out.toString());
 			return;
 		}
 		
@@ -90,20 +90,20 @@ public class AdminItemCommand extends CommandBase {
 			}
 		}
 	}
-	
-	@Override
-	public void doDefaultAction() throws CivException {
-		showHelp();
-	}
+
+    @Override
+    public void doDefaultAction() {
+        showHelp();
+    }
 
 	@Override
 	public void showHelp() {
 		showBasicHelp();
 	}
 
-	@Override
-	public void permissionCheck() throws CivException {
-		
-	}
+    @Override
+    public void permissionCheck() {
+
+    }
 
 }

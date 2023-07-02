@@ -227,7 +227,7 @@ public class BuildCommand extends CommandBase {
 				if (sinfo.limit == 0) {
 					leftString = CivSettings.localize.localizedString("Unlimited");
 				} else {
-					leftString = ""+(sinfo.limit - town.getStructureTypeCount(sinfo.id));
+					leftString = String.valueOf(sinfo.limit - town.getStructureTypeCount(sinfo.id));
 				}
 				
 				CivMessage.send(sender, CivColor.LightPurple+sinfo.displayName+" "+
@@ -248,7 +248,7 @@ public class BuildCommand extends CommandBase {
 				if (sinfo.limit == 0) {
 					leftString = CivSettings.localize.localizedString("Unlimited");
 				} else {
-					leftString = ""+(sinfo.limit - town.getStructureTypeCount(sinfo.id));
+                    leftString = String.valueOf(sinfo.limit - town.getStructureTypeCount(sinfo.id));
 				}
 				
 				if (Wonder.isWonderAvailable(sinfo.id)) {				
@@ -283,14 +283,14 @@ public class BuildCommand extends CommandBase {
 			showHelp();
 			return;
 		}
-		
-		String fullArgs = "";
+
+        StringBuilder fullArgs = new StringBuilder();
 		for (String arg : args) {
-			fullArgs += arg + " ";
+            fullArgs.append(arg).append(" ");
 		}
-		fullArgs = fullArgs.trim();
-		
-		buildByName(fullArgs);
+        fullArgs = new StringBuilder(fullArgs.toString().trim());
+
+        buildByName(fullArgs.toString());
 	}
 
 	public void preview_cmd() throws CivException {

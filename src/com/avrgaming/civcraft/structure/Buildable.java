@@ -34,7 +34,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Chunk;
 import org.bukkit.ChunkSnapshot;
 import org.bukkit.Color;
 import org.bukkit.Effect;
@@ -126,21 +125,21 @@ public abstract class Buildable extends SQLObject {
     public static final double SHIFT_OUT = 0;
     public static final int MIN_DISTANCE = 7;
 
-    private Map<BlockCoord, StructureSign> structureSigns = new ConcurrentHashMap<BlockCoord, StructureSign>();
-    private Map<BlockCoord, StructureChest> structureChests = new ConcurrentHashMap<BlockCoord, StructureChest>();
+    private final Map<BlockCoord, StructureSign> structureSigns = new ConcurrentHashMap<>();
+    private final Map<BlockCoord, StructureChest> structureChests = new ConcurrentHashMap<>();
 
     /* Used to keep track of which blocks belong to this buildable so they can be removed when the buildable is removed. */
-    protected Map<BlockCoord, Boolean> structureBlocks = new ConcurrentHashMap<BlockCoord, Boolean>();
+    protected Map<BlockCoord, Boolean> structureBlocks = new ConcurrentHashMap<>();
     private BlockCoord centerLocation;
 
     // XXX this is a bad hack to get the townchunks to load in the proper order when saving asynchronously
-    public ArrayList<TownChunk> townChunksToSave = new ArrayList<TownChunk>();
-    public ArrayList<Component> attachedComponents = new ArrayList<Component>();
+    public ArrayList<TownChunk> townChunksToSave = new ArrayList<>();
+    public ArrayList<Component> attachedComponents = new ArrayList<>();
 
     private boolean valid = true;
     public static double validPercentRequirement = 0.8;
-    public static HashSet<Buildable> invalidBuildables = new HashSet<Buildable>();
-    public HashMap<Integer, BuildableLayer> layerValidPercentages = new HashMap<Integer, BuildableLayer>();
+    public static HashSet<Buildable> invalidBuildables = new HashSet<>();
+    public HashMap<Integer, BuildableLayer> layerValidPercentages = new HashMap<>();
     public boolean validated = false;
 
     private String invalidReason = "";
@@ -523,7 +522,7 @@ public abstract class Buildable extends SQLObject {
     }
 
 
-    public void buildPlayerPreview(Player player, Location centerLoc, Template tpl) throws CivException, IOException {
+    public void buildPlayerPreview(Player player, Location centerLoc, Template tpl) throws CivException {
         centerLoc = repositionCenter(centerLoc, tpl.dir(), tpl.size_x, tpl.size_z);
         tpl.buildPreviewScaffolding(centerLoc, player);
 
@@ -599,7 +598,7 @@ public abstract class Buildable extends SQLObject {
         TaskMaster.asyncTask(new StructureValidator(player, tpl.getFilepath(), centerLoc, callback), 0);
     }
 
-    public void undoFromTemplate() throws IOException, CivException {
+    public void undoFromTemplate() throws CivException {
         for (BuildAsyncTask task : this.getTown().build_tasks) {
             if (task.buildable == this) {
                 task.abort();
@@ -715,12 +714,8 @@ public abstract class Buildable extends SQLObject {
 
         Location corner = getCorner().getLocation();
 
-        try {
-            tpl = new Template();
-            tpl.resumeTemplate(this.getSavedTemplatePath(), this);
-        } catch (Exception e) {
-            throw e;
-        }
+        tpl = new Template();
+        tpl.resumeTemplate(this.getSavedTemplatePath(), this);
 
         this.totalBlockCount = tpl.size_x * tpl.size_y * tpl.size_z;
 
@@ -902,8 +897,8 @@ public abstract class Buildable extends SQLObject {
 
         onCheck();
 
-        LinkedList<RoadBlock> deletedRoadBlocks = new LinkedList<RoadBlock>();
-        ArrayList<ChunkCoord> claimCoords = new ArrayList<ChunkCoord>();
+        LinkedList<RoadBlock> deletedRoadBlocks = new LinkedList<>();
+        ArrayList<ChunkCoord> claimCoords = new ArrayList<>();
         for (int x = 0; x < regionX; x++) {
             for (int y = 0; y < regionY; y++) {
                 for (int z = 0; z < regionZ; z++) {
@@ -1110,7 +1105,7 @@ public abstract class Buildable extends SQLObject {
     }
 
     /* Checks to see if the area is covered by another structure */
-    public void canBuildHere(Location center, double distance) throws CivException {
+    public void canBuildHere(Location center, double distance) {
 
         // Do not let tile improvements be built on top of each other.
         //String chunkHash = Civ.chunkHash(center.getChunk());
@@ -1126,7 +1121,6 @@ public abstract class Buildable extends SQLObject {
 //		}
 
 
-        return;
     }
 
     public int getTemplateX() {
@@ -1329,7 +1323,7 @@ public abstract class Buildable extends SQLObject {
         return info.strategic;
     }
 
-    public void runCheck(Location center) throws CivException {
+    public void runCheck(Location center) {
     }
 
     //public void fancyDestroyStructureBlocks() {
@@ -1553,10 +1547,6 @@ public abstract class Buildable extends SQLObject {
             return Buildable.validPercentRequirement * 0.3;
         }
 
-        if (level > 40) {
-            return Buildable.validPercentRequirement * 0.1;
-        }
-
         return Buildable.validPercentRequirement;
     }
 
@@ -1566,7 +1556,7 @@ public abstract class Buildable extends SQLObject {
     }
 
     //public static ReentrantLock validateLock = new ReentrantLock();
-    public void validate(Player player) throws CivException {
+    public void validate(Player player) {
         TaskMaster.asyncTask(new StructureValidator(player, this), 0);
     }
 

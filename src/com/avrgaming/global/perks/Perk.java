@@ -10,11 +10,11 @@ import com.avrgaming.global.perks.components.PerkComponent;
 
 public class Perk {
 
-	public static HashMap<String, Perk> staticPerks = new HashMap<String, Perk>();
-	
-	private String ident;
-	private HashMap<String, PerkComponent> components = new HashMap<String, PerkComponent>();
-	public ConfigPerk configPerk;
+	public static HashMap<String, Perk> staticPerks = new HashMap<>();
+
+    private String ident;
+    private final HashMap<String, PerkComponent> components = new HashMap<>();
+    public ConfigPerk configPerk;
 	public int count = 0;
 	public String provider;
 	
@@ -49,24 +49,19 @@ public class Perk {
 				try {
 					someClass = Class.forName(className);
 					PerkComponent perkCompClass;
-					perkCompClass = (PerkComponent)someClass.newInstance();
-					perkCompClass.setName(compInfo.get("name"));
-					perkCompClass.setParent(this);
-					
-					for (String key : compInfo.keySet()) {
-						perkCompClass.setAttribute(key, compInfo.get(key));
-					}
-					
-					perkCompClass.createComponent();
-					this.components.put(perkCompClass.getName(), perkCompClass);
-				} catch (InstantiationException e) {
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-				}
-				catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				}
+                    perkCompClass = (PerkComponent) someClass.newInstance();
+                    perkCompClass.setName(compInfo.get("name"));
+                    perkCompClass.setParent(this);
+
+                    for (String key : compInfo.keySet()) {
+                        perkCompClass.setAttribute(key, compInfo.get(key));
+                    }
+
+                    perkCompClass.createComponent();
+                    this.components.put(perkCompClass.getName(), perkCompClass);
+                } catch (InstantiationException | ClassNotFoundException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
 			}
 		}
 	}

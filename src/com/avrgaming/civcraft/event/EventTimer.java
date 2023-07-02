@@ -39,7 +39,7 @@ public class EventTimer {
 	private EventInterface eventFunction;
 	/* Number of seconds this event repeats. */
 	
-	public static HashMap<String, EventTimer> timers = new HashMap<String, EventTimer>();
+	public static HashMap<String, EventTimer> timers = new HashMap<>();
 	
 	public static String TABLE_NAME = "TIMERS";
 	public static void init() throws SQLException {
@@ -98,24 +98,20 @@ public class EventTimer {
 		} catch (InvalidConfiguration e) {
 			e.printStackTrace();
 		}
-		
-		/* Setup repo event. */
-		try {
-			GoodieRepoEvent repoEvent = new GoodieRepoEvent();
-			new EventTimer("repo-goodies", repoEvent, repoEvent.getNextDate());
-		} catch (InvalidConfiguration e) {
-			e.printStackTrace();
-		}
-		
-		/* Setup random event timer. */
-		try {
-			RandomEventTimer randEvent = new RandomEventTimer();
-			new EventTimer("random", randEvent, randEvent.getNextDate());
-		} catch (InvalidConfiguration e) {
-			e.printStackTrace();
-		}
-		
-	}
+
+        /* Setup repo event. */
+        try {
+            GoodieRepoEvent repoEvent = new GoodieRepoEvent();
+            new EventTimer("repo-goodies", repoEvent, repoEvent.getNextDate());
+        } catch (InvalidConfiguration e) {
+            e.printStackTrace();
+        }
+
+        /* Setup random event timer. */
+        RandomEventTimer randEvent = new RandomEventTimer();
+        new EventTimer("random", randEvent, randEvent.getNextDate());
+
+    }
 	
 	
 	public EventTimer(String name, EventInterface eventFunction, Calendar start) {
@@ -171,7 +167,7 @@ public class EventTimer {
 	
 	public void save() {
 		class SaveLater implements Runnable {
-			EventTimer timer;
+			final EventTimer timer;
 			SaveLater(EventTimer timer) { this.timer = timer; }
 			public void run() {
 				try {

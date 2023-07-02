@@ -133,11 +133,11 @@ public class CivGroupCommand extends CommandBase {
 			
 			CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_civ_group_listGroup")+" "+args[1]);
 			
-			String residents = "";
+			StringBuilder residents = new StringBuilder();
 			for (Resident res : grp.getMemberList()) {
-				residents += res.getName() + " ";
+                residents.append(res.getName()).append(" ");
 			}
-			CivMessage.send(sender, residents);
+            CivMessage.send(sender, residents.toString());
 			
 		} else {
 			CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_civ_group_listHeading"));
@@ -149,11 +149,11 @@ public class CivGroupCommand extends CommandBase {
 			CivMessage.send(sender, CivSettings.localize.localizedString("var_cmd_civ_group_listGroup",grp.getName()+CivColor.LightGray,grp.getMemberCount()));
 		}
 	}
-	
-	@Override
-	public void doDefaultAction() throws CivException {
-		showHelp();
-	}
+
+    @Override
+    public void doDefaultAction() {
+        showHelp();
+    }
 
 	@Override
 	public void showHelp() {

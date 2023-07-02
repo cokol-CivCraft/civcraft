@@ -23,7 +23,7 @@ import com.avrgaming.civcraft.util.MultiInventory;
 
 public class TradeLevelComponent extends Component {
 
-	private static int MaxRand = 10000;
+	private static final int MaxRand = 10000;
 	private static final double PACK_CHANCE = MaxRand * CivSettings.getDoubleStructure("tradeship.pack_chance"); //0.5%
 	private static final double MEDIUMPACK_CHANCE = MaxRand * CivSettings.getDoubleStructure("tradeship.mediumpack_chance"); //0.1%
 	private static final double BIGPACK_CHANCE = MaxRand * CivSettings.getDoubleStructure("tradeship.bigpack_chance"); //0.05%
@@ -53,27 +53,27 @@ public class TradeLevelComponent extends Component {
 	/* Buildable this component is attached to. */
 	// private Buildable buildable;
 
-	/*
-	 * The first key is the level id, followed by a hashmap containing integer,
-	 * amount entries for each item consumed for that level. For each item in
-	 * the hashmap, we must have ALL of the items in the inventory.
-	 */
-	private HashMap<Integer, Integer> consumptions = new HashMap<Integer, Integer>();
+    /*
+     * The first key is the level id, followed by a hashmap containing integer,
+     * amount entries for each item consumed for that level. For each item in
+     * the hashmap, we must have ALL of the items in the inventory.
+     */
+    private final HashMap<Integer, Integer> consumptions = new HashMap<>();
 
-	/*
-	 * Contains a hashmap of levels and counts configured for this component.
-	 */
-	private HashMap<Integer, Integer> levelCounts = new HashMap<Integer, Integer>();
-	private HashMap<Integer, Double> culture = new HashMap<Integer, Double>();
+    /*
+     * Contains a hashmap of levels and counts configured for this component.
+     */
+    private final HashMap<Integer, Integer> levelCounts = new HashMap<>();
+    private final HashMap<Integer, Double> culture = new HashMap<>();
 
-	/* Inventory we're trying to pull from. */
-	private MultiInventory source;
+    /* Inventory we're trying to pull from. */
+    private MultiInventory source;
 
-	// consumeComp.createComponent(this);
+    // consumeComp.createComponent(this);
 
-	@Override
-	public void createComponent(Buildable buildable, boolean async) {
-		super.createComponent(buildable, async);
+    @Override
+    public void createComponent(Buildable buildable, boolean async) {
+        super.createComponent(buildable, async);
 
 		// XXX make both mine/cottage/longhouse levels similar in the yml so
 		// they can be loaded
@@ -112,18 +112,18 @@ public class TradeLevelComponent extends Component {
 
 	@Override
 	public void onLoad() {
-		ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(
-				getKey());
+        ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(
+                getKey());
 
-		if (entries.size() == 0) {
-			getBuildable().sessionAdd(getKey(), getValue());
-			return;
-		}
+        if (entries.size() == 0) {
+            getBuildable().sessionAdd(getKey(), getValue());
+            return;
+        }
 
-		String[] split = entries.get(0).value.split(":");
-		this.level = Integer.valueOf(split[0]);
-		this.upgradeTrade = Integer.valueOf(split[1]);
-	}
+        String[] split = entries.get(0).value.split(":");
+        this.level = Integer.parseInt(split[0]);
+        this.upgradeTrade = Integer.parseInt(split[1]);
+    }
 
 	@Override
 	public void onSave() {
@@ -236,123 +236,123 @@ public class TradeLevelComponent extends Component {
 		return s;
 	}
 	private ArrayList<ItemStack> getSetByTier(int tier, String mobType, boolean isWeapon) {
-		String s;
-		ArrayList<ItemStack> newItems = new ArrayList<>();
-		switch (mobType) {
-			case "A": s = "aggressive";
-				break;
-			case "P": s = "peaceful";
-				break;
-			default:
-				return null;
-		}
-		if (s != null) {
-			switch (tier) {
-				case 1:
-					switch (s) {
-						case "peaceful":
-							if (isWeapon) {
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_hunting_bow")));
-							} else {
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_leather_leggings")));
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_leather_chestplate")));
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_leather_helmet")));
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_leather_boots")));
-							}
-							break;
-						case "aggressive":
-							if (isWeapon) {
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_iron_sword")));
-							} else {
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_iron_chestplate")));
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_iron_leggings")));
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_iron_helmet")));
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_iron_boots")));
-							}
-							break;
-					}
-					break;
-				case 2:
-					switch (s) {
-						case "peaceful":
-							if (isWeapon) {
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_recurve_bow")));
-							} else {
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_refined_leather_leggings")));
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_refined_leather_chestplate")));
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_refined_leather_helmet")));
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_refined_leather_boots")));
-							}
-							break;
-						case "aggressive":
-							if (isWeapon) {
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_steel_sword")));
-							} else {
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_steel_chestplate")));
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_steel_leggings")));
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_steel_helmet")));
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_steel_boots")));
-							}
-							break;
-					}
-					break;
-				case 3:
-					switch (s) {
-						case "peaceful":
-							if (isWeapon) {
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_longbow")));
-							} else {
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_hardened_leather_leggings")));
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_hardened_leather_chestplate")));
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_hardened_leather_helmet")));
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_hardened_leather_boots")));
-							}
-						break;
-						case "aggressive":
-							if (isWeapon) {
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_carbide_steel_sword")));
-							} else {
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_carbide_steel_chestplate")));
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_carbide_steel_leggings")));
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_carbide_steel_helmet")));
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_carbide_steel_boots")));
-							}
-						break;
-					}
-					break;
-				case 4:
-					switch (s) {
-						case "peaceful":
-							if (isWeapon) {
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_marksmen_bow")));
-							} else {
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_leggings")));
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_chestplate")));
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_helmet")));
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_boots")));
-							}
-							break;
-						case "aggressive":
-							if (isWeapon) {
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_sword")));
-							} else {
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_chestplate")));
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_leggings")));
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_helmet")));
-								newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_boots")));
-							}
-							break;
-					}
-				}
-			}
-		return newItems;
-	}
+        String s;
+        ArrayList<ItemStack> newItems = new ArrayList<>();
+        switch (mobType) {
+            case "A":
+                s = "aggressive";
+                break;
+            case "P":
+                s = "peaceful";
+                break;
+            default:
+                return null;
+        }
+        switch (tier) {
+            case 1:
+                switch (s) {
+                    case "peaceful":
+                        if (isWeapon) {
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_hunting_bow")));
+                        } else {
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_leather_leggings")));
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_leather_chestplate")));
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_leather_helmet")));
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_leather_boots")));
+                        }
+                        break;
+                    case "aggressive":
+                        if (isWeapon) {
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_iron_sword")));
+                        } else {
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_iron_chestplate")));
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_iron_leggings")));
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_iron_helmet")));
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_iron_boots")));
+                        }
+                        break;
+                }
+                break;
+            case 2:
+                switch (s) {
+                    case "peaceful":
+                        if (isWeapon) {
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_recurve_bow")));
+                        } else {
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_refined_leather_leggings")));
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_refined_leather_chestplate")));
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_refined_leather_helmet")));
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_refined_leather_boots")));
+                        }
+                        break;
+                    case "aggressive":
+                        if (isWeapon) {
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_steel_sword")));
+                        } else {
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_steel_chestplate")));
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_steel_leggings")));
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_steel_helmet")));
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_steel_boots")));
+                        }
+                        break;
+                }
+                break;
+            case 3:
+                switch (s) {
+                    case "peaceful":
+                        if (isWeapon) {
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_longbow")));
+                        } else {
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_hardened_leather_leggings")));
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_hardened_leather_chestplate")));
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_hardened_leather_helmet")));
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_hardened_leather_boots")));
+                        }
+                        break;
+                    case "aggressive":
+                        if (isWeapon) {
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_carbide_steel_sword")));
+                        } else {
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_carbide_steel_chestplate")));
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_carbide_steel_leggings")));
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_carbide_steel_helmet")));
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_carbide_steel_boots")));
+                        }
+                        break;
+                }
+                break;
+            case 4:
+                switch (s) {
+                    case "peaceful":
+                        if (isWeapon) {
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_marksmen_bow")));
+                        } else {
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_leggings")));
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_chestplate")));
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_helmet")));
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_boots")));
+                        }
+                        break;
+                    case "aggressive":
+                        if (isWeapon) {
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_sword")));
+                        } else {
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_chestplate")));
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_leggings")));
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_helmet")));
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_boots")));
+                        }
+                        break;
+                }
+        }
+        return newItems;
+    }
 	
 	private void processItemsFromStack(ItemStack stack) {
-		String itemID = LoreMaterial.getMaterial(stack).getId();
-		Integer countInStack = stack.getAmount();
-		Random rand = new Random();
-		ArrayList<ItemStack> newItems = new ArrayList<ItemStack>();
+        String itemID = LoreMaterial.getMaterial(stack).getId();
+        int countInStack = stack.getAmount();
+        Random rand = new Random();
+        ArrayList<ItemStack> newItems = new ArrayList<>();
 		for (int i = 0; i < countInStack; i++) {
 			int rand1 = rand.nextInt(MaxRand);
 			if (rand1 < (int)(HUGEPACK_CHANCE)) {
@@ -380,9 +380,9 @@ public class TradeLevelComponent extends Component {
 					default:
 						int emeraldRand = (rand.nextInt(4)) + 1;
 						if (emeraldRand >= 3) {
-							newItems.add(new ItemStack(Material.SULPHUR.getId(), 3, (short) 0));
+                            newItems.add(new ItemStack(Material.SULPHUR, 3, (short) 0));
 						} else {
-							newItems.add(new ItemStack(Material.EMERALD.getId(), 1, (short) 0));
+                            newItems.add(new ItemStack(Material.EMERALD, 1, (short) 0));
 						}
 						break;
 				}
@@ -411,9 +411,9 @@ public class TradeLevelComponent extends Component {
 					default:
 					int diamondRand = (rand.nextInt(4))+1;
 					if (diamondRand >= 3) {
-						newItems.add(new ItemStack(Material.SULPHUR.getId(), 2, (short) 0));
+                        newItems.add(new ItemStack(Material.SULPHUR, 2, (short) 0));
 					} else {
-						newItems.add(new ItemStack(Material.DIAMOND.getId(), 1, (short) 0));
+                        newItems.add(new ItemStack(Material.DIAMOND, 1, (short) 0));
 					}
 					newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_fragment_3"), (rand.nextInt(3))+1));
 					newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_fragment_3"), (rand.nextInt(3))+1));
@@ -440,9 +440,9 @@ public class TradeLevelComponent extends Component {
 					default:
 					int goldRand = (rand.nextInt(4))+1;
 					if (goldRand >= 3) {
-						newItems.add(new ItemStack(Material.SULPHUR.getId(), 2, (short) 0));
+                        newItems.add(new ItemStack(Material.SULPHUR, 2, (short) 0));
 					} else {
-						newItems.add(new ItemStack(Material.GOLD_INGOT.getId(), 1, (short) 0));
+                        newItems.add(new ItemStack(Material.GOLD_INGOT, 1, (short) 0));
 					}
 					
 					newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_fragment_2"), (rand.nextInt(3))+1));
@@ -470,9 +470,9 @@ public class TradeLevelComponent extends Component {
 					default:
 					int ironRand = (rand.nextInt(4))+1;
 					if (ironRand >= 3) {
-						newItems.add(new ItemStack(Material.SULPHUR.getId(), 1, (short) 0));
+                        newItems.add(new ItemStack(Material.SULPHUR, 1, (short) 0));
 					} else {
-						newItems.add(new ItemStack(Material.IRON_INGOT.getId(), 1, (short) 0));
+                        newItems.add(new ItemStack(Material.IRON_INGOT, 1, (short) 0));
 					}
 					break;
 				}
@@ -504,29 +504,27 @@ public class TradeLevelComponent extends Component {
 			String tradeable = attrs.getCivCraftProperty("tradeable");
 			if (tradeable != null) {
 				if (tradeable.equalsIgnoreCase("true")) {
-					if (stacksToConsume > 0) {
-						int countInStack = stack.getAmount();
-						String tradeValue = attrs.getCivCraftProperty("tradeValue");
-						if (tradeValue != null) {
-							double valueForStack = Double.parseDouble(tradeValue);
-							double moneyForStack = countInStack * valueForStack;
-							monetaryValue += moneyForStack;
-						} else {
-							CivLog.debug("tradeValue null for item");
-						}
-	
-						processItemsFromStack(stack);
-						countConsumed += countInStack;
-						stacksToConsume--;
-						/* Consume what we can */
-						try {
-							source.removeItem(stack, false);
-						} catch (CivException e) {
-							e.printStackTrace();
-							return 0;
-						}
-					}
-				}
+                    int countInStack = stack.getAmount();
+                    String tradeValue = attrs.getCivCraftProperty("tradeValue");
+                    if (tradeValue != null) {
+                        double valueForStack = Double.parseDouble(tradeValue);
+                        double moneyForStack = countInStack * valueForStack;
+                        monetaryValue += moneyForStack;
+                    } else {
+                        CivLog.debug("tradeValue null for item");
+                    }
+
+                    processItemsFromStack(stack);
+                    countConsumed += countInStack;
+                    stacksToConsume--;
+                    /* Consume what we can */
+                    try {
+                        source.removeItem(stack, false);
+                    } catch (CivException e) {
+                        e.printStackTrace();
+                        return 0;
+                    }
+                }
 			}
 
 		}

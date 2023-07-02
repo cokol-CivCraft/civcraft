@@ -32,10 +32,10 @@ public class SyncUpdateInventory implements Runnable {
 	public static final int UPDATE_LIMIT = 200;
 	
 	/*
-	 * Performs the desired action on a provided multi-inventory.
-	 */
-	public static Queue<UpdateInventoryRequest> requestQueue = new LinkedList<UpdateInventoryRequest>();	
-	public static ReentrantLock lock;
+     * Performs the desired action on a provided multi-inventory.
+     */
+    public static Queue<UpdateInventoryRequest> requestQueue = new LinkedList<>();
+    public static ReentrantLock lock;
 		
 	public SyncUpdateInventory() {
 		lock = new ReentrantLock();
@@ -43,8 +43,8 @@ public class SyncUpdateInventory implements Runnable {
 
 	@Override
 	public void run() {
-		
-		Boolean retBool = false;
+
+        boolean retBool = false;
 		if (lock.tryLock()) {
 			try {
 				for (int i = 0; i < UPDATE_LIMIT; i++) {

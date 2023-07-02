@@ -35,12 +35,12 @@ public class LoreEnhancementAttack extends LoreEnhancement {
 		 * new one.
 		 */
 		
-		double amount = Double.valueOf(this.variables.get("amount"));
-		double baseLevel = amount;
+		double amount = Double.parseDouble(this.variables.get("amount"));
+        double baseLevel = amount;
 		if (attrs.hasEnhancement("LoreEnhancementAttack")) {
 			
 			/* Get base Level. */
-			baseLevel = Double.valueOf(attrs.getEnhancementData("LoreEnhancementAttack", "level"));
+            baseLevel = Double.parseDouble(attrs.getEnhancementData("LoreEnhancementAttack", "level"));
 
 			/* Reset the lore. */
 			String[] lore = attrs.getLore();
@@ -52,14 +52,14 @@ public class LoreEnhancementAttack extends LoreEnhancement {
 			attrs.setLore(lore);
 			
 			/* Reset the item name. */
-			String split[] = attrs.getName().split("\\(");
+            String[] split = attrs.getName().split("\\(");
 			attrs.setName(split[0]+"(+"+(baseLevel+amount)+")");
 			
 			/* Store the data back in the enhancement. */
-			attrs.setEnhancementData("LoreEnhancementAttack", "level", ""+(baseLevel+amount));
+            attrs.setEnhancementData("LoreEnhancementAttack", "level", String.valueOf(baseLevel + amount));
 		} else {
-			attrs.addEnhancement("LoreEnhancementAttack", "level", ""+baseLevel);
-			attrs.addLore(getLoreString(baseLevel));
+            attrs.addEnhancement("LoreEnhancementAttack", "level", String.valueOf(baseLevel));
+            attrs.addLore(getLoreString(baseLevel));
 			attrs.setName(attrs.getName()+CivColor.LightBlue+"(+"+amount+")");
 		}
 
@@ -76,7 +76,7 @@ public class LoreEnhancementAttack extends LoreEnhancement {
 	public double getLevel(AttributeUtil attrs) {	
 		if (attrs.hasEnhancement("LoreEnhancementAttack")) {
 			/* Get base Level. */
-			Double baseLevel = Double.valueOf(attrs.getEnhancementData("LoreEnhancementAttack", "level")); 
+            double baseLevel = Double.parseDouble(attrs.getEnhancementData("LoreEnhancementAttack", "level"));
 			return baseLevel;
 		}
 		return 0;

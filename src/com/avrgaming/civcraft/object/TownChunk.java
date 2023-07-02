@@ -166,7 +166,7 @@ public class TownChunk extends SQLObject {
 
 	@Override
 	public void saveNow() throws SQLException {
-		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		HashMap<String, Object> hashmap = new HashMap<>();
 		
 		hashmap.put("id", this.getId());
 		hashmap.put("town_id", this.getTown().getId());
@@ -186,11 +186,11 @@ public class TownChunk extends SQLObject {
 		}
 		
 		if (this.perms.getGroups().size() != 0) {
-			String out = "";
+            StringBuilder out = new StringBuilder();
 			for (PermissionGroup grp : this.perms.getGroups()) {
-				out += grp.getId()+":";
+                out.append(grp.getId()).append(":");
 			}
-			hashmap.put("groups", out);
+            hashmap.put("groups", out.toString());
 		} else {
 			hashmap.put("groups", null);
 		}

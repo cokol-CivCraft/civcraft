@@ -37,15 +37,15 @@ public class StructureValidator implements Runnable {
 	
 	
 	/* Only validate a single structure at a time. */
-	private static ReentrantLock validationLock = new ReentrantLock();
+	private static final ReentrantLock validationLock = new ReentrantLock();
 	private static TemplateStream tplStream = null;
 	
 	
 	/* Private tasks we'll reuse. */
-	private static SyncLoadSnapshotsFromLayer layerLoadTask = new SyncLoadSnapshotsFromLayer();
+	private static final SyncLoadSnapshotsFromLayer layerLoadTask = new SyncLoadSnapshotsFromLayer();
 		
 	
-	private static HashMap<ChunkCoord, ChunkSnapshot> chunks = new HashMap<ChunkCoord, ChunkSnapshot>();
+	private static final HashMap<ChunkCoord, ChunkSnapshot> chunks = new HashMap<>();
 	
 	/*
 	 * Validate an already existing buildable.
@@ -57,7 +57,7 @@ public class StructureValidator implements Runnable {
 	private String iTemplateName = null;
 	private BlockCoord iCornerLoc = null;
 	private CallbackInterface iCallback = null;
-	private boolean isWork = CivCraft.getIsValidate();
+	private final boolean isWork = CivCraft.getIsValidate();
 	
 	public static boolean isEnabled() {
 		String enabledStr;
@@ -67,12 +67,8 @@ public class StructureValidator implements Runnable {
 			e.printStackTrace();
 			return false;
 		}
-		
-		if (enabledStr.equalsIgnoreCase("true")) {
-			return true;
-		}
-		
-		return false;
+
+		return enabledStr.equalsIgnoreCase("true");
 	}
 	
 	public StructureValidator(Player player, Buildable bld) {
@@ -130,7 +126,7 @@ public class StructureValidator implements Runnable {
 			if (playerName != null) {
 				player = CivGlobal.getPlayer(playerName);
 			}
-		} catch (CivException e) {
+		} catch (CivException ignored) {
 		}
 		
 		int checkedLevelCount = 0;
@@ -177,7 +173,6 @@ public class StructureValidator implements Runnable {
 					DecimalFormat df = new DecimalFormat();
 					message = CivSettings.localize.localizedString("var_structureValidator_layerInvalid",y,df.format(percentValid*100),(reinforcementValue+"/"+totalBlocks),df.format(Buildable.validPercentRequirement*100));
 					valid = false;
-					continue;
 				}
 			}
 		}

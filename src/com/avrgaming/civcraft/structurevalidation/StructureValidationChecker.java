@@ -20,32 +20,28 @@ public class StructureValidationChecker implements Runnable {
 			
 			if (War.isWarTime()) {
 				/* Don't do any work once it's war time. */
-				break;
-			}
-			
-			if (!struct.isActive()) {
-				continue;
-			}
-			
-			if (struct.isIgnoreFloating()) {
-				continue;
-			}
-			
-			try {
-				CivLog.warning("Doing a structure validate... "+struct.getDisplayName());
-				struct.validate(null);
-			} catch (CivException e) {
-				e.printStackTrace();
-			}
-			
-			synchronized (this) {
-				try {
-					this.wait(12500);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		}
+                break;
+            }
+
+            if (!struct.isActive()) {
+                continue;
+            }
+
+            if (struct.isIgnoreFloating()) {
+                continue;
+            }
+
+            CivLog.warning("Doing a structure validate... " + struct.getDisplayName());
+            struct.validate(null);
+
+            synchronized (this) {
+                try {
+                    this.wait(12500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 	}
 
 }

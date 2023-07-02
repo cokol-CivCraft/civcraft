@@ -47,9 +47,9 @@ public class Library extends Structure {
 	private int level;
 	public AttributeBiome cultureBeakers;
 	
-	ArrayList<LibraryEnchantment> enchantments = new ArrayList<LibraryEnchantment>();
+	ArrayList<LibraryEnchantment> enchantments = new ArrayList<>();
 
-	private NonMemberFeeComponent nonMemberFeeComponent;
+	private final NonMemberFeeComponent nonMemberFeeComponent;
 	
 	public static Enchantment getEnchantFromString(String name) {
 		switch (name.toLowerCase()) {
@@ -128,7 +128,7 @@ public class Library extends Structure {
 	}
 	
 	private String getNonResidentFeeString() {
-		return "Fee: "+((int)(getNonResidentFee()*100) + "%").toString();		
+        return "Fee: " + ((int) (getNonResidentFee() * 100) + "%");
 	}
 	
 	protected Library(Location center, String id, Town town)
@@ -161,7 +161,7 @@ public class Library extends Structure {
 	
 	private StructureSign getSignFromSpecialId(int special_id) {
 		for (StructureSign sign : getSigns()) {
-			int id = Integer.valueOf(sign.getAction());
+            int id = Integer.parseInt(sign.getAction());
 			if (id == special_id) {
 				return sign;
 			}
@@ -228,7 +228,7 @@ public class Library extends Structure {
 	}
 	
 	public void add_enchantment_to_tool(Player player, StructureSign sign, PlayerInteractEvent event) throws CivException {
-		int special_id = Integer.valueOf(sign.getAction());
+        int special_id = Integer.parseInt(sign.getAction());
 
 		if (!event.hasItem()) {
 			CivMessage.send(player, CivColor.Rose+CivSettings.localize.localizedString("library_enchant_itemNotInHand"));
@@ -286,17 +286,17 @@ public class Library extends Structure {
 	
 	@Override
 	public String getDynmapDescription() {
-		String out = "<u><b>"+this.getDisplayName()+"</u></b><br/>";
+        StringBuilder out = new StringBuilder("<u><b>" + this.getDisplayName() + "</u></b><br/>");
 		
 		if (this.enchantments.size() == 0) {
-			out += CivSettings.localize.localizedString("library_dynmap_nothingStocked");
+            out.append(CivSettings.localize.localizedString("library_dynmap_nothingStocked"));
 		} 
 		else {
 			for (LibraryEnchantment mat : this.enchantments) {
-				out += CivSettings.localize.localizedString("var_library_dynmap_item",mat.displayName,mat.price)+"<br/>";
+                out.append(CivSettings.localize.localizedString("var_library_dynmap_item", mat.displayName, mat.price)).append("<br/>");
 			}
 		}
-		return out;
+        return out.toString();
 	}
 	
 	

@@ -26,8 +26,7 @@ public class CannonTowerTask implements Runnable {
 		
 		try {
 			if (!CivGlobal.towersEnabled) {
-				return;
-			}
+            }
 			
 //			Iterator<Entry<BlockCoord, Structure>> iter = CivGlobal.getStructureIterator();
 //			while(iter.hasNext()) {

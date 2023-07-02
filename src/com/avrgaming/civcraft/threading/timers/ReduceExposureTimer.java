@@ -11,7 +11,7 @@ public class ReduceExposureTimer implements Runnable {
 	@Override
 	public void run() {
 
-		LinkedList<String> playersToReduce = new LinkedList<String>();
+		LinkedList<String> playersToReduce = new LinkedList<>();
 		
 		for (Resident resident : CivGlobal.getResidents()) {
 			if (!resident.isPerformingMission() && resident.getSpyExposure() > 0) {
@@ -22,7 +22,7 @@ public class ReduceExposureTimer implements Runnable {
 		
 		class SyncTask implements Runnable {
 
-			public LinkedList<String> playersToReduce;
+			public final LinkedList<String> playersToReduce;
 			
 			public SyncTask(LinkedList<String> list) {
 				playersToReduce = list;

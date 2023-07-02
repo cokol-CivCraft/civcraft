@@ -57,18 +57,18 @@ public class CivInfoCommand extends CommandBase {
 		Civilization civ = getSenderCiv();
 		
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("var_cmd_civ_info_onlineHeading",civ.getName()));
-		String out = "";
+		StringBuilder out = new StringBuilder();
 		for (Resident resident : civ.getOnlineResidents()) {
-			out += resident.getName()+" ";
+            out.append(resident.getName()).append(" ");
 		}
-		CivMessage.send(sender, out);
+        CivMessage.send(sender, out.toString());
 	}
 	
 	public void beakers_cmd() throws CivException {
 		Civilization civ = getSenderCiv();
 		
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_civ_info_beakersHeading"));
-		ArrayList<String> out = new ArrayList<String>();
+        ArrayList<String> out = new ArrayList<>();
 		
 		for (Town t : civ.getTowns()) {
 			for (Buff b : t.getBuffManager().getEffectiveBuffs(Buff.SCIENCE_RATE)) {
@@ -138,8 +138,7 @@ public class CivInfoCommand extends CommandBase {
 			
 			CivMessage.send(sender, CivColor.LightGray+CivSettings.localize.localizedString("cmd_civ_info_upkeepHeading2"));
 			CivMessage.send(sender, CivColor.LightGray+CivSettings.localize.localizedString("cmd_civ_info_upkeepHeading3"));
-			
-			return;
+
 		} else {
 	
 			Town town = civ.getTown(args[1]);
@@ -226,7 +225,7 @@ public class CivInfoCommand extends CommandBase {
 			
 			for (SessionEntry entry : entries) {
 				if (civ == EndGameCondition.getCivFromSessionData(entry.value)) {
-					Integer daysLeft = endCond.getDaysToHold() - endCond.getDaysHeldFromSessionData(entry.value);
+                    int daysLeft = endCond.getDaysToHold() - endCond.getDaysHeldFromSessionData(entry.value);
 					
 					CivMessage.send(sender, CivSettings.localize.localizedString("var_cmd_civ_info_daysTillVictoryNew",CivColor.LightBlue+CivColor.BOLD+civ.getName()+CivColor.White,
 							CivColor.Yellow+CivColor.BOLD+daysLeft+CivColor.White,CivColor.LightPurple+CivColor.BOLD+endCond.getVictoryName()+CivColor.White));
@@ -247,20 +246,20 @@ public class CivInfoCommand extends CommandBase {
 			CivMessage.send(sender, CivSettings.localize.localizedString("var_cmd_civ_info_showBeakersTowardEnlight",CivColor.LightBlue+CivColor.BOLD+civ.getName()+CivColor.White,
 					CivColor.LightPurple+CivColor.BOLD+df.format(beakers)+CivColor.White));			
 		}
-		
-		String out = CivColor.Green+CivSettings.localize.localizedString("Towns")+" ";
+
+        StringBuilder out = new StringBuilder(CivColor.Green + CivSettings.localize.localizedString("Towns") + " ");
 		for (Town town : civ.getTowns()) {
 			if (town.isCapitol()) {
-				out += CivColor.Gold+town.getName();
+                out.append(CivColor.Gold).append(town.getName());
 			} else if (town.getMotherCiv() != null) {
-				out += CivColor.Yellow+town.getName();
+                out.append(CivColor.Yellow).append(town.getName());
 			} else {
-				out += CivColor.White+town.getName();
+                out.append(CivColor.White).append(town.getName());
 			}
-			out += ", ";
+            out.append(", ");
 		}
-		
-		CivMessage.send(sender, out);
+
+        CivMessage.send(sender, out.toString());
 	}
 	
 	public void show_info() throws CivException {
@@ -274,10 +273,10 @@ public class CivInfoCommand extends CommandBase {
 		showBasicHelp();
 	}
 
-	@Override
-	public void permissionCheck() throws CivException {
-		
-	}
+    @Override
+    public void permissionCheck() {
+
+    }
 
 	
 }

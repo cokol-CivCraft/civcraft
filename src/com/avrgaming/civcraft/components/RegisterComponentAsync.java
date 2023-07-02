@@ -46,7 +46,7 @@ public class RegisterComponentAsync implements Runnable {
 				ArrayList<Component> components = Component.componentsByType.get(name);
 				
 				if (components == null) {
-					components = new ArrayList<Component>();
+					components = new ArrayList<>();
 				}
 			
 				components.add(component);

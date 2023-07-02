@@ -37,7 +37,7 @@ public class FarmGrowthRegrowTask extends CivAsyncTask {
 	@Override
 	public void run() {
 		
-		Queue<FarmChunk> regrow = new LinkedList<FarmChunk>();
+		Queue<FarmChunk> regrow = new LinkedList<>();
 		CivLog.info("Regrowing "+farmsToGrow.size()+" farms due to locking failures.");
 		
 		FarmChunk fc;

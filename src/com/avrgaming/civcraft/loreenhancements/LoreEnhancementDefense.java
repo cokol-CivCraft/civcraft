@@ -26,13 +26,13 @@ public class LoreEnhancementDefense extends LoreEnhancement {
 		 * If we have one, add to it instead of making a
 		 * new one.
 		 */
-		double amount = Double.valueOf(this.variables.get("amount"));
-		double baseLevel = amount;
+		double amount = Double.parseDouble(this.variables.get("amount"));
+        double baseLevel = amount;
 
 		if (attrs.hasEnhancement("LoreEnhancementDefense")) {
 			
 			/* Get base Level. */
-			baseLevel = Double.valueOf(attrs.getEnhancementData("LoreEnhancementDefense", "level"));
+            baseLevel = Double.parseDouble(attrs.getEnhancementData("LoreEnhancementDefense", "level"));
 			
 			/* Reset the lore. */
 			String[] lore = attrs.getLore();
@@ -44,14 +44,14 @@ public class LoreEnhancementDefense extends LoreEnhancement {
 			attrs.setLore(lore);
 			
 			/* Reset the item name. */
-			String split[] = attrs.getName().split("\\(");
+            String[] split = attrs.getName().split("\\(");
 			attrs.setName(split[0]+"(+"+(baseLevel+amount)+")");
 			
 			/* Store the data back in the enhancement. */
-			attrs.setEnhancementData("LoreEnhancementDefense", "level", ""+(baseLevel+amount));
+            attrs.setEnhancementData("LoreEnhancementDefense", "level", String.valueOf(baseLevel + amount));
 		} else {
-			attrs.addEnhancement("LoreEnhancementDefense", "level", ""+baseLevel);
-			attrs.addLore(getLoreString(baseLevel));
+            attrs.addEnhancement("LoreEnhancementDefense", "level", String.valueOf(baseLevel));
+            attrs.addLore(getLoreString(baseLevel));
 			attrs.setName(attrs.getName()+CivColor.LightBlue+"(+"+amount+")");
 		}
 		
@@ -67,7 +67,7 @@ public class LoreEnhancementDefense extends LoreEnhancement {
 	public double getLevel(AttributeUtil attrs) {	
 		if (attrs.hasEnhancement("LoreEnhancementDefense")) {
 			/* Get base Level. */
-			Double baseLevel = Double.valueOf(attrs.getEnhancementData("LoreEnhancementDefense", "level")); 
+            double baseLevel = Double.parseDouble(attrs.getEnhancementData("LoreEnhancementDefense", "level"));
 			return baseLevel;
 		}
 		return 1;

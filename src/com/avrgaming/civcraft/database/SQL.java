@@ -77,7 +77,7 @@ public class SQL {
     public static ConnectionPool globalDatabase;
     public static ConnectionPool perkDatabase;
 
-    public static void initialize() throws InvalidConfiguration, SQLException, ClassNotFoundException {
+    public static void initialize() throws InvalidConfiguration, SQLException {
         CivLog.heading("Initializing SQL");
 
         SQL.hostname = CivSettings.getStringBase("mysql.hostname");
@@ -244,10 +244,7 @@ public class SQL {
             String[] types = {"TABLE"};
 
             result = dbm.getTables(null, null, SQL.tb_prefix + name, types);
-            if (result.next()) {
-                return true;
-            }
-            return false;
+            return result.next();
         } finally {
             SQL.close(result, null, context);
         }
@@ -262,10 +259,7 @@ public class SQL {
             DatabaseMetaData dbm = global_context.getMetaData();
             String[] types = {"TABLE"};
             rs = dbm.getTables(null, null, name, types);
-            if (rs.next()) {
-                return true;
-            }
-            return false;
+            return rs.next();
 
         } finally {
             SQL.close(rs, null, global_context);
@@ -341,7 +335,7 @@ public class SQL {
         }
     }
 
-    public static void updateNamedObjectAsync(NamedObject obj, HashMap<String, Object> hashmap, String tablename) throws SQLException {
+    public static void updateNamedObjectAsync(NamedObject obj, HashMap<String, Object> hashmap, String tablename) {
         TaskMaster.asyncTask("", new SQLUpdateNamedObjectTask(obj, hashmap, tablename), 0);
     }
 
@@ -368,9 +362,9 @@ public class SQL {
         PreparedStatement ps = null;
 
         try {
-            String sql = "UPDATE `" + SQL.tb_prefix + tablename + "` SET ";
+            StringBuilder sql = new StringBuilder("UPDATE `" + SQL.tb_prefix + tablename + "` SET ");
             String where = " WHERE `" + keyname + "` = ?;";
-            ArrayList<Object> values = new ArrayList<Object>();
+            ArrayList<Object> values = new ArrayList<>();
 
             Object keyValue = hashmap.get(keyname);
             hashmap.remove(keyname);
@@ -379,15 +373,15 @@ public class SQL {
             while (keyIter.hasNext()) {
                 String key = keyIter.next();
 
-                sql += "`" + key + "` = ?";
-                sql += "" + (keyIter.hasNext() ? ", " : " ");
+                sql.append("`").append(key).append("` = ?");
+                sql.append(keyIter.hasNext() ? ", " : " ");
                 values.add(hashmap.get(key));
             }
 
-            sql += where;
+            sql.append(where);
 
             context = SQL.getGameConnection();
-            ps = context.prepareStatement(sql);
+            ps = context.prepareStatement(sql.toString());
 
             int i = 1;
             for (Object value : values) {
@@ -430,19 +424,19 @@ public class SQL {
 
         try {
             String sql = "INSERT INTO " + SQL.tb_prefix + tablename + " ";
-            String keycodes = "(";
-            String valuecodes = " VALUES ( ";
-            ArrayList<Object> values = new ArrayList<Object>();
+            StringBuilder keycodes = new StringBuilder("(");
+            StringBuilder valuecodes = new StringBuilder(" VALUES ( ");
+            ArrayList<Object> values = new ArrayList<>();
 
             Iterator<String> keyIter = hashmap.keySet().iterator();
             while (keyIter.hasNext()) {
                 String key = keyIter.next();
 
-                keycodes += key;
-                keycodes += "" + (keyIter.hasNext() ? "," : ")");
+                keycodes.append(key);
+                keycodes.append(keyIter.hasNext() ? "," : ")");
 
-                valuecodes += "?";
-                valuecodes += "" + (keyIter.hasNext() ? "," : ")");
+                valuecodes.append("?");
+                valuecodes.append(keyIter.hasNext() ? "," : ")");
 
                 values.add(hashmap.get(key));
             }

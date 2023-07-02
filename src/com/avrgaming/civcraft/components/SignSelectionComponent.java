@@ -31,36 +31,28 @@ import com.avrgaming.civcraft.util.BlockCoord;
 
 public class SignSelectionComponent extends Component {
 
-	private int selectedIndex = 0;
-	
-	private BlockCoord actionSignCoord;
-	
-	private class SelectionItem {
-		public String[] message;
-		public SignSelectionActionInterface action;
-	}
-	
-	private HashMap<Integer, SelectionItem> items = new HashMap<Integer, SelectionItem>();
+    private int selectedIndex = 0;
 
-	@Override
-	public void onLoad() {
-	}
+    private BlockCoord actionSignCoord;
 
-	@Override
-	public void onSave() {	
-	}
-	
-	public void addItem(String[] message, SignSelectionActionInterface action) {
-		
-		SelectionItem item = new SelectionItem();
-		item.message = message;
-		item.action = action;
-		items.put(items.size(), item);
-	}
-	
-	public void updateActionSign() {
-		class SyncTask implements Runnable {
-			@Override
+    private static class SelectionItem {
+        public String[] message;
+        public SignSelectionActionInterface action;
+    }
+
+    private final HashMap<Integer, SelectionItem> items = new HashMap<>();
+
+    public void addItem(String[] message, SignSelectionActionInterface action) {
+
+        SelectionItem item = new SelectionItem();
+        item.message = message;
+        item.action = action;
+        items.put(items.size(), item);
+    }
+
+    public void updateActionSign() {
+        class SyncTask implements Runnable {
+            @Override
 			public void run() {
 				if (actionSignCoord == null) {
 					CivLog.warning("No action sign block coord found!");

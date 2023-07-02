@@ -25,7 +25,7 @@ public class FisheryAsyncTask extends CivAsyncTask {
 
 	FishHatchery fishHatchery;
 	
-	public static HashSet<String> debugTowns = new HashSet<String>();
+	public static HashSet<String> debugTowns = new HashSet<>();
 
 	public static void debug(FishHatchery fishHatchery, String msg) {
 		if (debugTowns.contains(fishHatchery.getTown().getName())) {

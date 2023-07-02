@@ -46,7 +46,7 @@ public class TrommelAsyncTask extends CivAsyncTask {
 	Trommel trommel;
 	private static final int GRAVEL_RATE = 1; //0.10%
 	
-	public static HashSet<String> debugTowns = new HashSet<String>();
+	public static HashSet<String> debugTowns = new HashSet<>();
 
 	public static void debug(Trommel trommel, String msg) {
 		if (debugTowns.contains(trommel.getTown().getName())) {
@@ -173,7 +173,7 @@ public class TrommelAsyncTask extends CivAsyncTask {
 						newItem = new ItemStack(Material.IRON_INGOT.getId(), 1, (short) 0);
 	
 					}  else {
-						newItem = new ItemStack(Material.GRAVEL.getId(), (Integer) GRAVEL_RATE, (short) 0);
+                        newItem = new ItemStack(Material.GRAVEL.getId(), GRAVEL_RATE, (short) 0);
 					}
 					
 					//Try to add the new item to the dest chest, if we cant, oh well.
@@ -252,7 +252,7 @@ public class TrommelAsyncTask extends CivAsyncTask {
 						} else if (rand1 < ((int)((trommel.getGraniteChance(Mineral.DIRT))*randMax))) {
 							newItem = new ItemStack(Material.DIRT.getId(), 1, (short) 0);
 						} else {
-							newItem = new ItemStack(Material.GRAVEL.getId(), (Integer) GRAVEL_RATE, (short) 0);
+                            newItem = new ItemStack(Material.GRAVEL.getId(), GRAVEL_RATE, (short) 0);
 						}
 						
 						//Try to add the new item to the dest chest, if we cant, oh well.
@@ -330,7 +330,7 @@ public class TrommelAsyncTask extends CivAsyncTask {
 						} else if (rand1 < ((int)((trommel.getDioriteChance(Mineral.DIRT))*randMax))) {
 							newItem = new ItemStack(Material.DIRT.getId(), 1, (short) 0);
 						} else {
-							newItem = new ItemStack(Material.GRAVEL.getId(), (Integer) GRAVEL_RATE, (short) 0);
+                            newItem = new ItemStack(Material.GRAVEL.getId(), GRAVEL_RATE, (short) 0);
 						}
 						
 						//Try to add the new item to the dest chest, if we cant, oh well.
@@ -408,7 +408,7 @@ public class TrommelAsyncTask extends CivAsyncTask {
 						} else if (rand1 < ((int)((trommel.getAndesiteChance(Mineral.DIRT))*randMax))) {
 							newItem = new ItemStack(Material.DIRT.getId(), 1, (short) 0);
 						} else {
-							newItem = new ItemStack(Material.GRAVEL.getId(), (Integer) GRAVEL_RATE, (short) 0);
+                            newItem = new ItemStack(Material.GRAVEL.getId(), GRAVEL_RATE, (short) 0);
 						}
 						
 						//Try to add the new item to the dest chest, if we cant, oh well.
@@ -438,8 +438,8 @@ public class TrommelAsyncTask extends CivAsyncTask {
 					if (this.trommel.getTown().getGovernment().id.equals("gov_theocracy") || this.trommel.getTown().getGovernment().id.equals("gov_monarchy")){
 						Random rand = new Random();
 						int randMax = 100;
-						int rand1 = rand.nextInt(randMax);
-						Double chance = CivSettings.getDouble(CivSettings.structureConfig, "trommel.penalty_rate") * 100;
+                        int rand1 = rand.nextInt(randMax);
+                        double chance = CivSettings.getDouble(CivSettings.structureConfig, "trommel.penalty_rate") * 100;
 						if (rand1 < chance)
 						{
 							processTrommelUpdate();

@@ -46,11 +46,11 @@ public class AdminCampCommand extends CommandBase {
 		Camp camp = this.getNamedCamp(1);
 		
 		try {
-			camp.repairFromTemplate();
-		} catch (IOException e) {
-		} catch (CivException e) {
-			e.printStackTrace();
-		}
+            camp.repairFromTemplate();
+        } catch (IOException ignored) {
+        } catch (CivException e) {
+            e.printStackTrace();
+        }
 		camp.reprocessCommandSigns();
 		CivMessage.send(sender, CivSettings.localize.localizedString("Repaired"));
 	}
@@ -87,20 +87,20 @@ public class AdminCampCommand extends CommandBase {
 		camp.destroy();
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_camp_destroyedSuccess"));
 	}
-	
-	@Override
-	public void doDefaultAction() throws CivException {
-		showHelp();
-	}
+
+    @Override
+    public void doDefaultAction() {
+        showHelp();
+    }
 
 	@Override
 	public void showHelp() {
 		showBasicHelp();
 	}
 
-	@Override
-	public void permissionCheck() throws CivException {
-		
-	}
+    @Override
+    public void permissionCheck() {
+
+    }
 
 }

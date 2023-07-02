@@ -30,7 +30,6 @@ import org.bukkit.Location;
 
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.SimpleBlock;
 import org.bukkit.Material;
 
@@ -57,12 +56,12 @@ public class TemplateStream {
 	private int sizeY;
 	private int sizeZ;
 	
-	/* 
+	/*
 	 * Container that holds any/all simple block objects we've retrieved from the file.
 	 * Rather than clear and create new simple blocks, we'd rather overwrite old ones
-	 * that way we're not pressing the allocator/garbage collector all the time. 
+	 * that way we're not pressing the allocator/garbage collector all the time.
 	 */
-	ArrayList<SimpleBlock> blocks = new ArrayList<SimpleBlock>();
+	ArrayList<SimpleBlock> blocks = new ArrayList<>();
 	private int currentBlockCount = 0;
 	
 	private File sourceFile = null;

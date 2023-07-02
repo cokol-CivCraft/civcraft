@@ -27,10 +27,10 @@ public class PlayerBlockChangeUtil {
     /*
      * This hashmap contains the blocks in each chunk to update. The Simple block's x, y, and z value are now chunk offsets.
      */
-    HashMap<String, HashMap<ChunkCoord, LinkedList<SimpleBlock>>> blocksInChunkToUpdate = new HashMap<String, HashMap<ChunkCoord, LinkedList<SimpleBlock>>>();
+    HashMap<String, HashMap<ChunkCoord, LinkedList<SimpleBlock>>> blocksInChunkToUpdate = new HashMap<>();
 
 
-    TreeMap<String, PacketPlayOutMultiBlockChange> preparedPackets = new TreeMap<String, PacketPlayOutMultiBlockChange>();
+    TreeMap<String, PacketPlayOutMultiBlockChange> preparedPackets = new TreeMap<>();
     //private static ReentrantLock taskLock = new ReentrantLock();
 
 

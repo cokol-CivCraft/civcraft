@@ -64,11 +64,11 @@ public class PlayerReviveTask implements Runnable {
 		CivMessage.send(player, CivColor.LightGray+CivSettings.localize.localizedString("var_PlayerReviveTask_repawnIn",timeout));
 		
 		try {
-			synchronized(this) {
-				this.wait(timeout*1000);
-			}
-		} catch (InterruptedException e) {
-		}
+            synchronized (this) {
+                this.wait(timeout * 1000L);
+            }
+        } catch (InterruptedException ignored) {
+        }
 		
 		try {
 			player = CivGlobal.getPlayer(playerName);

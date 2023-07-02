@@ -63,7 +63,7 @@ public class Wall extends Structure {
 	private static int MAX_HEIGHT;
 	private static double COST_PER_SEGMENT;
 	private static double MAX_SEGMENT;
-	
+
 	public static void init_settings() throws InvalidConfiguration {
 		HEIGHT = CivSettings.getInteger(CivSettings.warConfig, "wall.height");
 		MAX_HEIGHT = CivSettings.getInteger(CivSettings.warConfig, "wall.maximum_height");
@@ -71,18 +71,18 @@ public class Wall extends Structure {
 		MAX_SEGMENT = CivSettings.getDouble(CivSettings.warConfig, "wall.max_segment");
 		RECURSION_LIMIT = CivSettings.getInteger(CivSettings.warConfig, "wall.recursion_limit");
 	}
-	
-	public Map<BlockCoord, WallBlock> wallBlocks = new HashMap<BlockCoord, WallBlock>();
-	public HashSet<ChunkCoord> wallChunks = new HashSet<ChunkCoord>();
-	
+
+	public Map<BlockCoord, WallBlock> wallBlocks = new HashMap<>();
+	public HashSet<ChunkCoord> wallChunks = new HashSet<>();
+
 	/*
-	 *  This is used to chain together the wall chunks built by the last operation. 
+	 *  This is used to chain together the wall chunks built by the last operation.
 	 * this allows us to undo all of the walls built in a single pass.
 	 */
-	private Wall nextWallBuilt = null;
-	
+	private final Wall nextWallBuilt = null;
+
 //	private int verticalsegments = 0;
-	
+
 //	private HashMap<String, SimpleBlock> simpleBlocks = new HashMap<String, SimpleBlock>();
 	
 	protected Wall(Location center, String id, Town town) throws CivException {
@@ -107,19 +107,19 @@ public class Wall extends Structure {
 	public boolean canRestoreFromTemplate() {
 		return false;
 	}
-	
+
 	@Override
-	public void processUndo() throws CivException {
-		
+	public void processUndo() {
+
 		double refund = 0.0;
 		for (WallBlock wb : wallBlocks.values()) {
-			
+
 			Material material = wb.getOldId();
 			if (CivSettings.restrictedUndoBlocks.contains(material)) {
 				continue;
 			}
 
-            Block block = wb.getCoord().getBlock();
+			Block block = wb.getCoord().getBlock();
             block.setType(wb.getOldId());
             ItemManager.setData(wb.getCoord().getBlock(), wb.getOldData());
 			refund += COST_PER_SEGMENT;
@@ -150,10 +150,9 @@ public class Wall extends Structure {
 	protected Location repositionCenter(Location center, String dir, double x_size, double z_size)  {
 		return center;
 	}
-	
+
 	@Override
-	public void resumeBuildFromTemplate() throws Exception
-	{
+	public void resumeBuildFromTemplate() {
 	}
 	
 	public void deleteOnDisband() throws SQLException {
@@ -207,16 +206,12 @@ public class Wall extends Structure {
 			ChunkCoord coord = new ChunkCoord(this.getCorner());
 			CivGlobal.removeWallChunk(this, coord);
 		} else {
-			try {
-				this.nextWallBuilt.processUndo();
-			} catch (CivException e) {
-				e.printStackTrace();
-			}
+			this.nextWallBuilt.processUndo();
 		}
 	}
-	
+
 	@Override
-	protected void checkBlockPermissionsAndRestrictions(Player player, Block centerBlock, int regionX, int regionY, int regionZ, Location savedLocation) throws CivException {
+	protected void checkBlockPermissionsAndRestrictions(Player player, Block centerBlock, int regionX, int regionY, int regionZ, Location savedLocation) {
 	}
 	
 	@Override
@@ -237,9 +232,9 @@ public class Wall extends Structure {
 		
 		MarkerPlacementManager.addToPlacementMode(player, this, CivSettings.localize.localizedString("wall_marketHeading"));		
 	}
-	
+
 	@Override
-	public void build(Player player, Location centerLoc, Template tpl) throws Exception {		
+	public void build(Player player, Location centerLoc, Template tpl) {
 //		// Set the player into "place mode" which allows them to place down
 //		// markers.
 //		//XXX never called anymore??
@@ -304,7 +299,7 @@ public class Wall extends Structure {
 		this.save();
 			
 		// We should now be able to draw a line between these two block points.
-		HashMap<String, SimpleBlock> simpleBlocks = new HashMap<String, SimpleBlock>();
+		HashMap<String, SimpleBlock> simpleBlocks = new HashMap<>();
 		int verticalSegments = this.buildWallSegment(player, first, second, 0, simpleBlocks, 0);
 		
 		// Pay the piper
@@ -488,15 +483,11 @@ public class Wall extends Structure {
 			Block block = bcoord.getBlock();
 			int old_data = ItemManager.getData(bcoord.getBlock());
 			if (!wallBlocks.containsKey(bcoord)) {
-				try {
-					WallBlock wb = new WallBlock(bcoord, this, block.getType(), old_data, sb.getType(), sb.getData());
-					
-					wallBlocks.put(bcoord, wb);
-					this.addStructureBlock(bcoord, true);
-					wb.save();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				WallBlock wb = new WallBlock(bcoord, this, block.getType(), old_data, sb.getType(), sb.getData());
+
+				wallBlocks.put(bcoord, wb);
+				this.addStructureBlock(bcoord, true);
+				wb.save();
 			}
 		}
 		return verticalSegments;
@@ -527,22 +518,22 @@ public class Wall extends Structure {
 		
 		return false;
 	}
-	
+
 	@Override
-	public void repairFromTemplate() throws IOException, CivException {
+	public void repairFromTemplate() throws CivException {
 		this.repairStructureForFree();
-		}
-	
+	}
+
 	@Override
-	public void repairStructureForFree() throws CivException {
+	public void repairStructureForFree() {
 		setHitpoints(getMaxHitPoints());
 		bindStructureBlocks();
-		
+
 		for (WallBlock wb : this.wallBlocks.values()) {
 			BlockCoord bcoord = wb.getCoord();
-            Block block = bcoord.getBlock();
-            block.setType(wb.getTypeId());
-            ItemManager.setData(bcoord.getBlock(), wb.getData());
+			Block block = bcoord.getBlock();
+			block.setType(wb.getTypeId());
+			ItemManager.setData(bcoord.getBlock(), wb.getData());
 		}
 		
 		save();

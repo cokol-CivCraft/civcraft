@@ -112,7 +112,7 @@ public class RecoverStructuresAsyncTask implements Runnable {
 		ignoreBlocks.add(Material.FENCE);
 		ignoreBlocks.add(Material.LADDER);
 		
-		ArrayList<Structure> repairStructures = new ArrayList<Structure>();
+		ArrayList<Structure> repairStructures = new ArrayList<>();
 		
 		Iterator<Entry<BlockCoord, Structure>> iter = CivGlobal.getStructureIterator();
 		while (iter.hasNext()) {

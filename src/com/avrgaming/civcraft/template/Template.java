@@ -61,8 +61,6 @@ public class Template {
         WONDER,
     }
 
-    ;
-
     public SimpleBlock[][][] blocks;
     public int size_x;
     public int size_y;
@@ -70,21 +68,21 @@ public class Template {
     private String strTheme;
     private String dir;
     private String filepath;
-    private Queue<SimpleBlock> sbs; //Blocks to add to main sync task queue;
+    private final Queue<SimpleBlock> sbs; //Blocks to add to main sync task queue;
 
     /* Save the command block locations when we init the template, so we dont have to search for them later. */
-    public ArrayList<BlockCoord> commandBlockRelativeLocations = new ArrayList<BlockCoord>();
-    public LinkedList<BlockCoord> doorRelativeLocations = new LinkedList<BlockCoord>();
-    public LinkedList<BlockCoord> attachableLocations = new LinkedList<BlockCoord>();
+    public ArrayList<BlockCoord> commandBlockRelativeLocations = new ArrayList<>();
+    public LinkedList<BlockCoord> doorRelativeLocations = new LinkedList<>();
+    public LinkedList<BlockCoord> attachableLocations = new LinkedList<>();
     public static HashSet<Material> attachableTypes = new HashSet<>();
 
 
-    public static HashMap<String, Template> templateCache = new HashMap<String, Template>();
+    public static HashMap<String, Template> templateCache = new HashMap<>();
 
 
     //	public static HashMap<String, Template> staticTemplates = new HashMap<String, Template>();
 //	
-    public static void init() throws IOException, CivException {
+    public static void init() {
 //		/* Always cache default capitol, camp, and town hall templates. */
 //		CivLog.info("============= Loading Static Templates ===========");
 //		int count = 0;
@@ -378,7 +376,7 @@ public class Template {
 
     }
 
-    public void saveUndoTemplate(String string, String subdir, Location center) throws CivException, IOException {
+    public void saveUndoTemplate(String string, String subdir, Location center) throws IOException {
 
         String filepath = "templates/undo/" + subdir;
         File undo_tpl_file = new File(filepath);
@@ -397,9 +395,9 @@ public class Template {
                         if (b.getState() instanceof Sign) {
                             Sign sign = (Sign) b.getState();
 
-                            String signText = "";
+                            StringBuilder signText = new StringBuilder();
                             for (String line : sign.getLines()) {
-                                signText += line + ",";
+                                signText.append(line).append(",");
                             }
                             writer.write(x + ":" + y + ":" + z + "," + b.getTypeId() + ":" + ItemManager.getData(b) + "," + signText + "\n");
                         }
@@ -719,7 +717,7 @@ public class Template {
         return null;
     }
 
-    public void deleteUndoTemplate(String string, String subdir) throws CivException, IOException {
+    public void deleteUndoTemplate(String string, String subdir) {
         String filepath = "templates/undo/" + subdir + "/" + string;
         File templateFile = new File(filepath);
         templateFile.delete();
@@ -765,7 +763,7 @@ public class Template {
     }
 
     public void buildUndoTemplate(Template tpl, Block centerBlock) {
-        HashMap<Chunk, Chunk> chunkUpdates = new HashMap<Chunk, Chunk>();
+        HashMap<Chunk, Chunk> chunkUpdates = new HashMap<>();
 
         for (int x = 0; x < tpl.size_x; x++) {
             for (int y = 0; y < tpl.size_y; y++) {

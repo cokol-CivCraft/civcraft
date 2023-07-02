@@ -89,8 +89,8 @@ public class CivMotdCommand extends CommandBase {
 	}
 
 	@Override
-	public void permissionCheck() throws CivException {
-				
-	}
+    public void permissionCheck() {
+
+    }
 
 }

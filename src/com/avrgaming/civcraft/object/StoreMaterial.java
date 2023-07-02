@@ -18,16 +18,18 @@
  */
 package com.avrgaming.civcraft.object;
 
+import org.bukkit.Material;
+
 public class StoreMaterial {
-	public int type;
+	public Material type;
 	public byte data;
 	public String name;
 	public double price;
-	
-	public StoreMaterial(String strtype, String strdata, String strname, String strprice) {		
-		type = Integer.valueOf(strtype);
+
+	public StoreMaterial(String strtype, String strdata, String strname, String strprice) {
+		type = Material.getMaterial(Integer.parseInt(strtype));
 		data = Integer.valueOf(strdata).byteValue();
 		name = strname;
-		price = Double.valueOf(strprice);
+		price = Double.parseDouble(strprice);
 	}
 }

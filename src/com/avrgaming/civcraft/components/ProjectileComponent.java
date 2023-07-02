@@ -46,36 +46,28 @@ public abstract class ProjectileComponent extends Component {
 	protected Buildable buildable;
 	protected PlayerProximityComponent proximityComponent;
 	private Location turretCenter;
-	
-	private HashSet<BlockCoord> turrets = new HashSet<BlockCoord>();
 
-	public ProjectileComponent(Buildable buildable, Location turretCenter) {
-		this.buildable = buildable;
-		proximityComponent = new PlayerProximityComponent();
-		proximityComponent.createComponent(buildable);
-		this.turretCenter = turretCenter;
-		loadSettings();
-	}
-		
-	@Override
-	public void onLoad() {
-	}
+    private final HashSet<BlockCoord> turrets = new HashSet<>();
 
-	@Override
-	public void onSave() {
-	}
-	
-	/*
-	 * We're overriding the create component class here so that all child-classes
-	 * will register with this method rather than the default. This is done so that the key
-	 * used in components by type will get all instances of this base class rather than having
-	 * to search for the children in the componentByType list.
-	 */
-	@Override
-	public void createComponent(Buildable buildable, boolean async) {
-		if (async) {
-			TaskMaster.asyncTask(new RegisterComponentAsync(buildable, this, ProjectileComponent.class.getName(), true), 0);
-		} else {
+    public ProjectileComponent(Buildable buildable, Location turretCenter) {
+        this.buildable = buildable;
+        proximityComponent = new PlayerProximityComponent();
+        proximityComponent.createComponent(buildable);
+        this.turretCenter = turretCenter;
+        loadSettings();
+    }
+
+    /*
+     * We're overriding the create component class here so that all child-classes
+     * will register with this method rather than the default. This is done so that the key
+     * used in components by type will get all instances of this base class rather than having
+     * to search for the children in the componentByType list.
+     */
+    @Override
+    public void createComponent(Buildable buildable, boolean async) {
+        if (async) {
+            TaskMaster.asyncTask(new RegisterComponentAsync(buildable, this, ProjectileComponent.class.getName(), true), 0);
+        } else {
 			new RegisterComponentAsync(buildable, this, ProjectileComponent.class.getName(), true).run();
 		}
 	}
@@ -137,11 +129,8 @@ public abstract class ProjectileComponent extends Component {
 		if (residentLocation.getWorld() != turretCenter.getWorld()) {
 			return false;
 		}
-		
-		if (residentLocation.distance(turretCenter) <= range ) {
-			return true;
-		}
-		return false;
+
+		return residentLocation.distance(turretCenter) <= range;
 	}
 	
 	private boolean isLit(Player player) {
@@ -246,10 +235,10 @@ public abstract class ProjectileComponent extends Component {
 				}
 			}
 		}
-		
-		if (nearestPlayer == null || turretLoc == null) {
-			return;
-		}
+
+        if (nearestPlayer == null) {
+            return;
+        }
 		
 		fire(turretLoc, nearestPlayer);	
 	}

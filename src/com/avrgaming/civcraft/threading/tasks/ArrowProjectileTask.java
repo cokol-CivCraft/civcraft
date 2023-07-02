@@ -45,7 +45,7 @@ public class ArrowProjectileTask implements Runnable {
 	@Override
 	public void run() {
 		Calendar now = Calendar.getInstance();
-		ArrayList<ArrowFiredCache> removeUs = new ArrayList<ArrowFiredCache>();
+        ArrayList<ArrowFiredCache> removeUs = new ArrayList<>();
 		for (ArrowFiredCache afc : CivCache.arrowsFired.values()) {
 			Arrow arrow = afc.getArrow();
 			if (!arrow.isValid() || arrow.isOnGround() || arrow.isDead() || afc.isHit()) {

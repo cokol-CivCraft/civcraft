@@ -37,7 +37,7 @@ public class LoreStoreage {
 		if (meta.hasLore()) {
 			lore = meta.getLore();
 		} else {
-			lore = new ArrayList<String>();
+			lore = new ArrayList<>();
 		}
 		
 		lore.set(0, CivColor.Black+"MID:"+id);
@@ -54,9 +54,9 @@ public class LoreStoreage {
 	}
 	
 	public static void saveLoreMap(String type, Map<String, String> map, ItemStack stack) {
-		
-		ItemMeta meta = stack.getItemMeta();
-		ArrayList<String> lore = new ArrayList<String>();
+
+        ItemMeta meta = stack.getItemMeta();
+        ArrayList<String> lore = new ArrayList<>();
 		
 		lore.add(CivColor.Blue+type);
 		
@@ -82,7 +82,7 @@ public class LoreStoreage {
 	}
 	
 	public static Map<String, String> getLoreMap(ItemStack stack) {
-		HashMap<String, String> map = new HashMap<String, String>();
+        HashMap<String, String> map = new HashMap<>();
 		
 		ItemMeta meta = stack.getItemMeta();
 		if (meta.hasLore()) {

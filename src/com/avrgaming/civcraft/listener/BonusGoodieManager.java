@@ -207,7 +207,7 @@ public class BonusGoodieManager implements Listener {
 			// if we are not doing a shift-click close it to hide client
 			// bug showing the item in the inventory even though its not
 			// there.
-			if (event.isShiftClick() == false) {
+			if (!event.isShiftClick()) {
 				view.close();
 			}
 			
@@ -256,7 +256,6 @@ public class BonusGoodieManager implements Listener {
 		
 		BonusGoodie goodie = CivGlobal.getBonusGoodie(event.getItemDrop().getItemStack());
 		if (goodie == null) {
-			return;
 		}
 		
 		// Verify that the player dropping this item is in fact our holder.
@@ -409,14 +408,14 @@ public class BonusGoodieManager implements Listener {
 		Inventory inv = event.getPlayer().getInventory();
 		
 		for (ConfigTradeGood good : CivSettings.goods.values()) {
-			for (Entry<Integer, ? extends ItemStack> itemEntry : inv.all(ItemManager.getMaterial(good.material)).entrySet()) {
+			for (Entry<Integer, ? extends ItemStack> itemEntry : inv.all(Material.getMaterial((int) good.material)).entrySet()) {
 				if (good.material_data != ItemManager.getData(itemEntry.getValue())) {
 					continue;
 				}
-				
+
 				BonusGoodie goodie = CivGlobal.getBonusGoodie(itemEntry.getValue());
 				if (goodie != null) {
-					inv.remove(itemEntry.getValue());				
+					inv.remove(itemEntry.getValue());
 				}
 			}
 		}
@@ -456,10 +455,10 @@ public class BonusGoodieManager implements Listener {
 					e.printStackTrace();
 				}
 			}
-			
+
 			player.getWorld().dropItemNaturally(frame.getLocation(), stack);
-			frame.setItem(new ItemStack(Material.AIR.getId(), 1, (short) 0));
-			CivMessage.send(player, CivColor.LightGray+CivSettings.localize.localizedString("bonusGoodie_unsocket"));
+			frame.setItem(new ItemStack(Material.AIR, 1, (short) 0));
+			CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("bonusGoodie_unsocket"));
 		} else if (goodie != null) {
 			//Item frame was empty, add goodie to it.
 			frame.setItem(player.getInventory().getItemInMainHand());
@@ -514,7 +513,6 @@ public class BonusGoodieManager implements Listener {
 		if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {				
 			CivMessage.sendError(event.getPlayer(), CivSettings.localize.localizedString("bonusGoodie_errorCannotUse"));
 			event.setCancelled(true);
-			return;
 		}
 	}
 	

@@ -59,7 +59,7 @@ public class InventoryHolderStorage {
 	public InventoryHolder getHolder() throws CivException {
 		if (playerName != null) {
 			Player player = CivGlobal.getPlayer(playerName);
-			return (InventoryHolder)player;
+			return player;
 		} 
 		
 		if (blockLocation != null) {

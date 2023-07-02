@@ -52,7 +52,7 @@ public class FarmChunk {
 	public ChunkSnapshot snapshot;
 	
 	/* Populated Asynchronously, Integer represents last data value at that location.. may or may not be useful. */
-	public ArrayList<BlockCoord> cropLocationCache = new ArrayList<BlockCoord>();
+	public ArrayList<BlockCoord> cropLocationCache = new ArrayList<>();
 	public ReentrantLock lock = new ReentrantLock();
 	
 	private ArrayList<BlockCoord> lastGrownCrops = new ArrayList<>();

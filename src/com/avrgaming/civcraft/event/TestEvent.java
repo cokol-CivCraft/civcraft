@@ -31,10 +31,10 @@ public class TestEvent implements EventInterface {
 	}
 
 	@Override
-	public Calendar getNextDate() throws InvalidConfiguration {
-		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.SECOND, 60);
-		return cal;
-	}
+    public Calendar getNextDate() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.SECOND, 60);
+        return cal;
+    }
 
 }

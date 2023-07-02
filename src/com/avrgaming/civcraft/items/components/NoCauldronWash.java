@@ -27,8 +27,7 @@ public class NoCauldronWash extends ItemComponent {
             Block block = bcoord.getBlock();
             if (block.getTypeId() == Material.CAULDRON.getId()) {
 				event.setCancelled(true);
-				return;
-			}
+            }
 		}
 	}
 }

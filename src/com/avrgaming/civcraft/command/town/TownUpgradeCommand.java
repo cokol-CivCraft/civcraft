@@ -45,12 +45,12 @@ public class TownUpgradeCommand extends CommandBase {
 		Town town = this.getSelectedTown();
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_town_upgrade_purchasedHeading"));
 
-		String out = "";
+		StringBuilder out = new StringBuilder();
 		for (ConfigTownUpgrade upgrade : town.getUpgrades().values()) {
-			out += upgrade.name+", ";
+            out.append(upgrade.name).append(", ");
 		}
-		
-		CivMessage.send(sender, out);
+
+        CivMessage.send(sender, out.toString());
 	}
 	
 	private void list_upgrades(String category, Town town) throws CivException {
@@ -94,15 +94,15 @@ public class TownUpgradeCommand extends CommandBase {
 		}
 		
 		Town town = this.getSelectedTown();
-		
-		String combinedArgs = "";
+
+        StringBuilder combinedArgs = new StringBuilder();
 		args = this.stripArgs(args, 1);
 		for (String arg : args) {
-			combinedArgs += arg + " ";
+            combinedArgs.append(arg).append(" ");
 		}
-		combinedArgs = combinedArgs.trim();
-		
-		ConfigTownUpgrade upgrade = CivSettings.getUpgradeByNameRegex(town, combinedArgs);
+        combinedArgs = new StringBuilder(combinedArgs.toString().trim());
+
+        ConfigTownUpgrade upgrade = CivSettings.getUpgradeByNameRegex(town, combinedArgs.toString());
 		if (upgrade == null) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_town_upgrade_buyInvalid")+" "+combinedArgs);
 		}
@@ -115,11 +115,11 @@ public class TownUpgradeCommand extends CommandBase {
 		town.purchaseUpgrade(upgrade);
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_upgrade_buySuccess",upgrade.name));
 	}
-	
-	@Override
-	public void doDefaultAction() throws CivException {
-		showHelp();
-	}
+
+    @Override
+    public void doDefaultAction() {
+        showHelp();
+    }
 
 	@Override
 	public void showHelp() {

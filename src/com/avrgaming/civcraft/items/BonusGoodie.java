@@ -63,13 +63,13 @@ import com.avrgaming.civcraft.util.ItemManager;
 
 public class BonusGoodie extends LoreItem {
 	/*
-	 * This class represents a lore item that is tied to a trade outpost.
-	 * We need to keep track of its location at all times so we can despawn it.
-	 */
-	public static enum LoreIndex {
-		TYPE,
-		OUTPOSTLOCATION
-	}
+     * This class represents a lore item that is tied to a trade outpost.
+     * We need to keep track of its location at all times so we can despawn it.
+     */
+    public enum LoreIndex {
+        TYPE,
+        OUTPOSTLOCATION
+    }
 		
 	public static final String LORE_TYPE = CivSettings.localize.localizedString("bonusGoodie_SignHeading");
 	
@@ -89,9 +89,9 @@ public class BonusGoodie extends LoreItem {
 	
 	/* Outpost this goodie belongs to. */
 	private TradeOutpost outpost = null;
-	
-	/* Config data belonging to this goodie. */
-	private ConfigTradeGood config; 
+
+    /* Config data belonging to this goodie. */
+    private final ConfigTradeGood config;
 	
 	public static final String TABLE_NAME = "GOODIE_ITEMS";
 	public static void init() throws SQLException {
@@ -132,15 +132,15 @@ public class BonusGoodie extends LoreItem {
 		ps = context.prepareStatement("SELECT * FROM "+SQL.tb_prefix+BonusGoodie.TABLE_NAME+" WHERE `outpost_location`  = ?");
 		ps.setString(1, outpost_location);
 		rs = ps.executeQuery();
-		
-		if (rs.first() == false) {
-			/* Nothing found in the database, create at trade outpost. */
-			this.outpost = outpost;
-			createGoodieAtOutpost();
-			
-		} else {
-			this.load(rs);
-		}
+
+            if (!rs.first()) {
+                /* Nothing found in the database, create at trade outpost. */
+                this.outpost = outpost;
+                createGoodieAtOutpost();
+
+            } else {
+                this.load(rs);
+            }
 		
 		} finally {
 			SQL.close(rs, ps, context);
@@ -168,7 +168,7 @@ public class BonusGoodie extends LoreItem {
 	public void updateLore(ItemStack stack) {
 		TradeGood good = outpost.getGood();
 
-		ArrayList<String> lore = new ArrayList<String>();
+        ArrayList<String> lore = new ArrayList<>();
 		lore.add(LORE_TYPE);
 		lore.add(outpost.getCorner().toString());
 		
@@ -203,17 +203,17 @@ public class BonusGoodie extends LoreItem {
 				return null;
 			}		
 			for (ConfigTradeGood good : CivSettings.goods.values()) {
-				for (Entry<Integer, ? extends ItemStack> itemEntry : holder.getInventory().all(ItemManager.getMaterial(good.material)).entrySet()) {
-					if (ItemManager.getData(itemEntry.getValue()) != good.material_data) {
-						continue;
-					}
-					ItemStack stack = itemEntry.getValue();
-					
-					if (this.isItemStackOurs(stack)) {
-						// Found ya!						
-						return stack;
-					} 
-				}
+                for (Entry<Integer, ? extends ItemStack> itemEntry : holder.getInventory().all(good.material).entrySet()) {
+                    if (ItemManager.getData(itemEntry.getValue()) != good.material_data) {
+                        continue;
+                    }
+                    ItemStack stack = itemEntry.getValue();
+
+                    if (this.isItemStackOurs(stack)) {
+                        // Found ya!
+                        return stack;
+                    }
+                }
 			}
 		} 	
 		
@@ -337,7 +337,7 @@ public class BonusGoodie extends LoreItem {
 	 * saves it to the database if needed.
 	 */
 	public void update(boolean sync) throws CivException {
-		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+        HashMap<String, Object> hashmap = new HashMap<>();
 				
 		//Verify that the structure still exists, could have been unbuilt.
 		Structure struct = CivGlobal.getStructure(this.outpost.getCorner());
@@ -495,18 +495,18 @@ public class BonusGoodie extends LoreItem {
 		}
 	}
 
-	@Override
-	public void load(ResultSet rs) throws SQLException, InvalidNameException {
-		this.setId(rs.getInt("id"));
+    @Override
+    public void load(ResultSet rs) throws SQLException {
+        this.setId(rs.getInt("id"));
 
-		String holderLocString = rs.getString("holder_location");
-		String outpostLocString = rs.getString("outpost_location");
-		String frameUID = rs.getString("frame_uid");
-		String itemUID = rs.getString("item_uid");
-		Location outpostLocation = null;
-		
-		// First find the outpost for this goodie.
-		try {
+        String holderLocString = rs.getString("holder_location");
+        String outpostLocString = rs.getString("outpost_location");
+        String frameUID = rs.getString("frame_uid");
+        String itemUID = rs.getString("item_uid");
+        Location outpostLocation = null;
+
+        // First find the outpost for this goodie.
+        try {
 			if (outpostLocString != null && !outpostLocString.equals("")) {
 				outpostLocation = CivGlobal.getLocationFromHash(outpostLocString);
 				this.outpost = (TradeOutpost)CivGlobal.getStructure(new BlockCoord(outpostLocation));
@@ -536,17 +536,17 @@ public class BonusGoodie extends LoreItem {
 				Inventory inv = ((Chest)b.getState()).getInventory();
 				
 				for (ConfigTradeGood good : CivSettings.goods.values()) {
-					for (Entry<Integer, ? extends ItemStack> itemEntry : inv.all(ItemManager.getMaterial(good.material)).entrySet()) {
-						if (ItemManager.getData(itemEntry.getValue()) != good.material_data) {
-							continue;
-						}
-						ItemStack stack = itemEntry.getValue();
-						
-						if (this.isItemStackOurs(stack)) {
-							// Found ya!						
-							holderStore = new InventoryHolderStorage(inv.getHolder(), b.getLocation());
-							this.frameStore = null;
-							this.item = null;
+                    for (Entry<Integer, ? extends ItemStack> itemEntry : inv.all(good.material).entrySet()) {
+                        if (ItemManager.getData(itemEntry.getValue()) != good.material_data) {
+                            continue;
+                        }
+                        ItemStack stack = itemEntry.getValue();
+
+                        if (this.isItemStackOurs(stack)) {
+                            // Found ya!
+                            holderStore = new InventoryHolderStorage(inv.getHolder(), b.getLocation());
+                            this.frameStore = null;
+                            this.item = null;
 							CivGlobal.addBonusGoodie(this);
 							return;
 						}
@@ -637,28 +637,26 @@ public class BonusGoodie extends LoreItem {
 		
 		if (meta.hasLore() && meta.getLore().size() >= LoreIndex.values().length) {
 			if (meta.getLore().get(LoreIndex.TYPE.ordinal()).equals(BonusGoodie.LORE_TYPE)) {
-				String outpostLoreLoc = meta.getLore().get(LoreIndex.OUTPOSTLOCATION.ordinal());
-				Location loc = CivGlobal.getLocationFromHash(outpostLoreLoc);
-				
-				if (loc.getBlockX() == outpost.getCorner().getX() &&
-						loc.getBlockY() == outpost.getCorner().getY() &&
-						loc.getBlockZ() == outpost.getCorner().getZ()) {
-					// Found ya!						
-					return true;
-				}
-			}
+                String outpostLoreLoc = meta.getLore().get(LoreIndex.OUTPOSTLOCATION.ordinal());
+                Location loc = CivGlobal.getLocationFromHash(outpostLoreLoc);
+
+                // Found ya!
+                return loc.getBlockX() == outpost.getCorner().getX() &&
+                        loc.getBlockY() == outpost.getCorner().getY() &&
+                        loc.getBlockZ() == outpost.getCorner().getZ();
+            }
 		}
 		return false;
 	}
-	
-	@Override 
-	public void saveNow() throws SQLException {
-		try {
-			update(true);
-		} catch (CivException e) {
-			e.printStackTrace();
-		}
-	}
+
+    @Override
+    public void saveNow() {
+        try {
+            update(true);
+        } catch (CivException e) {
+            e.printStackTrace();
+        }
+    }
 	
 	@Override
 	public void save() {
@@ -718,16 +716,16 @@ public class BonusGoodie extends LoreItem {
 	}
 	
 	public String getBonusDisplayString() {
-		String out = "";
+        StringBuilder out = new StringBuilder();
 		
 		for (ConfigBuff cBuff : this.config.buffs.values()) {
-			out += ChatColor.UNDERLINE+cBuff.name;
-			out += ";";
-			out += CivColor.White+ChatColor.ITALIC+cBuff.description;
-			out += ";";
-		}
+            out.append(ChatColor.UNDERLINE).append(cBuff.name);
+            out.append(";");
+            out.append(CivColor.White + ChatColor.ITALIC).append(cBuff.description);
+            out.append(";");
+        }
 
-		return out;		
+        return out.toString();
 	}
 	
 	public String getDisplayName() {
@@ -747,10 +745,7 @@ public class BonusGoodie extends LoreItem {
 	@Override
 	public boolean equals(Object other) {
 		if (other instanceof BonusGoodie) {
-			BonusGoodie otherCoord = (BonusGoodie)other;
-			if (otherCoord.getOutpost().getCorner().equals(this.getOutpost().getCorner())) {
-				return true;
-			}
+            return ((BonusGoodie) other).getOutpost().getCorner().equals(this.getOutpost().getCorner());
 		}
 		return false;
 	}

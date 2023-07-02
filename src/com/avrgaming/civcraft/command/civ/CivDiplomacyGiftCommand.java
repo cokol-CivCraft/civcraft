@@ -144,18 +144,18 @@ public class CivDiplomacyGiftCommand extends CommandBase {
 	}
 	
 	@Override
-	public void doDefaultAction() throws CivException {
-		showHelp();
-	}
+    public void doDefaultAction() {
+        showHelp();
+    }
 
 	@Override
 	public void showHelp() {
 		showBasicHelp();
 	}
 
-	@Override
-	public void permissionCheck() throws CivException {
-		// permission checked in parent command.
-	}
+    @Override
+    public void permissionCheck() {
+        // permission checked in parent command.
+    }
 
 }

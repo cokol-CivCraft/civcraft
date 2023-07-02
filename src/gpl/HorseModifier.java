@@ -128,14 +128,10 @@ public class HorseModifier {
     	
     	EntityInsentient nmsEntity = (EntityInsentient) ((CraftLivingEntity) entity).getHandle();
     	AttributeInstance attributes = nmsEntity.getAttributeInstance(GenericAttributes.MOVEMENT_SPEED);
-    	
-    	if (attributes.a(movementSpeedUID) == null) {
-    		return false;
-    	}
-    		
-    	return true;
-    	
-    //	AttributeModifier modifier = new AttributeModifier(movementSpeedUID, "civcraft horse movement speed", amount, 1);
+
+        return attributes.a(movementSpeedUID) != null;
+
+        //	AttributeModifier modifier = new AttributeModifier(movementSpeedUID, "civcraft horse movement speed", amount, 1);
     	//attributes.b(modifier); //remove the modifier, adding a duplicate causes errors
     //	attributes.a(modifier); //add the modifier
     }
@@ -317,34 +313,35 @@ public class HorseModifier {
     }
  
     public enum HorseType {
- 
+
         NORMAL("normal", 0), DONKEY("donkey", 1), MULE("mule", 2), UNDEAD("undead", 3), SKELETAL("skeletal", 4);
- 
-        private String name;
-        private int id;
- 
+
+        private final String name;
+        private final int id;
+
         HorseType(String name, int id) {
             this.name = name;
             this.id = id;
         }
- 
+
         public String getName() {
             return name;
         }
- 
+
         public int getId() {
             return id;
         }
- 
-        private static final Map<String, HorseType> NAME_MAP = new HashMap<String, HorseType>();
-        private static final Map<Integer, HorseType> ID_MAP = new HashMap<Integer, HorseType>();
+
+        private static final Map<String, HorseType> NAME_MAP = new HashMap<>();
+        private static final Map<Integer, HorseType> ID_MAP = new HashMap<>();
+
         static {
             for (HorseType effect : values()) {
                 NAME_MAP.put(effect.name, effect);
                 ID_MAP.put(effect.id, effect);
             }
         }
- 
+
         public static HorseType fromName(String name) {
             if (name == null) {
                 return null;
@@ -361,7 +358,7 @@ public class HorseModifier {
             return ID_MAP.get(id);
         }
     }
- 
+
     public enum HorseVariant {
         WHITE("white", 0), CREAMY("creamy", 1), CHESTNUT("chestnut", 2), BROWN("brown", 3), BLACK("black", 4), GRAY("gray", 5), DARK_BROWN("dark brown", 6), INVISIBLE("invisible", 7), WHITE_WHITE(
                 "white-white", 256), CREAMY_WHITE("creamy-white", 257), CHESTNUT_WHITE("chestnut-white", 258), BROWN_WHITE("brown-white", 259), BLACK_WHITE("black-white", 260), GRAY_WHITE("gray-white", 261), DARK_BROWN_WHITE(
@@ -371,32 +368,33 @@ public class HorseModifier {
                 "black-white dots", 772), GRAY_WHITE_DOTS("gray-white dots", 773), DARK_BROWN_WHITE_DOTS("dark brown-white dots", 774), WHITE_BLACK_DOTS("white-black dots", 1024), CREAMY_BLACK_DOTS(
                 "creamy-black dots", 1025), CHESTNUT_BLACK_DOTS("chestnut-black dots", 1026), BROWN_BLACK_DOTS("brown-black dots", 1027), BLACK_BLACK_DOTS("black-black dots", 1028), GRAY_BLACK_DOTS(
                 "gray-black dots", 1029), DARK_BROWN_BLACK_DOTS("dark brown-black dots", 1030);
- 
-        private String name;
-        private int id;
- 
+
+        private final String name;
+        private final int id;
+
         HorseVariant(String name, int id) {
             this.name = name;
             this.id = id;
         }
- 
+
         public String getName() {
             return name;
         }
- 
+
         public int getId() {
             return id;
         }
- 
-        private static final Map<String, HorseVariant> NAME_MAP = new HashMap<String, HorseVariant>();
-        private static final Map<Integer, HorseVariant> ID_MAP = new HashMap<Integer, HorseVariant>();
+
+        private static final Map<String, HorseVariant> NAME_MAP = new HashMap<>();
+        private static final Map<Integer, HorseVariant> ID_MAP = new HashMap<>();
+
         static {
             for (HorseVariant effect : values()) {
                 NAME_MAP.put(effect.name, effect);
                 ID_MAP.put(effect.id, effect);
             }
         }
- 
+
         public static HorseVariant fromName(String name) {
             if (name == null) {
                 return null;
@@ -447,11 +445,9 @@ public class HorseModifier {
         public static void setValue(Object nbtTagCompound, String key, Object value) {
             try {
                 if (value instanceof Integer) {
-                    ReflectionUtil.getMethod("setInt", nbtTagCompound.getClass(), 2).invoke(nbtTagCompound, key, (Integer) value);
-                    return;
+                    ReflectionUtil.getMethod("setInt", nbtTagCompound.getClass(), 2).invoke(nbtTagCompound, key, value);
                 } else if (value instanceof Boolean) {
-                    ReflectionUtil.getMethod("setBoolean", nbtTagCompound.getClass(), 2).invoke(nbtTagCompound, key, (Boolean) value);
-                    return;
+                    ReflectionUtil.getMethod("setBoolean", nbtTagCompound.getClass(), 2).invoke(nbtTagCompound, key, value);
                 } else {
                     ReflectionUtil.getMethod("set", nbtTagCompound.getClass(), 2).invoke(nbtTagCompound, key, value);
                 }

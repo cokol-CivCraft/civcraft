@@ -178,7 +178,7 @@ public class CivDiplomacyCommand extends CommandBase {
 	
 	public void wars_cmd() {
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_civ_warsHeading"));
-		HashSet<String> usedRelations = new HashSet<String>();
+		HashSet<String> usedRelations = new HashSet<>();
 		
 		for (Civilization civ : CivGlobal.getCivs()) {
 			for (Relation relation : civ.getDiplomacyManager().getRelations()) {
@@ -342,12 +342,11 @@ public class CivDiplomacyCommand extends CommandBase {
 				
 				if (War.isWithinWarDeclareDays()) {
 					if (War.isCivAggressorToAlly(otherCiv, ourCiv)) {
-						if (War.isWithinAllyDeclareHours()) {
-							throw new CivException(CivSettings.localize.localizedString("var_cmd_civ_dip_declareTooCloseToWar1",War.getAllyDeclareHours()));
-						} else {
-							//aidingAlly = true;
-						}
-					} else {		
+                        if (War.isWithinAllyDeclareHours()) {
+                            throw new CivException(CivSettings.localize.localizedString("var_cmd_civ_dip_declareTooCloseToWar1", War.getAllyDeclareHours()));
+                        }  //aidingAlly = true;
+
+                    } else {
 						throw new CivException(CivSettings.localize.localizedString("var_cmd_civ_dip_declareTooCloseToWar2",War.getTimeDeclareDays()));
 					}
 				}
@@ -404,22 +403,21 @@ public class CivDiplomacyCommand extends CommandBase {
 		}
 		CivMessage.send(sender, CivColor.LightGray+CivSettings.localize.localizedString("cmd_civ_dip_showNeutral"));
 	}
-	
-	
-	
-	@Override
-	public void doDefaultAction() throws CivException {
-		showHelp();
-	}
+
+
+    @Override
+    public void doDefaultAction() {
+        showHelp();
+    }
 
 	@Override
 	public void showHelp() {
 		showBasicHelp();
 	}
 
-	@Override
-	public void permissionCheck() throws CivException {
-	
-	}
+    @Override
+    public void permissionCheck() {
+
+    }
 
 }

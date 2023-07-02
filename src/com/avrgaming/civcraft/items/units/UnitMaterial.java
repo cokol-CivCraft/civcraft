@@ -59,7 +59,7 @@ public class UnitMaterial extends LoreMaterial {
 	private ConfigUnit unit = null;
 	private static final int LAST_SLOT = 8;
 	
-	public HashSet<Integer> allowedSubslots = new HashSet<Integer>();
+	public HashSet<Integer> allowedSubslots = new HashSet<>();
 	@SuppressWarnings("unused")
 	public UnitMaterial(String id, Material itemId, short damage) {
 		super(id, itemId, damage);
@@ -132,12 +132,12 @@ public class UnitMaterial extends LoreMaterial {
 			if (stack != null) {
 			//	CustomItemStack is = new CustomItemStack(stack);
 				LoreMaterial material = LoreMaterial.getMaterial(stack);
-				if (material != null && (material instanceof UnitItemMaterial)) {
-					UnitItemMaterial umat = (UnitItemMaterial)material;
-					if (umat.getParent() == this) {
-						inv.remove(stack);
-					}
-				}
+                if ((material instanceof UnitItemMaterial)) {
+                    UnitItemMaterial umat = (UnitItemMaterial) material;
+                    if (umat.getParent() == this) {
+                        inv.remove(stack);
+                    }
+                }
 			}
 		}
 	}
@@ -160,17 +160,15 @@ public class UnitMaterial extends LoreMaterial {
 		
 		ItemMeta meta = stack.getItemMeta();
 		if (meta != null && meta.hasLore()) {
-			List<String> lore = meta.getLore();
-			
-			lore = stripTownLore(lore);
-			
-			if (lore != null) {
-				lore.add("Town:"+town.getName()+" "+CivColor.Black+town.getId());
-			}
-			
-			meta.setLore(lore);
-			stack.setItemMeta(meta);
-		}	
+            List<String> lore = meta.getLore();
+
+            lore = stripTownLore(lore);
+
+            lore.add("Town:" + town.getName() + " " + CivColor.Black + town.getId());
+
+            meta.setLore(lore);
+            stack.setItemMeta(meta);
+        }
 	}
 
 	public static Town getOwningTown(ItemStack stack) {
@@ -193,8 +191,8 @@ public class UnitMaterial extends LoreMaterial {
 		}
 		
 		try {
-			String[] split = loreLine.split(CivColor.Black);
-			int townId = Integer.valueOf(split[1]);
+            String[] split = loreLine.split(CivColor.Black);
+            int townId = Integer.parseInt(split[1]);
 			
 			return CivGlobal.getTownFromId(townId);
 		} catch (Exception e) {
@@ -263,12 +261,8 @@ public class UnitMaterial extends LoreMaterial {
 		if (town == null) {
 			return true;
 		}
-		
-		if (town.getCiv() != resident.getCiv()) {
-			return false;
-		}
-		
-		return true;
+
+		return town.getCiv() == resident.getCiv();
 	}
 
 	public int getFreeSlotCount(Inventory inv) {
@@ -399,18 +393,18 @@ public class UnitMaterial extends LoreMaterial {
 		if (toInv.getHolder() instanceof Player) {
 			//CustomItemStack is = new CustomItemStack(droppedStack);
 			LoreMaterial material = LoreMaterial.getMaterial(droppedStack);
-			
-			if (material != null && (material instanceof UnitMaterial)) {
-				Player player = (Player)toInv.getHolder();
-				
-				if(!validateUnitUse(player, droppedStack)) {
-					CivMessage.sendError(player, CivSettings.localize.localizedString("unitMaterial_errorWrongCiv"));
-					event.setCancelled(true);
-					return;
-				}
-				
-				DelayMoveInventoryItem task = new DelayMoveInventoryItem();
-				task.fromSlot = event.getSlot();
+
+            if ((material instanceof UnitMaterial)) {
+                Player player = (Player) toInv.getHolder();
+
+                if (!validateUnitUse(player, droppedStack)) {
+                    CivMessage.sendError(player, CivSettings.localize.localizedString("unitMaterial_errorWrongCiv"));
+                    event.setCancelled(true);
+                    return;
+                }
+
+                DelayMoveInventoryItem task = new DelayMoveInventoryItem();
+                task.fromSlot = event.getSlot();
 				task.toSlot = LAST_SLOT;
 				task.inv = toInv;
 				task.playerName = player.getName();

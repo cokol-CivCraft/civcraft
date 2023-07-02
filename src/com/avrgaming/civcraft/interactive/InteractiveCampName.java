@@ -54,12 +54,10 @@ public class InteractiveCampName implements InteractiveResponse {
 	
 		message = message.replace(" ", "_");
 		message = message.replace("\"", "");
-		message = message.replace("\'", "");
+        message = message.replace("'", "");
 		
 		Camp.newCamp(resident, player, message);
 
-		return;
-		
 	}
 
 }

@@ -43,10 +43,10 @@ public class TownAddOutlawTask implements Runnable {
 	public void run() {
 		
 		try {
-			Player player = CivGlobal.getPlayer(name);
-			CivMessage.send(player, CivColor.Yellow+ChatColor.BOLD+CivSettings.localize.localizedString("var_TownAddOutlawTask_Notify",town.getName()));
-		} catch (CivException e) {
-		}
+            Player player = CivGlobal.getPlayer(name);
+            CivMessage.send(player, CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("var_TownAddOutlawTask_Notify", town.getName()));
+        } catch (CivException ignored) {
+        }
 		
 		town.addOutlaw(name);
 		town.save();

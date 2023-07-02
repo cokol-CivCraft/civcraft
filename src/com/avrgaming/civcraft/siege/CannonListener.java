@@ -21,8 +21,7 @@ public class CannonListener implements Listener {
 		if (cannon != null) {
 			cannon.onHit(event);
 			event.setCancelled(true);
-			return;
-		}
+        }
 		
 	}
 	
@@ -51,10 +50,9 @@ public class CannonListener implements Listener {
 	
 			cannon = Cannon.powerSignLocations.get(bcoord);
 			if (cannon != null) {
-				cannon.processPower(event);
-				event.setCancelled(true);		
-				return;
-			}
+                cannon.processPower(event);
+                event.setCancelled(true);
+            }
 		} catch (CivException e) {
 			CivMessage.sendError(event.getPlayer(), e.getMessage());
 			event.setCancelled(true);

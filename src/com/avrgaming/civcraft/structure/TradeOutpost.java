@@ -84,11 +84,6 @@ public class TradeOutpost extends Structure {
 	}
 
 	@Override
-	public String getDynmapDescription() {
-		return null;
-	}
-	
-	@Override
 	public String getMarkerIconName() {
 		return "scales";
 	}
@@ -122,7 +117,7 @@ public class TradeOutpost extends Structure {
 		/* Add trade good to town. */
 		TradeGood good = CivGlobal.getTradeGood(tradeGoodCoord);
 		if (good == null) {
-			throw new CivException(CivSettings.localize.localizedString("tradeOutpost_notFound")+good);
+			throw new CivException(CivSettings.localize.localizedString("tradeOutpost_notFound") + null);
 		}
 		
 		if (good.getInfo().water) {
@@ -147,7 +142,7 @@ public class TradeOutpost extends Structure {
 		/* this.good is set by the good's load function or by the onBuild function. */
 		TradeGood good = this.good;
 		if (good == null) {
-			throw new CivException(CivSettings.localize.localizedString("tradeOutpost_build_noGoodie")+" "+good);
+			throw new CivException(CivSettings.localize.localizedString("tradeOutpost_build_noGoodie") + " " + null);
 		}
 		
 		/* Build the 'trade good tower' */

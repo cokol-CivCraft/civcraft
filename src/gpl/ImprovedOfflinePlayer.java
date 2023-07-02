@@ -27,6 +27,7 @@ package gpl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -57,11 +58,6 @@ import net.minecraft.server.v1_12_R1.PlayerInventory;
  * @version 1.6.0
  * @author one4me
  */
-/**
- * @name ImprovedOfflinePlayer
- * @version 1.6.0
- * @author one4me
- */
 public class ImprovedOfflinePlayer {
   private String player;
   private File file;
@@ -80,8 +76,8 @@ public class ImprovedOfflinePlayer {
       for(World w : Bukkit.getWorlds()) {
         this.file = new File(w.getWorldFolder(), "players" + File.separator + this.player + ".dat");
         if(this.file.exists()){
-          this.compound = NBTCompressedStreamTools.a(new FileInputStream(this.file));
-          this.player = this.file.getCanonicalFile().getName().replace(".dat", "");
+            this.compound = NBTCompressedStreamTools.a(Files.newInputStream(this.file.toPath()));
+            this.player = this.file.getCanonicalFile().getName().replace(".dat", "");
           return true;
         }
       }
@@ -94,7 +90,7 @@ public class ImprovedOfflinePlayer {
   public void savePlayerData() {
     if(this.exists) {
       try {
-        NBTCompressedStreamTools.a(this.compound, new FileOutputStream(this.file));
+          NBTCompressedStreamTools.a(this.compound, Files.newOutputStream(this.file.toPath()));
       }
       catch(Exception e) {
         e.printStackTrace();
@@ -128,7 +124,7 @@ public class ImprovedOfflinePlayer {
     if(this.autosave) savePlayerData();
   }
   public AttributeMapBase getAttributes() {
-    AttributeMapBase amb = (AttributeMapBase)new AttributeMapServer();
+      AttributeMapBase amb = new AttributeMapServer();
     GenericAttributes.a(amb, this.compound.getList("Attributes", NBTStaticHelper.TAG_COMPOUND));
     return amb;
   }
@@ -149,7 +145,7 @@ public class ImprovedOfflinePlayer {
     this.compound.setInt("SpawnY", (int)location.getY());
     this.compound.setInt("SpawnZ", (int)location.getZ());
     this.compound.setString("SpawnWorld", location.getWorld().getName());
-    this.compound.setBoolean("SpawnForced", override == null ? false : override);
+    this.compound.setBoolean("SpawnForced", override != null && override);
     if(this.autosave) savePlayerData();
   }
   public float getExhaustion() {
@@ -307,9 +303,9 @@ public class ImprovedOfflinePlayer {
     for(PotionEffect pe : effects) {
       NBTTagCompound eCompound = new NBTTagCompound();
       eCompound.setByte("Amplifier", (byte)(pe.getAmplifier()));
-      eCompound.setByte("Id", (byte)(pe.getType().getId()));
-      eCompound.setInt("Duration", (int)(pe.getDuration()));
-      activeEffects.add(eCompound);
+        eCompound.setByte("Id", (byte) (pe.getType().getId()));
+        eCompound.setInt("Duration", pe.getDuration());
+        activeEffects.add(eCompound);
     }
     this.compound.set("ActiveEffects", activeEffects);
     if(this.autosave) savePlayerData();

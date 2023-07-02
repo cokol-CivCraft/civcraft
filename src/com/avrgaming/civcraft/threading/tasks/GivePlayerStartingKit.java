@@ -47,14 +47,13 @@ public class GivePlayerStartingKit implements Runnable {
 				
 				ItemStack stack;
 				try {
-					Integer type = Integer.valueOf(split[0]);
-					Integer amount = Integer.valueOf(split[1]);
+                    int type = Integer.parseInt(split[0]);
+                    int amount = Integer.parseInt(split[1]);
 
                     stack = new ItemStack(type, amount, (short) 0);
-					
 
 
-				} catch (NumberFormatException e) {
+                } catch (NumberFormatException e) {
 					String customMatID = split[0];
 					LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterialFromId(customMatID);
 					if (craftMat == null) {
@@ -82,7 +81,6 @@ public class GivePlayerStartingKit implements Runnable {
 		} catch (CivException e) {
 		//	e.printStackTrace();
 			CivLog.warning("Tried to give starting kit to offline player:"+name);
-			return;
 		}
 		
 	}

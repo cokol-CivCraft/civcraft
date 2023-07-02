@@ -7,14 +7,14 @@ import com.avrgaming.civcraft.structure.Buildable;
 
 public class AttributeBiome extends AttributeBiomeBase {
 	/*
-	 * Increases the attribute output for _every_ culture biome that exists in the biome list.
-	 * 
-	 * This one does not inherit from AttributeBase because this attribute is accumulated on the culture biomes.
-	 * This can be easily changed if we want the extra to come from "structures"
-	 * 
-	 */
-	private HashSet<String> biomeList = new HashSet<String>();
-	private String attribute;
+     * Increases the attribute output for _every_ culture biome that exists in the biome list.
+     *
+     * This one does not inherit from AttributeBase because this attribute is accumulated on the culture biomes.
+     * This can be easily changed if we want the extra to come from "structures"
+     *
+     */
+    private final HashSet<String> biomeList = new HashSet<>();
+    private String attribute;
 	private double value;
 	
 	public AttributeBiome() {

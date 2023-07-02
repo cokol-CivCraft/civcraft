@@ -44,9 +44,9 @@ public class WallBlock extends SQLObject {
 	Material type_id;
 	int data;
 	
-	public WallBlock(BlockCoord coord, Structure struct, Material old_id, int old_data, Material type, int data) throws SQLException {
+	public WallBlock(BlockCoord coord, Structure struct, Material old_id, int old_data, Material type, int data) {
 		this.coord = coord;
-		this.struct = (Wall)struct;
+		this.struct = (Wall) struct;
 		this.old_data = old_data;
 		this.old_id = old_id;
 		this.type_id = type;
@@ -96,16 +96,16 @@ public class WallBlock extends SQLObject {
 	}
 
 	@Override
-	public void load(ResultSet rs) throws SQLException, InvalidNameException,
-			InvalidObjectException, CivException {
+	public void load(ResultSet rs) throws SQLException,
+			CivException {
 		this.setId(rs.getInt("id"));
 		this.setStruct(CivGlobal.getStructureById(rs.getInt("struct_id")));
 		if (this.struct == null) {
 			int id = rs.getInt("struct_id");
 			this.delete();
-			throw new CivException("Could not load WallBlock, could not find structure:"+id);
+			throw new CivException("Could not load WallBlock, could not find structure:" + id);
 		}
-		
+
 		this.setCoord(new BlockCoord(rs.getString("coord")));
 		
 		CivGlobal.addWallChunk(this.struct, new ChunkCoord(getCoord().getLocation()));

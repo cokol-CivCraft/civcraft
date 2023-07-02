@@ -49,12 +49,8 @@ public class EndConditionScience extends EndGameCondition {
 				break;
 			}
 		}
-		
-		if (!hasGreatLibrary) {
-			return false;
-		}
-	
-		return true;
+
+		return hasGreatLibrary;
 	}
 	
 	@Override
@@ -108,19 +104,19 @@ public class EndConditionScience extends EndGameCondition {
 		if (entries.size() == 0) {
 			return 0;
 		}
-		return Double.valueOf(entries.get(0).value);
+		return Double.parseDouble(entries.get(0).value);
 	}
 	
 	public void addExtraBeakersToCiv(Civilization civ, double beakers) {
 		ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getBeakerSessionKey(civ));
 		double current = 0;
 		if (entries.size() == 0) {
-			CivGlobal.getSessionDB().add(getBeakerSessionKey(civ), ""+beakers, civ.getId(), 0, 0);
-			current += beakers;
+            CivGlobal.getSessionDB().add(getBeakerSessionKey(civ), String.valueOf(beakers), civ.getId(), 0, 0);
+            current += beakers;
 		} else {
-			current = Double.valueOf(entries.get(0).value);
-			current += beakers;
-			CivGlobal.getSessionDB().update(entries.get(0).request_id, entries.get(0).key, ""+current);
+            current = Double.parseDouble(entries.get(0).value);
+            current += beakers;
+            CivGlobal.getSessionDB().update(entries.get(0).request_id, entries.get(0).key, String.valueOf(current));
 		}
 		//DecimalFormat df = new DecimalFormat("#.#");
 		//CivMessage.sendCiv(civ, "Added "+df.format(beakers)+" beakers to our scientific victory! We now have "+df.format(current)+" beakers saved up.");

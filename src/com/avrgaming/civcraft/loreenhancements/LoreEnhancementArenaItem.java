@@ -47,12 +47,7 @@ public class LoreEnhancementArenaItem  extends LoreEnhancement implements Listen
 		/*
 		 * If nobody has EVER researched the technology for this item, then it is an ILLEGAL item.
 		 */
-		if (!CivGlobal.researchedTechs.contains(craftMat.getConfigMaterial().required_tech.toLowerCase())) {
-			return true;
-		}
-		
-		
-		return false;
+		return !CivGlobal.researchedTechs.contains(craftMat.getConfigMaterial().required_tech.toLowerCase());
 	}
 	
 	/* Listeners for Arena Items */
@@ -87,14 +82,13 @@ public class LoreEnhancementArenaItem  extends LoreEnhancement implements Listen
 			
 			if (isIllegalStack(stack)) {
 				if (event.getPlayer().isOp()) {
-					//CivMessage.send(event.getPlayer(), CivColor.LightGray+"You're allowed to keep an illegal item because you are op.");
-					continue;
-				} else {
-					if (!resident.isInsideArena()) {
-						event.getInventory().remove(stack);
-						removedReason = CivColor.LightGray+CivSettings.localize.localizedString("loreEnhancement_arenaIllegal");
-					}
-				}
+                    //CivMessage.send(event.getPlayer(), CivColor.LightGray+"You're allowed to keep an illegal item because you are op.");
+                } else {
+                    if (!resident.isInsideArena()) {
+                        event.getInventory().remove(stack);
+                        removedReason = CivColor.LightGray + CivSettings.localize.localizedString("loreEnhancement_arenaIllegal");
+                    }
+                }
 			}
 			
 		}
@@ -135,15 +129,14 @@ public class LoreEnhancementArenaItem  extends LoreEnhancement implements Listen
 			}
 			
 			if (isIllegalStack(stack)) {
-				if (event.getPlayer().isOp()) {
-					//CivMessage.send(event.getPlayer(), CivColor.LightGray+"You're allowed to keep an illegal item because you are op.");
-					continue;
-				} else {
-					if (!resident.isInsideArena()) {
-						event.getPlayer().getInventory().remove(stack);
-						removedReason = CivColor.LightGray+CivSettings.localize.localizedString("loreEnhancement_arenaIllegal");
-					}
-				}
+                if (event.getPlayer().isOp()) {
+                    //CivMessage.send(event.getPlayer(), CivColor.LightGray+"You're allowed to keep an illegal item because you are op.");
+                } else {
+                    if (!resident.isInsideArena()) {
+                        event.getPlayer().getInventory().remove(stack);
+                        removedReason = CivColor.LightGray + CivSettings.localize.localizedString("loreEnhancement_arenaIllegal");
+                    }
+                }
 			}
 		}
 		

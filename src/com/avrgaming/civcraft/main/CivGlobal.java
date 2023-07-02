@@ -105,102 +105,102 @@ import com.avrgaming.global.perks.PerkManager;
 
 public class CivGlobal {
 
-	public static final double MIN_FRAME_DISTANCE = 3.0;
-	
-	public static double LIGHTHOUSE_WATER_PLAYER_SPEED = 1.5;
-	public static double LIGHTHOUSE_WATER_BOAT_SPEED = 1.1;
+    public static final double MIN_FRAME_DISTANCE = 3.0;
 
-	private static boolean useEconomy;
-	public static Economy econ;
-	
-	private static Map<String, QuestionBaseTask> questions = new ConcurrentHashMap<String, QuestionBaseTask>();
-	public static Map<String, CivQuestionTask> civQuestions = new ConcurrentHashMap<String, CivQuestionTask>();
-	private static Map<String, Resident> residents = new ConcurrentHashMap<String, Resident>();
-	private static Map<UUID, Resident> residentsViaUUID = new ConcurrentHashMap<UUID, Resident>();
+    public static double LIGHTHOUSE_WATER_PLAYER_SPEED = 1.5;
+    public static double LIGHTHOUSE_WATER_BOAT_SPEED = 1.1;
 
-	private static Map<String, Town> towns = new ConcurrentHashMap<String, Town>();
-	private static Map<String, Civilization> civs = new ConcurrentHashMap<String, Civilization>();
-	private static Map<String, Civilization> conqueredCivs = new ConcurrentHashMap<String, Civilization>();
-	private static Map<String, Civilization> adminCivs = new ConcurrentHashMap<String, Civilization>();
-	private static Map<ChunkCoord, TownChunk> townChunks = new ConcurrentHashMap<ChunkCoord, TownChunk>();
-	private static Map<ChunkCoord, CultureChunk> cultureChunks = new ConcurrentHashMap<ChunkCoord, CultureChunk>();
-	private static Map<ChunkCoord, Boolean> persistChunks = new ConcurrentHashMap<ChunkCoord, Boolean>();
-	private static Map<BlockCoord, Structure> structures = new ConcurrentHashMap<BlockCoord, Structure>();
-	private static Map<BlockCoord, Wonder> wonders = new ConcurrentHashMap<BlockCoord, Wonder>();
-	private static Map<BlockCoord, StructureBlock> structureBlocks = new ConcurrentHashMap<BlockCoord, StructureBlock>();
-	//private static Map<BlockCoord, LinkedList<StructureBlock>> structureBlocksIn2D = new ConcurrentHashMap<BlockCoord, LinkedList<StructureBlock>>();
-	private static Map<String, HashSet<Buildable>> buildablesInChunk = new ConcurrentHashMap<String, HashSet<Buildable>>();
-	private static Map<BlockCoord, CampBlock> campBlocks = new ConcurrentHashMap<BlockCoord, CampBlock>();
-	private static Map<BlockCoord, StructureSign> structureSigns = new ConcurrentHashMap<BlockCoord, StructureSign>();
-	private static Map<BlockCoord, StructureChest> structureChests = new ConcurrentHashMap<BlockCoord, StructureChest>();
-	private static Map<BlockCoord, MobSpawner> mobSpawners = new ConcurrentHashMap<BlockCoord, MobSpawner>();
-	private static Map<BlockCoord, TradeGood> tradeGoods = new ConcurrentHashMap<BlockCoord, TradeGood>();
-	private static Map<BlockCoord, ProtectedBlock> protectedBlocks = new ConcurrentHashMap<BlockCoord, ProtectedBlock>();
-	private static Map<ChunkCoord, FarmChunk> farmChunks = new ConcurrentHashMap<ChunkCoord, FarmChunk>();
-	private static Queue<FarmChunk> farmChunkUpdateQueue = new LinkedList<FarmChunk>();
-	private static Queue<FarmChunk> farmGrowQueue = new LinkedList<FarmChunk>();
-	private static Map<UUID, ItemFrameStorage> protectedItemFrames = new ConcurrentHashMap<UUID, ItemFrameStorage>();
-	private static Map<BlockCoord, BonusGoodie> bonusGoodies = new ConcurrentHashMap<BlockCoord, BonusGoodie>();
-	private static Map<ChunkCoord, HashSet<Wall>> wallChunks = new ConcurrentHashMap<ChunkCoord, HashSet<Wall>>();
-	private static Map<BlockCoord, RoadBlock> roadBlocks = new ConcurrentHashMap<BlockCoord, RoadBlock>();
-	private static Map<BlockCoord, CustomMapMarker> customMapMarkers = new ConcurrentHashMap<BlockCoord, CustomMapMarker>();
-	private static Map<String, Camp> camps = new ConcurrentHashMap<String, Camp>();
-	private static Map<ChunkCoord, Camp> campChunks = new ConcurrentHashMap<ChunkCoord, Camp>();
-	public static HashSet<BlockCoord> vanillaGrowthLocations = new HashSet<BlockCoord>();
-	private static Map<BlockCoord, Market> markets = new ConcurrentHashMap<BlockCoord, Market>();
-	public static HashSet<String> researchedTechs = new HashSet<String>();
-	
-	/* TODO change this to true for MC 1.8 */
-	public static boolean useUUID = true;
-	
-	public static Map<Integer, Boolean> CivColorInUse = new ConcurrentHashMap<Integer, Boolean>();
-	public static TradeGoodPreGenerate tradeGoodPreGenerator = new TradeGoodPreGenerate();
-	public static MobSpawnerPreGenerate mobSpawnerPreGenerator = new MobSpawnerPreGenerate();
-	
-	//TODO fix the duplicate score issue...
-	public static TreeMap<Integer, Civilization> civilizationScores = new TreeMap<Integer, Civilization>();
-	public static TreeMap<Integer, Town> townScores = new TreeMap<Integer, Town>();
+    private static boolean useEconomy;
+    public static Economy econ;
 
-	public static HashMap<String, Date> playerFirstLoginMap = new HashMap<String, Date>();
-	public static HashSet<String> banWords = new HashSet<String>();
-			
-	//public static Scoreboard globalBoard;
-	
-	public static Integer maxPlayers = -1;
-	public static HashSet<String> betaPlayers = new HashSet<String>();
-	public static String fullMessage = "";
-	public static Boolean betaOnly = false;
-	
-	//TODO convert this to completely static?
-	private static SessionDatabase sdb;
+    private static final Map<String, QuestionBaseTask> questions = new ConcurrentHashMap<>();
+    public static Map<String, CivQuestionTask> civQuestions = new ConcurrentHashMap<>();
+    private static final Map<String, Resident> residents = new ConcurrentHashMap<>();
+    private static final Map<UUID, Resident> residentsViaUUID = new ConcurrentHashMap<>();
+
+    private static final Map<String, Town> towns = new ConcurrentHashMap<>();
+    private static final Map<String, Civilization> civs = new ConcurrentHashMap<>();
+    private static final Map<String, Civilization> conqueredCivs = new ConcurrentHashMap<>();
+    private static final Map<String, Civilization> adminCivs = new ConcurrentHashMap<>();
+    private static final Map<ChunkCoord, TownChunk> townChunks = new ConcurrentHashMap<>();
+    private static final Map<ChunkCoord, CultureChunk> cultureChunks = new ConcurrentHashMap<>();
+    private static final Map<ChunkCoord, Boolean> persistChunks = new ConcurrentHashMap<>();
+    private static final Map<BlockCoord, Structure> structures = new ConcurrentHashMap<>();
+    private static final Map<BlockCoord, Wonder> wonders = new ConcurrentHashMap<>();
+    private static final Map<BlockCoord, StructureBlock> structureBlocks = new ConcurrentHashMap<>();
+    //private static Map<BlockCoord, LinkedList<StructureBlock>> structureBlocksIn2D = new ConcurrentHashMap<BlockCoord, LinkedList<StructureBlock>>();
+    private static final Map<String, HashSet<Buildable>> buildablesInChunk = new ConcurrentHashMap<>();
+    private static final Map<BlockCoord, CampBlock> campBlocks = new ConcurrentHashMap<>();
+    private static final Map<BlockCoord, StructureSign> structureSigns = new ConcurrentHashMap<>();
+    private static final Map<BlockCoord, StructureChest> structureChests = new ConcurrentHashMap<>();
+    private static final Map<BlockCoord, MobSpawner> mobSpawners = new ConcurrentHashMap<>();
+    private static final Map<BlockCoord, TradeGood> tradeGoods = new ConcurrentHashMap<>();
+    private static final Map<BlockCoord, ProtectedBlock> protectedBlocks = new ConcurrentHashMap<>();
+    private static final Map<ChunkCoord, FarmChunk> farmChunks = new ConcurrentHashMap<>();
+    private static final Queue<FarmChunk> farmChunkUpdateQueue = new LinkedList<>();
+    private static Queue<FarmChunk> farmGrowQueue = new LinkedList<>();
+    private static final Map<UUID, ItemFrameStorage> protectedItemFrames = new ConcurrentHashMap<>();
+    private static final Map<BlockCoord, BonusGoodie> bonusGoodies = new ConcurrentHashMap<>();
+    private static final Map<ChunkCoord, HashSet<Wall>> wallChunks = new ConcurrentHashMap<>();
+    private static final Map<BlockCoord, RoadBlock> roadBlocks = new ConcurrentHashMap<>();
+    private static final Map<BlockCoord, CustomMapMarker> customMapMarkers = new ConcurrentHashMap<>();
+    private static final Map<String, Camp> camps = new ConcurrentHashMap<>();
+    private static final Map<ChunkCoord, Camp> campChunks = new ConcurrentHashMap<>();
+    public static HashSet<BlockCoord> vanillaGrowthLocations = new HashSet<>();
+    private static final Map<BlockCoord, Market> markets = new ConcurrentHashMap<>();
+    public static HashSet<String> researchedTechs = new HashSet<>();
+
+    /* TODO change this to true for MC 1.8 */
+    public static boolean useUUID = true;
+
+    public static Map<Integer, Boolean> CivColorInUse = new ConcurrentHashMap<>();
+    public static TradeGoodPreGenerate tradeGoodPreGenerator = new TradeGoodPreGenerate();
+    public static MobSpawnerPreGenerate mobSpawnerPreGenerator = new MobSpawnerPreGenerate();
+
+    //TODO fix the duplicate score issue...
+    public static TreeMap<Integer, Civilization> civilizationScores = new TreeMap<>();
+    public static TreeMap<Integer, Town> townScores = new TreeMap<>();
+
+    public static HashMap<String, Date> playerFirstLoginMap = new HashMap<>();
+    public static HashSet<String> banWords = new HashSet<>();
+
+    //public static Scoreboard globalBoard;
+
+    public static Integer maxPlayers = -1;
+    public static HashSet<String> betaPlayers = new HashSet<>();
+    public static String fullMessage = "";
+    public static Boolean betaOnly = false;
+
+    //TODO convert this to completely static?
+    private static SessionDatabase sdb;
 
 	public static boolean trommelsEnabled = true;
 	public static boolean quarriesEnabled = true;
 	public static boolean fisheryEnabled = true;
 	public static boolean mobGrinderEnabled = true;
 	public static boolean towersEnabled = true;
-	public static boolean growthEnabled = true;
-	public static Boolean banWordsAlways = false;
-	public static boolean banWordsActive = false;
-	public static boolean scoringEnabled = true;
-	public static boolean warningsEnabled = true;
-	public static boolean tradeEnabled = true;
-	public static boolean loadCompleted = false;
-	public static boolean speedChunks = false;
-	public static int minBuildHeight = 1;
+    public static boolean growthEnabled = true;
+    public static Boolean banWordsAlways = false;
+    public static boolean banWordsActive = false;
+    public static boolean scoringEnabled = true;
+    public static boolean warningsEnabled = true;
+    public static boolean tradeEnabled = true;
+    public static boolean loadCompleted = false;
+    public static boolean speedChunks = false;
+    public static int minBuildHeight = 1;
 
-	public static ArrayList<Town> orphanTowns = new ArrayList<Town>();
-	public static ArrayList<Civilization> orphanCivs = new ArrayList<Civilization>();
+    public static ArrayList<Town> orphanTowns = new ArrayList<>();
+    public static ArrayList<Civilization> orphanCivs = new ArrayList<>();
 
-	public static boolean checkForBooks = true;
-	public static boolean debugDateBypass = false;
-	public static boolean endWorld = false;
-	public static PerkManager perkManager = null;
-	public static boolean installMode = false;
-	
-	public static int highestCivEra = 0;
-		
-	public static void loadGlobals() throws SQLException, CivException {
+    public static boolean checkForBooks = true;
+    public static boolean debugDateBypass = false;
+    public static boolean endWorld = false;
+    public static PerkManager perkManager = null;
+    public static boolean installMode = false;
+
+    public static int highestCivEra = 0;
+
+    public static void loadGlobals() throws SQLException, CivException {
 
 		/*
 		 Don't use CivSettings.getBoolean() to prevent error when using old config
@@ -232,12 +232,8 @@ public class CivGlobal {
 		loadTeams();
 		EventTimer.loadGlobalEvents();
 		EndGameCondition.init();
-		War.init();
-		try {
-			Template.init();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+        War.init();
+        Template.init();
 
 		CivLog.heading("--- Done <3 ---");
 		
@@ -395,15 +391,15 @@ public class CivGlobal {
 		}
 	}
 
-	private static void processUpgrades() throws CivException {
-		for (Town town : towns.values()) {
-			try {
-				town.loadUpgrades();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
+    private static void processUpgrades() {
+        for (Town town : towns.values()) {
+            try {
+                town.loadUpgrades();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 	
 	public static String localizedEraString(int era) {
 		String newEra = "";
@@ -638,18 +634,18 @@ public class CivGlobal {
 			SQL.close(rs, ps, context);
 		}
 	}
-	
-	public static void loadStructures() throws SQLException, CivException {
-		Connection context = null;
-		ResultSet rs = null;
-		PreparedStatement ps = null;
-		
-		try {
-			context = SQL.getGameConnection();		
-			ps = context.prepareStatement("SELECT * FROM "+SQL.tb_prefix+Structure.TABLE_NAME);
-			rs = ps.executeQuery();
-			
-			while(rs.next()) {
+
+    public static void loadStructures() throws SQLException {
+        Connection context = null;
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+
+        try {
+            context = SQL.getGameConnection();
+            ps = context.prepareStatement("SELECT * FROM " + SQL.tb_prefix + Structure.TABLE_NAME);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
 				try {
 					Structure struct = Structure.newStructure(rs);
 					structures.put(struct.getCorner(), struct);
@@ -663,18 +659,18 @@ public class CivGlobal {
 			SQL.close(rs, ps, context);
 		}
 	}
-	
-	public static void loadWonders() throws SQLException, CivException {
-		Connection context = null;
-		ResultSet rs = null;
-		PreparedStatement ps = null;
-		
-		try {
-			context = SQL.getGameConnection();		
-			ps = context.prepareStatement("SELECT * FROM "+SQL.tb_prefix+Wonder.TABLE_NAME);
-			rs = ps.executeQuery();
-	
-			while(rs.next()) {
+
+    public static void loadWonders() throws SQLException {
+        Connection context = null;
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+
+        try {
+            context = SQL.getGameConnection();
+            ps = context.prepareStatement("SELECT * FROM " + SQL.tb_prefix + Wonder.TABLE_NAME);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
 				try {
 				Wonder wonder = Wonder.newWonder(rs);
 				wonders.put(wonder.getCorner(), wonder);
@@ -871,7 +867,6 @@ public class CivGlobal {
 
 	public static void addTownChunk(TownChunk tc) {
 		 townChunks.put(tc.getChunkCoord(), tc);
-		 return;
 	}
 	
 	public static void addCiv(Civilization civ) {
@@ -987,7 +982,7 @@ public class CivGlobal {
 	}
 
 	public static Collection<PermissionGroup> getGroups() {
-		ArrayList<PermissionGroup> groups = new ArrayList<PermissionGroup>();
+        ArrayList<PermissionGroup> groups = new ArrayList<>();
 		
 		for (Town t : towns.values()) {
 			for (PermissionGroup grp : t.getGroups()) {
@@ -1061,12 +1056,12 @@ public class CivGlobal {
 	}
 
 	public static Location getLocationFromHash(String hash) {
-		String split[] = hash.split(",");
-		Location loc = new Location(BukkitObjects.getWorld(split[0]), Double.valueOf(split[1]),
-									Double.valueOf(split[2]),
-									Double.valueOf(split[3]));		
-		return loc;
-	}
+        String[] split = hash.split(",");
+        Location loc = new Location(BukkitObjects.getWorld(split[0]), Double.parseDouble(split[1]),
+                Double.parseDouble(split[2]),
+                Double.parseDouble(split[3]));
+        return loc;
+    }
 
 	public static void removeStructure(Structure structure) {
 		structures.remove(structure.getCorner());
@@ -1088,7 +1083,7 @@ public class CivGlobal {
 		String key = getXYKey(coord);
 		HashSet<Buildable> buildables = buildablesInChunk.get(key);
 		if (buildables == null) {
-			buildables = new HashSet<Buildable>();
+            buildables = new HashSet<>();
 		}
 		buildables.add(owner);
 		buildablesInChunk.put(key, buildables);
@@ -1224,9 +1219,7 @@ public class CivGlobal {
 
 	public static boolean testFileFlag(String filename) {
 		File f = new File(filename);
-		if (f.exists()) 
-			return true;
-		return false;		
+		return f.exists();
 	}
 
 	public static boolean hasTimeElapsed(SessionEntry se, double seconds) {
@@ -1234,10 +1227,7 @@ public class CivGlobal {
 		int secondsBetween = getSecondsBetween(se.time, now);
 		
 		// First determine the time between two events.
-		if (secondsBetween < seconds) {
-			return false;
-		}
-		return true;
+		return !(secondsBetween < seconds);
 	}
 
 	public static void removeStructureSign(StructureSign structureSign) {
@@ -1371,13 +1361,9 @@ public class CivGlobal {
 		if (!meta.hasLore() || meta.getLore().size() < BonusGoodie.LoreIndex.values().length) {
 			return false;
 		}
-		
-		if (!meta.getLore().get(BonusGoodie.LoreIndex.TYPE.ordinal()).equals(BonusGoodie.LORE_TYPE)) {
-			return false;
-		}
-		
-		return true;
-		
+
+		return meta.getLore().get(BonusGoodie.LoreIndex.TYPE.ordinal()).equals(BonusGoodie.LORE_TYPE);
+
 	}
 	
 	public static BonusGoodie getBonusGoodie(ItemStack item) {
@@ -1398,7 +1384,7 @@ public class CivGlobal {
 	
 	public static void checkForDuplicateGoodies() {
 		// Look through protected item frames and repo and duplicates we find.
-		HashMap<String, Boolean> outpostsInFrames = new HashMap<String, Boolean>();
+        HashMap<String, Boolean> outpostsInFrames = new HashMap<>();
 		
 		for (ItemFrameStorage fs : protectedItemFrames.values()) {
 			try {
@@ -1435,23 +1421,23 @@ public class CivGlobal {
 	 * duplicate, empty frames and removing them.
 	 */
 	public static void checkForEmptyDuplicateFrames(ItemFrameStorage frame) {
-		
-		if (frame.noFrame()) {
-			return;
-		}
-		
-		Chunk chunk = frame.getLocation().getChunk();
-		ArrayList<Entity> removed = new ArrayList<Entity>();
-		HashMap<Integer, Boolean> droppedItems = new HashMap<Integer, Boolean>();
-		
-		try {
-			if (!frame.isEmpty()) {
+
+        if (frame.noFrame()) {
+            return;
+        }
+
+        Chunk chunk = frame.getLocation().getChunk();
+        ArrayList<Entity> removed = new ArrayList<>();
+        HashMap<Integer, Boolean> droppedItems = new HashMap<>();
+
+        try {
+            if (!frame.isEmpty()) {
                 ItemStack stack = frame.getItem();
                 droppedItems.put(stack.getTypeId(), true);
-			}
-		} catch (CivException e1) {
-			e1.printStackTrace();
-		}
+            }
+        } catch (CivException e1) {
+            e1.printStackTrace();
+        }
 		
 		for (Entity entity : chunk.getEntities()) {
 			if (entity instanceof ItemFrame) {
@@ -1475,11 +1461,11 @@ public class CivGlobal {
 					if (!eFrameEmpty) {
                         ItemStack stack1 = eFrame.getItem();
                         Boolean droppedAlready = droppedItems.get(stack1.getTypeId());
-						if (droppedAlready == null || droppedAlready == false) {
+                        if (droppedAlready == null || !droppedAlready) {
                             ItemStack stack = eFrame.getItem();
                             droppedItems.put(stack.getTypeId(), true);
-							eFrame.getLocation().getWorld().dropItemNaturally(eFrame.getLocation(), eFrame.getItem());
-						}
+                            eFrame.getLocation().getWorld().dropItemNaturally(eFrame.getLocation(), eFrame.getItem());
+                        }
 					}
 					
 					removed.add(eFrame);
@@ -1491,8 +1477,7 @@ public class CivGlobal {
 		for (Entity e : removed) {
 			e.remove();
 		}
-		
-		return;
+
 	}
 	
 	public static Entity getEntityClassFromUUID(World world, Class<?> c, UUID id) {
@@ -1659,7 +1644,7 @@ public class CivGlobal {
 	public static void checkForExpiredRelations() {
 		Date now = new Date();
 
-		ArrayList<Relation> deletedRelations = new ArrayList<Relation>();
+        ArrayList<Relation> deletedRelations = new ArrayList<>();
 		for (Civilization civ : CivGlobal.getCivs()) {
 			for (Relation relation : civ.getDiplomacyManager().getRelations()) {
 				if (relation.getExpireDate() != null && now.after(relation.getExpireDate())) {					
@@ -1806,7 +1791,7 @@ public class CivGlobal {
 		HashSet<Wall> walls = wallChunks.get(coord);
 		
 		if (walls == null) {
-			walls = new HashSet<Wall>();
+            walls = new HashSet<>();
 		}
 		
 		walls.add(wall);
@@ -1818,7 +1803,7 @@ public class CivGlobal {
 		HashSet<Wall> walls = wallChunks.get(coord);
 		
 		if (walls == null) {
-			walls = new HashSet<Wall>();
+            walls = new HashSet<>();
 		}
 		walls.remove(wall);
 		wallChunks.put(coord, walls);
@@ -1866,9 +1851,9 @@ public class CivGlobal {
 	 * the provided town. Ignores the civilization the town belongs to.
 	 */
 	public static TreeMap<Double, Civilization> findNearestCivilizations(Town town) {
-		
-		TownHall townhall = town.getTownHall();
-		TreeMap<Double, Civilization> returnMap = new TreeMap<Double, Civilization>();
+
+        TownHall townhall = town.getTownHall();
+        TreeMap<Double, Civilization> returnMap = new TreeMap<>();
 
 		if (townhall == null) {
 			return returnMap;
@@ -1948,7 +1933,7 @@ public class CivGlobal {
 	}
 
 	public static ArrayList<String> getNearbyPlayers(BlockCoord coord, double range) {
-		ArrayList<String> playerNames = new ArrayList<String>();
+        ArrayList<String> playerNames = new ArrayList<>();
 		
 		//TODO make it async....
 	//	for (PlayerLocation)
@@ -1965,12 +1950,8 @@ public class CivGlobal {
 		if (defenderResident.hasTown() && defenderResident.getTown().isOutlaw(attackerResident.getName())) {
 			return true;
 		}
-		
-		if (attackerResident.hasTown() && attackerResident.getTown().isOutlaw(defenderResident.getName())) {
-			return true;
-		}
-		
-		return false;
+
+		return attackerResident.hasTown() && attackerResident.getTown().isOutlaw(defenderResident.getName());
 	}
 	
 	public static boolean isOutlawHere(Resident resident, TownChunk tc) {
@@ -1981,11 +1962,8 @@ public class CivGlobal {
 		if (tc.getTown() == null) {
 			return false;
 		}
-		
-		if (tc.getTown().isOutlaw(resident.getName())) {
-			return true;
-		}
-		return false;
+
+		return tc.getTown().isOutlaw(resident.getName());
 	}
 	
 	public static Date getTodaysSpawnRegenDate() {
@@ -2165,11 +2143,7 @@ public class CivGlobal {
 	public static boolean isCasualMode() {
 		try {
 			String mode = CivSettings.getString(CivSettings.civConfig, "global.casual_mode");
-			if (mode.equalsIgnoreCase("true")) {
-				return true;
-			} else {
-				return false;
-			}
+			return mode.equalsIgnoreCase("true");
 		} catch (InvalidConfiguration e) {
 			e.printStackTrace();
 			return false;

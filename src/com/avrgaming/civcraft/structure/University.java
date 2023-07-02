@@ -39,7 +39,7 @@ public class University extends Structure {
 	
 	private StructureSign getSignFromSpecialId(int special_id) {
 		for (StructureSign sign : getSigns()) {
-			int id = Integer.valueOf(sign.getAction());
+			int id = Integer.parseInt(sign.getAction());
 			if (id == special_id) {
 				return sign;
 			}

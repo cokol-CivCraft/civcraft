@@ -111,9 +111,9 @@ public class PlotPermCommand extends CommandBase {
 	}
 
 	@Override
-	public void doDefaultAction() throws CivException {
-		showHelp();
-	}
+    public void doDefaultAction() {
+        showHelp();
+    }
 
 	@Override
 	public void showHelp() {
@@ -125,8 +125,7 @@ public class PlotPermCommand extends CommandBase {
 		if (args.length != 0) {
 			validPlotOwner();
 		}
-			
-		return;
-	}
+
+    }
 
 }

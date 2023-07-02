@@ -32,26 +32,25 @@ public class AdminPerkCommand extends CommandBase {
 		CivMessage.send(sender, CivColor.LightGray+CivSettings.localize.localizedString("adcmd_perk_listingSuccess"));
 	}
 	
-	public void reload_cmd() throws FileNotFoundException, IOException, InvalidConfigurationException, InvalidConfiguration
-	{
-		CivSettings.reloadPerks();
-	}
-	
-	
-	@Override
-	public void doDefaultAction() throws CivException {
-		showHelp();
-	}
+	public void reload_cmd() throws IOException, InvalidConfigurationException, InvalidConfiguration {
+        CivSettings.reloadPerks();
+    }
+
+
+    @Override
+    public void doDefaultAction() {
+        showHelp();
+    }
 
 	@Override
 	public void showHelp() {
 		showBasicHelp();
 	}
 
-	@Override
-	public void permissionCheck() throws CivException {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void permissionCheck() {
+        // TODO Auto-generated method stub
+
+    }
 
 }

@@ -5,8 +5,8 @@ import java.util.LinkedList;
 
 public class RandomEventSweeper implements Runnable {
 
-	private static LinkedList<RandomEvent> events = new LinkedList<RandomEvent>();
-	public static final int MILLISECONDS_PER_HOUR = 60*60*1000;
+	private static final LinkedList<RandomEvent> events = new LinkedList<>();
+    public static final int MILLISECONDS_PER_HOUR = 60 * 60 * 1000;
 	//public static final int MILLISECONDS_PER_HOUR = 1000;
 
 	@Override
@@ -22,7 +22,7 @@ public class RandomEventSweeper implements Runnable {
 		 */
 		
 		/* Iterate through requirements, use check() */
-		LinkedList<RandomEvent> removed = new LinkedList<RandomEvent>();
+        LinkedList<RandomEvent> removed = new LinkedList<>();
 		for (RandomEvent event : events) {
 			boolean allPass = false;
 			if (event.requirements.size() > 0) {
@@ -44,8 +44,8 @@ public class RandomEventSweeper implements Runnable {
 			} else {
 				/* Event didn't pass, might be expired. Check so. */
 				Date now = new Date();
-				
-				long expireTime = (event.getStartDate().getTime() + (event.getLength() * MILLISECONDS_PER_HOUR));
+
+                long expireTime = (event.getStartDate().getTime() + ((long) event.getLength() * MILLISECONDS_PER_HOUR));
 				if (now.getTime() > expireTime) {
 					/* event is expired. Run failures. */
 					for (RandomEventComponent comp : event.failure.values()) {

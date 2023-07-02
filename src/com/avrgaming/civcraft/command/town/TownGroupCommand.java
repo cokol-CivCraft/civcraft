@@ -183,11 +183,11 @@ public class TownGroupCommand extends CommandBase {
 			
 			CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_town_group_infoHeading")+"("+town.getName()+"):"+args[1]);
 			
-			String residents = "";
+			StringBuilder residents = new StringBuilder();
 			for (Resident res : grp.getMemberList()) {
-				residents += res.getName() + " ";
+                residents.append(res.getName()).append(" ");
 			}
-			CivMessage.send(sender, residents);
+            CivMessage.send(sender, residents.toString());
 			
 		} else {
 			CivMessage.sendHeading(sender, town.getName()+" "+CivSettings.localize.localizedString("cmd_town_group_infoHeading2"));
@@ -206,8 +206,7 @@ public class TownGroupCommand extends CommandBase {
 	@Override
 	public void permissionCheck() throws CivException {
 		this.validMayorAssistantLeader();
-		return;
-	}
+    }
 
 	@Override
 	public void doDefaultAction() {

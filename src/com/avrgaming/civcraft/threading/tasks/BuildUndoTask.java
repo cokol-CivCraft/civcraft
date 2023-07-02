@@ -21,11 +21,11 @@ import com.avrgaming.civcraft.util.SimpleBlock;
 import com.avrgaming.civcraft.util.TimeTools;
  
 public class BuildUndoTask implements Runnable {
-        private String undoTemplatePath;
-        private String undoTemplateId;
+        private final String undoTemplatePath;
+        private final String undoTemplateId;
         private String undoTownName;
-        private BlockCoord cornerBlock;
-        private int savedBlockCount;
+        private final BlockCoord cornerBlock;
+        private final int savedBlockCount;
  
         private final int MAX_BLOCKS_PER_TICK = 300;
         private final int DELAY_SPEED = 100;
@@ -55,7 +55,7 @@ public class BuildUndoTask implements Runnable {
 	    @Override
 	    public void run() {
 	        Template undo_tpl = new Template();
-	        Queue<SimpleBlock> syncBlockQueue = new LinkedList<SimpleBlock>();
+			Queue<SimpleBlock> syncBlockQueue = new LinkedList<>();
 	        try {
 	    		undo_tpl.initUndoTemplate(this.cornerBlock.toString(), this.undoTownName);
 	            /*
@@ -71,25 +71,20 @@ public class BuildUndoTask implements Runnable {
 	            			undo_tpl.blocks[x][y][z].x = x;
 	                        undo_tpl.blocks[x][y][z].y = y;
 	                        undo_tpl.blocks[x][y][z].z = z;
-	                        build(syncBlockQueue, undo_tpl.blocks[x][y][z]);
-	            		}
-	            	}
-	            }
-	            /* Build last remaining blocks. */
-	            SyncBuildUpdateTask.queueSimpleBlock(syncBlockQueue);
-	            syncBlockQueue.clear();
-	            undo_tpl.deleteUndoTemplate(undoTemplateId, this.undoTownName);
-	            this.deleteProgress();
-	
-	        } catch (IOException e) {
-	                e.printStackTrace();
-	        } catch (InterruptedException e) {
-	                e.printStackTrace();
-	                return;
-	        } catch (CivException e) {
+							build(syncBlockQueue, undo_tpl.blocks[x][y][z]);
+						}
+					}
+				}
+				/* Build last remaining blocks. */
+				SyncBuildUpdateTask.queueSimpleBlock(syncBlockQueue);
+				syncBlockQueue.clear();
+				undo_tpl.deleteUndoTemplate(undoTemplateId, this.undoTownName);
+				this.deleteProgress();
+
+			} catch (IOException | CivException | InterruptedException e) {
 				e.printStackTrace();
 			}
-	    }
+		}
 	   
 	    public void build(Queue<SimpleBlock> syncBlockQueue, SimpleBlock sb) throws InterruptedException {
 	        builtBlockCount++;
@@ -114,8 +109,7 @@ public class BuildUndoTask implements Runnable {
 	                syncBlockQueue.clear();
 	                builtBlockCount = 0;
 	        }
-	        return;
-	    }
+		}
 	   
 	    private void delay() throws InterruptedException {
 	        /* Wait for a period of time. */
@@ -150,19 +144,17 @@ public class BuildUndoTask implements Runnable {
 	        if (!f.exists()) {
 	                f.mkdirs();
 	        }
-	       
-	        try {
-	
-	                PrintWriter writer = new PrintWriter(this.getSaveFilePath(), "UTF-8");
-	                writer.println(kv.serialize());
-	                writer.close();
-	
-	        } catch (FileNotFoundException e) {
-	                e.printStackTrace();
-	        } catch (UnsupportedEncodingException e) {
-	                e.printStackTrace();
-	        }
-	    }
+
+			try {
+
+				PrintWriter writer = new PrintWriter(this.getSaveFilePath(), "UTF-8");
+				writer.println(kv.serialize());
+				writer.close();
+
+			} catch (FileNotFoundException | UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
 	   
 	    private void deleteProgress() {
 	        File f = new File(this.getSaveFilePath());

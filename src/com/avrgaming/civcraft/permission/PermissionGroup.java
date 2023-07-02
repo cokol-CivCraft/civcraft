@@ -38,9 +38,9 @@ import com.avrgaming.civcraft.object.Town;
 
 public class PermissionGroup extends SQLObject {
 
-	private Map<String, Resident> members = new ConcurrentHashMap<String, Resident>();
-	/* Only cache towns as the 'civ' can change when a town gets conquered or gifted/moved. */
-	private Town cacheTown = null;
+	private final Map<String, Resident> members = new ConcurrentHashMap<>();
+    /* Only cache towns as the 'civ' can change when a town gets conquered or gifted/moved. */
+    private Town cacheTown = null;
 	
 	private int civId;
 	private int townId;
@@ -128,7 +128,7 @@ public class PermissionGroup extends SQLObject {
 	
 	@Override
 	public void saveNow() throws SQLException {
-		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+        HashMap<String, Object> hashmap = new HashMap<>();
 		
 		hashmap.put("name", this.getName());
 		hashmap.put("members", this.getMembersSaveString());
@@ -144,13 +144,13 @@ public class PermissionGroup extends SQLObject {
 	}
 	
 	private String getMembersSaveString() {
-		String ret = "";
+        StringBuilder ret = new StringBuilder();
 		
 		for (String name : members.keySet()) {
-			ret += name + ",";
+            ret.append(name).append(",");
 		}
-		
-		return ret;
+
+        return ret.toString();
 	}
 	
 	private void loadMembersFromSaveString(String src) {
@@ -230,13 +230,13 @@ public class PermissionGroup extends SQLObject {
 	}
 	
 	public String getMembersString() {
-		String out = "";
+        StringBuilder out = new StringBuilder();
 		
 			for (String uuid : members.keySet()) {
 				Resident res = CivGlobal.getResidentViaUUID(UUID.fromString(uuid));
-				out += res.getName()+", ";
+                out.append(res.getName()).append(", ");
 			}
-		return out;
+        return out.toString();
 	}
 
 	public int getCivId() {

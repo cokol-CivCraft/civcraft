@@ -51,8 +51,8 @@ public class MobSpawnerPopulator extends BlockPopulator {
         //clear any stack goodies
         for (int y = coord.getY(); y < 256; y++) {
             top = world.getBlockAt(coord.getX(), y, coord.getZ());
-            if (top.getTypeId() == Material.BEDROCK.getId()) {
-                top.setTypeId(Material.AIR.getId());
+            if (top.getType() == Material.BEDROCK) {
+                top.setType(Material.AIR);
             }
         }
         
@@ -172,16 +172,16 @@ public class MobSpawnerPopulator extends BlockPopulator {
             if (checkForDuplicateMobSpawner(world.getName(), centerX, centerY, centerZ)) {
                 return;
             }
-            
+
             // Determine if we should be a water good.
             ConfigMobSpawner spawner;
-            if (ItemManager.getBlockTypeIdAt(world, centerX, centerY-1, centerZ) == Material.STATIONARY_WATER.getId() ||
-                ItemManager.getBlockTypeIdAt(world, centerX, centerY-1, centerZ) == Material.WATER.getId()) {
+            if (world.getBlockAt(centerX, centerY - 1, centerZ).getType() == Material.STATIONARY_WATER ||
+                    world.getBlockAt(centerX, centerY - 1, centerZ).getType() == Material.WATER) {
                 spawner = pick.waterPick;
-            }  else {
+            } else {
                 spawner = pick.landPick;
             }
-            
+
             // Randomly choose a land or water good.
             if (spawner == null) {
                 System.out.println("Could not find suitable mob spawner type during populate! aborting.");

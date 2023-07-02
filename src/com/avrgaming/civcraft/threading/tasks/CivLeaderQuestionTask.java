@@ -12,26 +12,26 @@ import com.avrgaming.civcraft.questions.QuestionResponseInterface;
 import com.avrgaming.civcraft.util.CivColor;
 
 public class CivLeaderQuestionTask extends QuestionBaseTask implements Runnable {
-	Civilization askedCivilization; /* player who is being asked a question. */
-	Player questionPlayer; /* player who has asked the question. */
-	String question; /* Question being asked. */
-	long timeout; /* Timeout after question expires. */
-//	RunnableWithArg finishedTask; /* Task to run when a response has been generated. */
-	QuestionResponseInterface finishedFunction;
-	Resident responder;
-	
-	protected String response = new String(); /* Response to the question. */
-	protected Boolean responded = new Boolean(false); /*Question was answered. */
-	
-	
-	public CivLeaderQuestionTask(Civilization askedplayer, Player questionplayer, String question, long timeout, 
-			QuestionResponseInterface finishedFunction) {
-		
-		this.askedCivilization = askedplayer;
-		this.questionPlayer = questionplayer;
-		this.question = question;
-		this.timeout = timeout;
-		this.finishedFunction = finishedFunction;
+    Civilization askedCivilization; /* player who is being asked a question. */
+    Player questionPlayer; /* player who has asked the question. */
+    String question; /* Question being asked. */
+    long timeout; /* Timeout after question expires. */
+    //	RunnableWithArg finishedTask; /* Task to run when a response has been generated. */
+    QuestionResponseInterface finishedFunction;
+    Resident responder;
+
+    protected String response = ""; /* Response to the question. */
+    protected Boolean responded = false; /*Question was answered. */
+
+
+    public CivLeaderQuestionTask(Civilization askedplayer, Player questionplayer, String question, long timeout,
+                                 QuestionResponseInterface finishedFunction) {
+
+        this.askedCivilization = askedplayer;
+        this.questionPlayer = questionplayer;
+        this.question = question;
+        this.timeout = timeout;
+        this.finishedFunction = finishedFunction;
 		
 	}
 	

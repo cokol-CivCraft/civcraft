@@ -14,20 +14,20 @@ public class WarStats {
 	/* Lets keep track of some basic stats. */
 	
 	/*
-	 * Stores player kills.
-	 */
-	private static HashMap<String, Integer> playerKills = new HashMap<String, Integer>();
-	
-	/*
-	 * Stores Captured Civs, who conquered whom.
-	 * key = civ who conquered, value = civ who was defeated.
-	 */
-	private static HashMap<String, LinkedList<String>> conqueredCivs = new HashMap<String, LinkedList<String>>();
-	
-	/*
-	 * Conquered Towns, key = civ who conquered, value = town
-	 */
-	private static HashMap<String, LinkedList<String>> conqueredTowns = new HashMap<String, LinkedList<String>>();
+     * Stores player kills.
+     */
+    private static final HashMap<String, Integer> playerKills = new HashMap<>();
+
+    /*
+     * Stores Captured Civs, who conquered whom.
+     * key = civ who conquered, value = civ who was defeated.
+     */
+    private static final HashMap<String, LinkedList<String>> conqueredCivs = new HashMap<>();
+
+    /*
+     * Conquered Towns, key = civ who conquered, value = town
+     */
+    private static final HashMap<String, LinkedList<String>> conqueredTowns = new HashMap<>();
 	
 	public static void incrementPlayerKills(String playerName) {
 		Integer kills = playerKills.get(playerName);
@@ -44,7 +44,7 @@ public class WarStats {
 		LinkedList<String> towns = conqueredTowns.get(winner.getName());
 		
 		if (towns == null) {
-			towns = new LinkedList<String>();
+            towns = new LinkedList<>();
 		}
 		
 		towns.add(captured.getName());
@@ -55,7 +55,7 @@ public class WarStats {
 		LinkedList<String> civs = conqueredCivs.get(winner.getName());
 		
 		if (civs == null) {
-			civs = new LinkedList<String>();
+            civs = new LinkedList<>();
 		}
 		
 		civs.add(captured.getName());
@@ -78,18 +78,18 @@ public class WarStats {
 	}
 	
 	public static List<String> getCapturedCivs() {
-		LinkedList<String> out = new LinkedList<String>();
+        LinkedList<String> out = new LinkedList<>();
 		
 		for (String key : conqueredCivs.keySet()) {
 			LinkedList<String> conquered = conqueredCivs.get(key);
 			if (conquered == null) {
 				continue;
 			}
-			
-			String line = CivColor.LightGreen+CivColor.BOLD+key+CivColor.Rose+CivColor.BOLD+" "+CivSettings.localize.localizedString("war_over_announceConquered")+" "+CivColor.RESET+CivColor.LightGray;
-			String tmp = "";
+
+            String line = CivColor.LightGreen + CivColor.BOLD + key + CivColor.Rose + CivColor.BOLD + " " + CivSettings.localize.localizedString("war_over_announceConquered") + " " + CivColor.RESET + CivColor.LightGray;
+            StringBuilder tmp = new StringBuilder();
 			for (String str : conquered) {
-				tmp += str+", ";
+                tmp.append(str).append(", ");
 			}
 			
 			line += tmp;

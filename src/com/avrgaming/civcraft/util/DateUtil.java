@@ -40,12 +40,8 @@ public class DateUtil {
 		if (d == null) {
 			return true;
 		}
-		
-		if (now.getTime() > (d.getTime() + value*m)) {
-			return true;
-		}
-		
-		return false;
+
+		return now.getTime() > (d.getTime() + (long) value * m);
 	}
 	
 }

@@ -16,10 +16,9 @@ public class SessionDBAsyncTimer implements Runnable {
 
 	private static final int UPDATE_AMOUNT = 30;
 	public static ReentrantLock lock = new ReentrantLock();
-	public static Queue<SessionAsyncRequest> requestQueue = new LinkedList<SessionAsyncRequest>();
+    public static Queue<SessionAsyncRequest> requestQueue = new LinkedList<>();
 	
 	
-	@SuppressWarnings("resource")
 	@Override
 	public void run() {
 		
@@ -29,54 +28,52 @@ public class SessionDBAsyncTimer implements Runnable {
 		for (int i = 0; i < UPDATE_AMOUNT; i++) {
 			try {
 				lock.lock();
-				try {
-					SessionAsyncRequest request = requestQueue.poll();
-					if (request == null) {
-						return;
-					}
-					
-					if (request != null) {
-						Connection cntx;
-						switch (request.database) {
-						case GAME:
-							if (gameConnection == null || gameConnection.isClosed()) {
-								gameConnection = SQL.getGameConnection();
-							}
-							cntx = gameConnection;
-							break;
-						case GLOBAL:
-							if (globalConnection == null || globalConnection.isClosed()) {
-								globalConnection = SQL.getGlobalConnection();
-							}
-							cntx = globalConnection;
-							break;
-						default:
-							return;
-						}
-						
-						switch (request.op) {
-						case ADD:
-							performAdd(request, cntx);
-							break;
-						case DELETE:
-							performDelete(request, cntx);
-							break;
-						case DELETE_ALL:
-							performDeleteAll(request, cntx);
-							break;
-						case UPDATE:
-							performUpdate(request, cntx);
-							break;
-						case UPDATE_INSERT:
-							performUpdateInsert(request, cntx);
-							break;
-						}
-					}
-				} catch (Exception e){
-					e.printStackTrace();
-				} finally {
-					lock.unlock();
-				}
+                try {
+                    SessionAsyncRequest request = requestQueue.poll();
+                    if (request == null) {
+                        return;
+                    }
+
+                    Connection cntx;
+                    switch (request.database) {
+                        case GAME:
+                            if (gameConnection == null || gameConnection.isClosed()) {
+                                gameConnection = SQL.getGameConnection();
+                            }
+                            cntx = gameConnection;
+                            break;
+                        case GLOBAL:
+                            if (globalConnection == null || globalConnection.isClosed()) {
+                                globalConnection = SQL.getGlobalConnection();
+                            }
+                            cntx = globalConnection;
+                            break;
+                        default:
+                            return;
+                    }
+
+                    switch (request.op) {
+                        case ADD:
+                            performAdd(request, cntx);
+                            break;
+                        case DELETE:
+                            performDelete(request, cntx);
+                            break;
+                        case DELETE_ALL:
+                            performDeleteAll(request, cntx);
+                            break;
+                        case UPDATE:
+                            performUpdate(request, cntx);
+                            break;
+                        case UPDATE_INSERT:
+                            performUpdateInsert(request, cntx);
+                            break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    lock.unlock();
+                }
 			} finally {
 				try {
 					if (gameConnection != null) {
@@ -124,9 +121,8 @@ public class SessionDBAsyncTimer implements Runnable {
 		}
 		res.close();
 		s.close();
-	
-		return;
-	}
+
+    }
 	
 	private void performUpdate(SessionAsyncRequest request, Connection cntx) throws Exception {
 		String code;
@@ -140,9 +136,8 @@ public class SessionDBAsyncTimer implements Runnable {
 		if (rs == 0) {
 			throw new Exception("Could not execute SQL code:"+code+" value="+request.entry.value+" reqid="+request.entry.request_id);
 		}
-		
-		return;		
-	}
+
+    }
 
 	private void performUpdateInsert(SessionAsyncRequest request, Connection cntx) throws Exception { 
 		String code;
@@ -156,9 +151,8 @@ public class SessionDBAsyncTimer implements Runnable {
 		if (rs == 0) {
 			throw new Exception("Could not execute SQL code:"+code);
 		}
-		
-		return;		
-	}
+
+    }
 
 	private void performDeleteAll(SessionAsyncRequest request, Connection cntx) throws Exception {
 		String code = "DELETE FROM `"+ request.tb_prefix + "SESSIONS` WHERE `key` = ?";
@@ -167,7 +161,6 @@ public class SessionDBAsyncTimer implements Runnable {
 		s.executeUpdate();
 		s.close();
 
-		return;		
 	}
 
 
@@ -183,8 +176,7 @@ public class SessionDBAsyncTimer implements Runnable {
 		if (rs == 0) {
 			throw new Exception("Could not execute SQL code:"+code+" where entry id:"+request.entry.request_id);
 		}
-	
-		return;		
-	}
+
+    }
 
 }

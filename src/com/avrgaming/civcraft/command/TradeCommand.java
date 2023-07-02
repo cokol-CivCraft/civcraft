@@ -72,7 +72,7 @@ public class TradeCommand extends CommandBase {
 	}
 
 	@Override
-	public void permissionCheck() throws CivException {		
-	}
+    public void permissionCheck() {
+    }
 
 }

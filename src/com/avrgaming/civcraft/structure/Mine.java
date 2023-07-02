@@ -51,33 +51,28 @@ public class Mine extends Structure {
 
 	public Mine(ResultSet rs) throws SQLException, CivException {
 		super(rs);
-	}
-		
-	@Override
-	public void loadSettings() {
-		super.loadSettings();
-	}
-	
-	public String getkey() {
-		return getTown().getName()+"_"+this.getConfigId()+"_"+this.getCorner().toString(); 
-	}
-		
-	@Override
-	public String getDynmapDescription() {
-		return null;
-	}
-	
-	@Override
-	public String getMarkerIconName() {
-		return "hammer";
-	}
-	
-	public ConsumeLevelComponent getConsumeComponent() {
-		if (consumeComp == null) {
-			consumeComp = (ConsumeLevelComponent) this.getComponent(ConsumeLevelComponent.class.getSimpleName());
-		}
-		return consumeComp;
-	}
+    }
+
+    @Override
+    public void loadSettings() {
+        super.loadSettings();
+    }
+
+    public String getkey() {
+        return getTown().getName() + "_" + this.getConfigId() + "_" + this.getCorner().toString();
+    }
+
+    @Override
+    public String getMarkerIconName() {
+        return "hammer";
+    }
+
+    public ConsumeLevelComponent getConsumeComponent() {
+        if (consumeComp == null) {
+            consumeComp = (ConsumeLevelComponent) this.getComponent(ConsumeLevelComponent.class.getSimpleName());
+        }
+        return consumeComp;
+    }
 	
 	public Result consume(CivAsyncTask task) throws InterruptedException {
 		
@@ -111,18 +106,18 @@ public class Mine extends Structure {
 			return Result.STAGNATE;
 		}
 	}
-	
-	public void process_mine(CivAsyncTask task) throws InterruptedException {
-		Result result = null;
-		try {
-			result = this.consume(task);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		switch (result) {
-		case STARVE:
-			CivMessage.sendTown(getTown(), CivColor.Rose+CivSettings.localize.localizedString("var_mine_productionFell",getConsumeComponent().getLevel(),CivColor.LightGreen+getConsumeComponent().getCountString()));
-			break;
+
+    public void process_mine(CivAsyncTask task) {
+        Result result = null;
+        try {
+            result = this.consume(task);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        switch (result) {
+            case STARVE:
+                CivMessage.sendTown(getTown(), CivColor.Rose + CivSettings.localize.localizedString("var_mine_productionFell", getConsumeComponent().getLevel(), CivColor.LightGreen + getConsumeComponent().getCountString()));
+                break;
 		case LEVELDOWN:
 			CivMessage.sendTown(getTown(), CivColor.Rose+CivSettings.localize.localizedString("var_mine_lostalvl",getConsumeComponent().getLevel()));
 			break;

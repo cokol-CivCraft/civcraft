@@ -24,7 +24,7 @@ public class SpawnMobs extends RandomEventComponent {
 				EntityType type = EntityType.valueOf(getString("what"));
 				
 				/* Get amount. */
-				int amount = Integer.valueOf(getString("amount"));
+				int amount = Integer.parseInt(getString("amount"));
 				
 				/* Pick a random town chunk and spawn mobs there. */
 				Random rand = new Random();

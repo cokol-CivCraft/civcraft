@@ -6,8 +6,10 @@ import com.avrgaming.civcraft.util.BlockCoord;
 
 public interface RespawnLocationHolder {
 
-	public String getRespawnName();
-	public List<BlockCoord> getRespawnPoints();
-	public BlockCoord getRandomRevivePoint();
-	
+    String getRespawnName();
+
+    List<BlockCoord> getRespawnPoints();
+
+    BlockCoord getRandomRevivePoint();
+
 }

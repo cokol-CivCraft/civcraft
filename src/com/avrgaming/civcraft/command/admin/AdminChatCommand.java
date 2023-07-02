@@ -186,25 +186,25 @@ public class AdminChatCommand extends CommandBase {
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_chat_banwordremoved",args[1]));
 	}
 	
-	public void banwordtoggle() throws CivException {
-		
-		CivGlobal.banWordsAlways = !CivGlobal.banWordsAlways;
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("admcd_chat_banwordAlways")+" "+CivGlobal.banWordsAlways);
-	}
-	
-	@Override
-	public void doDefaultAction() throws CivException {
-		showHelp();
-	}
+	public void banwordtoggle() {
+
+        CivGlobal.banWordsAlways = !CivGlobal.banWordsAlways;
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("admcd_chat_banwordAlways") + " " + CivGlobal.banWordsAlways);
+    }
+
+    @Override
+    public void doDefaultAction() {
+        showHelp();
+    }
 
 	@Override
 	public void showHelp() {
 		showBasicHelp();
 	}
 
-	@Override
-	public void permissionCheck() throws CivException {
+    @Override
+    public void permissionCheck() {
 
-	}
+    }
 
 }

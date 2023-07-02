@@ -29,8 +29,7 @@ public class InteractiveRenameCivOrTown implements InteractiveResponse {
 	public void displayQuestion(Resident resident) {		
 		CivMessage.send(resident, CivColor.Green+CivSettings.localize.localizedString("interactive_rename_question1"));
 		CivMessage.send(resident, CivColor.Gray+CivSettings.localize.localizedString("interactive_rename_question2"));
-		return;
-	}
+    }
 	
 	@Override
 	public void respond(String message, Resident resident) {
@@ -104,8 +103,7 @@ public class InteractiveRenameCivOrTown implements InteractiveResponse {
 		} catch (CivException e) {
 			CivMessage.sendError(resident, e.getMessage());
 			resident.clearInteractiveMode();
-			return;
-		}
+        }
 
 		
 	}

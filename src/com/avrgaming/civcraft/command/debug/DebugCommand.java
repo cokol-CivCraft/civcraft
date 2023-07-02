@@ -389,11 +389,11 @@ public class DebugCommand extends CommandBase {
             }
 
             class BuildSpawnTask implements Runnable {
-                CommandSender sender;
-                int start_x;
-                int start_y;
-                int start_z;
-                Town spawnCapitol;
+                final CommandSender sender;
+                final int start_x;
+                final int start_y;
+                final int start_z;
+                final Town spawnCapitol;
 
                 public BuildSpawnTask(CommandSender sender, int x, int y, int z, Town capitol) {
                     this.sender = sender;
@@ -700,7 +700,7 @@ public class DebugCommand extends CommandBase {
         Integer dura = getNamedInteger(1);
 
         ItemStack inHand = player.getInventory().getItemInMainHand();
-        inHand.setDurability((short) dura.shortValue());
+        inHand.setDurability(dura.shortValue());
 
         CivMessage.send(player, "Set Durability:" + inHand.getDurability());
         CivMessage.send(player, "MaxDura:" + inHand.getType().getMaxDurability());
@@ -875,11 +875,11 @@ public class DebugCommand extends CommandBase {
     @SuppressWarnings("unused")
     public void listconquered_cmd() {
         CivMessage.sendHeading(sender, "Conquered Civs");
-        String out = "";
+        StringBuilder out = new StringBuilder();
         for (Civilization civ : CivGlobal.getConqueredCivs()) {
-            out += civ.getName() + ", ";
+            out.append(civ.getName()).append(", ");
         }
-        CivMessage.send(sender, out);
+        CivMessage.send(sender, out.toString());
     }
     @SuppressWarnings("unused")
     public void touches_cmd() throws CivException {
@@ -891,7 +891,7 @@ public class DebugCommand extends CommandBase {
             out.append(t.getName()).append(", ");
         }
 
-        if (town.touchesCapitolCulture(new HashSet<Town>())) {
+        if (town.touchesCapitolCulture(new HashSet<>())) {
             CivMessage.send(sender, CivColor.LightGreen + "Touches capitol.");
         } else {
             CivMessage.send(sender, CivColor.Rose + "Does NOT touch capitol.");
@@ -944,7 +944,7 @@ public class DebugCommand extends CommandBase {
             ItemMeta meta = inHand.getItemMeta();
             meta.setDisplayName(args[1]);
 
-            ArrayList<String> lore = new ArrayList<String>();
+            ArrayList<String> lore = new ArrayList<>();
             lore.add(this.combineArgs(this.stripArgs(args, 2)));
             meta.setLore(lore);
 
@@ -1370,7 +1370,7 @@ public class DebugCommand extends CommandBase {
 
                 org.bukkit.inventory.ItemStack stack = goodie.getStack();
                 if (stack != null) {
-                    CivMessage.send(sender, "Stack: " + stack.toString());
+                    CivMessage.send(sender, "Stack: " + stack);
                 } else {
                     CivMessage.send(sender, "Stack: null");
                 }
@@ -1381,7 +1381,7 @@ public class DebugCommand extends CommandBase {
     }
 
     @SuppressWarnings("unused")
-    public void test_cmd() throws CivException {
+    public void test_cmd() {
         DebugTestCommand cmd = new DebugTestCommand();
         cmd.onCommand(sender, null, "test", this.stripArgs(args, 1));
     }
@@ -1597,7 +1597,7 @@ public class DebugCommand extends CommandBase {
     @Override
     public void permissionCheck() throws CivException {
         if (sender instanceof Player) {
-            if (((Player) sender).isOp()) {
+            if (sender.isOp()) {
                 return;
             }
         } else {
@@ -1607,7 +1607,7 @@ public class DebugCommand extends CommandBase {
     }
 
     @Override
-    public void doDefaultAction() throws CivException {
+    public void doDefaultAction() {
         showHelp();
     }
 

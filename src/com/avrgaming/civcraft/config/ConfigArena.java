@@ -33,7 +33,7 @@ public class ConfigArena {
 			arena.control_block_hp = (Integer)cl.get("control_block_hp");
 
 			if (teams_map_list != null) {				
-				arena.teams = new LinkedList<ConfigArenaTeam>();
+				arena.teams = new LinkedList<>();
 				for (Map<?,?> tm : teams_map_list) {
 					ConfigArenaTeam team = new ConfigArenaTeam();
 					
@@ -41,56 +41,56 @@ public class ConfigArena {
 					team.name = (String)tm.get("name");
 					
 					/* Set up control blocks. */
-					team.controlPoints = new LinkedList<BlockCoord>();
+                    team.controlPoints = new LinkedList<>();
 					List<?> someList = (List<?>) tm.get("controlblocks");
 					for (Object obj : someList) {
-						String[] coords = ((String)obj).split(",");
-						BlockCoord bcoord = new BlockCoord(arena.world_source, 
-								Integer.valueOf(coords[0]),
-								Integer.valueOf(coords[1]),
-								Integer.valueOf(coords[2]));
+                        String[] coords = ((String) obj).split(",");
+                        BlockCoord bcoord = new BlockCoord(arena.world_source,
+                                Integer.parseInt(coords[0]),
+                                Integer.parseInt(coords[1]),
+                                Integer.parseInt(coords[2]));
 						
 						
 						team.controlPoints.add(bcoord);
 					}
 					
 					/* Set up revive points. */
-					team.revivePoints = new LinkedList<BlockCoord>();
-					someList = (List<?>) tm.get("revivepoints");
+                    team.revivePoints = new LinkedList<>();
+                    someList = (List<?>) tm.get("revivepoints");
 					for (Object obj : someList) {
-						String[] coords = ((String)obj).split(",");
-						BlockCoord bcoord = new BlockCoord(arena.world_source, 
-								Integer.valueOf(coords[0]),
-								Integer.valueOf(coords[1]),
-								Integer.valueOf(coords[2]));
+                        String[] coords = ((String) obj).split(",");
+                        BlockCoord bcoord = new BlockCoord(arena.world_source,
+                                Integer.parseInt(coords[0]),
+                                Integer.parseInt(coords[1]),
+                                Integer.parseInt(coords[2]));
 						
 						
 						team.revivePoints.add(bcoord);
 					}
 					
 					/* Set up respawn points. */
-					team.respawnPoints = new LinkedList<BlockCoord>();
-					someList = (List<?>) tm.get("respawnpoints");
+                    team.respawnPoints = new LinkedList<>();
+                    someList = (List<?>) tm.get("respawnpoints");
 					for (Object obj : someList) {
-						String[] coords = ((String)obj).split(",");
-						BlockCoord bcoord = new BlockCoord(arena.world_source, 
-								Integer.valueOf(coords[0]),
-								Integer.valueOf(coords[1]),
-								Integer.valueOf(coords[2]));
+                        String[] coords = ((String) obj).split(",");
+                        BlockCoord bcoord = new BlockCoord(arena.world_source,
+                                Integer.parseInt(coords[0]),
+                                Integer.parseInt(coords[1]),
+                                Integer.parseInt(coords[2]));
 						
 						
 						team.respawnPoints.add(bcoord);
 					}
 					
 					/* Set up chest points. */
-					team.chests = new LinkedList<BlockCoord>();
-					someList = (List<?>) tm.get("chests");
+                    team.chests = new LinkedList<>();
+                    someList = (List<?>) tm.get("chests");
 					for (Object obj : someList) {
-						String[] coords = ((String)obj).split(",");
-						BlockCoord bcoord = new BlockCoord(arena.world_source, 
-								Integer.valueOf(coords[0]),
-								Integer.valueOf(coords[1]),
-								Integer.valueOf(coords[2]));
+                        String[] coords = ((String) obj).split(",");
+                        BlockCoord bcoord = new BlockCoord(arena.world_source,
+                                Integer.parseInt(coords[0]),
+                                Integer.parseInt(coords[1]),
+                                Integer.parseInt(coords[2]));
 						
 						
 						team.chests.add(bcoord);
@@ -98,10 +98,10 @@ public class ConfigArena {
 					
 					String respawnSignStr = (String)tm.get("respawnsign");
 					String[] respawnSplit = respawnSignStr.split(",");
-					team.respawnSign = new BlockCoord(arena.world_source,
-							Integer.valueOf(respawnSplit[0]),
-							Integer.valueOf(respawnSplit[1]),
-							Integer.valueOf(respawnSplit[2]));
+                    team.respawnSign = new BlockCoord(arena.world_source,
+                            Integer.parseInt(respawnSplit[0]),
+                            Integer.parseInt(respawnSplit[1]),
+                            Integer.parseInt(respawnSplit[2]));
 					
 					arena.teams.add(team);
 				}

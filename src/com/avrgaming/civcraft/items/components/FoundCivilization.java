@@ -72,7 +72,7 @@ public class FoundCivilization extends ItemComponent implements CallbackInterfac
 		}
 		
 		class SyncTask implements Runnable {
-			String name;
+			final String name;
 				
 			public SyncTask(String name) {
 				this.name = name;
@@ -89,8 +89,7 @@ public class FoundCivilization extends ItemComponent implements CallbackInterfac
 						CivMessage.sendError(player, e.getMessage());
 					}
 				} catch (CivException e) {
-					return;
-				}
+                }
 			}
 		}
 		TaskMaster.syncTask(new SyncTask(event.getPlayer().getName()));

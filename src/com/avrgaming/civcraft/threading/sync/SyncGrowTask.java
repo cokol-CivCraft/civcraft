@@ -30,13 +30,12 @@ import com.avrgaming.civcraft.structure.farm.FarmChunk;
 import com.avrgaming.civcraft.structure.farm.GrowBlock;
 import com.avrgaming.civcraft.threading.sync.request.GrowRequest;
 import com.avrgaming.civcraft.util.ItemManager;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 public class SyncGrowTask implements Runnable {
 	
-	public static Queue<GrowRequest> requestQueue = new LinkedList<GrowRequest>();
-	public static ReentrantLock lock;
+	public static Queue<GrowRequest> requestQueue = new LinkedList<>();
+    public static ReentrantLock lock;
 	
 	public static final int UPDATE_LIMIT = 200;
 	
@@ -49,8 +48,8 @@ public class SyncGrowTask implements Runnable {
 		if (!CivGlobal.growthEnabled) {
 			return;
 		}
-		
-		HashSet<FarmChunk> unloadedFarms = new HashSet<FarmChunk>();
+
+        HashSet<FarmChunk> unloadedFarms = new HashSet<>();
 		
 		if (lock.tryLock()) {
 			try {

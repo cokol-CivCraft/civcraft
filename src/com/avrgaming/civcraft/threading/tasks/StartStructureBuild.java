@@ -56,10 +56,7 @@ public class StartStructureBuild implements Runnable {
 		} catch (IOException e) {
 			CivMessage.sendError(player, CivSettings.localize.localizedString("internalIOException"));
 			e.printStackTrace();
-		} catch (SQLException e) {
-			CivMessage.sendError(player, CivSettings.localize.localizedString("internalDatabaseException"));
-			e.printStackTrace();
 		}
-	}
+    }
 
 }

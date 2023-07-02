@@ -106,9 +106,9 @@ public class AdminWarCommand extends CommandBase {
 	}
 
 	@Override
-	public void doDefaultAction() throws CivException {
-		showHelp();
-	}
+    public void doDefaultAction() {
+        showHelp();
+    }
 
 	@Override
 	public void showHelp() {
@@ -117,9 +117,9 @@ public class AdminWarCommand extends CommandBase {
 
 	@Override
 	public void permissionCheck() throws CivException {
-		if (sender.isOp() == false) {
-			throw new CivException(CivSettings.localize.localizedString("adcmd_NotAdmin"));			
-		}	
+        if (!sender.isOp()) {
+            throw new CivException(CivSettings.localize.localizedString("adcmd_NotAdmin"));
+        }
 	}
 
 }

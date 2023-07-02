@@ -44,12 +44,12 @@ public class BlockCoord {
 	}
 
 	public BlockCoord(String string) {
-		String[] split = string.split(",");
-		this.setWorldname(split[0]);
-		this.setX(Integer.valueOf(split[1]));
-		this.setY(Integer.valueOf(split[2]));
-		this.setZ(Integer.valueOf(split[3]));
-	}
+        String[] split = string.split(",");
+        this.setWorldname(split[0]);
+        this.setX(Integer.parseInt(split[1]));
+        this.setY(Integer.parseInt(split[2]));
+        this.setZ(Integer.parseInt(split[3]));
+    }
 
 	public BlockCoord(BlockCoord obj) {
 		this.setX(obj.getX());
@@ -141,10 +141,8 @@ public class BlockCoord {
 		if (other instanceof BlockCoord) {
 			BlockCoord otherCoord = (BlockCoord)other;
 			if (otherCoord.worldname.equals(worldname)) {
-				if ((otherCoord.getX()) == x && (otherCoord.getY() == y) && 
-						(otherCoord.getZ() == z)) {
-					return true;
-				}
+				return (otherCoord.getX()) == x && (otherCoord.getY() == y) &&
+						(otherCoord.getZ() == z);
 			}
 		}
 		return false;

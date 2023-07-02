@@ -37,18 +37,18 @@ public class BookUtil {
 		/* Break page into lines and pass into longString. */
 		int count = 0;
 		
-		ArrayList<String> lines = new ArrayList<String>();
-		
-		String line = "";
+		ArrayList<String> lines = new ArrayList<>();
+
+        StringBuilder line = new StringBuilder();
 		for (char c : longString.toCharArray()) {
 			count++;
 			if (c == '\n' || count > CHARS_PER_LINE) {
-				lines.add(line);
-				line = "";
-				count = 0;
-			}
+                lines.add(line.toString());
+                line = new StringBuilder();
+                count = 0;
+            }
 			if (c != '\n') {
-				line += c;
+                line.append(c);
 			}
 		}
 		
@@ -61,20 +61,20 @@ public class BookUtil {
 		 * and place into the page, when the line count equals 14
 		 * set it back to 0 and add page.
 		 */
-		
-		int count = 0;
-		String page = "";
+
+        int count = 0;
+        StringBuilder page = new StringBuilder();
 		for (String line : lines) {
 			count++;
 			if (count > LINES_PER_PAGE) {
-				meta.addPage(page);
-				count = 0;
-				page = "";
+                meta.addPage(page.toString());
+                count = 0;
+                page = new StringBuilder();
 			}
-			page += line+"\n";			
+            page.append(line).append("\n");
 		}
-		
-		meta.addPage(page);
+
+        meta.addPage(page.toString());
 	}
 	
 }

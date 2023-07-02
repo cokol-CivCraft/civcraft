@@ -11,7 +11,7 @@ import com.avrgaming.civcraft.main.CivLog;
 
 public class ConfigValidMod {
 	public String name;
-	public LinkedList<Long> checksums = new LinkedList<Long>();
+    public LinkedList<Long> checksums = new LinkedList<>();
 	
 	public static void loadConfig(FileConfiguration cfg, HashMap<String, ConfigValidMod> mods) {
 		mods.clear();

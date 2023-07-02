@@ -46,16 +46,16 @@ import com.avrgaming.civcraft.war.WarRegen;
 
 public class Cannon extends Buildable {
 
-	public static HashMap<BlockCoord, Cannon> fireSignLocations = new HashMap<BlockCoord, Cannon>(); 
-	public static HashMap<BlockCoord, Cannon> angleSignLocations = new HashMap<BlockCoord, Cannon>(); 
-	public static HashMap<BlockCoord, Cannon> powerSignLocations = new HashMap<BlockCoord, Cannon>(); 
-	public static HashMap<BlockCoord, Cannon> cannonBlocks = new HashMap<BlockCoord, Cannon>();
+	public static HashMap<BlockCoord, Cannon> fireSignLocations = new HashMap<>();
+	public static HashMap<BlockCoord, Cannon> angleSignLocations = new HashMap<>();
+	public static HashMap<BlockCoord, Cannon> powerSignLocations = new HashMap<>();
+	public static HashMap<BlockCoord, Cannon> cannonBlocks = new HashMap<>();
 
 	private BlockCoord fireSignLocation;
 	private BlockCoord angleSignLocation;
 	private BlockCoord powerSignLocation;
 	private Location cannonLocation;
-	private Vector direction = new Vector(0,0,0);
+	private final Vector direction = new Vector(0, 0, 0);
 
 	public static final String RESTORE_NAME = "special:Cannons";
 	public static final double STEP = 1.0f;
@@ -78,8 +78,8 @@ public class Cannon extends Buildable {
 	private int shotCooldown = 0;
 	private int hitpoints = 0;
 	private Resident owner;
-	
-	private HashSet<BlockCoord> blocks = new HashSet<BlockCoord>();
+
+	private final HashSet<BlockCoord> blocks = new HashSet<>();
 	
 	public static int tntCost;
 	public static int maxCooldown;
@@ -116,7 +116,7 @@ public class Cannon extends Buildable {
 	}
 	
 	private static void removeAllValues(Cannon cannon, HashMap<BlockCoord, Cannon> map) {
-		LinkedList<BlockCoord> removeUs = new LinkedList<BlockCoord>();
+		LinkedList<BlockCoord> removeUs = new LinkedList<>();
 		for (BlockCoord bcoord : map.keySet()) {
 			Cannon c = map.get(bcoord);
 			if (c == cannon) {
@@ -151,14 +151,11 @@ public class Cannon extends Buildable {
 			String templatePath = Template.getTemplateFilePath(templateFile, Template.getDirection(center), TemplateType.STRUCTURE, "default");
 			this.setTemplateName(templatePath);
 			tpl = Template.getTemplate(templatePath, center);
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new CivException(CivSettings.localize.localizedString("internalCommandException"));
-		} catch (CivException e) {
+		} catch (IOException | CivException e) {
 			e.printStackTrace();
 			throw new CivException(CivSettings.localize.localizedString("internalCommandException"));
 		}
-		
+
 		corner = new BlockCoord(center);
 		corner.setFromLocation(this.repositionCenter(center, tpl.dir(), tpl.size_x, tpl.size_z));
 		checkBlockPermissionsAndRestrictions(player, corner.getBlock(), tpl.size_x, tpl.size_y, tpl.size_z);
@@ -166,14 +163,9 @@ public class Cannon extends Buildable {
 		processCommandSigns(tpl, corner);
 		this.hitpoints = maxHitpoints;
 		this.owner = CivGlobal.getResident(player);
-		
-		try {
-			this.saveNow();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new CivException(CivSettings.localize.localizedString("internalDatabaseException"));
-		}
-		
+
+		this.saveNow();
+
 	}
 
 	protected void checkBlockPermissionsAndRestrictions(Player player, Block centerBlock, int regionX, int regionY, int regionZ) throws CivException {
@@ -245,7 +237,7 @@ public class Cannon extends Buildable {
 	private void updateAngleSign(Block block) {
 		Sign sign = (Sign)block.getState();
 		sign.setLine(0, "YAW");
-		sign.setLine(1, ""+this.angle);
+		sign.setLine(1, String.valueOf(this.angle));
 		
 		double a = this.angle;
 		
@@ -264,7 +256,7 @@ public class Cannon extends Buildable {
 	private void updatePowerSign(Block block) {
 		Sign sign = (Sign)block.getState();
 		sign.setLine(0, "PITCH");
-		sign.setLine(1, ""+this.power);
+		sign.setLine(1, String.valueOf(this.power));
 		sign.setLine(2, "");
 		sign.setLine(3, "");
 		sign.update();
@@ -372,9 +364,9 @@ public class Cannon extends Buildable {
 			}
 		}
 	}
-	
+
 	@Override
-	public void processUndo() throws CivException {		
+	public void processUndo() {
 	}
 
 	@Override
@@ -382,13 +374,11 @@ public class Cannon extends Buildable {
 	}
 
 	@Override
-	public void build(Player player, Location centerLoc, Template tpl)
-			throws Exception {		
+	public void build(Player player, Location centerLoc, Template tpl) {
 	}
 
 	@Override
-	protected void runOnBuild(Location centerLoc, Template tpl)
-			throws CivException {		
+	protected void runOnBuild(Location centerLoc, Template tpl) {
 	}
 
 	@Override
@@ -406,7 +396,7 @@ public class Cannon extends Buildable {
 	}
 
 	@Override
-	public void onLoad() throws CivException {		
+	public void onLoad() {
 	}
 
 	@Override
@@ -414,8 +404,7 @@ public class Cannon extends Buildable {
 	}
 
 	@Override
-	public void load(ResultSet rs) throws SQLException, InvalidNameException,
-			InvalidObjectException, CivException {		
+	public void load(ResultSet rs) {
 	}
 
 	@Override
@@ -423,7 +412,7 @@ public class Cannon extends Buildable {
 	}
 
 	@Override
-	public void saveNow() throws SQLException {
+	public void saveNow() {
 	}
 	
 	private void buildCannonFromTemplate(Template tpl, BlockCoord corner) {
@@ -464,18 +453,17 @@ public class Cannon extends Buildable {
 			}
 		}
 	}
-	
+
 	@Override
-	protected Location repositionCenter(Location center, String dir, double x_size, double z_size) throws CivException {
+	protected Location repositionCenter(Location center, String dir, double x_size, double z_size) {
 		Location loc = center.clone();
-		
+
 		if (dir.equalsIgnoreCase("east")) {
 			loc.setZ(loc.getZ() - (z_size / 2));
 			loc.setX(loc.getX() + SHIFT_OUT);
-		}
-		else if (dir.equalsIgnoreCase("west")) {
+		} else if (dir.equalsIgnoreCase("west")) {
 			loc.setZ(loc.getZ() - (z_size / 2));
-			loc.setX(loc.getX() - (SHIFT_OUT+x_size));
+			loc.setX(loc.getX() - (SHIFT_OUT + x_size));
 
 		}
 		else if (dir.equalsIgnoreCase("north")) {
@@ -579,7 +567,7 @@ public class Cannon extends Buildable {
 			this.shotCooldown = maxCooldown;
 			
 			class SyncTask implements Runnable {
-				Cannon cannon;
+				final Cannon cannon;
 				
 				public SyncTask (Cannon cannon) {
 					this.cannon = cannon;
@@ -604,12 +592,8 @@ public class Cannon extends Buildable {
 	public boolean decrementCooldown() {
 		this.shotCooldown--;
 		this.updateFireSign(fireSignLocation.getBlock());
-		
-		if (this.shotCooldown <= 0) {
-			return true;
-		}
-		
-		return false;
+
+		return this.shotCooldown <= 0;
 	}
 	
 	public void processAngle(PlayerInteractEvent event) throws CivException {

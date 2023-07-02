@@ -4,13 +4,11 @@ import org.bukkit.*;
 import org.bukkit.FireworkEffect.Type;
 
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.FireworkEffectPlayer;
-import com.avrgaming.civcraft.util.ItemManager;
 
 public class ArenaControlBlock {
 	public BlockCoord coord;

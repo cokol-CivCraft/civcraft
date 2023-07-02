@@ -28,7 +28,7 @@ import com.avrgaming.civcraft.threading.TaskMaster;
 
 public class Component {
 
-	public static ConcurrentHashMap<String, ArrayList<Component>> componentsByType = new ConcurrentHashMap<String, ArrayList<Component>>();
+	public static ConcurrentHashMap<String, ArrayList<Component>> componentsByType = new ConcurrentHashMap<>();
 	
 	public static ReentrantLock componentsLock = new ReentrantLock();
 	
@@ -47,9 +47,9 @@ public class Component {
 	 * 
 	 */
 	private String name;
-	private Buildable buildable;
-	private HashMap<String, String> attributes = new HashMap<String, String>();
-	protected String typeName = null;
+    private Buildable buildable;
+    private final HashMap<String, String> attributes = new HashMap<>();
+    protected String typeName = null;
 	
 	public void createComponent(Buildable buildable) {
 		this.createComponent(buildable, false);
@@ -95,7 +95,7 @@ public class Component {
 	}
 	
 	public double getDouble(String key) {
-		return Double.valueOf(attributes.get(key));
+        return Double.parseDouble(attributes.get(key));
 	}
 	
 	public void setAttribute(String key, String value) {

@@ -81,6 +81,5 @@ public class BuildChooseTemplate implements GuiAction {
 		}
 		
 		TaskMaster.syncTask(new OpenInventoryTask(player, inv));
-		return;		
 	}
 }

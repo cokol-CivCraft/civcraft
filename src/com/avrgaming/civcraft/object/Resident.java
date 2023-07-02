@@ -108,7 +108,7 @@ public class Resident extends SQLObject {
 
     private boolean usesAntiCheat = false;
 
-    public static HashSet<String> allchatters = new HashSet<String>();
+    public static HashSet<String> allchatters = new HashSet<>();
 
     /* Town or civ to chat in besides your own. */
     private Town townChatOverride = null;
@@ -127,7 +127,7 @@ public class Resident extends SQLObject {
     private long lastOnline;
     private int daysTilEvict;
     private boolean givenKit;
-    private ConcurrentHashMap<String, Integer> friends = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, Integer> friends = new ConcurrentHashMap<>();
     private EconObject treasury;
     private boolean muted;
     private Date muteExpires = null;
@@ -172,7 +172,7 @@ public class Resident extends SQLObject {
     private boolean isProtected = false;
 
     public ConcurrentHashMap<BlockCoord, SimpleBlock> previewUndo = null;
-    public LinkedHashMap<String, Perk> perks = new LinkedHashMap<String, Perk>();
+    public LinkedHashMap<String, Perk> perks = new LinkedHashMap<>();
     private Date lastKilledTime = null;
     private String lastIP = "";
     private UUID uid;
@@ -647,11 +647,11 @@ public class Resident extends SQLObject {
     }
 
     private String getFriendsSaveString() {
-        String out = "";
+        StringBuilder out = new StringBuilder();
         for (String name : friends.keySet()) {
-            out += name + ",";
+            out.append(name).append(",");
         }
-        return out;
+        return out.toString();
     }
 
     private void loadFriendsFromSaveString(String string) {
@@ -667,27 +667,27 @@ public class Resident extends SQLObject {
     }
 
     public String getGroupsString() {
-        String out = "";
+        StringBuilder out = new StringBuilder();
 
         for (PermissionGroup grp : CivGlobal.getGroups()) {
             if (grp.hasMember(this)) {
                 if (grp.getTown() != null) {
                     if (grp.isProtectedGroup()) {
-                        out += CivColor.LightPurple;
+                        out.append(CivColor.LightPurple);
                     } else {
-                        out += CivColor.White;
+                        out.append(CivColor.White);
                     }
-                    out += grp.getName() + "(" + grp.getTown().getName() + ")";
+                    out.append(grp.getName()).append("(").append(grp.getTown().getName()).append(")");
 
                 } else if (grp.getCiv() != null) {
-                    out += CivColor.Gold + grp.getName() + "(" + grp.getCiv().getName() + ")";
+                    out.append(CivColor.Gold).append(grp.getName()).append("(").append(grp.getCiv().getName()).append(")");
                 }
 
-                out += ", ";
+                out.append(", ");
             }
         }
 
-        return out;
+        return out.toString();
     }
 
     public void warnEvict() {
@@ -796,7 +796,7 @@ public class Resident extends SQLObject {
     }
 
     @SuppressWarnings("deprecation")
-    public boolean takeItem(int itemId, int itemData, int amount) throws CivException {
+    public boolean takeItem(Material itemId, int itemData, int amount) throws CivException {
         Player player = CivGlobal.getPlayer(this);
         Inventory inv = player.getInventory();
 
@@ -829,12 +829,11 @@ public class Resident extends SQLObject {
         return true;
     }
 
-    @SuppressWarnings("deprecation")
-    public int giveItem(int itemId, short damage, int amount) throws CivException {
+    public int giveItem(Material itemId, short damage, int amount) throws CivException {
         Player player = CivGlobal.getPlayer(this);
         Inventory inv = player.getInventory();
         ItemStack stack = new ItemStack(itemId, amount, damage);
-		HashMap<Integer, ItemStack> leftovers = inv.addItem(stack);
+        HashMap<Integer, ItemStack> leftovers = inv.addItem(stack);
 
         int leftoverAmount = 0;
         for (ItemStack i : leftovers.values()) {
@@ -844,7 +843,7 @@ public class Resident extends SQLObject {
         return amount - leftoverAmount;
     }
 
-    public boolean buyItem(String itemName, int id, byte data, double price, int amount) throws CivException {
+    public boolean buyItem(String itemName, Material id, byte data, double price, int amount) throws CivException {
 
         if (!this.getTreasury().hasEnough(price)) {
             throw new CivException(CivSettings.localize.localizedString("resident_notEnoughMoney") + " " + CivSettings.CURRENCY_NAME);
@@ -1123,19 +1122,14 @@ public class Resident extends SQLObject {
         feet.setY(feet.getY() - 1);
         RoadBlock rb = CivGlobal.getRoadBlock(feet);
 
-        if (rb == null) {
-            onRoad = false;
-//			if (player.hasPotionEffect(PotionEffectType.SPEED)) {
-//				player.removePotionEffect(PotionEffectType.SPEED);
-//			}
-        } else {
-            onRoad = true;
-
-//			if (!player.hasPotionEffect(PotionEffectType.SPEED)) {
-//				CivLog.debug("setting effect.");
-//				player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 5, 5));
-//			}
-        }
+        //			if (player.hasPotionEffect(PotionEffectType.SPEED)) {
+        //				player.removePotionEffect(PotionEffectType.SPEED);
+        //			}
+        //			if (!player.hasPotionEffect(PotionEffectType.SPEED)) {
+        //				CivLog.debug("setting effect.");
+        //				player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 5, 5));
+        //			}
+        onRoad = rb != null;
     }
 
     public boolean isOnRoad() {
@@ -1191,7 +1185,7 @@ public class Resident extends SQLObject {
 //		}
 
         class AsyncTask implements Runnable {
-            Resident resident;
+            final Resident resident;
 
             public AsyncTask(Resident resident) {
                 this.resident = resident;

@@ -39,12 +39,12 @@ public class DiplomacyManager {
 	 * entry.
 	 */
 	
-	private Civilization ourCiv;
+	private final Civilization ourCiv;
 	
 	/*
-	 * List of our relationships, hashed by civ id.
-	 */
-	private HashMap<Integer, Relation> relations = new HashMap<Integer, Relation>();
+     * List of our relationships, hashed by civ id.
+     */
+    private final HashMap<Integer, Relation> relations = new HashMap<>();
 	
 	/* Number of civ's at war with us, will maintain this for fast isWar() lookups */
 	private int warCount = 0;
@@ -60,10 +60,7 @@ public class DiplomacyManager {
 		}
 				
 		Relation relation = relations.get(other.getId());
-		if (relation != null && relation.getStatus() == Relation.Status.WAR) {
-			return true;
-		}
-		return false;
+		return relation != null && relation.getStatus() == Status.WAR;
 	}
 
 	public boolean isAtWar() {
@@ -99,18 +96,16 @@ public class DiplomacyManager {
 	}
 	
 	public void deleteAllRelations() {
-		LinkedList<Relation> removeUs = new LinkedList<Relation>();
-		
-		for (Relation relation : relations.values()) {
-			removeUs.add(relation);
-		}
-		
-		for (Relation relation : removeUs) {
-			this.deleteRelation(relation);
-		}
-		
-		this.relations.clear();
-	}
+        LinkedList<Relation> removeUs = new LinkedList<>();
+
+        removeUs.addAll(relations.values());
+
+        for (Relation relation : removeUs) {
+            this.deleteRelation(relation);
+        }
+
+        this.relations.clear();
+    }
 	
 	public void setAggressor(Civilization aggressor, Civilization otherCiv) {
 		Relation relation = relations.get(otherCiv.getId());

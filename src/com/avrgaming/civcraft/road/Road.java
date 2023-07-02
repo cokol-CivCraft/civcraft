@@ -47,7 +47,7 @@ public class Road extends Structure {
 	private Date nextRaidDate;
 	
 	private static final Material ROAD_MATERIAL = Material.COBBLESTONE;
-	private static int DEBUG_DATA = 0;
+	private static final int DEBUG_DATA = 0;
 
 	/*
 	 * A road is a special type of structure that is built like a Wall
@@ -84,9 +84,9 @@ public class Road extends Structure {
 		
 	}
 
-	public HashMap<BlockCoord, RoadBlock> roadBlocks = new HashMap<BlockCoord, RoadBlock>();
+	public HashMap<BlockCoord, RoadBlock> roadBlocks = new HashMap<>();
 	private boolean hasOldBlockData = false;
-	private HashMap<BlockCoord, SimpleBlock> oldBlockData = new HashMap<BlockCoord, SimpleBlock>();
+	private final HashMap<BlockCoord, SimpleBlock> oldBlockData = new HashMap<>();
 	private int raidLength = 2;
 	private int segmentsBuilt = 0;
 	
@@ -103,17 +103,15 @@ public class Road extends Structure {
 			if (CivSettings.restrictedUndoBlocks.contains(sb.getType())) {
 				continue;
 			}
-			
+
 			Block block = bcoord.getBlock();
 			block.setType(sb.getType());
 			ItemManager.setData(block, sb.getData());
 		}
-		
-		LinkedList<RoadBlock> removed = new LinkedList<RoadBlock>();
-		for (RoadBlock rb : roadBlocks.values()) {			
-			removed.add(rb);
-		}
-		
+
+		LinkedList<RoadBlock> removed = new LinkedList<>();
+		removed.addAll(roadBlocks.values());
+
 		for (RoadBlock rb : removed) {
 			try {
 				rb.delete();
@@ -121,7 +119,7 @@ public class Road extends Structure {
 				e.printStackTrace();
 			}
 		}
-		
+
 		double totalCost = this.getTotalCost();
 		this.getTown().getTreasury().deposit(totalCost);
 		CivMessage.sendTown(this.getTown(), CivColor.Yellow+CivSettings.localize.localizedString("var_road_undoComplete",totalCost,CivSettings.CURRENCY_NAME));
@@ -183,26 +181,26 @@ public class Road extends Structure {
 			rb.saveNow();
 		}
 	}
-	
+
 	@Override
-	public void buildPlayerPreview(Player player, Location centerLoc) throws CivException, IOException {
+	public void buildPlayerPreview(Player player, Location centerLoc) throws CivException {
 		if (!this.getTown().hasTechnology(this.getRequiredTechnology())) {
 			throw new CivException(CivSettings.localize.localizedString("road_missingTech"));
 		}
-		
+
 		if (War.isWarTime()) {
 			throw new CivException(CivSettings.localize.localizedString("road_warTime"));
 		}
-		
-		/* 
+
+		/*
 		 * Put the player into a "place mode" which allows them to place down
 		 * markers
 		 */
 		MarkerPlacementManager.addToPlacementMode(player, this, CivSettings.localize.localizedString("road_startPlacement"));		
 	}
-	
+
 	@Override
-	public void build(Player player, Location centerLoc, Template tpl) throws Exception {
+	public void build(Player player, Location centerLoc, Template tpl) {
 //		/* 
 //		 * Put the player into a "place mode" which allows them to place down
 //		 * markers

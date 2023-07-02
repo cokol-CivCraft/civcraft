@@ -43,7 +43,7 @@ public class CalculateScoreTimer extends CivAsyncTask {
 			return;
 		}
 		
-		TreeMap<Integer, Civilization> civScores = new TreeMap<Integer, Civilization>();
+		TreeMap<Integer, Civilization> civScores = new TreeMap<>();
 		for (Civilization civ : CivGlobal.getCivs()) {
 			if (civ.isAdminCiv()) {
 				continue;
@@ -56,8 +56,8 @@ public class CalculateScoreTimer extends CivAsyncTask {
 				e.printStackTrace();
 			}
 		}
-		
-		TreeMap<Integer, Town> townScores = new TreeMap<Integer, Town>();	
+
+        TreeMap<Integer, Town> townScores = new TreeMap<>();
 		for (Town town : CivGlobal.getTowns()) {
 			if (town.getCiv().isAdminCiv()) {
 				continue;

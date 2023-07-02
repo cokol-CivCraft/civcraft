@@ -43,11 +43,10 @@ public class Attack extends ItemComponent {
 		
 		// Add generic attack damage of 0 to clear the default lore on item.
 		attrs.add(Attribute.newBuilder().name("Attack").
-				type(AttributeType.GENERIC_ATTACK_DAMAGE).
-				amount(0).
-				build());
-		attrs.addLore(CivColor.Rose+""+this.getDouble("value")+" "+CivSettings.localize.localizedString("itemLore_Attack"));
-		return;
+                type(AttributeType.GENERIC_ATTACK_DAMAGE).
+                amount(0).
+                build());
+        attrs.addLore(CivColor.Rose + this.getDouble("value") + " " + CivSettings.localize.localizedString("itemLore_Attack"));
 	}
 	
 	@Override

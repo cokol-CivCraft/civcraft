@@ -30,25 +30,25 @@ import com.avrgaming.civcraft.util.CivColor;
 
 public class PlayerQuestionTask extends QuestionBaseTask implements Runnable {
 
-	Player askedPlayer; /* player who is being asked a question. */
-	Player questionPlayer; /* player who has asked the question. */
-	String question; /* Question being asked. */
-	long timeout; /* Timeout after question expires. */
-//	RunnableWithArg finishedTask; /* Task to run when a response has been generated. */
-	QuestionResponseInterface finishedFunction;
-	
-	protected String response = new String(); /* Response to the question. */
-	protected Boolean responded = new Boolean(false); /*Question was answered. */
-	
-	public PlayerQuestionTask() {
-	}
-	
-	public PlayerQuestionTask(Player askedplayer, Player questionplayer, String question, long timeout, 
-			QuestionResponseInterface finishedFunction) {
-		
-		this.askedPlayer = askedplayer;
-		this.questionPlayer = questionplayer;
-		this.question = question;
+    Player askedPlayer; /* player who is being asked a question. */
+    Player questionPlayer; /* player who has asked the question. */
+    String question; /* Question being asked. */
+    long timeout; /* Timeout after question expires. */
+    //	RunnableWithArg finishedTask; /* Task to run when a response has been generated. */
+    QuestionResponseInterface finishedFunction;
+
+    protected String response = ""; /* Response to the question. */
+    protected Boolean responded = false; /*Question was answered. */
+
+    public PlayerQuestionTask() {
+    }
+
+    public PlayerQuestionTask(Player askedplayer, Player questionplayer, String question, long timeout,
+                              QuestionResponseInterface finishedFunction) {
+
+        this.askedPlayer = askedplayer;
+        this.questionPlayer = questionplayer;
+        this.question = question;
 		this.timeout = timeout;
 		this.finishedFunction = finishedFunction;
 		

@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -41,25 +42,24 @@ import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.CivColor;
-import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.TimeTools;
 
 public class ArenaManager implements Runnable {
 
-	public static HashMap<BlockCoord, ArenaControlBlock> arenaControlBlocks = new HashMap<BlockCoord, ArenaControlBlock>();
-	public static HashMap<BlockCoord, Arena> chests = new HashMap<BlockCoord, Arena>();
-	public static HashMap<BlockCoord, Arena> respawnSigns = new HashMap<BlockCoord, Arena>();
-	public static HashMap<String, Arena> activeArenas = new HashMap<String, Arena>();
-		
-	public static Queue<ArenaTeam> teamQueue = new LinkedList<ArenaTeam>();
-	public static final int MAX_INSTANCES = 1;
-	public static ScoreboardManager scoreboardManager = Bukkit.getScoreboardManager();
-	public static boolean enabled = true;
-	
-	@Override
-	public void run() {
-		
-		/*
+    public static HashMap<BlockCoord, ArenaControlBlock> arenaControlBlocks = new HashMap<>();
+    public static HashMap<BlockCoord, Arena> chests = new HashMap<>();
+    public static HashMap<BlockCoord, Arena> respawnSigns = new HashMap<>();
+    public static HashMap<String, Arena> activeArenas = new HashMap<>();
+
+    public static Queue<ArenaTeam> teamQueue = new LinkedList<>();
+    public static final int MAX_INSTANCES = 1;
+    public static ScoreboardManager scoreboardManager = Bukkit.getScoreboardManager();
+    public static boolean enabled = true;
+
+    @Override
+    public void run() {
+
+        /*
 		 * Set up an arena if there is room to do so.
 		 */
 		if (activeArenas.size() < MAX_INSTANCES && enabled) {
@@ -104,9 +104,9 @@ public class ArenaManager implements Runnable {
 				CivMessage.sendTeam(team2, CivSettings.localize.localizedString("arena_enteringArenaIn10"));
 
 				class SyncTask implements Runnable {
-					Arena arena;
-					ArenaTeam team1;
-					ArenaTeam team2;
+					final Arena arena;
+					final ArenaTeam team1;
+					final ArenaTeam team2;
 					
 					public SyncTask(Arena arena, ArenaTeam team1, ArenaTeam team2) {
 						this.arena = arena;
@@ -272,9 +272,9 @@ public class ArenaManager implements Runnable {
 		team.setCurrentArena(arena);
 		
 		CivMessage.sendTeamHeading(team, CivSettings.localize.localizedString("arena_statsHeading"));
-		CivMessage.sendTeam(team, CivSettings.localize.localizedString("arena_statsName")+" "+CivColor.Yellow+CivColor.BOLD+arena.config.name);
-		CivMessage.sendTeam(team, CivColor.LightGreen+CivColor.BOLD+""+team.getName()+CivColor.RESET+" VS "+CivColor.Rose+CivColor.BOLD+otherTeam.getName());
-		CivMessage.sendTeam(team, CivSettings.localize.localizedString("arena_statsScore")+" "+CivColor.LightGreen+team.getLadderPoints()+" "+getFavoredString(team, otherTeam));
+        CivMessage.sendTeam(team, CivSettings.localize.localizedString("arena_statsName") + " " + CivColor.Yellow + CivColor.BOLD + arena.config.name);
+        CivMessage.sendTeam(team, CivColor.LightGreen + CivColor.BOLD + team.getName() + CivColor.RESET + " VS " + CivColor.Rose + CivColor.BOLD + otherTeam.getName());
+        CivMessage.sendTeam(team, CivSettings.localize.localizedString("arena_statsScore") + " " + CivColor.LightGreen + team.getLadderPoints() + " " + getFavoredString(team, otherTeam));
 		CivMessage.sendTeam(team, CivSettings.localize.localizedString("arena_statsTheirScore")+" "+CivColor.LightGreen+otherTeam.getLadderPoints()+" "+getFavoredString(otherTeam, team));
 		CivMessage.sendTeam(team, CivSettings.localize.localizedString("arena_statsTheirTeam")+" "+otherTeam.getMemberListSaveString());
 	}
@@ -318,8 +318,8 @@ public class ArenaManager implements Runnable {
 		if (arena == null) {
 			throw new CivException("No arena with instance name:"+instanceName);
 		}
-		
-		LinkedList<BlockCoord> removeUs = new LinkedList<BlockCoord>();
+
+        LinkedList<BlockCoord> removeUs = new LinkedList<>();
 		for (BlockCoord bcoord : arenaControlBlocks.keySet()) {
 			if (bcoord.getWorldname().equals(instanceName)) {
 				removeUs.add(bcoord);
@@ -361,18 +361,17 @@ public class ArenaManager implements Runnable {
 			e.printStackTrace();
 		}
 	}
-	
-	private static void createArenaControlPoints(ConfigArena arena, World world, Arena activeArena) throws CivException {
-		
-		// Create control points instead of full on structures. No block will be movable so we dont need
-		// to store/create a billionty structure blocks. Only need to create ArenaControlPoint objects and determine
-		// if they can be broken.
-		
-		for (ConfigArenaTeam team : arena.teams) {
-			for (BlockCoord c : team.controlPoints) 
-			{
-				BlockCoord bcoord = new BlockCoord(world.getName(), c.getX(), c.getY(), c.getZ());
-				ArenaControlBlock acb = new ArenaControlBlock(bcoord, team.number, arena.control_block_hp, activeArena);
+
+    private static void createArenaControlPoints(ConfigArena arena, World world, Arena activeArena) {
+
+        // Create control points instead of full on structures. No block will be movable so we dont need
+        // to store/create a billionty structure blocks. Only need to create ArenaControlPoint objects and determine
+        // if they can be broken.
+
+        for (ConfigArenaTeam team : arena.teams) {
+            for (BlockCoord c : team.controlPoints) {
+                BlockCoord bcoord = new BlockCoord(world.getName(), c.getX(), c.getY(), c.getZ());
+                ArenaControlBlock acb = new ArenaControlBlock(bcoord, team.number, arena.control_block_hp, activeArena);
 				arenaControlBlocks.put(bcoord, acb);
 			}
 			
@@ -437,7 +436,7 @@ public class ArenaManager implements Runnable {
     		}
  
     		//list all the directory contents
-    		String files[] = src.list();
+            String[] files = src.list();
  
     		for (String file : files) {
     		   //construct the src and dest file structure
@@ -447,21 +446,21 @@ public class ArenaManager implements Runnable {
     		   copyFolder(srcFile,destFile);
     		}
  
-    	}else{
-    		//if file, then copy it
-    		//Use bytes stream to support all file types
-    		InputStream in = new FileInputStream(src);
-    	        OutputStream out = new FileOutputStream(dest); 
- 
-    	        byte[] buffer = new byte[1024];
- 
-    	        int length;
-    	        //copy the file content in bytes 
-    	        while ((length = in.read(buffer)) > 0){
-    	    	   out.write(buffer, 0, length);
-    	        }
- 
-    	        in.close();
+    	}else {
+            //if file, then copy it
+            //Use bytes stream to support all file types
+            InputStream in = Files.newInputStream(src.toPath());
+            OutputStream out = Files.newOutputStream(dest.toPath());
+
+            byte[] buffer = new byte[1024];
+
+            int length;
+            //copy the file content in bytes
+            while ((length = in.read(buffer)) > 0) {
+                out.write(buffer, 0, length);
+            }
+
+            in.close();
     	        out.close();
     	        System.out.println("File copied from " + src + " to " + dest);
     	}
@@ -493,22 +492,22 @@ public class ArenaManager implements Runnable {
     
     
 	public static void declareVictor(Arena arena, ArenaTeam loser, ArenaTeam winner) {
-		
-		
-		class SyncTask implements Runnable {
-			Arena arena;
-			ArenaTeam loser;
-			ArenaTeam winner;
-			
-			public SyncTask (Arena arena, ArenaTeam loser, ArenaTeam winner) {
-				this.arena = arena;
-				this.loser = loser;
-				this.winner = winner;
-			}
 
-			@Override
-			public void run() {
-				try {
+
+        class SyncTask implements Runnable {
+            final Arena arena;
+            final ArenaTeam loser;
+            final ArenaTeam winner;
+
+            public SyncTask(Arena arena, ArenaTeam loser, ArenaTeam winner) {
+                this.arena = arena;
+                this.loser = loser;
+                this.winner = winner;
+            }
+
+            @Override
+            public void run() {
+                try {
 					try {
 						int base_points = CivSettings.getInteger(CivSettings.arenaConfig, "base_ladder_points");
 						int slightly_favored_points = CivSettings.getInteger(CivSettings.arenaConfig, "slightly_favored_points");
@@ -517,8 +516,8 @@ public class ArenaManager implements Runnable {
 						double favored_modifier = CivSettings.getDouble(CivSettings.arenaConfig, "favored_modifier");
 
 						/* Calculate points. */
-						int winnerDifference = winner.getLadderPoints() - loser.getLadderPoints();
-						int points = base_points;
+                        int winnerDifference = winner.getLadderPoints() - loser.getLadderPoints();
+                        int points;
 						
 						if (winnerDifference > favored_points) {
 							/* Winner was favored. */
@@ -532,10 +531,12 @@ public class ArenaManager implements Runnable {
 						} else if (winnerDifference < -favored_points) {
 							/* Loser was favored. */
 							points = base_points + (int) (base_points * (1 - favored_modifier));
-						} else if (winnerDifference < -slightly_favored_points) {
-							/* Loser was slightly favored. */
-							points = base_points + (int) (base_points * (1 - slightly_favored_modifier));
-						}
+                        } else if (winnerDifference < -slightly_favored_points) {
+                            /* Loser was slightly favored. */
+                            points = base_points + (int) (base_points * (1 - slightly_favored_modifier));
+                        } else {
+                            points = base_points;
+                        }
 						
 						winner.setLadderPoints(winner.getLadderPoints() + points);
 						loser.setLadderPoints(loser.getLadderPoints() - points);
@@ -576,7 +577,7 @@ public class ArenaManager implements Runnable {
 		
 		
 		class SyncTask implements Runnable {
-			Arena arena;
+            final Arena arena;
 			
 			public SyncTask (Arena arena) {
 				this.arena = arena;

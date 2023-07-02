@@ -14,8 +14,8 @@ import com.avrgaming.global.perks.Perk;
 
 public class PerkComponent {
 	
-	private HashMap<String, String> attributes = new HashMap<String, String>();
-	private String name;
+	private final HashMap<String, String> attributes = new HashMap<>();
+    private String name;
 	private Perk parent;
 	
 	public String getName() {
@@ -30,7 +30,7 @@ public class PerkComponent {
 	}
 	
 	public double getDouble(String key) {
-		return Double.valueOf(attributes.get(key));
+        return Double.parseDouble(attributes.get(key));
 	}
 	
 	public void setAttribute(String key, String value) {
@@ -45,20 +45,13 @@ public class PerkComponent {
 	}
 	
 	public void markAsUsed(Resident resident) {
-		this.getParent().count--;
-		if (this.getParent().count <= 0) {
-			resident.perks.remove(this.getParent().getIdent());
-		}
-		
-		try {
-			CivGlobal.perkManager.markAsUsed(resident, this.getParent());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (NotVerifiedException e) {
-			CivMessage.send(resident, CivColor.Rose+CivSettings.localize.localizedString("PerkComponent_notValidated"));
-			e.printStackTrace();
-		}
-	}
+        this.getParent().count--;
+        if (this.getParent().count <= 0) {
+            resident.perks.remove(this.getParent().getIdent());
+        }
+
+        CivGlobal.perkManager.markAsUsed(resident, this.getParent());
+    }
 	
 	public void onActivate(Resident resident) {}
 	public void createComponent() {}

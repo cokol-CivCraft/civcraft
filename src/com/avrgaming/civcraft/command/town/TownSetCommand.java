@@ -109,8 +109,8 @@ public class TownSetCommand extends CommandBase {
 			throw new CivException(CivSettings.localize.localizedString("cmd_town_set_blacksmithfeeNone"));
 		}
 
-		((Blacksmith)struct).setNonResidentFee(((double)feeInt/100));
-		((Blacksmith)struct).updateSignText();
+		((Blacksmith) struct).setNonResidentFee(((double) feeInt / 100));
+        struct.updateSignText();
 		
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_set_feeSuccess",feeInt));
 	}
@@ -129,8 +129,8 @@ public class TownSetCommand extends CommandBase {
 			throw new CivException(CivSettings.localize.localizedString("cmd_town_set_libraryfeeNone"));
 		}
 
-		((Library)struct).setNonResidentFee(((double)feeInt/100));
-		((Library)struct).updateSignText();
+        ((Library) struct).setNonResidentFee(((double) feeInt / 100));
+        struct.updateSignText();
 		
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_set_feeSuccess",feeInt));
 	}
@@ -148,8 +148,8 @@ public class TownSetCommand extends CommandBase {
 			throw new CivException(CivSettings.localize.localizedString("cmd_town_set_grocerfeeNone"));
 		}
 
-		((Grocer)struct).setNonResidentFee(((double)feeInt/100));
-		((Grocer)struct).updateSignText();
+        ((Grocer) struct).setNonResidentFee(((double) feeInt / 100));
+        struct.updateSignText();
 		
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_set_feeSuccess",feeInt));
 		
@@ -167,9 +167,9 @@ public class TownSetCommand extends CommandBase {
 		if (struct == null) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_town_set_storefeeNone"));
 		}
-		
-		((Store)struct).setNonResidentFee(((double)feeInt/100));
-		((Store)struct).updateSignText();
+
+        ((Store) struct).setNonResidentFee(((double) feeInt / 100));
+        struct.updateSignText();
 		
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_set_feeSuccess",feeInt));
 		
@@ -187,9 +187,9 @@ public class TownSetCommand extends CommandBase {
 		if (struct == null) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_town_set_bankfeeNone"));
 		}
-		
-		((Bank)struct).setNonResidentFee(((double)feeInt/100));
-		((Bank)struct).updateSignText();
+
+        ((Bank) struct).setNonResidentFee(((double) feeInt / 100));
+        struct.updateSignText();
 		
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_set_feeSuccess",feeInt));
 		
@@ -202,8 +202,8 @@ public class TownSetCommand extends CommandBase {
 			throw new CivException(CivSettings.localize.localizedString("cmd_town_set_taxratePrompt"));
 		}
 		
-		try { 
-			town.setTaxRate(Double.valueOf(args[1])/100);
+		try {
+            town.setTaxRate(Double.parseDouble(args[1]) / 100);
 		} catch (NumberFormatException e) {
 			throw new CivException(args[1]+" "+CivSettings.localize.localizedString("cmd_enterNumerError"));
 		}
@@ -218,8 +218,8 @@ public class TownSetCommand extends CommandBase {
 			throw new CivException(CivSettings.localize.localizedString("cmd_town_set_taxratePrompt"));
 		}
 				
-		try { 
-			town.setFlatTax(Integer.valueOf(args[1]));
+		try {
+            town.setFlatTax(Integer.parseInt(args[1]));
 		} catch (NumberFormatException e) {
 			throw new CivException(args[1]+" "+CivSettings.localize.localizedString("cmd_enterNumerError"));
 		}
@@ -227,11 +227,11 @@ public class TownSetCommand extends CommandBase {
 		town.quicksave();
 		CivMessage.send(town, CivSettings.localize.localizedString("var_cmd_town_set_flattaxSuccess",args[1]));
 	}
-	
-	@Override
-	public void doDefaultAction() throws CivException {
-		showHelp();
-	}
+
+    @Override
+    public void doDefaultAction() {
+        showHelp();
+    }
 
 	@Override
 	public void showHelp() {

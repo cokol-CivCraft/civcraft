@@ -2,7 +2,6 @@ package com.avrgaming.civcraft.threading.tasks;
 
 import java.util.*;
 
-import gnu.trove.set.hash.THashSet;
 import org.bukkit.Sound;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -21,8 +20,8 @@ import com.avrgaming.civcraft.util.MultiInventory;
 public class MobGrinderAsyncTask extends CivAsyncTask {
 
 	MobGrinder mobGrinder;
-	public static HashSet<String> debugTowns = new HashSet<String>();
-	private ArrayList<String> mobs = new ArrayList<>(Arrays.asList("PIG", "SHEEP", "COW", "CHICKEN", "ZOMBIE", "ENDERMAN", "SKELETON", "CREEPER", "SLIME", "SPIDER"));
+    public static HashSet<String> debugTowns = new HashSet<>();
+    private final ArrayList<String> mobs = new ArrayList<>(Arrays.asList("PIG", "SHEEP", "COW", "CHICKEN", "ZOMBIE", "ENDERMAN", "SKELETON", "CREEPER", "SLIME", "SPIDER"));
 	public static void debug(MobGrinder mobGrinder, String msg) {
 		if (debugTowns.contains(mobGrinder.getTown().getName())) {
 			CivLog.warning("GrinderDebug:"+mobGrinder.getTown().getName()+":"+msg);
@@ -325,8 +324,8 @@ public class MobGrinderAsyncTask extends CivAsyncTask {
 				}
 
 				Random rand = new Random();
-				int rand1 = rand.nextInt(10000);
-				ArrayList<ItemStack> newItems = new ArrayList<ItemStack>();
+                int rand1 = rand.nextInt(10000);
+                ArrayList<ItemStack> newItems = new ArrayList<>();
                 switch (getEggTier(stack)) {
                     case 4:
                         if (rand1 < ((int) ((mobGrinder.getMineralChance(Crystal.HUGEPACK)) * 10000))) {

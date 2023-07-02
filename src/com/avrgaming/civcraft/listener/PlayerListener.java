@@ -166,7 +166,6 @@ public class PlayerListener implements Listener {
 							CivLog.debug("Cancelled Event "+event.getEventName()+" with cause: "+event.getCause());
 						event.setCancelled(true);
 							CivMessage.send(resident, CivColor.Red+CivSettings.localize.localizedString("teleportDeniedPrefix")+" "+CivColor.White+CivSettings.localize.localizedString("var_teleportDeniedCamp",CivColor.Green+toCamp.getName()+CivColor.White));
-							return;
 						}
 					
 				}
@@ -295,9 +294,9 @@ public class PlayerListener implements Listener {
 	public void onEntityDeath(EntityDeathEvent event) {
 		if (event.getEntity() instanceof Player) {
 			//Unit.removeUnit(((Player)event.getEntity()));
-			Boolean keepInventory = Boolean.valueOf(Bukkit.getWorld("world").getGameRuleValue("keepInventory"));
+			boolean keepInventory = Boolean.parseBoolean(Bukkit.getWorld("world").getGameRuleValue("keepInventory"));
 				if (!keepInventory) {
-				ArrayList<ItemStack> stacksToRemove = new ArrayList<ItemStack>();
+                    ArrayList<ItemStack> stacksToRemove = new ArrayList<>();
 				for (ItemStack stack : event.getDrops()) {
 					if (stack != null) {
 						//CustomItemStack is = new CustomItemStack(stack);
@@ -311,7 +310,6 @@ public class PlayerListener implements Listener {
 							
 							if (material instanceof UnitItemMaterial) {
 								stacksToRemove.add(stack);
-								continue;
 							}
 						}
 					}
@@ -379,7 +377,6 @@ public class PlayerListener implements Listener {
 		if (event.getCause().equals(TeleportCause.NETHER_PORTAL)) {
 			event.setCancelled(true);
 			CivMessage.sendErrorNoRepeat(event.getPlayer(), CivSettings.localize.localizedString("playerListen_netherDisabled"));
-			return;
 		}
 	}
 	
@@ -407,7 +404,6 @@ public class PlayerListener implements Listener {
 				if (!resident.hasTown() || (resident.getTown().getCiv() != cc.getCiv())) {
 					CivMessage.sendError(event.getPlayer(), CivSettings.localize.localizedString("playerListen_placeLavaDenied"));
 					event.setCancelled(true);
-					return;
 				}
 				
 			}
@@ -438,14 +434,11 @@ public class PlayerListener implements Listener {
 	}
 	
 	private boolean isPotionDisabled(PotionEffect type) {
-		if (type.getType().equals(PotionEffectType.SPEED) ||
-			type.getType().equals(PotionEffectType.FIRE_RESISTANCE) ||
-			type.getType().equals(PotionEffectType.HEAL) ||
-			type.getType().equals(PotionEffectType.SPEED) && type.getAmplifier() == 2) {
-			return false;
-		}
+		return !type.getType().equals(PotionEffectType.SPEED) &&
+				!type.getType().equals(PotionEffectType.FIRE_RESISTANCE) &&
+				!type.getType().equals(PotionEffectType.HEAL) &&
+				(!type.getType().equals(PotionEffectType.SPEED) || type.getAmplifier() != 2);
 //added speed II
-		return true;
 	}
 	
 	@EventHandler(priority = EventPriority.LOW) 
@@ -475,19 +468,19 @@ public class PlayerListener implements Listener {
 		if (event.getItem().getType().equals(Material.POTION)) {
 			PotionMeta meta = (PotionMeta) event.getItem().getItemMeta();
 			for (PotionEffect effect : meta.getCustomEffects()) {
-				String name = effect.getType().getName();
-				Integer amp = effect.getAmplifier();
-				ConfigTechPotion pot = CivSettings.techPotions.get(""+name+amp);
-				if (pot != null) {
-					if (!pot.hasTechnology(event.getPlayer())) {
-						CivMessage.sendError(event.getPlayer(), CivSettings.localize.localizedString("var_playerListen_potionNoTech",pot.name));
-						event.setCancelled(true);
-						return;
-					}
-					if (pot.hasTechnology(event.getPlayer())) {
-						event.setCancelled(false);
-						return;
-					}
+                String name = effect.getType().getName();
+                int amp = effect.getAmplifier();
+                ConfigTechPotion pot = CivSettings.techPotions.get(name + amp);
+                if (pot != null) {
+                    if (!pot.hasTechnology(event.getPlayer())) {
+                        CivMessage.sendError(event.getPlayer(), CivSettings.localize.localizedString("var_playerListen_potionNoTech", pot.name));
+                        event.setCancelled(true);
+                        return;
+                    }
+                    if (pot.hasTechnology(event.getPlayer())) {
+                        event.setCancelled(false);
+                        return;
+                    }
 				} else {
 					CivMessage.sendError(event.getPlayer(), CivSettings.localize.localizedString("playerListen_denyUse"));
 					event.setCancelled(true);
@@ -521,8 +514,7 @@ public class PlayerListener implements Listener {
 			
 			if (interactRight.isCancelled()) {
 				event.setCancelled(true);
-				return;
-			}			
+            }
 		}
 	}
 	
@@ -570,7 +562,7 @@ public class PlayerListener implements Listener {
 					String entityName = null;
 					
 					if (event.getDamager() instanceof LivingEntity) {
-						entityName = ((LivingEntity)event.getDamager()).getCustomName();
+                        entityName = event.getDamager().getCustomName();
 					}
 					
 					if (entityName == null) {
@@ -592,7 +584,7 @@ public class PlayerListener implements Listener {
 					String entityName = null;
 					
 					if (event.getEntity() instanceof LivingEntity) {
-						entityName = ((LivingEntity)event.getEntity()).getCustomName();
+                        entityName = event.getEntity().getCustomName();
 					}
 					
 					if (entityName == null) {
@@ -613,7 +605,6 @@ public class PlayerListener implements Listener {
 		Player player = event.getPlayer();
 		if (player.hasPermission(CivSettings.MODERATOR) && !player.hasPermission(CivSettings.MINI_ADMIN)) {
 			event.setCancelled(true);
-				return;
 		}
 	}	
 }

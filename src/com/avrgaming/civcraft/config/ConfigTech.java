@@ -91,7 +91,7 @@ public class ConfigTech {
 	
 	
 	public static ArrayList<ConfigTech> getAvailableTechs(Civilization civ) {
-		ArrayList<ConfigTech> returnTechs = new ArrayList<ConfigTech>();
+		ArrayList<ConfigTech> returnTechs = new ArrayList<>();
 		
 		for (ConfigTech tech : CivSettings.techs.values()) {
 			if (!civ.hasTechnology(tech.id)) {

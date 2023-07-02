@@ -34,24 +34,24 @@ import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.CivColor;
 
 public class Arena {
-	public ConfigArena config;
-	public int instanceID;
-	
-	private HashMap<Integer, ArenaTeam> teams = new HashMap<Integer, ArenaTeam>();
-	private HashMap<Integer, Integer> teamIDmap = new HashMap<Integer, Integer>();
-	private HashMap<Integer, Integer> teamHP = new HashMap<Integer, Integer>();
-	private HashMap<String, Inventory> playerInvs = new HashMap<String, Inventory>();
-	public  HashMap<String, Scoreboard> scoreboards = new HashMap<String, Scoreboard>();
-	public  HashMap<String, Objective> objectives = new HashMap<String, Objective>();
-	public int timeleft;
-	public boolean ended = false;
-		
-	int teamCount = 0;
-	
-	public static int nextInstanceID = 0;
-	
-	public Arena(ConfigArena a) throws CivException {
-		this.config = a;
+    public ConfigArena config;
+    public int instanceID;
+
+    private final HashMap<Integer, ArenaTeam> teams = new HashMap<>();
+    private final HashMap<Integer, Integer> teamIDmap = new HashMap<>();
+    private final HashMap<Integer, Integer> teamHP = new HashMap<>();
+    private final HashMap<String, Inventory> playerInvs = new HashMap<>();
+    public HashMap<String, Scoreboard> scoreboards = new HashMap<>();
+    public HashMap<String, Objective> objectives = new HashMap<>();
+    public int timeleft;
+    public boolean ended = false;
+
+    int teamCount = 0;
+
+    public static int nextInstanceID = 0;
+
+    public Arena(ConfigArena a) throws CivException {
+        this.config = a;
 		
 		/* Search for a free instance id. */
 		boolean found = false;

@@ -34,10 +34,10 @@ public class BuffManager {
 	 */
 	
 	/* Contains _all_ of the buffs attached to us. */
-	private HashMap<String, Buff> buffs = new HashMap<String, Buff>();
-	
-	/* Contains the _effective_ buffs attached to us, taking stacking into account. */
-	private HashMap<String, Buff> effectiveBuffs = new HashMap<String, Buff>();
+    private final HashMap<String, Buff> buffs = new HashMap<>();
+
+    /* Contains the _effective_ buffs attached to us, taking stacking into account. */
+    private final HashMap<String, Buff> effectiveBuffs = new HashMap<>();
 	
 	
 	public void clearBuffs() {
@@ -83,7 +83,7 @@ public class BuffManager {
 	}
 	
 	public Collection<Buff> getEffectiveBuffs(String buff_id) {
-		ArrayList<Buff> returnList = new ArrayList<Buff>();
+        ArrayList<Buff> returnList = new ArrayList<>();
 		synchronized(this) {
 			for (Buff buff : effectiveBuffs.values()) {
 				if (buff.getParent().equals(buff_id)) {
@@ -107,7 +107,7 @@ public class BuffManager {
 		synchronized(this) {
 			for (Buff buff : effectiveBuffs.values()) {
 				if (buff.getParent().equals(buff_id)) {
-					ret += Double.valueOf(buff.getValue());
+                    ret += Double.parseDouble(buff.getValue());
 				}
 			}
 		}
@@ -121,7 +121,7 @@ public class BuffManager {
 		synchronized(this) {
 			for (Buff buff : effectiveBuffs.values()) {
 				if (buff.getParent().equals(buff_id)) {
-					ret += Integer.valueOf(buff.getValue());
+                    ret += Integer.parseInt(buff.getValue());
 				}
 			}
 		}
@@ -141,16 +141,16 @@ public class BuffManager {
 	}
 	
 	public void debugPrint() {
-		String out = "";
+        StringBuilder out = new StringBuilder();
 		for (Buff buff : buffs.values()) {
-			out += "key:"+buff.getKey()+" id:"+buff.getId()+" source:"+buff.getSource()+",";
+            out.append("key:").append(buff.getKey()).append(" id:").append(buff.getId()).append(" source:").append(buff.getSource()).append(",");
 		}
-		
-		out = "";
+
+        out = new StringBuilder();
 		for (Buff buff : effectiveBuffs.values()) {
-			out += "key:"+buff.getKey()+" id:"+buff.getId()+" source:"+buff.getSource()+",";
+            out.append("key:").append(buff.getKey()).append(" id:").append(buff.getId()).append(" source:").append(buff.getSource()).append(",");
 		}
-		CivLog.info(out);
+        CivLog.info(out.toString());
 	}
 
 	public boolean hasBuff(String id) {

@@ -44,7 +44,7 @@ public class CivSetCommand extends CommandBase {
 			
 			arg = arg.replace("%", "");
 			
-			Integer amount = Integer.valueOf(arg);
+			int amount = Integer.parseInt(arg);
 			
 			if (amount < 0 || amount > 100) {
 				throw new CivException (CivSettings.localize.localizedString("cmd_civ_set_invalidPercent")+" 0% & 100%");
@@ -122,11 +122,11 @@ public class CivSetCommand extends CommandBase {
 			throw new CivException(args[1]+" "+CivSettings.localize.localizedString("cmd_civ_set_colorInvalid"));
 		}
 	}
-	
-	@Override
-	public void doDefaultAction() throws CivException {
-		showHelp();
-	}
+
+    @Override
+    public void doDefaultAction() {
+        showHelp();
+    }
 
 	@Override
 	public void showHelp() {

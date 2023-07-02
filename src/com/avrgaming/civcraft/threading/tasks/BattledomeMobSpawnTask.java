@@ -14,7 +14,7 @@ public class BattledomeMobSpawnTask extends CivAsyncTask {
 
 	Battledome battledome;
 	
-	public static HashSet<String> debugTowns = new HashSet<String>();
+	public static HashSet<String> debugTowns = new HashSet<>();
 
 	public static void debug(Battledome battledome, String msg) {
 		if (debugTowns.contains(battledome.getTown().getName())) {

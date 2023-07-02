@@ -81,7 +81,7 @@ public class CustomTemplate extends PerkComponent {
 	
 	public static ArrayList<Perk> getTemplatePerksForBuildable(Town town, String buildableBaseName) {
 		ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getTemplateSessionKey(town, buildableBaseName));
-		ArrayList<Perk> perks = new ArrayList<Perk>();
+        ArrayList<Perk> perks = new ArrayList<>();
 		
 		for (SessionEntry entry : entries) {
 			String[] split = entry.value.split(":");
@@ -93,8 +93,7 @@ public class CustomTemplate extends PerkComponent {
 				perks.add(tmpPerk);
 			} else {
 				CivLog.warning("Unknown perk in session db:"+split[0]);
-				continue;
-			}
+            }
 		}
 		
 		return perks;
@@ -103,13 +102,11 @@ public class CustomTemplate extends PerkComponent {
 
 	public Template getTemplate(Player player, Buildable buildable) {
 		Template tpl = new Template();
-		try {
-			tpl.initTemplate(player.getLocation(), buildable, this.getString("theme"));
-		} catch (CivException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+        try {
+            tpl.initTemplate(player.getLocation(), buildable, this.getString("theme"));
+        } catch (CivException | IOException e) {
+            e.printStackTrace();
+        }
 
 		return tpl;
 	}

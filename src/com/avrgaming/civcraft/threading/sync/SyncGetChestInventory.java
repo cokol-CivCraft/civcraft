@@ -37,7 +37,7 @@ public class SyncGetChestInventory implements Runnable {
 	
 	public static ReentrantLock lock;
 	
-	public static Queue<GetChestRequest> requestQueue = new LinkedList<GetChestRequest>();
+	public static Queue<GetChestRequest> requestQueue = new LinkedList<>();
 	
 	public static boolean add(GetChestRequest request)  
 	{
@@ -69,9 +69,9 @@ public class SyncGetChestInventory implements Runnable {
 							chest = (Chest)b.getState();
 						} catch (ClassCastException e) {
 							/* The block wasn't a chest, but force it. */
-                            b.setTypeId(Material.CHEST.getId());
+                            b.setType(Material.CHEST);
                             BlockState block = b.getState();
-                            block.setTypeId(Material.CHEST.getId());
+                            block.setType(Material.CHEST);
                             b.getState().update();
 							chest = (Chest)b.getState();
 							

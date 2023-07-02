@@ -40,49 +40,39 @@ public class PlayerProximityComponent extends Component {
 	
 	/* Center location from which we check */
 	private BlockCoord center;
-	
-	/* Max distance from which we check. */
-	private double radiusSquared;
-	
-	/* Buildable that this component is attached to. */
-	private Buildable buildable;
 
-	public PlayerProximityComponent() {
-		lock = new ReentrantLock();
-	}
-	
-	@Override
-	public void onLoad() {
-		
-	}
+    /* Max distance from which we check. */
+    private double radiusSquared;
 
-	@Override
-	public void onSave() {
-		
-	}	
-	
-	public void setNearbyPlayers(HashSet<PlayerLocationCache> newSet) {
-		/* Proxy component should already be locked. no need to relock. */
-		this.nearbyPlayers = newSet;
-	}
-	
-	@SuppressWarnings("unchecked")
-	public HashSet<PlayerLocationCache> tryGetNearbyPlayers(boolean retry) {	
-		/* 
-		 * Tries to grab a list of nearby players. 
-		 * Sends back nothing if the lock is currently in use.
-		 */
+    /* Buildable that this component is attached to. */
+    private Buildable buildable;
+
+    public PlayerProximityComponent() {
+        lock = new ReentrantLock();
+    }
+
+    public void setNearbyPlayers(HashSet<PlayerLocationCache> newSet) {
+        /* Proxy component should already be locked. no need to relock. */
+        this.nearbyPlayers = newSet;
+    }
+
+    @SuppressWarnings("unchecked")
+    public HashSet<PlayerLocationCache> tryGetNearbyPlayers(boolean retry) {
+        /*
+         * Tries to grab a list of nearby players.
+         * Sends back nothing if the lock is currently in use.
+         */
 		if (retry) {
 			this.lock.lock();
 		} else {
 			if (!this.lock.tryLock()) {
-				return new HashSet<PlayerLocationCache>();
+                return new HashSet<>();
 			}
 		}
 	
 		try {	
 			if (nearbyPlayers == null) {
-				return new HashSet<PlayerLocationCache>();
+                return new HashSet<>();
 			}	
 			return (HashSet<PlayerLocationCache>) this.nearbyPlayers.clone();
 				
@@ -100,7 +90,7 @@ public class PlayerProximityComponent extends Component {
 		this.lock.lock();
 		try {
 			if (nearbyPlayers == null) {
-				return new HashSet<PlayerLocationCache>();
+                return new HashSet<>();
 			}
 			
 			return (HashSet<PlayerLocationCache>) this.nearbyPlayers.clone();
@@ -131,22 +121,21 @@ public class PlayerProximityComponent extends Component {
 	}
 	
 	public void buildNearbyPlayers(Collection<PlayerLocationCache> collection) {
-		HashSet<PlayerLocationCache> newSet = new HashSet<PlayerLocationCache>();
+        HashSet<PlayerLocationCache> newSet = new HashSet<>();
 		
 		for (PlayerLocationCache pc : collection) {
-			if (pc.isVanished()) {
-				continue;
-			}
-			
-			if (pc.getCoord().distanceSquared(this.center) < radiusSquared) {
-				newSet.add(pc);
-			}
-		}
-	
-		this.setNearbyPlayers(newSet);
-		
-		return;
-	}
+            if (pc.isVanished()) {
+                continue;
+            }
+
+            if (pc.getCoord().distanceSquared(this.center) < radiusSquared) {
+                newSet.add(pc);
+            }
+        }
+
+        this.setNearbyPlayers(newSet);
+
+    }
 
 
 	public Buildable getBuildable() {

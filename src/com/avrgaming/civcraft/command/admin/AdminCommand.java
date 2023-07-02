@@ -100,7 +100,7 @@ public class AdminCommand extends CommandBase {
     }
 
     @SuppressWarnings("unused")
-    public void reloadgov_cmd() throws FileNotFoundException, IOException, InvalidConfigurationException, InvalidConfiguration {
+    public void reloadgov_cmd() throws IOException, InvalidConfigurationException, InvalidConfiguration {
         CivSettings.reloadGovConfigFiles();
         for (Civilization civ : CivGlobal.getCivs()) {
             ConfigGovernment gov = civ.getGovernment();
@@ -111,7 +111,7 @@ public class AdminCommand extends CommandBase {
     }
 
     @SuppressWarnings("unused")
-    public void reloadac_cmd() throws FileNotFoundException, IOException, InvalidConfigurationException, InvalidConfiguration {
+    public void reloadac_cmd() throws IOException, InvalidConfigurationException, InvalidConfiguration {
         CivSettings.reloadNoCheat();
         CivMessage.send(sender, CivColor.Gold + CivSettings.localize.localizedString("adcmd_reloadacSuccess"));
     }
@@ -411,7 +411,7 @@ public class AdminCommand extends CommandBase {
 
 
     @Override
-    public void doDefaultAction() throws CivException {
+    public void doDefaultAction() {
         showHelp();
     }
 

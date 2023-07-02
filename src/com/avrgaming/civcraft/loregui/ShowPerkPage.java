@@ -15,7 +15,7 @@ public class ShowPerkPage implements GuiAction {
 	public void performAction(InventoryClickEvent event, ItemStack stack) {
 		
 		Resident resident = CivGlobal.getResident((Player)event.getWhoClicked());
-		resident.showPerkPage(Integer.valueOf(LoreGuiItem.getActionData(stack, "page")));				
+		resident.showPerkPage(Integer.parseInt(LoreGuiItem.getActionData(stack, "page")));
 	}
 
 }

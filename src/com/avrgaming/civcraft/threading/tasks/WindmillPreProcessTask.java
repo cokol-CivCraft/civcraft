@@ -39,8 +39,8 @@ import com.avrgaming.civcraft.util.MultiInventory;
 
 public class WindmillPreProcessTask extends CivAsyncTask {
 
-	private ArrayList<ChunkSnapshot> snapshots;
-	private Windmill windmill;
+	private final ArrayList<ChunkSnapshot> snapshots;
+	private final Windmill windmill;
 	
 	public WindmillPreProcessTask(Windmill windmill, ArrayList<ChunkSnapshot> snaphots) {
 		this.snapshots = snaphots;
@@ -113,7 +113,7 @@ public class WindmillPreProcessTask extends CivAsyncTask {
 		plant_max = Math.min((breadCount + carrotCount + potatoCount), plant_max);
 		
 		/* Read snapshots and find blocks that can be planted. */
-		ArrayList<BlockCoord> blocks = new ArrayList<BlockCoord>();
+		ArrayList<BlockCoord> blocks = new ArrayList<>();
 		for (ChunkSnapshot snapshot : this.snapshots) {			
 			for (int x = 0; x < 16; x++) {
 				for (int z = 0; z < 16; z++) {
@@ -134,8 +134,8 @@ public class WindmillPreProcessTask extends CivAsyncTask {
 				}
 			}
 		}
-		
-		ArrayList<BlockCoord> plantBlocks = new ArrayList<BlockCoord>();
+
+        ArrayList<BlockCoord> plantBlocks = new ArrayList<>();
 		/* Select up to plant_max of these blocks to be planted. */
 		Random rand = new Random();
 		for (int i = 0; i < plant_max; i++) {

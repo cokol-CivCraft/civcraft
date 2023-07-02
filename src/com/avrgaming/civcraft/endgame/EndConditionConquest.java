@@ -20,11 +20,11 @@ public class EndConditionConquest extends EndGameCondition {
 	
 	@Override
 	public void onLoad() {
-		daysAfterStart = Integer.valueOf(this.getString("days_after_start"));
-		percentCaptured = Double.valueOf(this.getString("percent_captured"));
-		percentCapturedWithWonder = Double.valueOf(this.getString("percent_captured_with_wonder"));
-		getStartDate();
-	}
+        daysAfterStart = Integer.parseInt(this.getString("days_after_start"));
+        percentCaptured = Double.parseDouble(this.getString("percent_captured"));
+        percentCapturedWithWonder = Double.parseDouble(this.getString("percent_captured_with_wonder"));
+        getStartDate();
+    }
 	
 	private void getStartDate() {
 		String key = "endcondition:conquest:startdate";
@@ -32,11 +32,10 @@ public class EndConditionConquest extends EndGameCondition {
 		ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(key);
 		if (entries.size() == 0) {
 			/* Start date is now! */
-			startDate = new Date();
-			CivGlobal.getSessionDB().add(key, ""+startDate.getTime(), 0, 0, 0);
-			return;
+            startDate = new Date();
+            CivGlobal.getSessionDB().add(key, String.valueOf(startDate.getTime()), 0, 0, 0);
 		} else {
-			long time = Long.valueOf(entries.get(0).value);
+            long time = Long.parseLong(entries.get(0).value);
 			startDate = new Date(time);
 		}
  	}
@@ -48,11 +47,8 @@ public class EndConditionConquest extends EndGameCondition {
 		Calendar now = Calendar.getInstance();
 		
 		startCal.add(Calendar.DATE, daysAfterStart);
-		
-		if (now.after(startCal)) {
-			return true;
-		}
-		return false;
+
+		return now.after(startCal);
 	}
 	
 	@Override
@@ -95,12 +91,8 @@ public class EndConditionConquest extends EndGameCondition {
 				return false;
 			}
 		}
-				
-		if (civ.isConquered()) {
-			return false;
-		}
-		
-		return true;
+
+		return !civ.isConquered();
 	}
 
 	@Override

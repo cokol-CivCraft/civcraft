@@ -59,7 +59,7 @@ public class BuildAsyncTask extends CivAsyncTask {
     private int count;
     private int extra_blocks;
     private int percent_complete;
-    private Queue<SimpleBlock> sbs; //Blocks to add to main sync task queue;
+    private final Queue<SimpleBlock> sbs; //Blocks to add to main sync task queue;
     public Boolean aborted = false;
     public Date lastSave;
 
@@ -96,7 +96,7 @@ public class BuildAsyncTask extends CivAsyncTask {
 
             synchronized (aborted) {
                 if (aborted) {
-                    return aborted;
+                    return true;
                 }
             }
 
@@ -153,7 +153,7 @@ public class BuildAsyncTask extends CivAsyncTask {
                     this.updateBlocksQueue(sbs);
                     sbs.clear();
                 } else {
-                    return aborted;
+                    return true;
                 }
             }
 
@@ -207,7 +207,6 @@ public class BuildAsyncTask extends CivAsyncTask {
 
                     if (buildable.getTown().getMotherCiv() != null) {
                         // Can't build wonder while we're conquered.
-                        continue;
                     }
                 }
                 //check if wonder was completed...
@@ -282,16 +281,15 @@ public class BuildAsyncTask extends CivAsyncTask {
         // of the build task async.
         synchronized (this.aborted) {
             if (!this.aborted) {
-                if (sb.getType() == Material.WOODEN_DOOR ||
-                        sb.getType() == Material.IRON_DOOR ||
-                        sb.getType() == Material.SPRUCE_DOOR ||
-                        sb.getType() == Material.BIRCH_DOOR ||
-                        sb.getType() == Material.JUNGLE_DOOR ||
-                        sb.getType() == Material.ACACIA_DOOR ||
-                        sb.getType() == Material.DARK_OAK_DOOR ||
-                        Template.isAttachable(sb.getType())) {
-                    // dont build doors, save it for post sync build.
-                } else {
+                // dont build doors, save it for post sync build.
+                if (sb.getType() != Material.WOODEN_DOOR &&
+                        sb.getType() != Material.IRON_DOOR &&
+                        sb.getType() != Material.SPRUCE_DOOR &&
+                        sb.getType() != Material.BIRCH_DOOR &&
+                        sb.getType() != Material.JUNGLE_DOOR &&
+                        sb.getType() != Material.ACACIA_DOOR &&
+                        sb.getType() != Material.DARK_OAK_DOOR &&
+                        !Template.isAttachable(sb.getType())) {
                     sbs.add(sb);
                 }
 
@@ -348,7 +346,7 @@ public class BuildAsyncTask extends CivAsyncTask {
                 //Remove the scaffolding..
                 tpl.removeScaffolding(buildable.getCorner().getLocation());
                 try {
-                    ((Wonder) buildable).delete();
+                    buildable.delete();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

@@ -63,8 +63,8 @@ public class Settler extends UnitMaterial implements CallbackInterface {
 		attrs.addEnhancement("LoreEnhancementSoulBound", null, null);
 		attrs.addLore(CivColor.Gold+CivSettings.localize.localizedString("Soulbound"));
 		
-		attrs.setCivCraftProperty("owner_civ_id", ""+town.getCiv().getId());
-		is = attrs.getStack();
+		attrs.setCivCraftProperty("owner_civ_id", String.valueOf(town.getCiv().getId()));
+        is = attrs.getStack();
 		
 		
 		if (!Unit.addItemNoStack(inv, is)) {
@@ -90,8 +90,8 @@ public class Settler extends UnitMaterial implements CallbackInterface {
 			CivMessage.sendError(player, CivSettings.localize.localizedString("settler_errorInvalidOwner"));
 			return;
 		}
-		
-		int civ_id = Integer.valueOf(ownerIdString);
+
+        int civ_id = Integer.parseInt(ownerIdString);
 		if (civ_id != resident.getCiv().getId()) {
 			CivMessage.sendError(player, CivSettings.localize.localizedString("settler_errorNotOwner"));
 			return;

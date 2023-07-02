@@ -41,9 +41,9 @@ public class LagSimulationTimer implements Runnable {
 		long millis = (long)(waitTime*secondsPerTick*1000);
 		synchronized (this) {
 		try {
-			this.wait(millis);
-		} catch (InterruptedException e) {
-		}
+            this.wait(millis);
+        } catch (InterruptedException ignored) {
+        }
 		}
 	}
 

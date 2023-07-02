@@ -42,18 +42,18 @@ public class UpdateTagBetweenCivsTask implements Runnable {
 	
 	@Override
 	public void run() {
-		Set<Player> civList = new HashSet<Player>();
-		Set<Player> otherCivList = new HashSet<Player>();
-		
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			Resident resident = CivGlobal.getResident(player);
-			if (resident == null || !resident.hasTown()) {
-				continue;
-			}
-			
-			if (resident.getTown().getCiv() == civ) {
-				civList.add(player);
-			} else if (resident.getTown().getCiv() == otherCiv) {
+        Set<Player> civList = new HashSet<>();
+        Set<Player> otherCivList = new HashSet<>();
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            Resident resident = CivGlobal.getResident(player);
+            if (resident == null || !resident.hasTown()) {
+                continue;
+            }
+
+            if (resident.getTown().getCiv() == civ) {
+                civList.add(player);
+            } else if (resident.getTown().getCiv() == otherCiv) {
 				otherCivList.add(player);
 			}
 		}

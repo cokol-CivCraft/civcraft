@@ -26,14 +26,13 @@ public class RangedAttack extends ItemComponent {
 		attrs.addLore(CivColor.Rose+this.getDouble("value")+" "+CivSettings.localize.localizedString("itemLore_RangedAttack"));	
 	}
 	
-	private static double ARROW_MAX_VEL = 6.0; 
+	private static final double ARROW_MAX_VEL = 6.0;
 	
 	@Override
 	public void onInteract(PlayerInteractEvent event) {
 		if (Unit.isWearingAnyMetal(event.getPlayer())) {
 			event.setCancelled(true);
 			CivMessage.sendError(event.getPlayer(), CivSettings.localize.localizedString("itemLore_RangedAttack_errorMetal"));
-			return;
 		}
 	}
 	

@@ -69,12 +69,7 @@ public class ItemManager {
 	public static void setData(Block block, int data, boolean update) {
 		block.setData((byte) data, update);
 	}
-	
-	@SuppressWarnings("deprecation")
-	public static Material getMaterial(int material) {
-		return Material.getMaterial(material);
-	}
-	
+
 	@SuppressWarnings("deprecation")
 	public static int getBlockTypeId(ChunkSnapshot snapshot, int x, int y, int z) {
 		return snapshot.getBlockTypeId(x, y, z);

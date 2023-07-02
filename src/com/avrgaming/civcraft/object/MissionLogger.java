@@ -57,7 +57,7 @@ public class MissionLogger {
 	
 	
 	public static void logMission(Town town, Town target, Resident resident, String missionName, String result) {
-		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		HashMap<String, Object> hashmap = new HashMap<>();
 		
 		hashmap.put("town_id", town.getId());
 		hashmap.put("target_id", target.getId());
@@ -81,7 +81,7 @@ public class MissionLogger {
 		PreparedStatement ps = null;
 		
 		try {
-			ArrayList<String> out = new ArrayList<String>();
+            ArrayList<String> out = new ArrayList<>();
 			try {
 				context = SQL.getGameConnection();		
 				ps = context.prepareStatement("SELECT * FROM "+SQL.tb_prefix+TABLE_NAME+" WHERE `town_id` = ?");

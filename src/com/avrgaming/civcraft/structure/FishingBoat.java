@@ -70,7 +70,7 @@ public class FishingBoat extends TradeOutpost {
 		/* Add trade good to town. */
 		TradeGood good = CivGlobal.getTradeGood(tradeGoodCoord);
 		if (good == null) {
-			throw new CivException(CivSettings.localize.localizedString("tradeOutpost_notFound")+good);
+			throw new CivException(CivSettings.localize.localizedString("tradeOutpost_notFound") + null);
 		}
 		
 		if (!good.getInfo().water) {
@@ -183,12 +183,7 @@ public class FishingBoat extends TradeOutpost {
 		return loc;
 	}
 
-	@Override
-	public void onLoad() throws CivException {
-		super.createTradeGood();
-	}
-	
-	@Override
+    @Override
 	protected void checkBlockPermissionsAndRestrictions(Player player, Block centerBlock, int regionX, int regionY, int regionZ, Location savedLocation) throws CivException {
 		super.checkBlockPermissionsAndRestrictions(player, centerBlock, regionX, regionY, regionZ, savedLocation);
 		

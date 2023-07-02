@@ -20,7 +20,7 @@ public class EntityProximity {
 	 * Also optionally provide a filter so we can only capture specific types of entities.
 	 */
 	public static LinkedList<Entity> getNearbyEntities(Entity exempt, Location loc, double radius, Class<?> filter) {
-		LinkedList<Entity> entities = new LinkedList<Entity>();
+		LinkedList<Entity> entities = new LinkedList<>();
 		
 		double x = loc.getX()+0.5;
 		double y = loc.getY()+0.5;

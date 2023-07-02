@@ -26,24 +26,24 @@ import com.avrgaming.civcraft.object.SQLObject;
 import com.avrgaming.civcraft.main.CivCraft;
 
 public class SQLUpdate implements Runnable {
-	
+
 //	public static final int QUEUE_SIZE = 4096;
 //	public static final int UPDATE_LIMIT = 50;
 //	public static ReentrantLock lock = new ReentrantLock();
-	
-	private static ConcurrentLinkedQueue<SQLObject> saveObjects = new ConcurrentLinkedQueue<SQLObject>();
-	public static ConcurrentHashMap<String, Integer> statSaveRequests = new ConcurrentHashMap<String, Integer>();
-	public static ConcurrentHashMap<String, Integer> statSaveCompletions = new ConcurrentHashMap<String, Integer>();
 
-	public static void add(SQLObject obj) {
-		
-		Integer count = statSaveRequests.get(obj.getClass().getSimpleName());
-		if (count == null) {
-			count = 0;
-		}
-		statSaveRequests.put(obj.getClass().getSimpleName(), ++count);
-		
-		saveObjects.add(obj);
+    private static final ConcurrentLinkedQueue<SQLObject> saveObjects = new ConcurrentLinkedQueue<>();
+    public static ConcurrentHashMap<String, Integer> statSaveRequests = new ConcurrentHashMap<>();
+    public static ConcurrentHashMap<String, Integer> statSaveCompletions = new ConcurrentHashMap<>();
+
+    public static void add(SQLObject obj) {
+
+        Integer count = statSaveRequests.get(obj.getClass().getSimpleName());
+        if (count == null) {
+            count = 0;
+        }
+        statSaveRequests.put(obj.getClass().getSimpleName(), ++count);
+
+        saveObjects.add(obj);
 	}
 	
 	public static void save() {

@@ -316,19 +316,19 @@ public class AdminRecoverCommand extends CommandBase {
 	}
 	
 	@Override
-	public void doDefaultAction() throws CivException {
-		showHelp();
-	}
+    public void doDefaultAction() {
+        showHelp();
+    }
 
 	@Override
 	public void showHelp() {
 		showBasicHelp();
 	}
 
-	@Override
-	public void permissionCheck() throws CivException {
-		//Permissions checked in /ad command above.
-	}
+    @Override
+    public void permissionCheck() {
+        //Permissions checked in /ad command above.
+    }
 
 	
 	

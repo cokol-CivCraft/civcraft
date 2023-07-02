@@ -63,32 +63,32 @@ import com.avrgaming.civcraft.war.WarStats;
 public class TownHall extends Structure implements RespawnLocationHolder {
 
 	//TODO make this configurable.
-	public static int MAX_GOODIE_FRAMES = 8;
-	
-	private BlockCoord[] techbar = new BlockCoord[10];
-	
-	private BlockCoord technameSign;
-	private byte technameSignData; //Hold the sign's orientation
-	
-	private BlockCoord techdataSign;
-	private byte techdataSignData; //Hold the sign's orientation
-	
-	private ArrayList<ItemFrameStorage> goodieFrames = new ArrayList<ItemFrameStorage>();
-	private ArrayList<BlockCoord> respawnPoints = new ArrayList<BlockCoord>();
-	private ArrayList<BlockCoord> revivePoints = new ArrayList<BlockCoord>();
-	protected HashMap<BlockCoord, ControlPoint> controlPoints = new HashMap<BlockCoord, ControlPoint>();
-	
-	public ArrayList<BlockCoord> nextGoodieFramePoint = new ArrayList<BlockCoord>();
-	public ArrayList<Integer> nextGoodieFrameDirection = new ArrayList<Integer>();
+    public static int MAX_GOODIE_FRAMES = 8;
 
-	protected TownHall(Location center, String id, Town town)
-			throws CivException {
-		super(center, id, town);
-	}
+    private final BlockCoord[] techbar = new BlockCoord[10];
 
-	public TownHall(ResultSet rs) throws SQLException, CivException {
-		super(rs);
-	}
+    private BlockCoord technameSign;
+    private byte technameSignData; //Hold the sign's orientation
+
+    private BlockCoord techdataSign;
+    private byte techdataSignData; //Hold the sign's orientation
+
+    private final ArrayList<ItemFrameStorage> goodieFrames = new ArrayList<>();
+    private final ArrayList<BlockCoord> respawnPoints = new ArrayList<>();
+    private final ArrayList<BlockCoord> revivePoints = new ArrayList<>();
+    protected HashMap<BlockCoord, ControlPoint> controlPoints = new HashMap<>();
+
+    public ArrayList<BlockCoord> nextGoodieFramePoint = new ArrayList<>();
+    public ArrayList<Integer> nextGoodieFrameDirection = new ArrayList<>();
+
+    protected TownHall(Location center, String id, Town town)
+            throws CivException {
+        super(center, id, town);
+    }
+
+    public TownHall(ResultSet rs) throws SQLException, CivException {
+        super(rs);
+    }
 
 	@Override
 	public void delete() throws SQLException {
@@ -208,17 +208,17 @@ public class TownHall extends Structure implements RespawnLocationHolder {
 		ItemFrameStorage itemStore;
 		ItemFrame frame = null;
 		Entity entity = CivGlobal.getEntityAtLocation(absCoord.getBlock().getLocation());
-		if (entity == null || (!(entity instanceof ItemFrame))) {
-			itemStore = new ItemFrameStorage(attachedBlock.getLocation(), facingDirection);
-		} else {
-			try {
-				frame = (ItemFrame)entity;
-				itemStore = new ItemFrameStorage(frame, attachedBlock.getLocation());
-			} catch (CivException e) {
-				e.printStackTrace();
-				return;
-			}
-			if (facingDirection != BlockFace.EAST) {
+        if ((!(entity instanceof ItemFrame))) {
+            itemStore = new ItemFrameStorage(attachedBlock.getLocation(), facingDirection);
+        } else {
+            try {
+                frame = (ItemFrame) entity;
+                itemStore = new ItemFrameStorage(frame, attachedBlock.getLocation());
+            } catch (CivException e) {
+                e.printStackTrace();
+                return;
+            }
+            if (facingDirection != BlockFace.EAST) {
 				itemStore.setFacingDirection(facingDirection);
 			}
 		}
@@ -347,10 +347,10 @@ public class TownHall extends Structure implements RespawnLocationHolder {
 		
 		boolean allDestroyed = true;
 		for (ControlPoint c : this.controlPoints.values()) {
-			if (c.isDestroyed() == false) {
-				allDestroyed = false;
-				break;
-			}
+            if (!c.isDestroyed()) {
+                allDestroyed = false;
+                break;
+            }
 		}
 		CivMessage.sendTownSound(hit.getTown(), Sound.AMBIENT_CAVE, 1.0f, 0.5f);
 
@@ -399,10 +399,10 @@ public class TownHall extends Structure implements RespawnLocationHolder {
 
         boolean allDestroyed = true;
 		for (ControlPoint c : this.controlPoints.values()) {
-			if (c.isDestroyed() == false) {
-				allDestroyed = false;
-				break;
-			}
+            if (!c.isDestroyed()) {
+                allDestroyed = false;
+                break;
+            }
 		}
 		CivMessage.sendTownSound(hit.getTown(), Sound.AMBIENT_CAVE, 1.0f, 0.5f);
 
@@ -561,17 +561,17 @@ public class TownHall extends Structure implements RespawnLocationHolder {
 		return this.controlPoints;
 	}
 
-	public void onCannonDamage(int damage, CannonProjectile projectile) throws CivException {
-		if (!this.getCiv().getDiplomacyManager().isAtWar()) {
-			return;
-		}
-		this.hitpoints -= damage;
+    public void onCannonDamage(int damage, CannonProjectile projectile) {
+        if (!this.getCiv().getDiplomacyManager().isAtWar()) {
+            return;
+        }
+        this.hitpoints -= damage;
 
 //		Resident resident = projectile.whoFired;
-		if (hitpoints <= 0) {
-			for (BlockCoord coord : this.controlPoints.keySet()) {
-				ControlPoint cp = this.controlPoints.get(coord);				
-				if (cp != null) {
+        if (hitpoints <= 0) {
+            for (BlockCoord coord : this.controlPoints.keySet()) {
+                ControlPoint cp = this.controlPoints.get(coord);
+                if (cp != null) {
 					if (cp.getHitpoints() > CannonProjectile.controlBlockHP) {
 						cp.damage(cp.getHitpoints()-1);
 						this.hitpoints = this.getMaxHitPoints()/2;

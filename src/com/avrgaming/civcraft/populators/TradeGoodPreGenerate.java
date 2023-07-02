@@ -44,7 +44,7 @@ public class TradeGoodPreGenerate {
 	
 	// Maybe all we need is a hashset?
 //	public Map<ChunkCoord, String> goodPlacements = new HashMap<ChunkCoord, String>();
-	public Map<ChunkCoord, TradeGoodPick> goodPicks = new HashMap<ChunkCoord, TradeGoodPick>();
+    public Map<ChunkCoord, TradeGoodPick> goodPicks = new HashMap<>();
 	
 	public TradeGoodPreGenerate() {
 		
@@ -61,17 +61,14 @@ public class TradeGoodPreGenerate {
 		if (hemi.z_max != 0 && z > hemi.z_max) {
 			return false;
 		}
-		if (hemi.z_min != 0 && z < hemi.z_min) {
-			return false;
-		}
-		return true;
-    }
+		return hemi.z_min == 0 || z >= hemi.z_min;
+	}
 
     
     private TreeSet<ConfigTradeGood> getValidTradeGoods(int x, int z, Map<String, ConfigTradeGood> goods) {
     	
     	//ArrayList<ConfigTradeGood> validGoods = new ArrayList<ConfigTradeGood>();
-    	TreeSet<ConfigTradeGood> validGoods = new TreeSet<ConfigTradeGood>();
+        TreeSet<ConfigTradeGood> validGoods = new TreeSet<>();
     	for (ConfigTradeGood good : goods.values()) {
     		String hemiString = good.hemiString;
     		if (hemiString == null) {
@@ -162,7 +159,7 @@ public class TradeGoodPreGenerate {
 		}
 		
 		// Filter out all but the lowest rarity that qualifies
-		ArrayList<ConfigTradeGood> pickList = new ArrayList<ConfigTradeGood>();
+        ArrayList<ConfigTradeGood> pickList = new ArrayList<>();
 		for (ConfigTradeGood good : set) {
 			if (good.rarity == lowest_rarity) {
 				pickList.add(good);

@@ -67,9 +67,9 @@ public class Blacksmith extends Structure {
 
     private Date lastUse = new Date();
 
-    private NonMemberFeeComponent nonMemberFeeComponent;
+    private final NonMemberFeeComponent nonMemberFeeComponent;
 
-    public static HashMap<BlockCoord, Blacksmith> blacksmithAnvils = new HashMap<BlockCoord, Blacksmith>();
+    public static HashMap<BlockCoord, Blacksmith> blacksmithAnvils = new HashMap<>();
 
     protected Blacksmith(Location center, String id, Town town)
             throws CivException {
@@ -104,12 +104,7 @@ public class Blacksmith extends Structure {
     }
 
     private String getNonResidentFeeString() {
-        return CivSettings.localize.localizedString("Fee:") + " " + ((int) (this.nonMemberFeeComponent.getFeeRate() * 100) + "%").toString();
-    }
-
-    @Override
-    public String getDynmapDescription() {
-        return null;
+        return CivSettings.localize.localizedString("Fee:") + " " + ((int) (this.nonMemberFeeComponent.getFeeRate() * 100) + "%");
     }
 
     @Override
@@ -119,7 +114,7 @@ public class Blacksmith extends Structure {
 
     @Override
     public void processSignAction(Player player, StructureSign sign, PlayerInteractEvent event) throws CivException {
-        int special_id = Integer.valueOf(sign.getAction());
+        int special_id = Integer.parseInt(sign.getAction());
 
         Date now = new Date();
 
@@ -155,7 +150,7 @@ public class Blacksmith extends Structure {
         double cost = CivSettings.getDoubleStructure("blacksmith.forge_cost");
 
         for (StructureSign sign : getSigns()) {
-            int special_id = Integer.valueOf(sign.getAction());
+            int special_id = Integer.parseInt(sign.getAction());
 
             switch (special_id) {
                 case 0:
@@ -183,14 +178,14 @@ public class Blacksmith extends Structure {
 
     public void saveItem(ItemStack item, String key) {
 
-        String value = "" + item.getTypeId() + ":";
+        StringBuilder value = new StringBuilder(item.getTypeId() + ":");
 
         for (Enchantment e : item.getEnchantments().keySet()) {
-            value += ItemManager.getId(e) + "," + item.getEnchantmentLevel(e);
-            value += ":";
+            value.append(ItemManager.getId(e)).append(",").append(item.getEnchantmentLevel(e));
+            value.append(":");
         }
 
-        sessionAdd(key, value);
+        sessionAdd(key, value.toString());
     }
 
     public void saveCatalyst(LoreCraftableMaterial craftMat, String key) {
@@ -305,7 +300,7 @@ public class Blacksmith extends Structure {
             }
         } else {
             String[] split = freeStr.split(":");
-            Double level = Double.valueOf(split[0]);
+            double level = Double.parseDouble(split[0]);
             String mid = split[1];
 
             LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterialFromId(mid);
@@ -321,7 +316,7 @@ public class Blacksmith extends Structure {
             /* reduce level and reset item. */
             level--;
 
-            String lore[] = attrs.getLore();
+            String[] lore = attrs.getLore();
             for (int i = 0; i < lore.length; i++) {
                 String str = lore[i];
                 if (str.contains("free enhancements")) {
@@ -360,15 +355,13 @@ public class Blacksmith extends Structure {
              * There is a one in third chance that our item will break.
              * Sucks, but this is what happened here.
              */
-            player.getInventory().setItemInMainHand(new ItemStack(Material.AIR.getId(), 1, (short) 0));
+            player.getInventory().setItemInMainHand(new ItemStack(Material.AIR, 1, (short) 0));
             CivMessage.sendError(player, CivSettings.localize.localizedString("blacksmith_forge_failed"));
             player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_HURT, 1.0f, 1.0f);
-            return;
         } else {
             player.getInventory().setItemInMainHand(enhancedItem);
             CivMessage.sendSuccess(player, CivSettings.localize.localizedString("blacksmith_forge_success"));
             player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_YES, 1.0f, 1.0f);
-            return;
         }
     }
 
@@ -376,7 +369,6 @@ public class Blacksmith extends Structure {
      * Take the itemstack in hand and deposit it into
      * the session DB.
      */
-    @SuppressWarnings("deprecation")
     public void depositSmelt(Player player, ItemStack itemsInHand) throws CivException {
 
         // Make sure that the item is a valid smelt type.
@@ -443,9 +435,9 @@ public class Blacksmith extends Structure {
         HashMap<Integer, ItemStack> leftovers = null;
 
         for (SessionEntry se : entries) {
-            String split[] = se.value.split(":");
-            int itemId = Integer.valueOf(split[0]);
-            double amount = Double.valueOf(split[1]);
+            String[] split = se.value.split(":");
+            int itemId = Integer.parseInt(split[0]);
+            double amount = Double.parseDouble(split[1]);
             long now = System.currentTimeMillis();
             int secondsBetween = CivGlobal.getSecondsBetween(se.time, now);
 
@@ -460,8 +452,7 @@ public class Blacksmith extends Structure {
             }
 
             ItemStack stack = new ItemStack(itemId, (int) amount, (short) 0);
-            if (stack != null)
-                leftovers = inv.addItem(stack);
+            leftovers = inv.addItem(stack);
 
             // If this stack was successfully withdrawn, delete it from the DB.
             if (leftovers.size() == 0) {
@@ -498,6 +489,4 @@ public class Blacksmith extends Structure {
         player.updateInventory();
     }
 
-    public void onPostBuild(BlockCoord absCoord, SimpleBlock commandBlock) {
-    }
 }

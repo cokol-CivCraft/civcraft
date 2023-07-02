@@ -19,7 +19,7 @@ import com.mysql.jdbc.StringUtils;
  
 public class KeyValue {
  
-        private HashMap<String, Object> keyValues = new HashMap<String, Object>();
+        private final HashMap<String, Object> keyValues = new HashMap<>();
                
         public String serialize() {
                 StringBuilder builder = new StringBuilder();
@@ -30,7 +30,7 @@ public class KeyValue {
                         builder.append(",");
                         builder.append(value.getClass().getSimpleName());
                         builder.append(",");
-                        String valueString = ""+value;
+                    String valueString = String.valueOf(value);
                         builder.append(Base64Coder.encode(valueString.getBytes()));
                         builder.append(";");
                 }
@@ -63,20 +63,25 @@ public class KeyValue {
                         }
                        
                         try {
-                                Object valueInstance;
-                               
-                                if (className.equals("Integer")) {
-                                        valueInstance = Integer.valueOf(decodedValue);
-                                } else if (className.equals("Boolean")) {
-                                        valueInstance = Boolean.valueOf(decodedValue);
-                                } else if (className.equals("Double")) {
-                                        valueInstance = Double.valueOf(decodedValue);
-                                } else {
-                                        valueInstance = decodedValue;
-                                }
-                               
-                                keyValues.put(key, valueInstance);
-                               
+                            Object valueInstance;
+
+                            switch (className) {
+                                case "Integer":
+                                    valueInstance = Integer.valueOf(decodedValue);
+                                    break;
+                                case "Boolean":
+                                    valueInstance = Boolean.valueOf(decodedValue);
+                                    break;
+                                case "Double":
+                                    valueInstance = Double.valueOf(decodedValue);
+                                    break;
+                                default:
+                                    valueInstance = decodedValue;
+                                    break;
+                            }
+
+                            keyValues.put(key, valueInstance);
+
                         } catch (Exception e) {
                                 e.printStackTrace();
                         }

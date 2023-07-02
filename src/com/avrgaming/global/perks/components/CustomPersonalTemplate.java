@@ -23,13 +23,11 @@ public class CustomPersonalTemplate extends PerkComponent {
 	public Template getTemplate(Player player, ConfigBuildableInfo info) {
 		Template tpl = new Template();
 		try {
-			tpl.initTemplate(player.getLocation(), info, this.getString("theme"));
-		} catch (CivException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+            tpl.initTemplate(player.getLocation(), info, this.getString("theme"));
+        } catch (CivException | IOException e) {
+            e.printStackTrace();
+        }
 
-		return tpl;
+        return tpl;
 	}
 }

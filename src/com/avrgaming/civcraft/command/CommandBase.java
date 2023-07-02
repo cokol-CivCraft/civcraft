@@ -50,7 +50,7 @@ public abstract class CommandBase implements CommandExecutor {
 	
 	private static final int MATCH_LIMIT = 5;
 
-	protected HashMap<String, String> commands = new HashMap<String, String>();
+	protected HashMap<String, String> commands = new HashMap<>();
 	
 	protected String[] args;
 	protected CommandSender sender;
@@ -157,7 +157,7 @@ public abstract class CommandBase implements CommandExecutor {
 	}
 	
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-		List<String> al = new ArrayList<String>();
+        List<String> al = new ArrayList<>();
 		al.add("sub1");
 		al.add("barg");
 		al.add("borg");
@@ -241,21 +241,19 @@ public abstract class CommandBase implements CommandExecutor {
 		
 		
 		String[] argsLeft = new String[someArgs.length - amount];
-		for (int i = 0; i < argsLeft.length; i++) {
-			argsLeft[i] = someArgs[i+amount];
-		}
+        System.arraycopy(someArgs, amount, argsLeft, 0, argsLeft.length);
 		
 		return argsLeft;
 	}
 	
 	protected String combineArgs(String[] someArgs) {
-		String combined = "";
-		for (String str : someArgs) {
-			combined += str + " ";
-		}
-		combined = combined.trim();
-		return combined;
-	}
+        StringBuilder combined = new StringBuilder();
+        for (String str : someArgs) {
+            combined.append(str).append(" ");
+        }
+        combined = new StringBuilder(combined.toString().trim());
+        return combined.toString();
+    }
 	
 	public void validMayor() throws CivException {
 		Player player = getPlayer();
@@ -382,8 +380,8 @@ public abstract class CommandBase implements CommandExecutor {
 		
 		String name = args[index].toLowerCase();
 		name = name.replace("%", "(\\w*)");
-				
-		ArrayList<Resident> potentialMatches = new ArrayList<Resident>();
+
+        ArrayList<Resident> potentialMatches = new ArrayList<>();
 		for (Resident resident : CivGlobal.getResidents()) {
 			String str = resident.getName().toLowerCase();
 			try {
@@ -406,9 +404,9 @@ public abstract class CommandBase implements CommandExecutor {
 		if (potentialMatches.size() != 1) {
 			CivMessage.send(sender, CivColor.LightPurple+ChatColor.UNDERLINE+CivSettings.localize.localizedString("cmd_NameMoreThan1"));
 			CivMessage.send(sender, " ");
-			String out = "";
+            StringBuilder out = new StringBuilder();
 			for (Resident resident : potentialMatches) {
-				out += resident.getName()+", ";
+                out.append(resident.getName()).append(", ");
 			}
 		
 			CivMessage.send(sender, CivColor.LightBlue+ChatColor.ITALIC+out);
@@ -425,8 +423,8 @@ public abstract class CommandBase implements CommandExecutor {
 		
 		String name = args[index].toLowerCase();
 		name = name.replace("%", "(\\w*)");
-				
-		ArrayList<Civilization> potentialMatches = new ArrayList<Civilization>();
+
+        ArrayList<Civilization> potentialMatches = new ArrayList<>();
 		for (Civilization civ : CivGlobal.getCivs()) {
 			String str = civ.getName().toLowerCase();
 			try {
@@ -449,9 +447,9 @@ public abstract class CommandBase implements CommandExecutor {
 		if (potentialMatches.size() != 1) {
 			CivMessage.send(sender, CivColor.LightPurple+ChatColor.UNDERLINE+CivSettings.localize.localizedString("cmd_NameMoreThan1"));
 			CivMessage.send(sender, " ");
-			String out = "";
+            StringBuilder out = new StringBuilder();
 			for (Civilization civ : potentialMatches) {
-				out += civ.getName()+", ";
+                out.append(civ.getName()).append(", ");
 			}
 		
 			CivMessage.send(sender, CivColor.LightBlue+ChatColor.ITALIC+out);
@@ -468,8 +466,8 @@ public abstract class CommandBase implements CommandExecutor {
 		
 		String name = args[index].toLowerCase();
 		name = name.replace("%", "(\\w*)");
-				
-		ArrayList<Civilization> potentialMatches = new ArrayList<Civilization>();
+
+        ArrayList<Civilization> potentialMatches = new ArrayList<>();
 		for (Civilization civ : CivGlobal.getConqueredCivs()) {
 			String str = civ.getName().toLowerCase();
 			try {
@@ -492,9 +490,9 @@ public abstract class CommandBase implements CommandExecutor {
 		if (potentialMatches.size() != 1) {
 			CivMessage.send(sender, CivColor.LightPurple+ChatColor.UNDERLINE+CivSettings.localize.localizedString("cmd_NameMoreThan1"));
 			CivMessage.send(sender, " ");
-			String out = "";
+            StringBuilder out = new StringBuilder();
 			for (Civilization civ : potentialMatches) {
-				out += civ.getName()+", ";
+                out.append(civ.getName()).append(", ");
 			}
 		
 			CivMessage.send(sender, CivColor.LightBlue+ChatColor.ITALIC+out);
@@ -523,8 +521,8 @@ public abstract class CommandBase implements CommandExecutor {
 		
 		String name = args[index].toLowerCase();
 		name = name.replace("%", "(\\w*)");
-				
-		ArrayList<Town> potentialMatches = new ArrayList<Town>();
+
+        ArrayList<Town> potentialMatches = new ArrayList<>();
 		for (Town town : CivGlobal.getTowns()) {
 			String str = town.getName().toLowerCase();
 			try {
@@ -547,9 +545,9 @@ public abstract class CommandBase implements CommandExecutor {
 		if (potentialMatches.size() != 1) {
 			CivMessage.send(sender, CivColor.LightPurple+ChatColor.UNDERLINE+CivSettings.localize.localizedString("cmd_NameMoreThan1"));
 			CivMessage.send(sender, " ");
-			String out = "";
+            StringBuilder out = new StringBuilder();
 			for (Town town : potentialMatches) {
-				out += town.getName()+", ";
+                out.append(town.getName()).append(", ");
 			}
 		
 			CivMessage.send(sender, CivColor.LightBlue+ChatColor.ITALIC+out);
@@ -582,13 +580,13 @@ public abstract class CommandBase implements CommandExecutor {
 	}
 	
 	public String makeInfoString(HashMap<String, String> kvs, String lowColor, String highColor) {
-		
-		String out = "";
+
+        StringBuilder out = new StringBuilder();
 		for (String key : kvs.keySet()) {
-			out += lowColor+key+": "+highColor+kvs.get(key)+" ";
+            out.append(lowColor).append(key).append(": ").append(highColor).append(kvs.get(key)).append(" ");
 		}
-		
-		return out;
+
+        return out.toString();
 	}
 	
 	protected PermissionGroup getNamedPermissionGroup(Town town, int index) throws CivException {
@@ -633,8 +631,8 @@ public abstract class CommandBase implements CommandExecutor {
 		
 		String name = args[index].toLowerCase();
 		name = name.replace("%", "(\\w*)");
-		
-		ArrayList<Camp> potentialMatches = new ArrayList<Camp>();
+
+        ArrayList<Camp> potentialMatches = new ArrayList<>();
 		for (Camp camp : CivGlobal.getCamps()) {
 			String str = camp.getName().toLowerCase();
 			try {
@@ -658,9 +656,9 @@ public abstract class CommandBase implements CommandExecutor {
 		if (potentialMatches.size() != 1) {
 			CivMessage.send(sender, CivColor.LightPurple+ChatColor.UNDERLINE+CivSettings.localize.localizedString("cmd_NameMoreThan1"));
 			CivMessage.send(sender, " ");
-			String out = "";
+            StringBuilder out = new StringBuilder();
 			for (Camp camp : potentialMatches) {
-				out += camp.getName()+", ";
+                out.append(camp.getName()).append(", ");
 			}
 		
 			CivMessage.send(sender, CivColor.LightBlue+ChatColor.ITALIC+out);
@@ -677,8 +675,8 @@ public abstract class CommandBase implements CommandExecutor {
 		
 		String name = args[index].toLowerCase();
 		name = name.replace("%", "(\\w*)");
-				
-		ArrayList<ArenaTeam> potentialMatches = new ArrayList<ArenaTeam>();
+
+        ArrayList<ArenaTeam> potentialMatches = new ArrayList<>();
 		for (ArenaTeam team : ArenaTeam.arenaTeams.values()) {
 			String str = team.getName().toLowerCase();
 			try {
@@ -701,9 +699,9 @@ public abstract class CommandBase implements CommandExecutor {
 		if (potentialMatches.size() != 1) {
 			CivMessage.send(sender, CivColor.LightPurple+ChatColor.UNDERLINE+CivSettings.localize.localizedString("cmd_NameMoreThan1"));
 			CivMessage.send(sender, " ");
-			String out = "";
+            StringBuilder out = new StringBuilder();
 			for (ArenaTeam team : potentialMatches) {
-				out += team.getName()+", ";
+                out.append(team.getName()).append(", ");
 			}
 		
 			CivMessage.send(sender, CivColor.LightBlue+ChatColor.ITALIC+out);

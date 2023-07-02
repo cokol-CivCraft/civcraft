@@ -66,11 +66,6 @@ public class Structure extends Buildable {
 		this.load(rs);
 	}
 
-	@Override
-	public void onCheck() throws CivException {
-		/* Override in children */
-	}
-	
 	/*
 	 * I'm being a bit lazy here, I don't want to switch on the type id in more than one place
 	 * so I've overloaded this function to handle both new structures and loaded ones. 
@@ -83,334 +78,334 @@ public class Structure extends Buildable {
 		switch (id) {
 		case "s_bank":
 			if (rs == null) {
-				struct = (Structure) new Bank(center, id, town);
+				struct = new Bank(center, id, town);
 			} else {
-				struct = (Structure) new Bank(rs);
+                struct = new Bank(rs);
 			}
 			break;
 		
 		case "s_trommel":
 			if (rs == null) {
-				struct = (Structure) new Trommel(center, id, town);
+                struct = new Trommel(center, id, town);
 			} else {
-				struct = (Structure) new Trommel(rs);
+                struct = new Trommel(rs);
 			}
 			break;	
 
 		case "ti_fish_hatchery":
 			if (rs == null) {
-				struct = (Structure) new FishHatchery(center, id, town);
+                struct = new FishHatchery(center, id, town);
 			} else {
-				struct = (Structure) new FishHatchery(rs);
+                struct = new FishHatchery(rs);
 			}
 			break;	
 
 		case "ti_trade_ship":
 			if (rs == null) {
-				struct = (Structure) new TradeShip(center, id, town);
+                struct = new TradeShip(center, id, town);
 			} else {
-				struct = (Structure) new TradeShip(rs);
+                struct = new TradeShip(rs);
 			}
 			break;	
 
 		case "ti_quarry":
 			if (rs == null) {
-				struct = (Structure) new Quarry(center, id, town);
+                struct = new Quarry(center, id, town);
 			} else {
-				struct = (Structure) new Quarry(rs);
+                struct = new Quarry(rs);
 			}
 			break;	
 			
 		case "s_mob_grinder":
 			if (rs == null) {
-				struct = (Structure) new MobGrinder(center, id, town);
+                struct = new MobGrinder(center, id, town);
 			} else {
-				struct = (Structure) new MobGrinder(rs);
+                struct = new MobGrinder(rs);
 			}
 			break;	
 			
 		case "s_store":
 			if (rs == null) {
-				struct = (Structure) new Store(center, id, town);
+                struct = new Store(center, id, town);
 			} else {
-				struct = (Structure) new Store(rs);
+                struct = new Store(rs);
 			}
 			break;
 			
 		case "s_stadium":
 			if (rs == null) {
-				struct = (Structure) new Stadium(center, id, town);
+                struct = new Stadium(center, id, town);
 			} else {
-				struct = (Structure) new Stadium(rs);
+                struct = new Stadium(rs);
 			}
 			break;
 			
 		case "ti_hospital":
 			if (rs == null) {
-				struct = (Structure) new Hospital(center, id, town);
+                struct = new Hospital(center, id, town);
 			} else {
-				struct = (Structure) new Hospital(rs);
+                struct = new Hospital(rs);
 			}
 			break;
 		
 		case "s_grocer":
 			if (rs == null) {
-				struct = (Structure) new Grocer(center, id, town);
+                struct = new Grocer(center, id, town);
 			} else {
-				struct = (Structure) new Grocer(rs);
+                struct = new Grocer(rs);
 			}
 			break;
 
 		case "s_broadcast_tower":
 			if (rs == null) {
-				struct = (BroadcastTower) new BroadcastTower(center, id, town);
+                struct = new BroadcastTower(center, id, town);
 			} else {
-				struct = (BroadcastTower) new BroadcastTower(rs);
+                struct = new BroadcastTower(rs);
 			}
 			break;
 		case "s_library":
 			if (rs == null) {
-				struct = (Structure) new Library(center, id, town);
+                struct = new Library(center, id, town);
 			} else {
-				struct = (Structure) new Library(rs);
+                struct = new Library(rs);
 			}
 			break;	
 			
 		case "s_university":
 			if (rs == null) {
-				struct = (Structure) new University(center, id, town);
+                struct = new University(center, id, town);
 			} else {
-				struct = (Structure) new University(rs);
+                struct = new University(rs);
 			}
 			break;	
 			
 		case "s_school":
 			if (rs == null) {
-				struct = (Structure) new School(center, id, town);
+                struct = new School(center, id, town);
 			} else {
-				struct = (Structure) new School(rs);
+                struct = new School(rs);
 			}
 			break;
 			
 		case "s_research_lab":
 			if (rs == null) {
-				struct = (Structure) new ResearchLab(center, id, town);
+                struct = new ResearchLab(center, id, town);
 			} else {
-				struct = (Structure) new ResearchLab(rs);
+                struct = new ResearchLab(rs);
 			}
 			break;	
 		
 		case "s_blacksmith":
 			if (rs == null) {
-				struct = (Structure) new Blacksmith(center, id, town);
+                struct = new Blacksmith(center, id, town);
 			} else {
-				struct = (Structure) new Blacksmith(rs);
+                struct = new Blacksmith(rs);
 			}
 			break;	
 			
 		case "s_granary":
 			if (rs == null) {
-				struct = (Structure) new Granary(center, id, town);
+                struct = new Granary(center, id, town);
 			} else {
-				struct = (Structure) new Granary(rs);
+                struct = new Granary(rs);
 			}
 			break;
 			
 		case "ti_cottage":
 			if (rs == null) {
-				struct = (Structure) new Cottage(center, id, town);
+                struct = new Cottage(center, id, town);
 			} else {
-				struct = (Structure) new Cottage(rs);
+                struct = new Cottage(rs);
 			}
 			break;
 		case "s_monument":
 			if (rs == null) {
-				struct = (Structure) new Monument(center, id, town);
+                struct = new Monument(center, id, town);
 			} else {
-				struct = (Structure) new Monument(rs);
+                struct = new Monument(rs);
 			}
 			break;
 		case "s_temple":
 			if (rs == null) {
-				struct = (Structure) new Temple(center, id, town);
+                struct = new Temple(center, id, town);
 			} else {
-				struct = (Structure) new Temple(rs);
+                struct = new Temple(rs);
 			}
 			break;
 		case "ti_mine":
 			if (rs == null) {
-				struct = (Structure) new Mine(center, id, town);
+                struct = new Mine(center, id, town);
 			} else {
-				struct = (Structure) new Mine(rs);
+                struct = new Mine(rs);
 			}
 			break;
 		case "ti_farm":
 			if (rs == null) {
-				struct = (Structure) new Farm(center, id, town);
+                struct = new Farm(center, id, town);
 			} else {
-				struct = (Structure) new Farm(rs);
+                struct = new Farm(rs);
 			}
 			break;
 		case "ti_trade_outpost":
 			if (rs == null) {
-				struct = (Structure) new TradeOutpost(center, id, town);
+                struct = new TradeOutpost(center, id, town);
 			} else {
-				struct = (Structure) new TradeOutpost(rs);
+                struct = new TradeOutpost(rs);
 			}
 			break;
 		case "ti_fishing_boat":
 			if (rs == null) {
-				struct = (Structure) new FishingBoat(center, id, town);
+                struct = new FishingBoat(center, id, town);
 			} else {
-				struct = (Structure) new FishingBoat(rs);
+                struct = new FishingBoat(rs);
 			}
 			break;
 		case "s_townhall":
 			if (rs == null) {
-				struct = (Structure) new TownHall(center, id, town);
+                struct = new TownHall(center, id, town);
 			} else {
-				struct = (Structure) new TownHall(rs);
+                struct = new TownHall(rs);
 			}
 			break;
 		// Just for backwards compatibility with old typos on existing servers:
 		case "s_capital":
 			if (rs == null) {
-				struct = (Structure) new Capitol(center, id, town);
+                struct = new Capitol(center, id, town);
 			} else {
-				struct = (Structure) new Capitol(rs);
+                struct = new Capitol(rs);
 			}
 			break;
 		case "s_capitol":
 			if (rs == null) {
-				struct = (Structure) new Capitol(center, id, town);
+                struct = new Capitol(center, id, town);
 			} else {
-				struct = (Structure) new Capitol(rs);
+                struct = new Capitol(rs);
 			}
 			break;
 		case "s_arrowship":
 			if (rs == null) {
-				struct = (ArrowShip) new ArrowShip(center, id, town);
+                struct = new ArrowShip(center, id, town);
 			} else {
-				struct = (ArrowShip) new ArrowShip(rs);
+                struct = new ArrowShip(rs);
 			}
 			break;
 		case "s_arrowtower":
 			if (rs == null) {
-				struct = (Structure) new ArrowTower(center, id, town);
+                struct = new ArrowTower(center, id, town);
 			} else {
-				struct = (Structure) new ArrowTower(rs);
+                struct = new ArrowTower(rs);
 			}
 			break;
 		case "s_cannonship":
 			if (rs == null) {
-				struct = (CannonShip) new CannonShip(center, id, town);
+                struct = new CannonShip(center, id, town);
 			} else {
-				struct = (CannonShip) new CannonShip(rs);
+                struct = new CannonShip(rs);
 			}
 			break;
 		case "s_cannontower":
 			if (rs == null) {
-				struct = (Structure) new CannonTower(center, id, town);
+                struct = new CannonTower(center, id, town);
 			} else {
-				struct = (Structure) new CannonTower(rs);
+                struct = new CannonTower(rs);
 			}
 			break;
 		case "s_scoutship":
 			if (rs == null) {
-				struct = (ScoutShip) new ScoutShip(center, id, town);
+                struct = new ScoutShip(center, id, town);
 			} else {
-				struct = (ScoutShip) new ScoutShip(rs);
+                struct = new ScoutShip(rs);
 			}
 			break;
 		case "s_scouttower":
 			if (rs == null) {
-				struct = (ScoutTower) new ScoutTower(center, id, town);
+                struct = new ScoutTower(center, id, town);
 			} else {
-				struct = (ScoutTower) new ScoutTower(rs);
+                struct = new ScoutTower(rs);
 			}
 			break;
 		case "s_shipyard":
 			if (rs == null) {
-				struct = (Structure) new Shipyard(center, id, town);
+                struct = new Shipyard(center, id, town);
 			} else {
-				struct = (Structure) new Shipyard(rs);
+                struct = new Shipyard(rs);
 			}
 			break;
 		case "ti_wall":
 			if (rs == null) {
-				struct = (Structure) new Wall(center, id, town);
+                struct = new Wall(center, id, town);
 			} else {
-				struct = (Structure) new Wall(rs);
+                struct = new Wall(rs);
 			}
 			break;
 		case "ti_fortifiedwall":
 			if (rs == null) {
-				struct = (Structure) new FortifiedWall(center, id, town);
+                struct = new FortifiedWall(center, id, town);
 			} else {
-				struct = (Structure) new FortifiedWall(rs);
+                struct = new FortifiedWall(rs);
 			}
 			break;
 		case "ti_road":
 			if (rs == null) {
-				struct = (Structure) new Road(center, id, town);
+                struct = new Road(center, id, town);
 			} else {
-				struct = (Structure) new Road(rs);
+                struct = new Road(rs);
 			}
 			break;
 		case "s_barracks":
 			if (rs == null) {
-				struct = (Structure) new Barracks(center, id, town);
+                struct = new Barracks(center, id, town);
 			} else {
-				struct = (Structure) new Barracks(rs);
+                struct = new Barracks(rs);
 			}
 			break;
 		case "ti_windmill":
 			if (rs == null) {
-				struct = (Structure) new Windmill(center, id, town);
+                struct = new Windmill(center, id, town);
 			} else {
-				struct = (Structure) new Windmill(rs);
+                struct = new Windmill(rs);
 			}
 			break;
 		case "s_museum":
 			if (rs == null) {
-				struct = (Museum) new Museum(center, id, town);
+                struct = new Museum(center, id, town);
 			} else {
-				struct = (Museum) new Museum(rs);
+                struct = new Museum(rs);
 			}
 			break;
 		case "s_market":
 			if (rs == null) {
-				struct = (Market) new Market(center, id, town);
+                struct = new Market(center, id, town);
 			} else {
-				struct = (Market) new Market(rs);
+                struct = new Market(rs);
 			}
 			break;
 		case "s_stable":
 			if (rs == null) {
-				struct = (Stable) new Stable(center, id, town);
+                struct = new Stable(center, id, town);
 			} else {
-				struct = (Stable) new Stable(rs);
+                struct = new Stable(rs);
 			}
 			break;
 		case "ti_pasture":
 			if (rs == null) {
-				struct = (Pasture) new Pasture(center, id, town);
+                struct = new Pasture(center, id, town);
 			} else {
-				struct = (Pasture) new Pasture(rs);
+                struct = new Pasture(rs);
 			}
 			break;
 		case "ti_lighthouse":
 			if (rs == null) {
-				struct = (Lighthouse) new Lighthouse(center, id, town);
+                struct = new Lighthouse(center, id, town);
 			} else {
-				struct = (Lighthouse) new Lighthouse(rs);
+                struct = new Lighthouse(rs);
 			}
 			break;
 		case "s_teslatower":
 			if (rs == null) {
-				struct = (TeslaTower) new TeslaTower(center, id, town);
+                struct = new TeslaTower(center, id, town);
 			} else {
-				struct = (TeslaTower) new TeslaTower(rs);
+                struct = new TeslaTower(rs);
 			}
 			break;
 		default:
@@ -517,14 +512,14 @@ public class Structure extends Buildable {
 		
 		this.getTown().addStructure(this);
 		bindStructureBlocks();
-		
-		if (this.isComplete() == false) {
-			try {
-				this.resumeBuildFromTemplate();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+
+        if (!this.isComplete()) {
+            try {
+                this.resumeBuildFromTemplate();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 	}
 
 	@Override
@@ -534,7 +529,7 @@ public class Structure extends Buildable {
 
 	@Override
 	public void saveNow() throws SQLException {
-		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+        HashMap<String, Object> hashmap = new HashMap<>();
 		hashmap.put("type_id", this.getConfigId());
 		hashmap.put("town_id", this.getTown().getId());
 		hashmap.put("complete", this.isComplete());
@@ -564,20 +559,19 @@ public class Structure extends Buildable {
 					outpost.getGood().save();
 				}
 			}
-			
-			if (!(this instanceof Wall || this instanceof FortifiedWall || this instanceof Road))
-			{
-				CivLog.debug("Delete with Undo! "+this.getDisplayName());
-				/* Remove StructureSigns */
-				for (StructureSign sign : this.getSigns()) {
-					sign.delete();
-				}
-				try {
-					this.undoFromTemplate();	
-				} catch (IOException | CivException e1) {
-					e1.printStackTrace();
-					this.fancyDestroyStructureBlocks();
-				}
+
+            if (!(this instanceof Wall || this instanceof Road)) {
+                CivLog.debug("Delete with Undo! " + this.getDisplayName());
+                /* Remove StructureSigns */
+                for (StructureSign sign : this.getSigns()) {
+                    sign.delete();
+                }
+                try {
+                    this.undoFromTemplate();
+                } catch (CivException e1) {
+                    e1.printStackTrace();
+                    this.fancyDestroyStructureBlocks();
+                }
 				CivGlobal.removeStructure(this);
 				this.getTown().removeStructure(this);
 				this.unbindStructureBlocks();
@@ -590,19 +584,13 @@ public class Structure extends Buildable {
 				CivGlobal.removeStructure(this);
 				this.getTown().removeStructure(this);
 				this.unbindStructureBlocks();
-				if (this instanceof Road)
-				{
-					Road road = (Road)this;
-					road.deleteOnDisband();
-				} else if (this instanceof Wall)
-				{
-					Wall wall = (Wall)this;
-					wall.deleteOnDisband();
-				}else if (this instanceof FortifiedWall)
-				{
-					FortifiedWall wall = (FortifiedWall)this;
-					wall.deleteOnDisband();
-				}
+                if (this instanceof Road) {
+                    Road road = (Road) this;
+                    road.deleteOnDisband();
+                } else {
+                    Wall wall = (Wall) this;
+                    wall.deleteOnDisband();
+                }
 			}
 						
 			
@@ -628,13 +616,13 @@ public class Structure extends Buildable {
 					outpost.getGood().save();
 				}
 			}
-			
-			try {
-				this.undoFromTemplate();	
-			} catch (IOException | CivException e1) {
-				e1.printStackTrace();
-				this.fancyDestroyStructureBlocks();
-			}
+
+            try {
+                this.undoFromTemplate();
+            } catch (CivException e1) {
+                e1.printStackTrace();
+                this.fancyDestroyStructureBlocks();
+            }
 						
 			CivGlobal.removeStructure(this);
 			this.getTown().removeStructure(this);
@@ -647,22 +635,14 @@ public class Structure extends Buildable {
 	@Override
 	public void updateBuildProgess() {
 		if (this.getId() != 0) {
-			HashMap<String, Object> struct_hm = new HashMap<String, Object>();
-			struct_hm.put("id", this.getId());
-			struct_hm.put("type_id", this.getConfigId());
-			struct_hm.put("complete", this.isComplete());
-			struct_hm.put("builtBlockCount", this.savedBlockCount);
-	
-			try {
-				SQL.updateNamedObjectAsync(this, struct_hm, TABLE_NAME);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}	
-		} 
-	}
+            HashMap<String, Object> struct_hm = new HashMap<>();
+            struct_hm.put("id", this.getId());
+            struct_hm.put("type_id", this.getConfigId());
+            struct_hm.put("complete", this.isComplete());
+            struct_hm.put("builtBlockCount", this.savedBlockCount);
 
-	public void updateSignText() {
-		
+            SQL.updateNamedObjectAsync(this, struct_hm, TABLE_NAME);
+        }
 	}
 
 	@Override
@@ -683,17 +663,17 @@ public class Structure extends Buildable {
 		doBuild(player, centerLoc, tpl);
 	}
 
-	public void doBuild(Player player, Location centerLoc, Template tpl) throws CivException, IOException, SQLException {
-		// We take the player's current position and make it the 'center' by moving the center location
-		// to the 'corner' of the structure.
-		Location savedLocation = centerLoc.clone();
-		centerLoc = repositionCenter(centerLoc, tpl.dir(), (double)tpl.size_x, (double)tpl.size_z);
-		Block centerBlock = centerLoc.getBlock();
+    public void doBuild(Player player, Location centerLoc, Template tpl) throws CivException, IOException {
+        // We take the player's current position and make it the 'center' by moving the center location
+        // to the 'corner' of the structure.
+        Location savedLocation = centerLoc.clone();
+        centerLoc = repositionCenter(centerLoc, tpl.dir(), tpl.size_x, tpl.size_z);
+        Block centerBlock = centerLoc.getBlock();
 
-		this.setTotalBlockCount(tpl.size_x*tpl.size_y*tpl.size_z);
-		// Save the template x,y,z for later. This lets us know our own dimensions.
-		// this is saved in the db so it remains valid even if the template changes.
-		this.setTemplateName(tpl.getFilepath());
+        this.setTotalBlockCount(tpl.size_x * tpl.size_y * tpl.size_z);
+        // Save the template x,y,z for later. This lets us know our own dimensions.
+        // this is saved in the db so it remains valid even if the template changes.
+        this.setTemplateName(tpl.getFilepath());
 		this.setTemplateX(tpl.size_x);
 		this.setTemplateY(tpl.size_y);
 		this.setTemplateZ(tpl.size_z);
@@ -738,8 +718,7 @@ public class Structure extends Buildable {
 				tradeoutpost.build_trade_outpost(centerLoc);
 			}
 		}
-		
-		return;
+
 	}
 
 	public void unbind() {
@@ -786,7 +765,7 @@ public class Structure extends Buildable {
 	}
 
 	public double getRepairCost() {
-		return (int)this.getCost()/2;
+        return (double) (int) this.getCost() / 2;
 	}
 
 	public void onBonusGoodieUpdate() {
@@ -853,23 +832,19 @@ public class Structure extends Buildable {
 			for (HashMap<String,String> compInfo : compInfoList) {
 				String className = "com.avrgaming.civcraft.components."+compInfo.get("name");
 				Class<?> someClass;
-				try {
-					someClass = Class.forName(className);
-					Component compClass = (Component)someClass.newInstance();
-					compClass.setName(compInfo.get("name"));
-					
-					for (String key : compInfo.keySet()) {
-						compClass.setAttribute(key, compInfo.get(key));
-					}
-					
-					compClass.createComponent(this, false);
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				} catch (InstantiationException e) {
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-				}
+                try {
+                    someClass = Class.forName(className);
+                    Component compClass = (Component) someClass.newInstance();
+                    compClass.setName(compInfo.get("name"));
+
+                    for (String key : compInfo.keySet()) {
+                        compClass.setAttribute(key, compInfo.get(key));
+                    }
+
+                    compClass.createComponent(this, false);
+                } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+                    e.printStackTrace();
+                }
 			}
 		}
 		

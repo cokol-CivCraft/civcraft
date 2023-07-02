@@ -22,22 +22,22 @@ import com.avrgaming.civcraft.util.ItemManager;
 public class InventorySerializer {
 	
 	private static String getSerializedItemStack(ItemStack is) {
-        String serializedItemStack = new String();
+        StringBuilder serializedItemStack = new StringBuilder();
 
         Material material = is.getType();
         String isType = String.valueOf(material.getId());
-        serializedItemStack += "t@" + isType;
+        serializedItemStack.append("t@").append(isType);
        
         if (is.getDurability() != 0)
         {
             String isDurability = String.valueOf(is.getDurability());
-            serializedItemStack += "&d@" + isDurability;
+            serializedItemStack.append("&d@").append(isDurability);
         }
        
         if (is.getAmount() != 1)
         {
             String isAmount = String.valueOf(is.getAmount());
-            serializedItemStack += "&a@" + isAmount;
+            serializedItemStack.append("&a@").append(isAmount);
         }
        
         Map<Enchantment,Integer> isEnch = is.getEnchantments();
@@ -45,7 +45,7 @@ public class InventorySerializer {
         {
             for (Entry<Enchantment,Integer> ench : isEnch.entrySet())
             {
-                serializedItemStack += "&e@" + ItemManager.getId(ench.getKey()) + "@" + ench.getValue();
+                serializedItemStack.append("&e@").append(ItemManager.getId(ench.getKey())).append("@").append(ench.getValue());
             }
         }
        
@@ -54,60 +54,58 @@ public class InventorySerializer {
         	for (String lore : meta.getLore()) {
         		char[] encode = Base64Coder.encode(lore.getBytes());
         		String encodedString = new String(encode);
-        		serializedItemStack += "&l@" + encodedString;
+                serializedItemStack.append("&l@").append(encodedString);
         	}
         }
         
         if (meta != null) {
         	if (meta.getDisplayName() != null) {
-        		serializedItemStack += "&D@" + meta.getDisplayName();
+                serializedItemStack.append("&D@").append(meta.getDisplayName());
         	}
         }
         
         LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(is);
         if (craftMat != null) {
-        	serializedItemStack += "&C@" + craftMat.getConfigId();
+            serializedItemStack.append("&C@").append(craftMat.getConfigId());
         	
         	if (LoreCraftableMaterial.hasEnhancements(is)) {
-    			serializedItemStack += "&Enh@" + LoreCraftableMaterial.serializeEnhancements(is);
+                serializedItemStack.append("&Enh@").append(LoreCraftableMaterial.serializeEnhancements(is));
         	}
         }
         
         AttributeUtil attrs = new AttributeUtil(is);
         if (attrs.hasColor()) {
-        	serializedItemStack += "&LC@" + attrs.getColor();
+            serializedItemStack.append("&LC@").append(attrs.getColor());
         }
-        
-        return serializedItemStack;
+
+        return serializedItemStack.toString();
 	}
 	
 	private static ItemStack getItemStackFromSerial(String serial) {
         ItemStack is = null;
-        Boolean createdItemStack = false;
-        List<String> lore = new LinkedList<String>();
-       
+        boolean createdItemStack = false;
+        List<String> lore = new LinkedList<>();
+
         //String[] serializedItemStack = serializedBlock[1].split("&");
         String[] serializedItemStack = serial.split("&");
-        for (String itemInfo : serializedItemStack)
-        {
+        for (String itemInfo : serializedItemStack) {
             String[] itemAttribute = itemInfo.split("@");
-            if (itemAttribute[0].equals("t"))
-            {
-                int typeId = Integer.valueOf(itemAttribute[1]);
+            if (itemAttribute[0].equals("t")) {
+                int typeId = Integer.parseInt(itemAttribute[1]);
                 is = new ItemStack(typeId, 1, (short) 0);
                 createdItemStack = true;
             }
             else if (itemAttribute[0].equals("d") && createdItemStack)
             {
-                is.setDurability(Short.valueOf(itemAttribute[1]));
+                is.setDurability(Short.parseShort(itemAttribute[1]));
             }
             else if (itemAttribute[0].equals("a") && createdItemStack)
             {
-                is.setAmount(Integer.valueOf(itemAttribute[1]));
+                is.setAmount(Integer.parseInt(itemAttribute[1]));
             }
             else if (itemAttribute[0].equals("e") && createdItemStack)
             {
-                is.addEnchantment(ItemManager.getEnchantById(Integer.valueOf(itemAttribute[1])), Integer.valueOf(itemAttribute[2]));
+                is.addEnchantment(ItemManager.getEnchantById(Integer.parseInt(itemAttribute[1])), Integer.parseInt(itemAttribute[2]));
             } 
             else if (itemAttribute[0].equals("l") && createdItemStack) 
             {
@@ -153,29 +151,29 @@ public class InventorySerializer {
 	
     public static String InventoryToString (Inventory invInventory)
     {
-        String serialization = invInventory.getSize() + ";";
+        StringBuilder serialization = new StringBuilder(invInventory.getSize() + ";");
         for (int i = 0; i < invInventory.getSize(); i++)
         {
             ItemStack is = invInventory.getItem(i);
             if (is != null)
             {
             	String serializedItemStack = getSerializedItemStack(is);
-                serialization += i + "#" + serializedItemStack + ";";
+                serialization.append(i).append("#").append(serializedItemStack).append(";");
             }
         }
         
         if (invInventory instanceof PlayerInventory) {
-        	serialization += "&PINV@";
+            serialization.append("&PINV@");
         	PlayerInventory pInv = (PlayerInventory)invInventory;
         	
         	for (ItemStack stack : pInv.getArmorContents()) {
         		if (stack != null) {
-        			serialization += getSerializedItemStack(stack) + ";";
+                    serialization.append(getSerializedItemStack(stack)).append(";");
         		}
         	}
         }
-        
-        return serialization;
+
+        return serialization.toString();
     }
    
     public static void StringToInventory (Inventory inv, String inString)
@@ -196,7 +194,7 @@ public class InventorySerializer {
         for (int i = 1; i < serializedBlocks.length; i++)
         {
             String[] serializedBlock = serializedBlocks[i].split("#");
-            int stackPosition = Integer.valueOf(serializedBlock[0]);
+            int stackPosition = Integer.parseInt(serializedBlock[0]);
            
             if (stackPosition >= inv.getSize())
             {
@@ -221,8 +219,7 @@ public class InventorySerializer {
             
             pInv.setArmorContents(contents);
         }
-       
-        return;
+
     }
 	
 }

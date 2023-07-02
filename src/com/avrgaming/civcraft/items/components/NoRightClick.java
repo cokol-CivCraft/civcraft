@@ -18,23 +18,18 @@ public class NoRightClick extends ItemComponent {
 	public void onInteract(PlayerInteractEvent event) {
 		if (event.getAction().equals(Action.RIGHT_CLICK_AIR)) {
 			event.setCancelled(true);
-			return;
-		}
+        }
 		else if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK))
 		{
 			if (event.getClickedBlock().getType() != Material.CHEST)
 			{
 				event.setCancelled(true);
-				return;
-			}
+            }
 		}
 	}
 	
 	public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
 		event.setCancelled(true);
 	}
-	
-	public void onPlayerLeashEvent(PlayerLeashEntityEvent event) {
-		
-	}
+
 }

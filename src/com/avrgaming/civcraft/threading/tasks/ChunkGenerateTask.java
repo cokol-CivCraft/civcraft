@@ -46,21 +46,19 @@ public class ChunkGenerateTask implements Runnable {
 
 		for (int x = startX; x <= stopX; x++) {
 			for (int z = startZ; z <= stopZ; z++) {
-				i++;
-				
-				Chunk chunk = Bukkit.getWorld("world").getChunkAt(x, z);
-				if (!chunk.load(true)) {
-				}
-				
-				if (!chunk.unload(true)) {
-				}
-				
-				if (i > maxgen) {
-					TaskMaster.syncTask(new ChunkGenerateTask(x, z, stopX, stopZ));
-					return;
-				}
-				
-			}
+                i++;
+
+                Chunk chunk = Bukkit.getWorld("world").getChunkAt(x, z);
+                chunk.load(true);
+
+                chunk.unload(true);
+
+                if (i > maxgen) {
+                    TaskMaster.syncTask(new ChunkGenerateTask(x, z, stopX, stopZ));
+                    return;
+                }
+
+            }
 		}
 		
 		

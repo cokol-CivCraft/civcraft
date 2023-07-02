@@ -8,8 +8,8 @@ import com.avrgaming.civcraft.structure.Buildable;
 
 public class AttributeTradeGood extends AttributeBase {
 	
-	HashSet<String> goods = new HashSet<String>();
-	double value;
+	HashSet<String> goods = new HashSet<>();
+    double value;
 	String attribute;
 	
 	@Override

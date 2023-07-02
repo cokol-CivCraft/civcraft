@@ -27,7 +27,7 @@ import com.avrgaming.civcraft.structure.Buildable;
 
 public class NonMemberFeeComponent extends Component {
 
-	private Buildable buildable;
+	private final Buildable buildable;
 	private double feeRate = 0.05;
 	
 	public NonMemberFeeComponent(Buildable buildable) {
@@ -44,11 +44,11 @@ public class NonMemberFeeComponent extends Component {
 		ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getKey());
 		
 		if (entries.size() == 0) {
-			buildable.sessionAdd(getKey(), ""+feeRate);
+			buildable.sessionAdd(getKey(), String.valueOf(feeRate));
 			return;
 		}
-		
-		feeRate = Double.valueOf(entries.get(0).value);
+
+        feeRate = Double.parseDouble(entries.get(0).value);
 		
 	}
 
@@ -58,10 +58,10 @@ public class NonMemberFeeComponent extends Component {
 		ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getKey());
 		
 		if (entries.size() == 0) {
-			buildable.sessionAdd(getKey(), ""+feeRate);
+            buildable.sessionAdd(getKey(), String.valueOf(feeRate));
 			return;
 		}
-		CivGlobal.getSessionDB().update(entries.get(0).request_id, getKey(), ""+feeRate);		
+        CivGlobal.getSessionDB().update(entries.get(0).request_id, getKey(), String.valueOf(feeRate));
 	}
 
 
@@ -82,7 +82,7 @@ public class NonMemberFeeComponent extends Component {
 	
 	public String getFeeString() {
 		DecimalFormat df = new DecimalFormat();
-		return ""+df.format(this.getFeeRate()*100)+"%";
+        return df.format(this.getFeeRate() * 100) + "%";
 	}
 	
 }

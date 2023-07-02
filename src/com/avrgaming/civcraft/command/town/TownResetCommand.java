@@ -48,7 +48,7 @@ public class TownResetCommand extends CommandBase {
 			throw new CivException(CivSettings.localize.localizedString("cmd_town_reset_libraryNone"));
 		}
 		
-		ArrayList<ConfigTownUpgrade> removeUs = new ArrayList<ConfigTownUpgrade>();
+		ArrayList<ConfigTownUpgrade> removeUs = new ArrayList<>();
 		for(ConfigTownUpgrade upgrade : town.getUpgrades().values()) {
 			if (upgrade.action.contains("enable_library_enchantment")) {
 				removeUs.add(upgrade);
@@ -72,8 +72,8 @@ public class TownResetCommand extends CommandBase {
 		if (store == null) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_town_reset_storeNone"));
 		}
-		
-		ArrayList<ConfigTownUpgrade> removeUs = new ArrayList<ConfigTownUpgrade>();
+
+        ArrayList<ConfigTownUpgrade> removeUs = new ArrayList<>();
 		for(ConfigTownUpgrade upgrade : town.getUpgrades().values()) {
 			if (upgrade.action.contains("set_store_material")) {
 				removeUs.add(upgrade);
@@ -89,11 +89,11 @@ public class TownResetCommand extends CommandBase {
 		town.save();
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_town_reset_storeSuccess"));
 	}
-	
-	@Override
-	public void doDefaultAction() throws CivException {
-		showHelp();
-	}
+
+    @Override
+    public void doDefaultAction() {
+        showHelp();
+    }
 
 	@Override
 	public void showHelp() {

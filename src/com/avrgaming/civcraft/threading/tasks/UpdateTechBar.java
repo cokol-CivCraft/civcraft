@@ -34,7 +34,7 @@ import org.bukkit.Material;
 
 public class UpdateTechBar extends CivAsyncTask {
 
-	private Civilization civ;
+	private final Civilization civ;
 	
 	public UpdateTechBar(Civilization civ) {
 		this.civ = civ;
@@ -43,7 +43,7 @@ public class UpdateTechBar extends CivAsyncTask {
 	@Override
 	public void run() {
 		
-		Queue<SimpleBlock> sbs = new LinkedList<SimpleBlock>();
+		Queue<SimpleBlock> sbs = new LinkedList<>();
 				
 		for (Town town : civ.getTowns()) {
 			double percentageDone = 0.0;

@@ -54,7 +54,7 @@ public class AnnouncementTimer implements Runnable {
 		CivLog.info("Loading Configuration file: "+filename);
 		
 		
-		announcements = new ArrayList<String>();
+		announcements = new ArrayList<>();
 		
 		if (!file.exists()) {
 			CivLog.warning("No "+filename+" to run announcements on.");
@@ -73,13 +73,11 @@ public class AnnouncementTimer implements Runnable {
 				br.close();
 			} catch (IOException e) {
 				e.printStackTrace();
-				return;
-			}
+            }
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			return;
-		}
+        }
 		
 	}
 	
@@ -91,7 +89,7 @@ public class AnnouncementTimer implements Runnable {
 			CivMessage.sendAll(CivColor.Gold+CivSettings.localize.localizedString("TipHeading")+" "+CivColor.White+str);
 			
 			try {
-				Thread.sleep(60*minutes*1000); //sleep for x mins
+                Thread.sleep(60L * minutes * 1000); //sleep for x mins
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 				return;

@@ -68,11 +68,11 @@ public class TradeGoodPopulator extends BlockPopulator {
 
     	//clear any stack goodies
     	for (int y = coord.getY(); y < 256; y++) {
-    		top = world.getBlockAt(coord.getX(), y, coord.getZ());
-			if (top.getTypeId() == Material.BEDROCK.getId()) {
-                top.setTypeId(Material.AIR.getId());
+            top = world.getBlockAt(coord.getX(), y, coord.getZ());
+            if (top.getType() == Material.BEDROCK) {
+                top.setType(Material.AIR);
             }
-    	}
+        }
     	
     	for (int y = coord.getY(); y < coord.getY() + FLAG_HEIGHT; y++) {
     		top = world.getBlockAt(coord.getX(), y, coord.getZ());
@@ -167,28 +167,28 @@ public class TradeGoodPopulator extends BlockPopulator {
     	TradeGoodPick pick = CivGlobal.tradeGoodPreGenerator.goodPicks.get(cCoord);
     	if (pick != null) {
 			int centerX = (source.getX() << 4) + 8;
-			int centerZ = (source.getZ() << 4) + 8;
-			int centerY = world.getHighestBlockYAt(centerX, centerZ);
-			BlockCoord coord = new BlockCoord(world.getName(), centerX, centerY, centerZ);
+            int centerZ = (source.getZ() << 4) + 8;
+            int centerY = world.getHighestBlockYAt(centerX, centerZ);
+            BlockCoord coord = new BlockCoord(world.getName(), centerX, centerY, centerZ);
 
-			if (checkForDuplicateTradeGood(world.getName(), centerX, centerY, centerZ)) {
-				return;
-			}
-			
-			// Determine if we should be a water good.
-			ConfigTradeGood good;
-			if (ItemManager.getBlockTypeIdAt(world, centerX, centerY-1, centerZ) == Material.STATIONARY_WATER.getId() ||
-				ItemManager.getBlockTypeIdAt(world, centerX, centerY-1, centerZ) == Material.WATER.getId()) {
-				good = pick.waterPick;
-			}  else {
-				good = pick.landPick;
-			}
-			
-			// Randomly choose a land or water good.
-			if (good == null) {
-				System.out.println("Could not find suitable good type during populate! aborting.");
-				return;
-			}
+            if (checkForDuplicateTradeGood(world.getName(), centerX, centerY, centerZ)) {
+                return;
+            }
+
+            // Determine if we should be a water good.
+            ConfigTradeGood good;
+            if (world.getBlockAt(centerX, centerY - 1, centerZ).getType() == Material.STATIONARY_WATER ||
+                    world.getBlockAt(centerX, centerY - 1, centerZ).getType() == Material.WATER) {
+                good = pick.waterPick;
+            } else {
+                good = pick.landPick;
+            }
+
+            // Randomly choose a land or water good.
+            if (good == null) {
+                System.out.println("Could not find suitable good type during populate! aborting.");
+                return;
+            }
 			
 			// Create a copy and save it in the global hash table.
 			buildTradeGoodie(good, coord, world, false);

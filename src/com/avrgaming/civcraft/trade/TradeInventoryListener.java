@@ -30,10 +30,10 @@ import com.avrgaming.civcraft.util.ItemManager;
 
 public class TradeInventoryListener implements Listener {
 
-	public static HashMap<String, TradeInventoryPair> tradeInventories = new HashMap<String, TradeInventoryPair>();
-	
-	public static final int OTHERS_SLOTS_START = 1*9;
-	public static final int OTHERS_SLOTS_END = 2*9;
+	public static HashMap<String, TradeInventoryPair> tradeInventories = new HashMap<>();
+
+    public static final int OTHERS_SLOTS_START = 9;
+    public static final int OTHERS_SLOTS_END = 2 * 9;
 	public static final int MY_SLOTS_START = 3*9;
 	public static final int MY_SLOTS_END = 4*9;
 	public static final int SLOTS_END = 5*9;
@@ -48,18 +48,18 @@ public class TradeInventoryListener implements Listener {
 	public static String getTradeInventoryKey(Resident resident) {
 		return resident.getName()+":inventroy";
 	}
-		
-	public class SyncInventoryChange implements Runnable {
-		int sourceSlot;
-		int destSlot;
-		
-		Inventory sourceInventory;
-		Resident otherResident;
-		Inventory otherInventory;
-		
-		public SyncInventoryChange(int sourceSlot, int destSlot, Inventory sourceInventory, Resident otherResident, Inventory otherInventory) {
-			this.sourceInventory = sourceInventory;
-			this.sourceSlot = sourceSlot;
+
+    public static class SyncInventoryChange implements Runnable {
+        int sourceSlot;
+        int destSlot;
+
+        Inventory sourceInventory;
+        Resident otherResident;
+        Inventory otherInventory;
+
+        public SyncInventoryChange(int sourceSlot, int destSlot, Inventory sourceInventory, Resident otherResident, Inventory otherInventory) {
+            this.sourceInventory = sourceInventory;
+            this.sourceSlot = sourceSlot;
 			this.destSlot = destSlot;
 			this.otherResident = otherResident;
 			this.otherInventory = otherInventory;
@@ -67,49 +67,49 @@ public class TradeInventoryListener implements Listener {
 		
 		@Override
 		public void run() {
-			try {
-				Player otherPlayer = CivGlobal.getPlayer(otherResident);
-				if (otherPlayer.getOpenInventory() != otherInventory) {
-					return;
-				}
-				
-				if (otherInventory != null) {
-					otherInventory.setItem(destSlot, sourceInventory.getItem(sourceSlot));
-				}
-				
-			} catch (CivException e) {
-			}			
+            try {
+                Player otherPlayer = CivGlobal.getPlayer(otherResident);
+                if (otherPlayer.getOpenInventory() != otherInventory) {
+                    return;
+                }
+
+                if (otherInventory != null) {
+                    otherInventory.setItem(destSlot, sourceInventory.getItem(sourceSlot));
+                }
+
+            } catch (CivException ignored) {
+            }
 		}
 	}
-	
-	public class SyncInventoryChangeAll implements Runnable {
-		Inventory sourceInventory;
-		Resident otherResident;
-		Inventory otherInventory;
-		
-		public SyncInventoryChangeAll(Inventory src, Resident other, Inventory otherInv) {
-			this.sourceInventory = src;
-			this.otherResident = other;
-			this.otherInventory = otherInv;
-		}
+
+    public static class SyncInventoryChangeAll implements Runnable {
+        Inventory sourceInventory;
+        Resident otherResident;
+        Inventory otherInventory;
+
+        public SyncInventoryChangeAll(Inventory src, Resident other, Inventory otherInv) {
+            this.sourceInventory = src;
+            this.otherResident = other;
+            this.otherInventory = otherInv;
+        }
 
 		@Override
 		public void run() {
 			try {
 				Player otherPlayer = CivGlobal.getPlayer(otherResident);
 				if (otherPlayer.getOpenInventory() != this.otherInventory) {
-					return;
-				}
-				
-				if (otherInventory != null) {
-					int k = OTHERS_SLOTS_START;
-					for (int i = MY_SLOTS_START; i < MY_SLOTS_END; i++) {
-						otherInventory.setItem(k, sourceInventory.getItem(i));
-						k++;
-					}
-				}
-			} catch (CivException e) {
-			}
+                    return;
+                }
+
+                if (otherInventory != null) {
+                    int k = OTHERS_SLOTS_START;
+                    for (int i = MY_SLOTS_START; i < MY_SLOTS_END; i++) {
+                        otherInventory.setItem(k, sourceInventory.getItem(i));
+                        k++;
+                    }
+                }
+            } catch (CivException ignored) {
+            }
 		}
 	}
 	
@@ -124,7 +124,7 @@ public class TradeInventoryListener implements Listener {
 		/* Update the other inventory */
 		if ((slot >= MY_SLOTS_START) && (slot <= MY_SLOTS_END)) {
 			int relativeSlot = slot % 9;
-			TaskMaster.syncTask(new SyncInventoryChange(slot, OTHERS_SLOTS_START + relativeSlot, pair.inv, pair.otherResident, pair.otherInv));				
+            TaskMaster.syncTask(new SyncInventoryChange(slot, OTHERS_SLOTS_START + relativeSlot, pair.inv, pair.otherResident, pair.otherInv));
 		}
 		
 		return true;
@@ -142,8 +142,8 @@ public class TradeInventoryListener implements Listener {
 			/* Copy contents from current slots. */
 			int k = 0;
 			for (int i = MY_SLOTS_START; i < MY_SLOTS_END; i++) {
-				tempInv.setItem(k, event.getInventory().getItem(i));;
-				k++;
+                tempInv.setItem(k, event.getInventory().getItem(i));
+                k++;
 			}
 			
 			/* Add this item to our tempInv. */
@@ -165,26 +165,23 @@ public class TradeInventoryListener implements Listener {
 			}
 			
 			/* Cancel normal event processing. */
-			TaskMaster.syncTask(new SyncInventoryChangeAll(pair.inv, pair.otherResident, pair.otherInv));				
-			event.setCancelled(true);
-			return;
+            TaskMaster.syncTask(new SyncInventoryChangeAll(pair.inv, pair.otherResident, pair.otherInv));
+            event.setCancelled(true);
 		} else {
 			/* We're clicking in the trade inventory, tryign to take out an item. */
 			if (event.getRawSlot() < OTHERS_SLOTS_END) {
 				/* We tried to shift click on the other player's side. Cancel. */
 				event.setCancelled(true);
-				return;
 			} else {
 				/* We're clicking on our side, allow it as normal. */
-				TaskMaster.syncTask(new SyncInventoryChangeAll(pair.inv, pair.otherResident, pair.otherInv));		
-				return;
+                TaskMaster.syncTask(new SyncInventoryChangeAll(pair.inv, pair.otherResident, pair.otherInv));
 			}
 		}
 	}
 	
 	private void handleDoubleClick(InventoryClickEvent event, Player player, TradeInventoryPair pair) {
 		/* If we've double clicked anywhere at all, just update the inventory to reflect the changes. */
-		TaskMaster.syncTask(new SyncInventoryChangeAll(pair.inv, pair.otherResident, pair.otherInv));	
+        TaskMaster.syncTask(new SyncInventoryChangeAll(pair.inv, pair.otherResident, pair.otherInv));
 	}
 	
 	
@@ -358,7 +355,6 @@ public class TradeInventoryListener implements Listener {
 		
 		if (!handleSlotChange(event.getRawSlot(), pair)) {
 			event.setCancelled(true);
-			return;
 		}
 		
 	}
@@ -368,46 +364,39 @@ public class TradeInventoryListener implements Listener {
 		Player them = CivGlobal.getPlayer(pair.otherResident);
 		
 		try {
-	
-			/* Remove these pairs from the hashtable as we dont need them anymore. */
-			tradeInventories.remove(getTradeInventoryKey(pair.resident));
-			tradeInventories.remove(getTradeInventoryKey(otherPair.resident));
-			
-			LinkedList<ItemStack> myStuff = new LinkedList<ItemStack>();
-			LinkedList<ItemStack> theirStuff = new LinkedList<ItemStack>();
-			
-			int k = OTHERS_SLOTS_START;
-			for (int i = MY_SLOTS_START; i < MY_SLOTS_END; i++, k++) {
-				
-				/* Verify that our "mine" inventory matches the other player's "theirs" inventory. */
-				ItemStack stack = pair.inv.getItem(i);
-				ItemStack stack2 = otherPair.inv.getItem(k);
-				
-				if (stack == null && stack2 == null) {
-					continue;
+
+            /* Remove these pairs from the hashtable as we dont need them anymore. */
+            tradeInventories.remove(getTradeInventoryKey(pair.resident));
+            tradeInventories.remove(getTradeInventoryKey(otherPair.resident));
+
+            LinkedList<ItemStack> myStuff = new LinkedList<>();
+            LinkedList<ItemStack> theirStuff = new LinkedList<>();
+
+            int k = OTHERS_SLOTS_START;
+            for (int i = MY_SLOTS_START; i < MY_SLOTS_END; i++, k++) {
+
+                /* Verify that our "mine" inventory matches the other player's "theirs" inventory. */
+                ItemStack stack = pair.inv.getItem(i);
+                ItemStack stack2 = otherPair.inv.getItem(k);
+
+                if (stack == null && stack2 == null) {
+                    continue;
 				}
-				
-				if ((stack == null && stack2 != null) || (stack != null && stack2 == null)) {
-					CivLog.error("Mismatch. One stack was null. stack:"+stack+" stack2:"+stack2+" i:"+i+" vs k:"+k);
-					throw new CivException("Inventory mismatch");
-				}
-				
-				if ((stack == null && stack2 != null) || (stack != null && stack2 == null)) {
-					CivLog.error("Mismatch. One stack was null. stack:"+stack+" stack2:"+stack2);
-					throw new CivException("Inventory mismatch");
-				}
-				
-				if (!stack.toString().equals(stack2.toString())) {
-					CivLog.error("Is Mine Equal to Theirs?");
-					CivLog.error("Position i:"+i+" stack:"+stack);
-					CivLog.error("Position k:"+k+" stack2:"+stack2);
-					throw new CivException("Inventory mismatch.");
-				}
-				
-				if (stack != null) {
-					myStuff.add(stack);
-				}				
-			}
+
+                if (stack == null || stack2 == null) {
+                    CivLog.error("Mismatch. One stack was null. stack:" + stack + " stack2:" + stack2 + " i:" + i + " vs k:" + k);
+                    throw new CivException("Inventory mismatch");
+                }
+
+                if (!stack.toString().equals(stack2.toString())) {
+                    CivLog.error("Is Mine Equal to Theirs?");
+                    CivLog.error("Position i:" + i + " stack:" + stack);
+                    CivLog.error("Position k:" + k + " stack2:" + stack2);
+                    throw new CivException("Inventory mismatch.");
+                }
+
+                myStuff.add(stack);
+            }
 			
 			k = MY_SLOTS_START;
 			for (int i = OTHERS_SLOTS_START; i < OTHERS_SLOTS_END; i++, k++) {
@@ -418,23 +407,21 @@ public class TradeInventoryListener implements Listener {
 				if (stack == null && stack2 == null) {
 					continue;
 				}
-				
-				if ((stack == null && stack2 != null) || (stack != null && stack2 == null)) {
-					CivLog.error("Mismatch. One stack was null. stack:"+stack+" stack2:"+stack2+" i:"+i+" vs k:"+k);
-					throw new CivException("Inventory mismatch");
-				}
-				
-				if (!stack.toString().equals(stack2.toString())) {
-					CivLog.error("Is Theirs Equal to Mine?");
-					CivLog.error("Position i:"+i+" stack:"+stack);
-					CivLog.error("Position k:"+k+" stack2:"+stack2);
-					throw new CivException("Inventory mismatch.");
-				}
-				
-				if (stack != null) {
-					theirStuff.add(stack);
-				}				
-			}
+
+                if (stack == null || stack2 == null) {
+                    CivLog.error("Mismatch. One stack was null. stack:" + stack + " stack2:" + stack2 + " i:" + i + " vs k:" + k);
+                    throw new CivException("Inventory mismatch");
+                }
+
+                if (!stack.toString().equals(stack2.toString())) {
+                    CivLog.error("Is Theirs Equal to Mine?");
+                    CivLog.error("Position i:" + i + " stack:" + stack);
+                    CivLog.error("Position k:" + k + " stack2:" + stack2);
+                    throw new CivException("Inventory mismatch.");
+                }
+
+                theirStuff.add(stack);
+            }
 			/* Transfer any coins. */
 			if (pair.coins != otherPair.otherCoins) {
 				CivLog.error("pair.coins = "+pair.coins);
@@ -445,7 +432,7 @@ public class TradeInventoryListener implements Listener {
 			if (otherPair.coins != pair.otherCoins) {
 				CivLog.error("otherPair.coins = "+otherPair.coins);
 				CivLog.error("pair.coins = "+pair.coins);
-				new CivException("Coin mismatch...");
+                throw new CivException("Coin mismatch...");
 			}
 			
 			if (pair.coins < 0 || pair.otherCoins < 0 || otherPair.coins < 0 || otherPair.otherCoins < 0) {

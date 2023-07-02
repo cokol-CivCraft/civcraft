@@ -78,7 +78,7 @@ public class MobSpawner extends SQLObject {
     
     @Override
     public void saveNow() throws SQLException {
-        HashMap<String, Object> hashmap = new HashMap<String, Object>();
+        HashMap<String, Object> hashmap = new HashMap<>();
         
         hashmap.put("name", this.getName());
         hashmap.put("coord", this.coord.toString());
@@ -91,9 +91,9 @@ public class MobSpawner extends SQLObject {
         
         SQL.updateNamedObject(this, hashmap, TABLE_NAME);
     }
-    
+
     @Override
-    public void delete() throws SQLException {      
+    public void delete() {
     }
 
     public Civilization getCiv() {

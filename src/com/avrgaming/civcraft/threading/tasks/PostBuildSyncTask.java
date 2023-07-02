@@ -91,7 +91,7 @@ public class PostBuildSyncTask implements Runnable {
 				if (buildable instanceof TownHall) {
 					TownHall townhall = (TownHall)buildable;
 					
-					int index = Integer.valueOf(sb.keyvalues.get("id"));
+					int index = Integer.parseInt(sb.keyvalues.get("id"));
 					townhall.addTechBarBlock(absCoord, index);
 					
 				}
@@ -117,7 +117,7 @@ public class PostBuildSyncTask implements Runnable {
 			case "/itemframe":
 				String strvalue = sb.keyvalues.get("id");
 				if (strvalue != null) {
-					int index = Integer.valueOf(strvalue);
+					int index = Integer.parseInt(strvalue);
 					
 					if (buildable instanceof TownHall) {
 						TownHall townhall = (TownHall)buildable;
@@ -197,16 +197,17 @@ public class PostBuildSyncTask implements Runnable {
 				if (structChest == null) {
 					structChest = new StructureChest(absCoord, buildable);
 				}
-				structChest.setChestId(Integer.valueOf(sb.keyvalues.get("id")));
+				structChest.setChestId(Integer.parseInt(sb.keyvalues.get("id")));
 				buildable.addStructureChest(structChest);
 				CivGlobal.addStructureChest(structChest);
 				
 				/* Convert sign data to chest data.*/
 				block = absCoord.getBlock();
-				if (block.getTypeId() != Material.CHEST.getId()) {
-					byte chestData = CivData.convertSignDataToChestData((byte)sb.getData());
-					block.setTypeId(Material.CHEST.getId());
-					ItemManager.setData(block, chestData, true);}
+				if (block.getType() != Material.CHEST) {
+					byte chestData = CivData.convertSignDataToChestData((byte) sb.getData());
+					block.setType(Material.CHEST);
+					ItemManager.setData(block, chestData, true);
+				}
 				
 					Chest chest = (Chest)block.getState();
 					MaterialData data = chest.getData();
@@ -234,9 +235,11 @@ public class PostBuildSyncTask implements Runnable {
 			Block block = absCoord.getBlock();
 			if (block.getType() != sb.getType()) {
 				if (buildable.getCiv().isAdminCiv()) {
-					ItemManager.setTypeIdAndData(block, Material.AIR.getId(), (byte)0, false);
+					block.setType(Material.AIR);
+					block.setData((byte) 0);
 				} else {
-					ItemManager.setTypeIdAndData(block, sb.getType().getId(), (byte)sb.getData(), false);
+					block.setType(sb.getType());
+					block.setData((byte) sb.getData());
 				}
 			}
 		}
@@ -247,7 +250,8 @@ public class PostBuildSyncTask implements Runnable {
 
 			Block block = absCoord.getBlock();
 			if (block.getType() != sb.getType()) {
-					ItemManager.setTypeIdAndData(block, sb.getType().getId(), (byte)sb.getData(), false);
+				block.setType(sb.getType());
+				block.setData((byte) sb.getData());
 			}
 		}
 		
@@ -282,8 +286,8 @@ public class PostBuildSyncTask implements Runnable {
 			case "/techbar":
 				if (buildable instanceof TownHall) {
 					TownHall townhall = (TownHall)buildable;
-					
-					int index = Integer.valueOf(sb.keyvalues.get("id"));
+
+					int index = Integer.parseInt(sb.keyvalues.get("id"));
 					townhall.addTechBarBlock(absCoord, index);
 					
 				}
@@ -309,7 +313,7 @@ public class PostBuildSyncTask implements Runnable {
 			case "/itemframe":
 				String strvalue = sb.keyvalues.get("id");
 				if (strvalue != null) {
-					int index = Integer.valueOf(strvalue);
+					int index = Integer.parseInt(strvalue);
 					
 					if (buildable instanceof TownHall) {
 						TownHall townhall = (TownHall)buildable;
@@ -394,18 +398,19 @@ public class PostBuildSyncTask implements Runnable {
 				if (structChest == null) {
 					structChest = new StructureChest(absCoord, buildable);
 				}
-				structChest.setChestId(Integer.valueOf(sb.keyvalues.get("id")));
+				structChest.setChestId(Integer.parseInt(sb.keyvalues.get("id")));
 				buildable.addStructureChest(structChest);
 				CivGlobal.addStructureChest(structChest);
 				
 				/* Convert sign data to chest data.*/
 				block = absCoord.getBlock();
-				if (block.getTypeId() != Material.CHEST.getId()) {
-					byte chestData = CivData.convertSignDataToChestData((byte)sb.getData());
-					block.setTypeId(Material.CHEST.getId());
-					ItemManager.setData(block, chestData, true); }
-				
-					Chest chest = (Chest)block.getState();
+				if (block.getType() != Material.CHEST) {
+					byte chestData = CivData.convertSignDataToChestData((byte) sb.getData());
+					block.setType(Material.CHEST);
+					ItemManager.setData(block, chestData, true);
+				}
+
+				Chest chest = (Chest)block.getState();
 					MaterialData data = chest.getData();
 //					ItemManager.setData(data, chestData);
 					chest.setData(data);

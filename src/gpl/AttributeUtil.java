@@ -34,9 +34,9 @@ public class AttributeUtil {
         ADD_NUMBER(0),
         MULTIPLY_PERCENTAGE(1),
         ADD_PERCENTAGE(2);
-        private int id;
-        
-        private Operation(int id) {
+        private final int id;
+
+        Operation(int id) {
             this.id = id;
         }
         
@@ -59,7 +59,7 @@ public class AttributeUtil {
     
     
     public static class AttributeType {
-        private static ConcurrentMap<String, AttributeType> LOOKUP = Maps.newConcurrentMap();
+        private static final ConcurrentMap<String, AttributeType> LOOKUP = Maps.newConcurrentMap();
         public static final AttributeType GENERIC_MAX_HEALTH = new AttributeType("generic.maxHealth").register();
         public static final AttributeType GENERIC_FOLLOW_RANGE = new AttributeType("generic.followRange").register();
         public static final AttributeType GENERIC_ATTACK_DAMAGE = new AttributeType("generic.attackDamage").register();
@@ -115,7 +115,7 @@ public class AttributeUtil {
     }
  
     public static class Attribute {
-        private NBTTagCompound data;
+        private final NBTTagCompound data;
  
         private Attribute(Builder builder) {
             data = new NBTTagCompound();
@@ -169,7 +169,6 @@ public class AttributeUtil {
         }
  
         public void setUUID(@Nonnull UUID id) {
-            Preconditions.checkNotNull("id", "id cannot be NULL.");
             data.setLong("UUIDLeast", id.getLeastSignificantBits());
             data.setLong("UUIDMost", id.getMostSignificantBits());
         }
@@ -331,26 +330,17 @@ public class AttributeUtil {
      * @return The attribute at that index.
      */
     public Attribute get(int index) {
-        return new Attribute((NBTTagCompound) attributes.get(index));
+        return new Attribute(attributes.get(index));
     }
  
     // We can't make Attributes itself iterable without splitting it up into separate classes
     public Iterable<Attribute> values() {
         final List<NBTBase> list = getList();
- 
-        return new Iterable<Attribute>() {
-            @Override
-            public Iterator<Attribute> iterator() {
-                // Generics disgust me sometimes
-                return Iterators.transform(
-                    list.iterator(), new Function<NBTBase, Attribute>() {
-                        
-                    @Override
-                    public Attribute apply(@Nullable NBTBase data) {
-                        return new Attribute((NBTTagCompound) data);
-                    }
-                });
-            }
+
+        return () -> {
+            // Generics disgust me sometimes
+            return Iterators.transform(
+                    list.iterator(), data -> new Attribute((NBTTagCompound) data));
         };
     }
  
@@ -417,8 +407,8 @@ public class AttributeUtil {
     	
     	String[] lore = new String[loreList.size()];
     	for (int i = 0; i < loreList.size(); i++) {
-    		lore[i] = loreList.getString(i).replace("\"", "");;
-    	}
+            lore[i] = loreList.getString(i).replace("\"", "");
+        }
     	
     	return lore;
     }
@@ -520,33 +510,30 @@ public class AttributeUtil {
 	}
 	
 	public LinkedList<LoreEnhancement> getEnhancements() {
-		LinkedList<LoreEnhancement> returnList = new LinkedList<LoreEnhancement>();
-		
-		if (!hasEnhancements()) {
-			return returnList;
-		}
-		
-    	NBTTagCompound compound = nmsStack.getTag().getCompound("item_enhancements");
+        LinkedList<LoreEnhancement> returnList = new LinkedList<>();
 
-    	for (Object keyObj : compound.c()) {
-    		if (!(keyObj instanceof String)) {
-    			continue;
-    		}
-    		
-    		String key = (String)keyObj;
-    		Object obj = compound.get(key);
-    		
-    		if (obj instanceof NBTTagCompound) {
-    			NBTTagCompound enhCompound = (NBTTagCompound)obj;
-    			String name = enhCompound.getString("name").replace("\"", "");
-    			
-    			if (name != null) {
-    				LoreEnhancement enh = LoreEnhancement.enhancements.get(name);
-    				if (enh != null) {
-    					returnList.add(enh);
-    				}
-    			}
-    		}
+        if (!hasEnhancements()) {
+            return returnList;
+        }
+
+        NBTTagCompound compound = nmsStack.getTag().getCompound("item_enhancements");
+
+        for (String keyObj : compound.c()) {
+            if (keyObj == null) {
+                continue;
+            }
+
+            Object obj = compound.get(keyObj);
+
+            if (obj instanceof NBTTagCompound) {
+                NBTTagCompound enhCompound = (NBTTagCompound) obj;
+                String name = enhCompound.getString("name").replace("\"", "");
+
+                LoreEnhancement enh = LoreEnhancement.enhancements.get(name);
+                if (enh != null) {
+                    returnList.add(enh);
+                }
+            }
     	}
     	
     	return returnList;
@@ -653,8 +640,8 @@ public class AttributeUtil {
 		if (displayCompound == null) {
     		displayCompound = new NBTTagCompound();
     	}
-		
-		String name = displayCompound.getString("Name").toString();
+
+        String name = displayCompound.getString("Name");
 		name = name.replace("\"", "");
 		return name;
 	}

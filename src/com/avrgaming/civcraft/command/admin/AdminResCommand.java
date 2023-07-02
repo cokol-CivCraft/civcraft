@@ -102,11 +102,11 @@ public class AdminResCommand extends CommandBase {
 		ItemStack stack = player.getInventory().getItemInMainHand();
 		Enchantment ench = Enchantment.getByName(enchant);
 		if (ench == null) {
-			String out ="";
+			StringBuilder out = new StringBuilder();
 			for (Enchantment ench2 : Enchantment.values()) {
-				out += ench2.getName()+",";
+                out.append(ench2.getName()).append(",");
 			}
-			throw new CivException(CivSettings.localize.localizedString("var_adcmd_res_enchantInvalid1",enchant,out));
+            throw new CivException(CivSettings.localize.localizedString("var_adcmd_res_enchantInvalid1", enchant, out.toString()));
 		}
 		
 		stack.addUnsafeEnchantment(ench, level);
@@ -170,20 +170,20 @@ public class AdminResCommand extends CommandBase {
 		resident.save();
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_res_setTownSuccess",resident.getName(),town.getName()));
 	}
-	
-	@Override
-	public void doDefaultAction() throws CivException {
-		showHelp();
-	}
+
+    @Override
+    public void doDefaultAction() {
+        showHelp();
+    }
 
 	@Override
 	public void showHelp() {
 		showBasicHelp();
 	}
 
-	@Override
-	public void permissionCheck() throws CivException {
-		
-	}
+    @Override
+    public void permissionCheck() {
+
+    }
 
 }

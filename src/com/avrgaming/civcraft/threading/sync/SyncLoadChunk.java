@@ -34,8 +34,8 @@ public class SyncLoadChunk implements Runnable {
 	 */
 	public static final int UPDATE_LIMIT = 2048;
 	
-	public static Queue<LoadChunkRequest> requestQueue = new LinkedList<LoadChunkRequest>();
-	public static ReentrantLock lock;
+	public static Queue<LoadChunkRequest> requestQueue = new LinkedList<>();
+    public static ReentrantLock lock;
 	
 	public SyncLoadChunk() {
 		lock = new ReentrantLock();

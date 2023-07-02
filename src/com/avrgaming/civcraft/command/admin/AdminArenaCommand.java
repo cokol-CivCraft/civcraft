@@ -37,9 +37,9 @@ public class AdminArenaCommand extends CommandBase {
 	public void list_cmd() {
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("adcmd_arena_activeArenas"));
 		for (Arena arena : ArenaManager.activeArenas.values()) {
-			String teams = "";
+			StringBuilder teams = new StringBuilder();
 			for (ArenaTeam team : arena.getTeams()) {
-				teams += team.getName()+", ";
+                teams.append(team.getName()).append(", ");
 			}
 
 			CivMessage.send(sender, arena.getInstanceName()+": "+CivSettings.localize.localizedString("adcmd_arena_activeArenasTeams")+" "+teams);
@@ -80,20 +80,20 @@ public class AdminArenaCommand extends CommandBase {
 		ArenaManager.declareDraw(arena);
 		
 	}
-	
-	@Override
-	public void doDefaultAction() throws CivException {
-		showHelp();
-	}
+
+    @Override
+    public void doDefaultAction() {
+        showHelp();
+    }
 
 	@Override
 	public void showHelp() {
 		showBasicHelp();
 	}
 
-	@Override
-	public void permissionCheck() throws CivException {
-		
-	}
+    @Override
+    public void permissionCheck() {
+
+    }
 
 }

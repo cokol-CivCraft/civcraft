@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -42,9 +43,9 @@ public class Store extends Structure {
 	
 	private int level = 1;
 	
-	private NonMemberFeeComponent nonMemberFeeComponent;
-	
-	ArrayList<StoreMaterial> materials = new ArrayList<StoreMaterial>();
+	private final NonMemberFeeComponent nonMemberFeeComponent;
+
+    ArrayList<StoreMaterial> materials = new ArrayList<>();
 	
 	protected Store(Location center, String id, Town town) throws CivException {
 		super(center, id, town);
@@ -76,7 +77,7 @@ public class Store extends Structure {
 	}
 	
 	private String getNonResidentFeeString() {
-		return "Fee: "+((int)(nonMemberFeeComponent.getFeeRate()*100) + "%").toString();		
+        return "Fee: " + ((int) (nonMemberFeeComponent.getFeeRate() * 100) + "%");
 	}
 	
 	public void addStoreMaterial(StoreMaterial mat) throws CivException {
@@ -88,7 +89,7 @@ public class Store extends Structure {
 	
 	private StructureSign getSignFromSpecialId(int special_id) {
 		for (StructureSign sign : getSigns()) {
-			int id = Integer.valueOf(sign.getAction());
+            int id = Integer.parseInt(sign.getAction());
 			if (id == special_id) {
 				return sign;
 			}
@@ -125,7 +126,7 @@ public class Store extends Structure {
 	
 	@Override
 	public void processSignAction(Player player, StructureSign sign, PlayerInteractEvent event) {
-		int special_id = Integer.valueOf(sign.getAction());
+        int special_id = Integer.parseInt(sign.getAction());
 		if (special_id < this.materials.size()) {
 			StoreMaterial mat = this.materials.get(special_id);
 			sign_buy_material(player, mat.name, mat.type, mat.data, 64, mat.price);
@@ -133,23 +134,21 @@ public class Store extends Structure {
 			CivMessage.send(player, CivColor.Rose+CivSettings.localize.localizedString("store_buy_empty"));
 		}
 	}
-	
-	
-	
-	public void sign_buy_material(Player player, String itemName, int id, byte data, int amount, double price) {
-		Resident resident;
-		int payToTown = (int) Math.round(price*this.getNonResidentFee());
-		try {
-				
-				resident = CivGlobal.getResident(player.getName());
-				Town t = resident.getTown();
-			
-				if (t == this.getTown()) {
-					// Pay no taxes! You're a member.
-					resident.buyItem(itemName, id, data, price, amount);
+
+
+    public void sign_buy_material(Player player, String itemName, Material id, byte data, int amount, double price) {
+        Resident resident;
+        int payToTown = (int) Math.round(price * this.getNonResidentFee());
+        try {
+
+            resident = CivGlobal.getResident(player.getName());
+            Town t = resident.getTown();
+
+            if (t == this.getTown()) {
+                // Pay no taxes! You're a member.
+                resident.buyItem(itemName, id, data, price, amount);
 					CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("var_market_buy",amount,itemName,price,CivSettings.CURRENCY_NAME));
-					return;
-				} else {
+			} else {
 					// Pay non-resident taxes
 					resident.buyItem(itemName, id, data, price + payToTown, amount);
 					getTown().depositDirect(payToTown);
@@ -160,21 +159,20 @@ public class Store extends Structure {
 			catch (CivException e) {
 				CivMessage.send(player, CivColor.Rose + e.getMessage());
 			}
-		return;
 	}
 
 	@Override
 	public String getDynmapDescription() {
-		String out = "<u><b>"+this.getDisplayName()+"</u></b><br/>";
+        StringBuilder out = new StringBuilder("<u><b>" + this.getDisplayName() + "</u></b><br/>");
 		if (this.materials.size() == 0) {
-			out += CivSettings.localize.localizedString("store_dynmap_nothingStocked");
+            out.append(CivSettings.localize.localizedString("store_dynmap_nothingStocked"));
 		} 
 		else {
 			for (StoreMaterial mat : this.materials) {
-				out += CivSettings.localize.localizedString("var_store_dynmap_item",mat.name,mat.price)+"<br/>";
+                out.append(CivSettings.localize.localizedString("var_store_dynmap_item", mat.name, mat.price)).append("<br/>");
 			}
 		}
-		return out;
+        return out.toString();
 	}
 	
 	@Override

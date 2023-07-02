@@ -8,7 +8,7 @@ import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.inventory.ItemStack;
 
 /**
- * @Author Borlea
+ * @author Borlea
  * @Github https://github.com/borlea/
  * @Website http://codingforcookies.com/
  * @since Jul 30, 2015
@@ -37,66 +37,66 @@ public final class ArmorEquipEvent extends PlayerEvent implements Cancellable{
 		this.newArmorPiece = newArmorPiece;
 	}
 
-	/**
-	 * Gets a list of handlers handling this event.
-	 *
-	 * @return A list of handlers handling this event.
-	 */
-	public final static HandlerList getHandlerList(){
-		return handlers;
-	}
+    /**
+     * Gets a list of handlers handling this event.
+     *
+     * @return A list of handlers handling this event.
+     */
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
 
-	/**
-	 * Gets a list of handlers handling this event.
-	 *
-	 * @return A list of handlers handling this event.
-	 */
-	@Override
-	public final HandlerList getHandlers(){
-		return handlers;
-	}
+    /**
+     * Gets a list of handlers handling this event.
+     *
+     * @return A list of handlers handling this event.
+     */
+    @Override
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 
-	/**
-	 * Sets if this event should be cancelled.
-	 *
-	 * @param cancel If this event should be cancelled.
-	 */
-	public final void setCancelled(final boolean cancel){
-		this.cancel = cancel;
-	}
+    /**
+     * Sets if this event should be cancelled.
+     *
+     * @param cancel If this event should be cancelled.
+     */
+    public void setCancelled(final boolean cancel) {
+        this.cancel = cancel;
+    }
 
-	/**
-	 * Gets if this event is cancelled.
-	 *
-	 * @return If this event is cancelled
-	 */
-	public final boolean isCancelled(){
-		return cancel;
-	}
+    /**
+     * Gets if this event is cancelled.
+     *
+     * @return If this event is cancelled
+     */
+    public boolean isCancelled() {
+        return cancel;
+    }
 
-	public final ArmorType getType(){
-		return type;
-	}
+    public ArmorType getType() {
+        return type;
+    }
 
-	/**
-	 * Returns the last equipped armor piece, could be a piece of armor, {@link Material#Air}, or null.
-	 */
-	public final ItemStack getOldArmorPiece(){
-		return oldArmorPiece;
-	}
+    /**
+     * Returns the last equipped armor piece, could be a piece of armor, {@link Material#AIR}, or null.
+     */
+    public ItemStack getOldArmorPiece() {
+        return oldArmorPiece;
+    }
 
-	public final void setOldArmorPiece(final ItemStack oldArmorPiece){
-		this.oldArmorPiece = oldArmorPiece;
-	}
+    public void setOldArmorPiece(final ItemStack oldArmorPiece) {
+        this.oldArmorPiece = oldArmorPiece;
+    }
 
-	/**
-	 * Returns the newly equipped armor, could be a piece of armor, {@link Material#Air}, or null.
-	 */
-	public final ItemStack getNewArmorPiece(){
-		return newArmorPiece;
-	}
+    /**
+     * Returns the newly equipped armor, could be a piece of armor, {@link Material#AIR}, or null.
+     */
+    public ItemStack getNewArmorPiece() {
+        return newArmorPiece;
+    }
 
-	public final void setNewArmorPiece(final ItemStack newArmorPiece){
+    public void setNewArmorPiece(final ItemStack newArmorPiece){
 		this.newArmorPiece = newArmorPiece;
 	}
 
@@ -136,6 +136,5 @@ public final class ArmorEquipEvent extends PlayerEvent implements Cancellable{
 		 * When you die causing all armor to unequip
 		 */
 		DEATH,
-		;
 	}
 }

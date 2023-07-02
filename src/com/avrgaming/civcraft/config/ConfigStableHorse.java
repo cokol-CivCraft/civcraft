@@ -47,11 +47,7 @@ public class ConfigStableHorse {
 			horse.name = (String)level.get("name");
 			
 			Boolean mule = (Boolean)level.get("mule");
-			if (mule == null || mule == false) {
-				horse.mule = false;
-			} else {
-				horse.mule = true;
-			}
+			horse.mule = mule != null && mule;
 			
 			horses.put(horse.id, horse);
 		}

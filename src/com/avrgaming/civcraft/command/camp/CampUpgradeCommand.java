@@ -43,21 +43,21 @@ public class CampUpgradeCommand extends CommandBase {
 		Camp camp = this.getCurrentCamp();
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_camp_upgrade_purchasedSuccess"));
 
-		String out = "";
+		StringBuilder out = new StringBuilder();
 		for (ConfigCampUpgrade upgrade : camp.getUpgrades()) {
-			out += upgrade.name+", ";
+            out.append(upgrade.name).append(", ");
 		}
-		
-		CivMessage.send(sender, out);
+
+        CivMessage.send(sender, out.toString());
 	}
-	
-	private void list_upgrades(Camp camp) throws CivException {				
-		for (ConfigCampUpgrade upgrade : CivSettings.campUpgrades.values()) {
-			if (upgrade.isAvailable(camp)) {
-				CivMessage.send(sender, upgrade.name+" "+CivColor.LightGray+CivSettings.localize.localizedString("Cost")+" "+CivColor.Yellow+upgrade.cost);
-			}
-		}
-	}
+
+    private void list_upgrades(Camp camp) {
+        for (ConfigCampUpgrade upgrade : CivSettings.campUpgrades.values()) {
+            if (upgrade.isAvailable(camp)) {
+                CivMessage.send(sender, upgrade.name + " " + CivColor.LightGray + CivSettings.localize.localizedString("Cost") + " " + CivColor.Yellow + upgrade.cost);
+            }
+        }
+    }
 	
 	public void list_cmd() throws CivException {
 		Camp camp = this.getCurrentCamp();
@@ -75,17 +75,17 @@ public class CampUpgradeCommand extends CommandBase {
 			CivMessage.send(sender, CivSettings.localize.localizedString("cmd_camp_upgrade_buyHeading"));
 			return;
 		}
-				
-		String combinedArgs = "";
+
+        StringBuilder combinedArgs = new StringBuilder();
 		args = this.stripArgs(args, 1);
 		for (String arg : args) {
-			combinedArgs += arg + " ";
+            combinedArgs.append(arg).append(" ");
 		}
-		combinedArgs = combinedArgs.trim();
-		
-		ConfigCampUpgrade upgrade = CivSettings.getCampUpgradeByNameRegex(camp, combinedArgs);
+        combinedArgs = new StringBuilder(combinedArgs.toString().trim());
+
+        ConfigCampUpgrade upgrade = CivSettings.getCampUpgradeByNameRegex(camp, combinedArgs.toString());
 		if (upgrade == null) {
-			throw new CivException(CivSettings.localize.localizedString("var_cmd_camp_upgrade_buyInvalid",combinedArgs));
+            throw new CivException(CivSettings.localize.localizedString("var_cmd_camp_upgrade_buyInvalid", combinedArgs.toString()));
 		}
 		
 		if (camp.hasUpgrade(upgrade.id)) {
@@ -95,11 +95,11 @@ public class CampUpgradeCommand extends CommandBase {
 		camp.purchaseUpgrade(upgrade);
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_camp_upgrade_buySuccess",upgrade.name));
 	}
-	
-	@Override
-	public void doDefaultAction() throws CivException {
-		showHelp();
-	}
+
+    @Override
+    public void doDefaultAction() {
+        showHelp();
+    }
 
 	@Override
 	public void showHelp() {

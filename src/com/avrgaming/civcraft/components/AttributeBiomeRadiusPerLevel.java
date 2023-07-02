@@ -9,7 +9,7 @@ import com.avrgaming.civcraft.util.ChunkCoord;
 
 public class AttributeBiomeRadiusPerLevel extends AttributeBiomeBase {
 	
-	private HashMap<String, Double> biomeInfo = new HashMap<String, Double>();
+	private final HashMap<String, Double> biomeInfo = new HashMap<>();
 
 	private String attribute;
 	private double baseValue;
@@ -62,12 +62,8 @@ public class AttributeBiomeRadiusPerLevel extends AttributeBiomeBase {
 		if (diffX > 1 || diffX < -1) {
 			return false;
 		}
-		
-		if (diffZ > 1 || diffZ < -1) {
-			return false;
-		}
-		
-		return true;
+
+		return diffZ <= 1 && diffZ >= -1;
 	}
 	
 	public double getGenerated(CultureChunk cc) {		

@@ -35,7 +35,7 @@ import com.avrgaming.civcraft.util.MultiInventory;
 public class SifterComponent extends Component {
 
     /* What item it turns into */
-    private LinkedList<SifterItem> items = new LinkedList<>();
+    private final LinkedList<SifterItem> items = new LinkedList<>();
 
     /* Source location of items. */
     private BlockCoord sourceCoord;
@@ -135,9 +135,7 @@ public class SifterComponent extends Component {
                  * all item chances are treated fairly.
                  */
                 if (next < si.rate) {
-                    if (lowestChanceItem == null || lowestChanceItem.rate < si.rate) {
-                        lowestChanceItem = si;
-                    }
+                    lowestChanceItem = si;
                     break;
                 }
             }

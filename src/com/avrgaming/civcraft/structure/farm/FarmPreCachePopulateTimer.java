@@ -47,7 +47,7 @@ public class FarmPreCachePopulateTimer implements Runnable {
 		
 		if (lock.tryLock()) {
 			try {
-				LinkedList<FarmChunk> farms = new LinkedList<FarmChunk>();
+				LinkedList<FarmChunk> farms = new LinkedList<>();
 		
 				for (int i = 0; i < updateLimit; i++) {
 					FarmChunk fc = CivGlobal.pollFarmChunk();

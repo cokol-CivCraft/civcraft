@@ -19,7 +19,7 @@ public class EndConditionDiplomacy extends EndGameCondition {
 	
 	@Override
 	public void onLoad() {
-		vote_cooldown_hours = Integer.valueOf(this.getString("vote_cooldown_hours"));
+		vote_cooldown_hours = Integer.parseInt(this.getString("vote_cooldown_hours"));
 	}
 
 	@Override
@@ -52,12 +52,8 @@ public class EndConditionDiplomacy extends EndGameCondition {
 		if (civ.isAdminCiv()) {
 			return false;
 		}
-		
-		if (civ.isConquered()) {
-			return false;
-		}
-		
-		return true;
+
+		return !civ.isConquered();
 	}
 
 	@Override
@@ -144,9 +140,9 @@ public class EndConditionDiplomacy extends EndGameCondition {
 		if (entries.size() == 0) {
 			CivGlobal.getSessionDB().add(getVoteSessionKey(civ), ""+1, civ.getId(), 0, 0);
 		} else {
-			Integer votes = Integer.valueOf(entries.get(0).value);
-			votes++;
-			CivGlobal.getSessionDB().update(entries.get(0).request_id, entries.get(0).key, ""+votes);			
+            int votes = Integer.parseInt(entries.get(0).value);
+            votes++;
+            CivGlobal.getSessionDB().update(entries.get(0).request_id, entries.get(0).key, String.valueOf(votes));
 		}
 		
 		CivMessage.sendSuccess(resident, CivSettings.localize.localizedString("var_end_diplomacyAddVote",civ.getName()));
@@ -155,9 +151,9 @@ public class EndConditionDiplomacy extends EndGameCondition {
 	public static void setVotes(Civilization civ, Integer votes) {
 		ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getVoteSessionKey(civ));
 		if (entries.size() == 0) {
-			CivGlobal.getSessionDB().add(getVoteSessionKey(civ), ""+votes, civ.getId(), 0, 0);
+            CivGlobal.getSessionDB().add(getVoteSessionKey(civ), String.valueOf(votes), civ.getId(), 0, 0);
 		} else {
-			CivGlobal.getSessionDB().update(entries.get(0).request_id, entries.get(0).key, ""+votes);			
+            CivGlobal.getSessionDB().update(entries.get(0).request_id, entries.get(0).key, String.valueOf(votes));
 		}		
 	}
 	
@@ -174,16 +170,16 @@ public class EndConditionDiplomacy extends EndGameCondition {
 		String key = "endgame:residentvote:"+resident.getName();
 		ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(key);
 		if (entries.size() == 0) {
-			CivGlobal.getSessionDB().add(key, (new Date()).getTime()+"", 0, 0, 0);
+            CivGlobal.getSessionDB().add(key, String.valueOf((new Date()).getTime()), 0, 0, 0);
 			return true;
 		} else {
-			Date then = new Date(Long.valueOf(entries.get(0).value));
-			Date now = new Date();
-			if (now.getTime() > (then.getTime() + (vote_cooldown_hours*60*60*1000))) {
-				CivGlobal.getSessionDB().update(entries.get(0).request_id, entries.get(0).key, now.getTime()+"");
-				return true;
-			}
-		}
+            Date then = new Date(Long.parseLong(entries.get(0).value));
+            Date now = new Date();
+            if (now.getTime() > (then.getTime() + ((long) vote_cooldown_hours * 60 * 60 * 1000))) {
+                CivGlobal.getSessionDB().update(entries.get(0).request_id, entries.get(0).key, String.valueOf(now.getTime()));
+                return true;
+            }
+        }
 
 		CivMessage.sendError(resident, CivSettings.localize.localizedString("end_diplomacy24hours"));
 		return false;

@@ -45,10 +45,10 @@ import com.avrgaming.civcraft.util.ItemManager;
 
 public class WarRegen {
 
-	/* 
-	 * Saves an regenerates blocks during a war. 
+	/*
+	 * Saves an regenerates blocks during a war.
 	 */
-	private static Map<Block, Boolean> blockCache = new HashMap<Block, Boolean>(); 
+	private static final Map<Block, Boolean> blockCache = new HashMap<>();
 	
 	
 	
@@ -69,13 +69,13 @@ public class WarRegen {
 	}
 	
 	public static String blockSignString(Sign sign) {
-		String out = ":";
+		StringBuilder out = new StringBuilder(":");
 		
 		for (String str : sign.getLines()) {
-			out += str+",";
+			out.append(str).append(",");
 		}
-		
-		return out;
+
+		return out.toString();
 	}
 	
 	private static String blockToString(Block blk, boolean save_as_air) {
@@ -125,38 +125,35 @@ public class WarRegen {
 
 	private static void restoreBlockFromString(String line) {
 		String[] split = line.split(":");
-		
-		int type = Integer.valueOf(split[0]);
-		byte data = Byte.valueOf(split[1]);
-		int x = Integer.valueOf(split[2]);
-		int y = Integer.valueOf(split[3]);
-		int z = Integer.valueOf(split[4]);
-		String world = split[5];
-		
-		Block block = BukkitObjects.getWorld(world).getBlockAt(x,y,z);
 
-        block.setTypeId(type);
-        ItemManager.setData(block, data, false);
+		int type = Integer.parseInt(split[0]);
+		byte data = Byte.parseByte(split[1]);
+		int x = Integer.parseInt(split[2]);
+		int y = Integer.parseInt(split[3]);
+		int z = Integer.parseInt(split[4]);
+		String world = split[5];
+
+		Block block = BukkitObjects.getWorld(world).getBlockAt(x, y, z);
+
+		block.setTypeId(type);
+		ItemManager.setData(block, data, false);
 
 		// End of basic block info, try to get more now.
 		Inventory inv = null;
 		switch (block.getType()) {
-		case TRAPPED_CHEST:
-			inv = ((Chest)block.getState()).getBlockInventory();
-			InventorySerializer.StringToInventory(inv, split[6]);
-			break;
-		case CHEST:
-			inv = ((Chest)block.getState()).getBlockInventory();
-			InventorySerializer.StringToInventory(inv, split[6]);
-			break;
-		case DISPENSER:			
-			inv = ((Dispenser)block.getState()).getInventory();
-			InventorySerializer.StringToInventory(inv, split[6]);
-			break;
-		case BURNING_FURNACE:
-		case FURNACE:
-			inv = ((Furnace)block.getState()).getInventory();
-			InventorySerializer.StringToInventory(inv, split[6]);
+			case TRAPPED_CHEST:
+			case CHEST:
+				inv = ((Chest) block.getState()).getBlockInventory();
+				InventorySerializer.StringToInventory(inv, split[6]);
+				break;
+			case DISPENSER:
+				inv = ((Dispenser) block.getState()).getInventory();
+				InventorySerializer.StringToInventory(inv, split[6]);
+				break;
+			case BURNING_FURNACE:
+			case FURNACE:
+				inv = ((Furnace) block.getState()).getInventory();
+				InventorySerializer.StringToInventory(inv, split[6]);
 			break;
 		case DROPPER:
 			inv = ((Dropper)block.getState()).getInventory();
@@ -187,34 +184,30 @@ public class WarRegen {
 	public static void explodeThisBlock(Block blk, String file) {
 
 		switch (blk.getType()) {
-		case SIGN_POST:
-			return;
-		case WALL_SIGN:
-			return;
-		case TNT:
-			return;
-		default:
-			break;
+			case SIGN_POST:
+			case TNT:
+			case WALL_SIGN:
+				return;
+			default:
+				break;
 		}
 		
 		WarRegen.saveBlock(blk, file, false);
 				
 		switch (blk.getType()) {
-		case TRAPPED_CHEST:
-			((Chest)blk.getState()).getBlockInventory().clear();
-			break;
-		case CHEST:
-			((Chest)blk.getState()).getBlockInventory().clear();
-			break;
-		case DISPENSER:
-			((Dispenser)blk.getState()).getInventory().clear();
-			break;
-		case BURNING_FURNACE:
-		case FURNACE:
-			((Furnace)blk.getState()).getInventory().clear();
-			break;
-		case DROPPER:
-			((Dropper)blk.getState()).getInventory().clear();
+			case TRAPPED_CHEST:
+			case CHEST:
+				((Chest) blk.getState()).getBlockInventory().clear();
+				break;
+			case DISPENSER:
+				((Dispenser) blk.getState()).getInventory().clear();
+				break;
+			case BURNING_FURNACE:
+			case FURNACE:
+				((Furnace) blk.getState()).getInventory().clear();
+				break;
+			case DROPPER:
+				((Dropper) blk.getState()).getInventory().clear();
 			break;
 		case HOPPER:
 			((Hopper)blk.getState()).getInventory().clear();
@@ -233,21 +226,19 @@ public class WarRegen {
 		WarRegen.saveBlock(blk, town.getName(), false);
 				
 		switch (blk.getType()) {
-		case TRAPPED_CHEST:
-			((Chest)blk.getState()).getBlockInventory().clear();
-			break;
-		case CHEST:
-			((Chest)blk.getState()).getBlockInventory().clear();
-			break;
-		case DISPENSER:
-			((Dispenser)blk.getState()).getInventory().clear();
-			break;
-		case BURNING_FURNACE:
-		case FURNACE:
-			((Furnace)blk.getState()).getInventory().clear();
-			break;
-		case DROPPER:
-			((Dropper)blk.getState()).getInventory().clear();
+			case TRAPPED_CHEST:
+			case CHEST:
+				((Chest) blk.getState()).getBlockInventory().clear();
+				break;
+			case DISPENSER:
+				((Dispenser) blk.getState()).getInventory().clear();
+				break;
+			case BURNING_FURNACE:
+			case FURNACE:
+				((Furnace) blk.getState()).getInventory().clear();
+				break;
+			case DROPPER:
+				((Dropper) blk.getState()).getInventory().clear();
 			break;
 		case HOPPER:
 			((Hopper)blk.getState()).getInventory().clear();
@@ -287,7 +278,7 @@ public class WarRegen {
 			String filepath = "templates/war/"+name;
 			FileWriter fstream = new FileWriter(filepath,true);
 			BufferedWriter out = new BufferedWriter(fstream);
-			out.append(blockToString(blk, save_as_air)+"\n");
+			out.append(blockToString(blk, save_as_air)).append("\n");
 			blockCache.put(blk, Boolean.TRUE);
 			out.close();
 			fstream.close();

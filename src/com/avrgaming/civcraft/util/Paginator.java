@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 public class Paginator {
-	public LinkedList<Object> page = new LinkedList<Object>();
-	public boolean hasNextPage = false;
+	public LinkedList<Object> page = new LinkedList<>();
+    public boolean hasNextPage = false;
 	public boolean hasPrevPage = false;
 	public int displayLimit = (9*5)-1;
 

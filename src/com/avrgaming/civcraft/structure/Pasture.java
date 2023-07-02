@@ -30,23 +30,23 @@ import com.avrgaming.civcraft.util.ChunkCoord;
 
 public class Pasture extends Structure {
 
-	/* Global pasture chunks */
-	public static Map<ChunkCoord, Pasture> pastureChunks = new ConcurrentHashMap<ChunkCoord, Pasture>();
-	public static Map<UUID, Pasture> pastureEntities = new ConcurrentHashMap<UUID, Pasture>();
-	
-	/* Chunks bound to this pasture. */
-	public HashSet<ChunkCoord> chunks = new HashSet<ChunkCoord>();
-	public HashSet<UUID> entities = new HashSet<UUID>();
-	public ReentrantLock lock = new ReentrantLock(); 
-	
-	private int pendingBreeds = 0;
-	
-	protected Pasture(Location center, String id, Town town)
-			throws CivException {
-		super(center, id, town);
-	}
+    /* Global pasture chunks */
+    public static Map<ChunkCoord, Pasture> pastureChunks = new ConcurrentHashMap<>();
+    public static Map<UUID, Pasture> pastureEntities = new ConcurrentHashMap<>();
 
-	public Pasture(ResultSet rs) throws SQLException, CivException {
+    /* Chunks bound to this pasture. */
+    public HashSet<ChunkCoord> chunks = new HashSet<>();
+    public HashSet<UUID> entities = new HashSet<>();
+    public ReentrantLock lock = new ReentrantLock();
+
+    private int pendingBreeds = 0;
+
+    protected Pasture(Location center, String id, Town town)
+            throws CivException {
+        super(center, id, town);
+    }
+
+    public Pasture(ResultSet rs) throws SQLException, CivException {
 		super(rs);
 	}
 
@@ -100,8 +100,8 @@ public class Pasture extends Structure {
 		
 		this.entities.clear();
 		this.chunks.clear();
-		
-		LinkedList<UUID> removeUs = new LinkedList<UUID>();
+
+        LinkedList<UUID> removeUs = new LinkedList<>();
 		for (UUID id : pastureEntities.keySet()) {
 			Pasture pasture = pastureEntities.get(id);
 			if (pasture == this) {
@@ -119,12 +119,12 @@ public class Pasture extends Structure {
 	public void onComplete() {
 		bindPastureChunks();
 	}
-	
-	@Override
-	public void onLoad() throws CivException {
-		bindPastureChunks();
-		loadEntities();
-	}
+
+    @Override
+    public void onLoad() {
+        bindPastureChunks();
+        loadEntities();
+    }
 	
 	@Override
 	public void delete() throws SQLException {
@@ -152,9 +152,9 @@ public class Pasture extends Structure {
 	
 	public void saveEntity(String worldName, UUID id) {
 		class AsyncTask implements Runnable {
-			Pasture pasture;
-			UUID id;
-			String worldName;
+			final Pasture pasture;
+			final UUID id;
+			final String worldName;
 			
 			public AsyncTask(Pasture pasture, UUID id, String worldName) {
 				this.pasture = pasture;
@@ -179,15 +179,14 @@ public class Pasture extends Structure {
 	}
 	
 	public void loadEntities() {
-		Queue<SessionEntry> entriesToLoad = new LinkedList<SessionEntry>();
-		ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getEntityKey());
-		entriesToLoad.addAll(entries);
+        ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getEntityKey());
+        Queue<SessionEntry> entriesToLoad = new LinkedList<>(entries);
 		TaskMaster.syncTask(new LoadPastureEntityTask(entriesToLoad, this));
 	}
 	
 	public void onEntityDeath(LivingEntity entity) {
 		class AsyncTask implements Runnable {
-			LivingEntity entity;
+			final LivingEntity entity;
 			
 			public AsyncTask(LivingEntity entity) {
 				this.entity = entity;

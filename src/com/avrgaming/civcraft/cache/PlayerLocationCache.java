@@ -26,7 +26,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
-import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.util.BlockCoord;
@@ -39,7 +38,7 @@ public class PlayerLocationCache {
 	private boolean isDead;
 	private boolean vanished;
 	
-	private static ConcurrentHashMap<String, PlayerLocationCache> cache = new ConcurrentHashMap<String, PlayerLocationCache>();
+	private static final ConcurrentHashMap<String, PlayerLocationCache> cache = new ConcurrentHashMap<>();
 	//public static ReentrantLock lock = new ReentrantLock();
 	
 	public static PlayerLocationCache get(String name) {
@@ -101,7 +100,7 @@ public class PlayerLocationCache {
 	}
 	
 	public static List<PlayerLocationCache> getNearbyPlayers(BlockCoord bcoord, double radiusSquared) {
-		LinkedList<PlayerLocationCache> list = new LinkedList<PlayerLocationCache>();
+        LinkedList<PlayerLocationCache> list = new LinkedList<>();
 		
 		for (PlayerLocationCache pc : cache.values()) {
 			if (pc.getCoord().distanceSquared(bcoord) < radiusSquared) {

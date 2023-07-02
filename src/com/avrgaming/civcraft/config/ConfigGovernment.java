@@ -67,7 +67,7 @@ public class ConfigGovernment {
 	}
 
 	public static ArrayList<ConfigGovernment> getAvailableGovernments(Civilization civ) {
-		ArrayList<ConfigGovernment> govs = new ArrayList<ConfigGovernment>();
+		ArrayList<ConfigGovernment> govs = new ArrayList<>();
 		
 		for (ConfigGovernment gov : CivSettings.governments.values()) {
 			if (gov.id.equalsIgnoreCase("gov_anarchy")) {
@@ -96,10 +96,7 @@ public class ConfigGovernment {
 	}
 
 	public boolean isAvailable(Civilization civ) {
-		if (civ.hasTechnology(this.require_tech)) {
-			return true;
-		}
-		return false;
+		return civ.hasTechnology(this.require_tech);
 	}
 	
 }

@@ -32,7 +32,7 @@ public class BuildWithPersonalTemplate implements GuiAction {
 			Perk perk = Perk.staticPerks.get(perk_id);
 			CustomPersonalTemplate customTemplate = (CustomPersonalTemplate)perk.getComponent("CustomPersonalTemplate");
 			Template tpl = customTemplate.getTemplate(player, resident.pendingBuildableInfo);
-			Location centerLoc = Buildable.repositionCenterStatic(player.getLocation(), info, Template.getDirection(player.getLocation()), (double)tpl.size_x, (double)tpl.size_z);	
+            Location centerLoc = Buildable.repositionCenterStatic(player.getLocation(), info, Template.getDirection(player.getLocation()), tpl.size_x, tpl.size_z);
 			TaskMaster.asyncTask(new StructureValidator(player, tpl.getFilepath(), centerLoc, resident.pendingCallback), 0);
 			resident.desiredTemplate = tpl;
 			player.closeInventory();

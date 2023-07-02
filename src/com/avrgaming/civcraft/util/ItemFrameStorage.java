@@ -51,7 +51,7 @@ public class ItemFrameStorage {
 	
 	private BlockCoord attachedBlock;
 	
-	public static HashMap<BlockCoord, ItemFrameStorage> attachedBlockMap = new HashMap<BlockCoord, ItemFrameStorage>();
+	public static HashMap<BlockCoord, ItemFrameStorage> attachedBlockMap = new HashMap<>();
 
 	public ItemFrameStorage(ItemFrame frame, Location attachedLoc) throws CivException {
 		if (frame != null) {
@@ -73,14 +73,14 @@ public class ItemFrameStorage {
 	}
 	
 	public ItemFrameStorage(Location location, BlockFace blockface) {
-		CivLog.debug("world: "+location.getWorld().toString());
-		CivLog.debug("Entity: "+EntityType.ITEM_FRAME.toString());
-		CivLog.debug("location: "+location.toString());
-		CivLog.debug("Blockface: "+blockface.toString());
-		ItemFrame frame = (ItemFrame)location.getWorld().spawnEntity(location, EntityType.ITEM_FRAME);
-		CivLog.debug("ID: "+frame.getUniqueId());
+		CivLog.debug("world: " + location.getWorld().toString());
+		CivLog.debug("Entity: " + EntityType.ITEM_FRAME);
+		CivLog.debug("location: " + location);
+		CivLog.debug("Blockface: " + blockface.toString());
+		ItemFrame frame = (ItemFrame) location.getWorld().spawnEntity(location, EntityType.ITEM_FRAME);
+		CivLog.debug("ID: " + frame.getUniqueId());
 		//frame.setItem(new ItemStack(Material.BAKED_POTATO));
-		
+
 		this.frameID = frame.getUniqueId();
 		this.location = frame.getLocation();
 		this.attachedBlock = new BlockCoord(location);
@@ -154,12 +154,8 @@ public class ItemFrameStorage {
 		if (frame == null) {
 			throw new CivException("Bad frame. Could not be found.");
 		}
-		
-		if (frame.getItem() == null || frame.getItem().getType().equals(Material.AIR)) {
-			return true;
-		}
-		
-		return false;
+
+		return frame.getItem() == null || frame.getItem().getType().equals(Material.AIR);
 	}
 
 	public Location getLocation() {
@@ -167,7 +163,7 @@ public class ItemFrameStorage {
 	}
 
 	public boolean isOurEntity(Entity entity) {
-		return (((ItemFrame)entity).getUniqueId().equals(getUUID()));
+		return (entity.getUniqueId().equals(getUUID()));
 	}
 
 	public boolean noFrame() {

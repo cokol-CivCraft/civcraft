@@ -29,7 +29,7 @@ import com.avrgaming.civcraft.main.CivLog;
 public class ConfigWonderBuff {
 
 	public String id;
-	public ArrayList<ConfigBuff> buffs = new ArrayList<ConfigBuff>();
+    public ArrayList<ConfigBuff> buffs = new ArrayList<>();
 	
 	public static void loadConfig(FileConfiguration cfg, Map<String, ConfigWonderBuff> wbuffs){
 		wbuffs.clear();

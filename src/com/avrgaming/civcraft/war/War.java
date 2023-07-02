@@ -48,25 +48,25 @@ import org.bukkit.entity.Player;
 
 public class War {
 
-	/* If true, WarTime is on. */
-	private static boolean warTime;
+    /* If true, WarTime is on. */
+    private static boolean warTime;
 
-	private static Date start = null;
-	private static Date end = null;
-	
-	private static boolean onlyWarriors = false;
-	
-	private static HashMap<String, Civilization> defeatedTowns = new HashMap<String, Civilization>();
-	private static HashMap<String, Civilization> defeatedCivs = new HashMap<String, Civilization>();
-	
-	public static void saveDefeatedTown(String townName, Civilization master) {
-		defeatedTowns.put(townName, master);
-		/* Save in the SessionDB just in case the server goes down. */
-		String key = "capturedTown";
-		String value = townName+":"+master.getId();
-		
-		CivGlobal.getSessionDB().add(key, value, master.getId(), 0, 0);
-	}
+    private static Date start = null;
+    private static Date end = null;
+
+    private static boolean onlyWarriors = false;
+
+    private static final HashMap<String, Civilization> defeatedTowns = new HashMap<>();
+    private static final HashMap<String, Civilization> defeatedCivs = new HashMap<>();
+
+    public static void saveDefeatedTown(String townName, Civilization master) {
+        defeatedTowns.put(townName, master);
+        /* Save in the SessionDB just in case the server goes down. */
+        String key = "capturedTown";
+        String value = townName + ":" + master.getId();
+
+        CivGlobal.getSessionDB().add(key, value, master.getId(), 0, 0);
+    }
 	
 	public static void saveDefeatedCiv(Civilization defeated, Civilization master) {
 		defeatedCivs.put(defeated.getName(), master);
@@ -104,7 +104,7 @@ public class War {
 		
 		for (SessionEntry entry : entries) {
 			String[] split = entry.value.split(":");
-			defeatedTowns.put(split[0], CivGlobal.getCivFromId(Integer.valueOf(split[1])));
+            defeatedTowns.put(split[0], CivGlobal.getCivFromId(Integer.parseInt(split[1])));
 		}
 	}
 	
@@ -113,7 +113,7 @@ public class War {
 		
 		for (SessionEntry entry : entries) {
 			String[] split = entry.value.split(":");
-			defeatedCivs.put(split[0], CivGlobal.getCivFromId(Integer.valueOf(split[1])));
+            defeatedCivs.put(split[0], CivGlobal.getCivFromId(Integer.parseInt(split[1])));
 		}
 	}
 	
@@ -151,31 +151,31 @@ public class War {
 	 * @param warTime the warTime to set
 	 */
 	public static void setWarTime(boolean warTime) {
-		
-		if (warTime == true && !War.hasWars()) {
 
-			CivMessage.globalHeading(CivColor.BOLD+CivSettings.localize.localizedString("war_wartimeSkippedHeading"));
-			try {
-				DisableTeleportEvent.enableTeleport();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			return;
-		} else if (warTime == false && !War.isWarTime()) {
-			
-		}
-		
-		if (warTime == false) {
-			try {
-				DisableTeleportEvent.enableTeleport();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			/* War time has ended. */
-			War.setStart(null);
-			War.setEnd(null);
-			War.restoreAllTowns();
+        if (warTime && !War.hasWars()) {
+
+            CivMessage.globalHeading(CivColor.BOLD + CivSettings.localize.localizedString("war_wartimeSkippedHeading"));
+            try {
+                DisableTeleportEvent.enableTeleport();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return;
+        } else if (!warTime && !War.isWarTime()) {
+
+        }
+
+        if (!warTime) {
+            try {
+                DisableTeleportEvent.enableTeleport();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            /* War time has ended. */
+            War.setStart(null);
+            War.setEnd(null);
+            War.restoreAllTowns();
 			War.repositionPlayers(CivSettings.localize.localizedString("war_repositionMessage"));
 			War.processDefeated();
 		
@@ -262,7 +262,7 @@ public class War {
 	public static void transferDefeated(Civilization loser, Civilization winner) {
 		
 		/* Transfer any defeated towns */
-		ArrayList<String> removeUs = new ArrayList<String>();
+        ArrayList<String> removeUs = new ArrayList<>();
 		
 		for (String townName : defeatedTowns.keySet()) {
 			Civilization civ = defeatedTowns.get(townName);
@@ -450,12 +450,8 @@ public class War {
 		Date nextWar = War.getNextWarTime();
 		Date now = new Date();
 		int time_declare_days = getTimeDeclareDays();
-		
-		if ((now.getTime() + time_declare_days*(1000*60*60*24)) >= nextWar.getTime()) {
-			return true;
-		}
-		
-		return false;	
+
+		return (now.getTime() + time_declare_days * (1000 * 60 * 60 * 24)) >= nextWar.getTime();
 	}
 
 	public static boolean isWithinAllyDeclareHours() {
@@ -464,12 +460,8 @@ public class War {
 		
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.HOUR_OF_DAY, ally_declare_hours);
-				
-		if (cal.getTime().after(nextWar)) {
-			return true;
-		}
-		
-		return false;	
+
+		return cal.getTime().after(nextWar);
 	}
 	
 	public static int getTimeDeclareDays() {

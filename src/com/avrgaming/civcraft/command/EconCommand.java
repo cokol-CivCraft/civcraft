@@ -147,7 +147,7 @@ public class EconCommand extends CommandBase {
 
 		try {
 			
-			Double amount = Double.valueOf(args[2]);
+			double amount = Double.parseDouble(args[2]);
 			resident.getTreasury().deposit(amount);
 			CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_econ_added",args[2],CivSettings.CURRENCY_NAME,args[1]));
 			
@@ -166,8 +166,8 @@ public class EconCommand extends CommandBase {
 		Resident resident = getNamedResident(1);
 
 		try {
-			
-			Double amount = Double.valueOf(args[2]);
+
+            double amount = Double.parseDouble(args[2]);
 			resident.getTreasury().deposit(amount);
 			CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_econ_give",args[2],CivSettings.CURRENCY_NAME,args[1]));
 			
@@ -186,8 +186,8 @@ public class EconCommand extends CommandBase {
 		Resident resident = getNamedResident(1);
 
 		try {
-			
-			Double amount = Double.valueOf(args[2]);
+
+            double amount = Double.parseDouble(args[2]);
 			resident.getTreasury().setBalance(amount);
 			CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_econ_set",args[1],args[2],CivSettings.CURRENCY_NAME));
 			
@@ -206,8 +206,8 @@ public class EconCommand extends CommandBase {
 		Resident resident = getNamedResident(1);
 
 		try {
-			
-			Double amount = Double.valueOf(args[2]);
+
+            double amount = Double.parseDouble(args[2]);
 			resident.getTreasury().withdraw(amount);
 			CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_econ_Subtracted",args[2],CivSettings.CURRENCY_NAME,args[1]));
 			
@@ -226,8 +226,8 @@ public class EconCommand extends CommandBase {
 		Town town = getNamedTown(1);
 		
 		try {
-			
-			Double amount = Double.valueOf(args[2]);
+
+            double amount = Double.parseDouble(args[2]);
 			town.getTreasury().deposit(amount);
 			CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_econ_added",args[2],CivSettings.CURRENCY_NAME,args[1]));
 			
@@ -246,8 +246,8 @@ public class EconCommand extends CommandBase {
 		Town town = getNamedTown(1);
 
 		try {
-			
-			Double amount = Double.valueOf(args[2]);
+
+            double amount = Double.parseDouble(args[2]);
 			town.getTreasury().setBalance(amount);
 			CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_econ_set",args[1],args[2],CivSettings.CURRENCY_NAME));
 			
@@ -266,8 +266,8 @@ public class EconCommand extends CommandBase {
 		Town town = getNamedTown(1);
 
 		try {
-			
-			Double amount = Double.valueOf(args[2]);
+
+            double amount = Double.parseDouble(args[2]);
 			town.getTreasury().withdraw(amount);
 			CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_econ_Subtracted",args[2],CivSettings.CURRENCY_NAME,args[1]));
 			
@@ -286,8 +286,8 @@ public class EconCommand extends CommandBase {
 		Civilization civ = getNamedCiv(1);
 		
 		try {
-			
-			Double amount = Double.valueOf(args[2]);
+
+            double amount = Double.parseDouble(args[2]);
 			civ.getTreasury().deposit(amount);
 			CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_econ_added",args[2],CivSettings.CURRENCY_NAME,args[1]));
 			
@@ -306,8 +306,8 @@ public class EconCommand extends CommandBase {
 		Civilization civ = getNamedCiv(1);
 		
 		try {
-			
-			Double amount = Double.valueOf(args[2]);
+
+            double amount = Double.parseDouble(args[2]);
 			civ.getTreasury().setBalance(amount);
 			CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_econ_set",args[1],args[2],CivSettings.CURRENCY_NAME));
 			
@@ -326,8 +326,8 @@ public class EconCommand extends CommandBase {
 		Civilization civ = getNamedCiv(1);
 		
 		try {
-			
-			Double amount = Double.valueOf(args[2]);
+
+            double amount = Double.parseDouble(args[2]);
 			civ.getTreasury().withdraw(amount);
 			CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_econ_Subtracted",args[2],CivSettings.CURRENCY_NAME,args[1]));
 			
@@ -367,9 +367,9 @@ public class EconCommand extends CommandBase {
 		
 	}
 
-	@Override
-	public void permissionCheck() throws CivException {
-		
-	}
+    @Override
+    public void permissionCheck() {
+
+    }
 
 }

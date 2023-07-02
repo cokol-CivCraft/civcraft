@@ -13,10 +13,10 @@ public class EndConditionCulture extends EndGameCondition {
 	
 	@Override
 	public void onLoad() {
-		requiredCultureLevel = Integer.valueOf(this.getString("culture_level"));
-		numberOfTownsAtCulture = Integer.valueOf(this.getString("towns"));
-		numberOfWonders = Integer.valueOf(this.getString("wonders"));
-	}
+        requiredCultureLevel = Integer.parseInt(this.getString("culture_level"));
+        numberOfTownsAtCulture = Integer.parseInt(this.getString("towns"));
+        numberOfWonders = Integer.parseInt(this.getString("wonders"));
+    }
 	
 	@Override
 	public String getSessionKey() {
@@ -57,11 +57,7 @@ public class EndConditionCulture extends EndGameCondition {
 		}
 		
 		/* Cannot be conquered. */
-		if (civ.isConquered()) {
-			return false;
-		}
-		
-		return true; 
+		return !civ.isConquered();
 	}
 
 	@Override

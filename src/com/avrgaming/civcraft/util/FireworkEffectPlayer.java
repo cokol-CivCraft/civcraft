@@ -53,7 +53,7 @@ public class FireworkEffectPlayer {
      */
     public void playFirework(World world, Location loc, FireworkEffect fe) throws Exception {
         // Bukkity load (CraftFirework)
-        Firework fw = (Firework) world.spawn(loc, Firework.class);
+        Firework fw = world.spawn(loc, Firework.class);
         // the net.minecraft.server.World
         Object nms_world = null;
         Object nms_firework = null;
@@ -77,7 +77,7 @@ public class FireworkEffectPlayer {
          * Now we mess with the metadata, allowing nice clean spawning of a pretty firework (look, pretty lights!)
          */
         // metadata load
-        FireworkMeta data = (FireworkMeta) fw.getFireworkMeta();
+        FireworkMeta data = fw.getFireworkMeta();
         // clear existing
         data.clearEffects();
         // power of one
@@ -90,7 +90,7 @@ public class FireworkEffectPlayer {
          * Finally, we broadcast the entity effect then kill our fireworks object
          */
         // invoke with arguments
-        nms_world_broadcastEntityEffect.invoke(nms_world, new Object[] {nms_firework, (byte) 17});
+        nms_world_broadcastEntityEffect.invoke(nms_world, nms_firework, (byte) 17);
         // remove from the game
        // fw.
         fw.remove();

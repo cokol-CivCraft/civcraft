@@ -47,20 +47,20 @@ public class ReportManager {
 	}
 	
 	public static String getReportTypes() {
-		String out = "";
+		StringBuilder out = new StringBuilder();
 		for (ReportType type : ReportType.values()) {
-			out += type.name().toLowerCase()+", ";
+            out.append(type.name().toLowerCase()).append(", ");
 		}
-		return out;
+        return out.toString();
 	}
 		
 	public static void reportPlayer(String name, ReportType type, String message, String reportedBy) {
 		
 		class AsyncTask implements Runnable {
-			String name;
-			String reportType;
-			String message;
-			String reportedBy;
+			final String name;
+			final String reportType;
+			final String message;
+			final String reportedBy;
 			
 			public AsyncTask(String name, String reportType, String message, String reportedBy) {
 				this.name = name;

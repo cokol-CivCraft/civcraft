@@ -16,29 +16,13 @@ public class WarAntiCheat {
 
 	
 	public static void kickUnvalidatedPlayers() {
-		if (CivGlobal.isCasualMode()) {
-			return;
-		}
+        if (CivGlobal.isCasualMode()) {
+            return;
+        }
 
-		if (true){//!ACManager.isEnabled()) {
-			return;
-		}
-		
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			if (player.isOp()) {
-				continue;
-			}
-			
-			if (player.hasPermission("civ.ac_exempt")) {
-				continue;
-			}
-			
-			Resident resident = CivGlobal.getResident(player);
-			onWarTimePlayerCheck(resident);
-		}
-		
-		CivMessage.global(CivColor.LightGray+CivSettings.localize.localizedString("war_kick_atWarNoAnticheat"));
-	}
+        //!ACManager.isEnabled()) {
+
+    }
 	
 	public static void onWarTimePlayerCheck(Resident resident) {
 		if (!resident.hasTown()) {
@@ -48,15 +32,15 @@ public class WarAntiCheat {
 		if (!resident.getCiv().getDiplomacyManager().isAtWar()) {
 			return;
 		}
-		
-		try {
-			if (!resident.isUsesAntiCheat()) {
-				TaskMaster.syncTask(new PlayerKickBan(resident.getName(), true, false, 
-						CivSettings.localize.localizedString("war_kick_needAnticheat1")+
-						CivSettings.localize.localizedString("war_kick_needAntiCheat2")));
-			}
-		} catch (CivException e) {
-		}
+
+        try {
+            if (!resident.isUsesAntiCheat()) {
+                TaskMaster.syncTask(new PlayerKickBan(resident.getName(), true, false,
+                        CivSettings.localize.localizedString("war_kick_needAnticheat1") +
+                                CivSettings.localize.localizedString("war_kick_needAntiCheat2")));
+            }
+        } catch (CivException ignored) {
+        }
 	}
 	
 }

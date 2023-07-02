@@ -20,8 +20,8 @@ public class AttrSource {
 	}
 	
 	public ArrayList<String> getSourceDisplayString(String sourceColor, String valueColor) {
-		ArrayList<String> out = new ArrayList<String>();
-		DecimalFormat df = new DecimalFormat();
+		ArrayList<String> out = new ArrayList<>();
+        DecimalFormat df = new DecimalFormat();
 		
 		out.add(CivMessage.buildSmallTitle(CivSettings.localize.localizedString("town_info_sources")));
 		
@@ -33,8 +33,8 @@ public class AttrSource {
 	}
 	
 	public ArrayList<String> getRateDisplayString(String sourceColor, String valueColor) {
-		ArrayList<String> out = new ArrayList<String>();
-		DecimalFormat df = new DecimalFormat();
+        ArrayList<String> out = new ArrayList<>();
+        DecimalFormat df = new DecimalFormat();
 		
 		if (rate != null) {			
 			out.add(CivMessage.buildSmallTitle(CivSettings.localize.localizedString("town_info_rates")));
@@ -47,8 +47,8 @@ public class AttrSource {
 	}
 	
 	public ArrayList<String> getTotalDisplayString(String sourceColor, String valueColor) {
-		ArrayList<String> out = new ArrayList<String>();
-		DecimalFormat df = new DecimalFormat();
+        ArrayList<String> out = new ArrayList<>();
+        DecimalFormat df = new DecimalFormat();
 		
 		out.add(CivMessage.buildSmallTitle(CivSettings.localize.localizedString("town_info_totals")));
 		out.add(sourceColor+"Total: "+valueColor+df.format(this.total)+sourceColor);

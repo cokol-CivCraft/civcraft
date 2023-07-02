@@ -226,17 +226,14 @@ public class TownCommand extends CommandBase {
 		CivMessage.sendTown(town, CivSettings.localize.localizedString("var_cmd_town_claimmayorSuccess2",resident.getName()));
 	}
 	
-	public void event_cmd() throws CivException {
-		TownEventCommand cmd = new TownEventCommand();	
-		cmd.onCommand(sender, null, "event", this.stripArgs(args, 1));
-	}
-	public void e_cmd() {
-		try {
-			event_cmd();
-		} catch (CivException e) {
-			e.printStackTrace();
-		}
-	}
+	public void event_cmd() {
+        TownEventCommand cmd = new TownEventCommand();
+        cmd.onCommand(sender, null, "event", this.stripArgs(args, 1));
+    }
+
+    public void e_cmd() {
+        event_cmd();
+    }
 	
 	public void templates_cmd() throws CivException {
 		Player player = getPlayer();
@@ -258,22 +255,22 @@ public class TownCommand extends CommandBase {
 	}
 	
 	public static ArrayList<String> survey(Location loc) {
-		ChunkCoord start = new ChunkCoord(loc);
-		ConfigCultureLevel lvl = CivSettings.cultureLevels.get(1);
+        ChunkCoord start = new ChunkCoord(loc);
+        ConfigCultureLevel lvl = CivSettings.cultureLevels.get(1);
 
-		ArrayList<String> outList = new ArrayList<String>();
-		
-		Queue<ChunkCoord> closedSet = new LinkedList<ChunkCoord>();	
-		Queue<ChunkCoord> openSet = new LinkedList<ChunkCoord>();
-		openSet.add(start);
-		/* Try to get the surrounding chunks and get their biome info. */
-		//Enqueue all neighbors.
-		while (!openSet.isEmpty()) {
-			ChunkCoord node = openSet.poll();
-			
-			if (closedSet.contains(node)) {
-				continue;
-			}
+        ArrayList<String> outList = new ArrayList<>();
+
+        Queue<ChunkCoord> closedSet = new LinkedList<>();
+        Queue<ChunkCoord> openSet = new LinkedList<>();
+        openSet.add(start);
+        /* Try to get the surrounding chunks and get their biome info. */
+        //Enqueue all neighbors.
+        while (!openSet.isEmpty()) {
+            ChunkCoord node = openSet.poll();
+
+            if (closedSet.contains(node)) {
+                continue;
+            }
 			
 			if (node.manhattanDistance(start) > lvl.chunks) {
 				continue;
@@ -296,8 +293,8 @@ public class TownCommand extends CommandBase {
 				openSet.add(nextCoord);
 			}
 		}
-		
-		HashMap<String, Integer> biomes = new HashMap<String, Integer>();
+
+        HashMap<String, Integer> biomes = new HashMap<>();
 		
 	//	double coins = 0.0;
 		double hammers = 0.0;
@@ -328,13 +325,13 @@ public class TownCommand extends CommandBase {
 		
 		outList.add(CivColor.LightBlue+CivSettings.localize.localizedString("cmd_town_biomeList"));
 		//int totalBiomes = 0;
-		String out = "";
+        StringBuilder out = new StringBuilder();
 		for (String biome : biomes.keySet()) {
 			Integer count = biomes.get(biome);
-			out += CivColor.Green+biome+": "+CivColor.LightGreen+count+CivColor.Green+", ";
+            out.append(CivColor.Green).append(biome).append(": ").append(CivColor.LightGreen).append(count).append(CivColor.Green).append(", ");
 			//totalBiomes += count;
 		}
-		outList.add(out);
+        outList.add(out.toString());
 	//	outList.add(CivColor.Green+"Biome Count: "+CivColor.LightGreen+totalBiomes);
 		
 		outList.add(CivColor.LightBlue+CivSettings.localize.localizedString("cmd_town_totals"));
@@ -486,13 +483,13 @@ public class TownCommand extends CommandBase {
 			return;
 		}
 		
-		town.mayorWantsToDisband = true;		
-		
-		
-		if (town.leaderWantsToDisband && town.mayorWantsToDisband) {
-			CivMessage.sendCiv(town.getCiv(), CivSettings.localize.localizedString("Town")+" "+town.getName()+" "+CivSettings.localize.localizedString("cmd_civ_disbandtownSuccess"));
-			town.disband();
-		}
+		town.mayorWantsToDisband = true;
+
+
+        if (town.leaderWantsToDisband) {
+            CivMessage.sendCiv(town.getCiv(), CivSettings.localize.localizedString("Town") + " " + town.getName() + " " + CivSettings.localize.localizedString("cmd_civ_disbandtownSuccess"));
+            town.disband();
+        }
 		
 		CivMessage.send(sender, CivSettings.localize.localizedString("cmd_town_disbandtownSuccess"));
 	}
@@ -522,14 +519,14 @@ public class TownCommand extends CommandBase {
 	}
 	
 	public void list_cmd() {
-		String out = "";
+        StringBuilder out = new StringBuilder();
 		
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_town_listHeading"));
 		for (Town town : CivGlobal.getTowns()) {
-			out += town.getName()+"("+town.getCiv().getName()+")"+", ";
+            out.append(town.getName()).append("(").append(town.getCiv().getName()).append(")").append(", ");
 		}
-		
-		CivMessage.send(sender, out);
+
+        CivMessage.send(sender, out.toString());
 	}
 	public void l_cmd() {
 		list_cmd();
@@ -622,7 +619,6 @@ public class TownCommand extends CommandBase {
 					} catch (InvalidConfiguration e) {
 						e.printStackTrace();
 						CivMessage.sendError(sender, CivSettings.localize.localizedString("internalException"));
-						return;
 					}
 				}
 			}
@@ -666,29 +662,22 @@ public class TownCommand extends CommandBase {
 		TownSetCommand cmd = new TownSetCommand();	
 		cmd.onCommand(sender, null, "set", this.stripArgs(args, 1));
 	}
-	
-	public void reset_cmd() throws CivException {
-		TownResetCommand cmd = new TownResetCommand();	
-		cmd.onCommand(sender, null, "reset", this.stripArgs(args, 1));
-	}
-	
-	public void upgrade_cmd() throws CivException {
-		TownUpgradeCommand cmd = new TownUpgradeCommand();	
-		cmd.onCommand(sender, null, "upgrade", this.stripArgs(args, 1));
-	}
-	public void up_cmd() {
-		try {
-			upgrade_cmd();
-		} catch (CivException e) {
-			e.printStackTrace();
-		}
-	}
+
+    public void reset_cmd() {
+        TownResetCommand cmd = new TownResetCommand();
+        cmd.onCommand(sender, null, "reset", this.stripArgs(args, 1));
+    }
+
+    public void upgrade_cmd() {
+        TownUpgradeCommand cmd = new TownUpgradeCommand();
+        cmd.onCommand(sender, null, "upgrade", this.stripArgs(args, 1));
+    }
+
+    public void up_cmd() {
+        upgrade_cmd();
+    }
 	public void u_cmd() {
-		try {
-			upgrade_cmd();
-		} catch (CivException e) {
-			e.printStackTrace();
-		}
+        upgrade_cmd();
 	}
 	
 	public void withdraw_cmd() throws CivException {
@@ -705,15 +694,15 @@ public class TownCommand extends CommandBase {
 		}
 		
 		try {
-			Double amount = Double.valueOf(args[1]);
+            double amount = Double.parseDouble(args[1]);
 			if (amount < 1) {
 				throw new CivException(amount+" "+CivSettings.localize.localizedString("cmd_enterNumerError2"));
 			}
 			amount = Math.floor(amount);
-			
-			if(!town.getTreasury().payTo(resident.getTreasury(), Double.valueOf(args[1]))) {
-				throw new CivException(CivSettings.localize.localizedString("cmd_town_withdrawNotEnough"));
-			}
+
+            if (!town.getTreasury().payTo(resident.getTreasury(), Double.parseDouble(args[1]))) {
+                throw new CivException(CivSettings.localize.localizedString("cmd_town_withdrawNotEnough"));
+            }
 		} catch (NumberFormatException e) {
 			throw new CivException(args[1]+" "+CivSettings.localize.localizedString("cmd_enterNumerError2"));
 		}
@@ -810,18 +799,15 @@ public class TownCommand extends CommandBase {
 			add_cmd();
 		}
 	}
-	
-	public void info_cmd() throws CivException {
-		TownInfoCommand cmd = new TownInfoCommand();	
-		cmd.onCommand(sender, null, "info", this.stripArgs(args, 1));
-	}
-	public void i_cmd() {
-		try {
-			info_cmd();
-		} catch (CivException e) {
-			e.printStackTrace();
-		}
-	}
+
+    public void info_cmd() {
+        TownInfoCommand cmd = new TownInfoCommand();
+        cmd.onCommand(sender, null, "info", this.stripArgs(args, 1));
+    }
+
+    public void i_cmd() {
+        info_cmd();
+    }
 	
 //	public void new_cmd() throws CivException {
 //		if (!(sender instanceof Player)) {
@@ -907,22 +893,22 @@ public class TownCommand extends CommandBase {
 		}
 		
 	}
-	
-	public void group_cmd() throws CivException {
-		TownGroupCommand cmd = new TownGroupCommand();	
-		cmd.onCommand(sender, null, "group", this.stripArgs(args, 1));
-	}
+
+    public void group_cmd() {
+        TownGroupCommand cmd = new TownGroupCommand();
+        cmd.onCommand(sender, null, "group", this.stripArgs(args, 1));
+    }
 	
 	
 	public void members_cmd() throws CivException {
 		Town town = this.getSelectedTown();
 		
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("var_town_membersHeading",town.getName()));
-		String out = "";
+        StringBuilder out = new StringBuilder();
 		for (Resident res : town.getResidents()) {
-			out += res.getName() + ", ";
+            out.append(res.getName()).append(", ");
 		}
-		CivMessage.send(sender, out);
+        CivMessage.send(sender, out.toString());
 	}
 	public void m_cmd() throws CivException {
 		members_cmd();
@@ -932,10 +918,9 @@ public class TownCommand extends CommandBase {
 		showBasicHelp();
 	}
 
-	@Override
-	public void permissionCheck() {		
-		return;
-	}
+    @Override
+    public void permissionCheck() {
+    }
 
 	@Override
 	public void doDefaultAction() {

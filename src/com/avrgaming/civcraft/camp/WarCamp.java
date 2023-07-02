@@ -56,14 +56,14 @@ import com.avrgaming.civcraft.war.WarRegen;
 public class WarCamp extends Buildable implements RespawnLocationHolder {
 
     public static final String RESTORE_NAME = "special:WarCamps";
-    private ArrayList<BlockCoord> respawnPoints = new ArrayList<>();
-    protected HashMap<BlockCoord, ControlPoint> controlPoints = new HashMap<BlockCoord, ControlPoint>();
+    private final ArrayList<BlockCoord> respawnPoints = new ArrayList<>();
+    protected HashMap<BlockCoord, ControlPoint> controlPoints = new HashMap<>();
 
     public static void newCamp(Resident resident, ConfigBuildableInfo info) {
 
         class SyncBuildWarCampTask implements Runnable {
-            Resident resident;
-            ConfigBuildableInfo info;
+            final Resident resident;
+            final ConfigBuildableInfo info;
 
             public SyncBuildWarCampTask(Resident resident, ConfigBuildableInfo info) {
                 this.resident = resident;
@@ -197,12 +197,7 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
         checkBlockPermissionsAndRestrictions(player, corner.getBlock(), tpl.size_x, tpl.size_y, tpl.size_z);
         buildWarCampFromTemplate(tpl, corner);
         processCommandSigns(tpl, corner);
-        try {
-            this.saveNow();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new CivException("Internal SQL Error.");
-        }
+        this.saveNow();
 
         resident.save();
 
@@ -359,7 +354,7 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
     }
 
     @Override
-    public void processUndo() throws CivException {
+    public void processUndo() {
     }
 
     @Override
@@ -368,7 +363,7 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
     }
 
     @Override
-    public void build(Player player, Location centerLoc, Template tpl) throws Exception {
+    public void build(Player player, Location centerLoc, Template tpl) {
 
     }
 
@@ -393,7 +388,7 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
     }
 
     @Override
-    public void onLoad() throws CivException {
+    public void onLoad() {
 
     }
 
@@ -403,7 +398,7 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
     }
 
     @Override
-    public void load(ResultSet rs) throws SQLException, InvalidNameException, InvalidObjectException, CivException {
+    public void load(ResultSet rs) {
 
     }
 
@@ -413,7 +408,7 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
     }
 
     @Override
-    public void saveNow() throws SQLException {
+    public void saveNow() {
 
     }
 

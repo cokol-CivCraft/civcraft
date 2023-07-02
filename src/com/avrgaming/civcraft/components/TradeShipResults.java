@@ -14,7 +14,7 @@ public class TradeShipResults {
     private int culture;
     private int consumed;
 
-	private List<ItemStack> returnCargo = new LinkedList<ItemStack>();
+	private List<ItemStack> returnCargo = new LinkedList<>();
     
     public TradeShipResults() {
 		this.money = 0;

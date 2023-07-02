@@ -27,8 +27,8 @@ public class ConfigTechPotion {
 			String effect = (String)confTech.get("effect");
 			tech.effect = PotionEffectType.getByName(effect);
 			tech.amp = (Integer)confTech.get("amp");
-			tech.require_tech = (String)confTech.get("require_tech");			
-			techPotions.put(""+effect+tech.amp, tech);
+			tech.require_tech = (String) confTech.get("require_tech");
+            techPotions.put(effect + tech.amp, tech);
 		}
 		CivLog.info("Loaded "+techPotions.size()+" tech potions.");		
 	}
@@ -38,11 +38,7 @@ public class ConfigTechPotion {
 		if (resident == null || !resident.hasTown()) {
 			return false;
 		}
-		
-		if (!resident.getCiv().hasTechnology(require_tech)) {
-			return false;
-		}
-		
-		return true;
+
+		return resident.getCiv().hasTechnology(require_tech);
 	}
 }

@@ -30,33 +30,34 @@ import com.avrgaming.civcraft.util.CivColor;
 import com.mysql.jdbc.StringUtils;
 
 public class RandomEvent extends SQLObject {
-	
-	public ConfigRandomEvent configRandomEvent;
-	
-	public HashMap<String, RandomEventComponent> actions = new HashMap<String, RandomEventComponent>();
-	public HashMap<String, RandomEventComponent> requirements = new HashMap<String, RandomEventComponent>();
-	public HashMap<String, RandomEventComponent> success = new HashMap<String, RandomEventComponent>();
-	public HashMap<String, RandomEventComponent> failure = new HashMap<String, RandomEventComponent>();
-	
-	private Town town = null;
-	private Date startDate = null;
-	private boolean active = false;
 
-	/*
-	 * Components can communicate with each other by saving variables in this hashmap. 
-	 */
-	public HashMap<String, String> componentVars = new HashMap<String, String>();
-	public LinkedList<String> savedMessages = new LinkedList<String>();
-	
-	public static final String TABLE_NAME = "RANDOMEVENTS";
-	public static void init() throws SQLException {
-		if (!SQL.hasTable(TABLE_NAME)) {
-			String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME+" (" + 
-					"`id` int(11) unsigned NOT NULL auto_increment," +
-					"`config_id` mediumtext,"+
-					"`town_id` int(11)," + 
-					"`start_date` long NOT NULL," +
-					"`active` boolean DEFAULT false," +
+    public ConfigRandomEvent configRandomEvent;
+
+    public HashMap<String, RandomEventComponent> actions = new HashMap<>();
+    public HashMap<String, RandomEventComponent> requirements = new HashMap<>();
+    public HashMap<String, RandomEventComponent> success = new HashMap<>();
+    public HashMap<String, RandomEventComponent> failure = new HashMap<>();
+
+    private Town town = null;
+    private Date startDate = null;
+    private boolean active = false;
+
+    /*
+     * Components can communicate with each other by saving variables in this hashmap.
+     */
+    public HashMap<String, String> componentVars = new HashMap<>();
+    public LinkedList<String> savedMessages = new LinkedList<>();
+
+    public static final String TABLE_NAME = "RANDOMEVENTS";
+
+    public static void init() throws SQLException {
+        if (!SQL.hasTable(TABLE_NAME)) {
+            String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME + " (" +
+                    "`id` int(11) unsigned NOT NULL auto_increment," +
+                    "`config_id` mediumtext," +
+                    "`town_id` int(11)," +
+                    "`start_date` long NOT NULL," +
+                    "`active` boolean DEFAULT false," +
 					"`component_vars` mediumtext," + 
 					"`saved_messages` mediumtext," + 
 					"PRIMARY KEY (`id`)" + ")";
@@ -68,19 +69,19 @@ public class RandomEvent extends SQLObject {
 		}
 	}
 
-	@Override
-	public void load(ResultSet rs) throws SQLException, InvalidNameException,
-			InvalidObjectException, CivException {
-		this.setId(rs.getInt("id"));
-		this.configRandomEvent = CivSettings.randomEvents.get(rs.getString("config_id"));
-		if (this.configRandomEvent == null) {
-			/* Delete the random event. */
-			this.delete();
-			throw new CivException("Couldn't find random event config id:"+rs.getString("config_id"));
-		}
-		
-		this.town = CivGlobal.getTownFromId(rs.getInt("town_id"));
-		if (this.town == null) {
+    @Override
+    public void load(ResultSet rs) throws SQLException,
+            CivException {
+        this.setId(rs.getInt("id"));
+        this.configRandomEvent = CivSettings.randomEvents.get(rs.getString("config_id"));
+        if (this.configRandomEvent == null) {
+            /* Delete the random event. */
+            this.delete();
+            throw new CivException("Couldn't find random event config id:" + rs.getString("config_id"));
+        }
+
+        this.town = CivGlobal.getTownFromId(rs.getInt("town_id"));
+        if (this.town == null) {
 			this.delete();
 			throw new CivException("Couldn't find town id:"+rs.getInt("town_id")+" while loading random event.");
 		}
@@ -145,7 +146,7 @@ public class RandomEvent extends SQLObject {
 
 	@Override
 	public void saveNow() throws SQLException {
-		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+        HashMap<String, Object> hashmap = new HashMap<>();
 		
 		hashmap.put("config_id", this.configRandomEvent.id);
 		hashmap.put("town_id", this.getTown().getId());	
@@ -158,31 +159,31 @@ public class RandomEvent extends SQLObject {
 	}
 	
 	private String getComponentVarsSaveString() {
-		String out = "";
+        StringBuilder out = new StringBuilder();
 		
 		for (String key : this.componentVars.keySet()) {
 			String value = this.componentVars.get(key);
 			
 			String keyEncoded = new String(Base64Coder.encode(key.getBytes()));
 			String valueEncoded = new String(Base64Coder.encode(value.getBytes()));
-						
-			out += keyEncoded+":"+valueEncoded+",";
+
+            out.append(keyEncoded).append(":").append(valueEncoded).append(",");
 			
 		}
-		
-		return out;
+
+        return out.toString();
 	}
 	
 	private String getSavedMessagesSaveString() {
-		String out = "";
+        StringBuilder out = new StringBuilder();
 		
 		for (String message : this.savedMessages) {
 			
-			String msgEncoded = new String(Base64Coder.encode(message.getBytes())); 
-			out += msgEncoded+",";
+			String msgEncoded = new String(Base64Coder.encode(message.getBytes()));
+            out.append(msgEncoded).append(",");
 		}
-		
-		return out;
+
+        return out.toString();
 	}
 
 
@@ -218,24 +219,19 @@ public class RandomEvent extends SQLObject {
 				
 				try {
 					someClass = Class.forName(className);
-					RandomEventComponent perkCompClass;
-					perkCompClass = (RandomEventComponent)someClass.newInstance();
-					perkCompClass.setName(compInfo.get("name"));
-					
-					for (String key : compInfo.keySet()) {
-						perkCompClass.setAttribute(key, compInfo.get(key));
-					}
-					
-					perkCompClass.createComponent(this);
-					components.put(perkCompClass.getName(), perkCompClass);
-				} catch (InstantiationException e) {
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-				}
-				catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				}
+                    RandomEventComponent perkCompClass;
+                    perkCompClass = (RandomEventComponent) someClass.newInstance();
+                    perkCompClass.setName(compInfo.get("name"));
+
+                    for (String key : compInfo.keySet()) {
+                        perkCompClass.setAttribute(key, compInfo.get(key));
+                    }
+
+                    perkCompClass.createComponent(this);
+                    components.put(perkCompClass.getName(), perkCompClass);
+                } catch (InstantiationException | ClassNotFoundException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
 			}
 		}
 	}
@@ -346,22 +342,22 @@ public class RandomEvent extends SQLObject {
 
 		ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(Unhappiness.getKey(town));
 		double unhappy = 0.0;
-		
-		ArrayList<SessionEntry> removed = new ArrayList<SessionEntry>();
-		for (SessionEntry entry : entries) {
-			String[] split = entry.value.split(":");
-			int unhappiness = Integer.valueOf(split[0]);
-			int duration = Integer.valueOf(split[1]);
 
-			
-			Date start = new Date(entry.time);
-			Date now = new Date();
-			
-			if (now.getTime() > (start.getTime() + (duration*RandomEventSweeper.MILLISECONDS_PER_HOUR))) {
-				/* Entry is expired, delete it and continue. */
-				removed.add(entry);
-				continue;
-			}
+        ArrayList<SessionEntry> removed = new ArrayList<>();
+		for (SessionEntry entry : entries) {
+            String[] split = entry.value.split(":");
+            int unhappiness = Integer.parseInt(split[0]);
+            int duration = Integer.parseInt(split[1]);
+
+
+            Date start = new Date(entry.time);
+            Date now = new Date();
+
+            if (now.getTime() > (start.getTime() + ((long) duration * RandomEventSweeper.MILLISECONDS_PER_HOUR))) {
+                /* Entry is expired, delete it and continue. */
+                removed.add(entry);
+                continue;
+            }
 			
 			unhappy += unhappiness;
 		}
@@ -377,22 +373,22 @@ public class RandomEvent extends SQLObject {
 	public static double getHappiness(Town town) {
 		ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(Happiness.getKey(town));
 		double happy = 0.0;
-		
-		ArrayList<SessionEntry> removed = new ArrayList<SessionEntry>();
-		for (SessionEntry entry : entries) {
-			String[] split = entry.value.split(":");
-			int happiness = Integer.valueOf(split[0]);
-			int duration = Integer.valueOf(split[1]);
 
-			
-			Date start = new Date(entry.time);
-			Date now = new Date();
-			
-			if (now.getTime() > (start.getTime() + (duration*RandomEventSweeper.MILLISECONDS_PER_HOUR))) {
-				/* Entry is expired, delete it and continue. */
-				removed.add(entry);
-				continue;
-			}
+        ArrayList<SessionEntry> removed = new ArrayList<>();
+		for (SessionEntry entry : entries) {
+            String[] split = entry.value.split(":");
+            int happiness = Integer.parseInt(split[0]);
+            int duration = Integer.parseInt(split[1]);
+
+
+            Date start = new Date(entry.time);
+            Date now = new Date();
+
+            if (now.getTime() > (start.getTime() + ((long) duration * RandomEventSweeper.MILLISECONDS_PER_HOUR))) {
+                /* Entry is expired, delete it and continue. */
+                removed.add(entry);
+                continue;
+            }
 			
 			happy += happiness;
 		}
@@ -408,22 +404,22 @@ public class RandomEvent extends SQLObject {
 	public static double getHammerRate(Town town) {
 		ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(HammerRate.getKey(town));
 		double hammerrate = 1.0;
-		
-		ArrayList<SessionEntry> removed = new ArrayList<SessionEntry>();
-		for (SessionEntry entry : entries) {
-			String[] split = entry.value.split(":");
-			double rate = Double.valueOf(split[0]);
-			int duration = Integer.valueOf(split[1]);
 
-			
-			Date start = new Date(entry.time);
-			Date now = new Date();
-			
-			if (now.getTime() > (start.getTime() + (duration*RandomEventSweeper.MILLISECONDS_PER_HOUR))) {
-				/* Entry is expired, delete it and continue. */
-				removed.add(entry);
-				continue;
-			}
+        ArrayList<SessionEntry> removed = new ArrayList<>();
+		for (SessionEntry entry : entries) {
+            String[] split = entry.value.split(":");
+            double rate = Double.parseDouble(split[0]);
+            int duration = Integer.parseInt(split[1]);
+
+
+            Date start = new Date(entry.time);
+            Date now = new Date();
+
+            if (now.getTime() > (start.getTime() + ((long) duration * RandomEventSweeper.MILLISECONDS_PER_HOUR))) {
+                /* Entry is expired, delete it and continue. */
+                removed.add(entry);
+                continue;
+            }
 			
 			hammerrate *= rate;
 		}
@@ -441,7 +437,7 @@ public class RandomEvent extends SQLObject {
 	}
 
 	public Date getEndDate() {
-		Date end = new Date(this.startDate.getTime() + (this.configRandomEvent.length * RandomEventSweeper.MILLISECONDS_PER_HOUR));
+        Date end = new Date(this.startDate.getTime() + ((long) this.configRandomEvent.length * RandomEventSweeper.MILLISECONDS_PER_HOUR));
 		return end;
 	}
 

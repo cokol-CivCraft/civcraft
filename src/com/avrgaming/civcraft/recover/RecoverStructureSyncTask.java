@@ -78,7 +78,7 @@ public class RecoverStructureSyncTask implements Runnable {
 						continue;
 					}
 
-                    if (nextBlock.getTypeId() != Material.BEDROCK.getId()) {
+                    if (nextBlock.getType() != Material.BEDROCK) {
 						if (tpl.blocks[x][y][z].isAir()) {
 							continue;
 						}

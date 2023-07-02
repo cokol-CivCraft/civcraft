@@ -91,11 +91,11 @@ public class CampCommand extends CommandBase {
 		}
 		
 		try {
-			camp.repairFromTemplate();
-		} catch (IOException e) {
-		} catch (CivException e) {
-			e.printStackTrace();
-		}
+            camp.repairFromTemplate();
+        } catch (IOException ignored) {
+        } catch (CivException e) {
+            e.printStackTrace();
+        }
 		camp.reprocessCommandSigns();
 		CivMessage.send(sender, CivSettings.localize.localizedString("cmd_camp_refreshSuccess"));
 	}
@@ -106,25 +106,25 @@ public class CampCommand extends CommandBase {
 	}
 	
 	public void info_cmd() throws CivException {
-		Camp camp = this.getCurrentCamp();
-		SimpleDateFormat sdf = new SimpleDateFormat("M/dd h:mm:ss a z");
+        Camp camp = this.getCurrentCamp();
+        SimpleDateFormat sdf = new SimpleDateFormat("M/dd h:mm:ss a z");
 
-		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("var_camp_infoHeading",camp.getName()));
-		HashMap<String,String> info = new HashMap<String, String>();
-		info.put(CivSettings.localize.localizedString("Owner"), camp.getOwnerName());
-		info.put(CivSettings.localize.localizedString("Members"), ""+camp.getMembers().size());
-		info.put(CivSettings.localize.localizedString("NextRaid"), ""+sdf.format(camp.getNextRaidDate()));
-		CivMessage.send(sender, this.makeInfoString(info, CivColor.Green, CivColor.LightGreen));
-		
-		info.clear();
-		info.put(CivSettings.localize.localizedString("cmd_camp_infoFireLeft"), ""+camp.getFirepoints());
-		info.put(CivSettings.localize.localizedString("cmd_camp_infoLonghouseLevel"), ""+camp.getLonghouseLevel()+""+camp.getLonghouseCountString());
-		CivMessage.send(sender, this.makeInfoString(info, CivColor.Green, CivColor.LightGreen));
+        CivMessage.sendHeading(sender, CivSettings.localize.localizedString("var_camp_infoHeading", camp.getName()));
+        HashMap<String, String> info = new HashMap<>();
+        info.put(CivSettings.localize.localizedString("Owner"), camp.getOwnerName());
+        info.put(CivSettings.localize.localizedString("Members"), String.valueOf(camp.getMembers().size()));
+        info.put(CivSettings.localize.localizedString("NextRaid"), sdf.format(camp.getNextRaidDate()));
+        CivMessage.send(sender, this.makeInfoString(info, CivColor.Green, CivColor.LightGreen));
 
-		info.clear();
-		info.put(CivSettings.localize.localizedString("Members"), camp.getMembersString());
-		CivMessage.send(sender, this.makeInfoString(info, CivColor.Green, CivColor.LightGreen));
-	}
+        info.clear();
+        info.put(CivSettings.localize.localizedString("cmd_camp_infoFireLeft"), String.valueOf(camp.getFirepoints()));
+        info.put(CivSettings.localize.localizedString("cmd_camp_infoLonghouseLevel"), camp.getLonghouseLevel() + camp.getLonghouseCountString());
+        CivMessage.send(sender, this.makeInfoString(info, CivColor.Green, CivColor.LightGreen));
+
+        info.clear();
+        info.put(CivSettings.localize.localizedString("Members"), camp.getMembersString());
+        CivMessage.send(sender, this.makeInfoString(info, CivColor.Green, CivColor.LightGreen));
+    }
 	
 	public void remove_cmd() throws CivException {
 		this.validCampOwner();
@@ -203,10 +203,10 @@ public class CampCommand extends CommandBase {
 		camp.save();
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_camp_leaveSuccess",camp.getName()));
 	}
-	
-	public void new_cmd() throws CivException {
 
-	}
+    public void new_cmd() {
+
+    }
 	
 	public void disband_cmd() throws CivException {
 		Resident resident = getResident();
@@ -254,20 +254,20 @@ public class CampCommand extends CommandBase {
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_camp_undoSuccess"));
 		
 	}
-	
 
-	@Override
-	public void doDefaultAction() throws CivException {
-		showHelp();
-	}
+
+    @Override
+    public void doDefaultAction() {
+        showHelp();
+    }
 
 	@Override
 	public void showHelp() {
 		showBasicHelp();
 	}
 
-	@Override
-	public void permissionCheck() throws CivException {
-	}
+    @Override
+    public void permissionCheck() {
+    }
 
 }

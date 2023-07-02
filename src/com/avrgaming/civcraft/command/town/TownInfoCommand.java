@@ -85,8 +85,8 @@ public class TownInfoCommand extends CommandBase {
 		Town town = getSelectedTown();
 		
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_town_info_disabledHeading"));
-		LinkedList<String> out = new LinkedList<String>();
-		boolean showhelp = false;
+		LinkedList<String> out = new LinkedList<>();
+        boolean showhelp = false;
 		
 		for (Buildable buildable : town.getDisabledBuildables()) {
 			showhelp = true;
@@ -108,7 +108,7 @@ public class TownInfoCommand extends CommandBase {
 		Town town = getSelectedTown();
 		
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_town_info_areaHeading"));
-		HashMap<String, Integer> biomes = new HashMap<String, Integer>();
+        HashMap<String, Integer> biomes = new HashMap<>();
 		
 		double hammers = 0.0;
 		double growth = 0.0;
@@ -132,14 +132,14 @@ public class TownInfoCommand extends CommandBase {
 		}
 		
 		CivMessage.send(sender, CivColor.LightBlue+CivSettings.localize.localizedString("cmd_town_biomeList"));
-		String out = "";
+        StringBuilder out = new StringBuilder();
 		//int totalBiomes = 0;
 		for (String biome : biomes.keySet()) {
 			Integer count = biomes.get(biome);
-			out += CivColor.Green+biome+": "+CivColor.LightGreen+count+CivColor.Green+", ";
+            out.append(CivColor.Green).append(biome).append(": ").append(CivColor.LightGreen).append(count).append(CivColor.Green).append(", ");
 		//	totalBiomes += count;
 		}
-		CivMessage.send(sender, out);
+        CivMessage.send(sender, out.toString());
 		
 		//CivMessage.send(sender, CivColor.Green+"Biome Count:"+CivColor.LightGreen+totalBiomes);
 		
@@ -168,7 +168,7 @@ public class TownInfoCommand extends CommandBase {
 		Town town = getSelectedTown();
 		
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_town_info_happinessHeading"));
-		ArrayList<String> out = new ArrayList<String>();
+        ArrayList<String> out = new ArrayList<>();
 
 		out.add(CivMessage.buildSmallTitle(CivSettings.localize.localizedString("cmd_town_info_happinessSources")));
 		AttrSource happySources = town.getHappiness();
@@ -202,18 +202,18 @@ public class TownInfoCommand extends CommandBase {
 		Town town = getSelectedTown();
 		
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("var_cmd_town_info_onlineHeading",town.getName()));
-		String out = "";
+        StringBuilder out = new StringBuilder();
 		for (Resident resident : town.getOnlineResidents()) {
-			out += resident.getName()+" ";
+            out.append(resident.getName()).append(" ");
 		}
-		CivMessage.send(sender, out);
+        CivMessage.send(sender, out.toString());
 	}
 	
 	public void buffs_cmd() throws CivException {
 		Town town = getSelectedTown();
 		
 		CivMessage.sendHeading(sender, town.getName()+" "+CivSettings.localize.localizedString("cmd_town_info_buffsHeading"));
-		ArrayList<String> out = new ArrayList<String>();
+        ArrayList<String> out = new ArrayList<>();
 
 		for (Buff buff : town.getBuffManager().getAllBuffs()) {
 			out.add(CivColor.Green+CivSettings.localize.localizedString("var_BuffsFrom",(CivColor.LightGreen+buff.getDisplayName()+CivColor.Green),CivColor.LightGreen+buff.getSource()));
@@ -293,14 +293,14 @@ public class TownInfoCommand extends CommandBase {
 	
 	public void trade_cmd() throws CivException {
 		Town town = getSelectedTown();
-		
-		ArrayList<String> out = new ArrayList<String>();
+
+        ArrayList<String> out = new ArrayList<>();
 		CivMessage.sendHeading(sender, town.getName()+" "+CivSettings.localize.localizedString("cmd_town_info_tradeHeading"));
 		out.add(CivColor.Green+CivSettings.localize.localizedString("cmd_town_info_tradeMultiplier")+" "+CivColor.LightGreen+df.format(town.getTradeRate()));
 		boolean maxedCount = false;		
 		int goodMax;
 		try {
-			goodMax = (Integer)CivSettings.getInteger(CivSettings.goodsConfig, "trade_good_multiplier_max");
+            goodMax = CivSettings.getInteger(CivSettings.goodsConfig, "trade_good_multiplier_max");
 		} catch (InvalidConfiguration e) {
 			e.printStackTrace();
 			throw new CivException(CivSettings.localize.localizedString("internalException"));
@@ -310,9 +310,9 @@ public class TownInfoCommand extends CommandBase {
 		if (town.getBonusGoodies().size() > 0) {
 			for (BonusGoodie goodie : town.getBonusGoodies()) {
 				TradeGood good = goodie.getOutpost().getGood();
-				
-				int count = TradeGood.getTradeGoodCount(goodie, town)-1;
-				String countString = ""+count;
+
+                int count = TradeGood.getTradeGoodCount(goodie, town) - 1;
+                String countString = String.valueOf(count);
 				if (count > goodMax) {
 					maxedCount = true;
 					count = goodMax;
@@ -340,7 +340,6 @@ public class TownInfoCommand extends CommandBase {
 					+df.format(TradeGood.getTownTradePayment(town)));
 		
 		CivMessage.send(sender, out);
-		return;
 	}
 	
 	public void showDebugStructureInfo(Town town) {
@@ -360,8 +359,8 @@ public class TownInfoCommand extends CommandBase {
 				return;
 			}
 		}
-			
-		HashMap<String, Double> structsByName = new HashMap<String, Double>();
+
+        HashMap<String, Double> structsByName = new HashMap<>();
 		for (Structure struct : town.getStructures()) {
 			Double upkeep = structsByName.get(struct.getConfigId());
 			if (upkeep == null) {
@@ -388,8 +387,8 @@ public class TownInfoCommand extends CommandBase {
 	
 	
 	public void cottage_cmd() throws CivException {
-		Town town = getSelectedTown();
-		ArrayList<String> out = new ArrayList<String>();	
+        Town town = getSelectedTown();
+        ArrayList<String> out = new ArrayList<>();
 		
 		CivMessage.sendHeading(sender, town.getName()+" "+CivSettings.localize.localizedString("cmd_town_info_cottageHeading"));
 		double total = 0;
@@ -443,8 +442,8 @@ public class TownInfoCommand extends CommandBase {
 	}
 	
 	public void temple_cmd() throws CivException {
-		Town town = getSelectedTown();
-		ArrayList<String> out = new ArrayList<String>();	
+        Town town = getSelectedTown();
+        ArrayList<String> out = new ArrayList<>();
 		
 		CivMessage.sendHeading(sender, town.getName()+" "+CivSettings.localize.localizedString("cmd_town_info_templeHeading"));
 		double total = 0;
@@ -490,8 +489,8 @@ public class TownInfoCommand extends CommandBase {
 	
 	
 	public void mine_cmd() throws CivException {
-		Town town = getSelectedTown();
-		ArrayList<String> out = new ArrayList<String>();	
+        Town town = getSelectedTown();
+        ArrayList<String> out = new ArrayList<>();
 		
 		CivMessage.sendHeading(sender, town.getName()+" "+CivSettings.localize.localizedString("cmd_town_info_mineHeading"));
 		double total = 0;
@@ -591,9 +590,9 @@ public class TownInfoCommand extends CommandBase {
 		}
 		
 		if (resident == null || civ.hasResident(resident) || isAdmin) {
-		
-			String color = CivColor.LightGreen;
-			Integer maxTileImprovements  = level.tile_improvements;
+
+            String color = CivColor.LightGreen;
+            int maxTileImprovements = level.tile_improvements;
 			if (town.getBuffManager().hasBuff("buff_mother_tree_tile_improvement_bonus"))
 			{
 				maxTileImprovements *= 2;
@@ -617,15 +616,15 @@ public class TownInfoCommand extends CommandBase {
 			CivMessage.send(sender, CivColor.Green+CivSettings.localize.localizedString("Members")+" "+CivColor.LightGreen+town.getResidentCount()+" "+
 									CivColor.Green+CivSettings.localize.localizedString("TaxRate")+" "+CivColor.LightGreen+town.getTaxRateString()+" "+
 									CivColor.Green+CivSettings.localize.localizedString("FlatTax")+" "+CivColor.LightGreen+town.getFlatTax()+" "+CivSettings.CURRENCY_NAME);
-			
-			HashMap<String,String> info = new HashMap<String, String>();
+
+            HashMap<String, String> info = new HashMap<>();
 //			info.put("Happiness", CivColor.White+"("+CivColor.LightGreen+"H"+CivColor.Yellow+town.getHappinessTotal()
 //					+CivColor.White+"/"+CivColor.Rose+"U"+CivColor.Yellow+town.getUnhappinessTotal()+CivColor.White+") = "+
 //					CivColor.LightGreen+df.format(town.getHappinessPercentage()*100)+"%");
 			info.put(CivSettings.localize.localizedString("Happiness"), CivColor.LightGreen+df.format(Math.floor(town.getHappinessPercentage()*100))+"%");
 			ConfigHappinessState state = town.getHappinessState();
-			info.put(CivSettings.localize.localizedString("State"), ""+CivColor.valueOf(state.color)+state.name);	
-			CivMessage.send(sender, parent.makeInfoString(info, CivColor.Green, CivColor.LightGreen));
+            info.put(CivSettings.localize.localizedString("State"), CivColor.valueOf(state.color) + state.name);
+            CivMessage.send(sender, parent.makeInfoString(info, CivColor.Green, CivColor.LightGreen));
 			
 			
 			ConfigCultureLevel clc = CivSettings.cultureLevels.get(town.getCultureLevel());	
@@ -635,9 +634,9 @@ public class TownInfoCommand extends CommandBase {
 		}
 		
 		if (town.getBonusGoodies().size() > 0) {
-			String goodies = "";
+            StringBuilder goodies = new StringBuilder();
 			for (BonusGoodie goodie : town.getBonusGoodies()) {
-				goodies += goodie.getDisplayName()+",";
+                goodies.append(goodie.getDisplayName()).append(",");
 			}
 			CivMessage.send(sender, CivColor.Green+CivSettings.localize.localizedString("Goodies")+" "+CivColor.LightGreen+goodies);
 		}
@@ -680,11 +679,11 @@ public class TownInfoCommand extends CommandBase {
 			} else {
 				CivMessage.send(sender, CivColor.LightPurple+CivSettings.localize.localizedString("Location")+" "+townhall.getCorner());
 			}
-			
-			String wars = "";
+
+            StringBuilder wars = new StringBuilder();
 			for (Relation relation : town.getCiv().getDiplomacyManager().getRelations()) {
 				if (relation.getStatus() == Status.WAR) {
-					wars += relation.getOtherCiv().getName()+", ";
+                    wars.append(relation.getOtherCiv().getName()).append(", ");
 				}
 			}
 			
@@ -716,8 +715,8 @@ public class TownInfoCommand extends CommandBase {
 		showBasicHelp();
 	}
 
-	@Override
-	public void permissionCheck() throws CivException {		
-	}
+    @Override
+    public void permissionCheck() {
+    }
 
 }

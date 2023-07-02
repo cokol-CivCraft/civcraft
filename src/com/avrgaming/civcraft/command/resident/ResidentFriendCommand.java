@@ -68,25 +68,25 @@ public class ResidentFriendCommand extends CommandBase {
 		Resident resident = getResident();
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("var_cmd_res_friend_listHeading",resident.getName()));
 		
-		String out = "";
+		StringBuilder out = new StringBuilder();
 		for (String res : resident.getFriends()) {
-			out += res+ ", ";
+            out.append(res).append(", ");
 		}
-		CivMessage.send(sender, out);
+        CivMessage.send(sender, out.toString());
 	}
 
-	@Override
-	public void doDefaultAction() throws CivException {
-		showHelp();
-	}
+    @Override
+    public void doDefaultAction() {
+        showHelp();
+    }
 
 	@Override
 	public void showHelp() {
 		showBasicHelp();	
 	}
 
-	@Override
-	public void permissionCheck() throws CivException {		
-	}
+    @Override
+    public void permissionCheck() {
+    }
 
 }

@@ -47,7 +47,7 @@ public class PlayerChunkNotifyAsyncTask implements Runnable {
 	String playerName;
 	
 	public static int BORDER_SPAM_TIMEOUT = 30000; //30 second border spam protection.
-	public static HashMap<String, Date> cultureEnterTimes = new HashMap<String, Date>();
+    public static HashMap<String, Date> cultureEnterTimes = new HashMap<>();
 	
 	public PlayerChunkNotifyAsyncTask(Location from, Location to, String playerName) {
 		this.from = from;
@@ -171,27 +171,28 @@ public class PlayerChunkNotifyAsyncTask implements Runnable {
 			title += fromCc.getOnLeaveString();
 		} else if (fromCc == null && toCc != null) {	// Leaving wild, entering culture.
 			title += toCc.getOnEnterString();
-			if (civilization != null) {
-				if (civilization == toCc.getCiv()) {
-					subTitle += CivSettings.localize.localizedString("var_civ_border_welcomeBack", player.getName());
-				} else {
-					String relationship = civilization.getDiplomacyManager().getRelation(toCc.getCiv()).toString();
-					if (relationship != null && relationship.length() >= 1) {
-						subTitle = CivSettings.localize.localizedString("var_civ_border_relation",relationship);
-					}
-				}			}
-			onCultureEnter(toCc);
-		} else if (fromCc != null && toCc !=null && fromCc.getCiv() != toCc.getCiv()) {
-			//Leaving one civ's culture, into another. 
-			
-			title += fromCc.getOnLeaveString() +" | "+ toCc.getOnEnterString();
-			onCultureEnter(toCc);
-			if (civilization != null) {
-				if (civilization == toCc.getCiv()) {
-					subTitle += CivSettings.localize.localizedString("var_civ_border_welcomeBack", player.getName());
-				} else {
-					String relationship = civilization.getDiplomacyManager().getRelation(toCc.getCiv()).toString();
-					if (relationship != null && relationship.length() >= 1) {
+            if (civilization != null) {
+                if (civilization == toCc.getCiv()) {
+                    subTitle += CivSettings.localize.localizedString("var_civ_border_welcomeBack", player.getName());
+                } else {
+                    String relationship = civilization.getDiplomacyManager().getRelation(toCc.getCiv()).toString();
+                    if (relationship != null && relationship.length() >= 1) {
+                        subTitle = CivSettings.localize.localizedString("var_civ_border_relation", relationship);
+                    }
+                }
+            }
+            onCultureEnter(toCc);
+        } else if (fromCc != null && fromCc.getCiv() != toCc.getCiv()) {
+            //Leaving one civ's culture, into another.
+
+            title += fromCc.getOnLeaveString() + " | " + toCc.getOnEnterString();
+            onCultureEnter(toCc);
+            if (civilization != null) {
+                if (civilization == toCc.getCiv()) {
+                    subTitle += CivSettings.localize.localizedString("var_civ_border_welcomeBack", player.getName());
+                } else {
+                    String relationship = civilization.getDiplomacyManager().getRelation(toCc.getCiv()).toString();
+                    if (relationship != null && relationship.length() >= 1) {
 						subTitle = CivSettings.localize.localizedString("var_civ_border_relation",relationship);
 					}
 				}

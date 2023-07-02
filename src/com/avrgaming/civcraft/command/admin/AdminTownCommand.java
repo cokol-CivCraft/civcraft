@@ -95,11 +95,11 @@ public class AdminTownCommand extends CommandBase {
 		
 		if (args.length < 3) {
 			CivMessage.sendHeading(sender, CivSettings.localize.localizedString("adcmd_town_eventHeading"));
-			String out = "";
+			StringBuilder out = new StringBuilder();
 			for (ConfigRandomEvent configEvent : CivSettings.randomEvents.values()) {
-				out += configEvent.id+",";
+                out.append(configEvent.id).append(",");
 			}
-			CivMessage.send(sender, out);
+            CivMessage.send(sender, out.toString());
 			return;
 		}
 		
@@ -205,8 +205,8 @@ public class AdminTownCommand extends CommandBase {
 	
 	public void chestreport_cmd() throws CivException {
 		Town town = getNamedTown(1);
-				
-		Queue<ChunkCoord> coords = new LinkedList<ChunkCoord>(); 
+
+        Queue<ChunkCoord> coords = new LinkedList<>();
 		for (TownChunk tc : town.getTownChunks()) {
 			ChunkCoord coord = tc.getChunkCoord();
 			coords.add(coord);
@@ -425,8 +425,8 @@ public class AdminTownCommand extends CommandBase {
 		Town town = getNamedTown(1);
 		
 		try {
-			town.setHammerRate(Double.valueOf(args[2]));
-			CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_town_hammerrateSuccess",args[1],args[2]));
+            town.setHammerRate(Double.parseDouble(args[2]));
+            CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_town_hammerrateSuccess", args[1], args[2]));
 		} catch (NumberFormatException e) {
 			throw new CivException(args[2]+" "+CivSettings.localize.localizedString("cmd_enterNumerError"));
 		}
@@ -481,21 +481,21 @@ public class AdminTownCommand extends CommandBase {
 		}
 		
 	}
-	
-	
-	@Override
-	public void doDefaultAction() throws CivException {
-		showHelp();
-	}
+
+
+    @Override
+    public void doDefaultAction() {
+        showHelp();
+    }
 
 	@Override
 	public void showHelp() {
 		showBasicHelp();
 	}
 
-	@Override
-	public void permissionCheck() throws CivException {
-		//Admin permission checked in parent.
-	}
+    @Override
+    public void permissionCheck() {
+        //Admin permission checked in parent.
+    }
 
 }

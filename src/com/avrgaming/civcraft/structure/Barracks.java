@@ -68,7 +68,7 @@ public class Barracks extends Structure {
 	private ConfigUnit trainingUnit = null;
 	private double currentHammers = 0.0;
 	
-	private TreeMap<Integer, StructureSign> progresBar = new TreeMap<Integer, StructureSign>();
+	private final TreeMap<Integer, StructureSign> progresBar = new TreeMap<>();
 	private Date lastSave = null;
 	
 	protected Barracks(Location center, String id, Town town)
@@ -256,8 +256,7 @@ public class Barracks extends Structure {
 				InteractiveRepairItem repairItem = new InteractiveRepairItem(totalCost, player.getName(), craftMat);
 				repairItem.displayMessage();
 				resident.setInteractiveMode(repairItem);
-				return;
-				
+
 			} catch (InvalidConfiguration e) {
 				e.printStackTrace();
 				throw new CivException(CivSettings.localize.localizedString("internalException"));
@@ -307,7 +306,7 @@ public class Barracks extends Structure {
 		
 		class BarracksSyncUpdate implements Runnable {
 
-			StructureSign unitNameSign;
+			final StructureSign unitNameSign;
 			
 			public BarracksSyncUpdate(StructureSign unitNameSign) {
 				this.unitNameSign = unitNameSign;
@@ -565,8 +564,8 @@ public class Barracks extends Structure {
 				CivLog.error("Couldn't find in-progress unit id:"+values[0]+" for town "+this.getTown().getName());
 				return;
 			}
-			
-			this.currentHammers = Double.valueOf(values[1]);
+
+			this.currentHammers = Double.parseDouble(values[1]);
 			
 			/* delete any bad extra entries. */
 			for (int i = 1; i < entries.size(); i++) {

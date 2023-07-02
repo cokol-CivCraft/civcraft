@@ -57,15 +57,15 @@ public class PermissionNode {
 		return type+":"+permitOwner+":"+permitGroup+":"+permitOthers;
 	}
 	
-	public void loadFromString(String src) throws CivException {
-		String[] split = src.split(":");
-		setType(split[0]);
-		
-		permitOwner = Boolean.valueOf(split[1]);
-		permitGroup = Boolean.valueOf(split[2]);
-		permitOthers = Boolean.valueOf(split[3]);
+	public void loadFromString(String src) {
+        String[] split = src.split(":");
+        setType(split[0]);
 
-	}
+        permitOwner = Boolean.parseBoolean(split[1]);
+        permitGroup = Boolean.parseBoolean(split[2]);
+        permitOthers = Boolean.parseBoolean(split[3]);
+
+    }
 
 	public boolean isPermitOwner() {
 		return permitOwner;

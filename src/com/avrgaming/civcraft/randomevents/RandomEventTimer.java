@@ -43,18 +43,14 @@ public class RandomEventTimer implements EventInterface {
 					}
 					
 					if (selectedEvent.chance == event.chance) {
-						/* Toss a coin to pick which event should run. */
-						if (rand.nextInt(1) == 0) {
-							/* Override. */
-							selectedEvent = event;
-							continue;
-						}
-					} else {
+                        /* Toss a coin to pick which event should run. */
+                        rand.nextInt(1);/* Override. */
+                        selectedEvent = event;
+                    } else {
 						/* Choose the lowest chance event. */
 						if (event.chance < selectedEvent.chance) {
 							selectedEvent = event;
-							continue;
-						}
+                        }
 					}
 				}
 			}
@@ -70,15 +66,15 @@ public class RandomEventTimer implements EventInterface {
 		
 	}
 
-	@Override
-	public Calendar getNextDate() throws InvalidConfiguration {
-		Calendar now = EventTimer.getCalendarInServerTimeZone();
-		/* Run once every 12 to 24 hours. */
-		Random rand = new Random();
-		int hours = rand.nextInt(12) + 12;
-		now.setTimeInMillis(now.getTime().getTime() + hours*RandomEventSweeper.MILLISECONDS_PER_HOUR);
-		return now;
-	}
+    @Override
+    public Calendar getNextDate() {
+        Calendar now = EventTimer.getCalendarInServerTimeZone();
+        /* Run once every 12 to 24 hours. */
+        Random rand = new Random();
+        int hours = rand.nextInt(12) + 12;
+        now.setTimeInMillis(now.getTime().getTime() + hours * RandomEventSweeper.MILLISECONDS_PER_HOUR);
+        return now;
+    }
 
 
 }

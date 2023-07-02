@@ -84,8 +84,7 @@ public class FoundCamp extends ItemComponent implements CallbackInterface {
 		} catch (CivException e) {
 			CivMessage.sendError(event.getPlayer(), e.getMessage());
 		}
-		return;
-	}
+    }
 
 	@Override
 	public void execute(String playerName) {

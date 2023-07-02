@@ -27,13 +27,13 @@ public class PerkManager {
 	public static String dsn = "";
 	//public static Connection context = null;	
 	
-	public static HashMap<String, Integer> identPlatinumRewards = new HashMap<String, Integer>();
+	public static HashMap<String, Integer> identPlatinumRewards = new HashMap<>();
 	
 
 	public void init() throws SQLException {
 	}
-	
-	private static HashMap<String, Integer> userIdCache = new HashMap<String, Integer>();
+
+    private static final HashMap<String, Integer> userIdCache = new HashMap<>();
 	private static Integer getUserWebsiteId(Resident resident) throws SQLException, NotVerifiedException {
 		Connection context = null;
 		ResultSet rs = null;
@@ -57,7 +57,7 @@ public class PerkManager {
 			}
 			
 			/* Double check resident is verified. */
-			Boolean verified = rs.getBoolean("verified");
+            boolean verified = rs.getBoolean("verified");
 			if (!verified) {
 				throw new NotVerifiedException();
 			}
@@ -67,34 +67,35 @@ public class PerkManager {
 			return userId;
 		} finally {
 			SQL.close(rs, s, context);
-		}
-	}
-	
-	public int addPerkToResident(Resident resident, String perk_id, Integer count) throws SQLException, CivException {
-		return 0;
-	}
-	
-	public int removePerkFromResident(Resident resident, String perk_id, Integer count) throws SQLException, CivException {
-		return 0;
-	}
-	public void loadPerksForResident(Resident resident) throws SQLException, NotVerifiedException, CivException {
-		LinkedList<String> perkIdents = new LinkedList<String>();
-		String sql;
-		Connection context = null;
-		ResultSet rs = null;
-		PreparedStatement s = null;
-		HashSet<Integer> perkIDs = new HashSet<Integer>();
-		HashMap<Integer, Integer> perkCounts = new HashMap<Integer, Integer>();
+        }
+    }
 
-		try {
-			context = SQL.getPerkConnection();	
-			
-			/* XXX TODO Get better with JOIN statements and do this faster. */
-			Integer userID = getUserWebsiteId(resident);
-		
-			try {
-				/* Lookup join table for perks and users. */
-				sql = "SELECT `perk_id`,`used`,`used_phase` FROM `userperks` WHERE `user_id` = ?";
+    public int addPerkToResident(Resident resident, String perk_id, Integer count) throws SQLException {
+        return 0;
+    }
+
+    public int removePerkFromResident(Resident resident, String perk_id, Integer count) throws SQLException {
+        return 0;
+    }
+
+    public void loadPerksForResident(Resident resident) throws SQLException, NotVerifiedException {
+        LinkedList<String> perkIdents = new LinkedList<>();
+        String sql;
+        Connection context = null;
+        ResultSet rs = null;
+        PreparedStatement s = null;
+        HashSet<Integer> perkIDs = new HashSet<>();
+        HashMap<Integer, Integer> perkCounts = new HashMap<>();
+
+        try {
+            context = SQL.getPerkConnection();
+
+            /* XXX TODO Get better with JOIN statements and do this faster. */
+            Integer userID = getUserWebsiteId(resident);
+
+            try {
+                /* Lookup join table for perks and users. */
+                sql = "SELECT `perk_id`,`used`,`used_phase` FROM `userperks` WHERE `user_id` = ?";
 				s = context.prepareStatement(sql);
 				s.setInt(1, userID);
 				
@@ -110,12 +111,7 @@ public class PerkManager {
 					
 					int id = rs.getInt("perk_id");
 					if (!usedPhase.equals(CivGlobal.getPhase())) {
-						Integer count = perkCounts.get(id);
-						if (count == null) {
-							perkCounts.put(id, 1);
-						} else {
-							perkCounts.put(id, count+1);
-						}
+                        perkCounts.merge(id, 1, Integer::sum);
 						
 						perkIDs.add(id);
 					}
@@ -128,8 +124,8 @@ public class PerkManager {
 				if (perkIDs.size() > 0) {
 					/* Finally, look up perk idents. */
 					StringBuilder sqlBuild = new StringBuilder("SELECT `id`, `ident` FROM `perks` WHERE id IN (");
-					for (Integer id : perkIDs) {				
-						sqlBuild.append(""+id+",");
+					for (Integer id : perkIDs) {
+                        sqlBuild.append(id).append(",");
 					}
 					sqlBuild.setCharAt(sqlBuild.length()-1, ')');
 					s = context.prepareStatement(sqlBuild.toString());
@@ -161,20 +157,18 @@ public class PerkManager {
 					p2.count++;
 					resident.perks.put(p2.getIdent(), p2);
 				} else {
-					Perk p = new Perk(configPerk);
-					resident.perks.put(p.getIdent(), p);
-				}
-			}
-			
-			return;
-		} finally {
-			SQL.close(rs, s, context);
-		}
-	}
-	
-	public void markAsUsed(Resident resident, Perk parent) throws SQLException, NotVerifiedException {
-		return;
-//		Connection context = null;
+                    Perk p = new Perk(configPerk);
+                    resident.perks.put(p.getIdent(), p);
+                }
+            }
+
+        } finally {
+            SQL.close(rs, s, context);
+        }
+    }
+
+    public void markAsUsed(Resident resident, Perk parent) {
+        //		Connection context = null;
 //		PreparedStatement s = null;
 //		
 //		try {

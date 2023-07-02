@@ -24,17 +24,15 @@ public class MobSpawnerPreGenerate {
     private int seed;
     private String worldName;
     
-    public Map<ChunkCoord, MobSpawnerPick> spawnerPicks = new HashMap<ChunkCoord, MobSpawnerPick>();
+    public Map<ChunkCoord, MobSpawnerPick> spawnerPicks = new HashMap<>();
     
     public MobSpawnerPreGenerate() {
         
     }
     
     private TreeSet<ConfigMobSpawner> getValidMobSpawners(int x, int z, Map<String, ConfigMobSpawner> spawners) {
-    	TreeSet<ConfigMobSpawner> validGoods = new TreeSet<ConfigMobSpawner>();
-        for (ConfigMobSpawner spawner : spawners.values()) {
-            validGoods.add(spawner);
-        }
+        TreeSet<ConfigMobSpawner> validGoods = new TreeSet<>();
+        validGoods.addAll(spawners.values());
         return validGoods;
     }
     
@@ -102,7 +100,7 @@ public class MobSpawnerPreGenerate {
         }
         
         // Filter out all but the lowest rarity that qualifies
-        ArrayList<ConfigMobSpawner> pickList = new ArrayList<ConfigMobSpawner>();
+        ArrayList<ConfigMobSpawner> pickList = new ArrayList<>();
         for (ConfigMobSpawner spawner : set) {
             if (spawner.rarity == lowest_rarity) {
                 pickList.add(spawner);

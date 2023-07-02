@@ -46,22 +46,22 @@ public class PlotPermissions {
 	private Resident owner;
 	
 	/*
-	 * Group for this permission node.
-	 */
-	//private PermissionGroup group;
-	private ArrayList<PermissionGroup> groups = new ArrayList<PermissionGroup>();
+     * Group for this permission node.
+     */
+    //private PermissionGroup group;
+    private final ArrayList<PermissionGroup> groups = new ArrayList<>();
 	
 	public String getSaveString() {
 		
 		String ownerString = "";
 		if (owner != null) {
 			ownerString = owner.getName();
-		} 
-		
-		String groupString = "0";
+		}
+
+        StringBuilder groupString = new StringBuilder("0");
 		if (groups.size() != 0) {
 			for (PermissionGroup grp : groups) {
-				groupString += grp.getId()+":";
+                groupString.append(grp.getId()).append(":");
 			}
 		}
 		
@@ -77,7 +77,7 @@ public class PlotPermissions {
 		itemUse.loadFromString(split[3]);
 		
 		setOwner(CivGlobal.getResident(split[4]));
-		String grpString[] = split[5].split(":");
+        String[] grpString = split[5].split(":");
 
 		for (String gstr : grpString) {
 			gstr = gstr.trim();
@@ -89,9 +89,9 @@ public class PlotPermissions {
 		}
 		
 		if (split.length > 7) {
-			fire = Boolean.valueOf(split[6]);
-			mobs = Boolean.valueOf(split[7]);
-		}
+            fire = Boolean.parseBoolean(split[6]);
+            mobs = Boolean.parseBoolean(split[7]);
+        }
 		
 	//	group = CivGlobal.getPermissionGroup(town, Integer.valueOf(split[5]));
 		
@@ -153,10 +153,8 @@ public class PlotPermissions {
 					}
 				}
 			}
-			
-			if (node.isPermitOthers()) {
-				return true;
-			}
+
+			return node.isPermitOthers();
 		}
 		return false;
 	}
@@ -219,12 +217,12 @@ public class PlotPermissions {
 	}
 
 	public String getGroupString() {
-		String out = "";
+        StringBuilder out = new StringBuilder();
 		
 		for (PermissionGroup grp : groups) {
-			out += grp.getName()+", ";
+            out.append(grp.getName()).append(", ");
 		}
-		return out;
+        return out.toString();
 	}
 
 	public void clearGroups() {

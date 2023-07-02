@@ -11,9 +11,9 @@ import com.avrgaming.civcraft.main.CivLog;
 
 public class ConfigEndCondition {
 	public String id;
-	public String  className;
-	public HashMap<String, String> attributes = new HashMap<String, String>();
-	public String victoryName;
+	public String className;
+    public HashMap<String, String> attributes = new HashMap<>();
+    public String victoryName;
 	
 	public static void loadConfig(FileConfiguration cfg, Map<String, ConfigEndCondition> endconditionMap) {
 		endconditionMap.clear();

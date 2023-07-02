@@ -61,14 +61,14 @@ public class Stable extends Structure {
 
 	public static Integer FEE_MIN = 5;
 	public static Integer FEE_MAX = 100;
-	private HashMap<Integer, SignSelectionComponent> signSelectors = new HashMap<Integer, SignSelectionComponent>();
+	private final HashMap<Integer, SignSelectionComponent> signSelectors = new HashMap<>();
 	private BlockCoord horseSpawnCoord;
 	private BlockCoord muleSpawnCoord;
-	private NonMemberFeeComponent nonMemberFeeComponent;
-	
-	public HashTreeSet<ChunkCoord> chunks = new HashTreeSet<ChunkCoord>();
-	public static Map<ChunkCoord, Stable> stableChunks = new ConcurrentHashMap<ChunkCoord, Stable>();
-	
+	private final NonMemberFeeComponent nonMemberFeeComponent;
+
+	public HashTreeSet<ChunkCoord> chunks = new HashTreeSet<>();
+	public static Map<ChunkCoord, Stable> stableChunks = new ConcurrentHashMap<>();
+
 	public Stable(ResultSet rs) throws SQLException, CivException {
 		super(rs);
 		nonMemberFeeComponent = new NonMemberFeeComponent(this);
@@ -100,9 +100,9 @@ public class Stable extends Structure {
 	public void onComplete() {
 		bindStableChunks();
 	}
-	
+
 	@Override
-	public void onLoad() throws CivException {
+	public void onLoad() {
 		bindStableChunks();
 	}
 	
@@ -124,8 +124,8 @@ public class Stable extends Structure {
 		signSelectors.put(2, itemVender);
 
 		class buyHorseAction implements SignSelectionActionInterface {
-			int horse_id;
-			double cost;
+			final int horse_id;
+			final double cost;
 			
 			public buyHorseAction(int horse_id, double cost) {
 				this.horse_id = horse_id;
@@ -194,24 +194,24 @@ public class Stable extends Structure {
 					mod = HorseModifier.spawn(muleSpawnCoord.getLocation());
 					mod.setType(HorseType.MULE);
 				}
-				
+
 				mod.setVariant(HorseVariant.valueOf(horse.variant));
 				HorseModifier.setHorseSpeed(mod.getHorse(), horse.speed);
-				((Horse)mod.getHorse()).setJumpStrength(horse.jump);
-				((Horse)mod.getHorse()).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(horse.health);
-				((Horse)mod.getHorse()).setHealth(horse.health);
-				((Horse)mod.getHorse()).setOwner(player);
-				((Horse)mod.getHorse()).setCustomName(horse.name);
-				((Horse)mod.getHorse()).setCustomNameVisible(true);
-				
-				CivMessage.send(player, CivColor.LightGreen+CivSettings.localize.localizedString("var_stable_buySuccess",paid,CivSettings.CURRENCY_NAME));
+				((Horse) mod.getHorse()).setJumpStrength(horse.jump);
+				mod.getHorse().getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(horse.health);
+				mod.getHorse().setHealth(horse.health);
+				((Horse) mod.getHorse()).setOwner(player);
+				mod.getHorse().setCustomName(horse.name);
+				mod.getHorse().setCustomNameVisible(true);
+
+				CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("var_stable_buySuccess", paid, CivSettings.CURRENCY_NAME));
 			}
 		}
 		
 		class buyItemAction implements SignSelectionActionInterface {
 
-			int item_id;
-			double cost;
+			final int item_id;
+			final double cost;
 			
 			public buyItemAction(int item_id, double cost) {
 				this.item_id = item_id;
@@ -266,9 +266,9 @@ public class Stable extends Structure {
 				continue;
 			}
 			if (item.item_id == 0) {
-				comp.addItem(new String[] {CivColor.LightGreen+item.name, CivSettings.localize.localizedString("stable_sign_buyFor"), ""+item.cost, CivSettings.localize.localizedString("Fee:")+this.nonMemberFeeComponent.getFeeString()}, new buyHorseAction(item.horse_id, item.cost));
+				comp.addItem(new String[]{CivColor.LightGreen + item.name, CivSettings.localize.localizedString("stable_sign_buyFor"), String.valueOf(item.cost), CivSettings.localize.localizedString("Fee:") + this.nonMemberFeeComponent.getFeeString()}, new buyHorseAction(item.horse_id, item.cost));
 			} else {
-				comp.addItem(new String[] {CivColor.LightGreen+item.name, CivSettings.localize.localizedString("stable_sign_buyFor"), ""+item.cost, CivSettings.localize.localizedString("Fee:")+this.nonMemberFeeComponent.getFeeString()}, new buyItemAction(item.item_id, item.cost));			
+				comp.addItem(new String[]{CivColor.LightGreen + item.name, CivSettings.localize.localizedString("stable_sign_buyFor"), String.valueOf(item.cost), CivSettings.localize.localizedString("Fee:") + this.nonMemberFeeComponent.getFeeString()}, new buyItemAction(item.item_id, item.cost));
 			}
 		}
 	}
@@ -341,8 +341,8 @@ public class Stable extends Structure {
 						
 			this.addStructureSign(structSign);
 			CivGlobal.addStructureSign(structSign);
-						
-			selectorIndex = Integer.valueOf(sb.keyvalues.get("id"));
+
+			selectorIndex = Integer.parseInt(sb.keyvalues.get("id"));
 			signComp = signSelectors.get(selectorIndex);
 			if (signComp != null) {
 				signComp.setActionSignCoord(absCoord);

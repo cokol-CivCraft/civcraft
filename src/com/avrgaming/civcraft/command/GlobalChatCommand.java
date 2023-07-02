@@ -34,9 +34,9 @@ public class GlobalChatCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 
 		//TODO let non players use this command
-		if ((sender instanceof Player) == false) {
-			return false;
-		}
+		if (!(sender instanceof Player)) {
+            return false;
+        }
 		
 		Player player = (Player)sender;
 		Resident resident = CivGlobal.getResident(player);

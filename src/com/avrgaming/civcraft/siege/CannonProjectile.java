@@ -36,7 +36,7 @@ import net.minecraft.server.v1_12_R1.EntityPlayer;
 public class CannonProjectile {
     public Cannon cannon;
     public Location loc;
-    private Location startLoc;
+    private final Location startLoc;
     public Resident whoFired;
     public double speed = 1.0f;
 
@@ -74,7 +74,7 @@ public class CannonProjectile {
         //launchExplodeFirework(loc);
 
         int radius = (int) yield;
-        HashSet<Buildable> structuresHit = new HashSet<Buildable>();
+        HashSet<Buildable> structuresHit = new HashSet<>();
 
         for (int x = -radius; x < radius; x++) {
             for (int z = -radius; z < radius; z++) {
@@ -119,12 +119,8 @@ public class CannonProjectile {
                                         if (th.getHitpoints() == 0) {
                                             explodeBlock(b);
                                         } else {
-                                            try {
-                                                th.onCannonDamage(cannon.getDamage(), this);
-                                            } catch (CivException e1) {
-                                                // TODO Auto-generated catch block
-                                                e1.printStackTrace();
-                                            }
+                                            th.onCannonDamage(cannon.getDamage(), this);
+
                                         }
                                     } else {
                                         Player player = null;
@@ -157,7 +153,6 @@ public class CannonProjectile {
                                     explodeBlock(b);
                                 }
                             }
-                            continue;
                         }
                     }
                 }
@@ -203,7 +198,7 @@ public class CannonProjectile {
 
     public void fire() {
         class SyncTask implements Runnable {
-            CannonProjectile proj;
+            final CannonProjectile proj;
 
             public SyncTask(CannonProjectile proj) {
                 this.proj = proj;

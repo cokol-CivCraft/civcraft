@@ -96,7 +96,7 @@ public class FishHatchery extends Structure {
 	
 	private StructureSign getSignFromSpecialId(int special_id) {
 		for (StructureSign sign : getSigns()) {
-			int id = Integer.valueOf(sign.getAction());
+			int id = Integer.parseInt(sign.getAction());
 			if (id == special_id) {
 				return sign;
 			}
@@ -134,7 +134,7 @@ public class FishHatchery extends Structure {
 	
 	@Override
 	public void processSignAction(Player player, StructureSign sign, PlayerInteractEvent event) {
-		int special_id = Integer.valueOf(sign.getAction());
+        int special_id = Integer.parseInt(sign.getAction());
 		if (special_id < this.level) {
 			CivMessage.send(player, CivColor.LightGreen+CivSettings.localize.localizedString("var_fishery_pool_msg_online",(special_id+1)));
 
@@ -145,19 +145,19 @@ public class FishHatchery extends Structure {
 
 	public Biome getBiome() {
 		if (biome == null) {
-		try {
-			World world = Bukkit.getWorld("world");
-			BlockCoord block = this.getCenterLocation();
-			Chunk chunk = (Chunk) world.getChunkAt(block.getX(), block.getZ());
-			ChunkCoord coord = new ChunkCoord(chunk);
-			CultureChunk cc = new CultureChunk(this.getTown(), coord);
-			biome = cc.getBiome();
-			this.setBiome(cc.getBiome());
-		} catch (IllegalStateException e) {
-			
-		} finally {
-			biome = Biome.BIRCH_FOREST_HILLS;
-		}
+            try {
+                World world = Bukkit.getWorld("world");
+                BlockCoord block = this.getCenterLocation();
+                Chunk chunk = world.getChunkAt(block.getX(), block.getZ());
+                ChunkCoord coord = new ChunkCoord(chunk);
+                CultureChunk cc = new CultureChunk(this.getTown(), coord);
+                biome = cc.getBiome();
+                this.setBiome(cc.getBiome());
+            } catch (IllegalStateException ignored) {
+
+            } finally {
+                biome = Biome.BIRCH_FOREST_HILLS;
+            }
 		}
 		return biome;
 	}

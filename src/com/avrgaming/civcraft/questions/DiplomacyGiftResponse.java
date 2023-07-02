@@ -48,7 +48,6 @@ public class DiplomacyGiftResponse implements QuestionResponseInterface {
 				toCiv.getTreasury().withdraw(town.getGiftCost());
 				town.changeCiv(toCiv);
 				CivMessage.sendCiv(fromCiv, CivColor.LightGray+CivSettings.localize.localizedString("var_diplomacy_gift_accept",toCiv.getName(),town.getName()));
-				return;
 			} else if (giftedObject instanceof Civilization) {
 				int coins = fromCiv.getMergeCost();
 				
@@ -62,10 +61,8 @@ public class DiplomacyGiftResponse implements QuestionResponseInterface {
 				CivMessage.sendCiv(fromCiv, CivColor.Yellow+CivSettings.localize.localizedString("var_diplomacy_merge_offerAccepted",toCiv.getName()));
 				toCiv.mergeInCiv(fromCiv);
 				CivMessage.global(CivSettings.localize.localizedString("var_diplomacy_merge_SuccessAlert1",fromCiv.getName(),toCiv.getName()));
-				return;
 			} else {
 				CivLog.error(CivSettings.localize.localizedString("diplomacy_merge_UnexpectedError")+" "+giftedObject);
-				return;
 			}
 		} else {
 			CivMessage.sendCiv(fromCiv, CivColor.LightGray+CivSettings.localize.localizedString("var_RequestDecline",toCiv.getName()));

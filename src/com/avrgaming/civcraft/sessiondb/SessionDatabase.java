@@ -42,7 +42,7 @@ public class SessionDatabase {
 	
 	String tb_prefix;
 	
-	private ConcurrentHashMap<String, ArrayList<SessionEntry>> cache = new ConcurrentHashMap<String, ArrayList<SessionEntry>>();
+	private final ConcurrentHashMap<String, ArrayList<SessionEntry>> cache = new ConcurrentHashMap<>();
 		
 	public SessionDatabase() {
 		tb_prefix = SQL.tb_prefix;
@@ -105,7 +105,7 @@ public class SessionDatabase {
 		// Add to cache map, then fire async add to DB.
 	    ArrayList<SessionEntry> entries = this.cache.get(key);
 		if (entries == null) {
-			entries = new ArrayList<SessionEntry>();
+            entries = new ArrayList<>();
 		}
 		entries.add(se);
 		
@@ -144,8 +144,8 @@ public class SessionDatabase {
 			}
 			
 			// Couldnt find in cache, attempt DB lookup.
-			retList = new ArrayList<SessionEntry>();
-			code = "SELECT * FROM `"+ tb_prefix + "SESSIONS` WHERE `key` = ?";
+            retList = new ArrayList<>();
+            code = "SELECT * FROM `" + tb_prefix + "SESSIONS` WHERE `key` = ?";
 	
 			try {
 				cntx = SQL.getGameConnection();		
@@ -199,8 +199,8 @@ public class SessionDatabase {
 	public ArrayList<SessionEntry> global_lookup(String key) {
 		Connection global_context = null;
 		ResultSet rs = null;
-		PreparedStatement s = null;
-		ArrayList<SessionEntry> retList = new ArrayList<SessionEntry>();
+        PreparedStatement s = null;
+        ArrayList<SessionEntry> retList = new ArrayList<>();
 
 		try {
 			try {
@@ -329,8 +329,8 @@ public class SessionDatabase {
 				}
 			}
 		} else {
-			entries = new ArrayList<SessionEntry>();
-			entries.add(se);
+            entries = new ArrayList<>();
+            entries.add(se);
 			cache.put(se.key, entries);
 		}
 		

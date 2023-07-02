@@ -17,7 +17,7 @@ import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.main.CivLog;
 
 public class Localize {
-	private JavaPlugin plugin;
+	private final JavaPlugin plugin;
 	public String languageFile;
 	
 	public Localize(JavaPlugin plugin){
@@ -29,11 +29,11 @@ public class Localize {
 	}
 	
 	public void setLanguageFile(String langFile){
-		if(langFile.equals("") || langFile == null){
-			this.languageFile = "default_lang.yml";
-		}else{
-			this.languageFile = langFile;
-		}
+		if (langFile.equals("")) {
+            this.languageFile = "default_lang.yml";
+        } else {
+            this.languageFile = langFile;
+        }
 		this.reloadDefaultLocalizedStrings();
 		this.reloadLocalizedStrings();
 	}
@@ -83,7 +83,7 @@ public class Localize {
 			for(int arg = 0; arg < args.length; ++ arg)
 			{
 				Object replacementString = args[arg];
-				string = string.replace("[%"+arg+"]", ""+replacementString);
+                string = string.replace("[%" + arg + "]", String.valueOf(replacementString));
 	
 			}
 			return string;
@@ -110,16 +110,12 @@ public class Localize {
 		
 		CivLog.info("Loading Configuration file:"+defaultLanguageFile);
 		// read the config.yml into memory
-		YamlConfiguration cfg = new YamlConfiguration(); 
-		try {
-			cfg.load(defaultLocalizedStringsFile);
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		} catch (InvalidConfigurationException e1) {
-			e1.printStackTrace();
-		}
+		YamlConfiguration cfg = new YamlConfiguration();
+        try {
+            cfg.load(defaultLocalizedStringsFile);
+        } catch (InvalidConfigurationException | IOException e1) {
+            e1.printStackTrace();
+        }
 		defaultLocalizedStrings.setDefaults(cfg);
 		
 	}
@@ -129,7 +125,7 @@ public class Localize {
 		if (this.isDefault())
 		{
 			if (defaultLocalizedStrings == null) {
-				localizedStrings = defaultLocalizedStrings;
+                localizedStrings = null;
 			}
 			return;	
 		} else if (!localizedStringsFile.exists()) {
@@ -143,16 +139,12 @@ public class Localize {
 		
 		CivLog.info("Loading Configuration file:"+languageFile);
 		// read the config.yml into memory
-		YamlConfiguration cfg = new YamlConfiguration(); 
-		try {
-			cfg.load(localizedStringsFile);
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		} catch (InvalidConfigurationException e1) {
-			e1.printStackTrace();
-		}
+		YamlConfiguration cfg = new YamlConfiguration();
+        try {
+            cfg.load(localizedStringsFile);
+        } catch (InvalidConfigurationException | IOException e1) {
+            e1.printStackTrace();
+        }
         localizedStrings.setDefaults(cfg);
 		
 	}

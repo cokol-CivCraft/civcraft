@@ -31,14 +31,10 @@ public class DateEventTimer implements Runnable {
 		
 	@Override
 	public void run() {
-	
-		Date now = new Date();
-		
-		/* Check for spawn regen. */
-		if (now.after(CivGlobal.getTodaysSpawnRegenDate())) {
-			
-		}
-		
-	}
+
+        /* Check for spawn regen. */
+        CivGlobal.getTodaysSpawnRegenDate();
+
+    }
 
 }

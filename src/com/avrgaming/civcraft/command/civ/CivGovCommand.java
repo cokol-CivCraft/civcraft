@@ -92,9 +92,9 @@ public class CivGovCommand extends CommandBase {
 	}
 
 	@Override
-	public void doDefaultAction() throws CivException {
-		showHelp();
-	}
+    public void doDefaultAction() {
+        showHelp();
+    }
 
 	@Override
 	public void showHelp() {

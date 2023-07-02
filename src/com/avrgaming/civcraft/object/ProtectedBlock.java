@@ -46,12 +46,12 @@ public class ProtectedBlock extends SQLObject {
 		this.load(rs);
 	}
 
-	public static enum Type {
-		NONE,
-		TRADE_MARKER,
-		PROTECTED_RAILWAY,
-		MOB_SPAWNER_MARKER,
-	}
+	public enum Type {
+        NONE,
+        TRADE_MARKER,
+        PROTECTED_RAILWAY,
+        MOB_SPAWNER_MARKER,
+    }
 	
 	public static final String TABLE_NAME = "PROTECTED_BLOCKS";
 	public static void init() throws SQLException {
@@ -69,18 +69,18 @@ public class ProtectedBlock extends SQLObject {
 			CivLog.info(TABLE_NAME+" table OK!");
 		}		
 	}
-	
-	@Override
-	public void load(ResultSet rs) throws SQLException, InvalidNameException {
-		this.coord = new BlockCoord(rs.getString("coord"));
-		this.type = Type.valueOf(rs.getString("type"));
-	//	int structure_id = rs.getInt("structure_id");
+
+    @Override
+    public void load(ResultSet rs) throws SQLException {
+        this.coord = new BlockCoord(rs.getString("coord"));
+        this.type = Type.valueOf(rs.getString("type"));
+        //	int structure_id = rs.getInt("structure_id");
 //		if (structure_id == 0) {
 //			this.owner = null;
 //		} else {
 //			this.owner = CivGlobal.getStructureById(structure_id);
 //		}
-	}
+    }
 
 	@Override
 	public void save() {
@@ -89,7 +89,7 @@ public class ProtectedBlock extends SQLObject {
 	
 	@Override
 	public void saveNow() throws SQLException {
-		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+        HashMap<String, Object> hashmap = new HashMap<>();
 		
 		hashmap.put("coord", this.coord.toString());
 		hashmap.put("type", this.type.name());
@@ -103,9 +103,9 @@ public class ProtectedBlock extends SQLObject {
 		SQL.updateNamedObject(this, hashmap, TABLE_NAME);
 	}
 
-	@Override
-	public void delete() throws SQLException {
-	}
+    @Override
+    public void delete() {
+    }
 
 //	public Structure getOwner() {
 //		return owner;

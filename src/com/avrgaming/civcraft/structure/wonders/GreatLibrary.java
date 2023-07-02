@@ -22,7 +22,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;

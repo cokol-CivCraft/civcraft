@@ -72,7 +72,7 @@ public class FortifiedWall extends Wall {
 	private static double COST_PER_SEGMENT;
 	private static double MAX_SEGMENT;
 	private static String TEMPLATE;
-	
+
 	public static void init_settings() throws InvalidConfiguration {
 		HEIGHT = CivSettings.getInteger(CivSettings.warConfig, "fortified_wall.height");
 		MAX_HEIGHT = CivSettings.getInteger(CivSettings.warConfig, "fortified_wall.maximum_height");
@@ -80,18 +80,18 @@ public class FortifiedWall extends Wall {
 		MAX_SEGMENT = CivSettings.getDouble(CivSettings.warConfig, "fortified_wall.max_segment");
 		RECURSION_LIMIT = CivSettings.getInteger(CivSettings.warConfig, "fortified_wall.recursion_limit");
 	}
-	
-	public Map<BlockCoord, WallBlock> wallBlocks = new HashMap<BlockCoord, WallBlock>();
-	public HashSet<ChunkCoord> wallChunks = new HashSet<ChunkCoord>();
-	
+
+	public Map<BlockCoord, WallBlock> wallBlocks = new HashMap<>();
+	public HashSet<ChunkCoord> wallChunks = new HashSet<>();
+
 	/*
-	 *  This is used to chain together the wall chunks built by the last operation. 
+	 *  This is used to chain together the wall chunks built by the last operation.
 	 * this allows us to undo all of the walls built in a single pass.
 	 */
-	private FortifiedWall nextWallBuilt = null;
-	
+	private final FortifiedWall nextWallBuilt = null;
+
 //	private int verticalsegments = 0;
-	
+
 //	private HashMap<String, SimpleBlock> simpleBlocks = new HashMap<String, SimpleBlock>();
 	
 	protected FortifiedWall(Location center, String id, Town town) throws CivException {
@@ -104,31 +104,17 @@ public class FortifiedWall extends Wall {
 	}
 
 	@Override
-	public void bindStructureBlocks() {
-	}
-	
-	@Override
-	public boolean hasTemplate() {
-		return false;
-	}
-	
-	@Override
-	public boolean canRestoreFromTemplate() {
-		return false;
-	}
-	
-	@Override
-	public void processUndo() throws CivException {
-		
+	public void processUndo() {
+
 		double refund = 0.0;
 		for (WallBlock wb : wallBlocks.values()) {
-			
+
 			Material material = wb.getOldId();
 			if (CivSettings.restrictedUndoBlocks.contains(material)) {
 				continue;
 			}
 
-            Block block = wb.getCoord().getBlock();
+			Block block = wb.getCoord().getBlock();
             block.setType(wb.getOldId());
             ItemManager.setData(wb.getCoord().getBlock(), wb.getOldData());
 			refund += COST_PER_SEGMENT;
@@ -154,17 +140,7 @@ public class FortifiedWall extends Wall {
 	public void unbindStructureBlocks() {
 		super.unbindStructureBlocks();
 	}
-	
-	@Override
-	protected Location repositionCenter(Location center, String dir, double x_size, double z_size)  {
-		return center;
-	}
-	
-	@Override
-	public void resumeBuildFromTemplate() throws Exception
-	{
-	}
-	
+
 	public void deleteOnDisband() throws SQLException {
 		if (this.wallBlocks != null) {
 			for (WallBlock wb : this.wallBlocks.values()) {
@@ -216,22 +192,10 @@ public class FortifiedWall extends Wall {
 			ChunkCoord coord = new ChunkCoord(this.getCorner());
 			CivGlobal.removeWallChunk(this, coord);
 		} else {
-			try {
-				this.nextWallBuilt.processUndo();
-			} catch (CivException e) {
-				e.printStackTrace();
-			}
+			this.nextWallBuilt.processUndo();
 		}
 	}
-	
-	@Override
-	protected void checkBlockPermissionsAndRestrictions(Player player, Block centerBlock, int regionX, int regionY, int regionZ, Location savedLocation) throws CivException {
-	}
-	
-	@Override
-	public synchronized void buildRepairTemplate(Template tpl, Block centerBlock) {
-	}
-	
+
 	@Override
 	public void buildPlayerPreview(Player player, Location centerLoc) throws CivException, IOException {
 		
@@ -287,41 +251,30 @@ public class FortifiedWall extends Wall {
 		tpl = new Template();
 		try {
 			tpl.initTemplate(centerLoc, this);
-		} catch (CivException e) {
-			e.printStackTrace();
-			throw e;
-		} catch (IOException e) {
+		} catch (CivException | IOException e) {
 			e.printStackTrace();
 			throw e;
 		}
-		
+
 		buildPlayerPreview(player, centerLoc, tpl);
 	}
 
 	@Override
-	public void buildPlayerPreview(Player player, Location centerLoc, Template tpl) throws CivException, IOException {
+	public void buildPlayerPreview(Player player, Location centerLoc, Template tpl) throws CivException {
 		this.setTEMPLATE(tpl.getTheme());
-		
+
 		if (!this.getTown().hasTechnology(this.getRequiredTechnology())) {
 			throw new CivException(CivSettings.localize.localizedString("wall_missingTech"));
 		}
-		
+
 		if (War.isWarTime()) {
 			throw new CivException(CivSettings.localize.localizedString("wall_noBuildInWar"));
 		}
 		
 		MarkerPlacementManager.addToPlacementMode(player, this, CivSettings.localize.localizedString("wall_marketHeading"));		
 	}
-	
-	@Override
-	public void build(Player player, Location centerLoc, Template tpl) throws Exception {		
-//		// Set the player into "place mode" which allows them to place down
-//		// markers.
-//		//XXX never called anymore??
-//		MarkerPlacementManager.addToPlacementMode(player, this, "Wall Marker");		
-	}
-	
-	
+
+
 	private boolean isValidWall() {	
 		for (WallBlock block : this.wallBlocks.values()) {
 			BlockCoord bcoord = new BlockCoord(block.getCoord());
@@ -340,12 +293,7 @@ public class FortifiedWall extends Wall {
 		
 		return true;
 	}
-	
-	@Override
-	public boolean showOnDynmap() {
-		return false;
-	}
-	
+
 	@Override
 	public void onMarkerPlacement(Player player, Location next, ArrayList<Location> locs) throws CivException {		
 		BlockCoord first = new BlockCoord(next);
@@ -379,7 +327,7 @@ public class FortifiedWall extends Wall {
 		this.save();
 			
 		// We should now be able to draw a line between these two block points.
-		HashMap<String, SimpleBlock> simpleBlocks = new HashMap<String, SimpleBlock>();
+		HashMap<String, SimpleBlock> simpleBlocks = new HashMap<>();
 		int verticalSegments = this.buildWallSegment(player, first, second, 0, simpleBlocks, 0);
 		
 		// Pay the piper
@@ -624,7 +572,7 @@ public class FortifiedWall extends Wall {
 								locFirst.getZ() - locSecond.getZ());
 		dir.normalize();
 		dir.multiply(0.5);
-		HashMap<String, SimpleBlock> thisWallBlocks = new HashMap<String, SimpleBlock>();
+		HashMap<String, SimpleBlock> thisWallBlocks = new HashMap<>();
  		
 		this.getTown().lastBuildableBuilt = null;
 	
@@ -680,15 +628,11 @@ public class FortifiedWall extends Wall {
 			Block block = bcoord.getBlock();
 			int old_data = ItemManager.getData(bcoord.getBlock());
 			if (!wallBlocks.containsKey(bcoord)) {
-				try {
-					WallBlock wb = new WallBlock(bcoord, this, block.getType(), old_data, sb.getType(), sb.getData());
-					
-					wallBlocks.put(bcoord, wb);
-					this.addStructureBlock(bcoord, true);
-					wb.save();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				WallBlock wb = new WallBlock(bcoord, this, block.getType(), old_data, sb.getType(), sb.getData());
+
+				wallBlocks.put(bcoord, wb);
+				this.addStructureBlock(bcoord, true);
+				wb.save();
 			}
 		}
 		return verticalSegments;
@@ -719,22 +663,22 @@ public class FortifiedWall extends Wall {
 		
 		return false;
 	}
-	
+
 	@Override
-	public void repairFromTemplate() throws IOException, CivException {
+	public void repairFromTemplate() throws CivException {
 		this.repairStructureForFree();
-		}
-	
+	}
+
 	@Override
-	public void repairStructureForFree() throws CivException {
+	public void repairStructureForFree() {
 		setHitpoints(getMaxHitPoints());
 		bindStructureBlocks();
-		
+
 		for (WallBlock wb : this.wallBlocks.values()) {
 			BlockCoord bcoord = wb.getCoord();
-            Block block = bcoord.getBlock();
-            block.setType(wb.getTypeId());
-            ItemManager.setData(bcoord.getBlock(), wb.getData());
+			Block block = bcoord.getBlock();
+			block.setType(wb.getTypeId());
+			ItemManager.setData(bcoord.getBlock(), wb.getData());
 		}
 		
 		save();
@@ -765,16 +709,6 @@ public class FortifiedWall extends Wall {
 		save();
 		getTown().getTreasury().withdraw(cost);
 		CivMessage.sendTown(getTown(), CivColor.Yellow+CivSettings.localize.localizedString("var_wall_repair_success",getDisplayName(),getCorner().toString()));
-	}
-
-	@Override
-	public int getMaxHitPoints() {
-		double rate = 1;
-		if (this.getTown().getBuffManager().hasBuff("buff_chichen_itza_tower_hp")) {
-			rate += this.getTown().getBuffManager().getEffectiveDouble("buff_chichen_itza_tower_hp");
-			rate += this.getTown().getBuffManager().getEffectiveDouble(Buff.BARRICADE);
-		}
-		return (int) (info.max_hitpoints * rate);
 	}
 
 	public String getTEMPLATE() {

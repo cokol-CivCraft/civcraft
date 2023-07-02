@@ -44,7 +44,7 @@ public class FishingListener implements Listener {
         event.getCaught().remove();
 
         if (dropped.size() == 0) {
-            for (ItemStack is : player.getInventory().addItem(new ItemStack(Material.RAW_FISH.getId(), 1, (short) 0)).values()) {
+            for (ItemStack is : player.getInventory().addItem(new ItemStack(Material.RAW_FISH, 1, (short) 0)).values()) {
                 player.getWorld().dropItem(player.getLocation(), is);
             }
             CivMessage.send(event.getPlayer(), CivColor.LightGreen + CivSettings.localize.localizedString("var_fishing_success", CivColor.LightPurple + CivSettings.localize.localizedString("fishing_rawFish")));

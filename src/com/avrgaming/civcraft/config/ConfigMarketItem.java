@@ -165,14 +165,14 @@ public class ConfigMarketItem {
 			rs = ps.executeQuery();
 			
 			if (rs.next()) {
-				this.buy_value = (Integer)rs.getInt("buy_value");
-				this.buy_bulk = (Integer)rs.getInt("buy_bulk");
-				this.sell_value = (Integer)rs.getInt("sell_value");
-				this.sell_bulk = (Integer)rs.getInt("sell_bulk");
-				this.bought = (Integer)rs.getInt("bought");
-				this.sold = (Integer)rs.getInt("sold");
-				this.lastaction = LastAction.valueOf((String)rs.getString("last_action"));
-				this.buysell_count = (Integer)rs.getInt("buysell");
+				this.buy_value = rs.getInt("buy_value");
+				this.buy_bulk = rs.getInt("buy_bulk");
+				this.sell_value = rs.getInt("sell_value");
+				this.sell_bulk = rs.getInt("sell_bulk");
+				this.bought = rs.getInt("bought");
+				this.sold = rs.getInt("sold");
+				this.lastaction = LastAction.valueOf(rs.getString("last_action"));
+				this.buysell_count = rs.getInt("buysell");
 			} else {
 				this.bought = 0;
 				this.sold = 0;
@@ -272,7 +272,6 @@ public class ConfigMarketItem {
 		return getCoinsCostForAmount(amount, sell_value, -1);
 	}
 	
-	@SuppressWarnings("deprecation")
 	public void buy(Resident resident, Player player, int amount) throws CivException {
 		int total_items = 0;
 		
@@ -338,10 +337,10 @@ public class ConfigMarketItem {
 	
 	public void increment() {
 		buysell_count++;
-		if (((buysell_count % STEP_COUNT) == 0) || (stackable == false)) {
+		if (((buysell_count % STEP_COUNT) == 0) || (!stackable)) {
 			sell_value += this.step;
-			buy_value = sell_value + (int)((double)sell_value*RATE);
-			
+			buy_value = sell_value + (int) ((double) sell_value * RATE);
+
 			if (buy_value == sell_value) {
 				buy_value++;
 			}
@@ -355,15 +354,15 @@ public class ConfigMarketItem {
 	
 	public void decrement() {
 		buysell_count--;
-		
-		if ((((-buysell_count) % -STEP_COUNT) == 0) || (stackable == false)) {
+
+		if ((((-buysell_count) % -STEP_COUNT) == 0) || (!stackable)) {
 			sell_value -= this.step;
-			buy_value = sell_value + (int)((double)sell_value*RATE);
-			
+			buy_value = sell_value + (int) ((double) sell_value * RATE);
+
 			if (buy_value == sell_value) {
 				buy_value++;
 			}
-			
+
 			//buy_value -= STEP;
 			//sell_value = buy_value - (PRICE_DIFF*2);
 			

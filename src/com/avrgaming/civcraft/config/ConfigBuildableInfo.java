@@ -42,8 +42,8 @@ public class ConfigBuildableInfo {
 	public String update_event = "";
 	public String onBuild_event = "";
 	public int limit = 0;
-	public ArrayList<String> signs = new ArrayList<String>();
-	public double cost = 0;
+    public ArrayList<String> signs = new ArrayList<>();
+    public double cost = 0;
 	public double upkeep = 0;
 	public double hammer_cost = 0;
 	public int max_hitpoints = 0;
@@ -55,9 +55,9 @@ public class ConfigBuildableInfo {
 	public Integer points = 0;
 	public boolean allow_demolish = false;
 	public boolean strategic = false;
-	public boolean ignore_floating = false;
-	public List<HashMap<String, String>> components = new LinkedList<HashMap<String, String>>();
-	public boolean has_template = true;
+    public boolean ignore_floating = false;
+    public List<HashMap<String, String>> components = new LinkedList<>();
+    public boolean has_template = true;
 	
 	public boolean isAvailable(Town town) {
 		if (town.hasTechnology(require_tech)) {
@@ -75,9 +75,7 @@ public class ConfigBuildableInfo {
 						}
 						if (id.equals("w_colosseum") || id.equals("w_battledome"))
 						{
-							if (!capitol || town.getStructureTypeCount(id) > 0) {
-								return false;
-							}
+							return capitol && town.getStructureTypeCount(id) <= 0;
 						}
 						
 						return true;
@@ -96,11 +94,10 @@ public class ConfigBuildableInfo {
 			
 			sinfo.id = (String)obj.get("id");
 			String templateName = (String)obj.get("template");
-			if (templateName.contains("capital"))
-			{
-				CivLog.debug("loadConfig - Replacing Capital occurence");
-				templateName = templateName.replace("capital", "capitol");;
-			}
+			if (templateName.contains("capital")) {
+                CivLog.debug("loadConfig - Replacing Capital occurence");
+                templateName = templateName.replace("capital", "capitol");
+            }
 			sinfo.template_base_name = templateName;
 			sinfo.templateYShift = (Integer)obj.get("template_y_shift");
 			sinfo.displayName = (String)obj.get("displayName");
@@ -127,8 +124,8 @@ public class ConfigBuildableInfo {
 				List<Map<?, ?>> comps = (List<Map<?, ?>>) obj.get("components");
 				if (comps != null) {
 					for (Map<?, ?> compObj : comps) {
-						
-						HashMap<String, String> compMap = new HashMap<String, String>();
+
+                        HashMap<String, String> compMap = new HashMap<>();
 						for (Object key : compObj.keySet()) {
 							compMap.put((String)key, (String)compObj.get(key));
 						}
@@ -139,25 +136,13 @@ public class ConfigBuildableInfo {
 			
 			
 			Boolean tileImprovement = (Boolean)obj.get("tile_improvement");
-			if (tileImprovement != null && tileImprovement == true) {
-				sinfo.tile_improvement = true;
-			} else {
-				sinfo.tile_improvement = false;
-			}
+			sinfo.tile_improvement = tileImprovement != null && tileImprovement;
 			
 			Boolean allowDemolish = (Boolean)obj.get("allow_demolish");
-			if (allowDemolish == null || allowDemolish == true) {
-				sinfo.allow_demolish = true;
-			} else {
-				sinfo.allow_demolish = false;
-			}
+			sinfo.allow_demolish = allowDemolish == null || allowDemolish;
 			
 			Boolean strategic = (Boolean)obj.get("strategic");
-			if (strategic == null || strategic == false) {
-				sinfo.strategic  = false;
-			} else {
-				sinfo.strategic = true;
-			}
+			sinfo.strategic = strategic != null && strategic;
 			
 			Boolean ignore_floating = (Boolean)obj.get("ignore_floating");
 			if (ignore_floating != null) {

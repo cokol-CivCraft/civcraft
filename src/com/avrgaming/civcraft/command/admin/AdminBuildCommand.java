@@ -70,7 +70,7 @@ public class AdminBuildCommand extends CommandBase {
 				for (Integer y : buildable.layerValidPercentages.keySet()) {
 					BuildableLayer layer = buildable.layerValidPercentages.get(y);
 					
-					Double percentage = (double)layer.current / (double)layer.max;
+					double percentage = (double) layer.current / (double) layer.max;
 					CivMessage.send(sender, "y:"+y+" %:"+percentage+" ("+layer.current+"/"+layer.max+")");
 				}
 			}
@@ -223,8 +223,8 @@ public class AdminBuildCommand extends CommandBase {
 			}
 			return;
 		}
-		
-		String id = new String(args[2]);
+
+        String id = args[2];
 		
 		Connection context = null;
 		ResultSet rs = null;
@@ -290,18 +290,18 @@ public class AdminBuildCommand extends CommandBase {
 		CivMessage.sendTown(struct.getTown(), struct.getDisplayName()+" "+CivSettings.localize.localizedString("adcmd_build_demolishComplete"));
 	}
 
-	@Override
-	public void doDefaultAction() throws CivException {
-		showHelp();
-	}
+    @Override
+    public void doDefaultAction() {
+        showHelp();
+    }
 
 	@Override
 	public void showHelp() {
 		showBasicHelp();
 	}
 
-	@Override
-	public void permissionCheck() throws CivException {
-		
-	}
+    @Override
+    public void permissionCheck() {
+
+    }
 }

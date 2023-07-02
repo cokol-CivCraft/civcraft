@@ -31,7 +31,7 @@ import com.avrgaming.civcraft.util.BlockCoord;
 public class ScoutTowerTask implements Runnable {
 	@Override
 	public void run() {		
-		HashSet<String> announced = new HashSet<String>();
+		HashSet<String> announced = new HashSet<>();
 		
 		try {
 			if (!CivGlobal.towersEnabled) {

@@ -104,18 +104,18 @@ public class AdminLagCommand extends CommandBase {
 	}
 	
 	@Override
-	public void doDefaultAction() throws CivException {
-		showHelp();
-	}
+    public void doDefaultAction() {
+        showHelp();
+    }
 
 	@Override
 	public void showHelp() {
 		showBasicHelp();
 	}
 
-	@Override
-	public void permissionCheck() throws CivException {
-		//Admin is checked in parent command.
-	}
+    @Override
+    public void permissionCheck() {
+        //Admin is checked in parent command.
+    }
 
 }

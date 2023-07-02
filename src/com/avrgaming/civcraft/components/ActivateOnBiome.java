@@ -11,8 +11,8 @@ public class ActivateOnBiome extends Component {
 		THIS
 	}
 	
-	private HashSet<String> biomeList = new HashSet<String>();
-	private String attribute;
+	private final HashSet<String> biomeList = new HashSet<>();
+    private String attribute;
 	private double value;
 	private EffectType effectType; 
 	

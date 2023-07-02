@@ -86,8 +86,8 @@ import gpl.HorseModifier;
 @SuppressWarnings("deprecation")
 public class CustomItemManager implements Listener {
 	
-	public static HashMap<String, LinkedList<ItemDurabilityEntry>> itemDuraMap = new HashMap<String, LinkedList<ItemDurabilityEntry>>();
-	public static boolean duraTaskScheduled = false;
+	public static HashMap<String, LinkedList<ItemDurabilityEntry>> itemDuraMap = new HashMap<>();
+    public static boolean duraTaskScheduled = false;
 	
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onBlockBreak(BlockBreakEvent event) {
@@ -129,7 +129,6 @@ public class CustomItemManager implements Listener {
 				
 			} catch (InvalidConfiguration e) {
 				e.printStackTrace();
-				return;
 			}
 		}
 	}
@@ -335,7 +334,7 @@ public class CustomItemManager implements Listener {
 					}
 					
 					/* Return after arrow tower does damage, do not apply armor defense. */
-					event.setDamage((double)afc.getFromTower().getDamage());
+                    event.setDamage(afc.getFromTower().getDamage());
 					return;
 				}
 			}
@@ -363,7 +362,6 @@ public class CustomItemManager implements Listener {
 //					MobComponent.onDefense(event.getEntity(), event);
 //				}	
 //			}
-			return;
 		} else {
 			/* Search equipt items for defense event. */
 			for (ItemStack stack : defendingPlayer.getEquipment().getArmorContents()) {
@@ -490,8 +488,8 @@ public class CustomItemManager implements Listener {
 	
 	@EventHandler(priority = EventPriority.LOW) 
 	public void onPlayerDeathEvent(PlayerDeathEvent event) {
-		HashMap<Integer, ItemStack> noDrop = new HashMap<Integer, ItemStack>();
-		ItemStack[] armorNoDrop = new ItemStack[4];
+        HashMap<Integer, ItemStack> noDrop = new HashMap<>();
+        ItemStack[] armorNoDrop = new ItemStack[4];
 		
 		/* Search and execute any enhancements */
 		for (int i = 0; i < event.getEntity().getInventory().getSize(); i++) {
@@ -547,9 +545,9 @@ public class CustomItemManager implements Listener {
 		
 		//event.getEntity().getInventory().getArmorContents()	
 		class SyncRestoreItemsTask implements Runnable {
-			HashMap<Integer, ItemStack> restore;
-			String playerName;
-			ItemStack[] armorContents;
+			final HashMap<Integer, ItemStack> restore;
+			final String playerName;
+			final ItemStack[] armorContents;
 			
 			public SyncRestoreItemsTask(HashMap<Integer, ItemStack> restore, 
 					ItemStack[] armorContents, String playerName) {
@@ -565,18 +563,17 @@ public class CustomItemManager implements Listener {
 					PlayerInventory inv = player.getInventory();
 					for (Integer slot : restore.keySet()) {
 						ItemStack stack = restore.get(slot);
-						inv.setItem(slot, stack);
-					}	
-					
-					inv.setArmorContents(this.armorContents);
-				} catch (CivException e) {
-					e.printStackTrace();
-					return;
-				}
-			}
-			
-		}
-		Boolean keepInventory = Boolean.valueOf(Bukkit.getWorld("world").getGameRuleValue("keepInventory"));
+                        inv.setItem(slot, stack);
+                    }
+
+                    inv.setArmorContents(this.armorContents);
+                } catch (CivException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+        boolean keepInventory = Boolean.parseBoolean(Bukkit.getWorld("world").getGameRuleValue("keepInventory"));
 		if (!keepInventory) {
 			TaskMaster.syncTask(new SyncRestoreItemsTask(noDrop, armorNoDrop, event.getEntity().getName()));
 		}
@@ -591,7 +588,7 @@ public class CustomItemManager implements Listener {
 		}
 				
 		/* Remove any vanilla item IDs that can't be crafted from vanilla drops. */
-		LinkedList<ItemStack> removed = new LinkedList<ItemStack>();
+        LinkedList<ItemStack> removed = new LinkedList<>();
 		for (ItemStack stack : event.getDrops()) {
             Integer key = stack.getTypeId();
 			
@@ -926,63 +923,55 @@ public class CustomItemManager implements Listener {
 		boolean sentMessage = false;
 		
 		for (ItemStack stack : inv.getContents()) {
-			if (!isUnwantedVanillaItem(stack)) {
-				continue;
-			}
-			
-			inv.remove(stack);
-			if (player != null) {
-				CivLog.info("Removed vanilla item:"+stack+" from "+player.getName());
-			}
-			if (!sentMessage) {
-				if (player != null) {
-					CivMessage.send(player, CivColor.LightGray+CivSettings.localize.localizedString("customItem_restrictedItemsRemoved"));
-				}
-				sentMessage = true;
-			}
-		}
-		
-		/* Also check the player's equipt. */
-		if (player != null) {
-			ItemStack[] contents = player.getEquipment().getArmorContents();
-			boolean foundBad = false;
-			for (int i = 0; i < contents.length; i++) {
-				ItemStack stack = contents[i];
-				if (stack == null) {
-					continue;
-				}
-				
-				LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(stack);
-				if (craftMat != null) {
-					/* Assume we are good if we are custom. */
-					continue;
-				}
-				
-				ConfigRemovedRecipes removed = CivSettings.removedRecipies.get(stack.getTypeId());
-				if (removed == null && !stack.getType().equals(Material.ENCHANTED_BOOK)) {
-					/* Not in removed list, so allow it. */
-					continue;
-				}
-				
-				CivLog.info("Removed vanilla item:"+stack+" from "+player.getName()+" from armor.");
-				contents[i] = new ItemStack(Material.AIR);
-				foundBad = true;
-				if (!sentMessage) {
-					CivMessage.send(player, CivColor.LightGray+CivSettings.localize.localizedString("customItem_restrictedItemsRemoved"));
-					sentMessage = true;
-				}
-			}		
-			if (foundBad) {
-				player.getEquipment().setArmorContents(contents);
-			}
-		}
-		
-		if (sentMessage) {
-			if (player != null) {
-				player.updateInventory();
-			}
-		}
-	}
+            if (!isUnwantedVanillaItem(stack)) {
+                continue;
+            }
+
+            inv.remove(stack);
+            CivLog.info("Removed vanilla item:" + stack + " from " + player.getName());
+            if (!sentMessage) {
+                CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("customItem_restrictedItemsRemoved"));
+                sentMessage = true;
+            }
+        }
+
+        /* Also check the player's equipt. */
+        ItemStack[] contents = player.getEquipment().getArmorContents();
+        boolean foundBad = false;
+        for (int i = 0; i < contents.length; i++) {
+            ItemStack stack = contents[i];
+            if (stack == null) {
+                continue;
+            }
+
+            LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(stack);
+            if (craftMat != null) {
+                /* Assume we are good if we are custom. */
+                continue;
+            }
+
+            ConfigRemovedRecipes removed = CivSettings.removedRecipies.get(stack.getTypeId());
+            if (removed == null && !stack.getType().equals(Material.ENCHANTED_BOOK)) {
+                /* Not in removed list, so allow it. */
+                continue;
+            }
+
+            CivLog.info("Removed vanilla item:" + stack + " from " + player.getName() + " from armor.");
+            contents[i] = new ItemStack(Material.AIR);
+            foundBad = true;
+            if (!sentMessage) {
+                CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("customItem_restrictedItemsRemoved"));
+                sentMessage = true;
+            }
+        }
+        if (foundBad) {
+            player.getEquipment().setArmorContents(contents);
+        }
+
+        if (sentMessage) {
+            player.updateInventory();
+        }
+    }
 	
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void OnInventoryHold(PlayerItemHeldEvent event) {
@@ -1078,7 +1067,7 @@ public class CustomItemManager implements Listener {
 		
 	public LoreCraftableMaterial getCompatibleCatalyst(LoreCraftableMaterial craftMat) {
 		/* Setup list of catalysts to refund. */
-		LinkedList<LoreMaterial> cataList = new LinkedList<LoreMaterial>();
+        LinkedList<LoreMaterial> cataList = new LinkedList<>();
 		cataList.add(LoreMaterial.materialMap.get("mat_common_attack_catalyst"));
 		cataList.add(LoreMaterial.materialMap.get("mat_common_defense_catalyst"));
 		cataList.add(LoreMaterial.materialMap.get("mat_uncommon_attack_catalyst"));

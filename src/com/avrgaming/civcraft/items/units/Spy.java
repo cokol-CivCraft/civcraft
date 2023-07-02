@@ -42,7 +42,7 @@ import com.avrgaming.civcraft.util.BookUtil;
 
 public class Spy extends UnitMaterial {
 
-	public ArrayList<UnitItemMaterial> missionBooks = new ArrayList<UnitItemMaterial>();
+	public ArrayList<UnitItemMaterial> missionBooks = new ArrayList<>();
 	
 	public Spy(String id, ConfigUnit configUnit) {
 		super(id, configUnit);
@@ -125,17 +125,17 @@ public class Spy extends UnitMaterial {
 		ArrayList<String> bookout = MissionLogger.getMissionLogs(resident.getTown());
 		
 		ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
-		BookMeta meta = (BookMeta) book.getItemMeta();
-		ArrayList<String> lore = new ArrayList<String>();
+        BookMeta meta = (BookMeta) book.getItemMeta();
+        ArrayList<String> lore = new ArrayList<>();
 		lore.add("Mission Report");
 		meta.setAuthor("Mission Reports");
 		meta.setTitle("Missions From"+" "+resident.getTown().getName());
-		
-		String out = "";
+
+        StringBuilder out = new StringBuilder();
 		for (String str : bookout) {
-			out += str+"\n";
+            out.append(str).append("\n");
 		}
-		BookUtil.paginate(meta, out);			
+        BookUtil.paginate(meta, out.toString());
 
 		
 		meta.setLore(lore);

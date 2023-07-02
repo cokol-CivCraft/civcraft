@@ -104,11 +104,11 @@ public class ResidentCommand extends CommandBase {
 		
 		if (args[1].equalsIgnoreCase("list")) {
 			CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_res_timezoneHeading"));
-			String out = "";
+			StringBuilder out = new StringBuilder();
 			for (String zone : TimeZone.getAvailableIDs()) {
-				out += zone + ", ";
+                out.append(zone).append(", ");
 			}
-			CivMessage.send(sender, out);
+            CivMessage.send(sender, out.toString());
 			return;
 		}
 		
@@ -223,25 +223,25 @@ public class ResidentCommand extends CommandBase {
 		}
 		
 		type = type.toLowerCase();
-		
-		int exchangeID;
-		double rate;
+
+        Material exchangeID;
+        double rate;
 		switch (type) {
 		case "iron":
-			exchangeID = Material.IRON_INGOT.getId();
-			rate = CivSettings.iron_rate;
+            exchangeID = Material.IRON_INGOT;
+            rate = CivSettings.iron_rate;
 			break;
 		case "gold":
-			exchangeID = Material.GOLD_INGOT.getId();
-			rate = CivSettings.gold_rate;
+            exchangeID = Material.GOLD_INGOT;
+            rate = CivSettings.gold_rate;
 			break;
 		case "diamond":
-			exchangeID = Material.DIAMOND.getId();
-			rate = CivSettings.diamond_rate;
+            exchangeID = Material.DIAMOND;
+            rate = CivSettings.diamond_rate;
 			break;
 		case "emerald":
-			exchangeID = Material.EMERALD.getId();
-			rate = CivSettings.emerald_rate;
+            exchangeID = Material.EMERALD;
+            rate = CivSettings.emerald_rate;
 			break;
 		default:
 			throw new CivException(CivSettings.localize.localizedString("var_cmd_res_exchangeInvalid",type));
@@ -271,10 +271,10 @@ public class ResidentCommand extends CommandBase {
 				throw new CivException(CivSettings.localize.localizedString("cmd_res_exchangeNoTradeGoods"));
 			}
 
-            if (is.getTypeId() == exchangeID) {
-				total += is.getAmount();
-				break;
-			}
+            if (is.getType() == exchangeID) {
+                total += is.getAmount();
+                break;
+            }
 		}
 		
 		if (total == 0) {
@@ -311,10 +311,10 @@ public class ResidentCommand extends CommandBase {
 		show(sender, resident);
 	}
 
-	public void toggle_cmd() throws CivException {
-		ResidentToggleCommand cmd = new ResidentToggleCommand();	
-		cmd.onCommand(sender, null, "friend", this.stripArgs(args, 1));
-	}
+    public void toggle_cmd() {
+        ResidentToggleCommand cmd = new ResidentToggleCommand();
+        cmd.onCommand(sender, null, "friend", this.stripArgs(args, 1));
+    }
 	
 	public void friend_cmd() {
 		ResidentFriendCommand cmd = new ResidentFriendCommand();	
@@ -397,22 +397,22 @@ public class ResidentCommand extends CommandBase {
 			CivMessage.send(sender, CivColor.LightGray+CivSettings.localize.localizedString("cmd_res_showOffline"));
 		}	
 	}
-	
-	@Override
-	public void doDefaultAction() throws CivException {
-		showHelp();
-		//info_cmd();
-		//CivMessage.send(sender, CivColor.LightGray+"Subcommands available: See /resident help");
-	}
+
+    @Override
+    public void doDefaultAction() {
+        showHelp();
+        //info_cmd();
+        //CivMessage.send(sender, CivColor.LightGray+"Subcommands available: See /resident help");
+    }
 
 	@Override
 	public void showHelp() {
 		showBasicHelp();
 	}
 
-	@Override
-	public void permissionCheck() throws CivException {
-		
-	}
+    @Override
+    public void permissionCheck() {
+
+    }
 
 }

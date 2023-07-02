@@ -55,9 +55,9 @@ public class PayCommand implements CommandExecutor {
 				throw new CivException(CivSettings.localize.localizedString("cmd_pay_yourself"));
 			}
 			
-			Double amount;
+			double amount;
 			try {
-				amount = Double.valueOf(args[1]);
+                amount = Double.parseDouble(args[1]);
 				if (!resident.getTreasury().hasEnough(amount)) {
 					throw new CivException(CivSettings.localize.localizedString("var_cmd_pay_InsufficentFunds",CivSettings.CURRENCY_NAME));
 				}

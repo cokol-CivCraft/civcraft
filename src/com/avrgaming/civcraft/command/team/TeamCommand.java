@@ -103,13 +103,13 @@ public class TeamCommand  extends CommandBase {
 	
 	public void list_cmd() {
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_team_ListHeading"));
-		String out = "";
+		StringBuilder out = new StringBuilder();
 		
 		for (ArenaTeam team : ArenaTeam.arenaTeams.values()) {
-			out += team.getName()+", ";
+            out.append(team.getName()).append(", ");
 		}
-		
-		CivMessage.send(sender, out);
+
+        CivMessage.send(sender, out.toString());
 	}
 	
 	
@@ -294,22 +294,22 @@ public class TeamCommand  extends CommandBase {
 		CivMessage.sendTeam(team, CivSettings.localize.localizedString("var_cmd_team_changeleaderSuccess3",resident.getName(),member.getName()));
 		
 	}
-	
-	@Override
-	public void doDefaultAction() throws CivException {
-		showHelp();
-		
-	}
+
+    @Override
+    public void doDefaultAction() {
+        showHelp();
+
+    }
 
 	@Override
 	public void showHelp() {
 		showBasicHelp();
 	}
 
-	@Override
-	public void permissionCheck() throws CivException {
+    @Override
+    public void permissionCheck() {
 
-	}
+    }
 
 	
 	

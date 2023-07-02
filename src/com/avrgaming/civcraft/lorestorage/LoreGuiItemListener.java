@@ -29,7 +29,7 @@ import org.bukkit.inventory.Inventory;
 
 public class LoreGuiItemListener implements Listener {
 
-	public static HashMap<String, Inventory> guiInventories = new HashMap<String, Inventory>();
+	public static HashMap<String, Inventory> guiInventories = new HashMap<>();
 	
 	
 	/*
@@ -55,7 +55,6 @@ public class LoreGuiItemListener implements Listener {
 				if (action != null) {
 					LoreGuiItem.processAction(action, event.getCursor(), event);
 				}
-				return;
 			}
 			
 		}
@@ -74,13 +73,11 @@ public class LoreGuiItemListener implements Listener {
 		if (event.getRawSlot() < event.getView().getTopInventory().getSize()) {
 			if (guiInventories.containsKey(event.getView().getTopInventory().getName())) {
 				event.setCancelled(true);
-				return;
 			}
 		} else if (event.isShiftClick()) {
 			if (guiInventories.containsKey(event.getView().getTopInventory().getName())) {
 				event.setCancelled(true);
-				return;
-			}			
+            }
 		}
 		
 	}

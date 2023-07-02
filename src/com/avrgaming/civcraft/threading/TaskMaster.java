@@ -30,19 +30,19 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.util.BukkitObjects;
 
 public class TaskMaster {
-	
-	private static HashMap<String, BukkitTask> tasks = new HashMap<String, BukkitTask>();
-	private static HashMap<String, BukkitTask> timers = new HashMap<String, BukkitTask>();
-	
-	
-	public static long getTicksTilDate(Date date) {
-		Calendar c = Calendar.getInstance();
-		
-		if (c.getTime().after(date)) {
-			return 0;
-		}
-		
-		long timeInSeconds = (date.getTime() - c.getTime().getTime() ) / 1000;
+
+    private static final HashMap<String, BukkitTask> tasks = new HashMap<>();
+    private static final HashMap<String, BukkitTask> timers = new HashMap<>();
+
+
+    public static long getTicksTilDate(Date date) {
+        Calendar c = Calendar.getInstance();
+
+        if (c.getTime().after(date)) {
+            return 0;
+        }
+
+        long timeInSeconds = (date.getTime() - c.getTime().getTime()) / 1000;
 		return timeInSeconds*20;
 	}
 	
@@ -146,7 +146,7 @@ public class TaskMaster {
 	}
 
 	public static List<String> getTimersList() {
-		List<String> out = new ArrayList<String>();
+        List<String> out = new ArrayList<>();
 		
 		out.add(CivMessage.buildTitle("Timers Running"));
 		for (String name : timers.keySet()) {

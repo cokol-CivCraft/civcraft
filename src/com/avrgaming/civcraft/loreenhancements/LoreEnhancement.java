@@ -4,7 +4,6 @@ import gpl.AttributeUtil;
 
 import java.util.HashMap;
 
-import org.bukkit.Material;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.ItemStack;
@@ -12,22 +11,24 @@ import org.bukkit.inventory.ItemStack;
 import com.avrgaming.civcraft.object.BuildableDamageBlock;
 
 public abstract class LoreEnhancement {
-	public AttributeUtil add(AttributeUtil attrs) {
-		return attrs;
-	}
-	
-	public static HashMap<String, LoreEnhancement> enhancements = new HashMap<String, LoreEnhancement>();
-	public HashMap<String, String> variables = new HashMap<String, String>();
-	
-	public static void init() {
-		enhancements.put("LoreEnhancementSoulBound", new LoreEnhancementSoulBound());
-		enhancements.put("LoreEnhancementAttack", new LoreEnhancementAttack());
-		enhancements.put("LoreEnhancementDefense", new LoreEnhancementDefense());
-		enhancements.put("LoreEnhancementPunchout", new LoreEnhancementPunchout());
-		enhancements.put("LoreEnhancementArenaItem", new LoreEnhancementArenaItem());
-	}
-	
-	public boolean onDeath(PlayerDeathEvent event, ItemStack stack) { return false; }
+    public AttributeUtil add(AttributeUtil attrs) {
+        return attrs;
+    }
+
+    public static HashMap<String, LoreEnhancement> enhancements = new HashMap<>();
+    public HashMap<String, String> variables = new HashMap<>();
+
+    public static void init() {
+        enhancements.put("LoreEnhancementSoulBound", new LoreEnhancementSoulBound());
+        enhancements.put("LoreEnhancementAttack", new LoreEnhancementAttack());
+        enhancements.put("LoreEnhancementDefense", new LoreEnhancementDefense());
+        enhancements.put("LoreEnhancementPunchout", new LoreEnhancementPunchout());
+        enhancements.put("LoreEnhancementArenaItem", new LoreEnhancementArenaItem());
+    }
+
+    public boolean onDeath(PlayerDeathEvent event, ItemStack stack) {
+        return false;
+    }
 	public void onDurabilityChange(PlayerItemDamageEvent event) {
 	}
 

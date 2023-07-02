@@ -38,7 +38,7 @@ public class SyncBuildUpdateTask implements Runnable {
 	public static final int QUEUE_SIZE = 4096;
 	
 //	public static BlockingQueue<SimpleBlock> updateBlocks = new ArrayBlockingQueue<SimpleBlock>(QUEUE_SIZE);
-	private static Queue<SimpleBlock> updateBlocks = new LinkedList<SimpleBlock>();
+private static final Queue<SimpleBlock> updateBlocks = new LinkedList<>();
 
 	
 	public static ReentrantLock buildBlockLock = new ReentrantLock();
@@ -80,8 +80,8 @@ public class SyncBuildUpdateTask implements Runnable {
 					Sign s;
 					switch (next.specialType) {
 					case COMMAND:
-                        block.setTypeId(Material.AIR.getId());
-                        ItemManager.setData(block, 0);
+						block.setType(Material.AIR);
+						ItemManager.setData(block, 0);
 						break;
 					case LITERAL:
 						if (block.getState() instanceof Sign) {
@@ -93,8 +93,8 @@ public class SyncBuildUpdateTask implements Runnable {
 						
 						s.update();
 						} else {
-                            block.setTypeId(Material.AIR.getId());
-                            ItemManager.setData(block, 0);
+							block.setType(Material.AIR);
+							ItemManager.setData(block, 0);
 						}
 						break;
 					case NORMAL:

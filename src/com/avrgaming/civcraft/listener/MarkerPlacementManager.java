@@ -42,24 +42,24 @@ import com.avrgaming.civcraft.structure.Structure;
 
 public class MarkerPlacementManager implements Listener {
 
-	private static HashMap<String, Structure> playersInPlacementMode = new HashMap<String, Structure>();
-	private static HashMap<String, ArrayList<Location>> markers = new HashMap<String, ArrayList<Location>>();
-	
-	
-	public static void addToPlacementMode(Player player, Structure structure, String markerName) throws CivException {
+    private static final HashMap<String, Structure> playersInPlacementMode = new HashMap<>();
+    private static final HashMap<String, ArrayList<Location>> markers = new HashMap<>();
 
-		if (player.getInventory().getItemInMainHand() != null) {
+
+    public static void addToPlacementMode(Player player, Structure structure, String markerName) throws CivException {
+
+        if (player.getInventory().getItemInMainHand() != null) {
             ItemStack stack = player.getInventory().getItemInMainHand();
             if (stack.getTypeId() != Material.AIR.getId()) {
                 throw new CivException(CivSettings.localize.localizedString("placement_errorHolding"));
             }
         }
-		
-		playersInPlacementMode.put(player.getName(), structure);
-		markers.put(player.getName(), new ArrayList<Location>());
 
-		ItemStack stack = new ItemStack(Material.REDSTONE_TORCH_OFF.getId(), 2, (short) 0);
-		ItemMeta meta = stack.getItemMeta();
+        playersInPlacementMode.put(player.getName(), structure);
+        markers.put(player.getName(), new ArrayList<>());
+
+        ItemStack stack = new ItemStack(Material.REDSTONE_TORCH_OFF, 2, (short) 0);
+        ItemMeta meta = stack.getItemMeta();
 		if (markerName != null) {
 			meta.setDisplayName(markerName);
 		} else {
@@ -78,9 +78,9 @@ public class MarkerPlacementManager implements Listener {
 			CivGlobal.removeStructure(struct);
 		}
 		playersInPlacementMode.remove(player.getName());
-		markers.remove(player.getName());
-		player.getInventory().setItemInMainHand(new ItemStack(Material.AIR.getId(), 1, (short) 0));
-		CivMessage.send(player, CivSettings.localize.localizedString("placement_ended"));
+        markers.remove(player.getName());
+        player.getInventory().setItemInMainHand(new ItemStack(Material.AIR, 1, (short) 0));
+        CivMessage.send(player, CivSettings.localize.localizedString("placement_ended"));
 	}
 	
 	public static boolean isPlayerInPlacementMode(Player player) {

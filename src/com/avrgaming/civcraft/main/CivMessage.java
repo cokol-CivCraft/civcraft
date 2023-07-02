@@ -50,13 +50,13 @@ import net.md_5.bungee.api.chat.TextComponent;
 public class CivMessage {
 
 	/* Stores the player name and the hash code of the last message sent to prevent error spamming the player. */
-	private static HashMap<String, Integer> lastMessageHashCode = new HashMap<String, Integer>();
-	
-	/* Indexed off of town names, contains a list of extra people who listen to town chats.(mostly for admins to listen to towns) */
-	private static Map<String, ArrayList<String>> extraTownChatListeners = new ConcurrentHashMap<String, ArrayList<String>>();
-	
-	/* Indexed off of civ names, contains a list of extra people who listen to civ chats. (mostly for admins to list to civs) */
-	private static Map<String, ArrayList<String>> extraCivChatListeners = new ConcurrentHashMap<String, ArrayList<String>>();
+    private static final HashMap<String, Integer> lastMessageHashCode = new HashMap<>();
+
+    /* Indexed off of town names, contains a list of extra people who listen to town chats.(mostly for admins to listen to towns) */
+    private static final Map<String, ArrayList<String>> extraTownChatListeners = new ConcurrentHashMap<>();
+
+    /* Indexed off of civ names, contains a list of extra people who listen to civ chats. (mostly for admins to list to civs) */
+    private static final Map<String, ArrayList<String>> extraCivChatListeners = new ConcurrentHashMap<>();
 	
 	public static void sendErrorNoRepeat(Object sender, String line) {
 		if (sender instanceof Player) {
@@ -81,11 +81,11 @@ public class CivMessage {
 	 * Sends message to playerName(if online) AND console. 
 	 */
 	public static void console(String playerName, String line) {
-		try {
-			Player player = CivGlobal.getPlayer(playerName);
-			send(player, line);
-		} catch (CivException e) {
-		}
+        try {
+            Player player = CivGlobal.getPlayer(playerName);
+            send(player, line);
+        } catch (CivException ignored) {
+        }
 		CivLog.info(line);	
 	}
 	public static void sendActionBar(Player p, String actionbar) {
@@ -144,11 +144,10 @@ public class CivMessage {
 	
 	public static String itemTooltip(ItemStack itemStack)
 	  {
-	    try
-	    {
-	      Object nmsItem = Reflection.getMethod(Reflection.getOBCClass("inventory.CraftItemStack"), "asNMSCopy", new Class[] { ItemStack.class }).invoke(null, new Object[] { itemStack });
-	      return (Reflection.getMethod(Reflection.getNMSClass("ItemStack"), "save", new Class[] { Reflection.getNMSClass("NBTTagCompound") }).invoke(nmsItem, new Object[] { Reflection.getNMSClass("NBTTagCompound").newInstance() }).toString());
-	    }
+	    try {
+            Object nmsItem = Reflection.getMethod(Reflection.getOBCClass("inventory.CraftItemStack"), "asNMSCopy", new Class[]{ItemStack.class}).invoke(null, itemStack);
+            return (Reflection.getMethod(Reflection.getNMSClass("ItemStack"), "save", new Class[]{Reflection.getNMSClass("NBTTagCompound")}).invoke(nmsItem, Reflection.getNMSClass("NBTTagCompound").newInstance()).toString());
+        }
 	    catch (Exception e)
 	    {
 	      e.printStackTrace();
@@ -180,9 +179,7 @@ public class CivMessage {
 		}
 	}
 	public static void send(Object sender, String[] lines) {
-		boolean isPlayer = false;
-		if (sender instanceof Player)
-			isPlayer = true;
+		boolean isPlayer = sender instanceof Player;
 
 		for (String line : lines) {
 			if (isPlayer) {
@@ -230,11 +227,11 @@ public class CivMessage {
 	
 	public static void sendHeading(Resident resident, String title) {
 		Player player;
-		try {
-			player = CivGlobal.getPlayer(resident);
-			sendHeading(player, title);
-		} catch (CivException e) {
-		}
+        try {
+            player = CivGlobal.getPlayer(resident);
+            sendHeading(player, title);
+        } catch (CivException ignored) {
+        }
 	}
 	
 	public static void sendHeading(CommandSender sender, String title) {	
@@ -283,13 +280,11 @@ public class CivMessage {
 				}
 				
 				Player player;
-				try {
-					player = CivGlobal.getPlayer(resident);
-					if (player != null) {
-						CivMessage.send(player, CivColor.Purple+CivSettings.localize.localizedString("civMsg_ScoutPrefix")+" "+CivColor.White+string);
-					}
-				} catch (CivException e) {
-				}
+                try {
+                    player = CivGlobal.getPlayer(resident);
+                    CivMessage.send(player, CivColor.Purple + CivSettings.localize.localizedString("civMsg_ScoutPrefix") + " " + CivColor.White + string);
+                } catch (CivException ignored) {
+                }
 			}
 			
 		}
@@ -304,13 +299,11 @@ public class CivMessage {
 			}
 			
 			Player player;
-			try {
-				player = CivGlobal.getPlayer(resident);
-				if (player != null) {
-					CivMessage.send(player, CivColor.Gold+CivSettings.localize.localizedString("civMsg_Townprefix")+" "+CivColor.White+string);
-				}
-			} catch (CivException e) {
-			}
+            try {
+                player = CivGlobal.getPlayer(resident);
+                CivMessage.send(player, CivColor.Gold + CivSettings.localize.localizedString("civMsg_Townprefix") + " " + CivColor.White + string);
+            } catch (CivException ignored) {
+            }
 		}
 	}
 
@@ -323,13 +316,11 @@ public class CivMessage {
 				}
 				
 				Player player;
-				try {
-					player = CivGlobal.getPlayer(resident);
-					if (player != null) {
-						CivMessage.send(player, CivColor.LightPurple+CivSettings.localize.localizedString("civMsg_Civprefix")+" "+CivColor.White+string);
-					}
-				} catch (CivException e) {
-				}
+                try {
+                    player = CivGlobal.getPlayer(resident);
+                    CivMessage.send(player, CivColor.LightPurple + CivSettings.localize.localizedString("civMsg_Civprefix") + " " + CivColor.White + string);
+                } catch (CivException ignored) {
+                }
 			}
 			
 		}
@@ -345,12 +336,12 @@ public class CivMessage {
 
 	public static void sendTownChat(Town town, Resident resident, String format, String message) {
 		if (town == null) {
-			try {
-				Player player = CivGlobal.getPlayer(resident);
-				player.sendMessage(CivColor.Rose+CivSettings.localize.localizedString("civMsg_tcNotInTown"));
+            try {
+                Player player = CivGlobal.getPlayer(resident);
+                player.sendMessage(CivColor.Rose + CivSettings.localize.localizedString("civMsg_tcNotInTown"));
 
-			} catch (CivException e) {
-			}
+            } catch (CivException ignored) {
+            }
 			return;
 		}
 		
@@ -362,7 +353,7 @@ public class CivMessage {
 				String msg = CivColor.LightBlue+CivSettings.localize.localizedString("civMsg_tcPrefix")+CivColor.White+String.format(format, resident.getName(), message);
 				player.sendMessage(msg);
 			} catch (CivException e) {
-				continue; /* player not online. */
+                /* player not online. */
 			}
 		}
 		
@@ -380,12 +371,12 @@ public class CivMessage {
 
 	public static void sendCivChat(Civilization civ, Resident resident, String format, String message) {
 		if (civ == null) {
-			try {
-				Player player = CivGlobal.getPlayer(resident);
-				player.sendMessage(CivColor.Rose+CivSettings.localize.localizedString("civMsg_ccNotInCiv"));
+            try {
+                Player player = CivGlobal.getPlayer(resident);
+                player.sendMessage(CivColor.Rose + CivSettings.localize.localizedString("civMsg_ccNotInCiv"));
 
-			} catch (CivException e) {
-			}
+            } catch (CivException ignored) {
+            }
 			return;
 		}
 			
@@ -403,23 +394,22 @@ public class CivMessage {
 					String msg = CivColor.Gold+CivSettings.localize.localizedString("civMsg_ccPrefix1")+" "+townName+"]"+CivColor.White+String.format(format, resident.getName(), message);
 					player.sendMessage(msg);
 				} catch (CivException e) {
-					continue; /* player not online. */
+                    /* player not online. */
 				}
 			}
 		}
-		
-		for (String name : getExtraCivChatListeners(civ)) {
-			try {
-				Player player = CivGlobal.getPlayer(name);
-				String msg = CivColor.Gold+CivSettings.localize.localizedString("civMsg_ccPrefix2")+civ.getName()+" "+townName+"]"+CivColor.White+String.format(format, resident.getName(), message);
-				player.sendMessage(msg);
-			} catch (CivException e) {
-				/* player not online. */
-			}
-		}
-		
-		return;
-	}
+
+        for (String name : getExtraCivChatListeners(civ)) {
+            try {
+                Player player = CivGlobal.getPlayer(name);
+                String msg = CivColor.Gold + CivSettings.localize.localizedString("civMsg_ccPrefix2") + civ.getName() + " " + townName + "]" + CivColor.White + String.format(format, resident.getName(), message);
+                player.sendMessage(msg);
+            } catch (CivException e) {
+                /* player not online. */
+            }
+        }
+
+    }
 	
 	public static void sendChat(Resident resident, String format, String message) {
 		for (Player player : Bukkit.getOnlinePlayers()) {
@@ -432,7 +422,7 @@ public class CivMessage {
 		
 		ArrayList<String> names = extraTownChatListeners.get(town.getName().toLowerCase());
 		if (names == null) {
-			names = new ArrayList<String>();
+            names = new ArrayList<>();
 		}
 		
 		for (String str : names) {
@@ -464,7 +454,7 @@ public class CivMessage {
 	public static ArrayList<String> getExtraTownChatListeners(Town town) {
 		ArrayList<String> names = extraTownChatListeners.get(town.getName().toLowerCase());
 		if (names == null) {
-			return new ArrayList<String>();
+            return new ArrayList<>();
 		}
 		return names;
 	}
@@ -473,7 +463,7 @@ public class CivMessage {
 		
 		ArrayList<String> names = extraCivChatListeners.get(civ.getName().toLowerCase());
 		if (names == null) {
-			names = new ArrayList<String>();
+            names = new ArrayList<>();
 		}
 		
 		for (String str : names) {
@@ -506,7 +496,7 @@ public class CivMessage {
 	public static ArrayList<String> getExtraCivChatListeners(Civilization civ) {
 		ArrayList<String> names = extraCivChatListeners.get(civ.getName().toLowerCase());
 		if (names == null) {
-			return new ArrayList<String>();
+            return new ArrayList<>();
 		}
 		return names;
 	}
@@ -552,13 +542,11 @@ public class CivMessage {
 			}
 			
 			Player player;
-			try {
-				player = CivGlobal.getPlayer(resident);
-				if (player != null) {
-					CivMessage.sendHeading(player, string);
-				}
-			} catch (CivException e) {
-			}
+            try {
+                player = CivGlobal.getPlayer(resident);
+                CivMessage.sendHeading(player, string);
+            } catch (CivException ignored) {
+            }
 		}
 	}
 
@@ -567,8 +555,7 @@ public class CivMessage {
 			Player player = CivGlobal.getPlayer(resident);
 			sendSuccess(player, message);
 		} catch (CivException e) {
-			return;
-		}
+        }
 	}
 
 	public static void sendTeam(ArenaTeam team, String message) {

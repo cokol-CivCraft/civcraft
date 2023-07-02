@@ -67,9 +67,9 @@ public abstract class Unit {
 	}
 	
 	
-	public Unit(Inventory inv) throws CivException {
-				
-	}
+	public Unit(Inventory inv) {
+
+    }
 	
 	
 	protected static boolean addItemNoStack(Inventory inv, ItemStack stack) {
@@ -94,15 +94,15 @@ public abstract class Unit {
 			}
 			
 			LoreMaterial material = LoreMaterial.getMaterial(stack);
-			if (material != null && (material instanceof UnitMaterial)) {
-				
-				if(!UnitMaterial.validateUnitUse(player, stack)) {
-					return null;
-				}
-				
-				
-				return ((UnitMaterial)material).getUnit();
-			}
+            if ((material instanceof UnitMaterial)) {
+
+                if (!UnitMaterial.validateUnitUse(player, stack)) {
+                    return null;
+                }
+
+
+                return ((UnitMaterial) material).getUnit();
+            }
 		}
 		
 		return null;
@@ -121,8 +121,7 @@ public abstract class Unit {
 					
 					if (material instanceof UnitItemMaterial) {
 						player.getInventory().remove(stack);
-						continue;
-					}
+                    }
 					
 				}
 			}
@@ -133,24 +132,24 @@ public abstract class Unit {
 		
 		try {
             ItemStack stack3 = player.getEquipment().getBoots();
-            if (stack3.getTypeId() != Material.LEATHER_BOOTS.getId()) {
-				return false;
-			}
+            if (stack3.getType() != Material.LEATHER_BOOTS) {
+                return false;
+            }
 
             ItemStack stack2 = player.getEquipment().getChestplate();
-            if (stack2.getTypeId() != Material.LEATHER_CHESTPLATE.getId()) {
-				return false;
-			}
+            if (stack2.getType() != Material.LEATHER_CHESTPLATE) {
+                return false;
+            }
 
             ItemStack stack1 = player.getEquipment().getHelmet();
-            if (stack1.getTypeId() != Material.LEATHER_HELMET.getId()) {
-				return false;
-			}
+            if (stack1.getType() != Material.LEATHER_HELMET) {
+                return false;
+            }
 
             ItemStack stack = player.getEquipment().getLeggings();
-            if (stack.getTypeId() != Material.LEATHER_LEGGINGS.getId()) {
-				return false;
-			}
+            if (stack.getType() != Material.LEATHER_LEGGINGS) {
+                return false;
+            }
 		
 		} catch (NullPointerException e) {
 			return false;
@@ -250,9 +249,7 @@ public abstract class Unit {
 		}
 		
 		if (player.getEquipment().getLeggings() != null) {
-			if (player.getEquipment().getLeggings().getType().equals(Material.CHAINMAIL_LEGGINGS)) {
-				return true;
-			}
+			return player.getEquipment().getLeggings().getType().equals(Material.CHAINMAIL_LEGGINGS);
 		}
 		
 		return false;
@@ -280,9 +277,7 @@ public abstract class Unit {
 		}
 		
 		if (player.getEquipment().getLeggings() != null) {
-			if (player.getEquipment().getLeggings().getType().equals(Material.GOLD_LEGGINGS)) {
-				return true;
-			}
+			return player.getEquipment().getLeggings().getType().equals(Material.GOLD_LEGGINGS);
 		}
 		
 		return false;
@@ -292,31 +287,25 @@ public abstract class Unit {
 	public static boolean isWearingAnyIron(Player player) {
 		
 		if (player.getEquipment().getBoots() != null) {
-            ItemStack stack = player.getEquipment().getBoots();
-            if (stack.getTypeId() == Material.IRON_BOOTS.getId()) {
-				return true;
-			}
+            if (player.getEquipment().getBoots().getType() == Material.IRON_BOOTS) {
+                return true;
+            }
 		}
 		
 		if (player.getEquipment().getChestplate() != null) {
-            ItemStack stack = player.getEquipment().getChestplate();
-            if (stack.getTypeId() == Material.IRON_CHESTPLATE.getId()) {
-				return true;
-			}
+            if (player.getEquipment().getChestplate().getType() == Material.IRON_CHESTPLATE) {
+                return true;
+            }
 		}
 		
 		if (player.getEquipment().getHelmet() != null) {
-            ItemStack stack = player.getEquipment().getHelmet();
-            if (stack.getTypeId() == Material.IRON_HELMET.getId()) {
-				return true;
-			}
+            if (player.getEquipment().getHelmet().getType() == Material.IRON_HELMET) {
+                return true;
+            }
 		}
 		
 		if (player.getEquipment().getLeggings() != null) {
-            ItemStack stack = player.getEquipment().getLeggings();
-            if (stack.getTypeId() == Material.IRON_LEGGINGS.getId()) {
-				return true;
-			}
+			return player.getEquipment().getLeggings().getType() == Material.IRON_LEGGINGS;
 		}
 		
 		return false;
@@ -325,31 +314,25 @@ public abstract class Unit {
 	public static boolean isWearingAnyDiamond(Player player) {
 		
 		if (player.getEquipment().getBoots() != null) {
-            ItemStack stack = player.getEquipment().getBoots();
-            if (stack.getTypeId() == Material.DIAMOND_BOOTS.getId()) {
-				return true;
-			}
+            if (player.getEquipment().getBoots().getType() == Material.DIAMOND_BOOTS) {
+                return true;
+            }
 		}
 		
 		if (player.getEquipment().getChestplate() != null) {
-            ItemStack stack = player.getEquipment().getChestplate();
-            if (stack.getTypeId() == Material.DIAMOND_CHESTPLATE.getId()) {
-				return true;
-			}
+            if (player.getEquipment().getChestplate().getType() == Material.DIAMOND_CHESTPLATE) {
+                return true;
+            }
 		}
 		
 		if (player.getEquipment().getHelmet() != null) {
-            ItemStack stack = player.getEquipment().getHelmet();
-            if (stack.getTypeId() == Material.DIAMOND_HELMET.getId()) {
-				return true;
-			}
+            if (player.getEquipment().getHelmet().getType() == Material.DIAMOND_HELMET) {
+                return true;
+            }
 		}
 		
 		if (player.getEquipment().getLeggings() != null) {
-            ItemStack stack = player.getEquipment().getLeggings();
-            if (stack.getTypeId() == Material.DIAMOND_LEGGINGS.getId()) {
-				return true;
-			}
+			return player.getEquipment().getLeggings().getType() == Material.DIAMOND_LEGGINGS;
 		}
 		
 		return false;

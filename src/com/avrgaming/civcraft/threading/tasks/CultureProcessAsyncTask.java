@@ -52,8 +52,8 @@ public class CultureProcessAsyncTask extends CivAsyncTask {
 		}
 		
 
-		HashSet<ChunkCoord> expanded = new HashSet<ChunkCoord>();
-		CultureChunk starting = CivGlobal.getCultureChunk(origin);
+		HashSet<ChunkCoord> expanded = new HashSet<>();
+        CultureChunk starting = CivGlobal.getCultureChunk(origin);
 		if (starting == null) {
 			starting = new CultureChunk(town, origin);
 			town.addCultureChunk(starting);
@@ -72,30 +72,30 @@ public class CultureProcessAsyncTask extends CivAsyncTask {
 	
 	private void _processCultureBreadthFirst(Town town, ChunkCoord origin, 
 			CultureChunk starting, HashSet<ChunkCoord> expanded) {
-		
-		Queue<CultureChunk> openList = new LinkedBlockingQueue<CultureChunk>();		
-		HashMap<ChunkCoord, CultureChunk> closedChunks = new HashMap<ChunkCoord, CultureChunk>();
-		ConfigCultureLevel clc = CivSettings.cultureLevels.get(town.getCultureLevel());
-		
-		openList.add(starting);
-		if (starting.getTown() != town) {
-			//Since certain towns process first, sometimes our starting node can belong
-			//to another town. This is never valid, so always give the starting node back to us.
-			starting.getTown().removeCultureChunk(starting);
-			starting.setTown(town);
-			starting.getTown().addCultureChunk(starting);
-		}
-						
-		while (openList.isEmpty() == false) {
-			//Dequeue a node.
-			CultureChunk node = openList.poll();
-		
-			//If it was already examined, skip it.
-			if (closedChunks.containsKey(node.getChunkCoord())) {
-				continue;
-			}
-			
-			//RJ.out("node:"+node.toString());
+
+        Queue<CultureChunk> openList = new LinkedBlockingQueue<>();
+        HashMap<ChunkCoord, CultureChunk> closedChunks = new HashMap<>();
+        ConfigCultureLevel clc = CivSettings.cultureLevels.get(town.getCultureLevel());
+
+        openList.add(starting);
+        if (starting.getTown() != town) {
+            //Since certain towns process first, sometimes our starting node can belong
+            //to another town. This is never valid, so always give the starting node back to us.
+            starting.getTown().removeCultureChunk(starting);
+            starting.setTown(town);
+            starting.getTown().addCultureChunk(starting);
+        }
+
+        while (!openList.isEmpty()) {
+            //Dequeue a node.
+            CultureChunk node = openList.poll();
+
+            //If it was already examined, skip it.
+            if (closedChunks.containsKey(node.getChunkCoord())) {
+                continue;
+            }
+
+            //RJ.out("node:"+node.toString());
 
 			//If the distance is greater than the current culture level's chunks we are done.
 			if (node.getChunkCoord().manhattanDistance(origin) > clc.chunks) {
@@ -201,7 +201,6 @@ public class CultureProcessAsyncTask extends CivAsyncTask {
 		
 		
 		//RJ.out("Finished BFS.");
-		return;
 	}
 	
 	
@@ -246,7 +245,7 @@ public class CultureProcessAsyncTask extends CivAsyncTask {
 		 * now we need to determine if any structures belonging to another town are in
 		 * the wrong spot.
 		 */
-		HashMap<ChunkCoord, Structure> centerCoords = new HashMap<ChunkCoord, Structure>();
+        HashMap<ChunkCoord, Structure> centerCoords = new HashMap<>();
 		/* Build a cache containing all of the center locations. */
 		for (Structure struct : CivGlobal.getStructures()) {
 			ChunkCoord coord = new ChunkCoord(struct.getCenterLocation());

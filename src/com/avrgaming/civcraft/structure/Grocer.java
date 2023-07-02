@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -41,7 +42,7 @@ public class Grocer extends Structure {
 
 	private int level = 1;
 
-	private NonMemberFeeComponent nonMemberFeeComponent; 
+	private final NonMemberFeeComponent nonMemberFeeComponent;
 	
 	protected Grocer(Location center, String id, Town town) throws CivException {
 		super(center, id, town);
@@ -58,14 +59,14 @@ public class Grocer extends Structure {
 
 	@Override
 	public String getDynmapDescription() {
-		String out = "<u><b>"+this.getDisplayName()+"</u></b><br/>";
+        StringBuilder out = new StringBuilder("<u><b>" + this.getDisplayName() + "</u></b><br/>");
 
 		for (int i = 0; i < level; i++) {
 			ConfigGrocerLevel grocerlevel = CivSettings.grocerLevels.get(i+1);
-			out += "<b>"+grocerlevel.itemName+"</b> "+CivSettings.localize.localizedString("Amount")+" "+grocerlevel.amount+ " "+CivSettings.localize.localizedString("Price")+" "+grocerlevel.price+" "+CivSettings.CURRENCY_NAME+".<br/>";
+            out.append("<b>").append(grocerlevel.itemName).append("</b> ").append(CivSettings.localize.localizedString("Amount")).append(" ").append(grocerlevel.amount).append(" ").append(CivSettings.localize.localizedString("Price")).append(" ").append(grocerlevel.price).append(" ").append(CivSettings.CURRENCY_NAME).append(".<br/>");
 		}
-		
-		return out;
+
+        return out.toString();
 	}
 	
 	@Override
@@ -90,32 +91,31 @@ public class Grocer extends Structure {
 	}
 	
 	private String getNonResidentFeeString() {
-		return "Fee: "+((int)(getNonResidentFee()*100) + "%").toString();		
+        return "Fee: " + ((int) (getNonResidentFee() * 100) + "%");
 	}
 	
 	private StructureSign getSignFromSpecialId(int special_id) {
 		for (StructureSign sign : getSigns()) {
-			int id = Integer.valueOf(sign.getAction());
+            int id = Integer.parseInt(sign.getAction());
 			if (id == special_id) {
 				return sign;
 			}
 		}
 		return null;
 	}
-	
-	public void sign_buy_material(Player player, String itemName, int id, byte data, int amount, double price) {
-		Resident resident;
-		int payToTown = (int) Math.round(price*this.getNonResidentFee());
-		try {
-				
-				resident = CivGlobal.getResident(player.getName());
-				Town t = resident.getTown();
-			
-				if (t == this.getTown()) {
-					// Pay no taxes! You're a member.
-					resident.buyItem(itemName, id, data, price, amount);
+
+    public void sign_buy_material(Player player, String itemName, Material id, byte data, int amount, double price) {
+        Resident resident;
+        int payToTown = (int) Math.round(price * this.getNonResidentFee());
+        try {
+
+            resident = CivGlobal.getResident(player.getName());
+            Town t = resident.getTown();
+
+            if (t == this.getTown()) {
+                // Pay no taxes! You're a member.
+                resident.buyItem(itemName, id, data, price, amount);
 					CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("var_grocer_msgBought",amount,itemName,price+" "+CivSettings.CURRENCY_NAME));
-					return;
 				} else {
 					// Pay non-resident taxes
 					resident.buyItem(itemName, id, data, price + payToTown, amount);
@@ -128,7 +128,6 @@ public class Grocer extends Structure {
 			catch (CivException e) {
 				CivMessage.send(player, CivColor.Rose + e.getMessage());
 			}
-		return;
 	}
 
 	
@@ -165,7 +164,7 @@ public class Grocer extends Structure {
 	
 	@Override
 	public void processSignAction(Player player, StructureSign sign, PlayerInteractEvent event) {
-		int special_id = Integer.valueOf(sign.getAction());
+        int special_id = Integer.parseInt(sign.getAction());
 		if (special_id < this.level) {
 			ConfigGrocerLevel grocerlevel = CivSettings.grocerLevels.get(special_id+1);
 			sign_buy_material(player, grocerlevel.itemName, grocerlevel.itemId, 

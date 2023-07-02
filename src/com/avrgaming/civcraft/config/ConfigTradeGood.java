@@ -22,28 +22,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import com.avrgaming.civcraft.main.CivLog;
 
 public class ConfigTradeGood implements Comparable<ConfigTradeGood> {
-	public String id;
-	public String name;
-	public double value;
-	//public String bonus;
-	public boolean water;
-	public HashMap<String, ConfigBuff> buffs = new HashMap<String, ConfigBuff>();
-	public int material;
-	public int material_data;
-	public String hemiString = null;
-	public Double rarity = null;
-	
-	
-	public static void loadBuffsString(ConfigTradeGood good, String bonus) {
-		String[] keys = bonus.split(",");
-		
-		for (String key : keys) {
-			ConfigBuff cBuff = CivSettings.buffs.get(key.replace(" ", ""));
+    public String id;
+    public String name;
+    public double value;
+    //public String bonus;
+    public boolean water;
+    public HashMap<String, ConfigBuff> buffs = new HashMap<>();
+    public Material material;
+    public int material_data;
+    public String hemiString = null;
+    public Double rarity = null;
+
+
+    public static void loadBuffsString(ConfigTradeGood good, String bonus) {
+        String[] keys = bonus.split(",");
+
+        for (String key : keys) {
+            ConfigBuff cBuff = CivSettings.buffs.get(key.replace(" ", ""));
 			if (cBuff != null) {
 				good.buffs.put(key, cBuff);
 			}
@@ -61,9 +62,9 @@ public class ConfigTradeGood implements Comparable<ConfigTradeGood> {
 			good.name = (String)g.get("name");
 			good.value = (Double)g.get("value");
 			loadBuffsString(good, (String)g.get("buffs"));
-			good.water = false;
-			good.material = (Integer)g.get("material");
-			good.material_data = (Integer)g.get("material_data");
+            good.water = false;
+            good.material = Material.getMaterial((Integer) g.get("material"));
+            good.material_data = (Integer) g.get("material_data");
 			good.hemiString = ((String)g.get("hemispheres"));
 			good.rarity = ((Double)g.get("rarity"));
 			if (good.rarity == null) {
@@ -80,9 +81,9 @@ public class ConfigTradeGood implements Comparable<ConfigTradeGood> {
 			good.name = (String)g.get("name");
 			good.value = (Double)g.get("value");
 			loadBuffsString(good, (String)g.get("buffs"));
-			good.water = true;
-			good.material = (Integer)g.get("material");
-			good.material_data = (Integer)g.get("material_data");
+            good.water = true;
+            good.material = Material.getMaterial((Integer) g.get("material"));
+            good.material_data = (Integer) g.get("material_data");
 			good.hemiString = ((String)g.get("hemispheres"));
 			good.rarity = ((Double)g.get("rarity"));
 			if (good.rarity == null) {

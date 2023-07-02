@@ -127,13 +127,13 @@ public abstract class Wonder extends Buildable {
 		this.getTown().addWonder(this);
 		bindStructureBlocks();
 		
-		if (this.isComplete() == false) {
-			try {
-				this.resumeBuildFromTemplate();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		if (!this.isComplete()) {
+            try {
+                this.resumeBuildFromTemplate();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 	}
 
 	@Override
@@ -143,7 +143,7 @@ public abstract class Wonder extends Buildable {
 
 	@Override
 	public void saveNow() throws SQLException {
-		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+        HashMap<String, Object> hashmap = new HashMap<>();
 		hashmap.put("type_id", this.getConfigId());
 		hashmap.put("town_id", this.getTown().getId());
 		hashmap.put("complete", this.isComplete());
@@ -175,18 +175,14 @@ public abstract class Wonder extends Buildable {
 	@Override
 	public void updateBuildProgess() {
 		if (this.getId() != 0) {
-			HashMap<String, Object> struct_hm = new HashMap<String, Object>();
-			struct_hm.put("id", this.getId());
-			struct_hm.put("type_id", this.getConfigId());
-			struct_hm.put("complete", this.isComplete());
-			struct_hm.put("builtBlockCount", this.savedBlockCount);
-	
-			try {
-				SQL.updateNamedObjectAsync(this, struct_hm, TABLE_NAME);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}	
-		} 
+            HashMap<String, Object> struct_hm = new HashMap<>();
+            struct_hm.put("id", this.getId());
+            struct_hm.put("type_id", this.getConfigId());
+            struct_hm.put("complete", this.isComplete());
+            struct_hm.put("builtBlockCount", this.savedBlockCount);
+
+            SQL.updateNamedObjectAsync(this, struct_hm, TABLE_NAME);
+        }
 	}
 
 	public static boolean isWonderAvailable(String configId) {
@@ -210,25 +206,19 @@ public abstract class Wonder extends Buildable {
 	}
 
 
-	@Override
-	public void processUndo() throws CivException {		
-		try {
-			this.undoFromTemplate();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-			CivMessage.sendTown(getTown(), CivColor.Rose+CivSettings.localize.localizedString("wonder_undo_error"));
-			this.fancyDestroyStructureBlocks();
-		}
-		
-		CivMessage.global(CivSettings.localize.localizedString("var_wonder_undo_broadcast",(CivColor.LightGreen+this.getDisplayName()+CivColor.White),this.getTown().getName(),this.getTown().getCiv().getName()));
-				
-		double refund = this.getCost();
-		this.getTown().depositDirect(refund);
-		CivMessage.sendTown(getTown(), CivSettings.localize.localizedString("var_structure_undo_refund",this.getTown().getName(),refund,CivSettings.CURRENCY_NAME));
-		
-		this.unbindStructureBlocks();
-		
-		try {
+    @Override
+    public void processUndo() throws CivException {
+        this.undoFromTemplate();
+
+        CivMessage.global(CivSettings.localize.localizedString("var_wonder_undo_broadcast", (CivColor.LightGreen + this.getDisplayName() + CivColor.White), this.getTown().getName(), this.getTown().getCiv().getName()));
+
+        double refund = this.getCost();
+        this.getTown().depositDirect(refund);
+        CivMessage.sendTown(getTown(), CivSettings.localize.localizedString("var_structure_undo_refund", this.getTown().getName(), refund, CivSettings.CURRENCY_NAME));
+
+        this.unbindStructureBlocks();
+
+        try {
 			delete();
 			getTown().removeWonder(this);
 		} catch (SQLException e) {
@@ -244,7 +234,7 @@ public abstract class Wonder extends Buildable {
 		// to the 'corner' of the structure.
 		Location savedLocation = centerLoc.clone();
 
-		centerLoc = this.repositionCenter(centerLoc, tpl.dir(), (double)tpl.size_x, (double)tpl.size_z);
+        centerLoc = this.repositionCenter(centerLoc, tpl.dir(), tpl.size_x, tpl.size_z);
 		Block centerBlock = centerLoc.getBlock();
 		// Before we place the blocks, give our build function a chance to work on it
 		
@@ -287,11 +277,10 @@ public abstract class Wonder extends Buildable {
 	public String getMarkerIconName() {
 		return "beer";
 	}
-	
-	@Override
-	protected void runOnBuild(Location centerLoc, Template tpl) throws CivException {
-		return;
-	}
+
+    @Override
+    protected void runOnBuild(Location centerLoc, Template tpl) {
+    }
 
 	public void onDestroy() {
 		if (!CivGlobal.isCasualMode()) {
@@ -494,8 +483,8 @@ public abstract class Wonder extends Buildable {
 		for (Town t : this.getCiv().getTowns()) {
 			cultureCount += t.getCultureChunks().size();
 		}
-		
-		double coinsPerCulture = Double.valueOf(CivSettings.buffs.get("buff_colossus_coins_from_culture").value);
+
+        double coinsPerCulture = Double.parseDouble(CivSettings.buffs.get("buff_colossus_coins_from_culture").value);
 		
 		double total = coinsPerCulture*cultureCount;
 		this.getCiv().getTreasury().deposit(total);
@@ -509,7 +498,7 @@ public abstract class Wonder extends Buildable {
 		{
 			townCount += civ.getTownCount();
 		}
-		double coinsPerTown = Double.valueOf(CivSettings.buffs.get("buff_colosseum_coins_from_towns").value);
+        double coinsPerTown = Double.parseDouble(CivSettings.buffs.get("buff_colosseum_coins_from_towns").value);
 		
 		double total = coinsPerTown*townCount;
 		this.getCiv().getTreasury().deposit(total);

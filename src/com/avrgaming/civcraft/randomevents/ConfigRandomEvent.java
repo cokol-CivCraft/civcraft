@@ -12,26 +12,26 @@ import com.avrgaming.civcraft.main.CivLog;
 
 public class ConfigRandomEvent {
 
-	public String id;
-	public String name;
-	public LinkedList<String> message = new LinkedList<String>();
-	public int length;
-	
-	/* Components */
-	public LinkedList<HashMap<String, String>> actions = new LinkedList<HashMap<String, String>>();
-	public LinkedList<HashMap<String, String>> requirements = new LinkedList<HashMap<String, String>>();
-	public LinkedList<HashMap<String, String>> success = new LinkedList<HashMap<String, String>>();
-	public LinkedList<HashMap<String, String>> failure = new LinkedList<HashMap<String, String>>();
-	public int chance = 0;
+    public String id;
+    public String name;
+    public LinkedList<String> message = new LinkedList<>();
+    public int length;
 
-	
-	private static void loadComponentConfig(Map<?, ?> obj, LinkedList<HashMap<String, String>> component, String configName) {
-		@SuppressWarnings("unchecked")
-		List<Map<?, ?>> comps = (List<Map<?, ?>>) obj.get(configName);
-		if (comps != null) {
-			for (Map<?, ?> compObj : comps) {
-				
-				HashMap<String, String> compMap = new HashMap<String, String>();
+    /* Components */
+    public LinkedList<HashMap<String, String>> actions = new LinkedList<>();
+    public LinkedList<HashMap<String, String>> requirements = new LinkedList<>();
+    public LinkedList<HashMap<String, String>> success = new LinkedList<>();
+    public LinkedList<HashMap<String, String>> failure = new LinkedList<>();
+    public int chance = 0;
+
+
+    private static void loadComponentConfig(Map<?, ?> obj, LinkedList<HashMap<String, String>> component, String configName) {
+        @SuppressWarnings("unchecked")
+        List<Map<?, ?>> comps = (List<Map<?, ?>>) obj.get(configName);
+        if (comps != null) {
+            for (Map<?, ?> compObj : comps) {
+
+                HashMap<String, String> compMap = new HashMap<>();
 				for (Object key : compObj.keySet()) {
 					compMap.put((String)key, (String)compObj.get(key));
 				}

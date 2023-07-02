@@ -162,7 +162,7 @@ public class BlockListener implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onSlimeSplitEvent(SlimeSplitEvent event) {
         if (event.getEntity() instanceof Slime) {
-            Slime slime = (Slime) event.getEntity();
+            Slime slime = event.getEntity();
             if (slime.getName().contains("Brutal") ||
                     slime.getName().contains("Elite") ||
                     slime.getName().contains("Greater") ||
@@ -225,7 +225,7 @@ public class BlockListener implements Listener {
             return;
         }
 
-        if (tc.perms.isFire() == false) {
+        if (!tc.perms.isFire()) {
             CivMessage.sendError(event.getPlayer(), CivSettings.localize.localizedString("fireDisabledInChunk"));
             event.setCancelled(true);
         }
@@ -250,10 +250,8 @@ public class BlockListener implements Listener {
         CampBlock cb = CivGlobal.getCampBlock(bcoord);
         if (cb != null) {
             event.setCancelled(true);
-            return;
         }
 
-        return;
     }
 
     @EventHandler(priority = EventPriority.LOW)
@@ -275,7 +273,6 @@ public class BlockListener implements Listener {
         CampBlock cb = CivGlobal.getCampBlock(bcoord);
         if (cb != null) {
             event.setCancelled(true);
-            return;
         }
     }
 
@@ -336,9 +333,7 @@ public class BlockListener implements Listener {
             }
         }
 
-        if (event.getDamager() instanceof Arrow) {
-
-        }
+        event.getDamager();
 
         if (event.getDamager() instanceof Fireball) {
             CannonFiredCache cfc = CivCache.cannonBallsFired.get(event.getDamager().getUniqueId());
@@ -348,11 +343,11 @@ public class BlockListener implements Listener {
                 cfc.destroy(event.getDamager());
                 Buildable whoFired = cfc.getWhoFired();
                 if (whoFired.getConfigId().equals("s_cannontower")) {
-                    event.setDamage((double) ((CannonTower) whoFired).getDamage());
+                    event.setDamage(((CannonTower) whoFired).getDamage());
                 } else if (whoFired.getConfigId().equals("s_cannonship")) {
-                    event.setDamage((double) ((CannonShip) whoFired).getDamage());
+                    event.setDamage(((CannonShip) whoFired).getDamage());
                 } else if (whoFired.getConfigId().equals("w_grand_ship_ingermanland")) {
-                    event.setDamage((double) ((GrandShipIngermanland) whoFired).getCannonDamage());
+                    event.setDamage(((GrandShipIngermanland) whoFired).getCannonDamage());
                 }
             }
         }
@@ -411,13 +406,10 @@ public class BlockListener implements Listener {
                 if (!allowPVP) {
                     CivMessage.sendError(attacker, denyMessage);
                     event.setCancelled(true);
-                } else {
-
                 }
             }
         }
 
-        return;
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -433,7 +425,7 @@ public class BlockListener implements Listener {
         }
 
         class SyncTask implements Runnable {
-            LivingEntity entity;
+            final LivingEntity entity;
 
             public SyncTask(LivingEntity entity) {
                 this.entity = entity;
@@ -472,7 +464,7 @@ public class BlockListener implements Listener {
             return;
         }
 
-        if (tc.perms.isMobs() == false) {
+        if (!tc.perms.isMobs()) {
             if (event.getSpawnReason().equals(SpawnReason.CUSTOM)) {
                 return;
             }
@@ -485,7 +477,6 @@ public class BlockListener implements Listener {
 
             if (CivSettings.restrictedSpawns.containsKey(event.getEntityType())) {
                 event.setCancelled(true);
-                return;
             }
         }
     }
@@ -732,11 +723,7 @@ public class BlockListener implements Listener {
         if (buildables != null) {
             for (Buildable buildable : buildables) {
                 if (!buildable.validated) {
-                    try {
-                        buildable.validate(event.getPlayer());
-                    } catch (CivException e) {
-                        e.printStackTrace();
-                    }
+                    buildable.validate(event.getPlayer());
                     continue;
                 }
 
@@ -871,11 +858,7 @@ public class BlockListener implements Listener {
         if (buildables != null) {
             for (Buildable buildable : buildables) {
                 if (!buildable.validated) {
-                    try {
-                        buildable.validate(event.getPlayer());
-                    } catch (CivException e) {
-                        e.printStackTrace();
-                    }
+                    buildable.validate(event.getPlayer());
                     continue;
                 }
 
@@ -924,7 +907,7 @@ public class BlockListener implements Listener {
                 }
 
                 if (event.getEntity() instanceof Player) {
-                    CivMessage.sendErrorNoRepeat((Player) event.getEntity(), CivSettings.localize.localizedString("blockUse_errorPermission"));
+                    CivMessage.sendErrorNoRepeat(event.getEntity(), CivSettings.localize.localizedString("blockUse_errorPermission"));
                 }
 
                 event.setCancelled(true);
@@ -971,7 +954,6 @@ public class BlockListener implements Listener {
             if (event.getItem().getType().equals(Material.INK_SACK)) {
                 //if (event.getItem().getDurability() == 15) {
                 event.setCancelled(true);
-                return;
                 //}
             }
         }
@@ -1086,17 +1068,16 @@ public class BlockListener implements Listener {
             }
         }
 
-        if (event.hasItem()) {
+        if (!event.hasItem()) {
+            return;
+        }
 
-            if (event.getItem() == null) {
-            } else {
-                if (CivSettings.restrictedItems.containsKey(event.getItem().getType())) {
-                    OnPlayerUseItem(event);
-                    if (event.isCancelled()) {
-                        return;
-                    }
-                }
-            }
+        if (event.getItem() == null) {
+            return;
+        }
+        if (CivSettings.restrictedItems.containsKey(event.getItem().getType())) {
+            OnPlayerUseItem(event);
+            event.isCancelled();
         }
 
     }
@@ -1116,7 +1097,6 @@ public class BlockListener implements Listener {
             if (!camp.hasMember(event.getPlayer().getName())) {
                 CivMessage.sendError(event.getPlayer(), CivSettings.localize.localizedString("bedUse_errorNotInCamp"));
                 event.setCancelled(true);
-                return;
             }
         }
     }
@@ -1190,7 +1170,6 @@ public class BlockListener implements Listener {
             }
         }
 
-        return;
     }
 
     private void OnPlayerUseItem(PlayerInteractEvent event) {
@@ -1226,7 +1205,6 @@ public class BlockListener implements Listener {
             CivMessage.sendErrorNoRepeat(event.getPlayer(), CivSettings.localize.localizedString("itemUse_errorGeneric") + " " + stack.getType().toString() + " ");
         }
 
-        return;
     }
 
     /*
@@ -1375,7 +1353,7 @@ public class BlockListener implements Listener {
 //				TaskMaster.syncTask(new DelayItemDrop(stack, event.getEntity().getLocation()));
 //			}
             if (event.getRemover() instanceof Player) {
-                CivMessage.sendError((Player) event.getRemover(), CivSettings.localize.localizedString("blockBreak_errorItemFrame"));
+                CivMessage.sendError(event.getRemover(), CivSettings.localize.localizedString("blockBreak_errorItemFrame"));
             }
             event.setCancelled(true);
             return;
@@ -1429,7 +1407,7 @@ public class BlockListener implements Listener {
 
         class AsyncTask extends CivAsyncTask {
 
-            FarmChunk fc;
+            final FarmChunk fc;
 
             public AsyncTask(FarmChunk fc) {
                 this.fc = fc;
@@ -1460,7 +1438,6 @@ public class BlockListener implements Listener {
         if (battledome != null) {
             battledome.onEntityDeath(event.getEntity());
         }
-        return;
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -1537,7 +1514,6 @@ public class BlockListener implements Listener {
 
         if (event.getSpawnReason().equals(SpawnReason.SPAWNER)) {
             event.setCancelled(true);
-            return;
         }
     }
 
@@ -1679,15 +1655,15 @@ public class BlockListener implements Listener {
             if (entityName != null && entityName.endsWith(" Ruffian")) {
                 EntityInsentient nmsEntity = (EntityInsentient) ((CraftLivingEntity) shooter).getHandle();
                 AttributeInstance attribute = nmsEntity.getAttributeInstance(GenericAttributes.ATTACK_DAMAGE);
-                Double damage = attribute.getValue();
+                double damage = attribute.getValue();
 
                 class RuffianProjectile {
-                    Location loc;
-                    Location target;
-                    org.bukkit.entity.Entity attacker;
-                    int speed = 1;
-                    double damage;
-                    int splash = 6;
+                    final Location loc;
+                    final Location target;
+                    final org.bukkit.entity.Entity attacker;
+                    final int speed = 1;
+                    final double damage;
+                    final int splash = 6;
 
                     public RuffianProjectile(Location loc, Location target, org.bukkit.entity.Entity attacker, double damage) {
                         this.loc = loc;
@@ -1753,7 +1729,7 @@ public class BlockListener implements Listener {
                         double x = loc.getX() + 0.5;
                         double y = loc.getY() + 0.5;
                         double z = loc.getZ() + 0.5;
-                        double r = (double) radius;
+                        double r = radius;
 
                         CraftWorld craftWorld = (CraftWorld) attacker.getWorld();
 
@@ -1823,7 +1799,6 @@ public class BlockListener implements Listener {
 
                 event.setCancelled(true);
             }
-            return;
         }
     }
 
@@ -1914,7 +1889,6 @@ public class BlockListener implements Listener {
 
         if (War.isWarTime()) {
             event.setNewCurrent(0);
-            return;
         }
 
     }

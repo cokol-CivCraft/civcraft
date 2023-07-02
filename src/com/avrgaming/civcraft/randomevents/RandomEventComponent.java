@@ -7,8 +7,8 @@ import com.avrgaming.civcraft.object.Town;
 
 public abstract class RandomEventComponent {
 	private String name;
-	private HashMap<String, String> attributes = new HashMap<String, String>();
-	private RandomEvent parent;
+    private final HashMap<String, String> attributes = new HashMap<>();
+    private RandomEvent parent;
 	
 	public String getName() {
 		return name;
@@ -22,7 +22,7 @@ public abstract class RandomEventComponent {
 	}
 	
 	public double getDouble(String key) {
-		return Double.valueOf(attributes.get(key));
+        return Double.parseDouble(attributes.get(key));
 	}
 	
 	public void setAttribute(String key, String value) {

@@ -34,7 +34,7 @@ public class ChunkCoord {
 	//private static World[] worlds;
 	//private static String[] worldnames;
 	
-	private static ConcurrentHashMap<String, World> worlds = new ConcurrentHashMap<String, World>();
+	private static final ConcurrentHashMap<String, World> worlds = new ConcurrentHashMap<>();
 
 	public static void addWorld(World world) {
 		worlds.put(world.getName(), world);
@@ -103,9 +103,7 @@ public class ChunkCoord {
 		if (other instanceof ChunkCoord) {
 			ChunkCoord otherCoord = (ChunkCoord)other;
 			if (otherCoord.worldname.equals(worldname)) {
-				if ((otherCoord.getX()) == x && (otherCoord.getZ() == z)) {
-					return true;
-				}
+				return (otherCoord.getX()) == x && (otherCoord.getZ() == z);
 			}
 		}
 		return false;

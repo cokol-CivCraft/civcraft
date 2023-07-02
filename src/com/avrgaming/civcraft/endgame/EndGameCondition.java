@@ -13,11 +13,11 @@ import com.avrgaming.civcraft.util.CivColor;
 
 public abstract class EndGameCondition {
 
-	public static ArrayList<EndGameCondition> endConditions = new ArrayList<EndGameCondition>(); 
+	public static ArrayList<EndGameCondition> endConditions = new ArrayList<>();
 		
 	private String id;
-	private String victoryName;
-	public HashMap<String, String> attributes = new HashMap<String, String>();
+    private String victoryName;
+    public HashMap<String, String> attributes = new HashMap<>();
 	
 	public EndGameCondition() {
 	}
@@ -26,25 +26,20 @@ public abstract class EndGameCondition {
 		for (ConfigEndCondition configEnd : CivSettings.endConditions.values()) {
 			String className = "com.avrgaming.civcraft.endgame."+configEnd.className;
 			Class<?> someClass;
-			
-			try {
-				someClass = Class.forName(className);
-				EndGameCondition endCompClass;
-				endCompClass = (EndGameCondition)someClass.newInstance();
-				endCompClass.setId(configEnd.id);
-				endCompClass.setVictoryName(configEnd.victoryName);
-				endCompClass.attributes = configEnd.attributes;
-			
-				endCompClass.onLoad();
-				endConditions.add(endCompClass);
-			} catch (InstantiationException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			}
-			catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
+
+            try {
+                someClass = Class.forName(className);
+                EndGameCondition endCompClass;
+                endCompClass = (EndGameCondition) someClass.newInstance();
+                endCompClass.setId(configEnd.id);
+                endCompClass.setVictoryName(configEnd.victoryName);
+                endCompClass.attributes = configEnd.attributes;
+
+                endCompClass.onLoad();
+                endConditions.add(endCompClass);
+            } catch (InstantiationException | ClassNotFoundException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
 		}
 	}
 	
@@ -96,7 +91,7 @@ public abstract class EndGameCondition {
 	}
 	
 	public double getDouble(String key) {
-		return Double.valueOf(attributes.get(key));
+        return Double.parseDouble(attributes.get(key));
 	}
 	
 	public void setAttribute(String key, String value) {
@@ -125,12 +120,8 @@ public abstract class EndGameCondition {
 	 */
 	public boolean isActive(Civilization civ) {
 		ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getSessionKey());
-		
-		if (entries.size() == 0) {
-			return false;
-		}
-		
-		return true;
+
+		return entries.size() != 0;
 	}
 	
 	public int getDaysLeft(Civilization civ) {
@@ -138,15 +129,15 @@ public abstract class EndGameCondition {
 		if (entries.size() == 0) {
 			return -1;
 		}
-		
-		int daysToHold = getDaysToHold();
-		Integer daysHeld = Integer.valueOf(entries.get(0).value);
+
+        int daysToHold = getDaysToHold();
+        int daysHeld = Integer.parseInt(entries.get(0).value);
 		
 		return daysToHold - daysHeld;
 	}
 	
 	public int getDaysToHold() {
-		return Integer.valueOf(this.getString("days_held"));
+        return Integer.parseInt(this.getString("days_held"));
 	}
 	
 	public void checkForWin(Civilization civ) {
@@ -171,19 +162,18 @@ public abstract class EndGameCondition {
 	 			daysHeld++;
 	 			
 	 			if (daysHeld < daysToHold) {
-	 				civ.winConditionWarning(this, daysToHold - daysHeld);
-	 			} else {
-	 				if (this.finalWinCheck(civ)) {
-	 					civ.declareAsWinner(this);
-	 				}
-	 			}
-	 			
-	 			CivGlobal.getSessionDB().update(entries.get(0).request_id, entries.get(0).key, getSessionData(civ, daysHeld));
- 			}
- 		}
- 		
- 		return;
-	}
+                    civ.winConditionWarning(this, daysToHold - daysHeld);
+                } else {
+                    if (this.finalWinCheck(civ)) {
+                        civ.declareAsWinner(this);
+                    }
+                }
+
+                CivGlobal.getSessionDB().update(entries.get(0).request_id, entries.get(0).key, getSessionData(civ, daysHeld));
+            }
+        }
+
+    }
 	
 	public String getSessionData(Civilization civ, Integer daysHeld) {
 		return civ.getId()+":"+daysHeld;
@@ -191,7 +181,7 @@ public abstract class EndGameCondition {
 	
 	public static Civilization getCivFromSessionData(String data) {
 		String[] split = data.split(":");
-		return CivGlobal.getCivFromId(Integer.valueOf(split[0]));
+        return CivGlobal.getCivFromId(Integer.parseInt(split[0]));
 	}
 	
 	public Integer getDaysHeldFromSessionData(String data) {

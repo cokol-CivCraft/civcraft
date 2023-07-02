@@ -24,7 +24,6 @@ import java.util.ArrayList;
 
 import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 import com.avrgaming.civcraft.config.CivSettings;
@@ -39,8 +38,8 @@ import com.avrgaming.civcraft.util.ChunkCoord;
 
 public class Farm extends Structure {
 	
-	public static final long GROW_RATE = (int)CivSettings.getIntegerStructure("farm.grow_tick_rate");
-	public static final int CROP_GROW_LIGHT_LEVEL = 9;
+	public static final long GROW_RATE = CivSettings.getIntegerStructure("farm.grow_tick_rate");
+    public static final int CROP_GROW_LIGHT_LEVEL = 9;
 	public static final int MUSHROOM_GROW_LIGHT_LEVEL = 12;
 	public static final int MAX_SUGARCANE_HEIGHT = 3;
 	
@@ -55,14 +54,14 @@ public class Farm extends Structure {
 		super(rs);
 		build_farm(this.getCorner().getLocation());
 	}
-	
-	public void removeFarmChunk() throws SQLException {
-		if (this.getCorner() != null) {
-			ChunkCoord coord = new ChunkCoord(this.getCorner().getLocation());
-			CivGlobal.removeFarmChunk(coord);
-			CivGlobal.getSessionDB().delete_all(getSessionKey());
-		}
-	}
+
+    public void removeFarmChunk() {
+        if (this.getCorner() != null) {
+            ChunkCoord coord = new ChunkCoord(this.getCorner().getLocation());
+            CivGlobal.removeFarmChunk(coord);
+            CivGlobal.getSessionDB().delete_all(getSessionKey());
+        }
+    }
 	
 	@Override
 	public void delete() throws SQLException {
@@ -73,12 +72,7 @@ public class Farm extends Structure {
 		}
 		super.delete();
 	}
-	
-	@Override
-	public String getDynmapDescription() {
-		return null;
-	}
-	
+
 	@Override
 	public boolean canRestoreFromTemplate() {
 		return false;
@@ -122,8 +116,8 @@ public class Farm extends Structure {
 		
 		class AsyncSave implements Runnable {
 
-			Farm farm;
-			int missedTicks;
+			final Farm farm;
+			final int missedTicks;
 			
 			public AsyncSave(Farm farm, int missedTicks) {
 				this.farm = farm;
@@ -136,7 +130,7 @@ public class Farm extends Structure {
 				
 				if (entries == null || entries.size() == 0) {
 					if (missedTicks > 0) {
-						farm.sessionAdd(getSessionKey(), ""+missedTicks);
+                        farm.sessionAdd(getSessionKey(), String.valueOf(missedTicks));
 						return;
 					}
 				}
@@ -144,7 +138,7 @@ public class Farm extends Structure {
 				if (missedTicks == 0) {
 					CivGlobal.getSessionDB().delete_all(getSessionKey());
 				} else {
-					CivGlobal.getSessionDB().update(entries.get(0).request_id, getSessionKey(), ""+missedTicks);
+                    CivGlobal.getSessionDB().update(entries.get(0).request_id, getSessionKey(), String.valueOf(missedTicks));
 				}
 			}
 			
@@ -159,16 +153,16 @@ public class Farm extends Structure {
 	
 	@Override
 	public void onLoad() {
-		ArrayList<SessionEntry> entries = new ArrayList<SessionEntry>();
+        ArrayList<SessionEntry> entries = new ArrayList<>();
 		entries = CivGlobal.getSessionDB().lookup(getSessionKey());
 		int missedGrowths = 0;
 		
 		if (entries.size() > 0) {
-			missedGrowths = Integer.valueOf(entries.get(0).value);
+            missedGrowths = Integer.parseInt(entries.get(0).value);
 		} 
 		
 		class AsyncTask extends CivAsyncTask {
-			int missedGrowths;
+			final int missedGrowths;
 			
 			public AsyncTask(int missedGrowths) {
 				this.missedGrowths = missedGrowths;

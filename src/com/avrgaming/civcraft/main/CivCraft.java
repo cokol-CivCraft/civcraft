@@ -254,20 +254,20 @@ public final class CivCraft extends JavaPlugin {
 		BukkitObjects.getWorlds().get(0).getPopulators().add(new MobSpawnerPopulator());
 				
 		try {
-			CivSettings.init(this);
-			
-			SQL.initialize();
-			SQL.initCivObjectTables();
-			ChunkCoord.buildWorldList();
-			CivGlobal.loadGlobals();
+            CivSettings.init(this);
+
+            SQL.initialize();
+            SQL.initCivObjectTables();
+            ChunkCoord.buildWorldList();
+            CivGlobal.loadGlobals();
 
 
-		} catch (InvalidConfiguration | SQLException | IOException | InvalidConfigurationException | CivException | ClassNotFoundException e) {
-			e.printStackTrace();
-			setError(true);
-			return;
-			//TODO disable plugin?
-		}
+        } catch (InvalidConfiguration | SQLException | IOException | InvalidConfigurationException | CivException e) {
+            e.printStackTrace();
+            setError(true);
+            return;
+            //TODO disable plugin?
+        }
 		
 		// Init commands
 		getCommand("town").setExecutor(new TownCommand());

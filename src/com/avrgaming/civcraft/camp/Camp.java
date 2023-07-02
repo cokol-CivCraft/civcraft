@@ -95,20 +95,20 @@ public class Camp extends Buildable {
     private int firepoints;
     private BlockCoord corner;
 
-    private HashMap<String, Resident> members = new HashMap<String, Resident>();
+    private final HashMap<String, Resident> members = new HashMap<>();
     public static final double SHIFT_OUT = 2;
     public static final String SUBDIR = "camp";
     private boolean undoable = false;
 
     /* Locations that exhibit vanilla growth */
-    public HashSet<BlockCoord> growthLocations = new HashSet<BlockCoord>();
+    public HashSet<BlockCoord> growthLocations = new HashSet<>();
     private boolean gardenEnabled = false;
 
     /* Camp blocks on this structure. */
-    public HashMap<BlockCoord, CampBlock> campBlocks = new HashMap<BlockCoord, CampBlock>();
+    public HashMap<BlockCoord, CampBlock> campBlocks = new HashMap<>();
 
     /* Fire locations for the firepit. */
-    public HashMap<Integer, BlockCoord> firepitBlocks = new HashMap<Integer, BlockCoord>();
+    public HashMap<Integer, BlockCoord> firepitBlocks = new HashMap<>();
     public HashSet<BlockCoord> fireFurnaceBlocks = new HashSet<>();
     private Integer coal_per_firepoint;
     private Integer maxFirePoints;
@@ -133,15 +133,15 @@ public class Camp extends Buildable {
     private Date nextRaidDate;
     private int raidLength;
 
-    private HashMap<String, ConfigCampUpgrade> upgrades = new HashMap<>();
+    private final HashMap<String, ConfigCampUpgrade> upgrades = new HashMap<>();
 
     public static void newCamp(Resident resident, Player player, String name) {
 
         class SyncTask implements Runnable {
 
-            Resident resident;
-            String name;
-            Player player;
+            final Resident resident;
+            final String name;
+            final Player player;
 
             public SyncTask(Resident resident, String name, Player player) {
                 this.resident = resident;
@@ -267,8 +267,7 @@ public class Camp extends Buildable {
 
 
     @Override
-    public void load(ResultSet rs) throws SQLException, InvalidNameException,
-            InvalidObjectException, CivException {
+    public void load(ResultSet rs) throws SQLException, InvalidNameException {
         this.setId(rs.getInt("id"));
         this.setName(rs.getString("name"));
         this.ownerName = rs.getString("owner_name");
@@ -302,7 +301,7 @@ public class Camp extends Buildable {
 
     @Override
     public void saveNow() throws SQLException {
-        HashMap<String, Object> hashmap = new HashMap<String, Object>();
+        HashMap<String, Object> hashmap = new HashMap<>();
         hashmap.put("name", this.getName());
         hashmap.put("owner_name", this.getOwner().getUUIDString());
 
@@ -853,7 +852,7 @@ public class Camp extends Buildable {
 
     }
 
-    protected Location repositionCenter(Location center, String dir, double x_size, double z_size) throws CivException {
+    protected Location repositionCenter(Location center, String dir, double x_size, double z_size) {
         Location loc = new Location(center.getWorld(),
                 center.getX(), center.getY(), center.getZ(),
                 center.getYaw(), center.getPitch());
@@ -906,7 +905,7 @@ public class Camp extends Buildable {
         int yCount = 0;
 
         RoadBlock rb;
-        LinkedList<RoadBlock> deletedRoadBlocks = new LinkedList<RoadBlock>();
+        LinkedList<RoadBlock> deletedRoadBlocks = new LinkedList<>();
         for (int x = 0; x < regionX; x++) {
             for (int y = 0; y < regionY; y++) {
                 for (int z = 0; z < regionZ; z++) {
@@ -1168,7 +1167,7 @@ public class Camp extends Buildable {
 
     //XXX TODO make sure these all work...
     @Override
-    public void processUndo() throws CivException {
+    public void processUndo() {
         // TODO Auto-generated method stub
 
     }
@@ -1180,12 +1179,11 @@ public class Camp extends Buildable {
     }
 
     @Override
-    public void build(Player player, Location centerLoc, Template tpl) throws Exception {
+    public void build(Player player, Location centerLoc, Template tpl) {
     }
 
     @Override
-    protected void runOnBuild(Location centerLoc, Template tpl) throws CivException {
-        return;
+    protected void runOnBuild(Location centerLoc, Template tpl) {
     }
 
     @Override
@@ -1240,11 +1238,11 @@ public class Camp extends Buildable {
     }
 
     public String getMembersString() {
-        String out = "";
+        StringBuilder out = new StringBuilder();
         for (Resident resident : members.values()) {
-            out += resident.getName() + " ";
+            out.append(resident.getName()).append(" ");
         }
-        return out;
+        return out.toString();
     }
 
     public void onControlBlockHit(ControlPoint cp, World world, Player player) {
@@ -1275,7 +1273,7 @@ public class Camp extends Buildable {
 
         boolean allDestroyed = true;
         for (ControlPoint c : this.controlBlocks.values()) {
-            if (c.isDestroyed() == false) {
+            if (!c.isDestroyed()) {
                 allDestroyed = false;
                 break;
             }
@@ -1329,7 +1327,7 @@ public class Camp extends Buildable {
 
     public Date getNextRaidDate() {
         Date raidEnd = new Date(this.nextRaidDate.getTime());
-        raidEnd.setTime(this.nextRaidDate.getTime() + 60 * 60 * 1000 * this.raidLength);
+        raidEnd.setTime(this.nextRaidDate.getTime() + 60L * 60 * 1000 * this.raidLength);
 
         Date now = new Date();
         if (now.getTime() > raidEnd.getTime()) {
@@ -1369,7 +1367,6 @@ public class Camp extends Buildable {
         this.reprocessCommandSigns();
         owner.getTreasury().withdraw(upgrade.cost);
         this.save();
-        return;
     }
 
     public boolean isLonghouseEnabled() {

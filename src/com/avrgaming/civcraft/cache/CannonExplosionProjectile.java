@@ -111,8 +111,8 @@ public class CannonExplosionProjectile {
 	
 	private void damagePlayers(Location loc, int radius) {
 		class SyncTask implements Runnable {
-			Queue<Player> playerQueue;
-			Queue<Double> damageQueue; 
+			final Queue<Player> playerQueue;
+			final Queue<Double> damageQueue;
 			
 			public SyncTask(Queue<Player> playerList, Queue<Double> damageList) {
 				this.playerQueue = playerList;
@@ -135,7 +135,7 @@ public class CannonExplosionProjectile {
 		
 		class AsyncTask implements Runnable {
 
-			int radius;
+			final int radius;
 			
 			public AsyncTask(int radius) {
 				this.radius = radius;
@@ -143,29 +143,25 @@ public class CannonExplosionProjectile {
 			
 			@Override
 			public void run() {
-				Queue<Player> playerList = new LinkedList<Player>();
-				Queue<Double> damageList = new LinkedList<Double>();
-				
+				Queue<Player> playerList = new LinkedList<>();
+				Queue<Double> damageList = new LinkedList<>();
+
 				//PlayerLocationCache.lock.lock();
-				try {
-					for(PlayerLocationCache pc : PlayerLocationCache.getCache()) {
-						if (pc.getCoord().distanceSquared(new BlockCoord(target)) < radius) {
-							try {
-								Player player = CivGlobal.getPlayer(pc.getName());
-								playerList.add(player);
-								damageList.add(Double.valueOf(damage));
-							} catch (CivException e) {
-								//player offline
-							}
-							
+				for (PlayerLocationCache pc : PlayerLocationCache.getCache()) {
+					if (pc.getCoord().distanceSquared(new BlockCoord(target)) < radius) {
+						try {
+							Player player = CivGlobal.getPlayer(pc.getName());
+							playerList.add(player);
+							damageList.add((double) damage);
+						} catch (CivException e) {
+							//player offline
 						}
+
 					}
-					
-					TaskMaster.syncTask(new SyncTask(playerList, damageList));
-					
-				} finally {
-				//	PlayerLocationCache.lock.unlock();
 				}
+
+				TaskMaster.syncTask(new SyncTask(playerList, damageList));
+
 			}
 		}
 		

@@ -101,7 +101,7 @@ public class DailyTimer implements Runnable {
 			{
 				if (wonder.getConfigId().equals("w_colossus")) {
 					try { 
-						((TheColossus)wonder).processCoinsFromCulture();
+						wonder.processCoinsFromCulture();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -115,7 +115,7 @@ public class DailyTimer implements Runnable {
 				}
 				else if (wonder.getConfigId().equals("w_colosseum")) {
 					try {
-						((Colosseum)wonder).processCoinsFromColosseum();
+                        wonder.processCoinsFromColosseum();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

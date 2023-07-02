@@ -65,9 +65,9 @@ public class PlotCommand extends CommandBase {
 			throw new CivException(CivSettings.localize.localizedString("cmd_plot_notFarm"));
 		}
 		
-		if (fc.getStruct().isActive() == false) {
-			throw new CivException(CivSettings.localize.localizedString("cmd_plot_farmNotDone"));
-		}
+		if (!fc.getStruct().isActive()) {
+            throw new CivException(CivSettings.localize.localizedString("cmd_plot_farmNotDone"));
+        }
 		
 		String dateString = CivSettings.localize.localizedString("Never");
 		
@@ -88,10 +88,10 @@ public class PlotCommand extends CommandBase {
 		}
 		
 		CivMessage.send(sender, CivColor.Green+CivSettings.localize.localizedString("cmd_plot_farmExtraRate")+" "+CivColor.LightGreen+fc.getLastChanceForLast()+" vs "+CivColor.LightGreen+fc.getLastRandomInt()+" "+CivSettings.localize.localizedString("cmd_plot_farmsuccessToo")+" "+CivColor.LightGreen+success);
-		
-		String out = "";
+
+        StringBuilder out = new StringBuilder();
 		for (BlockCoord bcoord : fc.getLastGrownCrops()) {
-			out += bcoord.toString()+", ";
+            out.append(bcoord.toString()).append(", ");
 		}
 		
 		CivMessage.send(sender, CivColor.Green+CivSettings.localize.localizedString("cmd_plot_farmCropsGrown")+" "+CivColor.LightGreen+out);
@@ -157,7 +157,6 @@ public class PlotCommand extends CommandBase {
 		tc.perms.clearGroups();
 		tc.save();
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_plot_cleargroupsSuccess"));
-		return;
 	}
 
 	public void addgroup_cmd() throws CivException {
@@ -195,10 +194,10 @@ public class PlotCommand extends CommandBase {
 		if (resident.getTown() != tc.getTown()) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_plot_buyNotInTown"));
 		}
-		
-		if (tc.isForSale() == false) {
-			throw new CivException(CivSettings.localize.localizedString("cmd_plot_buyNotForSale"));
-		}
+
+        if (!tc.isForSale()) {
+            throw new CivException(CivSettings.localize.localizedString("cmd_plot_buyNotForSale"));
+        }
 		
 		tc.purchase(resident);
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_plot_buySuccess",tc.getChunkCoord(),tc.getValue(),CivSettings.CURRENCY_NAME));
@@ -217,7 +216,7 @@ public class PlotCommand extends CommandBase {
 		}
 		
 		try {
-			double price = Double.valueOf(args[1]);
+            double price = Double.parseDouble(args[1]);
 			tc.setForSale(true);
 			tc.setPrice(price);
 			tc.save();
@@ -252,29 +251,21 @@ public class PlotCommand extends CommandBase {
 		}
 		
 		if (args[1].equalsIgnoreCase("mobs")) {
-			if (tc.perms.isMobs()) {
-				tc.perms.setMobs(false);
-			} else {
-				tc.perms.setMobs(true);
-			}
+			tc.perms.setMobs(!tc.perms.isMobs());
 			
 			CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_plot_toggleMobs",tc.perms.isMobs()));
 			
 		} else if (args[1].equalsIgnoreCase("fire")) {
-			if (tc.perms.isFire()) {
-				tc.perms.setFire(false);
-			} else {
-				tc.perms.setFire(true);
-			}
+			tc.perms.setFire(!tc.perms.isFire());
 			CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_plot_toggleFire",tc.perms.isFire()));
 		}
 		tc.save();
 	}
-	
-	public void perm_cmd() throws CivException {
-		PlotPermCommand cmd = new PlotPermCommand();	
-		cmd.onCommand(sender, null, "perm", this.stripArgs(args, 1));
-	}
+
+    public void perm_cmd() {
+        PlotPermCommand cmd = new PlotPermCommand();
+        cmd.onCommand(sender, null, "perm", this.stripArgs(args, 1));
+    }
 	
 	private void showCurrentPermissions(TownChunk tc) {
 		CivMessage.send(sender, CivColor.Green+CivSettings.localize.localizedString("cmd_plot_showPermBuild")+" "+CivColor.LightGreen+tc.perms.getBuildString());
@@ -346,14 +337,13 @@ public class PlotCommand extends CommandBase {
 
 	@Override
 	public void permissionCheck() {
-		return;
 	}
 
-	@Override
-	public void doDefaultAction() throws CivException {
-		showHelp();
-		//info_cmd();
-		//CivMessage.send(sender, CivColor.LightGray+"Subcommands available: See /plot help");
-	}
+    @Override
+    public void doDefaultAction() {
+        showHelp();
+        //info_cmd();
+        //CivMessage.send(sender, CivColor.LightGray+"Subcommands available: See /plot help");
+    }
 
 }

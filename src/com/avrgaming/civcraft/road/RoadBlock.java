@@ -80,17 +80,17 @@ public class RoadBlock extends SQLObject implements BuildableDamageBlock {
 	}
 	
 	@Override
-	public void load(ResultSet rs) throws SQLException, InvalidNameException,
-			InvalidObjectException, CivException {
+	public void load(ResultSet rs) throws SQLException,
+			CivException {
 		this.setId(rs.getInt("id"));
-		this.setRoad((Road)CivGlobal.getStructureById(rs.getInt("road_id")));
+		this.setRoad((Road) CivGlobal.getStructureById(rs.getInt("road_id")));
 		this.oldData = rs.getInt("old_data");
 		this.oldType = Material.getMaterial(rs.getInt("old_type"));
 		this.aboveRoadBlock = rs.getBoolean("above_road");
 		if (this.road == null) {
 			int id = rs.getInt("road_id");
 			this.delete();
-			throw new CivException("Couldn't load road block, could not find structure:"+id);
+			throw new CivException("Couldn't load road block, could not find structure:" + id);
 		}
 		
 		this.setCoord(new BlockCoord(rs.getString("coord")));
@@ -103,7 +103,7 @@ public class RoadBlock extends SQLObject implements BuildableDamageBlock {
 	
 	@Override
 	public void saveNow() throws SQLException {
-		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		HashMap<String, Object> hashmap = new HashMap<>();
 		
 		hashmap.put("road_id", this.getRoad().getId());
 		hashmap.put("coord", this.getCoord().toString());

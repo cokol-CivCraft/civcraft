@@ -35,9 +35,9 @@ public class TownChatCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 
 		//TODO let non players use this command
-		if ((sender instanceof Player) == false) {
-			return false;
-		}
+		if (!(sender instanceof Player)) {
+            return false;
+        }
 		
 		Player player = (Player)sender;
 		Resident resident = CivGlobal.getResident(player);
@@ -52,18 +52,18 @@ public class TownChatCommand implements CommandExecutor {
 			CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_town_chat_mode")+" "+resident.isTownChat());
 			return true;
 		}
-		
-		
-		String fullArgs = "";
+
+
+        StringBuilder fullArgs = new StringBuilder();
 		for (String arg : args) {
-			fullArgs += arg + " ";
+            fullArgs.append(arg).append(" ");
 		}
 	
 		if (resident.getTown() == null) {
 			player.sendMessage(CivColor.Rose+CivSettings.localize.localizedString("cmd_town_chat_NoTown"));
 			return false;
 		}
-		CivMessage.sendTownChat(resident.getTown(), resident, "<%s> %s", fullArgs);
+        CivMessage.sendTownChat(resident.getTown(), resident, "<%s> %s", fullArgs.toString());
 		return true;
 	}
 

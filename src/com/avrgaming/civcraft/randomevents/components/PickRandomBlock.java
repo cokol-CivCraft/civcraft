@@ -21,7 +21,7 @@ public class PickRandomBlock extends RandomEventComponent {
 	public void process() {
 		
 		class SyncTask implements Runnable {
-			RandomEvent event;
+			final RandomEvent event;
 			
 			public SyncTask(RandomEvent event) {
 				this.event = event;
@@ -79,10 +79,10 @@ public class PickRandomBlock extends RandomEventComponent {
 						}
 					}
 					
-					if (bcoord == null || coord == null) {
-						CivLog.warning("Couldn't find a suitable block for PickRandomBlock after 10 retries.");
-						return;
-					}
+					if (bcoord == null) {
+                        CivLog.warning("Couldn't find a suitable block for PickRandomBlock after 10 retries.");
+                        return;
+                    }
 
 					/* Save location for requirement component */
 					this.event.componentVars.put(getString("varname"), bcoord.toString());

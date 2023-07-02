@@ -56,14 +56,14 @@ public class InteractiveCapitolName implements InteractiveResponse {
 		
 		message = message.replace(" ", "_");
 		message = message.replace("\"", "");
-		message = message.replace("\'", "");
+        message = message.replace("'", "");
 		
 		resident.desiredCapitolName = message;
 		CivMessage.send(player, CivColor.LightGreen+CivSettings.localize.localizedString("var_interactive_capitol_confirm1",CivColor.Yellow+resident.desiredCivName+CivColor.LightGreen,CivColor.Yellow+resident.desiredCapitolName+CivColor.LightGreen));
 		CivMessage.sendHeading(player, CivSettings.localize.localizedString("interactive_capitol_confirmSurvey"));
 		
 		class SyncTask implements Runnable {
-			String playerName;
+			final String playerName;
 			
 			
 			public SyncTask(String name) {
@@ -92,9 +92,8 @@ public class InteractiveCapitolName implements InteractiveResponse {
 		
 		}
 
-		TaskMaster.syncTask(new SyncTask(resident.getName())); 
+        TaskMaster.syncTask(new SyncTask(resident.getName()));
 
-		return;
 	}
 
 }

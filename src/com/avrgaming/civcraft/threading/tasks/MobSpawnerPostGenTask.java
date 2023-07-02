@@ -72,22 +72,20 @@ public class MobSpawnerPostGenTask implements Runnable {
     public void run() {
         CivLog.info("Generating/Clearing Mob Spawners...");
         CivLog.info("|- Organizing trade picks into a Queue.");
-        
+
         deleteAllMobSpawnersFromDB();
-        
+
         /* Generate Trade Good Pillars. */
-        Queue<MobSpawnerPick> picksQueue = new LinkedList<MobSpawnerPick>();
-        for (MobSpawnerPick pick : CivGlobal.mobSpawnerPreGenerator.spawnerPicks.values()) {
-            picksQueue.add(pick);
-        }
-        
+        Queue<MobSpawnerPick> picksQueue = new LinkedList<>();
+        picksQueue.addAll(CivGlobal.mobSpawnerPreGenerator.spawnerPicks.values());
+
         int count = 0;
         int amount = 20;
         int totalSize = picksQueue.size();
         while (picksQueue.peek() != null) {
-            CivLog.info("|- Placing/Picking spawners:"+count+"/"+totalSize+" current size:"+picksQueue.size());
-            
-            Queue<MobSpawnerPick> processQueue = new LinkedList<MobSpawnerPick>();
+            CivLog.info("|- Placing/Picking spawners:" + count + "/" + totalSize + " current size:" + picksQueue.size());
+
+            Queue<MobSpawnerPick> processQueue = new LinkedList<>();
             for (int i = 0; i < amount; i++) {
                 MobSpawnerPick pick = picksQueue.poll();
                 if (pick == null) {
@@ -113,15 +111,15 @@ public class MobSpawnerPostGenTask implements Runnable {
         CivLog.info("Finished!");
     }
 
-    class SyncMopSpawnerGenTask implements Runnable {
+    static class SyncMopSpawnerGenTask implements Runnable {
         public Queue<MobSpawnerPick> picksQueue;
         public int amount;
-        
+
         public SyncMopSpawnerGenTask(Queue<MobSpawnerPick> picksQueue, int amount) {
             this.picksQueue = picksQueue;
             this.amount = amount;
         }
-        
+
         @Override
         public void run() {
             World world = Bukkit.getWorld("world");
@@ -150,56 +148,38 @@ public class MobSpawnerPostGenTask implements Runnable {
                 /* try to detect already existing mob spawners. */
                 while(true) {
                     Block top = world.getBlockAt(bcoord2.getX(), bcoord2.getY(), bcoord2.getZ());
-                    
+
                     if (!top.getChunk().isLoaded()) {
                         top.getChunk().load();
                     }
 
-                    if (top.getTypeId() == Material.BEDROCK.getId()) {
-                        top.setTypeId(Material.AIR.getId());
-                        ItemManager.setData(top, 0, true);
-                        bcoord2.setY(bcoord2.getY() - 1);
-                        
-                        top = top.getRelative(BlockFace.NORTH);
-                        if (top.getTypeId() == Material.WALL_SIGN.getId()) {
-                            top.setTypeId(Material.AIR.getId());
-                            ItemManager.setData(top, 0, true);
-                        }
-                        
-                        top = top.getRelative(BlockFace.SOUTH);
-                        if (top.getTypeId() == Material.WALL_SIGN.getId()) {
-                            top.setTypeId(Material.AIR.getId());
-                            ItemManager.setData(top, 0, true);
-                        }
-                        
-                        top = top.getRelative(BlockFace.EAST);
-                        if (top.getTypeId() == Material.WALL_SIGN.getId()) {
-                            top.setTypeId(Material.AIR.getId());
-                            ItemManager.setData(top, 0, true);
-                        }
-                        
-                        top = top.getRelative(BlockFace.WEST);
-                        if (top.getTypeId() == Material.WALL_SIGN.getId()) {
-                            top.setTypeId(Material.AIR.getId());
-                            ItemManager.setData(top, 0, true);
-                        }
-                    } else {
+                    if (top.getType() != Material.BEDROCK) {
                         break;
                     }
-                    
+                    top.setType(Material.AIR);
+                    ItemManager.setData(top, 0, true);
+                    bcoord2.setY(bcoord2.getY() - 1);
+                    for (BlockFace face : new BlockFace[]{BlockFace.NORTH, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST}) {
+                        Block block = top.getRelative(face);
+                        if (block.getType() == Material.WALL_SIGN) {
+                            block.setType(Material.AIR);
+                            block.setData((byte) 0);
+                        }
+                    }
+
                 }
-                
+
                 centerY = world.getHighestBlockYAt(centerX, centerZ);
-                
+
                 // Determine if we should be a water good.
                 ConfigMobSpawner good;
-                if (ItemManager.getBlockTypeIdAt(world, centerX, centerY-1, centerZ) == Material.STATIONARY_WATER.getId() ||
-                    ItemManager.getBlockTypeIdAt(world, centerX, centerY-1, centerZ) == Material.WATER.getId()) {
+                if (world.getBlockAt(centerX, centerY - 1, centerZ).getType() == Material.STATIONARY_WATER ||
+                        world.getBlockAt(centerX, centerY - 1, centerZ).getType() == Material.WATER) {
                     good = pick.waterPick;
-                }  else {
+                } else {
                     good = pick.landPick;
                 }
-                
+
                 // Randomly choose a land or water good.
                 if (good == null) {
                     System.out.println("Could not find suitable mob spawner type during populate! aborting.");

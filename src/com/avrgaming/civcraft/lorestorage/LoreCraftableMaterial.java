@@ -52,60 +52,60 @@ public class LoreCraftableMaterial extends LoreMaterial {
 	
 	private ConfigMaterial configMaterial;
 //	public LinkedList<ItemStack> shaplessIngredientList = new LinkedList<ItemStack>();
-	//public Map<Character, ItemStack> shapedIngredientList = new HashMap<Character, ItemStack>();
-	
-	public static HashMap<String, LoreCraftableMaterial> materials = new HashMap<String, LoreCraftableMaterial>();
-	
-	/*
-	 * We will allow duplicate recipes with MC/materials by checking this map based
-	 * on the results. The key is the material's ID as a string, so we can are only checking
-	 * for custom items. The Itemstack array is the matrix for the recipe where the first
-	 * 3 items represent the top row, and the last 3 represent the bottom row.
-	 */
-	public static HashMap<LoreCraftableMaterial, ItemStack[]> shapedRecipes = new HashMap<LoreCraftableMaterial, ItemStack[]>();
-	public static HashMap<String, LoreCraftableMaterial> shapedKeys = new HashMap<String, LoreCraftableMaterial>();
-	
+    //public Map<Character, ItemStack> shapedIngredientList = new HashMap<Character, ItemStack>();
 
-	/* 
-	 * We will allow duplicate shaped recipes by checking this map based on the results. In order
-	 * for the recipe to be valid it must contain all of the item stacks and the respective amounts.
-	 */
-	public static HashMap<LoreCraftableMaterial, LinkedList<ItemStack>> shapelessRecipes = new HashMap<LoreCraftableMaterial, LinkedList<ItemStack>>();
-	public static HashMap<String, LoreCraftableMaterial> shapelessKeys = new HashMap<String, LoreCraftableMaterial>();
-	
-	
-	/*
-	 * Components that are registered to this object.
-	 */
-	public HashMap<String, ItemComponent> components = new HashMap<String, ItemComponent>();
-	
-	public LoreCraftableMaterial(String id, Material typeID, short damage) {
-		super(id, typeID, damage);
-	}
+    public static HashMap<String, LoreCraftableMaterial> materials = new HashMap<>();
+
+    /*
+     * We will allow duplicate recipes with MC/materials by checking this map based
+     * on the results. The key is the material's ID as a string, so we can are only checking
+     * for custom items. The Itemstack array is the matrix for the recipe where the first
+     * 3 items represent the top row, and the last 3 represent the bottom row.
+     */
+    public static HashMap<LoreCraftableMaterial, ItemStack[]> shapedRecipes = new HashMap<>();
+    public static HashMap<String, LoreCraftableMaterial> shapedKeys = new HashMap<>();
+
+
+    /*
+     * We will allow duplicate shaped recipes by checking this map based on the results. In order
+     * for the recipe to be valid it must contain all of the item stacks and the respective amounts.
+     */
+    public static HashMap<LoreCraftableMaterial, LinkedList<ItemStack>> shapelessRecipes = new HashMap<>();
+    public static HashMap<String, LoreCraftableMaterial> shapelessKeys = new HashMap<>();
+
+
+    /*
+     * Components that are registered to this object.
+     */
+    public HashMap<String, ItemComponent> components = new HashMap<>();
+
+    public LoreCraftableMaterial(String id, Material typeID, short damage) {
+        super(id, typeID, damage);
+    }
 		
 	
 	public static String getShapedRecipeKey(ItemStack[] matrix) {
-		String key = "";
+        StringBuilder key = new StringBuilder();
 		for (int i = 0; i < matrix.length; i++) {
-			key += i+":";
+            key.append(i).append(":");
 			
 			ItemStack stack = matrix[i];
 			if (stack == null) {
-				key += "null,";
+                key.append("null,");
 				continue;
 			}
 			
 			if (LoreMaterial.isCustom(stack)) {
 				LoreMaterial loreMat = LoreMaterial.getMaterial(stack);
-				key += loreMat.getId()+",";
+                key.append(loreMat.getId()).append(",");
 			} else {
 	//			key += "mc_"+stack.getTypeId()+"_"+stack.getDurability()+",";
-                key += "mc_"+ stack.getTypeId() +",";
+                key.append("mc_").append(stack.getTypeId()).append(",");
 
 			}
 		}
-		
-		return key;
+
+        return key.toString();
 	}
 	
 	public static String getShapelessRecipeKey(ItemStack[] matrix) {
@@ -490,7 +490,6 @@ public class LoreCraftableMaterial extends LoreMaterial {
 		for (ItemComponent comp : this.components.values()) {
 			comp.onPrepareCreate(attrUtil);
 		}
-		return;
 	}
 
 	public boolean isCraftable() {
@@ -638,13 +637,13 @@ public class LoreCraftableMaterial extends LoreMaterial {
 
 
 	public static String serializeEnhancements(ItemStack stack) {
-		String out = "";
+        StringBuilder out = new StringBuilder();
 		
 		for (LoreEnhancement enh : LoreCraftableMaterial.getEnhancements(stack)) {
-			out += enh.getClass().getName()+"@"+enh.serialize(stack)+",";
+            out.append(enh.getClass().getName()).append("@").append(enh.serialize(stack)).append(",");
 		}
 
-		String outEncoded = new String(Base64Coder.encode(out.getBytes())); 
+        String outEncoded = new String(Base64Coder.encode(out.toString().getBytes()));
 		return outEncoded;
 	}
 

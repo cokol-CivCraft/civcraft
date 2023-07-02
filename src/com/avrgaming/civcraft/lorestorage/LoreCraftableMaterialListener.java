@@ -44,12 +44,12 @@ public class LoreCraftableMaterialListener implements Listener {
 					return;
 				}
 				if (resultStack.getType().equals(Material.GOLDEN_APPLE)) {
-					CivMessage.sendError((Player)event.getWhoClicked(), CivSettings.localize.localizedString("loreCraft_goldenApples"));
-					event.setCancelled(true);
+					CivMessage.sendError(event.getWhoClicked(), CivSettings.localize.localizedString("loreCraft_goldenApples"));
+                    event.setCancelled(true);
 					return;
 				}
 
-                ConfigTechItem restrictedTechItem = CivSettings.techItems.get(resultStack.getTypeId());
+                ConfigTechItem restrictedTechItem = CivSettings.techItems.get(resultStack.getType());
 				if (restrictedTechItem != null) {
 					ConfigTech tech = CivSettings.techs.get(restrictedTechItem.require_tech);
 					CivMessage.sendError(player, CivSettings.localize.localizedString("var_loreCraft_missingTech",tech.name));
@@ -105,8 +105,8 @@ public class LoreCraftableMaterialListener implements Listener {
 //						"Achievement! You've founded your first Civilization and earned %d");				
 			} else {
 				class AsyncTask implements Runnable {
-					Resident resident;
-					int craftAmount;
+					final Resident resident;
+					final int craftAmount;
 					
 					public AsyncTask(Resident resident, int craftAmount) {
 						this.resident = resident;
@@ -117,24 +117,24 @@ public class LoreCraftableMaterialListener implements Listener {
 					@Override
 					public void run() {
 						String key = resident.getName()+":platinumCrafted";
-						ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(key);
-						Integer amount = 0;
+                        ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(key);
+                        int amount = 0;
 						
 						if (entries.size() == 0) {
-							amount = craftAmount;
-							CivGlobal.getSessionDB().add(key, ""+amount, 0, 0, 0);
+                            amount = craftAmount;
+                            CivGlobal.getSessionDB().add(key, String.valueOf(amount), 0, 0, 0);
 							
 						} else {
-							amount = Integer.valueOf(entries.get(0).value);
-							amount += craftAmount;
+                            amount = Integer.parseInt(entries.get(0).value);
+                            amount += craftAmount;
 							if (amount >= 100) {
 //								PlatinumManager.givePlatinum(resident, 
 //										CivSettings.platinumRewards.get("craft100Items").amount, 
 //										"Expert crafting earns you %d");
 								amount -= 100;
 							}
-						
-							CivGlobal.getSessionDB().update(entries.get(0).request_id, key, ""+amount);
+
+                            CivGlobal.getSessionDB().update(entries.get(0).request_id, key, String.valueOf(amount));
 						}
 					}
 				}
@@ -217,11 +217,11 @@ public class LoreCraftableMaterialListener implements Listener {
 			if (loreMat == null) {
 				if(LoreCraftableMaterial.isCustom(event.getRecipe().getResult())) {
 					/* Result is custom, but we have found no custom recipie. Set to blank. */
-					event.getInventory().setResult(new ItemStack(Material.AIR.getId()));
+                    event.getInventory().setResult(new ItemStack(Material.AIR));
 				}
 				
 				if (matrixContainsCustom(event.getInventory().getMatrix())) {
-					event.getInventory().setResult(new ItemStack(Material.AIR.getId()));
+                    event.getInventory().setResult(new ItemStack(Material.AIR));
 				}
 				
 				return;
@@ -265,11 +265,11 @@ public class LoreCraftableMaterialListener implements Listener {
 			if (loreMat == null) {
 				if(LoreCraftableMaterial.isCustom(event.getRecipe().getResult())) {
 					/* Result is custom, but we have found no custom recipie. Set to blank. */
-					event.getInventory().setResult(new ItemStack(Material.AIR.getId()));
+                    event.getInventory().setResult(new ItemStack(Material.AIR));
 				}
 				
 				if (matrixContainsCustom(event.getInventory().getMatrix())) {
-					event.getInventory().setResult(new ItemStack(Material.AIR.getId()));
+                    event.getInventory().setResult(new ItemStack(Material.AIR));
 				}
 				
 				return;
@@ -277,7 +277,7 @@ public class LoreCraftableMaterialListener implements Listener {
 				if(!LoreCraftableMaterial.isCustom(event.getRecipe().getResult())) {
 					/* Result is not custom, but recipie is. Set to blank. */
 					if (!loreMat.isVanilla()) {
-						event.getInventory().setResult(new ItemStack(Material.AIR.getId()));
+                        event.getInventory().setResult(new ItemStack(Material.AIR));
 						return;
 					}
 				}
@@ -309,7 +309,7 @@ public class LoreCraftableMaterialListener implements Listener {
 			if (craftMat.hasComponent("Tagged")) {
 				String tag = Tagged.matrixHasSameTag(event.getInventory().getMatrix());
 				if (tag == null) {
-					event.getInventory().setResult(new ItemStack(Material.AIR.getId(), 1, (short) 0));
+                    event.getInventory().setResult(new ItemStack(Material.AIR, 1, (short) 0));
 					return;
 				}
 				

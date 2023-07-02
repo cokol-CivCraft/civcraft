@@ -48,29 +48,29 @@ public class DebugCampCommand extends CommandBase {
 		
 		CivMessage.sendHeading(sender, "Growth locations");
 		
-		String out = "";
+		StringBuilder out = new StringBuilder();
 		for (BlockCoord coord : camp.growthLocations) {
 			boolean inGlobal = CivGlobal.vanillaGrowthLocations.contains(coord);
-			out += coord.toString()+" in global:"+inGlobal;
+            out.append(coord.toString()).append(" in global:").append(inGlobal);
 		}
-		
-		CivMessage.send(sender, out);
+
+        CivMessage.send(sender, out.toString());
 		
 	}
 
-	@Override
-	public void doDefaultAction() throws CivException {
-		showHelp();
-	}
+    @Override
+    public void doDefaultAction() {
+        showHelp();
+    }
 
 	@Override
 	public void showHelp() {
 		showBasicHelp();
 	}
 
-	@Override
-	public void permissionCheck() throws CivException {
-		
-	}
+    @Override
+    public void permissionCheck() {
+
+    }
 
 }

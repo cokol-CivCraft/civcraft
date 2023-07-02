@@ -25,16 +25,16 @@ import java.util.Set;
 
 
 public class SyncUpdateTagsBetweenCivs implements Runnable {
-	Set<Player> civList = new HashSet<Player>();
-	Set<Player> otherCivList = new HashSet<Player>();
-	
-	public SyncUpdateTagsBetweenCivs(Set<Player> civList, Set<Player> otherCivList) {
-		this.civList = civList;
-		this.otherCivList = otherCivList;
-	}
+    Set<Player> civList = new HashSet<>();
+    Set<Player> otherCivList = new HashSet<>();
 
-	@Override
-	public void run() {
-	}
+    public SyncUpdateTagsBetweenCivs(Set<Player> civList, Set<Player> otherCivList) {
+        this.civList = civList;
+        this.otherCivList = otherCivList;
+    }
+
+    @Override
+    public void run() {
+    }
 	
 }

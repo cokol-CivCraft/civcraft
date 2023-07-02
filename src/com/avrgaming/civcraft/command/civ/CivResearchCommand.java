@@ -93,11 +93,11 @@ public class CivResearchCommand extends CommandBase {
 		Civilization civ = getSenderCiv();
 		
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_civ_research_finishedHeading"));
-		String out = "";
+		StringBuilder out = new StringBuilder();
 		for (ConfigTech tech : civ.getTechs()) {
-			out += tech.name+", ";
+            out.append(tech.name).append(", ");
 		}
-		CivMessage.send(sender, out);
+        CivMessage.send(sender, out.toString());
 	}
 	public void f_cmd() {
 		try {
@@ -205,13 +205,12 @@ public class CivResearchCommand extends CommandBase {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
-	@Override
-	public void doDefaultAction() throws CivException {
-		showHelp();
-	}
+
+
+    @Override
+    public void doDefaultAction() {
+        showHelp();
+    }
 
 	@Override
 	public void showHelp() {

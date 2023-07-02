@@ -33,7 +33,7 @@ public abstract class SQLObject extends NamedObject {
 	
 	private boolean isDeleted = false;
 
-	public abstract void load(ResultSet rs) throws SQLException, InvalidNameException, InvalidObjectException, CivException;
+	public abstract void load(ResultSet rs) throws SQLException, InvalidNameException, CivException;
 		
 	public abstract void save();
 	

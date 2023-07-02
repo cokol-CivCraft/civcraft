@@ -16,7 +16,7 @@ import com.avrgaming.civcraft.util.SimpleBlock;
 public class ArrowShip extends WaterStructure {
 
 	ProjectileArrowComponent arrowComponent;
-	private HashMap<Integer, ProjectileArrowComponent> arrowTowers = new HashMap<Integer, ProjectileArrowComponent>();
+    private final HashMap<Integer, ProjectileArrowComponent> arrowTowers = new HashMap<>();
 
 	
 	protected ArrowShip(Location center, String id, Town town)

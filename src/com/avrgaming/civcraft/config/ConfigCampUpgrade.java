@@ -36,7 +36,7 @@ public class ConfigCampUpgrade {
 	public String action;
 	public String require_upgrade = null;
 	
-	public static HashMap<String, Integer> categories = new HashMap<String, Integer>();
+	public static HashMap<String, Integer> categories = new HashMap<>();
 	
 	public static void loadConfig(FileConfiguration cfg, Map<String, ConfigCampUpgrade> upgrades) {
 		upgrades.clear();
@@ -62,11 +62,8 @@ public class ConfigCampUpgrade {
 		if (this.require_upgrade == null || this.require_upgrade.equals("")) {
 			return true;
 		}
-		
-		if (camp.hasUpgrade(this.require_upgrade)) {
-			return true;
-		}
-		return false;
+
+		return camp.hasUpgrade(this.require_upgrade);
 	}
 
 	public void processAction(Camp camp) {

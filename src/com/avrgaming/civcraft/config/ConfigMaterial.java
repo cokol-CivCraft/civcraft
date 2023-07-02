@@ -34,8 +34,8 @@ public class ConfigMaterial {
 	public boolean tradeable = false;
 	public HashMap<String, ConfigIngredient> ingredients;
 	public String[] shape;
-	public List<HashMap<String, String>> components = new LinkedList<HashMap<String, String>>();
-	public boolean vanilla = false;
+    public List<HashMap<String, String>> components = new LinkedList<>();
+    public boolean vanilla = false;
 	public int amount = 1;
 	public double tradeValue = 0;
 	
@@ -75,18 +75,7 @@ public class ConfigMaterial {
 			
 			/* Optional Lore */
 			List<?> configLore = (List<?>)b.get("lore");
-			if (configLore != null) {
-				String[] lore = new String[configLore.size()];
-				
-				int i = 0;
-				for (Object obj : configLore) {
-					if (obj instanceof String) {
-						lore[i] = (String)obj;
-						i++;
-					}
-				}
-			}
-			
+
 			Boolean craftable = (Boolean)b.get("craftable");
 			if (craftable != null) {
 				mat.craftable = craftable;
@@ -133,8 +122,8 @@ public class ConfigMaterial {
 			List<Map<?,?>> comps = (List<Map<?,?>>)b.get("components");
 			if (comps != null) {
 				for (Map<?, ?> compObj : comps) {
-					
-					HashMap<String, String> compMap = new HashMap<String, String>();
+
+                    HashMap<String, String> compMap = new HashMap<>();
 					for (Object key : compObj.keySet()) {
 						compMap.put((String)key, (String)compObj.get(key));
 					}
@@ -144,7 +133,7 @@ public class ConfigMaterial {
 			
 			List<Map<?, ?>> configIngredients = (List<Map<?,?>>)b.get("ingredients");
 			if (configIngredients != null) {
-				mat.ingredients = new HashMap<String, ConfigIngredient>();
+                mat.ingredients = new HashMap<>();
 				
 				for (Map<?, ?> ingred : configIngredients) {
 					ConfigIngredient ingredient = new ConfigIngredient();
@@ -231,9 +220,9 @@ public class ConfigMaterial {
 	}
 	
 	public String getRequireString() {
-		String out = "";
+        StringBuilder out = new StringBuilder();
 		if (this.required_tech == null) {
-			return out;
+            return out.toString();
 		}
 				
 		/* Parse technoloies */
@@ -242,11 +231,11 @@ public class ConfigMaterial {
 			tech = tech.replace(" ", "");
 			ConfigTech technology = CivSettings.techs.get(tech);
 			if (technology != null) {
-				out += technology.name+", ";
+                out.append(technology.name).append(", ");
 			}
 		}
-		
-		return out;
+
+        return out.toString();
 	}
 	
 }

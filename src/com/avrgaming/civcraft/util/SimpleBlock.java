@@ -53,7 +53,7 @@ public class SimpleBlock {
 	public String[] message = new String[4];
 	public String worldname;
 	public Buildable buildable;
-	public Map<String, String> keyvalues = new HashMap<String, String>();
+	public Map<String, String> keyvalues = new HashMap<>();
 	
 	/**
 	 * Construct the block with its type.

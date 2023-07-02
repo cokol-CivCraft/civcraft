@@ -3,7 +3,6 @@ package com.avrgaming.civcraft.arena;
 import java.util.Date;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -27,8 +26,6 @@ import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.DateUtil;
 import com.avrgaming.civcraft.util.TimeTools;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 public class ArenaListener implements Listener {
 
@@ -53,7 +50,7 @@ public class ArenaListener implements Listener {
 				CivMessage.sendArena(resident.getCurrentArena(), CivSettings.localize.localizedString("var_arena_playerJoined",event.getPlayer().getName()));
 				
 				class SyncTask implements Runnable {
-					String name;
+					final String name;
 					
 					public SyncTask(String name) {
 						this.name = name;
@@ -62,28 +59,27 @@ public class ArenaListener implements Listener {
 					@Override
 					public void run() {
 						Player player;
-						try {
-							Resident resident = CivGlobal.getResident(name);
-							player = CivGlobal.getPlayer(resident);
-							player.setScoreboard(resident.getCurrentArena().getScoreboard(resident.getTeam().getName()));
-						} catch (CivException e) {
-						}						
-					}
-				}
-				
-				TaskMaster.syncTask(new SyncTask(event.getPlayer().getName()));
-				return;
-			} else {
-				
-				class SyncTask implements Runnable {
-					String name;
-					
-					public SyncTask(String name) { 
-						this.name = name; 
-					}
-					
-					@Override
-					public void run() {
+                        try {
+                            Resident resident = CivGlobal.getResident(name);
+                            player = CivGlobal.getPlayer(resident);
+                            player.setScoreboard(resident.getCurrentArena().getScoreboard(resident.getTeam().getName()));
+                        } catch (CivException ignored) {
+                        }
+                    }
+                }
+
+                TaskMaster.syncTask(new SyncTask(event.getPlayer().getName()));
+            } else {
+
+                class SyncTask implements Runnable {
+                    final String name;
+
+                    public SyncTask(String name) {
+                        this.name = name;
+                    }
+
+                    @Override
+                    public void run() {
 						Resident resident = CivGlobal.getResident(name);
 						
 						/* Player is rejoining but the arena is no longer active. Return home. */
@@ -200,15 +196,15 @@ public class ArenaListener implements Listener {
 		if (ArenaManager.chests.containsKey(bcoord)) {
 			if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 				Player player;
-				try {
-					player = CivGlobal.getPlayer(resident);
-					player.closeInventory();
-				} catch (CivException e) {
-				}
+                try {
+                    player = CivGlobal.getPlayer(resident);
+                    player.closeInventory();
+                } catch (CivException ignored) {
+                }
 				
 				class SyncTask implements Runnable {
-					Arena arena;
-					Resident resident;
+					final Arena arena;
+					final Resident resident;
 					
 					public SyncTask(Arena arena, Resident resident) {
 						this.arena = arena;
@@ -218,12 +214,12 @@ public class ArenaListener implements Listener {
 					@Override
 					public void run() {
 						Player player;
-						try {
-							player = CivGlobal.getPlayer(resident);
-							Inventory inv = arena.getInventory(resident);
-							player.openInventory(inv);
-						} catch (CivException e) {
-						}
+                        try {
+                            player = CivGlobal.getPlayer(resident);
+                            Inventory inv = arena.getInventory(resident);
+                            player.openInventory(inv);
+                        } catch (CivException ignored) {
+                        }
 	
 					}
 					
@@ -239,8 +235,8 @@ public class ArenaListener implements Listener {
 		/* Did we click on a respawn sign. */
 		if (ArenaManager.respawnSigns.containsKey(bcoord)) {
 			class SyncTask implements Runnable {
-				Resident resident;
-				Arena arena;
+				final Resident resident;
+				final Arena arena;
 				
 				public SyncTask(Resident resident, Arena arena) {
 					this.resident = resident;
@@ -269,8 +265,7 @@ public class ArenaListener implements Listener {
 								player = CivGlobal.getPlayer(resident);
 								player.teleport(loc);
 							} catch (CivException e) {
-								return;
-							}
+                            }
 						}	
 					}
 				}

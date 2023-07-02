@@ -97,13 +97,11 @@ public class DisableTeleportEvent implements EventInterface {
 				br.close();
 			} catch (IOException e) {
 				e.printStackTrace();
-				return;
-			}
+            }
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			return;
-		}
+        }
 		}
 	}
 	
@@ -133,13 +131,11 @@ public class DisableTeleportEvent implements EventInterface {
 				br.close();
 			} catch (IOException e) {
 				e.printStackTrace();
-				return;
-			}
+            }
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			return;
-		}
+        }
 	}
 
 

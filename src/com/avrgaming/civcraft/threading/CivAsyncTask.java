@@ -142,9 +142,8 @@ public abstract class CivAsyncTask implements Runnable {
 	public void updateBlocksQueue(Queue<SimpleBlock> sbs) {
 
 		SyncBuildUpdateTask.queueSimpleBlock(sbs);
-		return;
 
-		//		this.finished = false;
+        //		this.finished = false;
 //		SimpleBlock sb;
 //		while((sb = sbs.poll()) != null) {		
 //			if (!SyncBuildUpdateTask.updateBlocks.offer(sb)) {

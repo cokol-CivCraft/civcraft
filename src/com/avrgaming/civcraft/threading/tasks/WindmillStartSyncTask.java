@@ -40,7 +40,7 @@ public class WindmillStartSyncTask implements Runnable {
 	public void run() {
 		/* Find adjacent farms, get their chunk snapshots and continue processing in our thread. */
 		ChunkCoord cc = new ChunkCoord(windmill.getCorner());
-		ArrayList<ChunkSnapshot> snapshots = new ArrayList<ChunkSnapshot>();
+        ArrayList<ChunkSnapshot> snapshots = new ArrayList<>();
 				
 		int[][] offset = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 }, { 1, 1 }, {-1,-1 }, {-1, 1}, {1, -1} };
 		for (int i = 0; i < 8; i++) {

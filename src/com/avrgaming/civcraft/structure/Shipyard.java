@@ -19,34 +19,24 @@ public class Shipyard extends WaterStructure {
 
 	public Shipyard(ResultSet rs) throws SQLException, CivException {
 		super(rs);
-	}
-		
-	@Override
-	public void loadSettings() {
-		super.loadSettings();
-	}
-	
-	public String getkey() {
-		return getTown().getName()+"_"+this.getConfigId()+"_"+this.getCorner().toString(); 
-	}
-		
-	@Override
-	public String getDynmapDescription() {
-		return null;
-	}
-	
-	@Override
-	public String getMarkerIconName() {
-		return "anchor";
-	}
-	
-	public double getHammersPerTile() {
-		AttributeBiomeRadiusPerLevel attrBiome = (AttributeBiomeRadiusPerLevel)this.getComponent("AttributeBiomeBase");
-		double base = attrBiome.getBaseValue();
-	
-		double rate = 1;
-		rate += this.getTown().getBuffManager().getEffectiveDouble(Buff.ADVANCED_TOOLING);
-		return (rate*base);
-	}
+    }
+
+    @Override
+    public void loadSettings() {
+        super.loadSettings();
+    }
+
+    public String getkey() {
+        return getTown().getName() + "_" + this.getConfigId() + "_" + this.getCorner().toString();
+    }
+
+    public double getHammersPerTile() {
+        AttributeBiomeRadiusPerLevel attrBiome = (AttributeBiomeRadiusPerLevel) this.getComponent("AttributeBiomeBase");
+        double base = attrBiome.getBaseValue();
+
+        double rate = 1;
+        rate += this.getTown().getBuffManager().getEffectiveDouble(Buff.ADVANCED_TOOLING);
+        return (rate * base);
+    }
 
 }

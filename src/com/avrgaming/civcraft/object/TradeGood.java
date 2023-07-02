@@ -131,7 +131,7 @@ public class TradeGood extends SQLObject {
 	
 	@Override
 	public void saveNow() throws SQLException {
-		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		HashMap<String, Object> hashmap = new HashMap<>();
 		
 		hashmap.put("name", this.getName());
 		if (this.getTown() != null) {
@@ -154,10 +154,10 @@ public class TradeGood extends SQLObject {
 		
 		SQL.updateNamedObject(this, hashmap, TABLE_NAME);
 	}
-	
-	@Override
-	public void delete() throws SQLException {		
-	}
+
+    @Override
+    public void delete() {
+    }
 
 
 	public Town getTown() {
@@ -251,7 +251,7 @@ public class TradeGood extends SQLObject {
 		double value = getBaseValue(good);
 		int goodMax;
 		try {
-			goodMax = (Integer)CivSettings.getInteger(CivSettings.goodsConfig, "trade_good_multiplier_max");
+            goodMax = CivSettings.getInteger(CivSettings.goodsConfig, "trade_good_multiplier_max");
 		} catch (InvalidConfiguration e) {
 			e.printStackTrace();
 			return 0;
@@ -277,7 +277,7 @@ public class TradeGood extends SQLObject {
 		double total_payment = 0.0;
 		
 		for (BonusGoodie goodie : town.getBonusGoodies()) {
-			TradeOutpost outpost = (TradeOutpost)goodie.getOutpost();
+            TradeOutpost outpost = goodie.getOutpost();
 			if (outpost == null) {
 				continue;
 			}

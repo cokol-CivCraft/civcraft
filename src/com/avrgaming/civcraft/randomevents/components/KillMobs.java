@@ -23,8 +23,8 @@ public class KillMobs extends RandomEventComponent implements Listener {
 		/* Register a listener to watch for killed mobs. */
 		final PluginManager pluginManager = CivCraft.getPlugin().getServer().getPluginManager();
 		pluginManager.registerEvents(this, CivCraft.getPlugin());
-		requireMobs = Integer.valueOf(this.getString("amount"));
-		target = EntityType.valueOf(getString("what"));		
+        requireMobs = Integer.parseInt(this.getString("amount"));
+        target = EntityType.valueOf(getString("what"));
 	}
 	
 	@Override
@@ -50,12 +50,8 @@ public class KillMobs extends RandomEventComponent implements Listener {
 	}
 	
 	@Override
-	public boolean onCheck() { 
-		if (killedMobs >= requireMobs) {
-			return true;
-		}
-		
-		return false;	
+	public boolean onCheck() {
+		return killedMobs >= requireMobs;
 	}
 
 

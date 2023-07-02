@@ -12,7 +12,7 @@ public class HammerRate extends RandomEventComponent {
 	@Override
 	public void process() {
 		double rate = this.getDouble("value");
-		int duration = Integer.valueOf(this.getString("duration"));
+        int duration = Integer.parseInt(this.getString("duration"));
 		
 		CivGlobal.getSessionDB().add(getKey(this.getParentTown()), rate+":"+duration, this.getParentTown().getCiv().getId(), this.getParentTown().getId(), 0);
 		DecimalFormat df = new DecimalFormat();
