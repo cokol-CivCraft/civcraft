@@ -1,32 +1,27 @@
 package com.avrgaming.civcraft.lorestorage;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-
+import com.avrgaming.civcraft.config.CivSettings;
+import com.avrgaming.civcraft.config.ConfigIngredient;
+import com.avrgaming.civcraft.config.ConfigMaterial;
+import com.avrgaming.civcraft.items.components.*;
+import com.avrgaming.civcraft.loreenhancements.*;
 import com.avrgaming.civcraft.main.CivCraft;
+import com.avrgaming.civcraft.main.CivLog;
+import com.avrgaming.civcraft.object.BuildableDamageBlock;
+import com.mysql.jdbc.StringUtils;
+import gpl.AttributeUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntityPickupItemEvent;
-import org.bukkit.event.entity.ItemSpawnEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.entity.PlayerLeashEntityEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerItemDamageEvent;
-import org.bukkit.event.player.PlayerItemHeldEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
@@ -34,27 +29,47 @@ import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.material.MaterialData;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
-import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.config.ConfigIngredient;
-import com.avrgaming.civcraft.config.ConfigMaterial;
-import com.avrgaming.civcraft.items.components.ItemComponent;
-import com.avrgaming.civcraft.loreenhancements.LoreEnhancement;
-import com.avrgaming.civcraft.main.CivLog;
-import com.avrgaming.civcraft.object.BuildableDamageBlock;
-import com.mysql.jdbc.StringUtils;
-
-import gpl.AttributeUtil;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 public class LoreCraftableMaterial extends LoreMaterial {
+	private static final HashMap<String, Class<? extends ItemComponent>> components_classes = new HashMap<>();
+
+	static {
+		components_classes.put("AllowBlockPlace", AllowBlockPlace.class);
+		components_classes.put("Attack", Attack.class);
+		components_classes.put("BuildCannon", BuildCannon.class);
+		components_classes.put("Catalyst", Catalyst.class);
+		components_classes.put("Defense", Defense.class);
+		components_classes.put("DurabilityOnDeath", DurabilityOnDeath.class);
+		components_classes.put("FoundCamp", FoundCamp.class);
+		components_classes.put("FoundCivilization", FoundCivilization.class);
+		components_classes.put("FoundWarCamp", FoundWarCamp.class);
+		components_classes.put("LeatherColor", LeatherColor.class);
+		components_classes.put("MaxHealth", MaxHealth.class);
+		components_classes.put("MoveSpeed", MoveSpeed.class);
+		components_classes.put("NoCauldronWash", NoCauldronWash.class);
+		components_classes.put("NoDurability", NoDurability.class);
+		components_classes.put("NoRightClick", NoRightClick.class);
+		components_classes.put("NoVanillaDurability", NoVanillaDurability.class);
+		components_classes.put("RangedAttack", RangedAttack.class);
+		components_classes.put("RepairCost", RepairCost.class);
+		components_classes.put("RightClickForItem", RightClickForItem.class);
+		components_classes.put("Soulbound", Soulbound.class);
+		components_classes.put("Tagged", Tagged.class);
+		components_classes.put("TutorialBook", TutorialBook.class);
+	}
 
 	private boolean craftable;
 	private boolean shaped;
-	
+
 	private ConfigMaterial configMaterial;
 //	public LinkedList<ItemStack> shaplessIngredientList = new LinkedList<ItemStack>();
-    //public Map<Character, ItemStack> shapedIngredientList = new HashMap<Character, ItemStack>();
+	//public Map<Character, ItemStack> shapedIngredientList = new HashMap<Character, ItemStack>();
 
-    public static HashMap<String, LoreCraftableMaterial> materials = new HashMap<>();
+	public static HashMap<String, LoreCraftableMaterial> materials = new HashMap<>();
 
     /*
      * We will allow duplicate recipes with MC/materials by checking this map based
@@ -172,22 +187,17 @@ public class LoreCraftableMaterial extends LoreMaterial {
 		List<HashMap<String, String>> compInfoList = this.configMaterial.components;
 		if (compInfoList != null) {
 			for (HashMap<String, String> compInfo : compInfoList) {
-				String className = "com.avrgaming.civcraft.items.components."+compInfo.get("name");
-				Class<?> someClass;
-				
 				try {
-					someClass = Class.forName(className);
-					ItemComponent itemCompClass;
-					itemCompClass = (ItemComponent)someClass.newInstance();
+					ItemComponent itemCompClass = components_classes.get(compInfo.get("name")).newInstance();
 					itemCompClass.setName(compInfo.get("name"));
-					
+
 					for (String key : compInfo.keySet()) {
 						itemCompClass.setAttribute(key, compInfo.get(key));
 					}
-					
+
 					itemCompClass.createComponent();
 					this.components.put(itemCompClass.getName(), itemCompClass);
-				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+				} catch (InstantiationException | IllegalAccessException e) {
 					e.printStackTrace();
 				}
 			}
@@ -284,28 +294,29 @@ public class LoreCraftableMaterial extends LoreMaterial {
 							recipe.addIngredient(ingred.count, new MaterialData(customMat.item_id, (byte) customMat.item_data));
 							ingredStack = LoreMaterial.spawn(customLoreMat);
 						} else {
-							CivLog.warning("Couldn't find custom material id:"+ingred.custom_id);
+							CivLog.warning("Couldn't find custom material id:" + ingred.custom_id);
 						}
 					}
 					} catch (IllegalArgumentException e) {
-						CivLog.warning("Trying to process ingredient:"+ingred.type_id+":"+ingred.custom_id+" for material:"+configMaterial.id);
+						CivLog.warning("Trying to process ingredient:" + ingred.type_id + ":" + ingred.custom_id + " for material:" + configMaterial.id);
 						throw e;
 					}
-					
-					if (ingredStack != null) {
-					//	loreMat.shaplessIngredientList.add(ingredStack);
-						for (int i = 0; i < ingred.count; i++) {
-							if (matrixIndex > 9) {
-								break;
-							}
-							
-							matrix[matrixIndex] = ingredStack;
-							matrixIndex++;
-						}
-						
-						ingredStack.setAmount(ingred.count);
-						items.add(ingredStack);
+
+					if (ingredStack == null) {
+						continue;
 					}
+					//	loreMat.shaplessIngredientList.add(ingredStack);
+					for (int i = 0; i < ingred.count; i++) {
+						if (matrixIndex > 9) {
+							break;
+						}
+
+						matrix[matrixIndex] = ingredStack;
+						matrixIndex++;
+					}
+
+					ingredStack.setAmount(ingred.count);
+					items.add(ingredStack);
 				}
 				
 				shapelessRecipes.put(loreMat, items);
@@ -632,46 +643,56 @@ public class LoreCraftableMaterial extends LoreMaterial {
 
 
 	public void rebuildLore() {
-		
+
 	}
 
 
 	public static String serializeEnhancements(ItemStack stack) {
-        StringBuilder out = new StringBuilder();
-		
+		StringBuilder out = new StringBuilder();
+
 		for (LoreEnhancement enh : LoreCraftableMaterial.getEnhancements(stack)) {
-            out.append(enh.getClass().getName()).append("@").append(enh.serialize(stack)).append(",");
+			out.append(classes_enhancements.get(enh.getClass())).append("@").append(enh.serialize(stack)).append(",");
 		}
 
-        String outEncoded = new String(Base64Coder.encode(out.toString().getBytes()));
-		return outEncoded;
+		return new String(Base64Coder.encode(out.toString().getBytes()));
+	}
+
+	public static final HashMap<String, Class<? extends LoreEnhancement>> enhancements_classes = new HashMap<>();
+	public static final HashMap<Class<? extends LoreEnhancement>, String> classes_enhancements = new HashMap<>();
+
+	static {
+		enhancements_classes.put("LoreEnhancementArenaItem", LoreEnhancementArenaItem.class);
+		classes_enhancements.put(LoreEnhancementArenaItem.class, "LoreEnhancementArenaItem");
+		enhancements_classes.put("LoreEnhancementAttack", LoreEnhancementAttack.class);
+		classes_enhancements.put(LoreEnhancementAttack.class, "LoreEnhancementAttack");
+		enhancements_classes.put("LoreEnhancementDefense", LoreEnhancementDefense.class);
+		classes_enhancements.put(LoreEnhancementDefense.class, "LoreEnhancementDefense");
+		enhancements_classes.put("LoreEnhancementPunchout", LoreEnhancementPunchout.class);
+		classes_enhancements.put(LoreEnhancementPunchout.class, "LoreEnhancementPunchout");
+		enhancements_classes.put("LoreEnhancementSoulBound", LoreEnhancementSoulBound.class);
+		classes_enhancements.put(LoreEnhancementSoulBound.class, "LoreEnhancementSoulBound");
 	}
 
 	public static ItemStack deserializeEnhancements(ItemStack stack, String serial) {
 		String in = StringUtils.toAsciiString(Base64Coder.decode(serial));
 		String[] enhancementsStrs = in.split(",");
-		
+
 		for (String enhString : enhancementsStrs) {
 			String[] split = enhString.split("@");
 			String className = split[0];
-			String data = "";
-			if (split.length > 1) {
-				data = split[1];
-			}
+			String data = split.length > 1 ? split[1] : "";
 
 			try {
-				Class<?> cls = Class.forName(className);
-				LoreEnhancement enh = (LoreEnhancement)cls.newInstance();
+				LoreEnhancement enh = enhancements_classes.get(className).newInstance();
 				AttributeUtil attrs = new AttributeUtil(stack);
-				attrs.addEnhancement(cls.getSimpleName(), null, null);
-				stack = attrs.getStack();
-				stack = enh.deserialize(stack, data);
-			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+				attrs.addEnhancement(className, null, null);
+				stack = enh.deserialize(attrs.getStack(), data);
+			} catch (InstantiationException | IllegalAccessException e) {
 				e.printStackTrace();
 			}
 			
 		}
-		
+
 		return stack;
 	}
 

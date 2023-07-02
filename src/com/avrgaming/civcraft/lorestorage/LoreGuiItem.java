@@ -18,15 +18,15 @@
  */
 package com.avrgaming.civcraft.lorestorage;
 
+import com.avrgaming.civcraft.loregui.*;
 import gpl.AttributeUtil;
 
 import java.lang.reflect.Constructor;
+import java.util.HashMap;
 
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-
-import com.avrgaming.civcraft.loregui.GuiAction;
 
 public class LoreGuiItem {
 
@@ -74,18 +74,31 @@ public class LoreGuiItem {
 
     public static ItemStack asGuiItem(ItemStack stack) {
         AttributeUtil attrs = new AttributeUtil(stack);
-        attrs.setCivCraftProperty("GUI", String.valueOf(stack.getTypeId()));
+        attrs.setCivCraftProperty("GUI", String.valueOf(stack.getType()));
         return attrs.getStack();
+    }
+
+    public static final HashMap<String, Class<? extends GuiAction>> gui_classes = new HashMap<>();
+
+    static {
+        gui_classes.put("ActivatePerk", ActivatePerk.class);
+        gui_classes.put("BuildChooseTemplate", BuildChooseTemplate.class);
+        gui_classes.put("BuildStructureList", BuildStructureList.class);
+        gui_classes.put("BuildWithDefaultPersonalTemplate", BuildWithDefaultPersonalTemplate.class);
+        gui_classes.put("BuildWithPersonalTemplate", BuildWithPersonalTemplate.class);
+        gui_classes.put("BuildWithTemplate", BuildWithTemplate.class);
+        gui_classes.put("OpenInventory", OpenInventory.class);
+        gui_classes.put("ShowPerkPage", ShowPerkPage.class);
+        gui_classes.put("ShowRecipe", ShowRecipe.class);
+        gui_classes.put("ShowTemplateType", ShowTemplateType.class);
+        gui_classes.put("SpawnItem", SpawnItem.class);
     }
 
     public static void processAction(String action, ItemStack stack, InventoryClickEvent event) {
 
         /* Get class name from reflection and perform assigned action */
         try {
-            Class<?> clazz = Class.forName("com.avrgaming.civcraft.loregui." + action);
-            Constructor<?> constructor = clazz.getConstructor();
-            GuiAction instance = (GuiAction) constructor.newInstance();
-            instance.performAction(event, stack);
+            gui_classes.get(action).newInstance().performAction(event, stack);
         } catch (Exception e) {
             e.printStackTrace();
         }
