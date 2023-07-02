@@ -938,7 +938,7 @@ public class BlockListener implements Listener {
 
 		/* Disable notch apples */
 		ItemStack stack1 = event.getItem();
-		if (stack1.getTypeId() == ItemManager.getId(Material.GOLDEN_APPLE)) {
+		if (stack1.getTypeId() == Material.GOLDEN_APPLE.getId()) {
 			if (event.getItem().getDurability() == (short)0x1) {
 				CivMessage.sendError(event.getPlayer(), CivSettings.localize.localizedString("itemUse_errorGoldenApple"));
 				event.setCancelled(true);

@@ -458,7 +458,7 @@ public class BonusGoodieManager implements Listener {
 			}
 			
 			player.getWorld().dropItemNaturally(frame.getLocation(), stack);
-			frame.setItem(ItemManager.createItemStack(Material.AIR.getId(), 1));
+			frame.setItem(new ItemStack(Material.AIR.getId(), 1, (short) 0));
 			CivMessage.send(player, CivColor.LightGray+CivSettings.localize.localizedString("bonusGoodie_unsocket"));
 		} else if (goodie != null) {
 			//Item frame was empty, add goodie to it.

@@ -26,7 +26,6 @@ import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.CivColor;
-import com.avrgaming.civcraft.util.ItemManager;
 
 public class LoreCraftableMaterialListener implements Listener {
 
@@ -254,7 +253,9 @@ public class LoreCraftableMaterialListener implements Listener {
 				loreMat.applyAttributes(attrs);
 				newStack.setAmount(loreMat.getCraftAmount());
 			} else {
-				newStack = ItemManager.createItemStack(loreMat.getTypeID(), loreMat.getCraftAmount());
+				int typeId = loreMat.getTypeID();
+				int amount = loreMat.getCraftAmount();
+				newStack = new ItemStack(typeId, amount, (short) 0);
 			}
 			
 			event.getInventory().setResult(newStack);
@@ -298,7 +299,9 @@ public class LoreCraftableMaterialListener implements Listener {
 				loreMat.applyAttributes(attrs);
 				newStack.setAmount(loreMat.getCraftAmount());
 			} else {
-				newStack = ItemManager.createItemStack(loreMat.getTypeID(), loreMat.getCraftAmount());
+				int typeId = loreMat.getTypeID();
+				int amount = loreMat.getCraftAmount();
+				newStack = new ItemStack(typeId, amount, (short) 0);
 			}	
 			
 			event.getInventory().setResult(newStack);
@@ -310,7 +313,7 @@ public class LoreCraftableMaterialListener implements Listener {
 			if (craftMat.hasComponent("Tagged")) {
 				String tag = Tagged.matrixHasSameTag(event.getInventory().getMatrix());
 				if (tag == null) {
-					event.getInventory().setResult(ItemManager.createItemStack(Material.AIR.getId(), 1));
+					event.getInventory().setResult(new ItemStack(Material.AIR.getId(), 1, (short) 0));
 					return;
 				}
 				

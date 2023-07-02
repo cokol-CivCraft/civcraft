@@ -609,7 +609,7 @@ public class CustomItemManager implements Listener {
 	public void onItemPickup(PlayerPickupItemEvent event) {
 
         ItemStack stack4 = event.getItem().getItemStack();
-        if (stack4.getTypeId() == ItemManager.getId(Material.SLIME_BALL)) {
+		if (stack4.getTypeId() == Material.SLIME_BALL.getId()) {
 			LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(event.getItem().getItemStack());
 			if (craftMat == null) {
 				/* Found a vanilla slime ball. */
@@ -623,7 +623,7 @@ public class CustomItemManager implements Listener {
 			}
 		} else {
             ItemStack stack3 = event.getItem().getItemStack();
-            if (stack3.getTypeId() == ItemManager.getId(Material.ENDER_PEARL)) {
+			if (stack3.getTypeId() == Material.ENDER_PEARL.getId()) {
                 LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(event.getItem().getItemStack());
                 if (craftMat == null) {
                     /* Found a vanilla ender peral. */
@@ -637,7 +637,7 @@ public class CustomItemManager implements Listener {
                 }
             } else {
                 ItemStack stack2 = event.getItem().getItemStack();
-                if (stack2.getTypeId() == ItemManager.getId(Material.TNT)) {
+				if (stack2.getTypeId() == Material.TNT.getId()) {
                     LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(event.getItem().getItemStack());
                     if (craftMat == null) {
                         /* Found a vanilla tnt. */
@@ -651,7 +651,7 @@ public class CustomItemManager implements Listener {
                     }
                 } else {
                     ItemStack stack1 = event.getItem().getItemStack();
-                    if (stack1.getTypeId() == ItemManager.getId(Material.RAW_FISH)
+					if (stack1.getTypeId() == Material.RAW_FISH.getId()
                             && ItemManager.getData(event.getItem().getItemStack()) ==
                             ItemManager.getData(ItemManager.getMaterialData(Material.RAW_FISH.getId(), CivData.CLOWNFISH))) {
                         LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(event.getItem().getItemStack());
@@ -667,7 +667,7 @@ public class CustomItemManager implements Listener {
                         }
                     } else {
                         ItemStack stack = event.getItem().getItemStack();
-                        if (stack.getTypeId() == ItemManager.getId(Material.RAW_FISH)
+						if (stack.getTypeId() == Material.RAW_FISH.getId()
                                 && ItemManager.getData(event.getItem().getItemStack()) ==
                                 ItemManager.getData(ItemManager.getMaterialData(Material.RAW_FISH.getId(), CivData.PUFFERFISH))) {
                             LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(event.getItem().getItemStack());
@@ -698,7 +698,7 @@ public class CustomItemManager implements Listener {
 		}
 
         ItemStack stack2 = event.getCurrentItem();
-        if (stack2.getTypeId() == ItemManager.getId(Material.SLIME_BALL)) {
+		if (stack2.getTypeId() == Material.SLIME_BALL.getId()) {
 			LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(event.getCurrentItem());
 			if (craftMat == null) {
 				/* Found a vanilla slime ball. */
@@ -710,7 +710,7 @@ public class CustomItemManager implements Listener {
 		}
 
         ItemStack stack1 = event.getCurrentItem();
-        if (stack1.getTypeId() == ItemManager.getId(Material.RAW_FISH)
+		if (stack1.getTypeId() == Material.RAW_FISH.getId()
 				&& ItemManager.getData(event.getCurrentItem()) == 
 					ItemManager.getData(ItemManager.getMaterialData(Material.RAW_FISH.getId(), CivData.CLOWNFISH))) {
 			LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(event.getCurrentItem());
@@ -724,7 +724,7 @@ public class CustomItemManager implements Listener {
 		}
 
         ItemStack stack = event.getCurrentItem();
-        if (stack.getTypeId() == ItemManager.getId(Material.RAW_FISH)
+		if (stack.getTypeId() == Material.RAW_FISH.getId()
 				&& ItemManager.getData(event.getCurrentItem()) == 
 					ItemManager.getData(ItemManager.getMaterialData(Material.RAW_FISH.getId(), CivData.PUFFERFISH))) {
 			LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(event.getCurrentItem());

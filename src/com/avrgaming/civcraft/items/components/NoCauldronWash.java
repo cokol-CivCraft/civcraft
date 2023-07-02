@@ -6,7 +6,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.ItemManager;
 
 import gpl.AttributeUtil;
 
@@ -26,7 +25,7 @@ public class NoCauldronWash extends ItemComponent {
 			BlockCoord bcoord = new BlockCoord(event.getClickedBlock());
 
             Block block = bcoord.getBlock();
-            if (block.getTypeId() == ItemManager.getId(Material.CAULDRON)) {
+            if (block.getTypeId() == Material.CAULDRON.getId()) {
 				event.setCancelled(true);
 				return;
 			}

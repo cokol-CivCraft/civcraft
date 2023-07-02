@@ -26,7 +26,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.avrgaming.civcraft.loregui.GuiAction;
-import com.avrgaming.civcraft.util.ItemManager;
 
 public class LoreGuiItem {
 			
@@ -34,7 +33,7 @@ public class LoreGuiItem {
 	public static final int INV_ROW_COUNT = 9;
 
 	public static ItemStack getGUIItem(String title, String[] messages, int type, int data) {
-		ItemStack stack = ItemManager.createItemStack(type, 1, (short)data);
+        ItemStack stack = new ItemStack(type, 1, (short) data);
 		AttributeUtil attrs = new AttributeUtil(stack);
 		attrs.setCivCraftProperty("GUI", title);
 		attrs.setName(title);

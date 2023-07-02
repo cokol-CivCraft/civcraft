@@ -248,7 +248,7 @@ public class Stable extends Structure {
 					paid = cost;
 				}
 
-				HashMap<Integer, ItemStack> leftovers = player.getInventory().addItem(ItemManager.createItemStack(item_id, 1));
+                HashMap<Integer, ItemStack> leftovers = player.getInventory().addItem(new ItemStack(item_id, 1, (short) 0));
 				if (leftovers.size() > 0) {
 					for (ItemStack stack : leftovers.values()) {
 						player.getWorld().dropItem(player.getLocation(), stack);

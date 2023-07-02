@@ -152,8 +152,8 @@ public class BonusGoodie extends LoreItem {
 		if (outpostFrame == null) {
 			throw new CivException("Couldn't find an item frame to construct outpost with.");
 		}
-		
-		ItemStack stack = ItemManager.createItemStack(this.config.material, 1, (short) this.config.material_data);
+
+        ItemStack stack = new ItemStack(this.config.material, 1, (short) this.config.material_data);
 		
 		updateLore(stack);
 		
@@ -222,8 +222,8 @@ public class BonusGoodie extends LoreItem {
 			try {
 				if (frameStore.isEmpty()) {
 					CivLog.warning("Found frame, but item was wrong, trying to recover by spawning item.");
-					
-					ItemStack stack = ItemManager.createItemStack(this.config.material, 1, (short) this.config.material_data);
+
+                    ItemStack stack = new ItemStack(this.config.material, 1, (short) this.config.material_data);
 					updateLore(stack);
 					
 					frameStore.setItem(stack);

@@ -170,11 +170,11 @@ public class QuarryAsyncTask extends CivAsyncTask {
 					ItemStack newItem;
 					
 					if (rand1 < ((int)((quarry.getChance(Mineral.COAL)/2)))) {
-						newItem = ItemManager.createItemStack(Material.COAL.getId(), modifier);
+						newItem = new ItemStack(Material.COAL.getId(), modifier, (short) 0);
 					} else if (rand1 < ((int)((quarry.getChance(Mineral.OTHER)/2)))) {
 						newItem = getOther(modifier);
 					} else if (rand1 < ((int)((quarry.getChance(Mineral.COBBLESTONE)/2)))) {
-						newItem = ItemManager.createItemStack(Material.COBBLESTONE.getId(), modifier);
+						newItem = new ItemStack(Material.COBBLESTONE.getId(), modifier, (short) 0);
 					} else {
 						newItem = getJunk(modifier);
 					}
@@ -210,15 +210,15 @@ public class QuarryAsyncTask extends CivAsyncTask {
                     ItemStack newItem;
 
                     if (rand1 < ((int) ((quarry.getChance(Mineral.GOLD))))) {
-                        newItem = ItemManager.createItemStack(Material.GOLD_INGOT.getId(), modifier);
+						newItem = new ItemStack(Material.GOLD_INGOT.getId(), modifier, (short) 0);
                     } else if (rand1 < ((int) ((quarry.getChance(Mineral.IRON))))) {
-                        newItem = ItemManager.createItemStack(Material.IRON_INGOT.getId(), modifier);
+						newItem = new ItemStack(Material.IRON_INGOT.getId(), modifier, (short) 0);
                     } else if (rand1 < ((int) ((quarry.getChance(Mineral.COAL))))) {
-                        newItem = ItemManager.createItemStack(Material.COAL.getId(), modifier);
+						newItem = new ItemStack(Material.COAL.getId(), modifier, (short) 0);
                     } else if (rand1 < ((int) ((quarry.getChance(Mineral.OTHER))))) {
                         newItem = getOther(modifier);
                     } else if (rand1 < ((int) ((quarry.getChance(Mineral.COBBLESTONE) / 2)))) {
-                        newItem = ItemManager.createItemStack(Material.COBBLESTONE.getId(), modifier);
+						newItem = new ItemStack(Material.COBBLESTONE.getId(), modifier, (short) 0);
                     } else {
                         newItem = getJunk(modifier);
                     }
@@ -258,18 +258,18 @@ public class QuarryAsyncTask extends CivAsyncTask {
                     } else if (rand1 < ((int) ((quarry.getChance(Mineral.TUNGSTEN))))) {
                         newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_ore"), modifier);
                     } else if (rand1 < ((int) ((quarry.getChance(Mineral.GOLD))))) {
-                        newItem = ItemManager.createItemStack(Material.GOLD_INGOT.getId(), modifier);
+						newItem = new ItemStack(Material.GOLD_INGOT.getId(), modifier, (short) 0);
                     } else if (rand1 < ((int) ((quarry.getChance(Mineral.REDSTONE))))) {
                         int itemRand = rand.nextInt(5) + 1;
-                        newItem = ItemManager.createItemStack(Material.REDSTONE.getId(), itemRand * modifier);
+						newItem = new ItemStack(Material.REDSTONE.getId(), itemRand * modifier, (short) 0);
                     } else if (rand1 < ((int) ((quarry.getChance(Mineral.IRON))))) {
-                        newItem = ItemManager.createItemStack(Material.IRON_INGOT.getId(), modifier);
+						newItem = new ItemStack(Material.IRON_INGOT.getId(), modifier, (short) 0);
                     } else if (rand1 < ((int) ((quarry.getChance(Mineral.COAL))))) {
-                        newItem = ItemManager.createItemStack(Material.COAL.getId(), modifier);
+						newItem = new ItemStack(Material.COAL.getId(), modifier, (short) 0);
                     } else if (rand1 < ((int) ((quarry.getChance(Mineral.OTHER))))) {
                         newItem = getOther(modifier);
                     } else if (rand1 < ((int) ((quarry.getChance(Mineral.COBBLESTONE) / 2)))) {
-                        newItem = ItemManager.createItemStack(Material.COBBLESTONE.getId(), modifier);
+						newItem = new ItemStack(Material.COBBLESTONE.getId(), modifier, (short) 0);
                     } else {
                         newItem = getJunk(modifier);
                     }
@@ -304,11 +304,11 @@ public class QuarryAsyncTask extends CivAsyncTask {
 					ItemStack newItem;
 					
 					if (rand1 < ((int)((quarry.getChance(Mineral.COAL)/2)))) {
-						newItem = ItemManager.createItemStack(Material.COAL.getId(), modifier);
+						newItem = new ItemStack(Material.COAL.getId(), modifier, (short) 0);
 					} else if (rand1 < ((int)((quarry.getChance(Mineral.OTHER)/2)))) {
 						newItem = getOther(modifier);
 					} else {
-						newItem = ItemManager.createItemStack(Material.COBBLESTONE.getId(), modifier);
+						newItem = new ItemStack(Material.COBBLESTONE.getId(), modifier, (short) 0);
 					}
 					
 					//Try to add the new item to the dest chest, if we cant, oh well.
@@ -346,18 +346,18 @@ public class QuarryAsyncTask extends CivAsyncTask {
                     } else if (rand1 < ((int) ((quarry.getChance(Mineral.TUNGSTEN))))) {
                         newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_ore"), modifier);
                     } else if (rand1 < ((int) ((quarry.getChance(Mineral.GOLD))))) {
-                        newItem = ItemManager.createItemStack(Material.GOLD_INGOT.getId(), modifier);
+						newItem = new ItemStack(Material.GOLD_INGOT.getId(), modifier, (short) 0);
                     } else if (rand1 < ((int) ((quarry.getChance(Mineral.REDSTONE))))) {
                         int itemRand = rand.nextInt(5) + 1;
-                        newItem = ItemManager.createItemStack(Material.REDSTONE.getId(), itemRand * modifier);
+						newItem = new ItemStack(Material.REDSTONE.getId(), itemRand * modifier, (short) 0);
                     } else if (rand1 < ((int) ((quarry.getChance(Mineral.IRON))))) {
-                        newItem = ItemManager.createItemStack(Material.IRON_INGOT.getId(), modifier);
+						newItem = new ItemStack(Material.IRON_INGOT.getId(), modifier, (short) 0);
                     } else if (rand1 < ((int) ((quarry.getChance(Mineral.COAL))))) {
-                        newItem = ItemManager.createItemStack(Material.COAL.getId(), modifier);
+						newItem = new ItemStack(Material.COAL.getId(), modifier, (short) 0);
                     } else if (rand1 < ((int) ((quarry.getChance(Mineral.OTHER))))) {
                         newItem = getOther(modifier);
                     } else if (rand1 < ((int) ((quarry.getChance(Mineral.COBBLESTONE) / 2)))) {
-                        newItem = ItemManager.createItemStack(Material.COBBLESTONE.getId(), modifier);
+						newItem = new ItemStack(Material.COBBLESTONE.getId(), modifier, (short) 0);
                     } else {
                         newItem = getJunk(modifier);
                     }
@@ -383,11 +383,11 @@ public class QuarryAsyncTask extends CivAsyncTask {
 		Random rand = new Random();
 		int rand2 = rand.nextInt(randMax);
 		if (rand2 < (2) && !quarry.getTown().getBuffManager().hasBuff(quarry.NO_DIRT)) {
-			return ItemManager.createItemStack(Material.DIRT.getId(), modifier, (short) CivData.PODZOL);
+			return new ItemStack(Material.DIRT.getId(), modifier, (short) CivData.PODZOL);
 		} else if (rand2 < (5)) {
-			return ItemManager.createItemStack(Material.DIRT.getId(), modifier, (short) CivData.COARSE_DIRT);
+			return new ItemStack(Material.DIRT.getId(), modifier, (short) CivData.COARSE_DIRT);
 		} else {
-			return ItemManager.createItemStack(Material.DIRT.getId(), modifier);
+			return new ItemStack(Material.DIRT.getId(), modifier, (short)0);
 		}
 	}
 	
@@ -396,11 +396,11 @@ public class QuarryAsyncTask extends CivAsyncTask {
 		Random rand = new Random();
 		int rand2 = rand.nextInt(randMax);
 		if (rand2 < (randMax/8)) {
-			return ItemManager.createItemStack(Material.STONE.getId(), modifier, (short) CivData.ANDESITE);
+			return new ItemStack(Material.STONE.getId(), modifier, (short) CivData.ANDESITE);
 		} else if (rand2 < (randMax/5)) {
-			return ItemManager.createItemStack(Material.STONE.getId(), modifier, (short) CivData.DIORITE);
+			return new ItemStack(Material.STONE.getId(), modifier, (short) CivData.DIORITE);
 		} else {
-			return ItemManager.createItemStack(Material.STONE.getId(), modifier, (short) CivData.GRANITE);
+			return new ItemStack(Material.STONE.getId(), modifier, (short) CivData.GRANITE);
 		}
 	}
 	
@@ -409,9 +409,9 @@ public class QuarryAsyncTask extends CivAsyncTask {
 		Random rand = new Random();
 		int rand2 = rand.nextInt(randMax);
 		if (rand2 < (randMax/5)) {
-			return ItemManager.createItemStack(Material.EMERALD.getId(), modifier);
+			return new ItemStack(Material.EMERALD.getId(), modifier, (short)0);
 		} else {
-			return ItemManager.createItemStack(Material.DIAMOND.getId(), modifier);
+			return new ItemStack(Material.DIAMOND.getId(), modifier, (short)0);
 		}
 	}
 	

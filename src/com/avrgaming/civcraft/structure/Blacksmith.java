@@ -360,7 +360,7 @@ public class Blacksmith extends Structure {
              * There is a one in third chance that our item will break.
              * Sucks, but this is what happened here.
              */
-            player.getInventory().setItemInMainHand(ItemManager.createItemStack(Material.AIR.getId(), 1));
+            player.getInventory().setItemInMainHand(new ItemStack(Material.AIR.getId(), 1, (short) 0));
             CivMessage.sendError(player, CivSettings.localize.localizedString("blacksmith_forge_failed"));
             player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_HURT, 1.0f, 1.0f);
             return;

@@ -141,7 +141,7 @@ public class TrommelAsyncTask extends CivAsyncTask {
 
                 if (stack.getTypeId() == Material.COBBLESTONE.getId()) {
 					try {
-						this.updateInventory(Action.REMOVE, source_inv, ItemManager.createItemStack(Material.COBBLESTONE.getId(), 1));
+						this.updateInventory(Action.REMOVE, source_inv, new ItemStack(Material.COBBLESTONE.getId(), 1, (short) 0));
 					} catch (InterruptedException e) {
 						return;
 					}
@@ -155,25 +155,25 @@ public class TrommelAsyncTask extends CivAsyncTask {
 					if (rand1 < ((int)((trommel.getGravelChance(Mineral.CHROMIUM))*randMax))) {
 						newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_chromium_ore"));
 					} else if (rand1 < ((int)((trommel.getGravelChance(Mineral.EMERALD))*randMax))) {
-						newItem = ItemManager.createItemStack(Material.EMERALD.getId(), 1);
+						newItem = new ItemStack(Material.EMERALD.getId(), 1, (short) 0);
 					}
 					else if (rand1 < ((int)((trommel.getGravelChance(Mineral.DIAMOND))*randMax))) {
-						newItem = ItemManager.createItemStack(Material.DIAMOND.getId(), 1);
+						newItem = new ItemStack(Material.DIAMOND.getId(), 1, (short) 0);
 	
 					}
 					else if (rand1 < ((int)((trommel.getGravelChance(Mineral.GOLD))*randMax))) {
-						newItem = ItemManager.createItemStack(Material.GOLD_INGOT.getId(), 1);
+						newItem = new ItemStack(Material.GOLD_INGOT.getId(), 1, (short) 0);
 	
 					}
 					else if (rand1 < ((int)((trommel.getGravelChance(Mineral.REDSTONE))*randMax))) {
-						newItem = ItemManager.createItemStack(Material.REDSTONE.getId(), 1);
+						newItem = new ItemStack(Material.REDSTONE.getId(), 1, (short) 0);
 	
 					}
 					else if (rand1 < ((int)((trommel.getGravelChance(Mineral.IRON))*randMax))) {
-						newItem = ItemManager.createItemStack(Material.IRON_INGOT.getId(), 1);
+						newItem = new ItemStack(Material.IRON_INGOT.getId(), 1, (short) 0);
 	
 					}  else {
-						newItem = ItemManager.createItemStack(Material.GRAVEL.getId(), (Integer)GRAVEL_RATE);
+						newItem = new ItemStack(Material.GRAVEL.getId(), (Integer) GRAVEL_RATE, (short) 0);
 					}
 					
 					//Try to add the new item to the dest chest, if we cant, oh well.
@@ -190,7 +190,7 @@ public class TrommelAsyncTask extends CivAsyncTask {
 					if (this.trommel.getLevel() >= 2 && ItemManager.getData(stack) == 
 							ItemManager.getData(ItemManager.getMaterialData(Material.STONE.getId(), CivData.GRANITE))) {
 						try {
-							this.updateInventory(Action.REMOVE, source_inv, ItemManager.createItemStack(Material.STONE.getId(), 1, (short) CivData.GRANITE));
+							this.updateInventory(Action.REMOVE, source_inv, new ItemStack(Material.STONE.getId(), 1, (short) CivData.GRANITE));
 						} catch (InterruptedException e) {
 							return;
 						}
@@ -236,23 +236,23 @@ public class TrommelAsyncTask extends CivAsyncTask {
 						} else if (rand1 < ((int)((trommel.getGraniteChance(Mineral.CHROMIUM))*randMax))) {
 							newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_chromium_ore"));
 						}  else if (rand1 < ((int)((trommel.getGraniteChance(Mineral.EMERALD))*randMax))) {
-							newItem = ItemManager.createItemStack(Material.EMERALD.getId(), 1);
+							newItem = new ItemStack(Material.EMERALD.getId(), 1, (short) 0);
 						} else if (rand1 < ((int)((trommel.getGraniteChance(Mineral.DIAMOND))*randMax))) {
-							newItem = ItemManager.createItemStack(Material.DIAMOND.getId(), 1);
+							newItem = new ItemStack(Material.DIAMOND.getId(), 1, (short) 0);
 						} else if (rand1 < ((int)((trommel.getGraniteChance(Mineral.TUNGSTEN))*randMax))) {
 							newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_ore"));
 						} else if (rand1 < ((int)((trommel.getGraniteChance(Mineral.GOLD))*randMax))) {
-							newItem = ItemManager.createItemStack(Material.GOLD_INGOT.getId(), 1);
+							newItem = new ItemStack(Material.GOLD_INGOT.getId(), 1, (short) 0);
 						} else if (rand1 < ((int)((trommel.getGraniteChance(Mineral.REDSTONE))*randMax))) {
-							newItem = ItemManager.createItemStack(Material.REDSTONE.getId(), 1);
+							newItem = new ItemStack(Material.REDSTONE.getId(), 1, (short) 0);
 						} else if (rand1 < ((int)((trommel.getGraniteChance(Mineral.IRON))*randMax))) {
-							newItem = ItemManager.createItemStack(Material.IRON_INGOT.getId(), 1);
+							newItem = new ItemStack(Material.IRON_INGOT.getId(), 1, (short) 0);
 						} else if (rand1 < ((int)((trommel.getGraniteChance(Mineral.POLISHED))*randMax))) {
-							newItem = ItemManager.createItemStack(Material.STONE.getId(), 1, (short) CivData.POLISHED_GRANITE);
+							newItem = new ItemStack(Material.STONE.getId(), 1, (short) CivData.POLISHED_GRANITE);
 						} else if (rand1 < ((int)((trommel.getGraniteChance(Mineral.DIRT))*randMax))) {
-							newItem = ItemManager.createItemStack(Material.DIRT.getId(), 1);
+							newItem = new ItemStack(Material.DIRT.getId(), 1, (short) 0);
 						} else {
-							newItem = ItemManager.createItemStack(Material.GRAVEL.getId(), (Integer)GRAVEL_RATE);
+							newItem = new ItemStack(Material.GRAVEL.getId(), (Integer) GRAVEL_RATE, (short) 0);
 						}
 						
 						//Try to add the new item to the dest chest, if we cant, oh well.
@@ -269,7 +269,7 @@ public class TrommelAsyncTask extends CivAsyncTask {
 					if (this.trommel.getLevel() >= 3 && ItemManager.getData(stack) == 
 							ItemManager.getData(ItemManager.getMaterialData(Material.STONE.getId(), CivData.DIORITE))) {
 						try {
-							this.updateInventory(Action.REMOVE, source_inv, ItemManager.createItemStack(Material.STONE.getId(), 1, (short) CivData.DIORITE));
+							this.updateInventory(Action.REMOVE, source_inv, new ItemStack(Material.STONE.getId(), 1, (short) CivData.DIORITE));
 						} catch (InterruptedException e) {
 							return;
 						}
@@ -314,23 +314,23 @@ public class TrommelAsyncTask extends CivAsyncTask {
 						} else if (rand1 < ((int)((trommel.getDioriteChance(Mineral.CHROMIUM))*randMax))) {
 							newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_chromium_ore"));
 						}  else if (rand1 < ((int)((trommel.getDioriteChance(Mineral.EMERALD))*randMax))) {
-							newItem = ItemManager.createItemStack(Material.EMERALD.getId(), 1);
+							newItem = new ItemStack(Material.EMERALD.getId(), 1, (short) 0);
 						} else if (rand1 < ((int)((trommel.getDioriteChance(Mineral.DIAMOND))*randMax))) {
-							newItem = ItemManager.createItemStack(Material.DIAMOND.getId(), 1);
+							newItem = new ItemStack(Material.DIAMOND.getId(), 1, (short) 0);
 						} else if (rand1 < ((int)((trommel.getDioriteChance(Mineral.TUNGSTEN))*randMax))) {
 							newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_ore"));
 						} else if (rand1 < ((int)((trommel.getDioriteChance(Mineral.GOLD))*randMax))) {
-							newItem = ItemManager.createItemStack(Material.GOLD_INGOT.getId(), 1);
+							newItem = new ItemStack(Material.GOLD_INGOT.getId(), 1, (short) 0);
 						} else if (rand1 < ((int)((trommel.getDioriteChance(Mineral.REDSTONE))*randMax))) {
-							newItem = ItemManager.createItemStack(Material.REDSTONE.getId(), 1);
+							newItem = new ItemStack(Material.REDSTONE.getId(), 1, (short) 0);
 						} else if (rand1 < ((int)((trommel.getDioriteChance(Mineral.IRON))*randMax))) {
-							newItem = ItemManager.createItemStack(Material.IRON_INGOT.getId(), 1);
+							newItem = new ItemStack(Material.IRON_INGOT.getId(), 1, (short) 0);
 						} else if (rand1 < ((int)((trommel.getDioriteChance(Mineral.POLISHED))*randMax))) {
-							newItem = ItemManager.createItemStack(Material.STONE.getId(), 1, (short) CivData.POLISHED_DIORITE);
+							newItem = new ItemStack(Material.STONE.getId(), 1, (short) CivData.POLISHED_DIORITE);
 						} else if (rand1 < ((int)((trommel.getDioriteChance(Mineral.DIRT))*randMax))) {
-							newItem = ItemManager.createItemStack(Material.DIRT.getId(), 1);
+							newItem = new ItemStack(Material.DIRT.getId(), 1, (short) 0);
 						} else {
-							newItem = ItemManager.createItemStack(Material.GRAVEL.getId(), (Integer)GRAVEL_RATE);
+							newItem = new ItemStack(Material.GRAVEL.getId(), (Integer) GRAVEL_RATE, (short) 0);
 						}
 						
 						//Try to add the new item to the dest chest, if we cant, oh well.
@@ -347,7 +347,7 @@ public class TrommelAsyncTask extends CivAsyncTask {
 					if (this.trommel.getLevel() >= 4 && ItemManager.getData(stack) == 
 							ItemManager.getData(ItemManager.getMaterialData(Material.STONE.getId(), CivData.ANDESITE))) {
 						try {
-							this.updateInventory(Action.REMOVE, source_inv, ItemManager.createItemStack(Material.STONE.getId(), 1, (short) CivData.ANDESITE));
+							this.updateInventory(Action.REMOVE, source_inv, new ItemStack(Material.STONE.getId(), 1, (short) CivData.ANDESITE));
 						} catch (InterruptedException e) {
 							return;
 						}
@@ -392,23 +392,23 @@ public class TrommelAsyncTask extends CivAsyncTask {
 						} else if (rand1 < ((int)((trommel.getAndesiteChance(Mineral.CHROMIUM))*randMax))) {
 							newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_chromium_ore"));
 						}  else if (rand1 < ((int)((trommel.getAndesiteChance(Mineral.EMERALD))*randMax))) {
-							newItem = ItemManager.createItemStack(Material.EMERALD.getId(), 1);
+							newItem = new ItemStack(Material.EMERALD.getId(), 1, (short) 0);
 						} else if (rand1 < ((int)((trommel.getAndesiteChance(Mineral.DIAMOND))*randMax))) {
-							newItem = ItemManager.createItemStack(Material.DIAMOND.getId(), 1);
+							newItem = new ItemStack(Material.DIAMOND.getId(), 1, (short) 0);
 						} else if (rand1 < ((int)((trommel.getAndesiteChance(Mineral.TUNGSTEN))*randMax))) {
 							newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_ore"));
 						} else if (rand1 < ((int)((trommel.getAndesiteChance(Mineral.GOLD))*randMax))) {
-							newItem = ItemManager.createItemStack(Material.GOLD_INGOT.getId(), 1);
+							newItem = new ItemStack(Material.GOLD_INGOT.getId(), 1, (short) 0);
 						} else if (rand1 < ((int)((trommel.getAndesiteChance(Mineral.REDSTONE))*randMax))) {
-							newItem = ItemManager.createItemStack(Material.REDSTONE.getId(), 1);
+							newItem = new ItemStack(Material.REDSTONE.getId(), 1, (short) 0);
 						} else if (rand1 < ((int)((trommel.getAndesiteChance(Mineral.IRON))*randMax))) {
-							newItem = ItemManager.createItemStack(Material.IRON_INGOT.getId(), 1);
+							newItem = new ItemStack(Material.IRON_INGOT.getId(), 1, (short) 0);
 						} else if (rand1 < ((int)((trommel.getAndesiteChance(Mineral.POLISHED))*randMax))) {
-							newItem = ItemManager.createItemStack(Material.STONE.getId(), 1, (short) CivData.POLISHED_ANDESITE);
+							newItem = new ItemStack(Material.STONE.getId(), 1, (short) CivData.POLISHED_ANDESITE);
 						} else if (rand1 < ((int)((trommel.getAndesiteChance(Mineral.DIRT))*randMax))) {
-							newItem = ItemManager.createItemStack(Material.DIRT.getId(), 1);
+							newItem = new ItemStack(Material.DIRT.getId(), 1, (short) 0);
 						} else {
-							newItem = ItemManager.createItemStack(Material.GRAVEL.getId(), (Integer)GRAVEL_RATE);
+							newItem = new ItemStack(Material.GRAVEL.getId(), (Integer) GRAVEL_RATE, (short) 0);
 						}
 						
 						//Try to add the new item to the dest chest, if we cant, oh well.

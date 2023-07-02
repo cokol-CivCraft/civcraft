@@ -19,7 +19,6 @@ import com.avrgaming.civcraft.sessiondb.SessionEntry;
 import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.structure.TradeShip;
 import com.avrgaming.civcraft.threading.TaskMaster;
-import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.MultiInventory;
 
 public class TradeLevelComponent extends Component {
@@ -381,9 +380,9 @@ public class TradeLevelComponent extends Component {
 					default:
 						int emeraldRand = (rand.nextInt(4)) + 1;
 						if (emeraldRand >= 3) {
-							newItems.add(ItemManager.createItemStack(Material.SULPHUR.getId(), 3));
+							newItems.add(new ItemStack(Material.SULPHUR.getId(), 3, (short) 0));
 						} else {
-							newItems.add(ItemManager.createItemStack(Material.EMERALD.getId(), 1));
+							newItems.add(new ItemStack(Material.EMERALD.getId(), 1, (short) 0));
 						}
 						break;
 				}
@@ -412,9 +411,9 @@ public class TradeLevelComponent extends Component {
 					default:
 					int diamondRand = (rand.nextInt(4))+1;
 					if (diamondRand >= 3) {
-						newItems.add(ItemManager.createItemStack(Material.SULPHUR.getId(), 2));
+						newItems.add(new ItemStack(Material.SULPHUR.getId(), 2, (short) 0));
 					} else {
-						newItems.add(ItemManager.createItemStack(Material.DIAMOND.getId(), 1));
+						newItems.add(new ItemStack(Material.DIAMOND.getId(), 1, (short) 0));
 					}
 					newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_fragment_3"), (rand.nextInt(3))+1));
 					newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_fragment_3"), (rand.nextInt(3))+1));
@@ -441,9 +440,9 @@ public class TradeLevelComponent extends Component {
 					default:
 					int goldRand = (rand.nextInt(4))+1;
 					if (goldRand >= 3) {
-						newItems.add(ItemManager.createItemStack(Material.SULPHUR.getId(), 2));
+						newItems.add(new ItemStack(Material.SULPHUR.getId(), 2, (short) 0));
 					} else {
-						newItems.add(ItemManager.createItemStack(Material.GOLD_INGOT.getId(), 1));
+						newItems.add(new ItemStack(Material.GOLD_INGOT.getId(), 1, (short) 0));
 					}
 					
 					newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_fragment_2"), (rand.nextInt(3))+1));
@@ -471,9 +470,9 @@ public class TradeLevelComponent extends Component {
 					default:
 					int ironRand = (rand.nextInt(4))+1;
 					if (ironRand >= 3) {
-						newItems.add(ItemManager.createItemStack(Material.SULPHUR.getId(), 1));
+						newItems.add(new ItemStack(Material.SULPHUR.getId(), 1, (short) 0));
 					} else {
-						newItems.add(ItemManager.createItemStack(Material.IRON_INGOT.getId(), 1));
+						newItems.add(new ItemStack(Material.IRON_INGOT.getId(), 1, (short) 0));
 					}
 					break;
 				}

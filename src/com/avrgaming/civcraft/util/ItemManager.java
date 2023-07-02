@@ -27,15 +27,6 @@ import org.bukkit.material.MaterialData;
 public class ItemManager {
 
 	@SuppressWarnings("deprecation")
-	public static ItemStack createItemStack(int typeId, int amount, short damage) {
-		return new ItemStack(typeId, amount, damage);
-	}
-
-	public static ItemStack createItemStack(int typeId, int amount) {
-		return createItemStack(typeId, amount, (short)0);
-	}
-
-	@SuppressWarnings("deprecation")
 	public static MaterialData getMaterialData(int type_id, int data) {
 		return new MaterialData(type_id, (byte)data);
 	}
@@ -44,12 +35,7 @@ public class ItemManager {
 	public static Enchantment getEnchantById(int id) {
 		return Enchantment.getById(id);
 	}
-	
-	@SuppressWarnings("deprecation")
-	public static int getId(Material material) {
-		return material.getId();
-	}
-	
+
 	@SuppressWarnings("deprecation")
 	public static int getId(Enchantment e) {
 		return e.getId();
@@ -130,8 +116,8 @@ public class ItemManager {
 	}
 	
 	@SuppressWarnings("deprecation")
-	public static ItemStack spawnPlayerHead(String playerName, String itemDisplayName) {		
-		ItemStack skull = ItemManager.createItemStack(ItemManager.getId(Material.SKULL_ITEM), 1, (short)3);
+	public static ItemStack spawnPlayerHead(String playerName, String itemDisplayName) {
+		ItemStack skull = new ItemStack(Material.SKULL_ITEM.getId(), 1, (short) 3);
 		SkullMeta meta = (SkullMeta) skull.getItemMeta();
 		meta.setOwner(playerName);
 		meta.setDisplayName(itemDisplayName);

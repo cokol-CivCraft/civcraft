@@ -28,7 +28,6 @@ import com.avrgaming.civcraft.exception.CivTaskAbortException;
 import com.avrgaming.civcraft.threading.CivAsyncTask;
 import com.avrgaming.civcraft.threading.sync.request.UpdateInventoryRequest.Action;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.MultiInventory;
 
 public class SifterComponent extends Component {
@@ -147,12 +146,12 @@ public class SifterComponent extends Component {
 			
 			/* Item was successfully generated. Add it to output. */
 			try {
-				task.updateInventory(Action.REMOVE, source, ItemManager.createItemStack(lowestChanceItem.source_type, 1));
+				task.updateInventory(Action.REMOVE, source, new ItemStack(lowestChanceItem.source_type, 1, (short) 0));
 			} catch (InterruptedException e) {
 				return;
 			}
 			try {
-				task.updateInventory(Action.ADD, dest, ItemManager.createItemStack(lowestChanceItem.result_type, lowestChanceItem.amount, (short)lowestChanceItem.result_data));
+                task.updateInventory(Action.ADD, dest, new ItemStack(lowestChanceItem.result_type, lowestChanceItem.amount, (short) lowestChanceItem.result_data));
 			} catch (InterruptedException e) {
 				return;
 			}

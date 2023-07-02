@@ -47,7 +47,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import com.avrgaming.civcraft.loreenhancements.LoreEnhancement;
 import com.avrgaming.civcraft.object.BuildableDamageBlock;
 import com.avrgaming.civcraft.util.CivColor;
-import com.avrgaming.civcraft.util.ItemManager;
 
 import gpl.AttributeUtil;
 
@@ -173,7 +172,9 @@ public abstract class LoreMaterial {
 	}
 	
 	public static ItemStack spawn(LoreMaterial material, int quantity) {
-		ItemStack stack = ItemManager.createItemStack(material.getTypeID(), quantity, material.getDamage());
+        int typeId = material.getTypeID();
+        short damage1 = material.getDamage();
+        ItemStack stack = new ItemStack(typeId, quantity, damage1);
 		AttributeUtil attrs = new AttributeUtil(stack);
 		setMIDAndName(attrs, material.getId(), material.getName());
 		Boolean isShiny = false;

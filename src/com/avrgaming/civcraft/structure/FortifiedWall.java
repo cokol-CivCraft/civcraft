@@ -245,8 +245,8 @@ public class FortifiedWall extends Wall {
 			
 			/* Build an inventory full of templates to select. */
 			Inventory inv = Bukkit.getServer().createInventory(player, CivTutorial.MAX_CHEST_SIZE*9);
-			ItemStack infoRec = LoreGuiItem.build("Default "+this.getDisplayName(), 
-					ItemManager.getId(Material.WRITTEN_BOOK), 
+			ItemStack infoRec = LoreGuiItem.build("Default "+this.getDisplayName(),
+					Material.WRITTEN_BOOK.getId(),
 					0, CivColor.Gold+"<Click To Build>");
 			infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
 			inv.addItem(infoRec);

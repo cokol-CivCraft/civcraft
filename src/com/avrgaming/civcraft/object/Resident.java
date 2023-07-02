@@ -88,7 +88,6 @@ import com.avrgaming.civcraft.tutorial.CivTutorial;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.CallbackInterface;
 import com.avrgaming.civcraft.util.CivColor;
-import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.PlayerBlockChangeUtil;
 import com.avrgaming.civcraft.util.SimpleBlock;
 import com.avrgaming.global.perks.NotVerifiedException;
@@ -1438,8 +1437,8 @@ public class Resident extends SQLObject {
 							CivColor.LightGray+" "+CivSettings.localize.localizedString("resident_tradeWait2"));
 					inv.setItem(i, guiStack);
 				} else if ((i-start) == 7) {
-					ItemStack guiStack = LoreGuiItem.build(CivSettings.CURRENCY_NAME+" "+CivSettings.localize.localizedString("resident_tradeOffered"), 
-							ItemManager.getId(Material.NETHER_BRICK_ITEM), 0, 
+					ItemStack guiStack = LoreGuiItem.build(CivSettings.CURRENCY_NAME+" "+CivSettings.localize.localizedString("resident_tradeOffered"),
+							Material.NETHER_BRICK_ITEM.getId(), 0,
 							CivColor.Yellow+"0 "+CivSettings.CURRENCY_NAME);
 					inv.setItem(i, guiStack);
 				} else {
@@ -1455,21 +1454,21 @@ public class Resident extends SQLObject {
 							CivColor.Gold+CivSettings.localize.localizedString("resident_tradeClicktoConfirm"));
 					inv.setItem(i, guiStack);
 					
-				} else if ((i-start) == 0){ 
-					ItemStack guiStack = LoreGuiItem.build(CivSettings.localize.localizedString("resident_tradeRemove")+" "+CivSettings.CURRENCY_NAME, 
-							ItemManager.getId(Material.NETHER_BRICK_ITEM), 0, 
+				} else if ((i-start) == 0){
+					ItemStack guiStack = LoreGuiItem.build(CivSettings.localize.localizedString("resident_tradeRemove")+" "+CivSettings.CURRENCY_NAME,
+							Material.NETHER_BRICK_ITEM.getId(), 0,
 							CivColor.Gold+CivSettings.localize.localizedString("resident_tradeRemove100")+" "+CivSettings.CURRENCY_NAME,
 							CivColor.Gold+CivSettings.localize.localizedString("resident_tradeRemove1000")+" "+CivSettings.CURRENCY_NAME);
 					inv.setItem(i, guiStack);
 				} else if ((i-start) == 1) {
-					ItemStack guiStack = LoreGuiItem.build(CivSettings.localize.localizedString("resident_tradeAdd")+" "+CivSettings.CURRENCY_NAME, 
-							ItemManager.getId(Material.GOLD_INGOT), 0, 
+					ItemStack guiStack = LoreGuiItem.build(CivSettings.localize.localizedString("resident_tradeAdd")+" "+CivSettings.CURRENCY_NAME,
+							Material.GOLD_INGOT.getId(), 0,
 							CivColor.Gold+CivSettings.localize.localizedString("resident_tradeAdd100")+" "+CivSettings.CURRENCY_NAME,
 							CivColor.Gold+CivSettings.localize.localizedString("resident_tradeAdd1000")+" "+CivSettings.CURRENCY_NAME);
 					inv.setItem(i, guiStack);
 				} else if ((i-start) == 7) {
-					ItemStack guiStack = LoreGuiItem.build(CivSettings.CURRENCY_NAME+" "+CivSettings.localize.localizedString("resident_tradeOffered"), 
-							ItemManager.getId(Material.NETHER_BRICK_ITEM), 0, 
+					ItemStack guiStack = LoreGuiItem.build(CivSettings.CURRENCY_NAME+" "+CivSettings.localize.localizedString("resident_tradeOffered"),
+							Material.NETHER_BRICK_ITEM.getId(), 0,
 							CivColor.Yellow+"0 "+CivSettings.CURRENCY_NAME);
 					inv.setItem(i, guiStack);
 				}

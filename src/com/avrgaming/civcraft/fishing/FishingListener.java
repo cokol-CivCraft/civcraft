@@ -6,7 +6,6 @@ import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.util.CivColor;
-import com.avrgaming.civcraft.util.ItemManager;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -45,7 +44,7 @@ public class FishingListener implements Listener {
         event.getCaught().remove();
 
         if (dropped.size() == 0) {
-            for (ItemStack is : player.getInventory().addItem(ItemManager.createItemStack(ItemManager.getId(Material.RAW_FISH), 1)).values()) {
+            for (ItemStack is : player.getInventory().addItem(new ItemStack(Material.RAW_FISH.getId(), 1, (short) 0)).values()) {
                 player.getWorld().dropItem(player.getLocation(), is);
             }
             CivMessage.send(event.getPlayer(), CivColor.LightGreen + CivSettings.localize.localizedString("var_fishing_success", CivColor.LightPurple + CivSettings.localize.localizedString("fishing_rawFish")));
@@ -58,7 +57,7 @@ public class FishingListener implements Listener {
     private static void drop(PlayerFishEvent event, Player player, ConfigFishing d) {
         ItemStack stack;
         if (d.craftMatId == null) {
-            stack = ItemManager.createItemStack(d.type_id, 1);
+            stack = new ItemStack(d.type_id, 1, (short) 0);
             CivMessage.send(event.getPlayer(), CivColor.LightGreen + CivSettings.localize.localizedString("var_fishing_success", CivColor.LightPurple + stack.getType().name().replace("_", " ").toLowerCase()));
         } else {
             LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterialFromId(d.craftMatId);

@@ -139,10 +139,10 @@ public class FisheryAsyncTask extends CivAsyncTask {
                 if (stack.getTypeId() == Material.FISHING_ROD.getId()) {
 					try {
 						short damage = ItemManager.getData(stack);
-						this.updateInventory(Action.REMOVE, source_inv0, ItemManager.createItemStack(Material.FISHING_ROD.getId(), 1, damage));
+						this.updateInventory(Action.REMOVE, source_inv0, new ItemStack(Material.FISHING_ROD.getId(), 1, damage));
 						damage++;
 						if (damage < 64) {
-						this.updateInventory(Action.ADD, source_inv0, ItemManager.createItemStack(Material.FISHING_ROD.getId(), 1, damage));
+							this.updateInventory(Action.ADD, source_inv0, new ItemStack(Material.FISHING_ROD.getId(), 1, damage));
 						}
 					} catch (InterruptedException e) {
 						return;
@@ -173,10 +173,10 @@ public class FisheryAsyncTask extends CivAsyncTask {
                     if (stack.getTypeId() == Material.FISHING_ROD.getId()) {
 						try {
 							short damage = ItemManager.getData(stack);
-							this.updateInventory(Action.REMOVE, source_inv1, ItemManager.createItemStack(Material.FISHING_ROD.getId(), 1, damage));
+							this.updateInventory(Action.REMOVE, source_inv1, new ItemStack(Material.FISHING_ROD.getId(), 1, damage));
 							damage++;
 							if (damage < 64) {
-							this.updateInventory(Action.ADD, source_inv1, ItemManager.createItemStack(Material.FISHING_ROD.getId(), 1, damage));
+								this.updateInventory(Action.ADD, source_inv1, new ItemStack(Material.FISHING_ROD.getId(), 1, damage));
 							}
 						} catch (InterruptedException e) {
 							return;
@@ -208,10 +208,10 @@ public class FisheryAsyncTask extends CivAsyncTask {
                     if (stack.getTypeId() == Material.FISHING_ROD.getId()) {
 						try {
 							short damage = ItemManager.getData(stack);
-							this.updateInventory(Action.REMOVE, source_inv2, ItemManager.createItemStack(Material.FISHING_ROD.getId(), 1, damage));
+							this.updateInventory(Action.REMOVE, source_inv2, new ItemStack(Material.FISHING_ROD.getId(), 1, damage));
 							damage++;
 							if (damage < 64) {
-							this.updateInventory(Action.ADD, source_inv2, ItemManager.createItemStack(Material.FISHING_ROD.getId(), 1, damage));
+								this.updateInventory(Action.ADD, source_inv2, new ItemStack(Material.FISHING_ROD.getId(), 1, damage));
 							}
 						} catch (InterruptedException e) {
 							return;
@@ -242,10 +242,10 @@ public class FisheryAsyncTask extends CivAsyncTask {
                     if (stack.getTypeId() == Material.FISHING_ROD.getId()) {
 						try {
 							short damage = ItemManager.getData(stack);
-							this.updateInventory(Action.REMOVE, source_inv3, ItemManager.createItemStack(Material.FISHING_ROD.getId(), 1, damage));
+							this.updateInventory(Action.REMOVE, source_inv3, new ItemStack(Material.FISHING_ROD.getId(), 1, damage));
 							damage++;
 							if (damage < 64) {
-							this.updateInventory(Action.ADD, source_inv3, ItemManager.createItemStack(Material.FISHING_ROD.getId(), 1, damage));
+								this.updateInventory(Action.ADD, source_inv3, new ItemStack(Material.FISHING_ROD.getId(), 1, damage));
 							}
 						} catch (InterruptedException e) {
 							return;
@@ -389,7 +389,7 @@ public class FisheryAsyncTask extends CivAsyncTask {
 			case 1: //Fish Tier 1
 				switch (biome) {
 				case 0: //Not ranked
-					newItem = ItemManager.createItemStack(Material.RAW_FISH.getId(), 1);
+					newItem = new ItemStack(Material.RAW_FISH.getId(), 1, (short) 0);
 					break;
 
 				case 1: //Mountains

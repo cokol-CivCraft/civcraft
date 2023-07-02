@@ -12,7 +12,6 @@ import com.avrgaming.civcraft.config.ConfigIngredient;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.lorestorage.LoreGuiItem;
 import com.avrgaming.civcraft.lorestorage.LoreGuiItemListener;
-import com.avrgaming.civcraft.util.ItemManager;
 
 public class TutorialRecipe extends ShowRecipe {
 	
@@ -69,7 +68,7 @@ public class TutorialRecipe extends ShowRecipe {
 		}
 		
 		{
-			ItemStack backButton = LoreGuiItem.build(CivSettings.localize.localizedString("loreGui_recipes_back"), ItemManager.getId(Material.MAP), 0, CivSettings.localize.localizedString("loreGui_recipes_back"));
+            ItemStack backButton = LoreGuiItem.build(CivSettings.localize.localizedString("loreGui_recipes_back"), Material.MAP.getId(), 0, CivSettings.localize.localizedString("loreGui_recipes_back"));
 			backButton = LoreGuiItem.setAction(backButton, "OpenInventory");
 			backButton = LoreGuiItem.setActionData(backButton, "invType", "showGuiInv");
 			backButton = LoreGuiItem.setActionData(backButton, "invType", "showTutorialInventory");

@@ -474,7 +474,7 @@ public abstract class Buildable extends SQLObject {
             /* Build an inventory full of templates to select. */
             Inventory inv = Bukkit.getServer().createInventory(player, CivTutorial.MAX_CHEST_SIZE * 9);
             ItemStack infoRec = LoreGuiItem.build(CivSettings.localize.localizedString("buildable_lore_default") + " " + this.getDisplayName(),
-                    ItemManager.getId(Material.WRITTEN_BOOK),
+                    Material.WRITTEN_BOOK.getId(),
                     0, CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"));
             infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
             inv.addItem(infoRec);
@@ -564,7 +564,7 @@ public abstract class Buildable extends SQLObject {
             /* Build an inventory full of templates to select. */
             Inventory inv = Bukkit.getServer().createInventory(player, CivTutorial.MAX_CHEST_SIZE * 9);
             ItemStack infoRec = LoreGuiItem.build("Default " + info.displayName,
-                    ItemManager.getId(Material.WRITTEN_BOOK),
+                    Material.WRITTEN_BOOK.getId(),
                     0, CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"));
             infoRec = LoreGuiItem.setAction(infoRec, "BuildWithDefaultPersonalTemplate");
             inv.addItem(infoRec);

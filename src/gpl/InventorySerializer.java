@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -22,8 +23,9 @@ public class InventorySerializer {
 	
 	private static String getSerializedItemStack(ItemStack is) {
         String serializedItemStack = new String();
-        
-        String isType = String.valueOf(ItemManager.getId(is.getType()));
+
+        Material material = is.getType();
+        String isType = String.valueOf(material.getId());
         serializedItemStack += "t@" + isType;
        
         if (is.getDurability() != 0)
@@ -91,7 +93,8 @@ public class InventorySerializer {
             String[] itemAttribute = itemInfo.split("@");
             if (itemAttribute[0].equals("t"))
             {
-                is = ItemManager.createItemStack(Integer.valueOf(itemAttribute[1]), 1);
+                int typeId = Integer.valueOf(itemAttribute[1]);
+                is = new ItemStack(typeId, 1, (short) 0);
                 createdItemStack = true;
             }
             else if (itemAttribute[0].equals("d") && createdItemStack)

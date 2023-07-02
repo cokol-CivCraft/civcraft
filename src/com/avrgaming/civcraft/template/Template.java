@@ -113,54 +113,54 @@ public class Template {
     }
 
     public static void initAttachableTypes() {
-        attachableTypes.add(ItemManager.getId(Material.SAPLING));
-        attachableTypes.add(ItemManager.getId(Material.BED));
-        attachableTypes.add(ItemManager.getId(Material.BED_BLOCK));
-        attachableTypes.add(ItemManager.getId(Material.POWERED_RAIL));
-        attachableTypes.add(ItemManager.getId(Material.DETECTOR_RAIL));
-        attachableTypes.add(ItemManager.getId(Material.LONG_GRASS));
-        attachableTypes.add(ItemManager.getId(Material.DEAD_BUSH));
-        attachableTypes.add(ItemManager.getId(Material.YELLOW_FLOWER));
-        attachableTypes.add(ItemManager.getId(Material.RED_ROSE));
-        attachableTypes.add(ItemManager.getId(Material.BROWN_MUSHROOM));
-        attachableTypes.add(ItemManager.getId(Material.RED_MUSHROOM));
-        attachableTypes.add(ItemManager.getId(Material.TORCH));
-        attachableTypes.add(ItemManager.getId(Material.REDSTONE_WIRE));
-        attachableTypes.add(ItemManager.getId(Material.WHEAT));
+        attachableTypes.add(Material.SAPLING.getId());
+        attachableTypes.add(Material.BED.getId());
+        attachableTypes.add(Material.BED_BLOCK.getId());
+        attachableTypes.add(Material.POWERED_RAIL.getId());
+        attachableTypes.add(Material.DETECTOR_RAIL.getId());
+        attachableTypes.add(Material.LONG_GRASS.getId());
+        attachableTypes.add(Material.DEAD_BUSH.getId());
+        attachableTypes.add(Material.YELLOW_FLOWER.getId());
+        attachableTypes.add(Material.RED_ROSE.getId());
+        attachableTypes.add(Material.BROWN_MUSHROOM.getId());
+        attachableTypes.add(Material.RED_MUSHROOM.getId());
+        attachableTypes.add(Material.TORCH.getId());
+        attachableTypes.add(Material.REDSTONE_WIRE.getId());
+        attachableTypes.add(Material.WHEAT.getId());
 //		attachableTypes.add(ItemManager.getId(Material.SIGN_POST));
 //		attachableTypes.add(ItemManager.getId(Material.WALL_SIGN));
-        attachableTypes.add(ItemManager.getId(Material.LADDER));
-        attachableTypes.add(ItemManager.getId(Material.RAILS));
-        attachableTypes.add(ItemManager.getId(Material.LEVER));
-        attachableTypes.add(ItemManager.getId(Material.STONE_PLATE));
-        attachableTypes.add(ItemManager.getId(Material.WOOD_PLATE));
-        attachableTypes.add(ItemManager.getId(Material.REDSTONE_TORCH_ON));
-        attachableTypes.add(ItemManager.getId(Material.REDSTONE_TORCH_OFF));
-        attachableTypes.add(ItemManager.getId(Material.STONE_BUTTON));
-        attachableTypes.add(ItemManager.getId(Material.CACTUS));
-        attachableTypes.add(ItemManager.getId(Material.SUGAR_CANE));
+        attachableTypes.add(Material.LADDER.getId());
+        attachableTypes.add(Material.RAILS.getId());
+        attachableTypes.add(Material.LEVER.getId());
+        attachableTypes.add(Material.STONE_PLATE.getId());
+        attachableTypes.add(Material.WOOD_PLATE.getId());
+        attachableTypes.add(Material.REDSTONE_TORCH_ON.getId());
+        attachableTypes.add(Material.REDSTONE_TORCH_OFF.getId());
+        attachableTypes.add(Material.STONE_BUTTON.getId());
+        attachableTypes.add(Material.CACTUS.getId());
+        attachableTypes.add(Material.SUGAR_CANE.getId());
         attachableTypes.add(93); //redstone repeater off
         attachableTypes.add(94); //redstone repeater on
-        attachableTypes.add(ItemManager.getId(Material.TRAP_DOOR));
-        attachableTypes.add(ItemManager.getId(Material.PUMPKIN_STEM));
-        attachableTypes.add(ItemManager.getId(Material.MELON_STEM));
-        attachableTypes.add(ItemManager.getId(Material.VINE));
+        attachableTypes.add(Material.TRAP_DOOR.getId());
+        attachableTypes.add(Material.PUMPKIN_STEM.getId());
+        attachableTypes.add(Material.MELON_STEM.getId());
+        attachableTypes.add(Material.VINE.getId());
         attachableTypes.add(111); //lily pad
-        attachableTypes.add(ItemManager.getId(Material.BREWING_STAND));
-        attachableTypes.add(ItemManager.getId(Material.COCOA));
-        attachableTypes.add(ItemManager.getId(Material.TRIPWIRE));
-        attachableTypes.add(ItemManager.getId(Material.TRIPWIRE_HOOK));
-        attachableTypes.add(ItemManager.getId(Material.FLOWER_POT));
-        attachableTypes.add(ItemManager.getId(Material.CARROT));
-        attachableTypes.add(ItemManager.getId(Material.POTATO));
-        attachableTypes.add(ItemManager.getId(Material.WOOD_BUTTON));
-        attachableTypes.add(ItemManager.getId(Material.ANVIL));
-        attachableTypes.add(ItemManager.getId(Material.GOLD_PLATE));
-        attachableTypes.add(ItemManager.getId(Material.IRON_PLATE));
-        attachableTypes.add(ItemManager.getId(Material.REDSTONE_COMPARATOR_ON));
-        attachableTypes.add(ItemManager.getId(Material.REDSTONE_COMPARATOR_OFF));
-        attachableTypes.add(ItemManager.getId(Material.DAYLIGHT_DETECTOR));
-        attachableTypes.add(ItemManager.getId(Material.ACTIVATOR_RAIL));
+        attachableTypes.add(Material.BREWING_STAND.getId());
+        attachableTypes.add(Material.COCOA.getId());
+        attachableTypes.add(Material.TRIPWIRE.getId());
+        attachableTypes.add(Material.TRIPWIRE_HOOK.getId());
+        attachableTypes.add(Material.FLOWER_POT.getId());
+        attachableTypes.add(Material.CARROT.getId());
+        attachableTypes.add(Material.POTATO.getId());
+        attachableTypes.add(Material.WOOD_BUTTON.getId());
+        attachableTypes.add(Material.ANVIL.getId());
+        attachableTypes.add(Material.GOLD_PLATE.getId());
+        attachableTypes.add(Material.IRON_PLATE.getId());
+        attachableTypes.add(Material.REDSTONE_COMPARATOR_ON.getId());
+        attachableTypes.add(Material.REDSTONE_COMPARATOR_OFF.getId());
+        attachableTypes.add(Material.DAYLIGHT_DETECTOR.getId());
+        attachableTypes.add(Material.ACTIVATOR_RAIL.getId());
     }
 
     public static boolean isAttachable(int blockID) {
@@ -220,7 +220,7 @@ public class Template {
         //this.buildScaffolding(center);
 
         Block block = center.getBlock();
-        ItemManager.setTypeIdAndData(block, ItemManager.getId(Material.CHEST), 0, false);
+        ItemManager.setTypeIdAndData(block, Material.CHEST.getId(), 0, false);
     }
 
     public void buildPreviewScaffolding(Location center, Player player) {

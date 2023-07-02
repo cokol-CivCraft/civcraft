@@ -39,7 +39,6 @@ import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.util.CivColor;
-import com.avrgaming.civcraft.util.ItemManager;
 
 public class ResidentCommand extends CommandBase {
 
@@ -255,8 +254,8 @@ public class ResidentCommand extends CommandBase {
 			e.printStackTrace();
 			throw new CivException(CivSettings.localize.localizedString("internalException"));
 		}
-		
-		ItemStack stack = ItemManager.createItemStack(exchangeID, 1);
+
+        ItemStack stack = new ItemStack(exchangeID, 1, (short) 0);
 		int total = 0;
 		for (int i = 0; i < player.getInventory().getContents().length; i++) {
 			ItemStack is = player.getInventory().getItem(i);

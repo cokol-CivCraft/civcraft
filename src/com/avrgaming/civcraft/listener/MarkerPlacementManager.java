@@ -39,7 +39,6 @@ import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.structure.Structure;
-import com.avrgaming.civcraft.util.ItemManager;
 
 public class MarkerPlacementManager implements Listener {
 
@@ -58,8 +57,8 @@ public class MarkerPlacementManager implements Listener {
 		
 		playersInPlacementMode.put(player.getName(), structure);
 		markers.put(player.getName(), new ArrayList<Location>());
-		
-		ItemStack stack = ItemManager.createItemStack(Material.REDSTONE_TORCH_OFF.getId(), 2);
+
+		ItemStack stack = new ItemStack(Material.REDSTONE_TORCH_OFF.getId(), 2, (short) 0);
 		ItemMeta meta = stack.getItemMeta();
 		if (markerName != null) {
 			meta.setDisplayName(markerName);
@@ -80,7 +79,7 @@ public class MarkerPlacementManager implements Listener {
 		}
 		playersInPlacementMode.remove(player.getName());
 		markers.remove(player.getName());
-		player.getInventory().setItemInMainHand(ItemManager.createItemStack(Material.AIR.getId(), 1));
+		player.getInventory().setItemInMainHand(new ItemStack(Material.AIR.getId(), 1, (short) 0));
 		CivMessage.send(player, CivSettings.localize.localizedString("placement_ended"));
 	}
 	

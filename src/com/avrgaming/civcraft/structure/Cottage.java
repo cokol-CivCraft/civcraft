@@ -42,8 +42,8 @@ import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
 import com.avrgaming.civcraft.threading.CivAsyncTask;
 import com.avrgaming.civcraft.util.CivColor;
-import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.MultiInventory;
+import org.bukkit.inventory.ItemStack;
 
 public class Cottage extends Structure {
 
@@ -122,7 +122,7 @@ public class Cottage extends Structure {
 	
 			// Add some rotten flesh to the chest lol
 			CivMessage.sendTown(this.getTown(), CivColor.Rose+CivSettings.localize.localizedString("cottage_poisoned"));
-			inv.addItemStack(ItemManager.createItemStack(Material.ROTTEN_FLESH.getId(), 4));
+			inv.addItemStack(new ItemStack(Material.ROTTEN_FLESH.getId(), 4, (short) 0));
 			return true;
 		}
 		return false;

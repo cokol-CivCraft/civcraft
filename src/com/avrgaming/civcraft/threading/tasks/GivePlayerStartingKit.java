@@ -28,7 +28,6 @@ import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.Resident;
-import com.avrgaming.civcraft.util.ItemManager;
 
 public class GivePlayerStartingKit implements Runnable {
 
@@ -51,7 +50,7 @@ public class GivePlayerStartingKit implements Runnable {
 					Integer type = Integer.valueOf(split[0]);
 					Integer amount = Integer.valueOf(split[1]);
 
-					stack = ItemManager.createItemStack(type, amount);
+                    stack = new ItemStack(type, amount, (short) 0);
 					
 
 

@@ -225,7 +225,7 @@ public class LoreCraftableMaterial extends LoreMaterial {
 
 					if (ingred.custom_id == null) {
 						recipe.setIngredient(ingred.letter.charAt(0), ItemManager.getMaterialData(ingred.type_id, ingred.data));
-						ingredStack = ItemManager.createItemStack(ingred.type_id, 1, (short)ingred.data);
+						ingredStack = new ItemStack(ingred.type_id, 1, (short) ingred.data);
 					} else{
 						LoreCraftableMaterial customLoreMat = materials.get(ingred.custom_id);
 						if (customLoreMat == null) {
@@ -279,7 +279,7 @@ public class LoreCraftableMaterial extends LoreMaterial {
 					try {
 					if (ingred.custom_id == null) {
 						recipe.addIngredient(ingred.count, ItemManager.getMaterialData(ingred.type_id, ingred.data));
-						ingredStack = ItemManager.createItemStack(ingred.type_id, 1, (short)ingred.data);
+						ingredStack = new ItemStack(ingred.type_id, 1, (short) ingred.data);
 					} else {
 						LoreCraftableMaterial customLoreMat = materials.get(ingred.custom_id);
 						if (customLoreMat == null) {

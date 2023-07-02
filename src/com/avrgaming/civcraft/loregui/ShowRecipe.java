@@ -55,8 +55,8 @@ public class ShowRecipe implements GuiAction {
 	public void buildCraftTableBorder(Inventory recInv) {
 		int offset = 2;
 		ItemStack stack;
-	
-		stack = LoreGuiItem.build("Craft Table Border", ItemManager.getId(Material.WORKBENCH), 0, "");
+
+        stack = LoreGuiItem.build("Craft Table Border", Material.WORKBENCH.getId(), 0, "");
 		
 		for (int y = 0; y <= 4; y++) {
 			for (int x = 0; x <= 4; x++) {
@@ -77,9 +77,9 @@ public class ShowRecipe implements GuiAction {
 			if (tech != null) {
 			
 				if (resident.hasTown() && resident.getCiv().hasTechnology(craftMat.getConfigMaterial().required_tech)) {
-					stack = LoreGuiItem.build(CivSettings.localize.localizedString("loreGui_recipes_requiredTech"), ItemManager.getId(Material.EMERALD_BLOCK), 0, tech.name);
+                    stack = LoreGuiItem.build(CivSettings.localize.localizedString("loreGui_recipes_requiredTech"), Material.EMERALD_BLOCK.getId(), 0, tech.name);
 				} else {
-					stack = LoreGuiItem.build(CivSettings.localize.localizedString("loreGui_recipes_requiredTech"), ItemManager.getId(Material.REDSTONE_BLOCK), 0, tech.name);
+                    stack = LoreGuiItem.build(CivSettings.localize.localizedString("loreGui_recipes_requiredTech"), Material.REDSTONE_BLOCK.getId(), 0, tech.name);
 				}
 			}
 			
@@ -89,9 +89,9 @@ public class ShowRecipe implements GuiAction {
 		}
 		
 		if (craftMat.isShaped()) {
-			stack = LoreGuiItem.build(CivSettings.localize.localizedString("loreGui_recipes_shaped"), ItemManager.getId(Material.HOPPER), 0, "");
+            stack = LoreGuiItem.build(CivSettings.localize.localizedString("loreGui_recipes_shaped"), Material.HOPPER.getId(), 0, "");
 		} else {
-			stack = LoreGuiItem.build(CivSettings.localize.localizedString("loreGui_recipes_unshaped"), ItemManager.getId(Material.COAL), 0, "");
+            stack = LoreGuiItem.build(CivSettings.localize.localizedString("loreGui_recipes_unshaped"), Material.COAL.getId(), 0, "");
 		}
 		offset += LoreGuiItem.INV_ROW_COUNT;
 		recInv.setItem(offset+0, stack);
@@ -154,15 +154,15 @@ public class ShowRecipe implements GuiAction {
 		String backInventory = LoreGuiItem.getActionData(stack, "backInventory");
 		if (backInventory != null) {
 			Inventory inv = LoreGuiItemListener.guiInventories.get(backInventory);
-			ItemStack backButton = LoreGuiItem.build(CivSettings.localize.localizedString("loreGui_recipes_back"), ItemManager.getId(Material.MAP), 0, CivSettings.localize.localizedString("loreGui_recipes_back"));
+            ItemStack backButton = LoreGuiItem.build(CivSettings.localize.localizedString("loreGui_recipes_back"), Material.MAP.getId(), 0, CivSettings.localize.localizedString("loreGui_recipes_back"));
 			backButton = LoreGuiItem.setAction(backButton, "OpenInventory");
 			backButton = LoreGuiItem.setActionData(backButton, "invType", "showGuiInv");
 			backButton = LoreGuiItem.setActionData(backButton, "invName", inv.getName());
 			recInv.setItem(LoreGuiItem.MAX_INV_SIZE-1, backButton);
 		} else {
 			ConfigMaterialCategory cat = ConfigMaterialCategory.getCategory(craftMat.getConfigMaterial().categoryCivColortripped); 
-			if (cat != null) {					
-				ItemStack backButton = LoreGuiItem.build(CivSettings.localize.localizedString("loreGui_recipes_back"), ItemManager.getId(Material.MAP), 0, CivSettings.localize.localizedString("loreGui_recipes_backMsg")+" "+cat.name);
+			if (cat != null) {
+                ItemStack backButton = LoreGuiItem.build(CivSettings.localize.localizedString("loreGui_recipes_back"), Material.MAP.getId(), 0, CivSettings.localize.localizedString("loreGui_recipes_backMsg")+" "+cat.name);
 				backButton = LoreGuiItem.setAction(backButton, "OpenInventory");
 				backButton = LoreGuiItem.setActionData(backButton, "invType", "showGuiInv");
 				backButton = LoreGuiItem.setActionData(backButton, "invName", cat.name+" Recipes");

@@ -223,7 +223,7 @@ public class Capitol extends TownHall {
 		/* Build the bedrock tower. */
 		//for (int i = 0; i < 1; i++) {
 		Block b = centerLoc.getBlock();
-        b.setTypeId(ItemManager.getId(Material.SANDSTONE));
+		b.setTypeId(Material.SANDSTONE.getId());
         ItemManager.setData(b, 0);
 		
 		StructureBlock sb = new StructureBlock(new BlockCoord(b), this);

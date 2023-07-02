@@ -217,12 +217,12 @@ public class TradeInventoryListener implements Listener {
 		/* Update our display item. */
 		ItemStack guiStack;
 		if (pair.coins == 0) {
-			guiStack = LoreGuiItem.build(""+CivSettings.CURRENCY_NAME+" "+CivSettings.localize.localizedString("resident_tradeOffered"), 
-					ItemManager.getId(Material.NETHER_BRICK_ITEM), 0, 
+			guiStack = LoreGuiItem.build(""+CivSettings.CURRENCY_NAME+" "+CivSettings.localize.localizedString("resident_tradeOffered"),
+					Material.NETHER_BRICK_ITEM.getId(), 0,
 					CivColor.Yellow+"0 "+CivSettings.CURRENCY_NAME);
 		} else {
-			guiStack = LoreGuiItem.build(""+CivSettings.CURRENCY_NAME+" "+CivSettings.localize.localizedString("resident_tradeOffered"), 
-					ItemManager.getId(Material.GOLD_INGOT), 0, 
+			guiStack = LoreGuiItem.build(""+CivSettings.CURRENCY_NAME+" "+CivSettings.localize.localizedString("resident_tradeOffered"),
+					Material.GOLD_INGOT.getId(), 0,
 					CivColor.Yellow+pair.coins+" "+CivSettings.CURRENCY_NAME);
 		}
 		pair.inv.setItem(MY_COIN_OFFER, guiStack);

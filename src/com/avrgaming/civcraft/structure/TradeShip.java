@@ -129,12 +129,12 @@ public class TradeShip extends WaterStructure {
 				if (this.getUpgradeLvl() >= ID+1) {
 					this.goodsWithdrawPoints.add(absCoord);
                     Block block = absCoord.getBlock();
-                    block.setTypeId(ItemManager.getId(Material.CHEST));
+                    block.setTypeId(Material.CHEST.getId());
                     byte data3 = CivData.convertSignDataToChestData((byte)sb.getData());
 					ItemManager.setData(absCoord.getBlock(), data3);
 				} else {
                     Block block = absCoord.getBlock();
-                    block.setTypeId(ItemManager.getId(Material.AIR));
+                    block.setTypeId(Material.AIR.getId());
                     ItemManager.setData(absCoord.getBlock(), sb.getData());
 				}
 				this.addStructureBlock(absCoord, false);
@@ -143,7 +143,7 @@ public class TradeShip extends WaterStructure {
 				Integer ID = Integer.valueOf(sb.keyvalues.get("id"));
 				if (this.getUpgradeLvl() >= ID+1) {
                     Block block = absCoord.getBlock();
-                    block.setTypeId(ItemManager.getId(Material.WALL_SIGN));
+                    block.setTypeId(Material.WALL_SIGN.getId());
                     ItemManager.setData(absCoord.getBlock(), sb.getData());
 					
 					Sign sign = (Sign)absCoord.getBlock().getState();
@@ -154,7 +154,7 @@ public class TradeShip extends WaterStructure {
 					sign.update();
 				} else {
                     Block block = absCoord.getBlock();
-                    block.setTypeId(ItemManager.getId(Material.WALL_SIGN));
+                    block.setTypeId(Material.WALL_SIGN.getId());
                     ItemManager.setData(absCoord.getBlock(), sb.getData());
 					
 					Sign sign = (Sign)absCoord.getBlock().getState();
@@ -172,13 +172,13 @@ public class TradeShip extends WaterStructure {
 				if (this.getLevel() >= (ID*2)+1) {
 					this.goodsDepositPoints.add(absCoord);
                     Block block = absCoord.getBlock();
-                    block.setTypeId(ItemManager.getId(Material.CHEST));
+                    block.setTypeId(Material.CHEST.getId());
                     byte data3 = CivData.convertSignDataToChestData((byte)sb.getData());
 					ItemManager.setData(absCoord.getBlock(), data3);
 					this.addStructureBlock(absCoord, false);
 				} else {
                     Block block = absCoord.getBlock();
-                    block.setTypeId(ItemManager.getId(Material.AIR));
+                    block.setTypeId(Material.AIR.getId());
                     ItemManager.setData(absCoord.getBlock(), sb.getData());
 				}
 				break;}
@@ -186,7 +186,7 @@ public class TradeShip extends WaterStructure {
 				Integer ID = Integer.valueOf(sb.keyvalues.get("id"));
 				if (this.getLevel() >= (ID*2)+1) {
                     Block block = absCoord.getBlock();
-                    block.setTypeId(ItemManager.getId(Material.WALL_SIGN));
+                    block.setTypeId(Material.WALL_SIGN.getId());
                     ItemManager.setData(absCoord.getBlock(), sb.getData());
 					
 					Sign sign = (Sign)absCoord.getBlock().getState();
@@ -197,7 +197,7 @@ public class TradeShip extends WaterStructure {
 					sign.update();
 				} else {
                     Block block = absCoord.getBlock();
-                    block.setTypeId(ItemManager.getId(Material.WALL_SIGN));
+                    block.setTypeId(Material.WALL_SIGN.getId());
                     ItemManager.setData(absCoord.getBlock(), sb.getData());
 					
 					Sign sign = (Sign)absCoord.getBlock().getState();
@@ -213,7 +213,7 @@ public class TradeShip extends WaterStructure {
 				Integer ID = Integer.valueOf(sb.keyvalues.get("id"));
 				if (ID == 0) {
                     Block block = absCoord.getBlock();
-                    block.setTypeId(ItemManager.getId(Material.WALL_SIGN));
+                    block.setTypeId(Material.WALL_SIGN.getId());
                     ItemManager.setData(absCoord.getBlock(), sb.getData());
 					
 					Sign sign = (Sign)absCoord.getBlock().getState();
@@ -224,7 +224,7 @@ public class TradeShip extends WaterStructure {
 					sign.update();
 				} else {
                     Block block = absCoord.getBlock();
-                    block.setTypeId(ItemManager.getId(Material.WALL_SIGN));
+                    block.setTypeId(Material.WALL_SIGN.getId());
                     ItemManager.setData(absCoord.getBlock(), sb.getData());
 					
 					Sign sign = (Sign)absCoord.getBlock().getState();
@@ -239,7 +239,7 @@ public class TradeShip extends WaterStructure {
 			default:{
 				/* Unrecognized command... treat as a literal sign. */
                 Block block = absCoord.getBlock();
-                block.setTypeId(ItemManager.getId(Material.WALL_SIGN));
+                block.setTypeId(Material.WALL_SIGN.getId());
                 ItemManager.setData(absCoord.getBlock(), sb.getData());
 				
 				Sign sign = (Sign)absCoord.getBlock().getState();

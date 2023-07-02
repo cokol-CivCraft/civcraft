@@ -140,7 +140,7 @@ public class ItemFrameStorage {
 	}
 	
 	public void clearItem() {
-		setItem(ItemManager.createItemStack(0, 1));
+        setItem(new ItemStack(0, 1, (short) 0));
 	}
 	
 	public ItemStack getItem() {

@@ -220,9 +220,9 @@ public class Camp extends Buildable {
 
             raidLength = CivSettings.getInteger(CivSettings.campConfig, "camp.raid_length");
 
-            sifter.addSiftItem(ItemManager.getId(Material.COBBLESTONE), (short) 0, gold_nugget_chance, ItemManager.getId(Material.GOLD_NUGGET), (short) 0, 1);
-            sifter.addSiftItem(ItemManager.getId(Material.COBBLESTONE), (short) 0, iron_ignot_chance, ItemManager.getId(Material.IRON_INGOT), (short) 0, 1);
-            sifter.addSiftItem(ItemManager.getId(Material.COBBLESTONE), (short) 0, 1.0, ItemManager.getId(Material.GRAVEL), (short) 0, 1);
+            sifter.addSiftItem(Material.COBBLESTONE.getId(), (short) 0, gold_nugget_chance, Material.GOLD_NUGGET.getId(), (short) 0, 1);
+            sifter.addSiftItem(Material.COBBLESTONE.getId(), (short) 0, iron_ignot_chance, Material.IRON_INGOT.getId(), (short) 0, 1);
+            sifter.addSiftItem(Material.COBBLESTONE.getId(), (short) 0, 1.0, Material.GRAVEL.getId(), (short) 0, 1);
 
             consumeComponent = new ConsumeLevelComponent();
             consumeComponent.setBuildable(this);
@@ -593,8 +593,8 @@ public class Camp extends Buildable {
                     bottomData |= doorDirection;
 
 
-                    ItemManager.setTypeIdAndData(doorBlock, ItemManager.getId(Material.WOODEN_DOOR), bottomData, false);
-                    ItemManager.setTypeIdAndData(doorBlock2, ItemManager.getId(Material.WOODEN_DOOR), topData, false);
+                    ItemManager.setTypeIdAndData(doorBlock, Material.WOODEN_DOOR.getId(), bottomData, false);
+                    ItemManager.setTypeIdAndData(doorBlock2, Material.WOODEN_DOOR.getId(), topData, false);
 
                     this.addCampBlock(new BlockCoord(doorBlock));
                     this.addCampBlock(new BlockCoord(doorBlock2));

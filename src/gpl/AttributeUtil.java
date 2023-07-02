@@ -16,7 +16,6 @@ import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 
 import com.avrgaming.civcraft.loreenhancements.LoreEnhancement;
-import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.NBTStaticHelper;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
@@ -267,8 +266,8 @@ public class AttributeUtil {
      */
     public ItemStack getStack() {
     	if (nmsStack == null) {
-    		return ItemManager.createItemStack(Material.WOOL.getId(), 0);
-    	}
+            return new ItemStack(Material.WOOL.getId(), 0, (short)0);
+        }
     	
     	if (nmsStack.getTag() != null) {
     		if (attributes.size() == 0) {

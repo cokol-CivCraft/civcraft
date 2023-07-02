@@ -58,7 +58,6 @@ import com.avrgaming.civcraft.sessiondb.SessionEntry;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.CivColor;
-import com.avrgaming.civcraft.util.ItemManager;
 
 public class AdminCommand extends CommandBase {
 
@@ -166,25 +165,25 @@ public class AdminCommand extends CommandBase {
 			for (ConfigMaterialCategory cat : ConfigMaterialCategory.getCategories()) {
 				int identifier;
 				if (cat.name.contains("Fish")) {
-					identifier = ItemManager.getId(Material.RAW_FISH);
+                    identifier = Material.RAW_FISH.getId();
 				}
 				else if (cat.name.contains("Catalyst")) {
-					identifier = ItemManager.getId(Material.BOOK);
+                    identifier = Material.BOOK.getId();
 				}
 				else if (cat.name.contains("Gear")) {
-					identifier = ItemManager.getId(Material.IRON_SWORD);
+                    identifier = Material.IRON_SWORD.getId();
 				}
 				else if (cat.name.contains("Materials")) {
-					identifier = ItemManager.getId(Material.WOOD_STEP);
+                    identifier = Material.WOOD_STEP.getId();
 				}
 				else if (cat.name.contains("Tools")) {
-					identifier = ItemManager.getId(Material.IRON_SPADE);
+                    identifier = Material.IRON_SPADE.getId();
 				}
 				else if (cat.name.contains("Eggs")) {
-					identifier = ItemManager.getId(Material.MONSTER_EGG);
+                    identifier = Material.MONSTER_EGG.getId();
 				}
 				else {
-					identifier = ItemManager.getId(Material.WRITTEN_BOOK);
+                    identifier = Material.WRITTEN_BOOK.getId();
 				}
 				ItemStack infoRec = LoreGuiItem.build(cat.name, 
 						identifier, 
