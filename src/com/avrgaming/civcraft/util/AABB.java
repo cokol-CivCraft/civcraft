@@ -21,6 +21,7 @@ package com.avrgaming.civcraft.util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -70,7 +71,7 @@ public class AABB {
 		this.extents.setZ(coord.getZ());
 	}
 
-	public void showDebugBlocks(int mat, int mat2) {
+	public void showDebugBlocks(Material mat, Material mat2) {
 		try {
 			Player dbgplayer = CivGlobal.getPlayer("netizen539");
 			ItemManager.sendBlockChange(dbgplayer, new Location(Bukkit.getWorld("world"),

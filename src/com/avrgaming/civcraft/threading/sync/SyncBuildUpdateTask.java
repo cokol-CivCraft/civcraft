@@ -73,7 +73,7 @@ public class SyncBuildUpdateTask implements Runnable {
 					}
 					
 					Block block = Bukkit.getWorld(next.worldname).getBlockAt(next.x, next.y, next.z);			
-					block.setType(next.getMaterial());
+					block.setType(next.getType());
 					ItemManager.setData(block, next.getData());
 					
 					/* Handle Special Blocks */

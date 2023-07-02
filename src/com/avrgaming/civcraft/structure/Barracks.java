@@ -331,7 +331,7 @@ public class Barracks extends Structure {
 
 		switch (sb.command) {
 		case "/prev":
-			absCoord.getBlock().setType(sb.getMaterial());
+			absCoord.getBlock().setType(sb.getType());
 			ItemManager.setData(absCoord.getBlock(), sb.getData());
 			structSign = new StructureSign(absCoord, this);
 			structSign.setText("\n"+ChatColor.BOLD+ChatColor.UNDERLINE+CivSettings.localize.localizedString("barracks_sign_previousUnit"));
@@ -343,7 +343,7 @@ public class Barracks extends Structure {
 			
 			break;
 		case "/unitname":
-			absCoord.getBlock().setType(sb.getMaterial());
+			absCoord.getBlock().setType(sb.getType());
 			ItemManager.setData(absCoord.getBlock(), sb.getData());
 
 			structSign = new StructureSign(absCoord, this);
@@ -359,7 +359,7 @@ public class Barracks extends Structure {
 			
 			break;
 		case "/next":
-			absCoord.getBlock().setType(sb.getMaterial());
+			absCoord.getBlock().setType(sb.getType());
 			ItemManager.setData(absCoord.getBlock(), sb.getData());
 
 			structSign = new StructureSign(absCoord, this);
@@ -372,7 +372,7 @@ public class Barracks extends Structure {
 						
 			break;
 		case "/train":
-			absCoord.getBlock().setType(sb.getMaterial());
+			absCoord.getBlock().setType(sb.getType());
 			ItemManager.setData(absCoord.getBlock(), sb.getData());
 
 			structSign = new StructureSign(absCoord, this);
@@ -385,7 +385,7 @@ public class Barracks extends Structure {
 			
 			break;
 		case "/progress":
-			absCoord.getBlock().setType(sb.getMaterial());
+			absCoord.getBlock().setType(sb.getType());
 			ItemManager.setData(absCoord.getBlock(), sb.getData());
 
 			structSign = new StructureSign(absCoord, this);
@@ -400,7 +400,7 @@ public class Barracks extends Structure {
 			
 			break;
 		case "/repair":
-			absCoord.getBlock().setType(sb.getMaterial());
+			absCoord.getBlock().setType(sb.getType());
 			ItemManager.setData(absCoord.getBlock(), sb.getData());
 
 			structSign = new StructureSign(absCoord, this);

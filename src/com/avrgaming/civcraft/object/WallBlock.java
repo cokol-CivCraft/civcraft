@@ -33,17 +33,18 @@ import com.avrgaming.civcraft.structure.Structure;
 import com.avrgaming.civcraft.structure.Wall;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
+import org.bukkit.Material;
 
 public class WallBlock extends SQLObject {
 
 	private BlockCoord coord;
 	private Wall struct;
-	int old_id;
+	Material old_id;
 	int old_data;
-	int type_id;
+	Material type_id;
 	int data;
 	
-	public WallBlock(BlockCoord coord, Structure struct, int old_id, int old_data, int type, int data) throws SQLException {
+	public WallBlock(BlockCoord coord, Structure struct, Material old_id, int old_data, Material type, int data) throws SQLException {
 		this.coord = coord;
 		this.struct = (Wall)struct;
 		this.old_data = old_data;
@@ -110,9 +111,9 @@ public class WallBlock extends SQLObject {
 		CivGlobal.addWallChunk(this.struct, new ChunkCoord(getCoord().getLocation()));
 		this.struct.addStructureBlock(this.getCoord(), true);
 		this.struct.wallBlocks.put(this.getCoord(), this);
-		this.old_id = rs.getInt("old_id");
+		this.old_id = Material.getMaterial(rs.getInt("old_id"));
 		this.old_data = rs.getInt("old_data");
-		this.type_id = rs.getInt("type_id");
+		this.type_id = Material.getMaterial(rs.getInt("type_id"));
 		this.data = rs.getInt("data");
 		
 	}
@@ -124,7 +125,7 @@ public class WallBlock extends SQLObject {
 	
 	@Override
 	public void saveNow() throws SQLException {
-		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		HashMap<String, Object> hashmap = new HashMap<>();
 		
 		hashmap.put("struct_id", this.getStruct().getId());
 		hashmap.put("coord", this.getCoord().toString());
@@ -152,7 +153,7 @@ public class WallBlock extends SQLObject {
 		this.struct = (Wall) struct;
 	}
 
-	public int getOldId() {
+	public Material getOldId() {
 		return this.old_id;
 	}
 	
@@ -160,7 +161,7 @@ public class WallBlock extends SQLObject {
 		return (byte)this.old_data;
 	}
 
-	public int getTypeId() {
+	public Material getTypeId() {
 		return this.type_id;
 	}
 	

@@ -161,7 +161,7 @@ public class TradeOutpost extends Structure {
 		/* Build the bedrock tower. */
 		for (int i = 0; i < 3; i++) {
 			Block b = centerLoc.getBlock().getRelative(0, i, 0);
-            b.setTypeId(Material.BEDROCK.getId());
+            b.setType(Material.BEDROCK);
             ItemManager.setData(b, 0);
 			
 			StructureBlock sb = new StructureBlock(new BlockCoord(b), this);
@@ -171,7 +171,7 @@ public class TradeOutpost extends Structure {
 		
 		/* Place the sign. */
 		Block b = centerLoc.getBlock().getRelative(1, 2, 0);
-        b.setTypeId(Material.WALL_SIGN.getId());
+        b.setType(Material.WALL_SIGN);
         ItemManager.setData(b, CivData.DATA_SIGN_EAST);
 		Sign s = (Sign)b.getState();
 		s.setLine(0, good.getInfo().name);
@@ -187,7 +187,7 @@ public class TradeOutpost extends Structure {
 		Entity entity = CivGlobal.getEntityAtLocation(b2.getLocation());
 		this.addStructureBlock(new BlockCoord(b2), false);
 		
-		if (entity == null || (!(entity instanceof ItemFrame))) {
+		if (!(entity instanceof ItemFrame)) {
 			this.frameStore = new ItemFrameStorage(b.getLocation(), BlockFace.EAST);	
 		} else {
 			this.frameStore = new ItemFrameStorage((ItemFrame)entity, b.getLocation());
@@ -316,7 +316,7 @@ public class TradeOutpost extends Structure {
 
 			Block block1 = coord.getBlock();
 			Block block2 = coord.getBlock();
-			if (block2.getTypeId() == Material.BEDROCK.getId() || block1.getTypeId() == Material.AIR.getId()) {
+			if (block2.getType() == Material.BEDROCK || block1.getType() == Material.AIR) {
 				//Be a bit more careful not to destroy any of the item frames..
 				continue;
 			}
@@ -326,14 +326,14 @@ public class TradeOutpost extends Structure {
 			// Each block has a 10% chance to turn into gravel
 			if (rand.nextInt(100) <= 10) {
                 Block block = coord.getBlock();
-                block.setTypeId(Material.GRAVEL.getId());
+                block.setType(Material.GRAVEL);
                 continue;
 			}
 			
 			// Each block has a 50% chance of starting a fire
 			if (rand.nextInt(100) <= 50) {
                 Block block = coord.getBlock();
-                block.setTypeId(Material.FIRE.getId());
+                block.setType(Material.FIRE);
                 continue;
 			}
 			

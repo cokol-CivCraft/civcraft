@@ -109,7 +109,7 @@ public class Camp extends Buildable {
 
     /* Fire locations for the firepit. */
     public HashMap<Integer, BlockCoord> firepitBlocks = new HashMap<Integer, BlockCoord>();
-    public HashSet<BlockCoord> fireFurnaceBlocks = new HashSet<BlockCoord>();
+    public HashSet<BlockCoord> fireFurnaceBlocks = new HashSet<>();
     private Integer coal_per_firepoint;
     private Integer maxFirePoints;
 
@@ -119,21 +119,21 @@ public class Camp extends Buildable {
     private boolean sifterEnabled = false;
 
     /* Longhouse Stuff. */
-    public HashSet<BlockCoord> foodDepositPoints = new HashSet<BlockCoord>();
+    public HashSet<BlockCoord> foodDepositPoints = new HashSet<>();
     public ConsumeLevelComponent consumeComponent;
     private boolean longhouseEnabled = false;
 
     /* Doors we protect. */
-    public HashSet<BlockCoord> doors = new HashSet<BlockCoord>();
+    public HashSet<BlockCoord> doors = new HashSet<>();
 
 
     /* Control blocks */
-    public HashMap<BlockCoord, ControlPoint> controlBlocks = new HashMap<BlockCoord, ControlPoint>();
+    public HashMap<BlockCoord, ControlPoint> controlBlocks = new HashMap<>();
 
     private Date nextRaidDate;
     private int raidLength;
 
-    private HashMap<String, ConfigCampUpgrade> upgrades = new HashMap<String, ConfigCampUpgrade>();
+    private HashMap<String, ConfigCampUpgrade> upgrades = new HashMap<>();
 
     public static void newCamp(Resident resident, Player player, String name) {
 
@@ -220,9 +220,9 @@ public class Camp extends Buildable {
 
             raidLength = CivSettings.getInteger(CivSettings.campConfig, "camp.raid_length");
 
-            sifter.addSiftItem(Material.COBBLESTONE.getId(), (short) 0, gold_nugget_chance, Material.GOLD_NUGGET.getId(), (short) 0, 1);
-            sifter.addSiftItem(Material.COBBLESTONE.getId(), (short) 0, iron_ignot_chance, Material.IRON_INGOT.getId(), (short) 0, 1);
-            sifter.addSiftItem(Material.COBBLESTONE.getId(), (short) 0, 1.0, Material.GRAVEL.getId(), (short) 0, 1);
+            sifter.addSiftItem(Material.COBBLESTONE, (short) 0, gold_nugget_chance, Material.GOLD_NUGGET, (short) 0, 1);
+            sifter.addSiftItem(Material.COBBLESTONE, (short) 0, iron_ignot_chance, Material.IRON_INGOT, (short) 0, 1);
+            sifter.addSiftItem(Material.COBBLESTONE, (short) 0, 1.0, Material.GRAVEL, (short) 0, 1);
 
             consumeComponent = new ConsumeLevelComponent();
             consumeComponent.setBuildable(this);
@@ -587,14 +587,12 @@ public class Camp extends Buildable {
                     Block doorBlock2 = absCoord.getBlock().getRelative(0, 1, 0);
 
 
-                    byte topData = 0x8;
-                    byte bottomData = 0x0;
-                    byte doorDirection = CivData.convertSignDataToDoorDirectionData((byte) sb.getData());
-                    bottomData |= doorDirection;
 
 
-                    ItemManager.setTypeIdAndData(doorBlock, Material.WOODEN_DOOR.getId(), bottomData, false);
-                    ItemManager.setTypeIdAndData(doorBlock2, Material.WOODEN_DOOR.getId(), topData, false);
+                    doorBlock.setType(Material.WOODEN_DOOR);
+                    doorBlock.setData(CivData.convertSignDataToDoorDirectionData((byte) sb.getData()));
+                    doorBlock2.setType(Material.WOODEN_DOOR);
+                    doorBlock.setData((byte) 0x8);
 
                     this.addCampBlock(new BlockCoord(doorBlock));
                     this.addCampBlock(new BlockCoord(doorBlock2));
@@ -664,9 +662,9 @@ public class Camp extends Buildable {
             mInv.addInventory(furnace.getInventory());
         }
 
-        if (mInv.contains(null, Material.COAL.getId(), (short) 0, coal_per_firepoint)) {
+        if (mInv.contains(null, Material.COAL, (short) 0, coal_per_firepoint)) {
             try {
-                mInv.removeItem(Material.COAL.getId(), coal_per_firepoint, true);
+                mInv.removeItem(Material.COAL, coal_per_firepoint, true);
             } catch (CivException e) {
                 e.printStackTrace();
             }
@@ -797,8 +795,8 @@ public class Camp extends Buildable {
                     }
 
                     try {
-                        if (nextBlock.getType() != tpl.blocks[x][y][z].getMaterial()) {
-                            nextBlock.setType(tpl.blocks[x][y][z].getMaterial());
+                        if (nextBlock.getType() != tpl.blocks[x][y][z].getType()) {
+                            nextBlock.setType(tpl.blocks[x][y][z].getType());
                             ItemManager.setData(nextBlock, tpl.blocks[x][y][z].getData());
 
                         }
@@ -838,7 +836,7 @@ public class Camp extends Buildable {
 
                     BlockCoord coord = new BlockCoord(this.getCorner().getWorldname(), (relx), (rely), (relz));
 
-                    if (tpl.blocks[x][y][z].getMaterial() == Material.AIR) {
+                    if (tpl.blocks[x][y][z].getType() == Material.AIR) {
                         continue;
                     }
 
@@ -1082,9 +1080,9 @@ public class Camp extends Buildable {
             }
 
             Block block1 = coord.getBlock();
-            if (CivSettings.alwaysCrumble.contains(block1.getTypeId())) {
+            if (CivSettings.alwaysCrumble.contains(block1.getType())) {
                 Block block = coord.getBlock();
-                block.setTypeId(Material.GRAVEL.getId());
+                block.setType(Material.GRAVEL);
                 continue;
             }
 
@@ -1093,14 +1091,14 @@ public class Camp extends Buildable {
             // Each block has a 10% chance to turn into gravel
             if (rand.nextInt(100) <= 10) {
                 Block block = coord.getBlock();
-                block.setTypeId(Material.GRAVEL.getId());
+                block.setType(Material.GRAVEL);
                 continue;
             }
 
             // Each block has a 50% chance of starting a fire
             if (rand.nextInt(100) <= 50) {
                 Block block = coord.getBlock();
-                block.setTypeId(Material.FIRE.getId());
+                block.setType(Material.FIRE);
                 continue;
             }
 

@@ -123,13 +123,13 @@ public class FortifiedWall extends Wall {
 		double refund = 0.0;
 		for (WallBlock wb : wallBlocks.values()) {
 			
-			Material material = ItemManager.getMaterial(wb.getOldId());
+			Material material = wb.getOldId();
 			if (CivSettings.restrictedUndoBlocks.contains(material)) {
 				continue;
 			}
 
             Block block = wb.getCoord().getBlock();
-            block.setTypeId(wb.getOldId());
+            block.setType(wb.getOldId());
             ItemManager.setData(wb.getCoord().getBlock(), wb.getOldData());
 			refund += COST_PER_SEGMENT;
 			try {
@@ -203,7 +203,7 @@ public class FortifiedWall extends Wall {
 			for (BlockCoord coord : wallBlocks.keySet()) {
 				WallBlock wb = wallBlocks.get(coord);
                 Block block = coord.getBlock();
-                block.setTypeId(wb.getOldId());
+                block.setType(wb.getOldId());
                 ItemManager.setData(coord.getBlock(), wb.getOldData());
 				try {
 					wb.delete();
@@ -410,7 +410,7 @@ public class FortifiedWall extends Wall {
 		// build the blocks
 		for (SimpleBlock sb : simpleBlocks.values()) {
 			BlockCoord bcoord = new BlockCoord(sb);
-			bcoord.getBlock().setType(sb.getMaterial());
+			bcoord.getBlock().setType(sb.getType());
 			ItemManager.setData(bcoord.getBlock(), sb.getData());
 			
 		}
@@ -476,57 +476,57 @@ public class FortifiedWall extends Wall {
 		switch (template) {
 		case "atlantean":
 			if (block == 0 || block == FortifiedWall.HEIGHT/2) {
-				return new SimpleBlock(Material.PRISMARINE.getId(), CivData.DARK_PRISMARINE);
+				return new SimpleBlock(Material.PRISMARINE, CivData.DARK_PRISMARINE);
 			} else {
-				return new SimpleBlock(Material.PRISMARINE.getId(), CivData.PRISMARINE_BRICKS);
+				return new SimpleBlock(Material.PRISMARINE, CivData.PRISMARINE_BRICKS);
 			}
 			case "arctic":
 			if (block == 0 || block == FortifiedWall.HEIGHT/2) {
-				return new SimpleBlock(Material.PACKED_ICE.getId(), 0);
+				return new SimpleBlock(Material.PACKED_ICE, 0);
 			} else {
-				return new SimpleBlock(Material.SNOW_BLOCK.getId(), 0);
+				return new SimpleBlock(Material.SNOW_BLOCK, 0);
 			}
 			 case "aztec":
 			if (block == 0 || block == FortifiedWall.HEIGHT/2) {
-				return new SimpleBlock(Material.MOSSY_COBBLESTONE.getId(), 0);
+				return new SimpleBlock(Material.MOSSY_COBBLESTONE, 0);
 			} else {
-				return new SimpleBlock(Material.COBBLESTONE.getId(), 0);
+				return new SimpleBlock(Material.COBBLESTONE, 0);
 			}
 			 case "cultist":
 			if (block == 0 || block == FortifiedWall.HEIGHT/2) {
-				return new SimpleBlock(159, 11);
+				return new SimpleBlock(Material.STAINED_CLAY, 11);
 			} else {
-				return new SimpleBlock(159, 3);
+				return new SimpleBlock(Material.STAINED_CLAY, 3);
 			}
 			 case "egyptian":
 			if (block == 0 || block == FortifiedWall.HEIGHT/2) {
-				return new SimpleBlock(Material.SANDSTONE.getId(), CivData.CHISELED_SANDSTONE);
+				return new SimpleBlock(Material.SANDSTONE, CivData.CHISELED_SANDSTONE);
 			} else {
-				return new SimpleBlock(Material.SANDSTONE.getId(), CivData.SMOOTH_SANDSTONE);
+				return new SimpleBlock(Material.SANDSTONE, CivData.SMOOTH_SANDSTONE);
 			}
 			 case "elven":
 			if (block == 0 || block == FortifiedWall.HEIGHT/2) {
-				return new SimpleBlock(Material.LOG.getId(), 3);
+				return new SimpleBlock(Material.LOG, 3);
 			} else {
-				return new SimpleBlock(Material.LEAVES.getId(), 3);
+				return new SimpleBlock(Material.LEAVES, 3);
 			}
 			 case "hell":
 			if (block == 0 || block == FortifiedWall.HEIGHT/2) {
-				return new SimpleBlock(112, 0);
+				return new SimpleBlock(Material.NETHER_BRICK, 0);
 			} else {
-				return new SimpleBlock(Material.NETHERRACK.getId(), 0);
+				return new SimpleBlock(Material.NETHERRACK, 0);
 			}
 			 case "roman":
 			if (block == 0 || block == FortifiedWall.HEIGHT/2) {
-				return new SimpleBlock(155, 1);
+				return new SimpleBlock(Material.QUARTZ_BLOCK, 1);
 			} else {
-				return new SimpleBlock(155, 0);
+				return new SimpleBlock(Material.QUARTZ_BLOCK, 0);
 			}
 			 default:
 			if (block == 0 || block == FortifiedWall.HEIGHT/2) {
-				return new SimpleBlock(Material.SMOOTH_BRICK.getId(), 0x1);
+				return new SimpleBlock(Material.SMOOTH_BRICK, 0x1);
 			} else {
-				return new SimpleBlock(Material.SMOOTH_BRICK.getId(), 0);
+				return new SimpleBlock(Material.SMOOTH_BRICK, 0);
 			}
 		}
 	}
@@ -678,11 +678,10 @@ public class FortifiedWall extends Wall {
 		for (SimpleBlock sb : simpleBlocks.values()) {
 			BlockCoord bcoord = new BlockCoord(sb);
 			Block block = bcoord.getBlock();
-			int old_id = block.getTypeId();
 			int old_data = ItemManager.getData(bcoord.getBlock());
 			if (!wallBlocks.containsKey(bcoord)) {
 				try {
-					WallBlock wb = new WallBlock(bcoord, this, old_id, old_data, sb.getMaterial().getId(), sb.getData());
+					WallBlock wb = new WallBlock(bcoord, this, block.getType(), old_data, sb.getType(), sb.getData());
 					
 					wallBlocks.put(bcoord, wb);
 					this.addStructureBlock(bcoord, true);
@@ -734,7 +733,7 @@ public class FortifiedWall extends Wall {
 		for (WallBlock wb : this.wallBlocks.values()) {
 			BlockCoord bcoord = wb.getCoord();
             Block block = bcoord.getBlock();
-            block.setTypeId(wb.getTypeId());
+            block.setType(wb.getTypeId());
             ItemManager.setData(bcoord.getBlock(), wb.getData());
 		}
 		
@@ -759,7 +758,7 @@ public class FortifiedWall extends Wall {
 		for (WallBlock wb : this.wallBlocks.values()) {
 			BlockCoord bcoord = wb.getCoord();
             Block block = bcoord.getBlock();
-            block.setTypeId(wb.getTypeId());
+            block.setType(wb.getTypeId());
             ItemManager.setData(bcoord.getBlock(), wb.getData());
 		}
 		
@@ -767,7 +766,7 @@ public class FortifiedWall extends Wall {
 		getTown().getTreasury().withdraw(cost);
 		CivMessage.sendTown(getTown(), CivColor.Yellow+CivSettings.localize.localizedString("var_wall_repair_success",getDisplayName(),getCorner().toString()));
 	}
-	
+
 	@Override
 	public int getMaxHitPoints() {
 		double rate = 1;

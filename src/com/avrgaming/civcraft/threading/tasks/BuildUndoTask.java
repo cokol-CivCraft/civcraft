@@ -16,7 +16,6 @@ import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.sync.SyncBuildUpdateTask;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.KeyValue;
 import com.avrgaming.civcraft.util.SimpleBlock;
 import com.avrgaming.civcraft.util.TimeTools;
@@ -94,7 +93,7 @@ public class BuildUndoTask implements Runnable {
 	   
 	    public void build(Queue<SimpleBlock> syncBlockQueue, SimpleBlock sb) throws InterruptedException {
 	        builtBlockCount++;
-	        if (builtBlockCount < savedBlockCount || CivSettings.restrictedUndoBlocks.contains(sb.getMaterial())) {
+	        if (builtBlockCount < savedBlockCount || CivSettings.restrictedUndoBlocks.contains(sb.getType())) {
 	                /* We're resuming an undo task after reboot and this block is already built.
 	                 * Or This block is restricted */
 	                return;

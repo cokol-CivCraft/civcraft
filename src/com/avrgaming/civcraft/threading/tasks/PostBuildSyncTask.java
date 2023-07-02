@@ -177,7 +177,7 @@ public class PostBuildSyncTask implements Runnable {
 					structSign = new StructureSign(absCoord, buildable);
 				}
 				block = absCoord.getBlock();
-				block.setType(sb.getMaterial());
+				block.setType(sb.getType());
 				ItemManager.setData(block, sb.getData());
 				
 				structSign.setDirection(ItemManager.getData(block.getState()));
@@ -232,11 +232,11 @@ public class PostBuildSyncTask implements Runnable {
 			BlockCoord absCoord = new BlockCoord(buildable.getCorner().getBlock().getRelative(relativeCoord.getX(), relativeCoord.getY(), relativeCoord.getZ()));
 
 			Block block = absCoord.getBlock();
-			if (block.getType() != sb.getMaterial()) {
+			if (block.getType() != sb.getType()) {
 				if (buildable.getCiv().isAdminCiv()) {
 					ItemManager.setTypeIdAndData(block, Material.AIR.getId(), (byte)0, false);
 				} else {
-					ItemManager.setTypeIdAndData(block, sb.getMaterial().getId(), (byte)sb.getData(), false);
+					ItemManager.setTypeIdAndData(block, sb.getType().getId(), (byte)sb.getData(), false);
 				}
 			}
 		}
@@ -246,8 +246,8 @@ public class PostBuildSyncTask implements Runnable {
 			BlockCoord absCoord = new BlockCoord(buildable.getCorner().getBlock().getRelative(relativeCoord.getX(), relativeCoord.getY(), relativeCoord.getZ()));
 
 			Block block = absCoord.getBlock();
-			if (block.getType() != sb.getMaterial()) {
-					ItemManager.setTypeIdAndData(block, sb.getMaterial().getId(), (byte)sb.getData(), false);
+			if (block.getType() != sb.getType()) {
+					ItemManager.setTypeIdAndData(block, sb.getType().getId(), (byte)sb.getData(), false);
 			}
 		}
 		
@@ -374,7 +374,7 @@ public class PostBuildSyncTask implements Runnable {
 					structSign = new StructureSign(absCoord, buildable);
 				}
 				block = absCoord.getBlock();
-				block.setType(sb.getMaterial());
+				block.setType(sb.getType());
 				ItemManager.setData(block, sb.getData());
 				
 				structSign.setDirection(ItemManager.getData(block.getState()));

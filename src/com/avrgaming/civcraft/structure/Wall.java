@@ -114,13 +114,13 @@ public class Wall extends Structure {
 		double refund = 0.0;
 		for (WallBlock wb : wallBlocks.values()) {
 			
-			Material material = ItemManager.getMaterial(wb.getOldId());
+			Material material = wb.getOldId();
 			if (CivSettings.restrictedUndoBlocks.contains(material)) {
 				continue;
 			}
 
             Block block = wb.getCoord().getBlock();
-            block.setTypeId(wb.getOldId());
+            block.setType(wb.getOldId());
             ItemManager.setData(wb.getCoord().getBlock(), wb.getOldData());
 			refund += COST_PER_SEGMENT;
 			try {
@@ -194,7 +194,7 @@ public class Wall extends Structure {
 			for (BlockCoord coord : wallBlocks.keySet()) {
 				WallBlock wb = wallBlocks.get(coord);
                 Block block = coord.getBlock();
-                block.setTypeId(wb.getOldId());
+                block.setType(wb.getOldId());
                 ItemManager.setData(coord.getBlock(), wb.getOldData());
 				try {
 					wb.delete();
@@ -330,7 +330,7 @@ public class Wall extends Structure {
 		// build the blocks
 		for (SimpleBlock sb : simpleBlocks.values()) {
 			BlockCoord bcoord = new BlockCoord(sb);
-			bcoord.getBlock().setType(sb.getMaterial());
+			bcoord.getBlock().setType(sb.getType());
 			ItemManager.setData(bcoord.getBlock(), sb.getData());
 			
 		}
@@ -344,7 +344,7 @@ public class Wall extends Structure {
 	private void validateBlockLocation(Player player, Location loc) throws CivException {
 		Block b = loc.getBlock();
 
-		if (b.getTypeId() == Material.CHEST.getId()) {
+		if (b.getType() == Material.CHEST) {
 			throw new CivException(CivSettings.localize.localizedString("cannotBuild_chestInWay"));
 		}
 							
@@ -395,9 +395,9 @@ public class Wall extends Structure {
 		for (int i = 0; i < Wall.HEIGHT; i++) {
 			SimpleBlock sb;
 			if (i == 0) {
-				sb = new SimpleBlock(Material.WOOD.getId(), 0);
+				sb = new SimpleBlock(Material.WOOD, 0);
 			} else {
-				sb = new SimpleBlock(Material.DIRT.getId(), 0);
+				sb = new SimpleBlock(Material.DIRT, 0);
 			}
 			sb.worldname = tmp.getWorld().getName();
 			sb.x = tmp.getBlockX();
@@ -432,7 +432,7 @@ public class Wall extends Structure {
 								locFirst.getZ() - locSecond.getZ());
 		dir.normalize();
 		dir.multiply(0.5);
-		HashMap<String, SimpleBlock> thisWallBlocks = new HashMap<String, SimpleBlock>();
+		HashMap<String, SimpleBlock> thisWallBlocks = new HashMap<>();
  		
 		this.getTown().lastBuildableBuilt = null;
 	
@@ -486,11 +486,10 @@ public class Wall extends Structure {
 		for (SimpleBlock sb : simpleBlocks.values()) {
 			BlockCoord bcoord = new BlockCoord(sb);
 			Block block = bcoord.getBlock();
-			int old_id = block.getTypeId();
 			int old_data = ItemManager.getData(bcoord.getBlock());
 			if (!wallBlocks.containsKey(bcoord)) {
 				try {
-					WallBlock wb = new WallBlock(bcoord, this, old_id, old_data, sb.getMaterial().getId(), sb.getData());
+					WallBlock wb = new WallBlock(bcoord, this, block.getType(), old_data, sb.getType(), sb.getData());
 					
 					wallBlocks.put(bcoord, wb);
 					this.addStructureBlock(bcoord, true);
@@ -542,7 +541,7 @@ public class Wall extends Structure {
 		for (WallBlock wb : this.wallBlocks.values()) {
 			BlockCoord bcoord = wb.getCoord();
             Block block = bcoord.getBlock();
-            block.setTypeId(wb.getTypeId());
+            block.setType(wb.getTypeId());
             ItemManager.setData(bcoord.getBlock(), wb.getData());
 		}
 		
@@ -568,7 +567,7 @@ public class Wall extends Structure {
 		for (WallBlock wb : this.wallBlocks.values()) {
 			BlockCoord bcoord = wb.getCoord();
             Block block = bcoord.getBlock();
-            block.setTypeId(wb.getTypeId());
+            block.setType(wb.getTypeId());
             ItemManager.setData(bcoord.getBlock(), wb.getData());
 		}
 		

@@ -37,12 +37,12 @@ import com.avrgaming.civcraft.threading.sync.request.UpdateInventoryRequest.Acti
 
 public class MultiInventory {
 	
-	private ArrayList<Inventory> invs = new ArrayList<Inventory>();
+	private ArrayList<Inventory> invs = new ArrayList<>();
 	
 	public MultiInventory() {
 	}
 
-	private boolean isCorrectItemStack(ItemStack stack, String mid, int type, short data) {
+	private boolean isCorrectItemStack(ItemStack stack, String mid, Material type, short data) {
 		if (stack == null) {
 			return false;
 		}
@@ -53,21 +53,17 @@ public class MultiInventory {
 			if (craftMat == null) {
 				return false;
 			}
-		
-			if (!craftMat.getConfigId().equals(mid)) {
-				return false;
-			}
+
+			return craftMat.getConfigId().equals(mid);
 		} else {
-            if (stack.getTypeId() != type) {
+            if (stack.getType() != type) {
 				return false;
 			}
 			
 			/* Only check item data when max dura == 0. Otherwise item doesnt use data and it's the durability. */
-			if (ItemManager.getMaterial(type).getMaxDurability() == 0) {
-				if (ItemManager.getData(stack) != data) {
-					/* data didn't match, wrong item. */
-					return false;
-				}
+			if (type.getMaxDurability() == 0) {
+				/* data didn't match, wrong item. */
+				return ItemManager.getData(stack) == data;
 			}
 		}	
 		
@@ -76,7 +72,7 @@ public class MultiInventory {
 	
 	
 	/* Returns number of items removed. */
-	private int removeItemFromInventory(Inventory inv, String mid, int type, short data, int amount, Boolean direct) {
+	private int removeItemFromInventory(Inventory inv, String mid, Material type, short data, int amount, Boolean direct) {
 		int removed = 0;
 		int notRemoved = amount;
 		
@@ -221,8 +217,8 @@ public class MultiInventory {
 	 * Validates that we have the right amount of this item
 	 * before it takes it away.
 	 */
-	public boolean removeItem(String mid, int type, short data, int amount, Boolean direct) throws CivException {
-		ArrayList<ItemInvPair> toBeRemoved = new ArrayList<ItemInvPair>();
+	public boolean removeItem(String mid, Material type, short data, int amount, Boolean direct) throws CivException {
+		ArrayList<ItemInvPair> toBeRemoved = new ArrayList<>();
 		
 		int count = amount;
 		for (Inventory inv : invs) {
@@ -275,22 +271,22 @@ public class MultiInventory {
 	public boolean removeItem(ItemStack item, Boolean direct) throws CivException {
 		LoreMaterial loreMat = LoreMaterial.getMaterial(item);
 		if (loreMat != null) {
-			return removeItem(loreMat.getId(), 0, (short)0, item.getAmount(), direct);
+			return removeItem(loreMat.getId(), Material.AIR, (short)0, item.getAmount(), direct);
 		} else {
 			/* Vanilla item. no custom id. */
-            return removeItem(null, item.getTypeId(), ItemManager.getData(item), item.getAmount(), direct);
+            return removeItem(null, item.getType(), ItemManager.getData(item), item.getAmount(), direct);
 		}
 	}
 	
-	public boolean removeItem(int typeid, int amount, Boolean sync) throws CivException {
+	public boolean removeItem(Material typeid, int amount, Boolean sync) throws CivException {
 		return removeItem(null, typeid, (short)0, amount, sync);
 	}	
 	
-	public boolean removeItem(int typeid, int amount) throws CivException {
+	public boolean removeItem(Material typeid, int amount) throws CivException {
 		return removeItem(null, typeid, (short)0, amount, false);
 	}	
 
-	public boolean contains(String mid, int type, short data, int amount) {
+	public boolean contains(String mid, Material type, short data, int amount) {
 		
 		int count = 0;
 		for (Inventory inv : invs) {
@@ -310,12 +306,12 @@ public class MultiInventory {
 					}
 				} else {
 					/* Vanilla item. */
-                    if (item.getTypeId() != type) {
+                    if (item.getType() != type) {
 						continue;
 					}
 					
 					/* Only check the data if this item doesnt use durability. */
-					if (ItemManager.getMaterial(type).getMaxDurability() == 0) {
+					if (type.getMaxDurability() == 0) {
 						if (ItemManager.getData(item) != data) {
 							continue;
 						}
@@ -328,10 +324,8 @@ public class MultiInventory {
 				}
 			}
 		}
-			
-		if (count >= amount) 
-			return true;
-		return false;
+
+		return count >= amount;
 	}
 	
 	public ItemStack[] getContents() {
@@ -356,10 +350,6 @@ public class MultiInventory {
 
 	public int getInventoryCount() {
 		return this.invs.size();
-	}
-
-	public boolean removeItem(Material material, int consumedAmount, Boolean sync) throws CivException {
-		return this.removeItem(material.getId(),consumedAmount,sync);
 	}
 
 //	public boolean contains(LoreMaterial loreMaterial) {

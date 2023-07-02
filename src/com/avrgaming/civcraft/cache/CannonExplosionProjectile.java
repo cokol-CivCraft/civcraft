@@ -178,7 +178,7 @@ public class CannonExplosionProjectile {
 			for (int y = -3; y < 3; y++) {
 				for (int z = -radius; z < radius; z++) {
 					Block block = loc.getWorld().getBlockAt(loc.getBlockX()+x, loc.getBlockY()+y, loc.getBlockZ()+z);
-                    if (block.getTypeId() == Material.AIR.getId()) {
+                    if (block.getType() == Material.AIR) {
 						block.setType(Material.FIRE);
 						ItemManager.setData(block, 0, true);
 					}

@@ -32,6 +32,7 @@ import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.SimpleBlock;
+import org.bukkit.Material;
 
 public class TemplateStream {
 	/*
@@ -71,29 +72,27 @@ public class TemplateStream {
 	}
 	
 	private SimpleBlock getSimpleBlockFromLine(String line) {
-		String locTypeSplit[] = line.split(",");
+		String[] locTypeSplit = line.split(",");
 		String location = locTypeSplit[0];
 		String type = locTypeSplit[1];
 		
 		/* Parse out location */
-		String locationSplit[] = location.split(":");
-		int blockX = Integer.valueOf(locationSplit[0]);
-		int blockY = Integer.valueOf(locationSplit[1]);
-		int blockZ = Integer.valueOf(locationSplit[2]);
+		String[] locationSplit = location.split(":");
+		int blockX = Integer.parseInt(locationSplit[0]);
+		int blockY = Integer.parseInt(locationSplit[1]);
+		int blockZ = Integer.parseInt(locationSplit[2]);
 		
 		/* Parse out type */				
-		String typeSplit[] = type.split(":");
-		int blockId = Integer.valueOf(typeSplit[0]);
-		int blockData = Integer.valueOf(typeSplit[1]);
-		
-		
+		String[] typeSplit = type.split(":");
+
+
 		SimpleBlock block;
 		if (currentBlockCount < blocks.size()) {
 			/* Get an already allocated simple block. */
 			block = blocks.get(currentBlockCount);
 		} else {
 			/* allocate a new one and add to cache. */
-			block = new SimpleBlock(blockId, blockData);
+			block = new SimpleBlock(Material.getMaterial(Integer.parseInt(typeSplit[0])), Integer.parseInt(typeSplit[1]));
 			blocks.add(block);
 		}
 		currentBlockCount++;
@@ -111,52 +110,46 @@ public class TemplateStream {
 		if (y > sizeY) {
 			throw new IllegalArgumentException();
 		}
-		
-		BufferedReader reader = new BufferedReader(new FileReader(sourceFile));
-		LinkedList<SimpleBlock> returnBlocks = new LinkedList<SimpleBlock>();
-		
-		try {
+
+		try (BufferedReader reader = new BufferedReader(new FileReader(sourceFile))) {
+			LinkedList<SimpleBlock> returnBlocks = new LinkedList<>();
 			/* Read past the starting size line. */
 			reader.readLine();
-			
-			String line = reader.readLine();
-			while (line != null) {
-				String locTypeSplit[] = line.split(",");
-				String location = locTypeSplit[0];
-				String locationSplit[] = location.split(":");
-				int blockY = Integer.valueOf(locationSplit[1]);
 
-				if (blockY == y) {
+			while (true) {
+				String line = reader.readLine();
+				if (line == null) {
+					break;
+				}
+				String[] locationSplit = line.split(",")[0].split(":");
+
+				if (Integer.parseInt(locationSplit[1]) == y) {
 					returnBlocks.add(getSimpleBlockFromLine(line));
 				}
-
-				line = reader.readLine();
 			}
 			return returnBlocks;
-		} finally {
-			reader.close();
 		}
 	}
 	
 	/*
 	 * Loads entire template into simple blocks
 	 */
+	@SuppressWarnings("unused")
 	public List<SimpleBlock> getTemplateBlocks() throws IOException {
-		BufferedReader reader = new BufferedReader(new FileReader(sourceFile));
-		LinkedList<SimpleBlock> returnBlocks = new LinkedList<SimpleBlock>();
-		
-		try {
+
+		try (BufferedReader reader = new BufferedReader(new FileReader(sourceFile))) {
+			LinkedList<SimpleBlock> returnBlocks = new LinkedList<>();
 			/* Read past the starting size line. */
 			reader.readLine();
-			
-			String line = reader.readLine();
-			while (line != null) {
+
+			while (true) {
+				String line = reader.readLine();
+				if (line == null){
+					break;
+				}
 				returnBlocks.add(getSimpleBlockFromLine(line));
-				line = reader.readLine();
 			}
 			return returnBlocks;
-		} finally {
-			reader.close();
 		}
 	}
 	
@@ -170,7 +163,8 @@ public class TemplateStream {
 			bcoord.setX(bcoord.getX() + block.x);
 			bcoord.setY(bcoord.getY() + block.y);
 			bcoord.setZ(bcoord.getZ() + block.z);
-			ItemManager.setTypeIdAndData(bcoord.getBlock(), block.getMaterial().getId(), block.getData(), false);
+			bcoord.getBlock().setType(block.getType());
+			bcoord.getBlock().setData((byte) block.getData());
 		}
 		
 	}
@@ -183,21 +177,17 @@ public class TemplateStream {
 	public void setSource(String filepath) throws IOException {
 		this.source = filepath;
 		sourceFile = new File(filepath);
-		BufferedReader reader = new BufferedReader(new FileReader(sourceFile));
-		try {
+		try (BufferedReader reader = new BufferedReader(new FileReader(sourceFile))) {
 			// Read first line and get size.
-			String line = null;
-			line = reader.readLine();
+			String line = reader.readLine();
 			if (line == null) {
-				throw new IOException(CivSettings.localize.localizedString("template_invalidFile")+" "+filepath);
+				throw new IOException(CivSettings.localize.localizedString("template_invalidFile") + " " + filepath);
 			}
-			
-			String split[] = line.split(";");
-			sizeX = Integer.valueOf(split[0]); 
-			sizeY = Integer.valueOf(split[1]);
-			sizeZ = Integer.valueOf(split[2]);
-		} finally {
-			reader.close();
+
+			String[] split = line.split(";");
+			sizeX = Integer.parseInt(split[0]);
+			sizeY = Integer.parseInt(split[1]);
+			sizeZ = Integer.parseInt(split[2]);
 		}
 	}
 

@@ -72,12 +72,12 @@ public class UpdateTechBar extends CivAsyncTask {
 					}
 	
 					if (i <= blockCount) {
-						sb = new SimpleBlock(Material.WOOL.getId(), CivData.DATA_WOOL_GREEN);
+						sb = new SimpleBlock(Material.WOOL, CivData.DATA_WOOL_GREEN);
 						sb.x = bcoord.getX(); sb.y = bcoord.getY(); sb.z = bcoord.getZ();
 						sb.worldname = bcoord.getWorldname();
 						sbs.add(sb);
 					} else {
-						sb = new SimpleBlock(Material.WOOL.getId(), CivData.DATA_WOOL_BLACK);
+						sb = new SimpleBlock(Material.WOOL, CivData.DATA_WOOL_BLACK);
 						sb.x = bcoord.getX(); sb.y = bcoord.getY(); sb.z = bcoord.getZ();
 						sb.worldname = bcoord.getWorldname();
 						sbs.add(sb);				
@@ -95,7 +95,7 @@ public class UpdateTechBar extends CivAsyncTask {
 						continue;
 					}
 					
-					sb = new SimpleBlock(Material.WOOL.getId(), CivData.DATA_WOOL_BLACK);
+					sb = new SimpleBlock(Material.WOOL, CivData.DATA_WOOL_BLACK);
 					sb.x = bcoord.getX(); sb.y = bcoord.getY(); sb.z = bcoord.getZ();
 					sb.worldname = bcoord.getWorldname();
 					sbs.add(sb);
@@ -105,7 +105,7 @@ public class UpdateTechBar extends CivAsyncTask {
 			
 			if (townhall.getTechnameSign() != null) {
 				BlockCoord bcoord = townhall.getTechnameSign();
-				sb = new SimpleBlock(Material.WALL_SIGN.getId(), townhall.getTechnameSignData());
+				sb = new SimpleBlock(Material.WALL_SIGN, townhall.getTechnameSignData());
 				sb.x = bcoord.getX(); sb.y = bcoord.getY(); sb.z = bcoord.getZ();
 				sb.worldname = bcoord.getWorldname();
 				sb.specialType = Type.LITERAL;
@@ -129,7 +129,7 @@ public class UpdateTechBar extends CivAsyncTask {
 			
 			if (townhall.getTechdataSign() != null) {
 				BlockCoord bcoord = townhall.getTechdataSign();
-				sb = new SimpleBlock(Material.WALL_SIGN.getId(), townhall.getTechdataSignData());
+				sb = new SimpleBlock(Material.WALL_SIGN, townhall.getTechdataSignData());
 				sb.x = bcoord.getX(); sb.y = bcoord.getY(); sb.z = bcoord.getZ();
 				sb.worldname = bcoord.getWorldname();
 				sb.specialType = Type.LITERAL;
@@ -139,7 +139,7 @@ public class UpdateTechBar extends CivAsyncTask {
 				
 					sb.message[0] = CivSettings.localize.localizedString("UpdateTechBar_sign_Percent");
 					sb.message[1] = CivSettings.localize.localizedString("UpdateTechBar_sign_Complete");
-					sb.message[2] = ""+percentageDone+"%";
+					sb.message[2] = percentageDone+"%";
 					sb.message[3] = "";
 					
 				} else {

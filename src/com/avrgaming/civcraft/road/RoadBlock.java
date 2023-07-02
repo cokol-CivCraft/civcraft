@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import com.avrgaming.civcraft.config.CivSettings;
@@ -31,7 +32,7 @@ public class RoadBlock extends SQLObject implements BuildableDamageBlock {
 	private BlockCoord coord;
 	private Road road;
 	private boolean aboveRoadBlock = false;
-	private int oldType;
+	private Material oldType;
 	private int oldData;
 	
 	public static final String TABLE_NAME = "ROADBLOCKS";
@@ -41,7 +42,7 @@ public class RoadBlock extends SQLObject implements BuildableDamageBlock {
 		this.load(rs);
 	}
 
-	public RoadBlock(int oldType, int oldData) {
+	public RoadBlock(Material oldType, int oldData) {
 		this.oldType = oldType;
 		this.oldData = oldData;
 	}
@@ -84,10 +85,10 @@ public class RoadBlock extends SQLObject implements BuildableDamageBlock {
 		this.setId(rs.getInt("id"));
 		this.setRoad((Road)CivGlobal.getStructureById(rs.getInt("road_id")));
 		this.oldData = rs.getInt("old_data");
-		this.oldType = rs.getInt("old_type");
+		this.oldType = Material.getMaterial(rs.getInt("old_type"));
 		this.aboveRoadBlock = rs.getBoolean("above_road");
 		if (this.road == null) {
-			Integer id = rs.getInt("road_id");
+			int id = rs.getInt("road_id");
 			this.delete();
 			throw new CivException("Couldn't load road block, could not find structure:"+id);
 		}
@@ -148,12 +149,8 @@ public class RoadBlock extends SQLObject implements BuildableDamageBlock {
 
 	public boolean canHit() {
 		Date now = new Date();
-		
-		if (now.after(this.road.getNextRaidDate())) {	
-			return true;
-		}
-		
-		return false;
+
+		return now.after(this.road.getNextRaidDate());
 	}
 	
 	public void onHit(Player player) {
@@ -225,20 +222,12 @@ public class RoadBlock extends SQLObject implements BuildableDamageBlock {
 		return true;
 	}
 
-	public int getOldType() {
+	public Material getOldType() {
 		return oldType;
-	}
-
-	public void setOldType(int oldType) {
-		this.oldType = oldType;
 	}
 
 	public int getOldData() {
 		return oldData;
-	}
-
-	public void setOldData(int oldData) {
-		this.oldData = oldData;
 	}
 	
 }

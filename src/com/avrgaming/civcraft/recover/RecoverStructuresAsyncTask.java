@@ -29,7 +29,6 @@ import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.structure.Structure;
@@ -37,7 +36,6 @@ import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.CivColor;
-import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.SimpleBlock.Type;
 
 public class RecoverStructuresAsyncTask implements Runnable {
@@ -74,7 +72,7 @@ public class RecoverStructuresAsyncTask implements Runnable {
 						continue;
 					}
 					
-					if (ignoreBlocks.contains(tpl.blocks[x][y][z].getMaterial())) {
+					if (ignoreBlocks.contains(tpl.blocks[x][y][z].getType())) {
 						continue;
 					}
 					
@@ -86,7 +84,7 @@ public class RecoverStructuresAsyncTask implements Runnable {
 						continue;
 					}
 					
-					if (nextBlock.getType() != tpl.blocks[x][y][z].getMaterial()) { // ||
+					if (nextBlock.getType() != tpl.blocks[x][y][z].getType()) { // ||
 					//	nextBlock.getData() != tpl.blocks[x][y][z].getData()) {
 					//	CivLog.debug("\tBLOCK:"+nextBlock.getTypeId() + " is not "+tpl.blocks[x][y][z].getType());
 						return true;

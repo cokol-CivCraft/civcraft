@@ -46,7 +46,7 @@ public class Road extends Structure {
 	public static final int HEIGHT = 4;
 	private Date nextRaidDate;
 	
-	private static final int ROAD_MATERIAL = Material.COBBLESTONE.getId();
+	private static final Material ROAD_MATERIAL = Material.COBBLESTONE;
 	private static int DEBUG_DATA = 0;
 
 	/*
@@ -100,12 +100,12 @@ public class Road extends Structure {
 		for (BlockCoord bcoord : oldBlockData.keySet()) {
 			SimpleBlock sb = oldBlockData.get(bcoord);
 
-			if (CivSettings.restrictedUndoBlocks.contains(sb.getMaterial())) {
+			if (CivSettings.restrictedUndoBlocks.contains(sb.getType())) {
 				continue;
 			}
 			
 			Block block = bcoord.getBlock();
-			block.setType(sb.getMaterial());
+			block.setType(sb.getType());
 			ItemManager.setData(block, sb.getData());
 		}
 		
@@ -135,10 +135,10 @@ public class Road extends Structure {
 	}
 	
 	@Override
-	public void onDemolish() throws CivException {
+	public void onDemolish() {
 		for (RoadBlock rb : roadBlocks.values()) {
 			Block block = rb.getCoord().getBlock();
-            block.setTypeId(rb.getOldType());
+            block.setType(rb.getOldType());
             ItemManager.setData(block, rb.getOldData());
 		}
 	}
@@ -149,11 +149,8 @@ public class Road extends Structure {
 	
 	public void deleteOnDisband() {
 		CivGlobal.getSessionDB().delete_all(this.getSessionKey());
-		
-		LinkedList<RoadBlock> remove = new LinkedList<RoadBlock>();
-		for (RoadBlock rb : this.roadBlocks.values()) {
-			remove.add(rb);
-		}
+
+		LinkedList<RoadBlock> remove = new LinkedList<>(this.roadBlocks.values());
 		
 		for (RoadBlock rb : remove) {
 			try {
@@ -168,11 +165,8 @@ public class Road extends Structure {
 	@Override
 	public void delete() throws SQLException {
 		CivGlobal.getSessionDB().delete_all(this.getSessionKey());
-		
-		LinkedList<RoadBlock> remove = new LinkedList<RoadBlock>();
-		for (RoadBlock rb : this.roadBlocks.values()) {
-			remove.add(rb);
-		}
+
+		LinkedList<RoadBlock> remove = new LinkedList<>(this.roadBlocks.values());
 		
 		for (RoadBlock rb : remove) {
 			rb.delete();
@@ -243,11 +237,11 @@ public class Road extends Structure {
 		locs.get(1).add(0, -1, 0);
 		
 		/* Gather the blocks that changed. */		
-		HashMap<String, SimpleBlock> simpleBlocks = new HashMap<String, SimpleBlock>();
+		HashMap<String, SimpleBlock> simpleBlocks = new HashMap<>();
 		this.segmentsBuilt = this.buildRoadSegment(player, locs.get(1), locs.get(0), 0, simpleBlocks, 0);
 
 		/* Validate each of the blocks that are about to change */
-		LinkedList<SimpleBlock> removed = new LinkedList<SimpleBlock>();
+		LinkedList<SimpleBlock> removed = new LinkedList<>();
 		for (SimpleBlock sb : simpleBlocks.values()) {
 			BlockCoord bcoord = new BlockCoord(sb);
 			if(!validateBlockLocation(bcoord)) {
@@ -290,7 +284,7 @@ public class Road extends Structure {
 			addRoadBlock(bcoord);
 
 			/* Set new block data. */
-			bcoord.getBlock().setType(sb.getMaterial());
+			bcoord.getBlock().setType(sb.getType());
 			ItemManager.setData(bcoord.getBlock(), sb.getData());
 			
 			/* Set air blocks above road. */
@@ -299,7 +293,7 @@ public class Road extends Structure {
 				bcoord2.setY(sb.y + i);
 				if (!simpleBlocks.containsKey(SimpleBlock.getKeyFromBlockCoord(bcoord2))) {
                     Block block = bcoord2.getBlock();
-                    block.setTypeId(Material.AIR.getId());
+                    block.setType(Material.AIR);
                 }
 			}
 			
@@ -350,7 +344,7 @@ public class Road extends Structure {
 			bcoord.setY(startCoord.getY() + i);
 
 			Block block = bcoord.getBlock();
-			if (block.getTypeId() == Material.CHEST.getId()) {
+			if (block.getType() == Material.CHEST) {
 				throw new CivException(CivSettings.localize.localizedString("var_road_validate_wouldDestroyChest",bcoord.toString()));
 			}
 			
@@ -560,7 +554,7 @@ public class Road extends Structure {
 			bcoord.setY(rb.getCoord().getY() + i);
 			
 			SimpleBlock sb = this.oldBlockData.get(bcoord);
-			RoadBlock rb2 = new RoadBlock(sb.getMaterial().getId(), sb.getData());
+			RoadBlock rb2 = new RoadBlock(sb.getType(), sb.getData());
 			rb2.setCoord(bcoord);
 			rb2.setRoad(rb.getRoad());
 			rb2.setAboveRoadBlock(true);
@@ -571,7 +565,7 @@ public class Road extends Structure {
 	
 	public void addRoadBlock(BlockCoord coord) {
 		SimpleBlock sb = this.oldBlockData.get(coord);
-		RoadBlock rb = new RoadBlock(sb.getMaterial().getId(), sb.getData());
+		RoadBlock rb = new RoadBlock(sb.getType(), sb.getData());
 		rb.setCoord(coord);
 		rb.setRoad(this);
 		
@@ -605,7 +599,7 @@ public class Road extends Structure {
 	}
 	
 	private void saveSaveSessionData() {
-		this.sessionAdd(getSessionKey(), ""+this.nextRaidDate.getTime()+":"+this.segmentsBuilt );
+		this.sessionAdd(getSessionKey(), this.nextRaidDate.getTime()+":"+this.segmentsBuilt );
 	}
 	
 	private void loadSessionData() {
@@ -616,14 +610,14 @@ public class Road extends Structure {
 		
 		String[] split = entries.get(0).value.split(":");
 		
-		long time = Long.valueOf(split[0]);
+		long time = Long.parseLong(split[0]);
 		this.nextRaidDate = new Date(time);
-		this.segmentsBuilt = Integer.valueOf(split[1]);
+		this.segmentsBuilt = Integer.parseInt(split[1]);
 	}
 	
 	public Date getNextRaidDate() {
 		Date raidEnd = new Date(this.nextRaidDate.getTime());
-		raidEnd.setTime(this.nextRaidDate.getTime() + 60*60*1000*this.raidLength );
+		raidEnd.setTime(this.nextRaidDate.getTime() + 60L *60*1000*this.raidLength );
 		
 		Date now = new Date();
 		if (now.getTime() > raidEnd.getTime()) {
@@ -691,29 +685,29 @@ public class Road extends Structure {
 			}
 
 			Block block5 = coord.getBlock();
-			if (block5.getTypeId() == Material.AIR.getId()) {
+			if (block5.getType() == Material.AIR) {
 				continue;
 			}
 
 			Block block4 = coord.getBlock();
-			if (block4.getTypeId() == Material.CHEST.getId()) {
+			if (block4.getType() == Material.CHEST) {
 				continue;
 			}
 
 			Block block3 = coord.getBlock();
-			if (block3.getTypeId() == Material.SIGN_POST.getId()) {
+			if (block3.getType() == Material.SIGN_POST) {
 				continue;
 			}
 
 			Block block2 = coord.getBlock();
-			if (block2.getTypeId() == Material.WALL_SIGN.getId()) {
+			if (block2.getType() == Material.WALL_SIGN) {
 				continue;
 			}
 
 			Block block1 = coord.getBlock();
-			if (CivSettings.alwaysCrumble.contains(block1.getTypeId())) {
+			if (CivSettings.alwaysCrumble.contains(block1.getType())) {
                 Block block = coord.getBlock();
-                block.setTypeId(Material.GRAVEL.getId());
+                block.setType(Material.GRAVEL);
                 continue;
 			}
 						
@@ -722,7 +716,7 @@ public class Road extends Structure {
 			// Each block has a 10% chance to turn into gravel
 			if (rand.nextInt(100) <= 10) {
                 Block block = coord.getBlock();
-                block.setTypeId(Material.GRAVEL.getId());
+                block.setType(Material.GRAVEL);
                 ItemManager.setData(coord.getBlock(), 0, true);
 
 				continue;
@@ -731,7 +725,7 @@ public class Road extends Structure {
 			// Each block has a 50% chance of starting a fire
 			if (rand.nextInt(100) <= 50) {
                 Block block = coord.getBlock();
-                block.setTypeId(Material.FIRE.getId());
+                block.setType(Material.FIRE);
                 ItemManager.setData(coord.getBlock(), 0, true);
 				continue;
 			}

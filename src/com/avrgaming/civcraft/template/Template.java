@@ -76,7 +76,7 @@ public class Template {
     public ArrayList<BlockCoord> commandBlockRelativeLocations = new ArrayList<BlockCoord>();
     public LinkedList<BlockCoord> doorRelativeLocations = new LinkedList<BlockCoord>();
     public LinkedList<BlockCoord> attachableLocations = new LinkedList<BlockCoord>();
-    public static HashSet<Integer> attachableTypes = new HashSet<Integer>();
+    public static HashSet<Material> attachableTypes = new HashSet<>();
 
 
     public static HashMap<String, Template> templateCache = new HashMap<String, Template>();
@@ -113,71 +113,67 @@ public class Template {
     }
 
     public static void initAttachableTypes() {
-        attachableTypes.add(Material.SAPLING.getId());
-        attachableTypes.add(Material.BED.getId());
-        attachableTypes.add(Material.BED_BLOCK.getId());
-        attachableTypes.add(Material.POWERED_RAIL.getId());
-        attachableTypes.add(Material.DETECTOR_RAIL.getId());
-        attachableTypes.add(Material.LONG_GRASS.getId());
-        attachableTypes.add(Material.DEAD_BUSH.getId());
-        attachableTypes.add(Material.YELLOW_FLOWER.getId());
-        attachableTypes.add(Material.RED_ROSE.getId());
-        attachableTypes.add(Material.BROWN_MUSHROOM.getId());
-        attachableTypes.add(Material.RED_MUSHROOM.getId());
-        attachableTypes.add(Material.TORCH.getId());
-        attachableTypes.add(Material.REDSTONE_WIRE.getId());
-        attachableTypes.add(Material.WHEAT.getId());
+        attachableTypes.add(Material.SAPLING);
+        attachableTypes.add(Material.BED);
+        attachableTypes.add(Material.BED_BLOCK);
+        attachableTypes.add(Material.POWERED_RAIL);
+        attachableTypes.add(Material.DETECTOR_RAIL);
+        attachableTypes.add(Material.LONG_GRASS);
+        attachableTypes.add(Material.DEAD_BUSH);
+        attachableTypes.add(Material.YELLOW_FLOWER);
+        attachableTypes.add(Material.RED_ROSE);
+        attachableTypes.add(Material.BROWN_MUSHROOM);
+        attachableTypes.add(Material.RED_MUSHROOM);
+        attachableTypes.add(Material.TORCH);
+        attachableTypes.add(Material.REDSTONE_WIRE);
+        attachableTypes.add(Material.WHEAT);
 //		attachableTypes.add(ItemManager.getId(Material.SIGN_POST));
 //		attachableTypes.add(ItemManager.getId(Material.WALL_SIGN));
-        attachableTypes.add(Material.LADDER.getId());
-        attachableTypes.add(Material.RAILS.getId());
-        attachableTypes.add(Material.LEVER.getId());
-        attachableTypes.add(Material.STONE_PLATE.getId());
-        attachableTypes.add(Material.WOOD_PLATE.getId());
-        attachableTypes.add(Material.REDSTONE_TORCH_ON.getId());
-        attachableTypes.add(Material.REDSTONE_TORCH_OFF.getId());
-        attachableTypes.add(Material.STONE_BUTTON.getId());
-        attachableTypes.add(Material.CACTUS.getId());
-        attachableTypes.add(Material.SUGAR_CANE.getId());
-        attachableTypes.add(93); //redstone repeater off
-        attachableTypes.add(94); //redstone repeater on
-        attachableTypes.add(Material.TRAP_DOOR.getId());
-        attachableTypes.add(Material.PUMPKIN_STEM.getId());
-        attachableTypes.add(Material.MELON_STEM.getId());
-        attachableTypes.add(Material.VINE.getId());
-        attachableTypes.add(111); //lily pad
-        attachableTypes.add(Material.BREWING_STAND.getId());
-        attachableTypes.add(Material.COCOA.getId());
-        attachableTypes.add(Material.TRIPWIRE.getId());
-        attachableTypes.add(Material.TRIPWIRE_HOOK.getId());
-        attachableTypes.add(Material.FLOWER_POT.getId());
-        attachableTypes.add(Material.CARROT.getId());
-        attachableTypes.add(Material.POTATO.getId());
-        attachableTypes.add(Material.WOOD_BUTTON.getId());
-        attachableTypes.add(Material.ANVIL.getId());
-        attachableTypes.add(Material.GOLD_PLATE.getId());
-        attachableTypes.add(Material.IRON_PLATE.getId());
-        attachableTypes.add(Material.REDSTONE_COMPARATOR_ON.getId());
-        attachableTypes.add(Material.REDSTONE_COMPARATOR_OFF.getId());
-        attachableTypes.add(Material.DAYLIGHT_DETECTOR.getId());
-        attachableTypes.add(Material.ACTIVATOR_RAIL.getId());
+        attachableTypes.add(Material.LADDER);
+        attachableTypes.add(Material.RAILS);
+        attachableTypes.add(Material.LEVER);
+        attachableTypes.add(Material.STONE_PLATE);
+        attachableTypes.add(Material.WOOD_PLATE);
+        attachableTypes.add(Material.REDSTONE_TORCH_ON);
+        attachableTypes.add(Material.REDSTONE_TORCH_OFF);
+        attachableTypes.add(Material.STONE_BUTTON);
+        attachableTypes.add(Material.CACTUS);
+        attachableTypes.add(Material.SUGAR_CANE);
+        attachableTypes.add(Material.DIODE_BLOCK_OFF); //redstone repeater off
+        attachableTypes.add(Material.DIODE_BLOCK_ON); //redstone repeater on
+        attachableTypes.add(Material.TRAP_DOOR);
+        attachableTypes.add(Material.PUMPKIN_STEM);
+        attachableTypes.add(Material.MELON_STEM);
+        attachableTypes.add(Material.VINE);
+        attachableTypes.add(Material.WATER_LILY); //lily pad
+        attachableTypes.add(Material.BREWING_STAND);
+        attachableTypes.add(Material.COCOA);
+        attachableTypes.add(Material.TRIPWIRE);
+        attachableTypes.add(Material.TRIPWIRE_HOOK);
+        attachableTypes.add(Material.FLOWER_POT);
+        attachableTypes.add(Material.CARROT);
+        attachableTypes.add(Material.POTATO);
+        attachableTypes.add(Material.WOOD_BUTTON);
+        attachableTypes.add(Material.ANVIL);
+        attachableTypes.add(Material.GOLD_PLATE);
+        attachableTypes.add(Material.IRON_PLATE);
+        attachableTypes.add(Material.REDSTONE_COMPARATOR_ON);
+        attachableTypes.add(Material.REDSTONE_COMPARATOR_OFF);
+        attachableTypes.add(Material.DAYLIGHT_DETECTOR);
+        attachableTypes.add(Material.ACTIVATOR_RAIL);
     }
 
-    public static boolean isAttachable(int blockID) {
-        if (attachableTypes.contains(blockID)) {
-            return true;
-        }
-        return false;
+    public static boolean isAttachable(Material blockID) {
+        return attachableTypes.contains(blockID);
     }
 
 
     public Template() {
-        sbs = new LinkedList<SimpleBlock>();
+        sbs = new LinkedList<>();
     }
 
     public void updateBlocksQueue(Queue<SimpleBlock> sbs) {
         SyncBuildUpdateTask.queueSimpleBlock(sbs);
-        return;
     }
 	
 	/*public CivTemplate(Location center, String name, Type type) throws TownyException, IOException {
@@ -216,11 +212,13 @@ public class Template {
         return ("templates/themes/" + theme + "/" + typeStr + "/" + template_file + "/" + template_file + "_" + direction + ".def").toLowerCase();
     }
 
+    @SuppressWarnings("unused")
     public void buildConstructionScaffolding(Location center, Player player) {
         //this.buildScaffolding(center);
 
         Block block = center.getBlock();
-        ItemManager.setTypeIdAndData(block, Material.CHEST.getId(), 0, false);
+        block.setType(Material.CHEST);
+        block.setData((byte) 0);
     }
 
     public void buildPreviewScaffolding(Location center, Player player) {
@@ -230,49 +228,49 @@ public class Template {
 
         for (int y = 0; y < this.size_y; y++) {
             Block b = center.getBlock().getRelative(0, y, 0);
-            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK.getId(), 0);
-            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getTypeId(), ItemManager.getData(b)));
+            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK, 0);
+            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), ItemManager.getData(b)));
 
             b = center.getBlock().getRelative(this.size_x - 1, y, this.size_z - 1);
-            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK.getId(), 0);
-            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getTypeId(), ItemManager.getData(b)));
+            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK, 0);
+            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), ItemManager.getData(b)));
 
             b = center.getBlock().getRelative(this.size_x - 1, y, 0);
-            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK.getId(), 0);
-            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getTypeId(), ItemManager.getData(b)));
+            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK, 0);
+            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), ItemManager.getData(b)));
 
             b = center.getBlock().getRelative(0, y, this.size_z - 1);
-            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK.getId(), 0);
-            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getTypeId(), ItemManager.getData(b)));
+            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK, 0);
+            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), ItemManager.getData(b)));
 
         }
 
         for (int x = 0; x < this.size_x; x++) {
             Block b = center.getBlock().getRelative(x, this.size_y - 1, 0);
-            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK.getId(), 0);
-            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getTypeId(), ItemManager.getData(b)));
+            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK, 0);
+            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), ItemManager.getData(b)));
 
             b = center.getBlock().getRelative(x, this.size_y - 1, this.size_z - 1);
-            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK.getId(), 0);
-            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getTypeId(), ItemManager.getData(b)));
+            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK, 0);
+            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), ItemManager.getData(b)));
 
         }
 
         for (int z = 0; z < this.size_z; z++) {
             Block b = center.getBlock().getRelative(0, this.size_y - 1, z);
-            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK.getId(), 0);
-            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getTypeId(), ItemManager.getData(b)));
+            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK, 0);
+            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), ItemManager.getData(b)));
 
             b = center.getBlock().getRelative(this.size_x - 1, this.size_y - 1, z);
-            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK.getId(), 0);
-            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getTypeId(), ItemManager.getData(b)));
+            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK, 0);
+            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), ItemManager.getData(b)));
         }
 
         for (int z = 0; z < this.size_z; z++) {
             for (int x = 0; x < this.size_x; x++) {
                 Block b = center.getBlock().getRelative(x, 0, z);
-                ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK.getId(), 0);
-                resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getTypeId(), ItemManager.getData(b)));
+                ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK, 0);
+                resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), ItemManager.getData(b)));
             }
         }
 
@@ -282,38 +280,38 @@ public class Template {
 
         for (int y = 0; y < this.size_y; y++) {
             Block b = center.getBlock().getRelative(0, y, 0);
-            b.setTypeId(Material.BEDROCK.getId());
+            b.setType(Material.BEDROCK);
 
             b = center.getBlock().getRelative(this.size_x - 1, y, this.size_z - 1);
-            b.setTypeId(Material.BEDROCK.getId());
+            b.setType(Material.BEDROCK);
 
             b = center.getBlock().getRelative(this.size_x - 1, y, 0);
-            b.setTypeId(Material.BEDROCK.getId());
+            b.setType(Material.BEDROCK);
 
             b = center.getBlock().getRelative(0, y, this.size_z - 1);
-            b.setTypeId(Material.BEDROCK.getId());
+            b.setType(Material.BEDROCK);
         }
 
         for (int x = 0; x < this.size_x; x++) {
             Block b = center.getBlock().getRelative(x, this.size_y - 1, 0);
-            b.setTypeId(Material.BEDROCK.getId());
+            b.setType(Material.BEDROCK);
 
             b = center.getBlock().getRelative(x, this.size_y - 1, this.size_z - 1);
-            b.setTypeId(Material.BEDROCK.getId());
+            b.setType(Material.BEDROCK);
         }
 
         for (int z = 0; z < this.size_z; z++) {
             Block b = center.getBlock().getRelative(0, this.size_y - 1, z);
-            b.setTypeId(Material.BEDROCK.getId());
+            b.setType(Material.BEDROCK);
 
             b = center.getBlock().getRelative(this.size_x - 1, this.size_y - 1, z);
-            b.setTypeId(Material.BEDROCK.getId());
+            b.setType(Material.BEDROCK);
         }
 
         for (int z = 0; z < this.size_z; z++) {
             for (int x = 0; x < this.size_x; x++) {
                 Block b = center.getBlock().getRelative(x, 0, z);
-                b.setTypeId(Material.BEDROCK.getId());
+                b.setType(Material.BEDROCK);
             }
         }
 
@@ -322,27 +320,27 @@ public class Template {
     public void removeScaffolding(Location center) {
         for (int y = 0; y < this.size_y; y++) {
             Block b = center.getBlock().getRelative(0, y, 0);
-            if (b.getTypeId() == Material.BEDROCK.getId()) {
-                b.setTypeId(Material.AIR.getId());
+            if (b.getType() == Material.BEDROCK) {
+                b.setType(Material.AIR);
                 ItemManager.setData(b, 0, true);
             }
 
             b = center.getBlock().getRelative(this.size_x - 1, y, this.size_z - 1);
-            if (b.getTypeId() == Material.BEDROCK.getId()) {
-                b.setTypeId(Material.AIR.getId());
+            if (b.getType() == Material.BEDROCK) {
+                b.setType(Material.AIR);
                 ItemManager.setData(b, 0, true);
             }
 
             b = center.getBlock().getRelative(this.size_x - 1, y, 0);
-            if (b.getTypeId() == Material.BEDROCK.getId()) {
-                b.setTypeId(Material.AIR.getId());
+            if (b.getType() == Material.BEDROCK) {
+                b.setType(Material.AIR);
                 ItemManager.setData(b, 0, true);
 
             }
 
             b = center.getBlock().getRelative(0, y, this.size_z - 1);
-            if (b.getTypeId() == Material.BEDROCK.getId()) {
-                b.setTypeId(Material.AIR.getId());
+            if (b.getType() == Material.BEDROCK) {
+                b.setType(Material.AIR);
                 ItemManager.setData(b, 0, true);
 
             }
@@ -350,14 +348,14 @@ public class Template {
 
         for (int x = 0; x < this.size_x; x++) {
             Block b = center.getBlock().getRelative(x, this.size_y - 1, 0);
-            if (b.getTypeId() == Material.BEDROCK.getId()) {
-                b.setTypeId(Material.AIR.getId());
+            if (b.getType() == Material.BEDROCK) {
+                b.setType(Material.AIR);
                 ItemManager.setData(b, 0, true);
             }
 
             b = center.getBlock().getRelative(x, this.size_y - 1, this.size_z - 1);
-            if (b.getTypeId() == Material.BEDROCK.getId()) {
-                b.setTypeId(Material.AIR.getId());
+            if (b.getType() == Material.BEDROCK) {
+                b.setType(Material.AIR);
                 ItemManager.setData(b, 0, true);
             }
 
@@ -365,14 +363,14 @@ public class Template {
 
         for (int z = 0; z < this.size_z; z++) {
             Block b = center.getBlock().getRelative(0, this.size_y - 1, z);
-            if (b.getTypeId() == Material.BEDROCK.getId()) {
-                b.setTypeId(Material.AIR.getId());
+            if (b.getType() == Material.BEDROCK) {
+                b.setType(Material.AIR);
                 ItemManager.setData(b, 0, true);
             }
 
             b = center.getBlock().getRelative(this.size_x - 1, this.size_y - 1, z);
-            if (b.getTypeId() == Material.BEDROCK.getId()) {
-                b.setTypeId(Material.AIR.getId());
+            if (b.getType() == Material.BEDROCK) {
+                b.setType(Material.AIR);
                 ItemManager.setData(b, 0, true);
             }
 
@@ -395,7 +393,7 @@ public class Template {
                 for (int z = 0; z < this.size_z; z++) {
                     Block b = center.getBlock().getRelative(x, y, z);
 
-                    if (b.getTypeId() == Material.WALL_SIGN.getId() || b.getTypeId() == Material.SIGN_POST.getId()) {
+                    if (b.getType() == Material.WALL_SIGN || b.getType() == Material.SIGN_POST) {
                         if (b.getState() instanceof Sign) {
                             Sign sign = (Sign) b.getState();
 
@@ -421,7 +419,7 @@ public class Template {
                     // Must set to air in a different loop, since setting to air can break attachables.
                     Block b = center.getBlock().getRelative(x, y, z);
 
-                    b.setTypeId(Material.AIR.getId());
+                    b.setType(Material.AIR);
                     ItemManager.setData(b, 0x0);
                 }
             }
@@ -442,10 +440,10 @@ public class Template {
             throw new CivException(CivSettings.localize.localizedString("template_invalidFile") + " " + filepath);
         }
 
-        String split[] = line.split(";");
-        size_x = Integer.valueOf(split[0]);
-        size_y = Integer.valueOf(split[1]);
-        size_z = Integer.valueOf(split[2]);
+        String[] split = line.split(";");
+        size_x = Integer.parseInt(split[0]);
+        size_y = Integer.parseInt(split[1]);
+        size_z = Integer.parseInt(split[2]);
         getTemplateBlocks(reader, size_x, size_y, size_z);
         reader.close();
     }
@@ -592,23 +590,21 @@ public class Template {
 
             // Parse type
             String[] typeSplit = type.split(":");
-            int blockId = Integer.parseInt(typeSplit[0]);
-            int blockData = Integer.parseInt(typeSplit[1]);
 
-            SimpleBlock block = new SimpleBlock(blockId, blockData);
+            SimpleBlock block = new SimpleBlock(Material.getMaterial(Integer.parseInt(typeSplit[0])), Integer.parseInt(typeSplit[1]));
 
-            if (blockId == Material.WOOD_DOOR.getId() ||
-                    blockId == Material.IRON_DOOR.getId() ||
-                    blockId == Material.SPRUCE_DOOR.getId() ||
-                    blockId == Material.BIRCH_DOOR.getId() ||
-                    blockId == Material.JUNGLE_DOOR.getId() ||
-                    blockId == Material.ACACIA_DOOR.getId() ||
-                    blockId == Material.DARK_OAK_DOOR.getId()) {
+            if (block.getType() == Material.WOOD_DOOR ||
+                    block.getType() == Material.IRON_DOOR ||
+                    block.getType() == Material.SPRUCE_DOOR ||
+                    block.getType() == Material.BIRCH_DOOR ||
+                    block.getType() == Material.JUNGLE_DOOR ||
+                    block.getType() == Material.ACACIA_DOOR ||
+                    block.getType() == Material.DARK_OAK_DOOR) {
                 this.doorRelativeLocations.add(new BlockCoord("", blockX, blockY, blockZ));
             }
 
             // look for signs.
-            if (blockId == Material.WALL_SIGN.getId() || blockId == Material.SIGN_POST.getId()) {
+            if (block.getType() == Material.WALL_SIGN || block.getType() == Material.SIGN_POST) {
 
                 if (locTypeSplit.length > 2) {
 
@@ -669,7 +665,7 @@ public class Template {
                 }
             }
 
-            if (isAttachable(blockId)) {
+            if (isAttachable(block.getType())) {
                 this.attachableLocations.add(new BlockCoord("", blockX, blockY, blockZ));
             }
 
@@ -753,7 +749,7 @@ public class Template {
                     Block b = cornerBlock.getRelative(x, y, z);
                     //b.setTypeIdAndData(tpl.blocks[x][y][z].getType(), (byte)tpl.blocks[x][y][z].getData(), false);
                     try {
-                        util.addUpdateBlock("", new BlockCoord(b), tpl.blocks[x][y][z].getMaterial().getId(), tpl.blocks[x][y][z].getData());
+                        util.addUpdateBlock("", new BlockCoord(b), tpl.blocks[x][y][z].getType(), tpl.blocks[x][y][z].getData());
 
 //							nms.setBlockFast(b.getWorld(), b.getX(), b.getY(), b.getZ(), tpl.blocks[x][y][z].getType(), 
 //								(byte)tpl.blocks[x][y][z].getData());
@@ -777,7 +773,7 @@ public class Template {
                     Block b = centerBlock.getRelative(x, y, z);
 
                     SimpleBlock sb = tpl.blocks[x][y][z];
-                    if (CivSettings.restrictedUndoBlocks.contains(sb.getMaterial())) {
+                    if (CivSettings.restrictedUndoBlocks.contains(sb.getType())) {
                         continue;
                     }
                     // Convert relative x,y,z to real x,y,z in world.

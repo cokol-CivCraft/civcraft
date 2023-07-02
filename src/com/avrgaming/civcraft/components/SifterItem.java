@@ -18,12 +18,14 @@
  */
 package com.avrgaming.civcraft.components;
 
+import org.bukkit.Material;
+
 public class SifterItem {
-	public int source_type;
+	public Material source_type;
 	public short source_data;
 	public double rate;
 	
-	public int result_type;
+	public Material result_type;
 	public int result_data;
 	public int amount;
 }

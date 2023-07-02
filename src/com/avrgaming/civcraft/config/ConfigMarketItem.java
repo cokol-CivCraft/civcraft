@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -43,7 +44,7 @@ import com.avrgaming.civcraft.util.MultiInventory;
 public class ConfigMarketItem {
 	public int id;
 	public String name;
-	public int type_id;
+	public Material type_id;
 	public String custom_id;
 	public int data;
 	public int inital_value;
@@ -91,7 +92,7 @@ public class ConfigMarketItem {
 			ConfigMarketItem item = new ConfigMarketItem();
 			item.id = (Integer)level.get("id");
 			item.name = (String)level.get("name");
-			item.type_id = (Integer)level.get("type_id");
+			item.type_id = Material.getMaterial((Integer)level.get("type_id"));
 			item.data = (Integer)level.get("data");
 			
 			item.inital_value = (Integer)level.get("value");
@@ -109,8 +110,8 @@ public class ConfigMarketItem {
 			}
 			
 			Boolean stackable = (Boolean)level.get("stackable");
-			if (stackable != null && stackable == false) {
-				item.stackable = stackable;
+			if (stackable != null && !stackable) {
+				item.stackable = false;
 			}
 			
 			items.put(item.id, item);
@@ -264,15 +265,11 @@ public class ConfigMarketItem {
 	}
 	
 	public int getBuyCostForAmount(int amount) {
-		int additional = getCoinsCostForAmount(amount, buy_value, 1);
-		//int additional = getSellCostForAmount(amount);
-		additional *= 2;
-		return additional;
+		return getCoinsCostForAmount(amount, buy_value, 1) * 2;
 	}
 	
 	public int getSellCostForAmount(int amount) {
-		int detremental = getCoinsCostForAmount(amount, sell_value, -1);
-		return detremental;
+		return getCoinsCostForAmount(amount, sell_value, -1);
 	}
 	
 	@SuppressWarnings("deprecation")

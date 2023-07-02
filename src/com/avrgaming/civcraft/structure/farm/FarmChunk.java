@@ -55,7 +55,7 @@ public class FarmChunk {
 	public ArrayList<BlockCoord> cropLocationCache = new ArrayList<BlockCoord>();
 	public ReentrantLock lock = new ReentrantLock();
 	
-	private ArrayList<BlockCoord> lastGrownCrops = new ArrayList<BlockCoord>();
+	private ArrayList<BlockCoord> lastGrownCrops = new ArrayList<>();
 	private LinkedList<GrowBlock> growBlocks;	
 	private Date lastGrowDate;
 	private int lastGrowTickCount;
@@ -64,7 +64,7 @@ public class FarmChunk {
 	private int missedGrowthTicks;
 	private int missedGrowthTicksStat;
 	
-	String biomeName = "none";
+	String biomeName;
 	
 	public FarmChunk(Chunk c, Town t, Structure struct) {
 		this.town = t;
@@ -99,9 +99,8 @@ public class FarmChunk {
 		Block beneath = block.getRelative(0, -1, 0);
 				
 		if (beneath != null) {
-            if (beneath.getTypeId() == Material.SOIL.getId()) {
-				if (ItemManager.getData(beneath) != 0x0)
-					return true;
+            if (beneath.getType() == Material.SOIL) {
+				return ItemManager.getData(beneath) != 0x0;
 			}
 		}
 		return false;
@@ -111,7 +110,7 @@ public class FarmChunk {
 		return block.getLightLevel();
 	}
 	
-	public void spawnMelonOrPumpkin(BlockSnapshot bs, BlockCoord growMe, CivAsyncTask task) throws InterruptedException {
+	public void spawnMelonOrPumpkin(BlockSnapshot bs, BlockCoord growMe, CivAsyncTask task) {
 		//search for a free spot
 		int[][] offset = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
 		BlockSnapshot freeBlock = null;
@@ -131,16 +130,10 @@ public class FarmChunk {
 		try {
 			switch (randInt) {
 			case 0:
-				nextBlock = bs.getRelative(xOff, 0, zOff);
-				break;
-			case 1:
-				nextBlock = bs.getRelative(xOff, 0, zOff);
-				break;
-			case 2:
-				nextBlock = bs.getRelative(xOff, 0, zOff);
-				break;
-			case 3:
-				nextBlock = bs.getRelative(xOff, 0, zOff);
+				case 1:
+				case 2:
+				case 3:
+					nextBlock = bs.getRelative(xOff, 0, zOff);
 				break;
 			}
 		} catch (InvalidBlockLocation e) {
@@ -153,14 +146,14 @@ public class FarmChunk {
 			return;
 		}
 		
-		if (nextBlock.getTypeId() == Material.AIR.getId()) {
+		if (nextBlock.getMaterial() == Material.AIR) {
 			freeBlock = nextBlock;
 		}
 		
-		if ((nextBlock.getTypeId() == Material.MELON_BLOCK.getId() &&
-				bs.getTypeId() == Material.MELON_STEM.getId()) ||
-				(nextBlock.getTypeId() == Material.PUMPKIN.getId() &&
-				bs.getTypeId() == Material.PUMPKIN_STEM.getId())) {
+		if ((nextBlock.getMaterial() == Material.MELON_BLOCK &&
+				bs.getMaterial() == Material.MELON_STEM) ||
+				(nextBlock.getMaterial() == Material.PUMPKIN &&
+				bs.getMaterial() == Material.PUMPKIN_STEM)) {
 			return;
 		}
 		
@@ -168,15 +161,14 @@ public class FarmChunk {
 			return;
 		}
 		
-		if (bs.getTypeId() == Material.MELON_STEM.getId()) {
-			addGrowBlock("world", growMe.getX()+xOff, growMe.getY(), growMe.getZ()+zOff, Material.MELON_BLOCK.getId(), 0x0, true);
+		if (bs.getMaterial() == Material.MELON_STEM) {
+			addGrowBlock("world", growMe.getX()+xOff, growMe.getY(), growMe.getZ()+zOff, Material.MELON_BLOCK, 0x0, true);
 		} else {
-			addGrowBlock("world", growMe.getX()+xOff, growMe.getY(), growMe.getZ()+zOff, Material.PUMPKIN.getId(), 0x0, true);
+			addGrowBlock("world", growMe.getX()+xOff, growMe.getY(), growMe.getZ()+zOff, Material.PUMPKIN, 0x0, true);
 		}
-		return;
 	}
 	
-	public void addGrowBlock(String world, int x, int y, int z, int typeid, int data, boolean spawn) {
+	public void addGrowBlock(String world, int x, int y, int z, Material typeid, int data, boolean spawn) {
 		if ((x > -64 && x < 64) && ((z > -64 && z < 64)))
 		{
 			CivLog.debug("Didn't grow in town "+this.town.getName()+": "+x+" "+y+" "+z);
@@ -186,7 +178,7 @@ public class FarmChunk {
 		this.growBlocks.add(new GrowBlock(world, x, y, z, typeid, data, spawn));
 	}
 	
-	public void growBlock(BlockSnapshot bs, BlockCoord growMe, CivAsyncTask task) throws InterruptedException {
+	public void growBlock(BlockSnapshot bs, BlockCoord growMe, CivAsyncTask task) {
 				
 		//XXX we are skipping hydration as I guess we dont seem to care.
 		//XXX we also skip light level checks, as we dont really care about that either.
@@ -195,25 +187,25 @@ public class FarmChunk {
 		case CARROT:
 		case POTATO:
 			if (bs.getData() < 0x7) {
-				addGrowBlock("world", growMe.getX(), growMe.getY(), growMe.getZ(), bs.getTypeId(), bs.getData()+0x1, false);
+				addGrowBlock("world", growMe.getX(), growMe.getY(), growMe.getZ(), bs.getMaterial(), bs.getData()+0x1, false);
 			}
 			break;
 		case NETHER_WARTS:
 			if (bs.getData() < 0x3) {
-				addGrowBlock("world", growMe.getX(), growMe.getY(), growMe.getZ(), bs.getTypeId(), bs.getData()+0x1, false);
+				addGrowBlock("world", growMe.getX(), growMe.getY(), growMe.getZ(), bs.getMaterial(), bs.getData()+0x1, false);
 			}
 			break;
 		case MELON_STEM:
 		case PUMPKIN_STEM:
 			if (bs.getData() < 0x7) {
-				addGrowBlock("world", growMe.getX(), growMe.getY(), growMe.getZ(), bs.getTypeId(), bs.getData()+0x1, false);
+				addGrowBlock("world", growMe.getX(), growMe.getY(), growMe.getZ(), bs.getMaterial(), bs.getData()+0x1, false);
 			} else if (bs.getData() == 0x7) {
 				spawnMelonOrPumpkin(bs, growMe, task);
 			}
 			break;
 		case COCOA:
 			if (CivData.canCocoaGrow(bs)) {
-				addGrowBlock("world", growMe.getX(), growMe.getY(), growMe.getZ(), bs.getTypeId(),CivData.getNextCocoaValue(bs), false);
+				addGrowBlock("world", growMe.getX(), growMe.getY(), growMe.getZ(), bs.getMaterial(),CivData.getNextCocoaValue(bs), false);
 			}
 			break;
 		}
@@ -239,7 +231,7 @@ public class FarmChunk {
 		// and another has a 20% chance to grow.
 		double effectiveGrowthRate = 1.0;
 		try {
-			effectiveGrowthRate = (double)this.town.getGrowth().total / (double)100;
+			effectiveGrowthRate = this.town.getGrowth().total / (double)100;
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			CivLog.debug("Farm at location" +this.getCoord()+" in town "+this.getTown().getName()+" Growth Error");
@@ -249,15 +241,14 @@ public class FarmChunk {
 			if (comp instanceof ActivateOnBiome) {
 				ActivateOnBiome ab = (ActivateOnBiome)comp;
 				if (ab.isValidBiome(biomeName)) {
-					Double val = ab.getValue();
-					effectiveGrowthRate *= val;
+					effectiveGrowthRate *= ab.getValue();
 					break;
 				}
 			}
 		}
 		this.getFarm().setLastEffectiveGrowth(effectiveGrowthRate);
 		
-		int crops_per_growth_tick = (int)CivSettings.getIntegerStructure("farm.grows_per_tick");
+		int crops_per_growth_tick = CivSettings.getIntegerStructure("farm.grows_per_tick");
 		int numberOfCropsToGrow = (int)(effectiveGrowthRate * crops_per_growth_tick); //Since this is a double, 1.0 means 100% so int cast is # of crops
 		int chanceForLast = (int) (this.town.getGrowth().total % 100);
 		
@@ -266,7 +257,7 @@ public class FarmChunk {
 		this.lastChanceForLast = chanceForLast;
 		Calendar c = Calendar.getInstance();
 		this.lastGrowDate = c.getTime();
-		this.growBlocks = new LinkedList<GrowBlock>();
+		this.growBlocks = new LinkedList<>();
 		
 		if (this.cropLocationCache.size() == 0) {
 			return;

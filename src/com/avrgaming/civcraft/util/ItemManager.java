@@ -86,7 +86,7 @@ public class ItemManager {
 	}
 	
 	@SuppressWarnings("deprecation")
-	public static void sendBlockChange(Player player, Location loc, int type, int data) {
+	public static void sendBlockChange(Player player, Location loc, Material type, int data) {
 		player.sendBlockChange(loc, type, (byte)data);
 	}
 	

@@ -149,7 +149,7 @@ public class CivSettings {
 	public static Map<Material, Integer> blockPlaceExceptions =  new HashMap<Material, Integer>();
 	public static Map<EntityType, Integer> restrictedSpawns = new HashMap<EntityType, Integer>();
 	public static HashSet<EntityType> playerEntityWeapons = new HashSet<EntityType>();
-	public static HashSet<Integer> alwaysCrumble = new HashSet<Integer>();
+	public static HashSet<Material> alwaysCrumble = new HashSet<>();
 	
 	public static FileConfiguration warConfig; /* war.yml */
 	
@@ -293,18 +293,18 @@ public class CivSettings {
 		emerald_rate = CivSettings.getDouble(civConfig, "ore_rates.emerald");
 		startingCoins = CivSettings.getDouble(civConfig, "global.starting_coins");
 		
-		alwaysCrumble.add(Material.BEDROCK.getId());
-		alwaysCrumble.add(Material.COAL_BLOCK.getId());
-		alwaysCrumble.add(Material.EMERALD_BLOCK.getId());
-		alwaysCrumble.add(Material.LAPIS_BLOCK.getId());
-		alwaysCrumble.add(Material.SPONGE.getId());
-		alwaysCrumble.add(Material.HAY_BLOCK.getId());
-		alwaysCrumble.add(Material.GOLD_BLOCK.getId());
-		alwaysCrumble.add(Material.DIAMOND_BLOCK.getId());
-		alwaysCrumble.add(Material.IRON_BLOCK.getId());
-		alwaysCrumble.add(Material.REDSTONE_BLOCK.getId());
-		alwaysCrumble.add(Material.ENDER_CHEST.getId());
-		alwaysCrumble.add(Material.BEACON.getId());
+		alwaysCrumble.add(Material.BEDROCK);
+		alwaysCrumble.add(Material.COAL_BLOCK);
+		alwaysCrumble.add(Material.EMERALD_BLOCK);
+		alwaysCrumble.add(Material.LAPIS_BLOCK);
+		alwaysCrumble.add(Material.SPONGE);
+		alwaysCrumble.add(Material.HAY_BLOCK);
+		alwaysCrumble.add(Material.GOLD_BLOCK);
+		alwaysCrumble.add(Material.DIAMOND_BLOCK);
+		alwaysCrumble.add(Material.IRON_BLOCK);
+		alwaysCrumble.add(Material.REDSTONE_BLOCK);
+		alwaysCrumble.add(Material.ENDER_CHEST);
+		alwaysCrumble.add(Material.BEACON);
 		
 		LoreEnhancement.init();
 		LoreCraftableMaterial.buildStaticMaterials();

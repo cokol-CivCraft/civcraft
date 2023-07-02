@@ -444,7 +444,7 @@ public abstract class Buildable extends SQLObject {
 
                     BlockCoord coord = new BlockCoord(this.getCorner().getWorldname(), (relx), (rely), (relz));
 
-                    if (tpl.blocks[x][y][z].getMaterial() == Material.AIR) {
+                    if (tpl.blocks[x][y][z].getType() == Material.AIR) {
                         continue;
                     }
 
@@ -909,12 +909,12 @@ public abstract class Buildable extends SQLObject {
                 for (int z = 0; z < regionZ; z++) {
                     Block b = centerBlock.getRelative(x, y, z);
 
-                    if (b.getTypeId() == Material.CHEST.getId()) {
+                    if (b.getType() == Material.CHEST) {
                         throw new CivException(CivSettings.localize.localizedString("cannotBuild_chestInWay"));
                     }
 
                     TownChunk tc = CivGlobal.getTownChunk(b.getLocation());
-                    if (tc == null && autoClaim == true) {
+                    if (tc == null && autoClaim) {
                         claimCoords.add(new ChunkCoord(b.getLocation()));
                     }
 
@@ -1004,7 +1004,7 @@ public abstract class Buildable extends SQLObject {
             try {
                 //XXX These will be added to the array list of objects to save in town.buildStructure();
                 this.townChunksToSave.add(TownChunk.townHallClaim(this.getTown(), c));
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
         }
 
@@ -1021,22 +1021,21 @@ public abstract class Buildable extends SQLObject {
 
 
     public synchronized void buildRepairTemplate(Template tpl, Block centerBlock) {
-        HashMap<Chunk, Chunk> chunkUpdates = new HashMap<Chunk, Chunk>();
-
         for (int x = 0; x < tpl.size_x; x++) {
             for (int y = 0; y < tpl.size_y; y++) {
                 for (int z = 0; z < tpl.size_z; z++) {
                     Block b = centerBlock.getRelative(x, y, z);
                     //b.setTypeIdAndData(tpl.blocks[x][y][z].getType(), (byte)tpl.blocks[x][y][z].getData(), false);
                     if (tpl.blocks[x][y][z].specialType == Type.COMMAND) {
-                        ItemManager.setTypeIdAndData(b, Material.AIR.getId(), (byte) 0, false);
+                        b.setType(Material.AIR);
+                        b.setData((byte) 0);
                     } else {
-                        ItemManager.setTypeIdAndData(b, tpl.blocks[x][y][z].getMaterial().getId(), (byte) tpl.blocks[x][y][z].getData(), false);
+                        int data = (byte) tpl.blocks[x][y][z].getData();
+                        b.setType(tpl.blocks[x][y][z].getType());
+                        b.setData((byte) data);
                     }
 
-                    chunkUpdates.put(b.getChunk(), b.getChunk());
-
-                    if (b.getTypeId() == Material.WALL_SIGN.getId() || b.getTypeId() == Material.SIGN_POST.getId()) {
+                    if (b.getType() == Material.WALL_SIGN || b.getType() == Material.SIGN_POST) {
                         Sign s2 = (Sign) b.getState();
                         s2.setLine(0, tpl.blocks[x][y][z].message[0]);
                         s2.setLine(1, tpl.blocks[x][y][z].message[1]);
@@ -1065,8 +1064,8 @@ public abstract class Buildable extends SQLObject {
 
     public int getBuildSpeed() {
         // buildTime is in hours, we need to return milliseconds.
-        boolean hour = true;
-        double millisecondsPerBlock = 0;
+        boolean hour;
+        double millisecondsPerBlock;
         try {
             hour = CivSettings.getBoolean(CivSettings.civConfig, "structurespeed");
         } catch (InvalidConfiguration e) {
@@ -1075,11 +1074,7 @@ public abstract class Buildable extends SQLObject {
         }
         // We should return the number of milliseconds to wait between each block placement.
         double hoursPerBlock = (this.getHammerCost() / this.town.getHammers().total) / this.totalBlockCount;
-        if (hour) {
-            millisecondsPerBlock = hoursPerBlock * 60 * 60 * 1000;
-        } else {
-            millisecondsPerBlock = hoursPerBlock * 60 * 30 * 1000;
-        }
+        millisecondsPerBlock = hour ? hoursPerBlock * 60 * 60 * 1000 : hoursPerBlock * 60 * 30 * 1000;
         // Clip millisecondsPerBlock to 500 milliseconds.
         if (millisecondsPerBlock < 500) {
             millisecondsPerBlock = 500;
@@ -1369,8 +1364,7 @@ public abstract class Buildable extends SQLObject {
                             continue;
                     }
 
-                    Block block1 = coord.getBlock();
-                    if (CivSettings.alwaysCrumble.contains(block1.getTypeId())) {
+                    if (CivSettings.alwaysCrumble.contains(coord.getBlock().getType())) {
                         Block block = coord.getBlock();
                         block.setType(Material.COBBLESTONE);
                         continue;
@@ -1380,16 +1374,14 @@ public abstract class Buildable extends SQLObject {
 
                     // Each block has a 70% chance to turn into Air
                     if (rand.nextInt(100) <= 70) {
-                        Block block = coord.getBlock();
-                        block.setType(Material.AIR);
+                        coord.getBlock().setType(Material.AIR);
                         ItemManager.setData(coord.getBlock(), 0, true);
                         continue;
                     }
 
                     // Each block has a 30% chance to turn into gravel
                     if (rand.nextInt(100) <= 30) {
-                        Block block = coord.getBlock();
-                        block.setType(Material.COBBLESTONE);
+                        coord.getBlock().setType(Material.COBBLESTONE);
                         ItemManager.setData(coord.getBlock(), 0, true);
                         continue;
                     }
@@ -1397,8 +1389,7 @@ public abstract class Buildable extends SQLObject {
 
                     // Each block has a 10% chance of starting a fire
                     if (rand.nextInt(100) <= 10) {
-                        Block block = coord.getBlock();
-                        block.setType(Material.FIRE);
+                        coord.getBlock().setType(Material.FIRE);
                         ItemManager.setData(coord.getBlock(), 0, true);
                         continue;
                     }

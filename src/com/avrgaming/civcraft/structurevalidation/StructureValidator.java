@@ -151,7 +151,7 @@ public class StructureValidator implements Runnable {
 			
 			for (SimpleBlock sb : bottomLayer) {				
 				/* We only want the bottom layer of a template to be checked. */
-				if (sb.getMaterial() == Material.AIR) {
+				if (sb.getType() == Material.AIR) {
 					continue;
 				}
 				try {

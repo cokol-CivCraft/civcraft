@@ -2,8 +2,10 @@ package com.avrgaming.civcraft.util;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Optional;
 import java.util.TreeMap;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import com.avrgaming.civcraft.exception.CivException;
@@ -12,28 +14,27 @@ import com.avrgaming.civcraft.main.CivGlobal;
 import net.minecraft.server.v1_12_R1.PacketPlayOutMultiBlockChange;
 
 public class PlayerBlockChangeUtil {
-	/*
-	 * This class sends fake block updates to residents.
-	 * It attempts to package all pending block updates. It allows the user to add blocks that
-	 * need to change to a list, then calculates which chunks need to be updated and sent to the
-	 * player.
-	 */
-	
-	/* A hashmap for each player. */
-//	private HashMap<String, HashMap<BlockCoord, SimpleBlock>> blocksToUpdate = new HashMap<String, HashMap<BlockCoord, SimpleBlock>>();
-	
-	/* 
-	 * This hashmap contains the blocks in each chunk to update. The Simple block's x, y, and z value are now chunk offsets.
-	 */
-	HashMap<String, HashMap<ChunkCoord, LinkedList<SimpleBlock>>> blocksInChunkToUpdate = new HashMap<String, HashMap<ChunkCoord, LinkedList<SimpleBlock>>>();
-	
-	
-	TreeMap<String, PacketPlayOutMultiBlockChange> preparedPackets = new TreeMap<String, PacketPlayOutMultiBlockChange>();
-	//private static ReentrantLock taskLock = new ReentrantLock();
+    /*
+     * This class sends fake block updates to residents.
+     * It attempts to package all pending block updates. It allows the user to add blocks that
+     * need to change to a list, then calculates which chunks need to be updated and sent to the
+     * player.
+     */
 
-	
-	
-	public void addUpdateBlock(String playerName, BlockCoord bcoord, int type_id, int data) {
+    /* A hashmap for each player. */
+//	private HashMap<String, HashMap<BlockCoord, SimpleBlock>> blocksToUpdate = new HashMap<String, HashMap<BlockCoord, SimpleBlock>>();
+
+    /*
+     * This hashmap contains the blocks in each chunk to update. The Simple block's x, y, and z value are now chunk offsets.
+     */
+    HashMap<String, HashMap<ChunkCoord, LinkedList<SimpleBlock>>> blocksInChunkToUpdate = new HashMap<String, HashMap<ChunkCoord, LinkedList<SimpleBlock>>>();
+
+
+    TreeMap<String, PacketPlayOutMultiBlockChange> preparedPackets = new TreeMap<String, PacketPlayOutMultiBlockChange>();
+    //private static ReentrantLock taskLock = new ReentrantLock();
+
+
+    public void addUpdateBlock(String playerName, BlockCoord bcoord, Material type_id, int data) {
 //		HashMap<BlockCoord, SimpleBlock> blocks = blocksToUpdate.get(playerName);
 //		if (blocks == null) {
 //			blocks = new HashMap<BlockCoord, SimpleBlock>();
@@ -43,38 +44,32 @@ public class PlayerBlockChangeUtil {
 //		SimpleBlock sb = new SimpleBlock(type_id, data);
 //		blocks.put(bcoord, sb);
 //		blocksToUpdate.put(playerName, blocks);
-		
-		HashMap<ChunkCoord, LinkedList<SimpleBlock>> blocksInChunk = blocksInChunkToUpdate.get(playerName);
-		if (blocksInChunk == null) {
-			blocksInChunk = new HashMap<ChunkCoord, LinkedList<SimpleBlock>>();
-		}
-		
-		/* Add to chunk table. */
-		ChunkCoord coord = new ChunkCoord(bcoord);
-		SimpleBlock sb2 = new SimpleBlock(type_id, data);
-		sb2.worldname = bcoord.getWorldname();
-		sb2.x = bcoord.getX();
-		sb2.y = bcoord.getY();
-		sb2.z = bcoord.getZ();
-		
-		LinkedList<SimpleBlock> blocks = blocksInChunk.get(coord);
-		if (blocks == null) {
-			blocks = new LinkedList<SimpleBlock>();
-		}
-		
-		blocks.add(sb2);
-		blocksInChunk.put(coord, blocks);
-		blocksInChunkToUpdate.put(playerName, blocksInChunk);
-	}
-	
-	// Each updated block is stored sequentially in 4 byte sized blocks.
-	// The content of these bytes are as follows:
-	//
-	// Byte index:  |       Zero        |       One       |       Two       |      Three        |
-	// Bit index:   |  0 - 3  |  4 - 7  |    8   -   15   |   16        -       27   |  28 - 31 |  
-	// Content:     |    x    |    z    |        y        |         block id         |   data   | 
-	//                                                    |     (8)         |   (4)       (4)
-	
+
+        HashMap<ChunkCoord, LinkedList<SimpleBlock>> blocksInChunk = Optional.of(blocksInChunkToUpdate.get(playerName)).orElse(new HashMap<>());
+
+        /* Add to chunk table. */
+        ChunkCoord coord = new ChunkCoord(bcoord);
+        SimpleBlock sb2 = new SimpleBlock(type_id, data);
+        sb2.worldname = bcoord.getWorldname();
+        sb2.x = bcoord.getX();
+        sb2.y = bcoord.getY();
+        sb2.z = bcoord.getZ();
+
+        LinkedList<SimpleBlock> blocks = Optional.of(blocksInChunk.get(coord)).orElse(new LinkedList<>());
+
+        blocks.add(sb2);
+        blocksInChunk.put(coord, blocks);
+        blocksInChunkToUpdate.put(playerName, blocksInChunk);
+    }
+
+    // Each updated block is stored sequentially in 4 byte sized blocks.
+    // The content of these bytes are as follows:
+    //
+    // Byte index:  |       Zero        |       One       |       Two       |      Three        |
+    // Bit index:   |  0 - 3  |  4 - 7  |    8   -   15   |   16        -       27   |  28 - 31 |
+    // Content:     |    x    |    z    |        y        |         block id         |   data   |
+    //                                                    |     (8)         |   (4)       (4)
+
 //	/* This gets byte 0. */
 //	private byte getHexFromXZ(int x, int z) {
 //		byte hex = 0;
@@ -104,32 +99,32 @@ public class PlayerBlockChangeUtil {
 //		hex += lastFour;
 //		return hex;
 //	}
-	
-	public void sendUpdate(String playerName) {
-		//int count = 0;
-		HashMap<ChunkCoord, LinkedList<SimpleBlock>> blocksInChunk = blocksInChunkToUpdate.get(playerName);
-		if (blocksInChunk == null) {
-			return;
-		}	
-		
-		for (ChunkCoord chunk : blocksInChunk.keySet()) {
-			LinkedList<SimpleBlock> blocks = blocksInChunk.get(chunk);
-			
-			Player player;
-			try {
-				player = CivGlobal.getPlayer(playerName);
-			} catch (CivException e) {
-				e.printStackTrace();
-				return;
-			}
-			
-			for (SimpleBlock sb : blocks) {
-			//	count++;
-				ItemManager.sendBlockChange(player, sb.getLocation(), sb.getMaterial().getId(), sb.getData());
-			}
-		}		
-	}
-	
+
+    public void sendUpdate(String playerName) {
+        //int count = 0;
+        HashMap<ChunkCoord, LinkedList<SimpleBlock>> blocksInChunk = blocksInChunkToUpdate.get(playerName);
+        if (blocksInChunk == null) {
+            return;
+        }
+
+        for (ChunkCoord chunk : blocksInChunk.keySet()) {
+            LinkedList<SimpleBlock> blocks = blocksInChunk.get(chunk);
+
+            Player player;
+            try {
+                player = CivGlobal.getPlayer(playerName);
+            } catch (CivException e) {
+                e.printStackTrace();
+                return;
+            }
+
+            for (SimpleBlock sb : blocks) {
+                //	count++;
+                ItemManager.sendBlockChange(player, sb.getLocation(), sb.getType(), sb.getData());
+            }
+        }
+    }
+
 //	@SuppressWarnings("deprecation")
 //	public void sendUpdate(String playerName) {
 //		

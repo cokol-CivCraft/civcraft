@@ -40,8 +40,8 @@ public class SimpleBlock {
 		LITERAL,
 	}
 	
-	private int type = 0;
-	private byte data = 0;
+	private Material material;
+	private byte data;
 	//public int special = 0;
 //	public int special_id = -1;
 	public int x;
@@ -50,7 +50,7 @@ public class SimpleBlock {
 	
 	public Type specialType;
 	public String command; 
-	public String message[] = new String[4];
+	public String[] message = new String[4];
 	public String worldname;
 	public Buildable buildable;
 	public Map<String, String> keyvalues = new HashMap<String, String>();
@@ -65,18 +65,18 @@ public class SimpleBlock {
 	        this.y = block.getY();
 	        this.z = block.getZ();
 	        this.worldname = block.getWorld().getName();
-            this.type = block.getTypeId();
+            this.material = block.getType();
 	        this.data = ItemManager.getData(block);
 	        this.specialType = Type.NORMAL;
 	    }
 	    
-	    public SimpleBlock(String hash, int type, byte data) {
+	    public SimpleBlock(String hash, Material material, byte data) {
 		    String[] split = hash.split(",");
 			this.worldname = split[0];
-			this.x = Integer.valueOf(split[1]);
-			this.y = Integer.valueOf(split[2]);
-			this.z = Integer.valueOf(split[3]);
-			this.type = type;
+			this.x = Integer.parseInt(split[1]);
+			this.y = Integer.parseInt(split[2]);
+			this.z = Integer.parseInt(split[3]);
+			this.material = material;
 			this.data = data;
 	        this.specialType = Type.NORMAL;
 	    }
@@ -92,37 +92,36 @@ public class SimpleBlock {
 	/**
 	 * Construct the block with its type and data.
 	 *
-	 * @param type
+	 * @param material
 	 * @param data
 	 */
-	public SimpleBlock(int type, int data) {
-	    this.type = (short) type;
-	    this.data = (byte) data;
-        this.specialType = Type.NORMAL;
+	public SimpleBlock(Material material, int data) {
+		this.material = material;
+		this.data = (byte) data;
+		this.specialType = Type.NORMAL;
 
 	}
 
-	@SuppressWarnings("deprecation")
-	public Material getMaterial() {
-		return Material.getMaterial(type);
+	public Material getType() {
+		return material;
 	}
 	
 	/**
-	 * @param type the type to set
+	 * @param material the type to set
 	 */
-	public void setType(int type) {
-	    this.type = (short) type;
+	public void setType(Material material) {
+	    this.material = material;
 	}
-	
-	public void setTypeAndData(int type, int data) {
-		this.type = (short) type;
+	@SuppressWarnings("unused")
+	public void setTypeAndData(Material type, int data) {
+		this.material =  type;
 		this.data = (byte) data;
 	}
 	/**
 	 * @return the data
 	 */
 	public int getData() {
-	    return (int) data;
+	    return data;
 	}
 	
 	/**
@@ -138,18 +137,17 @@ public class SimpleBlock {
 	 * @return if air
 	 */
 	public boolean isAir() {
-	    return type == (byte)0x0;
+	    return material == Material.AIR;
 	}
 
 	public String getKeyValueString() {
-		String out = "";
+		StringBuilder out = new StringBuilder();
 		
 		for (String key : keyvalues.keySet()) {
-			String value = keyvalues.get(key);
-			out += key+":"+value+",";
+			out.append(key).append(":").append(keyvalues.get(key)).append(",");
 		}
 		
-		return out;
+		return out.toString();
 	}
 
 	public Location getLocation() {

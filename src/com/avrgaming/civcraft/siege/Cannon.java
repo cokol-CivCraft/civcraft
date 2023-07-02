@@ -307,7 +307,7 @@ public class Cannon extends Buildable {
 				coord = new BlockCoord(absCoord);
 				this.setFireSignLocation(coord);
 
-				ItemManager.setTypeIdAndData(coord.getBlock(), sb.getMaterial().getId(), sb.getData(), false);
+				ItemManager.setTypeIdAndData(coord.getBlock(), sb.getType().getId(), sb.getData(), false);
 				updateFireSign(coord.getBlock());
 
 				
@@ -317,7 +317,7 @@ public class Cannon extends Buildable {
 				coord = new BlockCoord(absCoord);
 				this.setAngleSignLocation(coord);
 				
-				ItemManager.setTypeIdAndData(coord.getBlock(), sb.getMaterial().getId(), sb.getData(), false);
+				ItemManager.setTypeIdAndData(coord.getBlock(), sb.getType().getId(), sb.getData(), false);
 				updateAngleSign(coord.getBlock());
 				
 				Cannon.angleSignLocations.put(coord, this);
@@ -326,7 +326,7 @@ public class Cannon extends Buildable {
 				coord = new BlockCoord(absCoord);
 				this.setPowerSignLocation(coord);
 
-				ItemManager.setTypeIdAndData(coord.getBlock(), sb.getMaterial().getId(), sb.getData(), false);
+				ItemManager.setTypeIdAndData(coord.getBlock(), sb.getType().getId(), sb.getData(), false);
 				updatePowerSign(coord.getBlock());
 
 				Cannon.powerSignLocations.put(coord, this);
@@ -445,10 +445,10 @@ public class Cannon extends Buildable {
 					}
 
 					try {
-						if (nextBlock.getType() != tpl.blocks[x][y][z].getMaterial()) {
+						if (nextBlock.getType() != tpl.blocks[x][y][z].getType()) {
 							/* Save it as a war block so it's automatically removed when war time ends. */
 							WarRegen.saveBlock(nextBlock, Cannon.RESTORE_NAME, false);
-							nextBlock.setType(tpl.blocks[x][y][z].getMaterial());
+							nextBlock.setType(tpl.blocks[x][y][z].getType());
 							ItemManager.setData(nextBlock, tpl.blocks[x][y][z].getData());
 						}
 

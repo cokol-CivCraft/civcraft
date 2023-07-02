@@ -140,7 +140,7 @@ public class ItemFrameStorage {
 	}
 	
 	public void clearItem() {
-        setItem(new ItemStack(0, 1, (short) 0));
+        setItem(new ItemStack(Material.AIR, 1, (short) 0));
 	}
 	
 	public ItemStack getItem() {

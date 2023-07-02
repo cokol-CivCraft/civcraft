@@ -62,13 +62,13 @@ public class WindmillPostProcessSyncTask implements Runnable {
 				if (breadCount > 0) {
 					/* bread seed */
 					try {
-						source_inv.removeItem(Material.SEEDS.getId(), 1, true);
+						source_inv.removeItem(Material.SEEDS, 1, true);
 					} catch (CivException e) {
 						e.printStackTrace();
 					}
 					breadCount--;
                     Block block = coord.getBlock();
-                    block.setTypeId(Material.WHEAT.getId());
+                    block.setType(Material.WHEAT);
                     ItemManager.setData(coord.getBlock(), 0, true);
 					coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
 					continue;
@@ -77,13 +77,13 @@ public class WindmillPostProcessSyncTask implements Runnable {
 				if (carrotCount > 0) {
 					/* carrots */
 					try {
-						source_inv.removeItem(Material.CARROT_ITEM.getId(), 1, true);
+						source_inv.removeItem(Material.CARROT_ITEM, 1, true);
 					} catch (CivException e) {
 						e.printStackTrace();
 					}
 					carrotCount--;
                     Block block = coord.getBlock();
-                    block.setTypeId(Material.CARROT.getId());
+                    block.setType(Material.CARROT);
                     ItemManager.setData(coord.getBlock(), 0, true);
 					coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
 
@@ -94,13 +94,13 @@ public class WindmillPostProcessSyncTask implements Runnable {
 				if (potatoCount > 0) {
 					/* potatoes */
 					try {
-						source_inv.removeItem(Material.POTATO_ITEM.getId(), 1, true);
+						source_inv.removeItem(Material.POTATO_ITEM, 1, true);
 					} catch (CivException e) {
 						e.printStackTrace();
 					}
 					potatoCount--;
                     Block block = coord.getBlock();
-                    block.setTypeId(Material.POTATO.getId());
+                    block.setType(Material.POTATO);
                     ItemManager.setData(coord.getBlock(), 0, true);
 					coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
 
@@ -112,13 +112,13 @@ public class WindmillPostProcessSyncTask implements Runnable {
 			if (breadCount > 0) {
 				/* bread seed */
 				try {
-					source_inv.removeItem(Material.SEEDS.getId(), 1, true);
+					source_inv.removeItem(Material.SEEDS, 1, true);
 				} catch (CivException e) {
 					e.printStackTrace();
 				}
 				breadCount--;
                 Block block = coord.getBlock();
-                block.setTypeId(Material.WHEAT.getId());
+                block.setType(Material.WHEAT);
                 ItemManager.setData(coord.getBlock(), 0, true);
 				coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
 
@@ -127,13 +127,13 @@ public class WindmillPostProcessSyncTask implements Runnable {
 			if (carrotCount > 0) {
 				/* carrots */
 				try {
-					source_inv.removeItem(Material.CARROT_ITEM.getId(), 1, true);
+					source_inv.removeItem(Material.CARROT_ITEM, 1, true);
 				} catch (CivException e) {
 					e.printStackTrace();
 				}
 				carrotCount--;
                 Block block = coord.getBlock();
-                block.setTypeId(Material.CARROT.getId());
+                block.setType(Material.CARROT);
                 ItemManager.setData(coord.getBlock(), 0, true);
 				coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
 
@@ -142,16 +142,15 @@ public class WindmillPostProcessSyncTask implements Runnable {
 			if (potatoCount > 0) {
 				/* potatoes */
 				try {
-					source_inv.removeItem(Material.POTATO_ITEM.getId(), 1, true);
+					source_inv.removeItem(Material.POTATO_ITEM, 1, true);
 				} catch (CivException e) {
 					e.printStackTrace();
 				}
 				potatoCount--;
                 Block block = coord.getBlock();
-                block.setTypeId(Material.POTATO.getId());
+                block.setType(Material.POTATO);
                 ItemManager.setData(coord.getBlock(), 0, true);
 				coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
-				continue;
 			}
 			
 		}
