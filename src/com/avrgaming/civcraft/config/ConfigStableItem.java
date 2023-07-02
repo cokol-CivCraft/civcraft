@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import com.avrgaming.civcraft.main.CivLog;
@@ -30,7 +31,7 @@ public class ConfigStableItem {
 	public String name;
 	public double cost;
 	public int store_id;
-	public int item_id;
+	public Material item_id;
 	public int horse_id;
 	
 	public static void loadConfig(FileConfiguration cfg, Set<ConfigStableItem> items) {
@@ -41,9 +42,9 @@ public class ConfigStableItem {
 			
 			itm.name = (String)level.get("name");
 			itm.cost = (Double)level.get("cost");
-			itm.store_id = (Integer)level.get("store_id");
-			itm.item_id = (Integer)level.get("item_id");
-			itm.horse_id = (Integer)level.get("horse_id");
+			itm.store_id = (Integer) level.get("store_id");
+			itm.item_id = Material.getMaterial((Integer) level.get("item_id"));
+			itm.horse_id = (Integer) level.get("horse_id");
 			
 			items.add(itm);
 		}

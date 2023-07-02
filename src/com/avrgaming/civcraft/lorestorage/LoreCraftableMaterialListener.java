@@ -206,7 +206,6 @@ public class LoreCraftableMaterialListener implements Listener {
 	}
 	
 
-	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.LOW)
 	public void OnPrepareItemCraftEvent(PrepareItemCraftEvent event) {
 		

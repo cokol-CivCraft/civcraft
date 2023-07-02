@@ -408,7 +408,7 @@ public class BonusGoodieManager implements Listener {
 		Inventory inv = event.getPlayer().getInventory();
 		
 		for (ConfigTradeGood good : CivSettings.goods.values()) {
-			for (Entry<Integer, ? extends ItemStack> itemEntry : inv.all(Material.getMaterial((int) good.material)).entrySet()) {
+			for (Entry<Integer, ? extends ItemStack> itemEntry : inv.all(good.material).entrySet()) {
 				if (good.material_data != ItemManager.getData(itemEntry.getValue())) {
 					continue;
 				}
@@ -442,12 +442,12 @@ public class BonusGoodieManager implements Listener {
 		ItemFrame frame = clickedFrame.getItemFrame();
 		ItemStack stack = frame.getItem();
 		//if goodie in frame, break it out
-        if (stack != null && stack.getTypeId() != Material.AIR.getId()) {
+		if (stack != null && stack.getType() != Material.AIR) {
 			// FYI sometimes the item pops out from the player entity interact event...
 			BonusGoodie goodieInFrame = CivGlobal.getBonusGoodie(frame.getItem());
 			if (goodieInFrame != null) {
 				clickedFrame.getTown().onGoodieRemoveFromFrame(clickedFrame, goodieInFrame);
-				
+
 				try {
 					goodieInFrame.setFrame(clickedFrame);
 					goodieInFrame.update(false);

@@ -121,8 +121,8 @@ public class Cottage extends Structure {
                 CivGlobal.getSessionDB().add(key, String.valueOf(max_poison_ticks), this.getTown().getCiv().getId(), this.getTown().getId(), this.getId());
 	
 			// Add some rotten flesh to the chest lol
-			CivMessage.sendTown(this.getTown(), CivColor.Rose+CivSettings.localize.localizedString("cottage_poisoned"));
-			inv.addItemStack(new ItemStack(Material.ROTTEN_FLESH.getId(), 4, (short) 0));
+			CivMessage.sendTown(this.getTown(), CivColor.Rose + CivSettings.localize.localizedString("cottage_poisoned"));
+			inv.addItemStack(new ItemStack(Material.ROTTEN_FLESH, 4, (short) 0));
 			return true;
 		}
 		return false;

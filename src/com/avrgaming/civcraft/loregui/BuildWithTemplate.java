@@ -54,16 +54,19 @@ public class BuildWithTemplate implements GuiAction {
                 /* Use the default template. */
                 tpl = new Template();
                 try {
-                    tpl.initTemplate(player.getLocation(), resident.pendingBuildable);
-                } catch (CivException | IOException e) {
-                    e.printStackTrace();
-                    throw e;
-                }
+					tpl.initTemplate(player.getLocation(), resident.pendingBuildable);
+				} catch (CivException | IOException e) {
+					e.printStackTrace();
+					throw e;
+				}
 
-                resident.pendingBuildable.buildPlayerPreview(player, player.getLocation(), tpl);
-            }
+				resident.pendingBuildable.buildPlayerPreview(player, player.getLocation(), tpl);
+			}
 		} catch (CivException e) {
 			CivMessage.sendError(player, e.getMessage());
+		} catch (IOException e) {
+			CivMessage.sendError(player, CivSettings.localize.localizedString("internalIOException"));
+			e.printStackTrace();
 		}
 		player.closeInventory();
 	}

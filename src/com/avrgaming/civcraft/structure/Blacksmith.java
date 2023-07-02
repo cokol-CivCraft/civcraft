@@ -79,14 +79,12 @@ public class Blacksmith extends Structure {
     }
 
     private long getCooldown() {
-        long cd = COOLDOWN;
         try {
-            cd = CivSettings.getInteger(CivSettings.structureConfig, "blacksmith.cooldown");
+            return CivSettings.getInteger(CivSettings.structureConfig, "blacksmith.cooldown");
         } catch (InvalidConfiguration e) {
             e.printStackTrace();
-            cd = 5;
+            return COOLDOWN;
         }
-        return cd;
     }
 
     public Blacksmith(ResultSet rs) throws SQLException, CivException {
@@ -224,9 +222,8 @@ public class Blacksmith extends Structure {
 
         ItemStack item = player.getInventory().getItemInMainHand();
 
-        ArrayList<SessionEntry> sessions = null;
         String key = this.getkey(player, this, "forge");
-        sessions = CivGlobal.getSessionDB().lookup(key);
+        ArrayList<SessionEntry> sessions = CivGlobal.getSessionDB().lookup(key);
 
         if (sessions == null || sessions.size() == 0) {
             /* Validate that the item being added is a catalyst */
@@ -277,8 +274,7 @@ public class Blacksmith extends Structure {
         ArrayList<SessionEntry> sessions = CivGlobal.getSessionDB().lookup(key);
 
         /* Search for free catalyst. */
-        ItemStack stack = player.getInventory().getItemInMainHand();
-        AttributeUtil attrs = new AttributeUtil(stack);
+        AttributeUtil attrs = new AttributeUtil(player.getInventory().getItemInMainHand());
         Catalyst catalyst;
 
 
@@ -340,8 +336,7 @@ public class Blacksmith extends Structure {
 
         }
 
-        stack = player.getInventory().getItemInMainHand();
-        ItemStack enhancedItem = catalyst.getEnchantedItem(stack);
+        ItemStack enhancedItem = catalyst.getEnchantedItem(player.getInventory().getItemInMainHand());
 
         if (enhancedItem == null) {
             throw new CivException(CivSettings.localize.localizedString("blacksmith_forge_invalidItem"));
@@ -417,7 +412,6 @@ public class Blacksmith extends Structure {
     public void withdrawSmelt(Player player) throws CivException {
 
         String key = getkey(player, this, "smelt");
-        ArrayList<SessionEntry> entries = null;
 
         // Only members can use the smelter
         Resident res = CivGlobal.getResident(player.getName());
@@ -425,18 +419,17 @@ public class Blacksmith extends Structure {
             throw new CivException(CivSettings.localize.localizedString("blacksmith_smelt_notMember"));
         }
 
-        entries = CivGlobal.getSessionDB().lookup(key);
+        ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(key);
 
         if (entries == null || entries.size() == 0) {
             throw new CivException(CivSettings.localize.localizedString("blacksmith_smelt_nothingInSmelter"));
         }
 
         Inventory inv = player.getInventory();
-        HashMap<Integer, ItemStack> leftovers = null;
 
         for (SessionEntry se : entries) {
             String[] split = se.value.split(":");
-            int itemId = Integer.parseInt(split[0]);
+            Material itemId = Material.getMaterial(Integer.parseInt(split[0]));
             double amount = Double.parseDouble(split[1]);
             long now = System.currentTimeMillis();
             int secondsBetween = CivGlobal.getSecondsBetween(se.time, now);
@@ -447,40 +440,38 @@ public class Blacksmith extends Structure {
 
                 double timeLeft = ((double) Blacksmith.SMELT_TIME_SECONDS - (double) secondsBetween) / (double) 60;
                 //Date finish = new Date(now+(secondsBetween*1000));
-                CivMessage.send(player, CivColor.Yellow + CivSettings.localize.localizedString("var_blacksmith_smelt_inProgress1", amount, CivData.getDisplayName(Material.getMaterial(itemId)), df1.format(timeLeft)));
+                CivMessage.send(player, CivColor.Yellow + CivSettings.localize.localizedString("var_blacksmith_smelt_inProgress1", amount, CivData.getDisplayName(itemId), df1.format(timeLeft)));
                 continue;
             }
 
             ItemStack stack = new ItemStack(itemId, (int) amount, (short) 0);
-            leftovers = inv.addItem(stack);
+            HashMap<Integer, ItemStack> leftovers = inv.addItem(stack);
 
             // If this stack was successfully withdrawn, delete it from the DB.
             if (leftovers.size() == 0) {
                 CivGlobal.getSessionDB().delete(se.request_id, se.key);
-                CivMessage.send(player, CivSettings.localize.localizedString("var_cmd_civ_withdrawSuccess", amount, CivData.getDisplayName(Material.getMaterial(itemId))));
+                CivMessage.send(player, CivSettings.localize.localizedString("var_cmd_civ_withdrawSuccess", amount, CivData.getDisplayName(itemId)));
 
                 break;
-            } else {
-                // We do not have space in our inventory, inform the player.
-                CivMessage.send(player, CivColor.Rose + CivSettings.localize.localizedString("blacksmith_smelt_notEnoughInvenSpace"));
-
-                // If the leftover size is the same as the size we are trying to withdraw, do nothing.
-                int leftoverAmount = CivGlobal.getLeftoverSize(leftovers);
-
-                if (leftoverAmount == amount) {
-                    continue;
-                }
-
-                if (leftoverAmount == 0) {
-                    //just in case we somehow get an entry with 0 items in it.
-                    CivGlobal.getSessionDB().delete(se.request_id, se.key);
-                } else {
-                    // Some of the items were deposited into the players inventory but the sessionDB
-                    // still has the full amount stored, update the db to only contain the leftovers.
-                    String newValue = itemId + ":" + leftoverAmount;
-                    CivGlobal.getSessionDB().update(se.request_id, se.key, newValue);
-                }
             }
+            // We do not have space in our inventory, inform the player.
+            CivMessage.send(player, CivColor.Rose + CivSettings.localize.localizedString("blacksmith_smelt_notEnoughInvenSpace"));
+
+            // If the leftover size is the same as the size we are trying to withdraw, do nothing.
+            int leftoverAmount = CivGlobal.getLeftoverSize(leftovers);
+
+            if (leftoverAmount == amount) {
+                continue;
+            }
+
+            if (leftoverAmount == 0) {
+                //just in case we somehow get an entry with 0 items in it.
+                CivGlobal.getSessionDB().delete(se.request_id, se.key);
+                continue;
+            }
+            // Some of the items were deposited into the players inventory but the sessionDB
+            // still has the full amount stored, update the db to only contain the leftovers.
+            CivGlobal.getSessionDB().update(se.request_id, se.key, itemId + ":" + leftoverAmount);
 
             // only withdraw one item at a time.
             break;

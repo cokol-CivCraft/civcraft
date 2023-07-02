@@ -50,13 +50,12 @@ public class ConfigCampLonghouseLevel {
 	public static void loadConfig(FileConfiguration cfg, Map<Integer, ConfigCampLonghouseLevel> longhouse_levels) {
 		longhouse_levels.clear();
 		List<Map<?, ?>> list = cfg.getMapList("longhouse_levels");
-		Map<Material, Integer> consumes_list;
 		for (Map<?,?> cl : list ) {
 			List<?> consumes = (List<?>)cl.get("consumes");
 			if (consumes == null) {
 				continue;
 			}
-			consumes_list = new HashMap<>();
+			Map<Material, Integer> consumes_list = new HashMap<>();
 			for (Object consume : consumes) {
 				String[] split = ((String) consume).split(",");
 				consumes_list.put(Material.getMaterial(Integer.parseInt(split[0])), Integer.valueOf(split[1]));

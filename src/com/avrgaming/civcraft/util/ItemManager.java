@@ -84,11 +84,6 @@ public class ItemManager {
 	public static void sendBlockChange(Player player, Location loc, Material type, int data) {
 		player.sendBlockChange(loc, type, (byte)data);
 	}
-	
-	@SuppressWarnings("deprecation")
-	public static int getBlockTypeIdAt(World world, int x, int y, int z) {
-		return world.getBlockTypeIdAt(x, y, z);
-	}
 
 	@SuppressWarnings("deprecation")
 	public static int getId(BlockState newState) {
