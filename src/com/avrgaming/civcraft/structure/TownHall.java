@@ -25,14 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Effect;
-import org.bukkit.FireworkEffect;
+import org.bukkit.*;
 import org.bukkit.FireworkEffect.Type;
-import org.bukkit.Location;
-import org.bukkit.Sound;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
@@ -207,8 +201,8 @@ public class TownHall extends Structure implements RespawnLocationHolder {
 		}
 		
 		Block itemFrameBlock = absCoord.getBlock();
-		if (itemFrameBlock.getTypeId() != CivData.AIR) {
-            itemFrameBlock.setTypeId(CivData.AIR);
+		if (itemFrameBlock.getTypeId() != Material.AIR.getId()) {
+            itemFrameBlock.setTypeId(Material.AIR.getId());
         }
 		
 		ItemFrameStorage itemStore;
@@ -307,7 +301,7 @@ public class TownHall extends Structure implements RespawnLocationHolder {
 		/* Build the bedrock tower. */
 		//for (int i = 0; i < 1; i++) {
 		Block b = centerLoc.getBlock();
-        b.setTypeId(CivData.FENCE);
+        b.setTypeId(Material.FENCE.getId());
         ItemManager.setData(b, 0);
 		
 		StructureBlock sb = new StructureBlock(new BlockCoord(b), this);
@@ -316,7 +310,7 @@ public class TownHall extends Structure implements RespawnLocationHolder {
 		
 		/* Build the control block. */
 		b = centerLoc.getBlock().getRelative(0, 1, 0);
-        b.setTypeId(CivData.OBSIDIAN);
+        b.setTypeId(Material.OBSIDIAN.getId());
         sb = new StructureBlock(new BlockCoord(b), this);
 		this.addStructureBlock(sb.getCoord(), true);
 		
@@ -337,7 +331,7 @@ public class TownHall extends Structure implements RespawnLocationHolder {
 		Resident attacker = CivGlobal.getResident(player);
 
         Block block = hit.getCoord().getLocation().getBlock();
-        block.setTypeId(CivData.AIR);
+        block.setTypeId(Material.AIR.getId());
         world.playSound(hit.getCoord().getLocation(), Sound.BLOCK_ANVIL_BREAK, 1.0f, -1.0f);
 		world.playSound(hit.getCoord().getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f);
 		
@@ -401,7 +395,7 @@ public class TownHall extends Structure implements RespawnLocationHolder {
 		Resident attacker = CivGlobal.getResident(player);
 
         Block block = hit.getCoord().getLocation().getBlock();
-        block.setTypeId(CivData.AIR);
+        block.setTypeId(Material.AIR.getId());
 
         boolean allDestroyed = true;
 		for (ControlPoint c : this.controlPoints.values()) {
@@ -494,7 +488,7 @@ public class TownHall extends Structure implements RespawnLocationHolder {
 	public void regenControlBlocks() {
 		for (BlockCoord coord : this.controlPoints.keySet()) {
             Block block = coord.getBlock();
-            block.setTypeId(CivData.OBSIDIAN);
+            block.setTypeId(Material.OBSIDIAN.getId());
 
             ControlPoint cp = this.controlPoints.get(coord);
 			cp.setHitpoints(cp.getMaxHitpoints());

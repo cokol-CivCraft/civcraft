@@ -19,6 +19,7 @@
 package com.avrgaming.civcraft.threading.tasks;
 
 
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.material.MaterialData;
@@ -202,9 +203,9 @@ public class PostBuildSyncTask implements Runnable {
 				
 				/* Convert sign data to chest data.*/
 				block = absCoord.getBlock();
-				if (block.getTypeId() != CivData.CHEST) {
+				if (block.getTypeId() != Material.CHEST.getId()) {
 					byte chestData = CivData.convertSignDataToChestData((byte)sb.getData());
-					block.setTypeId(CivData.CHEST);
+					block.setTypeId(Material.CHEST.getId());
 					ItemManager.setData(block, chestData, true);}
 				
 					Chest chest = (Chest)block.getState();
@@ -233,7 +234,7 @@ public class PostBuildSyncTask implements Runnable {
 			Block block = absCoord.getBlock();
 			if (block.getType() != sb.getMaterial()) {
 				if (buildable.getCiv().isAdminCiv()) {
-					ItemManager.setTypeIdAndData(block, CivData.AIR, (byte)0, false);
+					ItemManager.setTypeIdAndData(block, Material.AIR.getId(), (byte)0, false);
 				} else {
 					ItemManager.setTypeIdAndData(block, sb.getMaterial().getId(), (byte)sb.getData(), false);
 				}
@@ -399,9 +400,9 @@ public class PostBuildSyncTask implements Runnable {
 				
 				/* Convert sign data to chest data.*/
 				block = absCoord.getBlock();
-				if (block.getTypeId() != CivData.CHEST) {
+				if (block.getTypeId() != Material.CHEST.getId()) {
 					byte chestData = CivData.convertSignDataToChestData((byte)sb.getData());
-					block.setTypeId(CivData.CHEST);
+					block.setTypeId(Material.CHEST.getId());
 					ItemManager.setData(block, chestData, true); }
 				
 					Chest chest = (Chest)block.getState();

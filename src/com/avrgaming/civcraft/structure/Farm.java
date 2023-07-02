@@ -24,11 +24,11 @@ import java.util.ArrayList;
 
 import org.bukkit.Chunk;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
@@ -99,19 +99,19 @@ public class Farm extends Structure {
 
 	public static boolean isBlockControlled(Block b) {
 
-        switch (b.getTypeId()) {
-		//case CivData.BROWNMUSHROOM:
-		//case CivData.REDMUSHROOM:
-		case CivData.COCOAPOD:
-		case CivData.MELON:
-		case CivData.MELON_STEM:
-		case CivData.PUMPKIN:
-		case CivData.PUMPKIN_STEM:
-		case CivData.WHEAT:
-		case CivData.CARROTS:
-		case CivData.POTATOES:
-		case CivData.NETHERWART:
-	//	case CivData.SUGARCANE:
+        switch (b.getType()) {
+		//case BROWNMUSHROOM:
+		//case REDMUSHROOM:
+		case COCOA:
+		case MELON_BLOCK:
+		case MELON_STEM:
+		case PUMPKIN:
+		case PUMPKIN_STEM:
+		case WHEAT:
+		case CARROT:
+		case POTATO:
+		case NETHER_WARTS:
+	//	case SUGARCANE:
 			return true;
 		}
 		

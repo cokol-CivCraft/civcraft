@@ -8,6 +8,7 @@ import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -17,7 +18,6 @@ import com.avrgaming.civcraft.camp.CampBlock;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
@@ -79,7 +79,7 @@ public class CannonProjectile {
 				for (int y = -radius; y < radius; y++) {
 					
 					Block b = loc.getBlock().getRelative(x, y, z);
-                    if (b.getTypeId() == CivData.BEDROCK) {
+                    if (b.getTypeId() == Material.BEDROCK.getId()) {
 						continue;
 					}
 			
@@ -193,7 +193,7 @@ public class CannonProjectile {
 		loc.getWorld().createExplosion(loc, 0.0f, false);
 
         Block block = loc.getBlock();
-        if (block.getTypeId() != CivData.AIR) {
+        if (block.getTypeId() != Material.AIR.getId()) {
 			return true;
 		}
 		

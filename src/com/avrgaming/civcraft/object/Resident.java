@@ -1428,12 +1428,12 @@ public class Resident extends SQLObject {
 			 */
 			
 			/* Top part which is for the other resident. */
-			ItemStack signStack = LoreGuiItem.build("", CivData.WOOL, CivData.DATA_WOOL_WHITE, "");
+			ItemStack signStack = LoreGuiItem.build("", Material.WOOL.getId(), CivData.DATA_WOOL_WHITE, "");
 			int start = 0;
 			for (int i = start; i < (9 + start); i++) {
 				if ((i-start) == 8) {
-					ItemStack guiStack = LoreGuiItem.build(resident.getName()+" Confirm", 
-							CivData.WOOL, CivData.DATA_WOOL_RED, 
+					ItemStack guiStack = LoreGuiItem.build(resident.getName()+" Confirm",
+							Material.WOOL.getId(), CivData.DATA_WOOL_RED,
 							CivColor.LightGreen+CivSettings.localize.localizedString("var_resident_tradeWait1",CivColor.LightBlue+resident.getName()),
 							CivColor.LightGray+" "+CivSettings.localize.localizedString("resident_tradeWait2"));
 					inv.setItem(i, guiStack);
@@ -1450,8 +1450,8 @@ public class Resident extends SQLObject {
 			start = 4*9;
 			for (int i = start; i < (9 + start); i++) {
 				if ((i-start) == 8) {					
-					ItemStack guiStack = LoreGuiItem.build(CivSettings.localize.localizedString("resident_tradeYourConfirm"), 
-							CivData.WOOL, CivData.DATA_WOOL_RED, 
+					ItemStack guiStack = LoreGuiItem.build(CivSettings.localize.localizedString("resident_tradeYourConfirm"),
+							Material.WOOL.getId(), CivData.DATA_WOOL_RED,
 							CivColor.Gold+CivSettings.localize.localizedString("resident_tradeClicktoConfirm"));
 					inv.setItem(i, guiStack);
 					

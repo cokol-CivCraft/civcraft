@@ -41,7 +41,6 @@ import org.bukkit.entity.Player;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigBuildableInfo;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.Resident;
@@ -231,48 +230,48 @@ public class Template {
 
         for (int y = 0; y < this.size_y; y++) {
             Block b = center.getBlock().getRelative(0, y, 0);
-            ItemManager.sendBlockChange(player, b.getLocation(), CivData.BEDROCK, 0);
+            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK.getId(), 0);
             resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getTypeId(), ItemManager.getData(b)));
 
             b = center.getBlock().getRelative(this.size_x - 1, y, this.size_z - 1);
-            ItemManager.sendBlockChange(player, b.getLocation(), CivData.BEDROCK, 0);
+            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK.getId(), 0);
             resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getTypeId(), ItemManager.getData(b)));
 
             b = center.getBlock().getRelative(this.size_x - 1, y, 0);
-            ItemManager.sendBlockChange(player, b.getLocation(), CivData.BEDROCK, 0);
+            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK.getId(), 0);
             resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getTypeId(), ItemManager.getData(b)));
 
             b = center.getBlock().getRelative(0, y, this.size_z - 1);
-            ItemManager.sendBlockChange(player, b.getLocation(), CivData.BEDROCK, 0);
+            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK.getId(), 0);
             resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getTypeId(), ItemManager.getData(b)));
 
         }
 
         for (int x = 0; x < this.size_x; x++) {
             Block b = center.getBlock().getRelative(x, this.size_y - 1, 0);
-            ItemManager.sendBlockChange(player, b.getLocation(), CivData.BEDROCK, 0);
+            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK.getId(), 0);
             resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getTypeId(), ItemManager.getData(b)));
 
             b = center.getBlock().getRelative(x, this.size_y - 1, this.size_z - 1);
-            ItemManager.sendBlockChange(player, b.getLocation(), CivData.BEDROCK, 0);
+            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK.getId(), 0);
             resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getTypeId(), ItemManager.getData(b)));
 
         }
 
         for (int z = 0; z < this.size_z; z++) {
             Block b = center.getBlock().getRelative(0, this.size_y - 1, z);
-            ItemManager.sendBlockChange(player, b.getLocation(), CivData.BEDROCK, 0);
+            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK.getId(), 0);
             resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getTypeId(), ItemManager.getData(b)));
 
             b = center.getBlock().getRelative(this.size_x - 1, this.size_y - 1, z);
-            ItemManager.sendBlockChange(player, b.getLocation(), CivData.BEDROCK, 0);
+            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK.getId(), 0);
             resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getTypeId(), ItemManager.getData(b)));
         }
 
         for (int z = 0; z < this.size_z; z++) {
             for (int x = 0; x < this.size_x; x++) {
                 Block b = center.getBlock().getRelative(x, 0, z);
-                ItemManager.sendBlockChange(player, b.getLocation(), CivData.BEDROCK, 0);
+                ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK.getId(), 0);
                 resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getTypeId(), ItemManager.getData(b)));
             }
         }
@@ -283,38 +282,38 @@ public class Template {
 
         for (int y = 0; y < this.size_y; y++) {
             Block b = center.getBlock().getRelative(0, y, 0);
-            b.setTypeId(CivData.BEDROCK);
+            b.setTypeId(Material.BEDROCK.getId());
 
             b = center.getBlock().getRelative(this.size_x - 1, y, this.size_z - 1);
-            b.setTypeId(CivData.BEDROCK);
+            b.setTypeId(Material.BEDROCK.getId());
 
             b = center.getBlock().getRelative(this.size_x - 1, y, 0);
-            b.setTypeId(CivData.BEDROCK);
+            b.setTypeId(Material.BEDROCK.getId());
 
             b = center.getBlock().getRelative(0, y, this.size_z - 1);
-            b.setTypeId(CivData.BEDROCK);
+            b.setTypeId(Material.BEDROCK.getId());
         }
 
         for (int x = 0; x < this.size_x; x++) {
             Block b = center.getBlock().getRelative(x, this.size_y - 1, 0);
-            b.setTypeId(CivData.BEDROCK);
+            b.setTypeId(Material.BEDROCK.getId());
 
             b = center.getBlock().getRelative(x, this.size_y - 1, this.size_z - 1);
-            b.setTypeId(CivData.BEDROCK);
+            b.setTypeId(Material.BEDROCK.getId());
         }
 
         for (int z = 0; z < this.size_z; z++) {
             Block b = center.getBlock().getRelative(0, this.size_y - 1, z);
-            b.setTypeId(CivData.BEDROCK);
+            b.setTypeId(Material.BEDROCK.getId());
 
             b = center.getBlock().getRelative(this.size_x - 1, this.size_y - 1, z);
-            b.setTypeId(CivData.BEDROCK);
+            b.setTypeId(Material.BEDROCK.getId());
         }
 
         for (int z = 0; z < this.size_z; z++) {
             for (int x = 0; x < this.size_x; x++) {
                 Block b = center.getBlock().getRelative(x, 0, z);
-                b.setTypeId(CivData.BEDROCK);
+                b.setTypeId(Material.BEDROCK.getId());
             }
         }
 
@@ -323,27 +322,27 @@ public class Template {
     public void removeScaffolding(Location center) {
         for (int y = 0; y < this.size_y; y++) {
             Block b = center.getBlock().getRelative(0, y, 0);
-            if (b.getTypeId() == CivData.BEDROCK) {
-                b.setTypeId(CivData.AIR);
+            if (b.getTypeId() == Material.BEDROCK.getId()) {
+                b.setTypeId(Material.AIR.getId());
                 ItemManager.setData(b, 0, true);
             }
 
             b = center.getBlock().getRelative(this.size_x - 1, y, this.size_z - 1);
-            if (b.getTypeId() == CivData.BEDROCK) {
-                b.setTypeId(CivData.AIR);
+            if (b.getTypeId() == Material.BEDROCK.getId()) {
+                b.setTypeId(Material.AIR.getId());
                 ItemManager.setData(b, 0, true);
             }
 
             b = center.getBlock().getRelative(this.size_x - 1, y, 0);
-            if (b.getTypeId() == CivData.BEDROCK) {
-                b.setTypeId(CivData.AIR);
+            if (b.getTypeId() == Material.BEDROCK.getId()) {
+                b.setTypeId(Material.AIR.getId());
                 ItemManager.setData(b, 0, true);
 
             }
 
             b = center.getBlock().getRelative(0, y, this.size_z - 1);
-            if (b.getTypeId() == CivData.BEDROCK) {
-                b.setTypeId(CivData.AIR);
+            if (b.getTypeId() == Material.BEDROCK.getId()) {
+                b.setTypeId(Material.AIR.getId());
                 ItemManager.setData(b, 0, true);
 
             }
@@ -351,14 +350,14 @@ public class Template {
 
         for (int x = 0; x < this.size_x; x++) {
             Block b = center.getBlock().getRelative(x, this.size_y - 1, 0);
-            if (b.getTypeId() == CivData.BEDROCK) {
-                b.setTypeId(CivData.AIR);
+            if (b.getTypeId() == Material.BEDROCK.getId()) {
+                b.setTypeId(Material.AIR.getId());
                 ItemManager.setData(b, 0, true);
             }
 
             b = center.getBlock().getRelative(x, this.size_y - 1, this.size_z - 1);
-            if (b.getTypeId() == CivData.BEDROCK) {
-                b.setTypeId(CivData.AIR);
+            if (b.getTypeId() == Material.BEDROCK.getId()) {
+                b.setTypeId(Material.AIR.getId());
                 ItemManager.setData(b, 0, true);
             }
 
@@ -366,14 +365,14 @@ public class Template {
 
         for (int z = 0; z < this.size_z; z++) {
             Block b = center.getBlock().getRelative(0, this.size_y - 1, z);
-            if (b.getTypeId() == CivData.BEDROCK) {
-                b.setTypeId(CivData.AIR);
+            if (b.getTypeId() == Material.BEDROCK.getId()) {
+                b.setTypeId(Material.AIR.getId());
                 ItemManager.setData(b, 0, true);
             }
 
             b = center.getBlock().getRelative(this.size_x - 1, this.size_y - 1, z);
-            if (b.getTypeId() == CivData.BEDROCK) {
-                b.setTypeId(CivData.AIR);
+            if (b.getTypeId() == Material.BEDROCK.getId()) {
+                b.setTypeId(Material.AIR.getId());
                 ItemManager.setData(b, 0, true);
             }
 
@@ -396,7 +395,7 @@ public class Template {
                 for (int z = 0; z < this.size_z; z++) {
                     Block b = center.getBlock().getRelative(x, y, z);
 
-                    if (b.getTypeId() == CivData.WALL_SIGN || b.getTypeId() == CivData.SIGN) {
+                    if (b.getTypeId() == Material.WALL_SIGN.getId() || b.getTypeId() == Material.SIGN_POST.getId()) {
                         if (b.getState() instanceof Sign) {
                             Sign sign = (Sign) b.getState();
 
@@ -422,7 +421,7 @@ public class Template {
                     // Must set to air in a different loop, since setting to air can break attachables.
                     Block b = center.getBlock().getRelative(x, y, z);
 
-                    b.setTypeId(CivData.AIR);
+                    b.setTypeId(Material.AIR.getId());
                     ItemManager.setData(b, 0x0);
                 }
             }
@@ -598,18 +597,18 @@ public class Template {
 
             SimpleBlock block = new SimpleBlock(blockId, blockData);
 
-            if (blockId == CivData.WOOD_DOOR ||
-                    blockId == CivData.IRON_DOOR ||
-                    blockId == CivData.SPRUCE_DOOR ||
-                    blockId == CivData.BIRCH_DOOR ||
-                    blockId == CivData.JUNGLE_DOOR ||
-                    blockId == CivData.ACACIA_DOOR ||
-                    blockId == CivData.DARK_OAK_DOOR) {
+            if (blockId == Material.WOOD_DOOR.getId() ||
+                    blockId == Material.IRON_DOOR.getId() ||
+                    blockId == Material.SPRUCE_DOOR.getId() ||
+                    blockId == Material.BIRCH_DOOR.getId() ||
+                    blockId == Material.JUNGLE_DOOR.getId() ||
+                    blockId == Material.ACACIA_DOOR.getId() ||
+                    blockId == Material.DARK_OAK_DOOR.getId()) {
                 this.doorRelativeLocations.add(new BlockCoord("", blockX, blockY, blockZ));
             }
 
             // look for signs.
-            if (blockId == CivData.WALL_SIGN || blockId == CivData.SIGN) {
+            if (blockId == Material.WALL_SIGN.getId() || blockId == Material.SIGN_POST.getId()) {
 
                 if (locTypeSplit.length > 2) {
 
@@ -801,7 +800,7 @@ public class Template {
 
                     chunkUpdates.put(b.getChunk(), b.getChunk());
 
-                    if (b.getTypeId() == CivData.WALL_SIGN || b.getTypeId() == CivData.SIGN) {
+                    if (b.getTypeId() == Material.WALL_SIGN.getId() || b.getTypeId() == Material.SIGN_POST.getId()) {
                         Sign s2 = (Sign) b.getState();
                         s2.setLine(0, tpl.blocks[x][y][z].message[0]);
                         s2.setLine(1, tpl.blocks[x][y][z].message[1]);

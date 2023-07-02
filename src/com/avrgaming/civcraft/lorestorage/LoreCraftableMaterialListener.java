@@ -20,7 +20,6 @@ import com.avrgaming.civcraft.config.ConfigTech;
 import com.avrgaming.civcraft.config.ConfigTechItem;
 import com.avrgaming.civcraft.items.components.Tagged;
 import com.avrgaming.civcraft.loreenhancements.LoreEnhancement;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
@@ -219,11 +218,11 @@ public class LoreCraftableMaterialListener implements Listener {
 			if (loreMat == null) {
 				if(LoreCraftableMaterial.isCustom(event.getRecipe().getResult())) {
 					/* Result is custom, but we have found no custom recipie. Set to blank. */
-					event.getInventory().setResult(new ItemStack(CivData.AIR));
+					event.getInventory().setResult(new ItemStack(Material.AIR.getId()));
 				}
 				
 				if (matrixContainsCustom(event.getInventory().getMatrix())) {
-					event.getInventory().setResult(new ItemStack(CivData.AIR));
+					event.getInventory().setResult(new ItemStack(Material.AIR.getId()));
 				}
 				
 				return;
@@ -267,11 +266,11 @@ public class LoreCraftableMaterialListener implements Listener {
 			if (loreMat == null) {
 				if(LoreCraftableMaterial.isCustom(event.getRecipe().getResult())) {
 					/* Result is custom, but we have found no custom recipie. Set to blank. */
-					event.getInventory().setResult(new ItemStack(CivData.AIR));
+					event.getInventory().setResult(new ItemStack(Material.AIR.getId()));
 				}
 				
 				if (matrixContainsCustom(event.getInventory().getMatrix())) {
-					event.getInventory().setResult(new ItemStack(CivData.AIR));
+					event.getInventory().setResult(new ItemStack(Material.AIR.getId()));
 				}
 				
 				return;
@@ -279,7 +278,7 @@ public class LoreCraftableMaterialListener implements Listener {
 				if(!LoreCraftableMaterial.isCustom(event.getRecipe().getResult())) {
 					/* Result is not custom, but recipie is. Set to blank. */
 					if (!loreMat.isVanilla()) {
-						event.getInventory().setResult(new ItemStack(CivData.AIR));
+						event.getInventory().setResult(new ItemStack(Material.AIR.getId()));
 						return;
 					}
 				}
@@ -311,7 +310,7 @@ public class LoreCraftableMaterialListener implements Listener {
 			if (craftMat.hasComponent("Tagged")) {
 				String tag = Tagged.matrixHasSameTag(event.getInventory().getMatrix());
 				if (tag == null) {
-					event.getInventory().setResult(ItemManager.createItemStack(CivData.AIR, 1));
+					event.getInventory().setResult(ItemManager.createItemStack(Material.AIR.getId(), 1));
 					return;
 				}
 				

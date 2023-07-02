@@ -1,6 +1,7 @@
 package com.avrgaming.civcraft.structure.farm;
 
 import com.avrgaming.civcraft.util.BlockCoord;
+import org.bukkit.Material;
 
 public class GrowBlock {
 	
@@ -15,4 +16,8 @@ public class GrowBlock {
 	public int typeId;
 	public int data;
 	public boolean spawn;
+
+	public Material getMaterial(){
+		return Material.getMaterial(this.typeId);
+	}
 }

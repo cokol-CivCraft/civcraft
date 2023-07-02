@@ -13,7 +13,6 @@ import org.bukkit.event.player.PlayerExpChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
@@ -46,7 +45,7 @@ public class DisableXPListener implements Listener {
 		}
 
         Block block1 = event.getClickedBlock();
-        if (event.getClickedBlock() == null || block1.getTypeId() == CivData.AIR) {
+        if (event.getClickedBlock() == null || block1.getTypeId() == Material.AIR.getId()) {
 			return;
 		}
 		

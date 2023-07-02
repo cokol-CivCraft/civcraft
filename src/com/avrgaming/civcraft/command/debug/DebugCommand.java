@@ -32,15 +32,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
-import org.bukkit.Color;
-import org.bukkit.Effect;
-import org.bukkit.FireworkEffect;
+import org.bukkit.*;
 import org.bukkit.FireworkEffect.Type;
-import org.bukkit.Location;
-import org.bukkit.Sound;
-import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
@@ -72,7 +65,6 @@ import com.avrgaming.civcraft.loreenhancements.LoreEnhancementSoulBound;
 import com.avrgaming.civcraft.lorestorage.LoreMaterial;
 import com.avrgaming.civcraft.lorestorage.LoreStoreage;
 import com.avrgaming.civcraft.main.CivCraft;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
@@ -456,7 +448,7 @@ public class DebugCommand extends CommandBase {
 										if (info == null) {
 											try {
 											Block block = next.getBlock();
-											ItemManager.setTypeIdAndData(block, CivData.AIR, 0, false);
+											ItemManager.setTypeIdAndData(block, Material.AIR.getId(), 0, false);
 											continue;
 											} catch (Exception e) {
 												e.printStackTrace();
@@ -618,7 +610,7 @@ public class DebugCommand extends CommandBase {
 		long value = Long.decode(hex);
 		
 		ItemStack inHand = player.getInventory().getItemInMainHand();
-		if (inHand == null || inHand.getTypeId() == CivData.AIR) {
+		if (inHand == null || inHand.getTypeId() == Material.AIR.getId()) {
 			throw new CivException("please have an item in your hand.");
 		}
 		
@@ -1087,7 +1079,7 @@ public class DebugCommand extends CommandBase {
 			
 			BlockCoord bcoord = sign.getCoord();
 			Block block = bcoord.getBlock();
-			block.setTypeId(CivData.WALL_SIGN);
+			block.setTypeId(Material.WALL_SIGN.getId());
 			ItemManager.setData(block, sign.getDirection());
 			
 			Sign s = (Sign)block.getState();

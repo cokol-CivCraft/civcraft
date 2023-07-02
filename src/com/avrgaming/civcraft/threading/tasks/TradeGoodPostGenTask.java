@@ -26,13 +26,13 @@ import java.util.Queue;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 
 import com.avrgaming.civcraft.config.ConfigTradeGood;
 import com.avrgaming.civcraft.database.SQL;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.TradeGood;
@@ -173,32 +173,32 @@ public class TradeGoodPostGenTask implements Runnable {
 						top.getChunk().load();
 					}
 
-					if (top.getTypeId() == CivData.BEDROCK) {
-                        top.setTypeId(CivData.AIR);
+					if (top.getTypeId() == Material.BEDROCK.getId()) {
+                        top.setTypeId(Material.AIR.getId());
                         ItemManager.setData(top, 0, true);
 		    			bcoord2.setY(bcoord2.getY() - 1);
 		    			
 		    			top = top.getRelative(BlockFace.NORTH);
-						if (top.getTypeId() == CivData.WALL_SIGN) {
-                            top.setTypeId(CivData.AIR);
+						if (top.getTypeId() == Material.WALL_SIGN.getId()) {
+                            top.setTypeId(Material.AIR.getId());
                             ItemManager.setData(top, 0, true);
 			    		}
 		    			
 		    			top = top.getRelative(BlockFace.SOUTH);
-						if (top.getTypeId() == CivData.WALL_SIGN) {
-                            top.setTypeId(CivData.AIR);
+						if (top.getTypeId() == Material.WALL_SIGN.getId()) {
+                            top.setTypeId(Material.AIR.getId());
                             ItemManager.setData(top, 0, true);
 			    		}
 		    			
 		    			top = top.getRelative(BlockFace.EAST);
-						if (top.getTypeId() == CivData.WALL_SIGN) {
-                            top.setTypeId(CivData.AIR);
+						if (top.getTypeId() == Material.WALL_SIGN.getId()) {
+                            top.setTypeId(Material.AIR.getId());
                             ItemManager.setData(top, 0, true);
 			    		}
 		    			
 		    			top = top.getRelative(BlockFace.WEST);
-						if (top.getTypeId() == CivData.WALL_SIGN) {
-                            top.setTypeId(CivData.AIR);
+						if (top.getTypeId() == Material.WALL_SIGN.getId()) {
+                            top.setTypeId(Material.AIR.getId());
                             ItemManager.setData(top, 0, true);
 			    		}
 					} else {
@@ -211,8 +211,8 @@ public class TradeGoodPostGenTask implements Runnable {
 				
 				// Determine if we should be a water good.
 				ConfigTradeGood good;
-				if (ItemManager.getBlockTypeIdAt(world, centerX, centerY-1, centerZ) == CivData.WATER || 
-					ItemManager.getBlockTypeIdAt(world, centerX, centerY-1, centerZ) == CivData.WATER_RUNNING) {
+				if (ItemManager.getBlockTypeIdAt(world, centerX, centerY-1, centerZ) == Material.STATIONARY_WATER.getId() ||
+					ItemManager.getBlockTypeIdAt(world, centerX, centerY-1, centerZ) == Material.WATER.getId()) {
 					good = pick.waterPick;
 				}  else {
 					good = pick.landPick;

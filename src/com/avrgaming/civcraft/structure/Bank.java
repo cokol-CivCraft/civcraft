@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -31,7 +32,6 @@ import com.avrgaming.civcraft.components.NonMemberFeeComponent;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.lorestorage.LoreMaterial;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Buff;
@@ -168,13 +168,13 @@ public class Bank extends Structure {
 		String itemName;
 		Player player = CivGlobal.getPlayer(resident);
 		
-		if (itemId == CivData.IRON_INGOT || itemId == CivData.IRON_BLOCK)
+		if (itemId == Material.IRON_INGOT.getId() || itemId == Material.IRON_BLOCK.getId())
 			itemName = CivSettings.localize.localizedString("bank_itemName_iron");
-		else if (itemId == CivData.GOLD_INGOT || itemId == CivData.GOLD_BLOCK)
+		else if (itemId == Material.GOLD_INGOT.getId() || itemId == Material.GOLD_BLOCK.getId())
 			itemName = CivSettings.localize.localizedString("bank_itemName_gold");
-		else if (itemId == CivData.DIAMOND || itemId == CivData.DIAMOND_BLOCK)
+		else if (itemId == Material.DIAMOND.getId() || itemId == Material.DIAMOND_BLOCK.getId())
 			itemName = CivSettings.localize.localizedString("bank_itemName_diamond");
-		else if (itemId == CivData.EMERALD || itemId == CivData.EMERALD_BLOCK)
+		else if (itemId == Material.EMERALD.getId() || itemId == Material.EMERALD_BLOCK.getId())
 			itemName = CivSettings.localize.localizedString("bank_itemName_emerald");
 		else 
 			itemName = CivSettings.localize.localizedString("bank_itemName_stuff");
@@ -231,28 +231,28 @@ public class Bank extends Structure {
 			player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1.1f, 1.1f);
 			switch (sign.getAction()) {
 			case "iron":
-				exchange_for_coins(resident, CivData.IRON_INGOT, CivSettings.iron_rate);
+				exchange_for_coins(resident, Material.IRON_INGOT.getId(), CivSettings.iron_rate);
 				break;
 			case "gold":
-				exchange_for_coins(resident, CivData.GOLD_INGOT, CivSettings.gold_rate);
+				exchange_for_coins(resident, Material.GOLD_INGOT.getId(), CivSettings.gold_rate);
 				break;
 			case "diamond":
-				exchange_for_coins(resident, CivData.DIAMOND, CivSettings.diamond_rate);
+				exchange_for_coins(resident, Material.DIAMOND.getId(), CivSettings.diamond_rate);
 				break;
 			case "emerald":
-				exchange_for_coins(resident, CivData.EMERALD, CivSettings.emerald_rate);
+				exchange_for_coins(resident, Material.EMERALD.getId(), CivSettings.emerald_rate);
 				break;
 			case "ironB":
-				exchange_for_coins(resident, CivData.IRON_INGOT, CivSettings.iron_rate*9);
+				exchange_for_coins(resident, Material.IRON_INGOT.getId(), CivSettings.iron_rate*9);
 				break;
 			case "goldB":
-				exchange_for_coins(resident, CivData.GOLD_INGOT, CivSettings.gold_rate*9);
+				exchange_for_coins(resident, Material.GOLD_INGOT.getId(), CivSettings.gold_rate*9);
 				break;
 			case "diamondB":
-				exchange_for_coins(resident, CivData.DIAMOND, CivSettings.diamond_rate*9);
+				exchange_for_coins(resident, Material.DIAMOND.getId(), CivSettings.diamond_rate*9);
 				break;
 			case "emeraldB":
-				exchange_for_coins(resident, CivData.EMERALD, CivSettings.emerald_rate*9);
+				exchange_for_coins(resident, Material.EMERALD.getId(), CivSettings.emerald_rate*9);
 				break;
 			}
 		} catch (CivException e) {

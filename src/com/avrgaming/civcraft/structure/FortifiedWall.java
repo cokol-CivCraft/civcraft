@@ -262,8 +262,8 @@ public class FortifiedWall extends Wall {
 			}
 			
 			for (Perk perk : personalUnboundPerks) {
-				infoRec = LoreGuiItem.build(perk.getDisplayName(), 
-						CivData.BEDROCK, 
+				infoRec = LoreGuiItem.build(perk.getDisplayName(),
+						Material.BEDROCK.getId(),
 						perk.configPerk.data, CivColor.Gold+CivSettings.localize.localizedString("loreGui_template_clickToBind"),
 						CivColor.Gray+CivSettings.localize.localizedString("loreGui_template_unbound"),
 						CivColor.Gray+CivSettings.localize.localizedString("loreGui_template_unbound2"),
@@ -424,7 +424,7 @@ public class FortifiedWall extends Wall {
 	private void validateBlockLocation(Player player, Location loc) throws CivException {
 		Block b = loc.getBlock();
 
-		if (b.getTypeId() == CivData.CHEST) {
+		if (b.getTypeId() == Material.CHEST.getId()) {
 			throw new CivException(CivSettings.localize.localizedString("cannotBuild_chestInWay"));
 		}
 							
@@ -476,21 +476,21 @@ public class FortifiedWall extends Wall {
 		switch (template) {
 		case "atlantean":
 			if (block == 0 || block == FortifiedWall.HEIGHT/2) {
-				return new SimpleBlock(CivData.PRISMARINE, CivData.DARK_PRISMARINE);
+				return new SimpleBlock(Material.PRISMARINE.getId(), CivData.DARK_PRISMARINE);
 			} else {
-				return new SimpleBlock(CivData.PRISMARINE, CivData.PRISMARINE_BRICKS);
+				return new SimpleBlock(Material.PRISMARINE.getId(), CivData.PRISMARINE_BRICKS);
 			}
 			case "arctic":
 			if (block == 0 || block == FortifiedWall.HEIGHT/2) {
-				return new SimpleBlock(CivData.PACKED_ICE, 0);
+				return new SimpleBlock(Material.PACKED_ICE.getId(), 0);
 			} else {
-				return new SimpleBlock(CivData.SNOW, 0);
+				return new SimpleBlock(Material.SNOW_BLOCK.getId(), 0);
 			}
 			 case "aztec":
 			if (block == 0 || block == FortifiedWall.HEIGHT/2) {
-				return new SimpleBlock(CivData.MOSS_STONE, 0);
+				return new SimpleBlock(Material.MOSSY_COBBLESTONE.getId(), 0);
 			} else {
-				return new SimpleBlock(CivData.COBBLESTONE, 0);
+				return new SimpleBlock(Material.COBBLESTONE.getId(), 0);
 			}
 			 case "cultist":
 			if (block == 0 || block == FortifiedWall.HEIGHT/2) {
@@ -500,21 +500,21 @@ public class FortifiedWall extends Wall {
 			}
 			 case "egyptian":
 			if (block == 0 || block == FortifiedWall.HEIGHT/2) {
-				return new SimpleBlock(CivData.SANDSTONE, CivData.CHISELED_SANDSTONE);
+				return new SimpleBlock(Material.SANDSTONE.getId(), CivData.CHISELED_SANDSTONE);
 			} else {
-				return new SimpleBlock(CivData.SANDSTONE, CivData.SMOOTH_SANDSTONE);
+				return new SimpleBlock(Material.SANDSTONE.getId(), CivData.SMOOTH_SANDSTONE);
 			}
 			 case "elven":
 			if (block == 0 || block == FortifiedWall.HEIGHT/2) {
-				return new SimpleBlock(CivData.WOOD, 3);
+				return new SimpleBlock(Material.LOG.getId(), 3);
 			} else {
-				return new SimpleBlock(CivData.LEAF, 3);
+				return new SimpleBlock(Material.LEAVES.getId(), 3);
 			}
 			 case "hell":
 			if (block == 0 || block == FortifiedWall.HEIGHT/2) {
 				return new SimpleBlock(112, 0);
 			} else {
-				return new SimpleBlock(CivData.NETHERRACK, 0);
+				return new SimpleBlock(Material.NETHERRACK.getId(), 0);
 			}
 			 case "roman":
 			if (block == 0 || block == FortifiedWall.HEIGHT/2) {
@@ -524,9 +524,9 @@ public class FortifiedWall extends Wall {
 			}
 			 default:
 			if (block == 0 || block == FortifiedWall.HEIGHT/2) {
-				return new SimpleBlock(CivData.STONE_BRICK, 0x1);
+				return new SimpleBlock(Material.SMOOTH_BRICK.getId(), 0x1);
 			} else {
-				return new SimpleBlock(CivData.STONE_BRICK, 0);
+				return new SimpleBlock(Material.SMOOTH_BRICK.getId(), 0);
 			}
 		}
 	}

@@ -25,6 +25,7 @@ import java.util.Random;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
@@ -160,7 +161,7 @@ public class TradeOutpost extends Structure {
 		/* Build the bedrock tower. */
 		for (int i = 0; i < 3; i++) {
 			Block b = centerLoc.getBlock().getRelative(0, i, 0);
-            b.setTypeId(CivData.BEDROCK);
+            b.setTypeId(Material.BEDROCK.getId());
             ItemManager.setData(b, 0);
 			
 			StructureBlock sb = new StructureBlock(new BlockCoord(b), this);
@@ -170,7 +171,7 @@ public class TradeOutpost extends Structure {
 		
 		/* Place the sign. */
 		Block b = centerLoc.getBlock().getRelative(1, 2, 0);
-        b.setTypeId(CivData.WALL_SIGN);
+        b.setTypeId(Material.WALL_SIGN.getId());
         ItemManager.setData(b, CivData.DATA_SIGN_EAST);
 		Sign s = (Sign)b.getState();
 		s.setLine(0, good.getInfo().name);
@@ -315,7 +316,7 @@ public class TradeOutpost extends Structure {
 
 			Block block1 = coord.getBlock();
 			Block block2 = coord.getBlock();
-			if (block2.getTypeId() == CivData.BEDROCK || block1.getTypeId() == CivData.AIR) {
+			if (block2.getTypeId() == Material.BEDROCK.getId() || block1.getTypeId() == Material.AIR.getId()) {
 				//Be a bit more careful not to destroy any of the item frames..
 				continue;
 			}
@@ -325,14 +326,14 @@ public class TradeOutpost extends Structure {
 			// Each block has a 10% chance to turn into gravel
 			if (rand.nextInt(100) <= 10) {
                 Block block = coord.getBlock();
-                block.setTypeId(CivData.GRAVEL);
+                block.setTypeId(Material.GRAVEL.getId());
                 continue;
 			}
 			
 			// Each block has a 50% chance of starting a fire
 			if (rand.nextInt(100) <= 50) {
                 Block block = coord.getBlock();
-                block.setTypeId(CivData.FIRE);
+                block.setTypeId(Material.FIRE.getId());
                 continue;
 			}
 			

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
+import org.bukkit.Material;
 import org.bukkit.inventory.DoubleChestInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -355,6 +356,10 @@ public class MultiInventory {
 
 	public int getInventoryCount() {
 		return this.invs.size();
+	}
+
+	public boolean removeItem(Material material, int consumedAmount, Boolean sync) throws CivException {
+		return this.removeItem(material.getId(),consumedAmount,sync);
 	}
 
 //	public boolean contains(LoreMaterial loreMaterial) {

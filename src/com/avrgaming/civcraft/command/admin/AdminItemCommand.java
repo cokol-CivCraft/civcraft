@@ -2,6 +2,7 @@ package com.avrgaming.civcraft.command.admin;
 
 import java.util.HashMap;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -15,7 +16,6 @@ import com.avrgaming.civcraft.loreenhancements.LoreEnhancementDefense;
 import com.avrgaming.civcraft.loreenhancements.LoreEnhancementSoulBound;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.lorestorage.LoreMaterial;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
@@ -64,7 +64,7 @@ public class AdminItemCommand extends CommandBase {
 		enhancements.put("defence", new LoreEnhancementDefense());
 		enhancements.put("arena", new LoreEnhancementArenaItem());
 
-        if (inHand == null || inHand.getTypeId() == CivData.AIR) {
+        if (inHand == null || inHand.getTypeId() == Material.AIR.getId()) {
 			throw new CivException(CivSettings.localize.localizedString("adcmd_item_enhanceNoItem"));
 		}
 		

@@ -1359,7 +1359,7 @@ public class CivGlobal {
 			return false;
 		}
 
-        if (item.getTypeId() == CivData.AIR) {
+        if (item.getTypeId() == Material.AIR.getId()) {
 			return false;
 		}
 		

@@ -103,7 +103,7 @@ public class CustomItemManager implements Listener {
 			
 			event.setCancelled(true);
 			
-			ItemManager.setTypeIdAndData(event.getBlock(), CivData.AIR, (byte)0, true);
+			ItemManager.setTypeIdAndData(event.getBlock(), Material.AIR.getId(), (byte)0, true);
 			
 			try {
 				Random rand = new Random();
@@ -653,7 +653,7 @@ public class CustomItemManager implements Listener {
                     ItemStack stack1 = event.getItem().getItemStack();
                     if (stack1.getTypeId() == ItemManager.getId(Material.RAW_FISH)
                             && ItemManager.getData(event.getItem().getItemStack()) ==
-                            ItemManager.getData(ItemManager.getMaterialData(CivData.FISH_RAW, CivData.CLOWNFISH))) {
+                            ItemManager.getData(ItemManager.getMaterialData(Material.RAW_FISH.getId(), CivData.CLOWNFISH))) {
                         LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(event.getItem().getItemStack());
                         if (craftMat == null) {
                             /* Found a vanilla clownfish. */
@@ -669,7 +669,7 @@ public class CustomItemManager implements Listener {
                         ItemStack stack = event.getItem().getItemStack();
                         if (stack.getTypeId() == ItemManager.getId(Material.RAW_FISH)
                                 && ItemManager.getData(event.getItem().getItemStack()) ==
-                                ItemManager.getData(ItemManager.getMaterialData(CivData.FISH_RAW, CivData.PUFFERFISH))) {
+                                ItemManager.getData(ItemManager.getMaterialData(Material.RAW_FISH.getId(), CivData.PUFFERFISH))) {
                             LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(event.getItem().getItemStack());
                             if (craftMat == null) {
                                 /* Found a vanilla pufferfish. */
@@ -691,7 +691,7 @@ public class CustomItemManager implements Listener {
 	/* Called when we click on an object, used for conversion to fix up reverse compat problems. */
 	public void convertLegacyItem(InventoryClickEvent event) {
         ItemStack stack3 = event.getCurrentItem();
-        boolean currentEmpty = (event.getCurrentItem() == null) || (stack3.getTypeId() == CivData.AIR);
+        boolean currentEmpty = (event.getCurrentItem() == null) || (stack3.getTypeId() == Material.AIR.getId());
 
 		if (currentEmpty) {
 			return;
@@ -712,7 +712,7 @@ public class CustomItemManager implements Listener {
         ItemStack stack1 = event.getCurrentItem();
         if (stack1.getTypeId() == ItemManager.getId(Material.RAW_FISH)
 				&& ItemManager.getData(event.getCurrentItem()) == 
-					ItemManager.getData(ItemManager.getMaterialData(CivData.FISH_RAW, CivData.CLOWNFISH))) {
+					ItemManager.getData(ItemManager.getMaterialData(Material.RAW_FISH.getId(), CivData.CLOWNFISH))) {
 			LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(event.getCurrentItem());
 			if (craftMat == null) {
 				/* Found a vanilla slime ball. */
@@ -726,7 +726,7 @@ public class CustomItemManager implements Listener {
         ItemStack stack = event.getCurrentItem();
         if (stack.getTypeId() == ItemManager.getId(Material.RAW_FISH)
 				&& ItemManager.getData(event.getCurrentItem()) == 
-					ItemManager.getData(ItemManager.getMaterialData(CivData.FISH_RAW, CivData.PUFFERFISH))) {
+					ItemManager.getData(ItemManager.getMaterialData(Material.RAW_FISH.getId(), CivData.PUFFERFISH))) {
 			LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(event.getCurrentItem());
 			if (craftMat == null) {
 				/* Found a vanilla slime ball. */
@@ -744,9 +744,9 @@ public class CustomItemManager implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST) 
 	public void OnInventoryClick(InventoryClickEvent event) {
         ItemStack stack1 = event.getCurrentItem();
-        boolean currentEmpty = (event.getCurrentItem() == null) || (stack1.getTypeId() == CivData.AIR);
+        boolean currentEmpty = (event.getCurrentItem() == null) || (stack1.getTypeId() == Material.AIR.getId());
         ItemStack stack = event.getCursor();
-        boolean cursorEmpty = (event.getCursor() == null) || (stack.getTypeId() == CivData.AIR);
+        boolean cursorEmpty = (event.getCursor() == null) || (stack.getTypeId() == Material.AIR.getId());
 		
 		if (currentEmpty && cursorEmpty) {
 			return;

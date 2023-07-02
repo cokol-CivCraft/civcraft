@@ -38,7 +38,6 @@ import com.avrgaming.civcraft.config.ConfigIngredient;
 import com.avrgaming.civcraft.config.ConfigMaterial;
 import com.avrgaming.civcraft.items.components.ItemComponent;
 import com.avrgaming.civcraft.loreenhancements.LoreEnhancement;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.BuildableDamageBlock;
 import com.avrgaming.civcraft.util.ItemManager;
@@ -117,7 +116,7 @@ public class LoreCraftableMaterial extends LoreMaterial {
 		for (int i = 0; i < matrix.length; i++) {
 			ItemStack stack = matrix[i];
 
-            if (stack == null || stack.getTypeId() == CivData.AIR) {
+            if (stack == null || stack.getTypeId() == Material.AIR.getId()) {
 				continue;
 			}
 			

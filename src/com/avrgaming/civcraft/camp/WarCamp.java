@@ -220,13 +220,13 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
 				this.respawnPoints.add(absCoord);
 				BlockCoord coord = new BlockCoord(absCoord);
                 Block block1 = coord.getBlock();
-                block1.setTypeId(CivData.AIR);
+                block1.setTypeId(Material.AIR.getId());
                 this.addStructureBlock(new BlockCoord(absCoord), false);
 				
 				coord = new BlockCoord(absCoord);
 				coord.setY(absCoord.getY()+1);
                 Block block = coord.getBlock();
-                block.setTypeId(CivData.AIR);
+                block.setTypeId(Material.AIR.getId());
                 this.addStructureBlock(coord, false);
 
 				break;
@@ -272,7 +272,7 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
 				for (int z = 0; z < regionZ; z++) {
 					Block b = centerBlock.getRelative(x, y, z);
 
-					if (b.getTypeId() == CivData.CHEST) {
+					if (b.getTypeId() == Material.CHEST.getId()) {
 						throw new CivException(CivSettings.localize.localizedString("cannotBuild_chestInWay"));
 					}
 		
@@ -349,7 +349,7 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
 							ItemManager.setData(nextBlock, tpl.blocks[x][y][z].getData());
 						}
 
-						if (nextBlock.getTypeId() != CivData.AIR) {
+						if (nextBlock.getTypeId() != Material.AIR.getId()) {
 							this.addStructureBlock(new BlockCoord(nextBlock.getLocation()), true);
 						}
 					} catch (Exception e) {
@@ -427,7 +427,7 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
 		//for (int i = 0; i < 1; i++) {
 		Block b = centerLoc.getBlock();
 		WarRegen.saveBlock(b, WarCamp.RESTORE_NAME, false);
-        b.setTypeId(CivData.FENCE);
+        b.setTypeId(Material.FENCE.getId());
         ItemManager.setData(b, 0);
 
 		StructureBlock sb = new StructureBlock(new BlockCoord(b), this);
@@ -437,7 +437,7 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
 		/* Build the control block. */
 		b = centerLoc.getBlock().getRelative(0, 1, 0);
 		WarRegen.saveBlock(b, WarCamp.RESTORE_NAME, false);
-        b.setTypeId(CivData.OBSIDIAN);
+        b.setTypeId(Material.OBSIDIAN.getId());
 
         sb = new StructureBlock(new BlockCoord(b), this);
 		this.addStructureBlock(sb.getCoord(), true);
@@ -487,7 +487,7 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
 		Resident attacker = CivGlobal.getResident(player);
 
         Block block = hit.getCoord().getLocation().getBlock();
-        block.setTypeId(CivData.AIR);
+        block.setTypeId(Material.AIR.getId());
         world.playSound(hit.getCoord().getLocation(), Sound.BLOCK_ANVIL_BREAK, 1.0f, -1.0f);
 		world.playSound(hit.getCoord().getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f);
 		

@@ -23,10 +23,10 @@ import java.util.Queue;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.SimpleBlock;
@@ -80,7 +80,7 @@ public class SyncBuildUpdateTask implements Runnable {
 					Sign s;
 					switch (next.specialType) {
 					case COMMAND:
-                        block.setTypeId(CivData.AIR);
+                        block.setTypeId(Material.AIR.getId());
                         ItemManager.setData(block, 0);
 						break;
 					case LITERAL:
@@ -93,7 +93,7 @@ public class SyncBuildUpdateTask implements Runnable {
 						
 						s.update();
 						} else {
-                            block.setTypeId(CivData.AIR);
+                            block.setTypeId(Material.AIR.getId());
                             ItemManager.setData(block, 0);
 						}
 						break;

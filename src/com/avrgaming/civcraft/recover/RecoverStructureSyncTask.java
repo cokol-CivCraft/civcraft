@@ -21,12 +21,12 @@ package com.avrgaming.civcraft.recover;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.structure.Structure;
@@ -78,7 +78,7 @@ public class RecoverStructureSyncTask implements Runnable {
 						continue;
 					}
 
-                    if (nextBlock.getTypeId() != CivData.BEDROCK) {
+                    if (nextBlock.getTypeId() != Material.BEDROCK.getId()) {
 						if (tpl.blocks[x][y][z].isAir()) {
 							continue;
 						}

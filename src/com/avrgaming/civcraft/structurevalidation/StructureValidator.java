@@ -162,7 +162,7 @@ public class StructureValidator implements Runnable {
 					
 					int type = Buildable.getBlockIDFromSnapshotMap(chunks, absX, y, absZ, cornerLoc.getWorldname());
 					totalBlocks++;
-					reinforcementValue += Buildable.getReinforcementValue(type);
+					reinforcementValue += Buildable.getReinforcementValue(Material.getMaterial(type));
 				} catch (CivException e) {
 					e.printStackTrace();
 					break;

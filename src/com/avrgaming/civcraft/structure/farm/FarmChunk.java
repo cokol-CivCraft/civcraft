@@ -27,6 +27,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.bukkit.Chunk;
 import org.bukkit.ChunkSnapshot;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 import com.avrgaming.civcraft.components.ActivateOnBiome;
@@ -98,7 +99,7 @@ public class FarmChunk {
 		Block beneath = block.getRelative(0, -1, 0);
 				
 		if (beneath != null) {
-            if (beneath.getTypeId() == CivData.FARMLAND) {
+            if (beneath.getTypeId() == Material.SOIL.getId()) {
 				if (ItemManager.getData(beneath) != 0x0)
 					return true;
 			}
@@ -152,14 +153,14 @@ public class FarmChunk {
 			return;
 		}
 		
-		if (nextBlock.getTypeId() == CivData.AIR) {
+		if (nextBlock.getTypeId() == Material.AIR.getId()) {
 			freeBlock = nextBlock;
 		}
 		
-		if ((nextBlock.getTypeId() == CivData.MELON && 
-				bs.getTypeId() == CivData.MELON_STEM) ||
-				(nextBlock.getTypeId() == CivData.PUMPKIN &&
-				bs.getTypeId() == CivData.PUMPKIN_STEM)) {
+		if ((nextBlock.getTypeId() == Material.MELON_BLOCK.getId() &&
+				bs.getTypeId() == Material.MELON_STEM.getId()) ||
+				(nextBlock.getTypeId() == Material.PUMPKIN.getId() &&
+				bs.getTypeId() == Material.PUMPKIN_STEM.getId())) {
 			return;
 		}
 		
@@ -167,10 +168,10 @@ public class FarmChunk {
 			return;
 		}
 		
-		if (bs.getTypeId() == CivData.MELON_STEM) {
-			addGrowBlock("world", growMe.getX()+xOff, growMe.getY(), growMe.getZ()+zOff, CivData.MELON, 0x0, true);
+		if (bs.getTypeId() == Material.MELON_STEM.getId()) {
+			addGrowBlock("world", growMe.getX()+xOff, growMe.getY(), growMe.getZ()+zOff, Material.MELON_BLOCK.getId(), 0x0, true);
 		} else {
-			addGrowBlock("world", growMe.getX()+xOff, growMe.getY(), growMe.getZ()+zOff, CivData.PUMPKIN, 0x0, true);
+			addGrowBlock("world", growMe.getX()+xOff, growMe.getY(), growMe.getZ()+zOff, Material.PUMPKIN.getId(), 0x0, true);
 		}
 		return;
 	}
@@ -189,28 +190,28 @@ public class FarmChunk {
 				
 		//XXX we are skipping hydration as I guess we dont seem to care.
 		//XXX we also skip light level checks, as we dont really care about that either.
-		switch(bs.getTypeId()) {
-		case CivData.WHEAT:
-		case CivData.CARROTS:
-		case CivData.POTATOES:
+		switch(bs.getMaterial()) {
+		case WHEAT:
+		case CARROT:
+		case POTATO:
 			if (bs.getData() < 0x7) {
 				addGrowBlock("world", growMe.getX(), growMe.getY(), growMe.getZ(), bs.getTypeId(), bs.getData()+0x1, false);
 			}
 			break;
-		case CivData.NETHERWART:
+		case NETHER_WARTS:
 			if (bs.getData() < 0x3) {
 				addGrowBlock("world", growMe.getX(), growMe.getY(), growMe.getZ(), bs.getTypeId(), bs.getData()+0x1, false);
 			}
 			break;
-		case CivData.MELON_STEM:
-		case CivData.PUMPKIN_STEM:
+		case MELON_STEM:
+		case PUMPKIN_STEM:
 			if (bs.getData() < 0x7) {
 				addGrowBlock("world", growMe.getX(), growMe.getY(), growMe.getZ(), bs.getTypeId(), bs.getData()+0x1, false);
 			} else if (bs.getData() == 0x7) {
 				spawnMelonOrPumpkin(bs, growMe, task);
 			}
 			break;
-		case CivData.COCOAPOD:	
+		case COCOA:
 			if (CivData.canCocoaGrow(bs)) {
 				addGrowBlock("world", growMe.getX(), growMe.getY(), growMe.getZ(), bs.getTypeId(),CivData.getNextCocoaValue(bs), false);
 			}
@@ -220,7 +221,7 @@ public class FarmChunk {
 	
 	public void processGrowth(CivAsyncTask task) throws InterruptedException {
 		
-		if (this.getStruct().isActive() == false) {
+		if (!this.getStruct().isActive()) {
 			return;
 		}
 		

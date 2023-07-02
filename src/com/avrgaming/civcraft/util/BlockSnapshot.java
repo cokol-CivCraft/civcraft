@@ -21,6 +21,7 @@ package com.avrgaming.civcraft.util;
 import org.bukkit.ChunkSnapshot;
 
 import com.avrgaming.civcraft.exception.InvalidBlockLocation;
+import org.bukkit.Material;
 
 public class BlockSnapshot {
 
@@ -115,6 +116,9 @@ public class BlockSnapshot {
 
 	public void setSnapshot(ChunkSnapshot snapshot) {
 		this.snapshot = snapshot;
+	}
+	public Material getMaterial(){
+		return Material.getMaterial(getTypeId());
 	}
 	
 	

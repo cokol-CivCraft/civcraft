@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Dispenser;
@@ -38,7 +39,6 @@ import org.bukkit.block.Hopper;
 import org.bukkit.block.Sign;
 import org.bukkit.inventory.Inventory;
 
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.util.BukkitObjects;
 import com.avrgaming.civcraft.util.ItemManager;
@@ -53,7 +53,7 @@ public class WarRegen {
 	
 	
 	private static String blockAsAir(Block blk) {
-		return CivData.AIR+":0:"+blk.getX()+":"+blk.getY()+":"+blk.getZ()+":"+blk.getWorld().getName(); 
+		return Material.AIR.getId() +":0:"+blk.getX()+":"+blk.getY()+":"+blk.getZ()+":"+blk.getWorld().getName();
 	}
 	
 	private static String blockBasicString(Block blk) {
@@ -223,7 +223,7 @@ public class WarRegen {
 			break;
 		}
 
-        blk.setTypeId(CivData.AIR);
+        blk.setTypeId(Material.AIR.getId());
         ItemManager.setData(blk, 0x0, true);
 		
 	}
@@ -256,7 +256,7 @@ public class WarRegen {
 			break;
 		}
 
-        blk.setTypeId(CivData.AIR);
+        blk.setTypeId(Material.AIR.getId());
         ItemManager.setData(blk, 0x0, true);
 		
 	}

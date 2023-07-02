@@ -13,7 +13,6 @@ import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigBuildableInfo;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.lorestorage.LoreGuiItem;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.structure.Structure;
@@ -69,8 +68,8 @@ public class BuildChooseTemplate implements GuiAction {
 		for (Perk perk : personalUnboundPerks) {
 			if (!perk.getIdent().contains("template"))
 			{
-			infoRec = LoreGuiItem.build(perk.getDisplayName(), 
-					CivData.BEDROCK, 
+			infoRec = LoreGuiItem.build(perk.getDisplayName(),
+                    Material.BEDROCK.getId(),
 					perk.configPerk.data, CivColor.Gold+CivSettings.localize.localizedString("loreGui_template_clickToBuild"),
 					CivColor.Gray+CivSettings.localize.localizedString("loreGui_template_unbound"),
 					CivColor.Gray+CivSettings.localize.localizedString("loreGui_template_unbound2"),

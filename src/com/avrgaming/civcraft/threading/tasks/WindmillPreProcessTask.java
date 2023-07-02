@@ -22,13 +22,13 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import org.bukkit.ChunkSnapshot;
+import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivTaskAbortException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.object.StructureChest;
 import com.avrgaming.civcraft.structure.Windmill;
 import com.avrgaming.civcraft.threading.CivAsyncTask;
@@ -90,18 +90,17 @@ public class WindmillPreProcessTask extends CivAsyncTask {
 				continue;
 			}
 
-            switch (stack.getTypeId()) {
-			case CivData.BREAD_SEED:
+            switch (stack.getType()) {
+			case SEEDS:
 				breadCount += stack.getAmount();
 				break;
-			case CivData.CARROT_ITEM:
+			case CARROT_ITEM:
 				carrotCount += stack.getAmount();
 				break;
-			case CivData.POTATO_ITEM:
+			case POTATO_ITEM:
 				potatoCount += stack.getAmount();
 				break;
 			default:
-				continue;
 			}
 		}
 				
@@ -121,8 +120,8 @@ public class WindmillPreProcessTask extends CivAsyncTask {
 					for (int y = 0; y < 255; y++) {
 						
 						
-						if (ItemManager.getBlockTypeId(snapshot, x, y, z) == CivData.FARMLAND) {
-							if (ItemManager.getBlockTypeId(snapshot, x, y+1, z) == CivData.AIR) {
+						if (ItemManager.getBlockTypeId(snapshot, x, y, z) == Material.SOIL.getId()) {
+							if (ItemManager.getBlockTypeId(snapshot, x, y+1, z) == Material.AIR.getId()) {
 								int blockx = (snapshot.getX()*16) + x;
 								int blocky = y+1;
 								int blockz = (snapshot.getZ()*16) + z;

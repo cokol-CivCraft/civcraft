@@ -32,7 +32,6 @@ import org.bukkit.util.Vector;
 
 import com.avrgaming.civcraft.components.PlayerProximityComponent;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.threading.TaskMaster;
@@ -179,7 +178,7 @@ public class CannonExplosionProjectile {
 			for (int y = -3; y < 3; y++) {
 				for (int z = -radius; z < radius; z++) {
 					Block block = loc.getWorld().getBlockAt(loc.getBlockX()+x, loc.getBlockY()+y, loc.getBlockZ()+z);
-                    if (block.getTypeId() == CivData.AIR) {
+                    if (block.getTypeId() == Material.AIR.getId()) {
 						block.setType(Material.FIRE);
 						ItemManager.setData(block, 0, true);
 					}

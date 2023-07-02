@@ -2,11 +2,11 @@ package com.avrgaming.civcraft.randomevents.components;
 
 import java.util.Random;
 
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.randomevents.RandomEvent;
@@ -65,7 +65,7 @@ public class PickRandomBlock extends RandomEventComponent {
 									Block block = coord.getChunk().getBlock(x, y, z);
 									//CivLog.debug("checking a block:"+block.toString());
 
-                                    if (block.getTypeId() == CivData.STONE || block.getTypeId() == CivData.GRAVEL) {
+                                    if (block.getTypeId() == Material.STONE.getId() || block.getTypeId() == Material.GRAVEL.getId()) {
 										bcoord = new BlockCoord(block);
 										break;
 									}

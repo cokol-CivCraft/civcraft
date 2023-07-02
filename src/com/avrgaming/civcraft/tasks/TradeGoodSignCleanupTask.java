@@ -19,6 +19,7 @@
 package com.avrgaming.civcraft.tasks;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -26,7 +27,6 @@ import org.bukkit.entity.Player;
 
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.TradeGood;
@@ -82,38 +82,38 @@ public class TradeGoodSignCleanupTask implements Runnable {
 			
 			while(bcoord2.getY() < 256) {
 				Block top = world.getBlockAt(bcoord2.getX(), bcoord2.getY(), bcoord2.getZ());
-                top.setTypeId(CivData.AIR);
+                top.setTypeId(Material.AIR.getId());
                 ItemManager.setData(top, 0, true);
 	    			bcoord2.setY(bcoord2.getY() + 1);
 	    			
 	    			top = top.getRelative(BlockFace.NORTH);
-				if (top.getTypeId() == CivData.WALL_SIGN || top.getTypeId() == CivData.SIGN) {
+				if (top.getTypeId() == Material.WALL_SIGN.getId() || top.getTypeId() == Material.SIGN_POST.getId()) {
 	    				count++;
 	    			}
-                top.setTypeId(CivData.AIR);
+                top.setTypeId(Material.AIR.getId());
                 ItemManager.setData(top, 0, true);
 
 	    			top = top.getRelative(BlockFace.SOUTH);
-				if (top.getTypeId() == CivData.WALL_SIGN || top.getTypeId() == CivData.SIGN) {
+				if (top.getTypeId() == Material.WALL_SIGN.getId() || top.getTypeId() == Material.SIGN_POST.getId()) {
 	    				count++;
-                        top.setTypeId(CivData.AIR);
+                        top.setTypeId(Material.AIR.getId());
                         ItemManager.setData(top, 0, true);
 	    			}
 	    			
 	    		
 		    		top = top.getRelative(BlockFace.EAST);
-				if (top.getTypeId() == CivData.WALL_SIGN || top.getTypeId() == CivData.SIGN) {
+				if (top.getTypeId() == Material.WALL_SIGN.getId() || top.getTypeId() == Material.SIGN_POST.getId()) {
 	    				count++;
-                        top.setTypeId(CivData.AIR);
+                        top.setTypeId(Material.AIR.getId());
                         ItemManager.setData(top, 0, true);
 
 	    			}
 	    			
 	    		
 		    		top = top.getRelative(BlockFace.WEST);
-				if (top.getTypeId() == CivData.WALL_SIGN || top.getTypeId() == CivData.SIGN) {
+				if (top.getTypeId() == Material.WALL_SIGN.getId() || top.getTypeId() == Material.SIGN_POST.getId()) {
 	    				count++;
-                        top.setTypeId(CivData.AIR);
+                        top.setTypeId(Material.AIR.getId());
                         ItemManager.setData(top, 0, true);
 	    			}
 			}

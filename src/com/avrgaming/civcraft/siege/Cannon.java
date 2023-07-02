@@ -26,7 +26,6 @@ import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.exception.InvalidNameException;
 import com.avrgaming.civcraft.exception.InvalidObjectException;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
@@ -203,7 +202,7 @@ public class Cannon extends Buildable {
 				for (int z = 0; z < regionZ; z++) {
 					Block b = centerBlock.getRelative(x, y, z);
 
-                    if (b.getTypeId() == CivData.CHEST) {
+                    if (b.getTypeId() == Material.CHEST.getId()) {
 						throw new CivException(CivSettings.localize.localizedString("cannotBuild_chestInWay"));
 					}
 		
@@ -453,7 +452,7 @@ public class Cannon extends Buildable {
 							ItemManager.setData(nextBlock, tpl.blocks[x][y][z].getData());
 						}
 
-                        if (nextBlock.getTypeId() != CivData.AIR) {
+                        if (nextBlock.getTypeId() != Material.AIR.getId()) {
 							BlockCoord b = new BlockCoord(nextBlock.getLocation());
 							cannonBlocks.put(b, this);
 							blocks.add(b);
@@ -540,7 +539,7 @@ public class Cannon extends Buildable {
 			if (event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
 				ItemStack stack = event.getPlayer().getInventory().getItemInMainHand();
 				if (stack != null) {
-					if (stack.getTypeId() == CivData.TNT) {
+					if (stack.getTypeId() == Material.TNT.getId()) {
 						if (ItemManager.removeItemFromPlayer(event.getPlayer(), Material.TNT, 1)) {
 							this.tntLoaded++;
 							CivMessage.sendSuccess(event.getPlayer(), CivSettings.localize.localizedString("cannon_addedTNT"));
@@ -709,15 +708,15 @@ public class Cannon extends Buildable {
 		for (BlockCoord b : blocks) {
 			launchExplodeFirework(b.getCenteredLocation());
 			if (b.getBlock().getType().equals(Material.COAL_BLOCK)) {
-				ItemManager.setTypeIdAndData(b.getBlock(), CivData.GRAVEL, 0, false);
+				ItemManager.setTypeIdAndData(b.getBlock(), Material.GRAVEL.getId(), 0, false);
 			} else {
-				ItemManager.setTypeIdAndData(b.getBlock(), CivData.AIR, 0, false);
+				ItemManager.setTypeIdAndData(b.getBlock(), Material.AIR.getId(), 0, false);
 			}
 		}
 		
-		ItemManager.setTypeIdAndData(fireSignLocation.getBlock(), CivData.AIR, 0, false);
-		ItemManager.setTypeIdAndData(angleSignLocation.getBlock(), CivData.AIR, 0, false);
-		ItemManager.setTypeIdAndData(powerSignLocation.getBlock(), CivData.AIR, 0, false);
+		ItemManager.setTypeIdAndData(fireSignLocation.getBlock(), Material.AIR.getId(), 0, false);
+		ItemManager.setTypeIdAndData(angleSignLocation.getBlock(), Material.AIR.getId(), 0, false);
+		ItemManager.setTypeIdAndData(powerSignLocation.getBlock(), Material.AIR.getId(), 0, false);
 		
 		blocks.clear();
 		this.cleanup();

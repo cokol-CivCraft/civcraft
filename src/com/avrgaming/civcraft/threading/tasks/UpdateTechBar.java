@@ -30,6 +30,7 @@ import com.avrgaming.civcraft.threading.CivAsyncTask;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.SimpleBlock;
 import com.avrgaming.civcraft.util.SimpleBlock.Type;
+import org.bukkit.Material;
 
 public class UpdateTechBar extends CivAsyncTask {
 
@@ -71,12 +72,12 @@ public class UpdateTechBar extends CivAsyncTask {
 					}
 	
 					if (i <= blockCount) {
-						sb = new SimpleBlock(CivData.WOOL, CivData.DATA_WOOL_GREEN);
+						sb = new SimpleBlock(Material.WOOL.getId(), CivData.DATA_WOOL_GREEN);
 						sb.x = bcoord.getX(); sb.y = bcoord.getY(); sb.z = bcoord.getZ();
 						sb.worldname = bcoord.getWorldname();
 						sbs.add(sb);
 					} else {
-						sb = new SimpleBlock(CivData.WOOL, CivData.DATA_WOOL_BLACK);
+						sb = new SimpleBlock(Material.WOOL.getId(), CivData.DATA_WOOL_BLACK);
 						sb.x = bcoord.getX(); sb.y = bcoord.getY(); sb.z = bcoord.getZ();
 						sb.worldname = bcoord.getWorldname();
 						sbs.add(sb);				
@@ -94,7 +95,7 @@ public class UpdateTechBar extends CivAsyncTask {
 						continue;
 					}
 					
-					sb = new SimpleBlock(CivData.WOOL, CivData.DATA_WOOL_BLACK);
+					sb = new SimpleBlock(Material.WOOL.getId(), CivData.DATA_WOOL_BLACK);
 					sb.x = bcoord.getX(); sb.y = bcoord.getY(); sb.z = bcoord.getZ();
 					sb.worldname = bcoord.getWorldname();
 					sbs.add(sb);
@@ -104,7 +105,7 @@ public class UpdateTechBar extends CivAsyncTask {
 			
 			if (townhall.getTechnameSign() != null) {
 				BlockCoord bcoord = townhall.getTechnameSign();
-				sb = new SimpleBlock(CivData.WALL_SIGN, townhall.getTechnameSignData());
+				sb = new SimpleBlock(Material.WALL_SIGN.getId(), townhall.getTechnameSignData());
 				sb.x = bcoord.getX(); sb.y = bcoord.getY(); sb.z = bcoord.getZ();
 				sb.worldname = bcoord.getWorldname();
 				sb.specialType = Type.LITERAL;
@@ -128,7 +129,7 @@ public class UpdateTechBar extends CivAsyncTask {
 			
 			if (townhall.getTechdataSign() != null) {
 				BlockCoord bcoord = townhall.getTechdataSign();
-				sb = new SimpleBlock(CivData.WALL_SIGN, townhall.getTechdataSignData());
+				sb = new SimpleBlock(Material.WALL_SIGN.getId(), townhall.getTechdataSignData());
 				sb.x = bcoord.getX(); sb.y = bcoord.getY(); sb.z = bcoord.getZ();
 				sb.worldname = bcoord.getWorldname();
 				sb.specialType = Type.LITERAL;

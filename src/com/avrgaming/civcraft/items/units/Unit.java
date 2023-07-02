@@ -31,7 +31,6 @@ import com.avrgaming.civcraft.config.ConfigUnit;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.lorestorage.LoreMaterial;
-import com.avrgaming.civcraft.main.CivData;
 
 public abstract class Unit {
 	
@@ -134,22 +133,22 @@ public abstract class Unit {
 		
 		try {
             ItemStack stack3 = player.getEquipment().getBoots();
-            if (stack3.getTypeId() != CivData.LEATHER_BOOTS) {
+            if (stack3.getTypeId() != Material.LEATHER_BOOTS.getId()) {
 				return false;
 			}
 
             ItemStack stack2 = player.getEquipment().getChestplate();
-            if (stack2.getTypeId() != CivData.LEATHER_CHESTPLATE) {
+            if (stack2.getTypeId() != Material.LEATHER_CHESTPLATE.getId()) {
 				return false;
 			}
 
             ItemStack stack1 = player.getEquipment().getHelmet();
-            if (stack1.getTypeId() != CivData.LEATHER_HELMET) {
+            if (stack1.getTypeId() != Material.LEATHER_HELMET.getId()) {
 				return false;
 			}
 
             ItemStack stack = player.getEquipment().getLeggings();
-            if (stack.getTypeId() != CivData.LEATHER_LEGGINGS) {
+            if (stack.getTypeId() != Material.LEATHER_LEGGINGS.getId()) {
 				return false;
 			}
 		
@@ -294,28 +293,28 @@ public abstract class Unit {
 		
 		if (player.getEquipment().getBoots() != null) {
             ItemStack stack = player.getEquipment().getBoots();
-            if (stack.getTypeId() == CivData.IRON_BOOTS) {
+            if (stack.getTypeId() == Material.IRON_BOOTS.getId()) {
 				return true;
 			}
 		}
 		
 		if (player.getEquipment().getChestplate() != null) {
             ItemStack stack = player.getEquipment().getChestplate();
-            if (stack.getTypeId() == CivData.IRON_CHESTPLATE) {
+            if (stack.getTypeId() == Material.IRON_CHESTPLATE.getId()) {
 				return true;
 			}
 		}
 		
 		if (player.getEquipment().getHelmet() != null) {
             ItemStack stack = player.getEquipment().getHelmet();
-            if (stack.getTypeId() == CivData.IRON_HELMET) {
+            if (stack.getTypeId() == Material.IRON_HELMET.getId()) {
 				return true;
 			}
 		}
 		
 		if (player.getEquipment().getLeggings() != null) {
             ItemStack stack = player.getEquipment().getLeggings();
-            if (stack.getTypeId() == CivData.IRON_LEGGINGS) {
+            if (stack.getTypeId() == Material.IRON_LEGGINGS.getId()) {
 				return true;
 			}
 		}
@@ -327,28 +326,28 @@ public abstract class Unit {
 		
 		if (player.getEquipment().getBoots() != null) {
             ItemStack stack = player.getEquipment().getBoots();
-            if (stack.getTypeId() == CivData.DIAMOND_BOOTS) {
+            if (stack.getTypeId() == Material.DIAMOND_BOOTS.getId()) {
 				return true;
 			}
 		}
 		
 		if (player.getEquipment().getChestplate() != null) {
             ItemStack stack = player.getEquipment().getChestplate();
-            if (stack.getTypeId() == CivData.DIAMOND_CHESTPLATE) {
+            if (stack.getTypeId() == Material.DIAMOND_CHESTPLATE.getId()) {
 				return true;
 			}
 		}
 		
 		if (player.getEquipment().getHelmet() != null) {
             ItemStack stack = player.getEquipment().getHelmet();
-            if (stack.getTypeId() == CivData.DIAMOND_HELMET) {
+            if (stack.getTypeId() == Material.DIAMOND_HELMET.getId()) {
 				return true;
 			}
 		}
 		
 		if (player.getEquipment().getLeggings() != null) {
             ItemStack stack = player.getEquipment().getLeggings();
-            if (stack.getTypeId() == CivData.DIAMOND_LEGGINGS) {
+            if (stack.getTypeId() == Material.DIAMOND_LEGGINGS.getId()) {
 				return true;
 			}
 		}

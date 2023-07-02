@@ -2,10 +2,10 @@ package com.avrgaming.civcraft.items.components;
 
 import gpl.AttributeUtil;
 
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
-import com.avrgaming.civcraft.main.CivData;
 
 public class Tagged extends ItemComponent {
 
@@ -28,7 +28,7 @@ public class Tagged extends ItemComponent {
 		String tag = null;
 		
 		for (ItemStack stack : matrix) {
-            if ((stack == null) || (stack.getTypeId() == CivData.AIR)) {
+            if ((stack == null) || (stack.getTypeId() == Material.AIR.getId())) {
 				continue;
 			}
 			

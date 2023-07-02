@@ -32,7 +32,6 @@ import org.bukkit.generator.BlockPopulator;
 
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigTradeGood;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.ProtectedBlock;
@@ -70,8 +69,8 @@ public class TradeGoodPopulator extends BlockPopulator {
     	//clear any stack goodies
     	for (int y = coord.getY(); y < 256; y++) {
     		top = world.getBlockAt(coord.getX(), y, coord.getZ());
-			if (top.getTypeId() == CivData.BEDROCK) {
-                top.setTypeId(CivData.AIR);
+			if (top.getTypeId() == Material.BEDROCK.getId()) {
+                top.setTypeId(Material.AIR.getId());
             }
     	}
     	
@@ -178,8 +177,8 @@ public class TradeGoodPopulator extends BlockPopulator {
 			
 			// Determine if we should be a water good.
 			ConfigTradeGood good;
-			if (ItemManager.getBlockTypeIdAt(world, centerX, centerY-1, centerZ) == CivData.WATER || 
-				ItemManager.getBlockTypeIdAt(world, centerX, centerY-1, centerZ) == CivData.WATER_RUNNING) {
+			if (ItemManager.getBlockTypeIdAt(world, centerX, centerY-1, centerZ) == Material.STATIONARY_WATER.getId() ||
+				ItemManager.getBlockTypeIdAt(world, centerX, centerY-1, centerZ) == Material.WATER.getId()) {
 				good = pick.waterPick;
 			}  else {
 				good = pick.landPick;

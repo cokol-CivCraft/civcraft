@@ -20,6 +20,7 @@ package com.avrgaming.civcraft.listener;
 
 import java.util.Map.Entry;
 
+import org.bukkit.Material;
 import org.bukkit.block.Chest;
 import org.bukkit.block.DoubleChest;
 import org.bukkit.entity.Entity;
@@ -57,7 +58,6 @@ import com.avrgaming.civcraft.items.BonusGoodie;
 import com.avrgaming.civcraft.items.units.UnitItemMaterial;
 import com.avrgaming.civcraft.items.units.UnitMaterial;
 import com.avrgaming.civcraft.lorestorage.LoreMaterial;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
@@ -316,7 +316,7 @@ public class BonusGoodieManager implements Listener {
 			if (frameStore != null) {
 				/* Make sure we're trying to place an item into the frame, test if the frame is empty. */
                 ItemStack stack = frame.getItem();
-                if (frame.getItem() == null || stack.getTypeId() == CivData.AIR) {
+                if (frame.getItem() == null || stack.getTypeId() == Material.AIR.getId()) {
 					CivMessage.sendError(event.getPlayer(), CivSettings.localize.localizedString("bonusGoodie_errorNotGoodie"));
 					event.setCancelled(true);
 					return;
@@ -443,7 +443,7 @@ public class BonusGoodieManager implements Listener {
 		ItemFrame frame = clickedFrame.getItemFrame();
 		ItemStack stack = frame.getItem();
 		//if goodie in frame, break it out
-        if (stack != null && stack.getTypeId() != CivData.AIR) {
+        if (stack != null && stack.getTypeId() != Material.AIR.getId()) {
 			// FYI sometimes the item pops out from the player entity interact event...
 			BonusGoodie goodieInFrame = CivGlobal.getBonusGoodie(frame.getItem());
 			if (goodieInFrame != null) {
@@ -458,7 +458,7 @@ public class BonusGoodieManager implements Listener {
 			}
 			
 			player.getWorld().dropItemNaturally(frame.getLocation(), stack);
-			frame.setItem(ItemManager.createItemStack(CivData.AIR, 1));
+			frame.setItem(ItemManager.createItemStack(Material.AIR.getId(), 1));
 			CivMessage.send(player, CivColor.LightGray+CivSettings.localize.localizedString("bonusGoodie_unsocket"));
 		} else if (goodie != null) {
 			//Item frame was empty, add goodie to it.

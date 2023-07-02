@@ -4,11 +4,11 @@ import gpl.AttributeUtil;
 
 import java.util.HashMap;
 
+import org.bukkit.Material;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.object.BuildableDamageBlock;
 
 public abstract class LoreEnhancement {
@@ -36,18 +36,18 @@ public abstract class LoreEnhancement {
 	}
 	
 	public static boolean isWeapon(ItemStack item) {
-        switch (item.getTypeId()) {
-		case CivData.WOOD_SWORD:
-		case CivData.STONE_SWORD:
-		case CivData.IRON_SWORD:
-		case CivData.GOLD_SWORD:
-		case CivData.DIAMOND_SWORD:
-		case CivData.WOOD_AXE:
-		case CivData.STONE_AXE:
-		case CivData.IRON_AXE:
-		case CivData.GOLD_AXE:
-		case CivData.DIAMOND_AXE:
-		case CivData.BOW:
+        switch (item.getType()) {
+		case WOOD_SWORD:
+		case STONE_SWORD:
+		case IRON_SWORD:
+		case GOLD_SWORD:
+		case DIAMOND_SWORD:
+		case WOOD_AXE:
+		case STONE_AXE:
+		case IRON_AXE:
+		case GOLD_AXE:
+		case DIAMOND_AXE:
+		case BOW:
 			return true;
 		default:
 			return false;
@@ -55,27 +55,27 @@ public abstract class LoreEnhancement {
 	}
 	
 	public static boolean isArmor(ItemStack item) {
-        switch (item.getTypeId()) {
-		case CivData.LEATHER_BOOTS:
-		case CivData.LEATHER_CHESTPLATE:
-		case CivData.LEATHER_HELMET:
-		case CivData.LEATHER_LEGGINGS:
-		case CivData.IRON_BOOTS:
-		case CivData.IRON_CHESTPLATE:
-		case CivData.IRON_HELMET:
-		case CivData.IRON_LEGGINGS:
-		case CivData.DIAMOND_BOOTS:
-		case CivData.DIAMOND_CHESTPLATE:
-		case CivData.DIAMOND_HELMET:
-		case CivData.DIAMOND_LEGGINGS:
-		case CivData.CHAIN_BOOTS:
-		case CivData.CHAIN_CHESTPLATE:
-		case CivData.CHAIN_HELMET:
-		case CivData.CHAIN_LEGGINGS:
-		case CivData.GOLD_BOOTS:
-		case CivData.GOLD_CHESTPLATE:
-		case CivData.GOLD_HELMET:
-		case CivData.GOLD_LEGGINGS:
+        switch (item.getType()) {
+		case LEATHER_BOOTS:
+		case LEATHER_CHESTPLATE:
+		case LEATHER_HELMET:
+		case LEATHER_LEGGINGS:
+		case IRON_BOOTS:
+		case IRON_CHESTPLATE:
+		case IRON_HELMET:
+		case IRON_LEGGINGS:
+		case DIAMOND_BOOTS:
+		case DIAMOND_CHESTPLATE:
+		case DIAMOND_HELMET:
+		case DIAMOND_LEGGINGS:
+		case CHAINMAIL_BOOTS:
+		case CHAINMAIL_CHESTPLATE:
+		case CHAINMAIL_HELMET:
+		case CHAINMAIL_LEGGINGS:
+		case GOLD_BOOTS:
+		case GOLD_CHESTPLATE:
+		case GOLD_HELMET:
+		case GOLD_LEGGINGS:
 			return true;
 		default:
 			return false;
@@ -83,22 +83,22 @@ public abstract class LoreEnhancement {
 	}
 	
 	public static boolean isTool(ItemStack item) {
-        switch (item.getTypeId()) {
-		case CivData.WOOD_SHOVEL:
-		case CivData.WOOD_PICKAXE:
-		case CivData.WOOD_AXE:
-		case CivData.STONE_SHOVEL:
-		case CivData.STONE_PICKAXE:
-		case CivData.STONE_AXE:
-		case CivData.IRON_SHOVEL:
-		case CivData.IRON_PICKAXE:
-		case CivData.IRON_AXE:
-		case CivData.DIAMOND_SHOVEL:
-		case CivData.DIAMOND_PICKAXE:
-		case CivData.DIAMOND_AXE:
-		case CivData.GOLD_SHOVEL:
-		case CivData.GOLD_PICKAXE:
-		case CivData.GOLD_AXE:
+        switch (item.getType()) {
+		case WOOD_SPADE:
+		case WOOD_PICKAXE:
+		case WOOD_AXE:
+		case STONE_SPADE:
+		case STONE_PICKAXE:
+		case STONE_AXE:
+		case IRON_SPADE:
+		case IRON_PICKAXE:
+		case IRON_AXE:
+		case DIAMOND_SPADE:
+		case DIAMOND_PICKAXE:
+		case DIAMOND_AXE:
+		case GOLD_SPADE:
+		case GOLD_PICKAXE:
+		case GOLD_AXE:
 			return true;
 		default:
 			return false;

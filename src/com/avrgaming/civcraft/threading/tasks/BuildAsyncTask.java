@@ -23,10 +23,6 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.main.CivGlobal;
-import com.avrgaming.civcraft.object.Resident;
-import com.avrgaming.civcraft.object.Town;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -302,7 +298,7 @@ public class BuildAsyncTask extends CivAsyncTask {
 					sbs.add(sb);
 				}
 			
-				if (buildable.isDestroyable() == false && sb.getMaterial().getId() != CivData.AIR) {
+				if (buildable.isDestroyable() == false && sb.getMaterial().getId() != Material.AIR.getId()) {
 					if (sb.specialType != Type.COMMAND) {
 						BlockCoord coord = new BlockCoord(sb.worldname, sb.x, sb.y, sb.z);
 						if (sb.y == 0) {

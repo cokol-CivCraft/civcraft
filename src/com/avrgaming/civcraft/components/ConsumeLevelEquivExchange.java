@@ -18,10 +18,12 @@
  */
 package com.avrgaming.civcraft.components;
 
+import org.bukkit.Material;
+
 public class ConsumeLevelEquivExchange {
 
-	public int baseType;
-	public int altType;
+	public Material baseType;
+	public Material altType;
 	public int basePerAlt;
 	
 	

@@ -25,6 +25,7 @@ import java.util.TimeZone;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -34,7 +35,6 @@ import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
@@ -229,19 +229,19 @@ public class ResidentCommand extends CommandBase {
 		double rate;
 		switch (type) {
 		case "iron":
-			exchangeID = CivData.IRON_INGOT;
+			exchangeID = Material.IRON_INGOT.getId();
 			rate = CivSettings.iron_rate;
 			break;
 		case "gold":
-			exchangeID = CivData.GOLD_INGOT;
+			exchangeID = Material.GOLD_INGOT.getId();
 			rate = CivSettings.gold_rate;
 			break;
 		case "diamond":
-			exchangeID = CivData.DIAMOND;
+			exchangeID = Material.DIAMOND.getId();
 			rate = CivSettings.diamond_rate;
 			break;
 		case "emerald":
-			exchangeID = CivData.EMERALD;
+			exchangeID = Material.EMERALD.getId();
 			rate = CivSettings.emerald_rate;
 			break;
 		default:

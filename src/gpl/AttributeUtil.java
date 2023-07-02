@@ -11,11 +11,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 
 import com.avrgaming.civcraft.loreenhancements.LoreEnhancement;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.NBTStaticHelper;
 import com.google.common.base.Function;
@@ -267,7 +267,7 @@ public class AttributeUtil {
      */
     public ItemStack getStack() {
     	if (nmsStack == null) {
-    		return ItemManager.createItemStack(CivData.WOOL, 0);
+    		return ItemManager.createItemStack(Material.WOOL.getId(), 0);
     	}
     	
     	if (nmsStack.getTag() != null) {

@@ -235,13 +235,13 @@ public class TradeInventoryListener implements Listener {
 	
 	public void markTradeValid(TradeInventoryPair pair) {
 		pair.valid = true;
-		ItemStack guiStack = LoreGuiItem.build(CivSettings.localize.localizedString("resident_tradeYourConfirm"), 
-				CivData.WOOL, CivData.DATA_WOOL_GREEN, 
+		ItemStack guiStack = LoreGuiItem.build(CivSettings.localize.localizedString("resident_tradeYourConfirm"),
+				Material.WOOL.getId(), CivData.DATA_WOOL_GREEN,
 				CivColor.Gold+CivSettings.localize.localizedString("resident_tradeClicktoUnConfirm"));
 		pair.inv.setItem(MY_SLOT_BUTTON, guiStack);
 		
-		 guiStack = LoreGuiItem.build("Your Confirm", 
-					CivData.WOOL, CivData.DATA_WOOL_GREEN, 
+		 guiStack = LoreGuiItem.build("Your Confirm",
+				 Material.WOOL.getId(), CivData.DATA_WOOL_GREEN,
 					CivSettings.localize.localizedString("var_resident_hasConfirmedTrade",(CivColor.LightBlue+pair.otherResident.getName()+CivColor.LightGreen)));
 		pair.otherInv.setItem(OTHER_SLOT_BUTTON, guiStack);
 
@@ -249,14 +249,14 @@ public class TradeInventoryListener implements Listener {
 	
 	public void markTradeInvalid(TradeInventoryPair pair) {
 		pair.valid = false;
-		ItemStack guiStack = LoreGuiItem.build(CivSettings.localize.localizedString("resident_tradeYourConfirm"), 
-				CivData.WOOL, CivData.DATA_WOOL_RED, 
+		ItemStack guiStack = LoreGuiItem.build(CivSettings.localize.localizedString("resident_tradeYourConfirm"),
+				Material.WOOL.getId(), CivData.DATA_WOOL_RED,
 				CivColor.Gold+CivSettings.localize.localizedString("resident_tradeClicktoConfirm"));
 		
 		pair.inv.setItem(MY_SLOT_BUTTON, guiStack);
 		
-		ItemStack guiStack2 = LoreGuiItem.build(pair.otherResident.getName()+" "+CivSettings.localize.localizedString("resident_tradeNotconfirmed"), 
-				CivData.WOOL, CivData.DATA_WOOL_RED, 
+		ItemStack guiStack2 = LoreGuiItem.build(pair.otherResident.getName()+" "+CivSettings.localize.localizedString("resident_tradeNotconfirmed"),
+				Material.WOOL.getId(), CivData.DATA_WOOL_RED,
 				CivColor.LightGreen+CivSettings.localize.localizedString("var_resident_hasNotConfirmedTrade1",CivColor.LightBlue+pair.otherResident.getName()),
 				CivColor.LightGray+CivSettings.localize.localizedString("resident_hasNotConfirmedTrade1"));
 		pair.otherInv.setItem(OTHER_SLOT_BUTTON, guiStack2);
@@ -582,8 +582,8 @@ public class TradeInventoryListener implements Listener {
 		/* Close other player's inventory if open. */
 		TradeInventoryPair otherPair = tradeInventories.get(getTradeInventoryKey(pair.otherResident));
 		if (otherPair != null) {
-			ItemStack guiStack = LoreGuiItem.build(pair.otherResident.getName()+" "+CivSettings.localize.localizedString("resident_tradeNotconfirmed"), 
-					CivData.BEDROCK, 0, 
+			ItemStack guiStack = LoreGuiItem.build(pair.otherResident.getName()+" "+CivSettings.localize.localizedString("resident_tradeNotconfirmed"),
+					Material.BEDROCK.getId(), 0,
 					CivColor.LightGray+CivSettings.localize.localizedString("var_resident_trade_cancelled",player.getName()));
 			for (int i = OTHERS_SLOTS_START; i < OTHERS_SLOTS_END; i++) {
 				otherPair.inv.setItem(i, guiStack);

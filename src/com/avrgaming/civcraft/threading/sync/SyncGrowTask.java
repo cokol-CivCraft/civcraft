@@ -23,7 +23,6 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.locks.ReentrantLock;
 
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.structure.Farm;
@@ -31,6 +30,7 @@ import com.avrgaming.civcraft.structure.farm.FarmChunk;
 import com.avrgaming.civcraft.structure.farm.GrowBlock;
 import com.avrgaming.civcraft.threading.sync.request.GrowRequest;
 import com.avrgaming.civcraft.util.ItemManager;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 public class SyncGrowTask implements Runnable {
@@ -72,10 +72,10 @@ public class SyncGrowTask implements Runnable {
 					} else {
 						
 						for (GrowBlock growBlock : request.growBlocks) {
-							switch (growBlock.typeId) {
-							case CivData.CARROTS:
-							case CivData.WHEAT:
-							case CivData.POTATOES:
+							switch (growBlock.getMaterial()) {
+							case CARROT:
+							case WHEAT:
+							case POTATO:
 								if ((growBlock.data-1) != ItemManager.getData(growBlock.bcoord.getBlock())) {
 									// replanted??
 									continue;
@@ -84,18 +84,16 @@ public class SyncGrowTask implements Runnable {
 							}
 
 							Block block1 = growBlock.bcoord.getBlock();
-							if (!growBlock.spawn && block1.getTypeId() != growBlock.typeId) {
-								continue;
-							} else {
+							if (growBlock.spawn || block1.getType() == growBlock.getMaterial()) {
 								if (growBlock.spawn) {
 									// Only allow block to change its type if its marked as spawnable.
                                     Block block = growBlock.bcoord.getBlock();
-                                    block.setTypeId(growBlock.typeId);
+                                    block.setType(growBlock.getMaterial());
                                 }
 								ItemManager.setData(growBlock.bcoord.getBlock(), growBlock.data);
 								request.result = true;
 							}
-							
+
 						}
 					}
 					

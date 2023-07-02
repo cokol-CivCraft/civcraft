@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 
 import com.avrgaming.civcraft.components.ConsumeLevelComponent;
@@ -32,7 +33,6 @@ import com.avrgaming.civcraft.config.ConfigCottageLevel;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.CivTaskAbortException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
@@ -122,7 +122,7 @@ public class Cottage extends Structure {
 	
 			// Add some rotten flesh to the chest lol
 			CivMessage.sendTown(this.getTown(), CivColor.Rose+CivSettings.localize.localizedString("cottage_poisoned"));
-			inv.addItemStack(ItemManager.createItemStack(CivData.ROTTEN_FLESH, 4));
+			inv.addItemStack(ItemManager.createItemStack(Material.ROTTEN_FLESH.getId(), 4));
 			return true;
 		}
 		return false;
@@ -172,7 +172,7 @@ public class Cottage extends Structure {
 		if (this.getTown().getBuffManager().hasBuff(Buff.FISHING)) {
 			// XXX change this to config var after testing...
 			int breadPerFish = this.getTown().getBuffManager().getEffectiveInt(Buff.FISHING);
-			getConsumeComponent().addEquivExchange(CivData.BREAD, CivData.FISH_RAW, breadPerFish);
+			getConsumeComponent().addEquivExchange(Material.BREAD, Material.RAW_FISH, breadPerFish);
 		}
 		
 		getConsumeComponent().setConsumeRate(cottage_consume_mod);

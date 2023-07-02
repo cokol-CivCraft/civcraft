@@ -36,7 +36,6 @@ import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.listener.MarkerPlacementManager;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
@@ -345,7 +344,7 @@ public class Wall extends Structure {
 	private void validateBlockLocation(Player player, Location loc) throws CivException {
 		Block b = loc.getBlock();
 
-		if (b.getTypeId() == CivData.CHEST) {
+		if (b.getTypeId() == Material.CHEST.getId()) {
 			throw new CivException(CivSettings.localize.localizedString("cannotBuild_chestInWay"));
 		}
 							
@@ -396,9 +395,9 @@ public class Wall extends Structure {
 		for (int i = 0; i < Wall.HEIGHT; i++) {
 			SimpleBlock sb;
 			if (i == 0) {
-				sb = new SimpleBlock(CivData.PLANKS, 0);
+				sb = new SimpleBlock(Material.WOOD.getId(), 0);
 			} else {
-				sb = new SimpleBlock(CivData.DIRT, 0);
+				sb = new SimpleBlock(Material.DIRT.getId(), 0);
 			}
 			sb.worldname = tmp.getWorld().getName();
 			sb.x = tmp.getBlockX();

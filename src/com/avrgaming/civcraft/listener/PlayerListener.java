@@ -466,7 +466,7 @@ public class PlayerListener implements Listener {
 	@EventHandler(priority = EventPriority.LOW) 
 	public void onConsume(PlayerItemConsumeEvent event) {
         ItemStack stack = event.getItem();
-        if (stack.getTypeId() == CivData.GOLDEN_APPLE) {
+        if (stack.getTypeId() == Material.GOLDEN_APPLE.getId()) {
 			CivMessage.sendError(event.getPlayer(), CivSettings.localize.localizedString("itemUse_errorGoldenApple"));
 			event.setCancelled(true);
 			return;

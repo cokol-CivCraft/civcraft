@@ -53,7 +53,6 @@ import com.avrgaming.civcraft.items.units.Unit;
 import com.avrgaming.civcraft.loreenhancements.LoreEnhancement;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.main.CivCraft;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.Town;
@@ -294,18 +293,18 @@ public class CivSettings {
 		emerald_rate = CivSettings.getDouble(civConfig, "ore_rates.emerald");
 		startingCoins = CivSettings.getDouble(civConfig, "global.starting_coins");
 		
-		alwaysCrumble.add(CivData.BEDROCK);
-		alwaysCrumble.add(CivData.COAL_BLOCK);
-		alwaysCrumble.add(CivData.EMERALD_BLOCK);
-		alwaysCrumble.add(CivData.LAPIS_BLOCK);
-		alwaysCrumble.add(CivData.SPONGE);
-		alwaysCrumble.add(CivData.HAY_BALE);
-		alwaysCrumble.add(CivData.GOLD_BLOCK);
-		alwaysCrumble.add(CivData.DIAMOND_BLOCK);
-		alwaysCrumble.add(CivData.IRON_BLOCK);
-		alwaysCrumble.add(CivData.REDSTONE_BLOCK);
-		alwaysCrumble.add(CivData.ENDER_CHEST);
-		alwaysCrumble.add(CivData.BEACON);
+		alwaysCrumble.add(Material.BEDROCK.getId());
+		alwaysCrumble.add(Material.COAL_BLOCK.getId());
+		alwaysCrumble.add(Material.EMERALD_BLOCK.getId());
+		alwaysCrumble.add(Material.LAPIS_BLOCK.getId());
+		alwaysCrumble.add(Material.SPONGE.getId());
+		alwaysCrumble.add(Material.HAY_BLOCK.getId());
+		alwaysCrumble.add(Material.GOLD_BLOCK.getId());
+		alwaysCrumble.add(Material.DIAMOND_BLOCK.getId());
+		alwaysCrumble.add(Material.IRON_BLOCK.getId());
+		alwaysCrumble.add(Material.REDSTONE_BLOCK.getId());
+		alwaysCrumble.add(Material.ENDER_CHEST.getId());
+		alwaysCrumble.add(Material.BEACON.getId());
 		
 		LoreEnhancement.init();
 		LoreCraftableMaterial.buildStaticMaterials();

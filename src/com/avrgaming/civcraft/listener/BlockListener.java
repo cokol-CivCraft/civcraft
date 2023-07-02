@@ -98,7 +98,6 @@ import com.avrgaming.civcraft.camp.CampBlock;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
@@ -571,10 +570,10 @@ public class BlockListener implements Listener {
 	  };
 
 	public BlockCoord generatesCobble(int id, Block b) {
-		int mirrorID1 = (id == CivData.WATER_RUNNING || id == CivData.WATER ? CivData.LAVA_RUNNING : CivData.WATER_RUNNING);
-		int mirrorID2 = (id == CivData.WATER_RUNNING || id == CivData.WATER ? CivData.LAVA : CivData.WATER);
-		int mirrorID3 = (id == CivData.WATER_RUNNING || id == CivData.WATER ? CivData.LAVA_RUNNING : CivData.WATER);
-		int mirrorID4 = (id == CivData.WATER_RUNNING || id == CivData.WATER ? CivData.LAVA : CivData.WATER_RUNNING);
+		int mirrorID1 = (id == Material.WATER.getId() || id == Material.STATIONARY_WATER.getId() ? Material.LAVA.getId() : Material.WATER.getId());
+		int mirrorID2 = (id == Material.WATER.getId() || id == Material.STATIONARY_WATER.getId() ? Material.STATIONARY_LAVA.getId() : Material.STATIONARY_WATER.getId());
+		int mirrorID3 = (id == Material.WATER.getId() || id == Material.STATIONARY_WATER.getId() ? Material.LAVA.getId() : Material.STATIONARY_WATER.getId());
+		int mirrorID4 = (id == Material.WATER.getId() || id == Material.STATIONARY_WATER.getId() ? Material.STATIONARY_LAVA.getId() : Material.WATER.getId());
 		for(BlockFace face : faces) {
 			Block r = b.getRelative(face, 1);
             if(r.getTypeId() == mirrorID1 || r.getTypeId() == mirrorID2 ||
@@ -613,12 +612,12 @@ public class BlockListener implements Listener {
 	public void OnBlockFromToEvent(BlockFromToEvent event) {
 		/* Disable cobblestone generators. */
         int id = event.getBlock().getTypeId();
-		if(id >= CivData.WATER && id <= CivData.LAVA) {
+		if(id >= Material.STATIONARY_WATER.getId() && id <= Material.STATIONARY_LAVA.getId()) {
 			Block b = event.getToBlock();
 			bcoord.setFromLocation(b.getLocation());
 
             int toid = b.getTypeId();
-			if(toid == CivData.COBBLESTONE || toid == CivData.OBSIDIAN) {
+			if(toid == Material.COBBLESTONE.getId() || toid == Material.OBSIDIAN.getId()) {
 				BlockCoord other = generatesCobble(id, b);
 				if(other != null && other.getBlock().getType() != Material.AIR) {
 					other.getBlock().setType(Material.NETHERRACK);
@@ -630,9 +629,9 @@ public class BlockListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void OnBlockFormEvent (BlockFormEvent event) {
 		/* Disable cobblestone generators. */
-		if (ItemManager.getId(event.getNewState()) == CivData.COBBLESTONE || ItemManager.getId(event.getNewState()) == CivData.OBSIDIAN) {
+		if (ItemManager.getId(event.getNewState()) == Material.COBBLESTONE.getId() || ItemManager.getId(event.getNewState()) == Material.OBSIDIAN.getId()) {
 			BlockState block = event.getNewState();
-			block.setTypeId(CivData.NETHERRACK);
+			block.setTypeId(Material.NETHERRACK.getId());
 			return;
 		}
 
@@ -748,7 +747,7 @@ public class BlockListener implements Listener {
 
 				/* Update the layer. */
                 Block block = event.getBlockPlaced();
-                layer.current += Buildable.getReinforcementValue(block.getTypeId());
+                layer.current += Buildable.getReinforcementValue(block.getType());
 				if (layer.current < 0) {
 					layer.current = 0;
 				}
@@ -885,7 +884,7 @@ public class BlockListener implements Listener {
 					continue;
 				}
 
-                double current = layer.current - Buildable.getReinforcementValue(event.getBlock().getTypeId());
+                double current = layer.current - Buildable.getReinforcementValue(event.getBlock().getType());
 				if (current < 0) {
 					current = 0;
 				}
@@ -1013,9 +1012,9 @@ public class BlockListener implements Listener {
 
 			if (event.getItem().getType().equals(Material.INK_SACK) && event.getItem().getDurability() == 15) {
 				Block clickedBlock = event.getClickedBlock();
-                if (clickedBlock.getTypeId() == CivData.WHEAT ||
-					clickedBlock.getTypeId() == CivData.CARROTS ||
-					clickedBlock.getTypeId() == CivData.POTATOES) {
+                if (clickedBlock.getTypeId() == Material.WHEAT.getId() ||
+					clickedBlock.getTypeId() == Material.CARROT.getId() ||
+					clickedBlock.getTypeId() == Material.POTATO.getId()) {
 					event.setCancelled(true);
 					CivMessage.sendError(event.getPlayer(), CivSettings.localize.localizedString("itemUse_errorBoneMeal"));
 					return;
@@ -1608,7 +1607,7 @@ public class BlockListener implements Listener {
 		final int PISTON_EXTEND_LENGTH = 13;
 		Block currentBlock = event.getBlock().getRelative(event.getDirection());
 		for (int i = 0; i < PISTON_EXTEND_LENGTH; i++) {
-            if(currentBlock.getTypeId() == CivData.AIR) {
+            if(currentBlock.getTypeId() == Material.AIR.getId()) {
 				if (!allowPistonAction(currentBlock.getLocation())) {
 					event.setCancelled(true);
 					return;
@@ -1901,13 +1900,13 @@ public class BlockListener implements Listener {
 
 		CampBlock cb = CivGlobal.getCampBlock(bcoord);
 		if (cb != null) {
-            if (event.getBlock().getTypeId() == CivData.WOOD_DOOR ||
-					event.getBlock().getTypeId() == CivData.IRON_DOOR||
-					event.getBlock().getTypeId() == CivData.SPRUCE_DOOR||
-					event.getBlock().getTypeId() == CivData.BIRCH_DOOR||
-					event.getBlock().getTypeId() == CivData.JUNGLE_DOOR||
-					event.getBlock().getTypeId() == CivData.ACACIA_DOOR||
-					event.getBlock().getTypeId() == CivData.DARK_OAK_DOOR) {
+            if (event.getBlock().getTypeId() == Material.WOOD_DOOR.getId() ||
+					event.getBlock().getTypeId() == Material.IRON_DOOR.getId() ||
+					event.getBlock().getTypeId() == Material.SPRUCE_DOOR.getId() ||
+					event.getBlock().getTypeId() == Material.BIRCH_DOOR.getId() ||
+					event.getBlock().getTypeId() == Material.JUNGLE_DOOR.getId() ||
+					event.getBlock().getTypeId() == Material.ACACIA_DOOR.getId() ||
+					event.getBlock().getTypeId() == Material.DARK_OAK_DOOR.getId()) {
 				event.setNewCurrent(0);
 				return;
 			}

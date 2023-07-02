@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -35,7 +36,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.structure.Structure;
@@ -51,7 +51,7 @@ public class MarkerPlacementManager implements Listener {
 
 		if (player.getInventory().getItemInMainHand() != null) {
             ItemStack stack = player.getInventory().getItemInMainHand();
-            if (stack.getTypeId() != CivData.AIR) {
+            if (stack.getTypeId() != Material.AIR.getId()) {
                 throw new CivException(CivSettings.localize.localizedString("placement_errorHolding"));
             }
         }
@@ -59,7 +59,7 @@ public class MarkerPlacementManager implements Listener {
 		playersInPlacementMode.put(player.getName(), structure);
 		markers.put(player.getName(), new ArrayList<Location>());
 		
-		ItemStack stack = ItemManager.createItemStack(CivData.REDSTONE_TORCH_OFF, 2);
+		ItemStack stack = ItemManager.createItemStack(Material.REDSTONE_TORCH_OFF.getId(), 2);
 		ItemMeta meta = stack.getItemMeta();
 		if (markerName != null) {
 			meta.setDisplayName(markerName);
@@ -80,7 +80,7 @@ public class MarkerPlacementManager implements Listener {
 		}
 		playersInPlacementMode.remove(player.getName());
 		markers.remove(player.getName());
-		player.getInventory().setItemInMainHand(ItemManager.createItemStack(CivData.AIR, 1));
+		player.getInventory().setItemInMainHand(ItemManager.createItemStack(Material.AIR.getId(), 1));
 		CivMessage.send(player, CivSettings.localize.localizedString("placement_ended"));
 	}
 	

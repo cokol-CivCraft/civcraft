@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -32,7 +33,6 @@ import com.avrgaming.civcraft.config.ConfigEnchant;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.loreenhancements.LoreEnhancement;
 import com.avrgaming.civcraft.lorestorage.LoreMaterial;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
@@ -174,12 +174,12 @@ public class GreatLibrary extends Wonder {
 			hand.addEnchantment(Enchantment.ARROW_FIRE, 1);	
 			break;
 		case "3":
-            switch (hand.getTypeId()) {
-			case CivData.WOOD_PICKAXE:
-			case CivData.STONE_PICKAXE:
-			case CivData.IRON_PICKAXE:
-			case CivData.DIAMOND_PICKAXE:
-			case CivData.GOLD_PICKAXE:
+            switch (hand.getType()) {
+			case WOOD_PICKAXE:
+			case STONE_PICKAXE:
+			case IRON_PICKAXE:
+			case DIAMOND_PICKAXE:
+			case GOLD_PICKAXE:
 				configEnchant = CivSettings.enchants.get("ench_punchout");
 				
 				if (!LoreMaterial.isCustom(hand)) {					
