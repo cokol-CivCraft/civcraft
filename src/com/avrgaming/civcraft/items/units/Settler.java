@@ -53,21 +53,20 @@ public class Settler extends UnitMaterial implements CallbackInterface {
 	public static void spawn(Inventory inv, Town town) throws CivException {
 
 		ItemStack is = LoreMaterial.spawn(Unit.SETTLER_UNIT);
-		
+
 		UnitMaterial.setOwningTown(town, is);
-		
+
 		AttributeUtil attrs = new AttributeUtil(is);
-		attrs.addLore(CivColor.Rose+CivSettings.localize.localizedString("settler_Lore1")+" "+CivColor.LightBlue+town.getCiv().getName());
-		attrs.addLore(CivColor.Gold+CivSettings.localize.localizedString("settler_Lore2"));
+		attrs.addLore(CivColor.Rose + CivSettings.localize.localizedString("settler_Lore1") + " " + CivColor.LightBlue + town.getCiv().getName());
+		attrs.addLore(CivColor.Gold + CivSettings.localize.localizedString("settler_Lore2"));
 		attrs.addEnhancement("LoreEnhancementSoulBound", null, null);
-		attrs.addLore(CivColor.Gold+CivSettings.localize.localizedString("Soulbound"));
-		
+		attrs.addLore(CivColor.Gold + CivSettings.localize.localizedString("Soulbound"));
+
 		attrs.setCivCraftProperty("owner_civ_id", String.valueOf(town.getCiv().getId()));
-        is = attrs.getStack();
-		
-		
-		if (!Unit.addItemNoStack(inv, is)) {
-			throw new CivException(CivSettings.localize.localizedString("var_settler_errorBarracksFull",Unit.SETTLER_UNIT.getUnit().name));
+
+
+		if (!Unit.addItemNoStack(inv, attrs.getStack())) {
+			throw new CivException(CivSettings.localize.localizedString("var_settler_errorBarracksFull", Unit.SETTLER_UNIT.getUnit().name));
 		}
 
 	}
@@ -77,25 +76,22 @@ public class Settler extends UnitMaterial implements CallbackInterface {
 		event.setCancelled(true);
 		Player player = event.getPlayer();
 		Resident resident = CivGlobal.getResident(player);
-		
+
 		if (resident == null || !resident.hasTown()) {
 			CivMessage.sendError(player, CivSettings.localize.localizedString("settler_errorNotRes"));
 			return;
 		}
-		
-		AttributeUtil attrs = new AttributeUtil(event.getItem());
-		String ownerIdString = attrs.getCivCraftProperty("owner_civ_id");
-		if (ownerIdString == null) {
+
+		if (new AttributeUtil(event.getItem()).getCivCraftProperty("owner_civ_id") == null) {
 			CivMessage.sendError(player, CivSettings.localize.localizedString("settler_errorInvalidOwner"));
 			return;
 		}
 
-        int civ_id = Integer.parseInt(ownerIdString);
-		if (civ_id != resident.getCiv().getId()) {
+		if (Integer.parseInt(new AttributeUtil(event.getItem()).getCivCraftProperty("owner_civ_id")) != resident.getCiv().getId()) {
 			CivMessage.sendError(player, CivSettings.localize.localizedString("settler_errorNotOwner"));
 			return;
 		}
-		
+
 		double minDistance;
 		try {
 			minDistance = CivSettings.getDouble(CivSettings.townConfig, "town.min_town_distance");
@@ -124,9 +120,8 @@ public class Settler extends UnitMaterial implements CallbackInterface {
 		 * Build a preview for the Capitol structure.
 		 */
 		CivMessage.send(player, CivColor.LightGreen+CivColor.BOLD+CivSettings.localize.localizedString("build_checking_position"));
-		ConfigBuildableInfo info = CivSettings.structures.get("s_townhall");
 		try {
-			Buildable.buildVerifyStatic(player, info, player.getLocation(), this);
+			Buildable.buildVerifyStatic(player, CivSettings.structures.get("s_townhall"), player.getLocation(), this);
 		} catch (CivException e) {
 			CivMessage.sendError(player, e.getMessage());
 		}	

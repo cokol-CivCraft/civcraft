@@ -42,7 +42,7 @@ units:
 
   - id: 'u_spy'
     name: "Spy"
-    class_name: 'com.avrgaming.civcraft.items.units.Spy'
+    class_name: 'Spy'
     require_tech: 'tech_nationalism'
     require_struct:
     require_upgrade:
@@ -54,7 +54,7 @@ units:
     
   - id: 'u_settler'
     name: "Settler"
-    class_name: 'com.avrgaming.civcraft.items.units.Settler'
+    class_name: 'Settler'
     require_tech:
     require_struct:
     require_upgrade:

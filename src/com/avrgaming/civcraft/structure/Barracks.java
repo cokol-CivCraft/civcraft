@@ -23,8 +23,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.TreeMap;
 
+import com.avrgaming.civcraft.items.units.Settler;
+import com.avrgaming.civcraft.items.units.Spy;
+import com.avrgaming.civcraft.items.units.UnitMaterial;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -330,9 +334,8 @@ public class Barracks extends Structure {
 		switch (sb.command) {
             case "/prev":
                 absCoord.getBlock().setType(sb.getType());
-                Block block5 = absCoord.getBlock();
-                block5.setData((byte) sb.getData());
-                structSign = new StructureSign(absCoord, this);
+				absCoord.getBlock().setData((byte) sb.getData());
+				structSign = new StructureSign(absCoord, this);
                 structSign.setText("\n" + ChatColor.BOLD + ChatColor.UNDERLINE + CivSettings.localize.localizedString("barracks_sign_previousUnit"));
                 structSign.setDirection(sb.getData());
                 structSign.setAction("prev");
@@ -342,9 +345,8 @@ public class Barracks extends Structure {
 
                 break;
             case "/unitname":
-                absCoord.getBlock().setType(sb.getType());
-                Block block4 = absCoord.getBlock();
-                block4.setData((byte) sb.getData());
+				absCoord.getBlock().setType(sb.getType());
+				absCoord.getBlock().setData((byte) sb.getData());
 
                 structSign = new StructureSign(absCoord, this);
                 structSign.setText(getUnitSignText(0));
@@ -444,39 +446,44 @@ public class Barracks extends Structure {
 		this.currentHammers = currentHammers;
 	}
 
+	public static final HashMap<String, Class<? extends UnitMaterial>> units_classes = new HashMap<>();
+
+	static {
+		units_classes.put("Spy", Spy.class);
+		units_classes.put("Settler", Settler.class);
+	}
+
 	public void createUnit(ConfigUnit unit) {
-		
+
 		// Find the chest inventory
 		ArrayList<StructureChest> chests = this.getAllChestsById(0);
 		if (chests.size() == 0) {
 			return;
 		}
-		
-		Chest chest = (Chest)chests.get(0).getCoord().getBlock().getState();
-		
+
+		Chest chest = (Chest) chests.get(0).getCoord().getBlock().getState();
+
 		try {
-			Class<?> c = Class.forName(unit.class_name);
-			Method m = c.getMethod("spawn", Inventory.class, Town.class);
+			Method m = units_classes.get(unit.class_name).getMethod("spawn", Inventory.class, Town.class);
 			m.invoke(null, chest.getInventory(), this.getTown());
-			
-			CivMessage.sendTown(this.getTown(), CivSettings.localize.localizedString("var_barracks_completedTraining",unit.name));
+
+			CivMessage.sendTown(this.getTown(), CivSettings.localize.localizedString("var_barracks_completedTraining", unit.name));
 			this.trainingUnit = null;
 			this.currentHammers = 0.0;
-			
+
 			CivGlobal.getSessionDB().delete_all(getSessionKey());
-			
-		} catch (ClassNotFoundException | SecurityException | 
-				IllegalAccessException | IllegalArgumentException | NoSuchMethodException e) {
+
+		} catch (SecurityException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException e) {
 			this.trainingUnit = null;
 			this.currentHammers = 0.0;
-			CivMessage.sendTown(getTown(), CivColor.Red+CivSettings.localize.localizedString("barracks_errorUnknown")+e.getMessage());
+			CivMessage.sendTown(getTown(), CivColor.Red + CivSettings.localize.localizedString("barracks_errorUnknown") + e.getMessage());
 		} catch (InvocationTargetException e) {
-			CivMessage.sendTown(getTown(), CivColor.Rose+e.getCause().getMessage());
+			CivMessage.sendTown(getTown(), CivColor.Rose + e.getCause().getMessage());
 			this.currentHammers -= 20.0;
 			if (this.currentHammers < 0.0) {
 				this.currentHammers = 0.0;
 			}
-		//	e.getCause().getMessage()
+			//	e.getCause().getMessage()
 			//e.printStackTrace();
 		//	CivMessage.sendTown(getTown(), CivColor.Rose+e.getMessage());
 		}
@@ -484,9 +491,7 @@ public class Barracks extends Structure {
 	}
 	
 	public void updateProgressBar() {
-		double percentageDone = 0.0;
-		
-		percentageDone = this.currentHammers / this.trainingUnit.hammer_cost;
+		double percentageDone = this.currentHammers / this.trainingUnit.hammer_cost;
 		int size = this.progresBar.size();
 		int textCount = (int)(size*16*percentageDone);
 		int textIndex = 0;
@@ -527,26 +532,25 @@ public class Barracks extends Structure {
 	}
 
 	public void saveProgress() {
-		if (this.getTrainingUnit() != null) {
-			String key = getSessionKey();
-			String value = this.getTrainingUnit().id+":"+this.currentHammers; 
-			ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(key);
+		if (this.getTrainingUnit() == null) {
+			return;
+		}
+		String key = getSessionKey();
+		String value = this.getTrainingUnit().id + ":" + this.currentHammers;
+		ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(key);
 
-			if (entries.size() > 0) {
-				SessionEntry entry = entries.get(0);
-				CivGlobal.getSessionDB().update(entry.request_id, key, value);
-				
-				/* delete any bad extra entries. */
-				for (int i = 1; i < entries.size(); i++) {
-					SessionEntry bad_entry = entries.get(i);
-					CivGlobal.getSessionDB().delete(bad_entry.request_id, key);
-				}
-			} else {
-				this.sessionAdd(key, value);
+		if (entries.size() > 0) {
+			CivGlobal.getSessionDB().update(entries.get(0).request_id, key, value);
+
+			/* delete any bad extra entries. */
+			for (SessionEntry bad_entry : entries) {
+				CivGlobal.getSessionDB().delete(bad_entry.request_id, key);
 			}
-			
-			lastSave = new Date();
-		}	
+		} else {
+			this.sessionAdd(key, value);
+		}
+
+		lastSave = new Date();
 	}
 	
 	@Override
@@ -558,49 +562,47 @@ public class Barracks extends Structure {
 	public void onLoad() {
 		String key = getSessionKey();
 		ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(key);
-	
-		if (entries.size() > 0) {
-			SessionEntry entry = entries.get(0);
-			String[] values = entry.value.split(":");
-			
-			this.trainingUnit = CivSettings.units.get(values[0]);
-			
-			if (trainingUnit == null) {
-				CivLog.error("Couldn't find in-progress unit id:"+values[0]+" for town "+this.getTown().getName());
-				return;
-			}
 
-			this.currentHammers = Double.parseDouble(values[1]);
-			
-			/* delete any bad extra entries. */
-			for (int i = 1; i < entries.size(); i++) {
-				SessionEntry bad_entry = entries.get(i);
-				CivGlobal.getSessionDB().delete(bad_entry.request_id, key);
-			}
-		} 
+		if (entries.size() == 0) {
+			return;
+		}
+		String[] values = entries.get(0).value.split(":");
+
+		this.trainingUnit = CivSettings.units.get(values[0]);
+
+		if (trainingUnit == null) {
+			CivLog.error("Couldn't find in-progress unit id:" + values[0] + " for town " + this.getTown().getName());
+			return;
+		}
+
+		this.currentHammers = Double.parseDouble(values[1]);
+
+		/* delete any bad extra entries. */
+		for (SessionEntry bad_entry : entries) {
+			CivGlobal.getSessionDB().delete(bad_entry.request_id, key);
+		}
 	}
 	
 	
 	public void updateTraining() {
-		if (this.trainingUnit != null) {
-			// Hammers are per hour, this runs per min. We need to adjust the hammers we add.
-			double addedHammers = (getTown().getHammers().total / 60) / 60;
-			this.currentHammers += addedHammers;
-			
-			
-			this.updateProgressBar();
-			Date now = new Date();
-			
-			if (lastSave == null || ((lastSave.getTime() + SAVE_INTERVAL) < now.getTime())) {
-				TaskMaster.asyncTask(new UnitSaveAsyncTask(this), 0);
-			}
-			
-			if (this.currentHammers >= this.trainingUnit.hammer_cost) {
-				this.currentHammers = this.trainingUnit.hammer_cost;
-				this.createUnit(this.trainingUnit);
-			}
-			
+		if (this.trainingUnit == null) {
+			return;
 		}
+		// Hammers are per hour, this runs per min. We need to adjust the hammers we add.
+		this.currentHammers += (getTown().getHammers().total / 60) / 60;
+
+
+		this.updateProgressBar();
+
+		if (lastSave == null || ((lastSave.getTime() + SAVE_INTERVAL) < new Date().getTime())) {
+			TaskMaster.asyncTask(new UnitSaveAsyncTask(this), 0);
+		}
+
+		if (this.currentHammers >= this.trainingUnit.hammer_cost) {
+			this.currentHammers = this.trainingUnit.hammer_cost;
+			this.createUnit(this.trainingUnit);
+		}
+
 	}
 	
 }

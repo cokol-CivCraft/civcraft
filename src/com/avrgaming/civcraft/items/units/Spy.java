@@ -74,26 +74,27 @@ public class Spy extends UnitMaterial {
 		Inventory inv = player.getInventory();
 		
 		for (UnitItemMaterial book : missionBooks) {
-			
-			
+
+
 			ItemStack stack = inv.getItem(book.getSocketSlot());
-			
+
 			ItemStack is = LoreMaterial.spawn(book);
 			AttributeUtil attrs = new AttributeUtil(is);
 			attrs.setLore(book.getLore());
 			is = attrs.getStack();
-			
-			if (!player.getInventory().contains(is)) {
-				inv.setItem(book.getSocketSlot(), is);
-			
-				// Try to re-add any removed items.
-				if (stack != null) {
-					HashMap<Integer, ItemStack> leftovers = inv.addItem(stack);
-					
-					for (ItemStack s : leftovers.values()) {
-						player.getWorld().dropItem(player.getLocation(), s);
-					}
-				}	
+
+			if (player.getInventory().contains(is)) {
+				continue;
+			}
+			inv.setItem(book.getSocketSlot(), is);
+
+			// Try to re-add any removed items.
+			if (stack == null) {
+				continue;
+			}
+
+			for (ItemStack s : inv.addItem(stack).values()) {
+				player.getWorld().dropItem(player.getLocation(), s);
 			}
 		}
 		
@@ -113,16 +114,11 @@ public class Spy extends UnitMaterial {
 	
 	@Override
 	public void onPlayerDeath(EntityDeathEvent event, ItemStack stack) {
-		
 		Player player = (Player)event.getEntity();
 		Resident resident = CivGlobal.getResident(player);
 		if (resident == null || !resident.hasTown()) {
 			return;
 		}
-		
-		
-		ArrayList<String> bookout = MissionLogger.getMissionLogs(resident.getTown());
-		
 		ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
         BookMeta meta = (BookMeta) book.getItemMeta();
         ArrayList<String> lore = new ArrayList<>();
@@ -131,8 +127,8 @@ public class Spy extends UnitMaterial {
 		meta.setTitle("Missions From"+" "+resident.getTown().getName());
 
         StringBuilder out = new StringBuilder();
-		for (String str : bookout) {
-            out.append(str).append("\n");
+		for (String str : MissionLogger.getMissionLogs(resident.getTown())) {
+			out.append(str).append("\n");
 		}
         BookUtil.paginate(meta, out.toString());
 
