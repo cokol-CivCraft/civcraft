@@ -5131,157 +5131,157 @@ materials:
 removed_recipes:
 
     # iron sword
-    - type_id: 267
-      data: 0 
-    
-    # wood sword
-    - type_id: 268
+    - type_id: IRON_SWORD
+      data: 0
+
+  # wood sword
+    - type_id: WOOD_SWORD
       data: 0
  
     # stone sword
-    - type_id: 272
+    - type_id: STONE_SWORD
       data: 0
 
     # Diamond sword
-    - type_id: 276
+    - type_id: DIAMOND_SWORD
       data: 0
 
     # gold sword
-    - type_id: 283
+    - type_id: GOLD_SWORD
       data: 0
 
     # iron chestplate
-    - type_id: 307
+    - type_id: IRON_CHESTPLATE
       data: 0
 
     # enchantment table
-    - type_id: 116
+    - type_id: ENCHANTMENT_TABLE
       data: 0
     
     # bow
-    - type_id: 261
+    - type_id: BOW
       data: 0
 
-    # Leather armor default
-    - type_id: 298
+  # Leather armor default
+    - type_id: LEATHER_HELMET
       data: 0
-    - type_id: 299
+    - type_id: LEATHER_CHESTPLATE
       data: 0
-    - type_id: 300
+    - type_id: LEATHER_LEGGINGS
       data: 0
-    - type_id: 301
-      data: 0
-    
-    # iron armor default
-    - type_id: 306
-      data: 0
-    - type_id: 307
-      data: 0
-    - type_id: 308
-      data: 0
-    - type_id: 309
-      data: 0
-    
-    # chain armor default
-    - type_id: 302
-      data: 0
-    - type_id: 303
-      data: 0
-    - type_id: 304
-      data: 0
-    - type_id: 305
-      data: 0
-    
-    # gold armor default
-    - type_id: 314
-      data: 0
-    - type_id: 315
-      data: 0
-    - type_id: 316
-      data: 0
-    - type_id: 317
+    - type_id: LEATHER_BOOTS
       data: 0
 
-    # diamond default
-    - type_id: 310
+  # chain armor default
+    - type_id: CHAINMAIL_HELMET
       data: 0
-    - type_id: 311
+    - type_id: CHAINMAIL_CHESTPLATE
       data: 0
-    - type_id: 312
+    - type_id: CHAINMAIL_LEGGINGS
       data: 0
-    - type_id: 313
+    - type_id: CHAINMAIL_BOOTS
       data: 0
 
-    # Eye of ender
-    - type_id: 381
+  # iron armor default
+    - type_id: IRON_HELMET
+      data: 0
+    - type_id: IRON_CHESTPLATE
+      data: 0
+    - type_id: IRON_LEGGINGS
+      data: 0
+    - type_id: IRON_BOOTS
+      data: 0
+
+  # diamond armor default
+    - type_id: DIAMOND_HELMET
+      data: 0
+    - type_id: DIAMOND_CHESTPLATE
+      data: 0
+    - type_id: DIAMOND_LEGGINGS
+      data: 0
+    - type_id: DIAMOND_BOOTS
+      data: 0
+
+  # gold default
+    - type_id: GOLD_HELMET
+      data: 0
+    - type_id: GOLD_CHESTPLATE
+      data: 0
+    - type_id: GOLD_LEGGINGS
+      data: 0
+    - type_id: GOLD_BOOTS
+      data: 0
+
+  # Eye of ender
+    - type_id: EYE_OF_ENDER
       data: 0
     
     # Beacon
-    - type_id: 138
+    - type_id: BEACON
       data: 0
     
     # Hopper
-    - type_id: 154
+    - type_id: HOPPER
       data: 0
 
     # Golden apples
-    - type_id: 322
+    - type_id: GOLDEN_APPLE
       data: 0
 
     # Pickaxes
-    - type_id: 257
+    - type_id: IRON_PICKAXE
       data: 0
-    - type_id: 274
+    - type_id: STONE_PICKAXE
       data: 0
-    - type_id: 278
+    - type_id: DIAMOND_PICKAXE
       data: 0
-    - type_id: 285
+    - type_id: GOLD_PICKAXE
       data: 0
     
     # Shovels
-    - type_id: 256
+    - type_id: IRON_SPADE
       data: 0
-    - type_id: 284
+    - type_id: GOLD_SPADE
       data: 0
-    - type_id: 277
+    - type_id: DIAMOND_SPADE
       data: 0
 
     # Axes
-    - type_id: 258
+    - type_id: IRON_AXE
       data: 0
-    - type_id: 286
+    - type_id: GOLD_AXE
       data: 0
-    - type_id: 279
+    - type_id: DIAMOND_AXE
       data: 0
-      
-    # Hoe
-#    - type_id: 292
-#      data: 0
-#    - type_id: 294
-#      data: 0
-#    - type_id: 293
-#      data: 0
-        
-    # TNT
-    - type_id: 46
+
+        # Hoe
+        #    - type_id: IRON_HOE
+        #      data: 0
+        #    - type_id: GOLD_HOE
+        #      data: 0
+        #    - type_id: DIAMOND_HOE
+        #      data: 0
+
+  # TNT
+    - type_id: TNT
       data: 0
 
     # Ender Chest
-    - type_id: 130
+    - type_id: ENDER_CHEST
       data: 0
     # Slime Block
-    - type_id: 165
+    - type_id: SLIME_BLOCK
       data: 0
 
     # Armor stand
-    - type_id: 416
-      data: 0
-      
-    #Nether Wart Block
-    - type_id: 214
+    - type_id: ARMOR_STAND
       data: 0
 
-      
+  #Nether Wart Block
+    - type_id: NETHER_WART_BLOCK
+      data: 0
+
+
 # Amount of tungston to drop
 tungsten_min_drop: 0
 tungsten_max_drop: 1

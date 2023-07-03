@@ -197,7 +197,7 @@ public class CivSettings {
     public static double startingCoins;
 
     public static ArrayList<String> kitItems = new ArrayList<>();
-    public static HashMap<Integer, ConfigRemovedRecipes> removedRecipies = new HashMap<>();
+    public static HashMap<Material, ConfigRemovedRecipes> removedRecipies = new HashMap<>();
     public static HashSet<Material> restrictedUndoBlocks = new HashSet<>();
     public static boolean hasVanishNoPacket = false;
 

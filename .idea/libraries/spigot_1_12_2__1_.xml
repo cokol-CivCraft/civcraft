@@ -6,6 +6,7 @@
     <JAVADOC />
     <SOURCES>
       <root url="jar://$PROJECT_DIR$/lib/spigot-1.12.2 (1).jar!/" />
+      <root url="file://$PROJECT_DIR$/../bukkit2/src/main/java" />
     </SOURCES>
   </library>
 </component>
