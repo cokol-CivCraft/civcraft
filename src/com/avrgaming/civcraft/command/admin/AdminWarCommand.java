@@ -44,28 +44,29 @@ public class AdminWarCommand extends CommandBase {
 		//commands.put("setlastwar", "takes a date of the form: DAY:MONTH:YEAR:HOUR:MIN (24 hour time)");
 		commands.put("onlywarriors", CivSettings.localize.localizedString("adcmd_war_onlywarriorsDesc"));
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void onlywarriors_cmd() {
-		
+
 		War.setOnlyWarriors(!War.isOnlyWarriors());
-		
+
 		if (War.isOnlyWarriors()) {
-		
+
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				Resident resident = CivGlobal.getResident(player);
-				
+
 				if (player.isOp() || player.hasPermission(CivSettings.MINI_ADMIN)) {
 					CivMessage.send(sender, CivSettings.localize.localizedString("var_adcmd_war_onlywarriorsSkippedAdmin",player.getName()));
 					continue;
 				}
-				
-				if (resident == null || !resident.hasTown() || 
+
+				if (resident == null || !resident.hasTown() ||
 						!resident.getTown().getCiv().getDiplomacyManager().isAtWar()) {
-					
+
 					TaskMaster.syncTask(new PlayerKickBan(player.getName(), true, false, CivSettings.localize.localizedString("adcmd_war_onlywarriorsKickMessage")));
-				}	
+				}
 			}
-			
+
 			CivMessage.global(CivSettings.localize.localizedString("adcmd_war_onlywarriorsStart"));
 		} else {
 			CivMessage.global(CivSettings.localize.localizedString("adcmd_war_onlywarriorsEnd"));
@@ -91,15 +92,17 @@ public class AdminWarCommand extends CommandBase {
 //		}
 //		
 //	}
-	
+
+	@SuppressWarnings("unused")
 	public void start_cmd() {
-		
+
 		War.setWarTime(true);
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_war_startSuccess"));
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void stop_cmd() {
-		
+
 		War.setWarTime(false);
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_war_stopSuccess"));
 	}

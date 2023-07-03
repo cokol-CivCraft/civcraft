@@ -66,7 +66,8 @@ public class AdminRecoverCommand extends CommandBase {
 		commands.put("fixtownresidents", CivSettings.localize.localizedString("adcmd_recover_fixTownResidenstDesc"));
 
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void fixtownresidents_cmd() {
 		for (Resident resident : CivGlobal.getResidents()) {
 			if (resident.debugTown != null && !resident.debugTown.equals("")) {
@@ -75,7 +76,7 @@ public class AdminRecoverCommand extends CommandBase {
 					CivLog.error( CivSettings.localize.localizedString("var_admcd_recover_FixTownError1",resident.debugTown,resident.getName()));
 					continue;
 				}
-				
+
 				resident.setTown(town);
 				try {
 					resident.saveNow();
@@ -85,20 +86,23 @@ public class AdminRecoverCommand extends CommandBase {
 			}
 		}
 	}
+
+	@SuppressWarnings("unused")
 	public void listnocapitols_cmd() {
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("adcmd_recover_ListNoCapitolHeading"));
 		for (Civilization civ : CivGlobal.getCivs()) {
-			
+
 			Town town = CivGlobal.getTown(civ.getCapitolName());
 			if (town == null) {
 				CivMessage.send(sender, civ.getName());
 			}
 		}
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void cleannocapitols_cmd() {
 		for (Civilization civ : CivGlobal.getCivs()) {
-			
+
 			Town town = CivGlobal.getTown(civ.getCapitolName());
 			if (town == null) {
 				CivMessage.send(sender, CivSettings.localize.localizedString("Deleting")+" "+civ.getName());
@@ -110,7 +114,8 @@ public class AdminRecoverCommand extends CommandBase {
 			}
 		}
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void listdefunctcivs_cmd() {
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("adcmd_recover_ListNoCapitolHeading"));
 		for (Civilization civ : CivGlobal.getCivs()) {
@@ -119,7 +124,8 @@ public class AdminRecoverCommand extends CommandBase {
 			}
 		}
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void killdefunctcivs_cmd() {
 		for (Civilization civ : CivGlobal.getCivs()) {
 			if (civ.getLeaderGroup() == null) {
@@ -132,7 +138,8 @@ public class AdminRecoverCommand extends CommandBase {
 			}
 		}
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void listdefuncttowns_cmd() {
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("adcmd_recover_listDefunctTownsHeading"));
 		for (Town town : CivGlobal.getTowns()) {
@@ -141,7 +148,8 @@ public class AdminRecoverCommand extends CommandBase {
 			}
 		}
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void killdefuncttowns_cmd() {
 		for (Town town : CivGlobal.getTowns()) {
 			if (town.getMayorGroup() == null) {
@@ -151,69 +159,74 @@ public class AdminRecoverCommand extends CommandBase {
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-				
+
 			}
 		}
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void forcesaveresidents_cmd() throws SQLException {
 		for (Resident resident : CivGlobal.getResidents()) {
 			resident.saveNow();
 		}
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_recover_forcesaveResSuccss",CivGlobal.getResidents().size()));
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void forcesavetowns_cmd() throws SQLException {
 		for (Town town : CivGlobal.getTowns()) {
 			town.saveNow();
 		}
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_recover_forceSaveTownsSuccess",CivGlobal.getTowns().size()));
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void forcesavecivs_cmd() throws SQLException {
 		for (Civilization civ : CivGlobal.getCivs()) {
 			civ.saveNow();
 		}
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_recover_forceSaveCivsSuccess",CivGlobal.getCivs().size()));
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void listorphanmayors_cmd() {
 		for (Civilization civ : CivGlobal.getCivs()) {
 			Town capitol = civ.getTown(civ.getCapitolName());
 			if (capitol == null) {
 				continue;
 			}
-			
+
 			Resident leader = civ.getLeader();
 			if (leader == null) {
 				continue;
 			}
-			
+
 			CivMessage.send(sender, CivSettings.localize.localizedString("Broken")+" "+leader.getName()+" "+CivSettings.localize.localizedString("inCiv")+" "+civ.getName()+" "+CivSettings.localize.localizedString("inCapitol")+" "+capitol.getName());
-			
+
 		}
-		
+
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("Finished"));
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void fixmayors_cmd() {
-		
+
 		for (Civilization civ : CivGlobal.getCivs()) {
 			Town capitol = civ.getTown(civ.getCapitolName());
 			if (capitol == null) {
 				continue;
 			}
-			
+
 			Resident leader = civ.getLeader();
 			if (leader == null) {
 				continue;
 			}
-			
+
 			if (capitol.getMayorGroup() == null) {
 				CivMessage.send(sender, CivSettings.localize.localizedString("var_adcmd_recover_fixMayorsError",capitol.getName()));
 				continue;
 			}
-			
+
 			capitol.getMayorGroup().addMember(leader);
 			try {
 				capitol.getMayorGroup().saveNow();
@@ -221,21 +234,22 @@ public class AdminRecoverCommand extends CommandBase {
 				e.printStackTrace();
 			}
 			CivMessage.send(sender, CivSettings.localize.localizedString("Fixed")+" "+leader.getName()+" "+CivSettings.localize.localizedString("inCiv")+" "+civ.getName()+" "+CivSettings.localize.localizedString("inCapitol")+" "+capitol.getName());
-			
+
 		}
-		
+
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("Finished"));
-		
+
 	}
 
+	@SuppressWarnings("unused")
 	public void fixleaders_cmd() {
-		
+
 		for (Civilization civ : CivGlobal.getCivs()) {
 			Resident res = civ.getLeader();
 			if (res == null) {
 				continue;
 			}
-			
+
 			if (!res.hasTown()) {
 				Town capitol = civ.getTown(civ.getCapitolName());
 				if (capitol == null) {
@@ -250,7 +264,7 @@ public class AdminRecoverCommand extends CommandBase {
 				}
 				CivMessage.send(sender, CivSettings.localize.localizedString("adcmd_recover_FixLeaders1")+" "+civ.getName()+" "+CivSettings.localize.localizedString("Leader")+" "+res.getName());
 			}
-			
+
 			if (!civ.getLeaderGroup().hasMember(res)) {
 				civ.getLeaderGroup().addMember(res);
 				try {
@@ -259,59 +273,64 @@ public class AdminRecoverCommand extends CommandBase {
 					e.printStackTrace();
 				}
 			}
-			
+
 		}
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void listorphanleaders_cmd() {
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("adcmd_recover_listOrphanLeadersHeading"));
-		
+
 		for (Civilization civ : CivGlobal.getCivs()) {
 			Resident res = civ.getLeader();
 			if (res == null) {
 				continue;
 			}
-			
+
 			if (!res.hasTown()) {
 				Town capitol = civ.getTown(civ.getCapitolName());
 				if (capitol == null) {
 					CivMessage.send(sender, CivSettings.localize.localizedString("adcmd_recover_fixLeadersNoCap")+" "+civ.getName());
 					continue;
 				}
-				
+
 				CivMessage.send(sender, CivSettings.localize.localizedString("adcmd_recover_listOrphanLeadersBroken")+civ.getName()+" "+CivSettings.localize.localizedString("Leader")+" "+res.getName());
 			}
-			
+
 		}
-		
+
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void listorphantowns_cmd() {
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("adcmd_recover_listOrphanTownsHeading"));
-		
+
 		for (Town town : CivGlobal.orphanTowns) {
 			CivMessage.send(sender, town.getName());
 		}
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void listorphancivs_cmd() {
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("adcmd_recover_listOrphanCivsHeading"));
-		
+
 		for (Civilization civ : CivGlobal.orphanCivs) {
 			CivMessage.send(sender, civ.getName()+ " capitol:"+civ.getCapitolName());
 		}
-		
+
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void listbroken_cmd() {
 		CivMessage.send(sender, CivSettings.localize.localizedString("adcmd_recover_listbrokenStart"));
 		TaskMaster.syncTask(new RecoverStructuresAsyncTask(sender, true), 0);
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void structures_cmd() {
 		CivMessage.send(sender, CivSettings.localize.localizedString("adcmd_recover_structuresStart"));
 		TaskMaster.syncTask(new RecoverStructuresAsyncTask(sender, false), 0);
-		
+
 	}
 	
 	@Override

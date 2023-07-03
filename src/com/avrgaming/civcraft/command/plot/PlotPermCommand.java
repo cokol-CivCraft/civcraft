@@ -37,46 +37,47 @@ public class PlotPermCommand extends CommandBase {
 		
 		commands.put("set", CivSettings.localize.localizedString("cmd_plot_perm_setDesc"));
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void set_cmd() throws CivException {
 		Player player = (Player)sender;
-		
+
 		TownChunk tc = CivGlobal.getTownChunk(player.getLocation());
 		if (tc == null) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_plot_perm_setnotInTown"));
 		}
-		
+
 		if (args.length < 4) {
-			showPermCmdHelp();
-			throw new CivException(CivSettings.localize.localizedString("cmd_plot_perm_setBadArg"));	
-		}
-		
-		PermissionNode node = null;
-		switch(args[1].toLowerCase()) {
-		case "build":
-			node = tc.perms.build;
-			break;
-		case "destroy":
-			node = tc.perms.destroy;
-			break;
-		case "interact":
-			node = tc.perms.interact;
-			break;
-		case "itemuse":
-			node = tc.perms.itemUse;
-			break;
-		case "reset":
-			//TODO implement permissions reset.
-			break;
-		default:
 			showPermCmdHelp();
 			throw new CivException(CivSettings.localize.localizedString("cmd_plot_perm_setBadArg"));
 		}
-		
+
+		PermissionNode node = null;
+		switch(args[1].toLowerCase()) {
+			case "build":
+				node = tc.perms.build;
+				break;
+			case "destroy":
+				node = tc.perms.destroy;
+				break;
+			case "interact":
+				node = tc.perms.interact;
+				break;
+			case "itemuse":
+				node = tc.perms.itemUse;
+				break;
+			case "reset":
+				//TODO implement permissions reset.
+				break;
+			default:
+				showPermCmdHelp();
+				throw new CivException(CivSettings.localize.localizedString("cmd_plot_perm_setBadArg"));
+		}
+
 		if (node == null) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_plot_perm_setInternalError"));
 		}
-		
+
 		boolean on;
 		if (args[3].equalsIgnoreCase("on") || args[3].equalsIgnoreCase("yes") || args[3].equalsIgnoreCase("1")) {
 			on = true;
@@ -86,20 +87,20 @@ public class PlotPermCommand extends CommandBase {
 			showPermCmdHelp();
 			throw new CivException(CivSettings.localize.localizedString("cmd_plot_perm_setBadArg"));
 		}
-		
+
 		switch(args[2].toLowerCase()) {
-		case "owner":
-			node.setPermitOwner(on);
-			break;
-		case "group":
-			node.setPermitGroup(on);
-			break;
-		case "others":
-			node.setPermitOthers(on);
+			case "owner":
+				node.setPermitOwner(on);
+				break;
+			case "group":
+				node.setPermitGroup(on);
+				break;
+			case "others":
+				node.setPermitOthers(on);
 		}
-		
+
 		tc.save();
-		
+
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_plot_perm_setSuccess",node.getType(),on,args[2]));
 	}
 	

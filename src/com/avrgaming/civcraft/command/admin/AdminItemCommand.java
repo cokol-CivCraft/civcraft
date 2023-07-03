@@ -26,45 +26,47 @@ public class AdminItemCommand extends CommandBase {
 	public void init() {
 		command = "/ad item";
 		displayName = CivSettings.localize.localizedString("adcmd_item_cmdDesc");
-		
+
 		commands.put("enhance", CivSettings.localize.localizedString("adcmd_item_enhanceDesc"));
 		commands.put("give", CivSettings.localize.localizedString("adcmd_item_giveDesc"));
 	}
 
+	@SuppressWarnings("unused")
 	public void give_cmd() throws CivException {
 		Resident resident = getNamedResident(1);
-		String id = getNamedString(2, CivSettings.localize.localizedString("adcmd_item_givePrompt")+" materials.yml");
+		String id = getNamedString(2, CivSettings.localize.localizedString("adcmd_item_givePrompt") + " materials.yml");
 		int amount = getNamedInteger(3);
-		
+
 		Player player = CivGlobal.getPlayer(resident);
-		
+
 		LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterialFromId(id);
 		if (craftMat == null) {
-			throw new CivException(CivSettings.localize.localizedString("adcmd_item_giveInvalid")+id);
+			throw new CivException(CivSettings.localize.localizedString("adcmd_item_giveInvalid") + id);
 		}
 		
 		ItemStack stack = LoreCraftableMaterial.spawn(craftMat);
-		
+
 		stack.setAmount(amount);
 		HashMap<Integer, ItemStack> leftovers = player.getInventory().addItem(stack);
 		for (ItemStack is : leftovers.values()) {
 			player.getWorld().dropItem(player.getLocation(), is);
 		}
-		
+
 		CivMessage.sendSuccess(player, CivSettings.localize.localizedString("adcmd_item_giveSuccess"));
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void enhance_cmd() throws CivException {
 		Player player = getPlayer();
-        HashMap<String, LoreEnhancement> enhancements = new HashMap<>();
-        ItemStack inHand = getPlayer().getInventory().getItemInMainHand();
-		
+		HashMap<String, LoreEnhancement> enhancements = new HashMap<>();
+		ItemStack inHand = getPlayer().getInventory().getItemInMainHand();
+
 		enhancements.put("soulbound", new LoreEnhancementSoulBound());
 		enhancements.put("attack", new LoreEnhancementAttack());
 		enhancements.put("defence", new LoreEnhancementDefense());
 		enhancements.put("arena", new LoreEnhancementArenaItem());
 
-        if (inHand == null || inHand.getType() == Material.AIR) {
+		if (inHand == null || inHand.getType() == Material.AIR) {
 			throw new CivException(CivSettings.localize.localizedString("adcmd_item_enhanceNoItem"));
 		}
 		

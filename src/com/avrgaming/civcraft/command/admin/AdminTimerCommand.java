@@ -39,17 +39,18 @@ public class AdminTimerCommand extends CommandBase {
 		commands.put("run", CivSettings.localize.localizedString("adcmd_timer_runDesc"));		
 	}
 
-	
+
+	@SuppressWarnings("unused")
 	public void run_cmd() throws CivException {
 		if (args.length < 2) {
 			throw new CivException(CivSettings.localize.localizedString("adcmd_timer_runPrompt"));
 		}
-		
+
 		EventTimer timer = EventTimer.timers.get(args[1]);
 		if (timer == null) {
 			throw new CivException(CivSettings.localize.localizedString("var_adcmd_timer_runInvalid",args[1]));
 		}
-		
+
 		Calendar next;
 		try {
 			next = timer.getEventFunction().getNextDate();
@@ -62,24 +63,25 @@ public class AdminTimerCommand extends CommandBase {
 		timer.setLast(EventTimer.getCalendarInServerTimeZone());
 		timer.setNext(next);
 		timer.save();
-		
+
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_timer_runSuccess"));
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void set_cmd() throws CivException {
 		if (args.length < 3) {
 			throw new CivException(CivSettings.localize.localizedString("adcmd_timer_setPrompt"));
 		}
-		
+
 		String timerName = args[1];
 		EventTimer timer = EventTimer.timers.get(timerName);
 		if (timer == null) {
 			throw new CivException( CivSettings.localize.localizedString("var_adcmd_timer_runInvalid",args[1]));
 		}
-		
+
 		String dateStr = args[2];
 		SimpleDateFormat parser = new SimpleDateFormat("d:M:y:H:m");
-		
+
 		Calendar next = EventTimer.getCalendarInServerTimeZone();
 		try {
 			next.setTime(parser.parse(dateStr));
@@ -89,7 +91,7 @@ public class AdminTimerCommand extends CommandBase {
 		} catch (ParseException e) {
 			throw new CivException(args[2]+CivSettings.localize.localizedString("adcmd_road_setRaidTimeError"));
 		}
-		
+
 	}
 	
 	@Override

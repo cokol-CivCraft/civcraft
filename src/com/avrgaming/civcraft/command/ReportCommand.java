@@ -20,10 +20,11 @@ public class ReportCommand extends CommandBase {
 		commands.put("player", CivSettings.localize.localizedString("cmd_report_playerDesc"));
 	}
 
+	@SuppressWarnings("unused")
 	public void player_cmd() throws CivException {
 		Resident resident = getResident();
 		Resident reportedResident = getNamedResident(1);
-		
+
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_report_Heading"));
 		CivMessage.send(sender, CivColor.Yellow+ChatColor.BOLD+CivSettings.localize.localizedString("cmd_report_1")+" "+reportedResident.getName());
 		CivMessage.send(sender, " ");

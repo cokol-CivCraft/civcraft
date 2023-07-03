@@ -25,25 +25,26 @@ public class AdminRoadCommand extends CommandBase {
 		commands.put("setraidtime", CivSettings.localize.localizedString("adcmd_road_setRaidTimeDesc"));		
 	}
 
+	@SuppressWarnings("unused")
 	public void setraidtime_cmd() throws CivException {
 		Town town = getNamedTown(1);
 		Player player = getPlayer();
-		
+
 		if (args.length < 3) {
 			throw new CivException(CivSettings.localize.localizedString("adcmd_road_setRaidTimePrompt"));
 		}
-		
+
 		Buildable buildable = town.getNearestBuildable(player.getLocation());
 		Road road;
 		if (!(buildable instanceof Road)) {
 			throw new CivException( CivSettings.localize.localizedString("var_adcmd_road_setRaidTimeNotRoad",buildable.getDisplayName()));
 		}
-		
+
 		road = (Road)buildable;
-				
+
 		String dateStr = args[2];
 		SimpleDateFormat parser = new SimpleDateFormat("d:M:y:H:m");
-		
+
 		Date next;
 		try {
 			next = parser.parse(dateStr);
@@ -52,7 +53,7 @@ public class AdminRoadCommand extends CommandBase {
 		} catch (ParseException e) {
 			throw new CivException(CivSettings.localize.localizedString("var_adcmd_road_setRaidTimeError",args[2]));
 		}
-		
+
 	}
 	
 	

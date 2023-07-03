@@ -25,67 +25,73 @@ import com.avrgaming.civcraft.object.Resident;
 
 public class ResidentFriendCommand extends CommandBase {
 
+	@SuppressWarnings("unused")
 	@Override
 	public void init() {
 		command = "/resident friend";
 		displayName = CivSettings.localize.localizedString("cmd_res_friend_name");
-		
+
 		commands.put("add", CivSettings.localize.localizedString("cmd_res_friend_addDesc"));
 		commands.put("remove", CivSettings.localize.localizedString("cmd_res_friend_removeDesc"));
 		commands.put("list", CivSettings.localize.localizedString("cmd_res_friend_listDesc"));
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void add_cmd() throws CivException {
 		Resident resident = getResident();
-		
+
 		if (args.length < 2) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_res_friend_addPrompt"));
 		}
-		
+
 		Resident friendToAdd = getNamedResident(1);
-		
+
 		resident.addFriend(friendToAdd);
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_res_friend_addSuccess",args[1]));	
+		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_res_friend_addSuccess",args[1]));
 		resident.save();
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void remove_cmd() throws CivException {
-	Resident resident = getResident();
-		
+		Resident resident = getResident();
+
 		if (args.length < 2) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_res_friend_removePrompt"));
 		}
-		
+
 		Resident friendToRemove = getNamedResident(1);
-		
+
 		resident.removeFriend(friendToRemove);
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_res_friend_removeSuccess",args[1]));	
+		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_res_friend_removeSuccess",args[1]));
 		resident.save();
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void list_cmd() throws CivException {
 		Resident resident = getResident();
-		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("var_cmd_res_friend_listHeading",resident.getName()));
-		
+		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("var_cmd_res_friend_listHeading", resident.getName()));
+
 		StringBuilder out = new StringBuilder();
 		for (String res : resident.getFriends()) {
-            out.append(res).append(", ");
+			out.append(res).append(", ");
 		}
-        CivMessage.send(sender, out.toString());
+		CivMessage.send(sender, out.toString());
 	}
 
-    @Override
-    public void doDefaultAction() {
-        showHelp();
-    }
+	@SuppressWarnings("unused")
+	@Override
+	public void doDefaultAction() {
+		showHelp();
+	}
 
 	@Override
 	public void showHelp() {
-		showBasicHelp();	
+		showBasicHelp();
 	}
 
-    @Override
-    public void permissionCheck() {
-    }
+	@SuppressWarnings("unused")
+	@Override
+	public void permissionCheck() {
+	}
 
 }

@@ -66,6 +66,8 @@ public class ResidentCommand extends CommandBase {
 
 		//commands.put("switchtown", "[town] - Allows you to instantly change your town to this town, if this town belongs to your civ.");
 	}
+
+	@SuppressWarnings("unused")
 	public void pt_cmd() {
 		try {
 			pvptimer_cmd();
@@ -84,6 +86,8 @@ public class ResidentCommand extends CommandBase {
 		resident.setisProtected(false);
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_res_pvptimerSuccess"));
 	}
+
+	@SuppressWarnings("unused")
 	public void t_cmd() throws CivException {
 		Resident resident = getResident();
 		if (args.length < 2) {
@@ -122,23 +126,27 @@ public class ResidentCommand extends CommandBase {
 		resident.save();
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_res_timezoneSuccess",timezone.getID()));
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void refresh_cmd() throws CivException {
 		Resident resident = getResident();
 		resident.perks.clear();
 		resident.loadPerks(getPlayer());
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_res_refreshSuccess"));
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void perks_cmd() throws CivException {
 		Resident resident = getResident();
-		
+
 		//CivMessage.sendHeading(sender, "Your Perks");
 		//for (Perk p : resident.perks.values()) {
 		//	CivMessage.send(sender, "Perk:"+p.getIdent());
 		//}
 		resident.showPerkPage(0);
 	}
+
+	@SuppressWarnings("unused")
 	public void b_cmd() {
 		try {
 			book_cmd();
@@ -210,40 +218,41 @@ public class ResidentCommand extends CommandBase {
 //		}
 //		
 //	}
-	
+
+	@SuppressWarnings("unused")
 	public void exchange_cmd() throws CivException {
 		Player player = getPlayer();
 		Resident resident = getResident();
 		String type = getNamedString(1, CivSettings.localize.localizedString("cmd_res_exchangePrompt"));
 		Integer amount = getNamedInteger(2);
-		
+
 		if (amount <= 0) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_res_exchangeLessThan0"));
 		}
-		
+
 		type = type.toLowerCase();
 
-        Material exchangeID;
-        double rate;
+		Material exchangeID;
+		double rate;
 		switch (type) {
-		case "iron":
-            exchangeID = Material.IRON_INGOT;
-            rate = CivSettings.iron_rate;
-			break;
-		case "gold":
-            exchangeID = Material.GOLD_INGOT;
-            rate = CivSettings.gold_rate;
-			break;
-		case "diamond":
-            exchangeID = Material.DIAMOND;
-            rate = CivSettings.diamond_rate;
-			break;
-		case "emerald":
-            exchangeID = Material.EMERALD;
-            rate = CivSettings.emerald_rate;
-			break;
-		default:
-			throw new CivException(CivSettings.localize.localizedString("var_cmd_res_exchangeInvalid",type));
+			case "iron":
+				exchangeID = Material.IRON_INGOT;
+				rate = CivSettings.iron_rate;
+				break;
+			case "gold":
+				exchangeID = Material.GOLD_INGOT;
+				rate = CivSettings.gold_rate;
+				break;
+			case "diamond":
+				exchangeID = Material.DIAMOND;
+				rate = CivSettings.diamond_rate;
+				break;
+			case "emerald":
+				exchangeID = Material.EMERALD;
+				rate = CivSettings.emerald_rate;
+				break;
+			default:
+				throw new CivException(CivSettings.localize.localizedString("var_cmd_res_exchangeInvalid",type));
 		}
 
 		double exchangeRate;
@@ -254,86 +263,92 @@ public class ResidentCommand extends CommandBase {
 			throw new CivException(CivSettings.localize.localizedString("internalException"));
 		}
 
-        ItemStack stack = new ItemStack(exchangeID, 1, (short) 0);
+		ItemStack stack = new ItemStack(exchangeID, 1, (short) 0);
 		int total = 0;
 		for (int i = 0; i < player.getInventory().getContents().length; i++) {
 			ItemStack is = player.getInventory().getItem(i);
 			if (is == null) {
 				continue;
 			}
-			
+
 			if (LoreCraftableMaterial.isCustom(is)) {
 				continue;
 			}
-			
+
 			if (CivGlobal.isBonusGoodie(is)) {
 				throw new CivException(CivSettings.localize.localizedString("cmd_res_exchangeNoTradeGoods"));
 			}
 
-            if (is.getType() == exchangeID) {
-                total += is.getAmount();
-                break;
-            }
+			if (is.getType() == exchangeID) {
+				total += is.getAmount();
+				break;
+			}
 		}
-		
+
 		if (total == 0) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_res_exchangeNotEnough")+" "+type);
 		}
-		
+
 		if (amount > total) {
 			amount = total;
 		}
-		
+
 		stack.setAmount(amount);
 		player.getInventory().removeItem(stack);
 		double coins = amount*rate*exchangeRate;
-		
+
 		resident.getTreasury().deposit(coins);
 		CivMessage.sendSuccess(player, CivSettings.localize.localizedString("var_cmd_res_exchangeSuccess",amount,type,coins,CivSettings.CURRENCY_NAME));
-		
+
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void resetspawn_cmd() throws CivException {
 		Player player = getPlayer();
 		Location spawn = player.getWorld().getSpawnLocation();
 		player.setBedSpawnLocation(spawn, true);
 		CivMessage.sendSuccess(player, CivSettings.localize.localizedString("cmd_res_resetspawnSuccess"));
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void show_cmd() throws CivException {
 		if (args.length < 2) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_res_showPrompt"));
 		}
-		
+
 		Resident resident = getNamedResident(1);
-		
+
 		show(sender, resident);
 	}
 
-    public void toggle_cmd() {
-        ResidentToggleCommand cmd = new ResidentToggleCommand();
-        cmd.onCommand(sender, null, "friend", this.stripArgs(args, 1));
-    }
-	
-	public void friend_cmd() {
-		ResidentFriendCommand cmd = new ResidentFriendCommand();	
+	@SuppressWarnings("unused")
+	public void toggle_cmd() {
+		ResidentToggleCommand cmd = new ResidentToggleCommand();
 		cmd.onCommand(sender, null, "friend", this.stripArgs(args, 1));
 	}
+
+	public void friend_cmd() {
+		ResidentFriendCommand cmd = new ResidentFriendCommand();
+		cmd.onCommand(sender, null, "friend", this.stripArgs(args, 1));
+	}
+
+	@SuppressWarnings("unused")
 	public void f_cmd() {
 		friend_cmd();
 	}
 
+	@SuppressWarnings("unused")
 	public void paydebt_cmd() throws CivException {
 		Resident resident = getResident();
-		
+
 		if (!resident.getTreasury().inDebt() || !resident.hasTown()) {
 			throw new CivException(CivSettings.localize.localizedString("var_cmd_res_paydebtError2"));
 		}
-	
+
 		if (!resident.getTreasury().hasEnough(resident.getTreasury().getDebt())) {
 			throw new CivException(CivSettings.localize.localizedString("var_cmd_res_paydebtError1",resident.getTreasury().getDebt(),CivSettings.CURRENCY_NAME));
 		}
-		
+
 
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_res_paydebtSuccess",resident.getTreasury().getDebt(),CivSettings.CURRENCY_NAME));
 		resident.payOffDebt();
@@ -343,6 +358,8 @@ public class ResidentCommand extends CommandBase {
 		Resident resident = getResident();
     	show(sender, resident);
 	}
+
+	@SuppressWarnings("unused")
 	public void i_cmd() {
 		try {
 			info_cmd();

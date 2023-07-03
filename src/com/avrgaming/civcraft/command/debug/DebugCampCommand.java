@@ -35,26 +35,27 @@ public class DebugCampCommand extends CommandBase {
 		commands.put("growth", "[name] - Shows a list of this player's camp growth spots.");
 		
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void growth_cmd() throws CivException {
 		Resident resident = getNamedResident(1);
-		
+
 		if (!resident.hasCamp()) {
 			throw new CivException("This guy doesnt have a camp.");
 		}
-		
+
 		Camp camp = resident.getCamp();
-		
+
 		CivMessage.sendHeading(sender, "Growth locations");
-		
+
 		StringBuilder out = new StringBuilder();
 		for (BlockCoord coord : camp.growthLocations) {
 			boolean inGlobal = CivGlobal.vanillaGrowthLocations.contains(coord);
-            out.append(coord.toString()).append(" in global:").append(inGlobal);
+			out.append(coord.toString()).append(" in global:").append(inGlobal);
 		}
 
-        CivMessage.send(sender, out.toString());
-		
+		CivMessage.send(sender, out.toString());
+
 	}
 
     @Override

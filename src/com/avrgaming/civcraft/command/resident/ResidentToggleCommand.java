@@ -25,11 +25,12 @@ import com.avrgaming.civcraft.object.Resident;
 
 public class ResidentToggleCommand extends CommandBase {
 
+	@SuppressWarnings("unused")
 	@Override
 	public void init() {
 		command = "/resident toggle";
-		displayName = CivSettings.localize.localizedString("cmd_res_toggle_name");	
-		
+		displayName = CivSettings.localize.localizedString("cmd_res_toggle_name");
+
 		commands.put("map", CivSettings.localize.localizedString("cmd_res_toggle_mapDesc"));
 		commands.put("info", CivSettings.localize.localizedString("cmd_res_toggle_infoDesc"));
 		commands.put("showtown", CivSettings.localize.localizedString("cmd_res_toggle_showtownDesc"));
@@ -38,35 +39,45 @@ public class ResidentToggleCommand extends CommandBase {
 		commands.put("combatinfo", CivSettings.localize.localizedString("cmd_res_toggle_combatinfoDesc"));
 		commands.put("itemdrops", CivSettings.localize.localizedString("cmd_res_toggle_itemdropsDesc"));
 		commands.put("titles", CivSettings.localize.localizedString("cmd_res_toggle_titleAPIDesc"));
-		
+
 	}
+
+	@SuppressWarnings("unused")
 	public void itemdrops_cmd() throws CivException {
 		toggle();
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void map_cmd() throws CivException {
 		toggle();
 	}
+
+	@SuppressWarnings("unused")
 	public void showtown_cmd() throws CivException {
 		toggle();
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void showciv_cmd() throws CivException  {
 		toggle();
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void showscout_cmd() throws CivException  {
 		toggle();
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void info_cmd() throws CivException {
 		toggle();
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void combatinfo_cmd() throws CivException {
 		toggle();
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void titles_cmd() throws CivException {
 		toggle();
 	}
@@ -115,19 +126,21 @@ public class ResidentToggleCommand extends CommandBase {
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_toggled")+" "+args[0]+" -> "+result);
 	}
 
+	@SuppressWarnings("unused")
 	@Override
-    public void doDefaultAction() {
-        showHelp();
-    }
+	public void doDefaultAction() {
+		showHelp();
+	}
 
 	@Override
 	public void showHelp() {
 		showBasicHelp();
 	}
 
-    @Override
-    public void permissionCheck() {
+	@SuppressWarnings("unused")
+	@Override
+	public void permissionCheck() {
 
-    }
+	}
 
 }

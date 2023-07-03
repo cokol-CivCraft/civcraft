@@ -38,33 +38,35 @@ public class CivGovCommand extends CommandBase {
 		commands.put("change", CivSettings.localize.localizedString("cmd_civ_gov_changeDesc"));
 		commands.put("list", CivSettings.localize.localizedString("cmd_civ_gov_listDesc"));
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void change_cmd() throws CivException {
 		Civilization civ = getSenderCiv();
-		
+
 		if (args.length < 2) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_civ_gov_changePrompt"));
 		}
-		
+
 		ConfigGovernment gov = ConfigGovernment.getGovernmentFromName(args[1]);
 		if (gov == null) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_civ_gov_changeInvalid")+" "+args[1]);
 		}
-		
+
 		if (!gov.isAvailable(civ)) {
 			throw new CivException(CivSettings.localize.localizedString("var_cmd_civ_gov_changeNotHere",gov.displayName));
 		}
-		
+
 		civ.changeGovernment(civ, gov, false);
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_civ_gov_changeSuccess"));
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void list_cmd() throws CivException {
 		Civilization civ = getSenderCiv();
-		
+
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_civ_gov_listHeading"));
 		ArrayList<ConfigGovernment> govs = ConfigGovernment.getAvailableGovernments(civ);
-		
+
 		for (ConfigGovernment gov : govs) {
 			if (gov == civ.getGovernment()) {
 				CivMessage.send(sender, CivColor.Gold+gov.displayName+" "+"("+CivSettings.localize.localizedString("currentGovernment")+")");
@@ -72,12 +74,13 @@ public class CivGovCommand extends CommandBase {
 				CivMessage.send(sender, CivColor.Green+gov.displayName);
 			}
 		}
-		
+
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void info_cmd() throws CivException {
 		Civilization civ = getSenderCiv();
-		
+
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_civ_gov_infoHading")+" "+civ.getGovernment().displayName);
 		CivMessage.send(sender, CivColor.Green+CivSettings.localize.localizedString("cmd_civ_gov_infoTrade")+" "+CivColor.LightGreen+civ.getGovernment().trade_rate+
 				CivColor.Green+" "+CivSettings.localize.localizedString("cmd_civ_gov_infoCottage")+" "+CivColor.LightGreen+civ.getGovernment().cottage_rate);
@@ -87,7 +90,7 @@ public class CivGovCommand extends CommandBase {
 				CivColor.Green+" "+CivSettings.localize.localizedString("cmd_civ_gov_infoBeaker")+" "+CivColor.LightGreen+civ.getGovernment().beaker_rate);
 		CivMessage.send(sender, CivColor.Green+CivSettings.localize.localizedString("cmd_civ_gov_infoCulture")+" "+CivColor.LightGreen+civ.getGovernment().culture_rate+
 				CivColor.Green+" "+CivSettings.localize.localizedString("cmd_civ_gov_infoMaxTax")+" "+CivColor.LightGreen+civ.getGovernment().maximum_tax_rate);
-				
+
 	}
 
 	@Override

@@ -35,14 +35,15 @@ import com.avrgaming.civcraft.war.War;
 
 public class CivDiplomacyGiftCommand extends CommandBase {
 
+	@SuppressWarnings("unused")
 	@Override
 	public void init() {
 		command = "/civ dip gift";
 		displayName = CivSettings.localize.localizedString("cmd_civ_dipgift_name");
-		
+
 		commands.put("entireciv", CivSettings.localize.localizedString("cmd_civ_dipgift_entirecivDesc"));
 		commands.put("town", CivSettings.localize.localizedString("cmd_civ_dipgift_townDesc"));
-		
+
 	}
 
 	private void sendGiftRequest(Civilization toCiv, Civilization fromCiv, String message, 
@@ -60,43 +61,45 @@ public class CivDiplomacyGiftCommand extends CommandBase {
 		CivGlobal.civQuestions.put(toCiv.getName(), task);
 		TaskMaster.asyncTask("", task, 0);
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void entireciv_cmd() throws CivException {
 		this.validLeader();
 		Civilization fromCiv = getSenderCiv();
 		Civilization toCiv = getNamedCiv(1);
-		
+
 		if (fromCiv == toCiv) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_civ_dipgift_entirecivSelf"));
 		}
-		
+
 		if (fromCiv.getDiplomacyManager().isAtWar() || toCiv.getDiplomacyManager().isAtWar()) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_civ_dipgift_entirecivAtWar"));
 		}
-		
+
 		fromCiv.validateGift();
 		toCiv.validateGift();
-		
+
 		if (War.isWarTime()) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_civ_dipgift_entirecivDuringWar"));
 		}
-		
+
 		if (War.isWithinWarDeclareDays()) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_civ_dipgift_entirecivClostToWar1")+" "+War.getTimeDeclareDays()+" "+CivSettings.localize.localizedString("cmd_civ_dip_declareTooCloseToWar4"));
 		}
-		
-		
+
+
 		DiplomacyGiftResponse dipResponse = new DiplomacyGiftResponse();
 		dipResponse.giftedObject = fromCiv;
 		dipResponse.fromCiv = fromCiv;
 		dipResponse.toCiv = toCiv;
-		
-		sendGiftRequest(toCiv, fromCiv, 
+
+		sendGiftRequest(toCiv, fromCiv,
 				CivColor.Yellow+ChatColor.BOLD+CivSettings.localize.localizedString("var_cmd_civ_dipgift_entirecivRequest1",fromCiv.getName())+
 						" "+CivSettings.localize.localizedString("var_cmd_civ_dipgift_entirecivRequest2",fromCiv.getMergeCost(),CivSettings.CURRENCY_NAME), dipResponse);
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_civ_dipgift_entirecivSuccess"));
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void town_cmd() throws CivException {
 		this.validLeader();
 		Civilization fromCiv = getSenderCiv();
@@ -106,55 +109,57 @@ public class CivDiplomacyGiftCommand extends CommandBase {
 		if (giftedTown.getCiv() != fromCiv) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_civ_dipgift_townNotYours"));
 		}
-		
+
 		if (giftedTown.getCiv() == toCiv) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_civ_dipgift_townNotInCiv"));
 		}
-		
+
 		if (giftedTown.getMotherCiv() != null && toCiv != giftedTown.getMotherCiv()) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_civ_dipgift_townNotMother"));
 		}
-		
+
 		if (giftedTown.isCapitol()) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_civ_dipgift_townNotCapitol"));
 		}
-		
+
 		if (War.isWarTime()) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_civ_dipgift_townNotDuringWar"));
 		}
-		
+
 		if (fromCiv.getDiplomacyManager().isAtWar() || toCiv.getDiplomacyManager().isAtWar()) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_civ_dipgift_townNotAtWar"));
 		}
-		
+
 		fromCiv.validateGift();
 		toCiv.validateGift();
 		giftedTown.validateGift();
-		
+
 		DiplomacyGiftResponse dipResponse = new DiplomacyGiftResponse();
 		dipResponse.giftedObject = giftedTown;
 		dipResponse.fromCiv = fromCiv;
 		dipResponse.toCiv = toCiv;
-		
-		sendGiftRequest(toCiv, fromCiv, 
+
+		sendGiftRequest(toCiv, fromCiv,
 				CivSettings.localize.localizedString("var_cmd_civ_dipgift_townRequest1",fromCiv.getName(),giftedTown.getName(),giftedTown.getGiftCost(),CivSettings.CURRENCY_NAME), dipResponse);
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_civ_dipgift_entirecivSuccess"));
-		
+
 	}
-	
+
+	@SuppressWarnings("unused")
 	@Override
-    public void doDefaultAction() {
-        showHelp();
-    }
+	public void doDefaultAction() {
+		showHelp();
+	}
 
 	@Override
 	public void showHelp() {
 		showBasicHelp();
 	}
 
-    @Override
-    public void permissionCheck() {
-        // permission checked in parent command.
-    }
+	@SuppressWarnings("unused")
+	@Override
+	public void permissionCheck() {
+		// permission checked in parent command.
+	}
 
 }

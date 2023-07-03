@@ -21,52 +21,56 @@ public class DebugWorldCommand extends CommandBase {
 	public void init() {
 		command = "/dbg world";
 		displayName = "Debug World";
-		
+
 		commands.put("create", "[name] - creates a new test world with this name.");
 		commands.put("tp", "[name] teleports you to spawn at the specified world.");
 		commands.put("list", "Lists worlds according to bukkit.");
 		commands.put("createarena", "[name] - creates and arena with the given name");
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void createarena_cmd() throws CivException {
 		String name = getNamedString(1, "enter a arena name.");
-		
+
 		ConfigArena arena = CivSettings.arenas.get(name);
 		ArenaManager.createArena(arena);
-		CivMessage.sendSuccess(sender, "Created arena:"+arena.name);
+		CivMessage.sendSuccess(sender, "Created arena:" + arena.name);
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void list_cmd() {
 		CivMessage.sendHeading(sender, "Worlds");
 		for (World world : Bukkit.getWorlds()) {
 			CivMessage.send(sender, world.getName());
 		}
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void create_cmd() throws CivException {
 		String name = getNamedString(1, "enter a world name");
-		
+
 		WorldCreator wc = new WorldCreator(name);
 		wc.environment(Environment.NORMAL);
 		wc.type(WorldType.FLAT);
 		wc.generateStructures(false);
-		
+
 		World world = Bukkit.getServer().createWorld(wc);
 		world.setSpawnFlags(false, false);
 		ChunkCoord.addWorld(world);
-		
-		CivMessage.sendSuccess(sender, "World "+name+" created.");
-		
+
+		CivMessage.sendSuccess(sender, "World " + name + " created.");
+
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void tp_cmd() throws CivException {
 		String name = getNamedString(1, "enter a world name");
 		Player player = getPlayer();
-		
+
 		World world = Bukkit.getWorld(name);
 		player.teleport(world.getSpawnLocation());
-		
-		CivMessage.sendSuccess(sender, "Teleported to spawn at world:"+name);
+
+		CivMessage.sendSuccess(sender, "Teleported to spawn at world:" + name);
 	}
 	
 

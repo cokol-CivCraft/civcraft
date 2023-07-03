@@ -53,224 +53,234 @@ public class PlotCommand extends CommandBase {
 		commands.put("removegroup", CivSettings.localize.localizedString("cmd_plot_removegroupDesc"));
 		commands.put("cleargroups", CivSettings.localize.localizedString("cmd_plot_cleargroupsDesc"));
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void farminfo_cmd() throws CivException {
 		Player player = getPlayer();
-		
+
 		ChunkCoord coord = new ChunkCoord(player.getLocation());
 		FarmChunk fc = CivGlobal.getFarmChunk(coord);
-		
+
 		if (fc == null) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_plot_notFarm"));
 		}
-		
+
 		if (!fc.getStruct().isActive()) {
-            throw new CivException(CivSettings.localize.localizedString("cmd_plot_farmNotDone"));
-        }
-		
+			throw new CivException(CivSettings.localize.localizedString("cmd_plot_farmNotDone"));
+		}
+
 		String dateString = CivSettings.localize.localizedString("Never");
-		
+
 		if (fc.getLastGrowDate() != null) {
 			SimpleDateFormat sdf = new SimpleDateFormat("M/d/y k:m:s z");
 			dateString = sdf.format(fc.getLastGrowDate());
 		}
-		
+
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_plot_farmInfoHeading"));
 		CivMessage.send(sender, CivColor.Green+CivSettings.localize.localizedString("cmd_plot_farmLastGrowTime")+" "+CivColor.LightGreen+dateString);
 		CivMessage.send(sender, CivColor.Green+CivSettings.localize.localizedString("cmd_plot_farmLastGrowVolume")+" "+CivColor.LightGreen+fc.getLastGrowTickCount());
 		CivMessage.send(sender, CivColor.Green+CivSettings.localize.localizedString("cmd_plot_farmunloaded")+" "+CivColor.LightGreen+fc.getMissedGrowthTicksStat());
 		CivMessage.send(sender, CivColor.Green+CivSettings.localize.localizedString("cmd_plot_farmRate")+" "+CivColor.LightGreen+df.format(fc.getFarm().getLastEffectiveGrowthRate()*100)+"%");
-		
+
 		String success = "no";
 		if (fc.getLastRandomInt() < fc.getLastChanceForLast()) {
 			success = "yes";
 		}
-		
+
 		CivMessage.send(sender, CivColor.Green+CivSettings.localize.localizedString("cmd_plot_farmExtraRate")+" "+CivColor.LightGreen+fc.getLastChanceForLast()+" vs "+CivColor.LightGreen+fc.getLastRandomInt()+" "+CivSettings.localize.localizedString("cmd_plot_farmsuccessToo")+" "+CivColor.LightGreen+success);
 
-        StringBuilder out = new StringBuilder();
+		StringBuilder out = new StringBuilder();
 		for (BlockCoord bcoord : fc.getLastGrownCrops()) {
-            out.append(bcoord.toString()).append(", ");
+			out.append(bcoord.toString()).append(", ");
 		}
-		
+
 		CivMessage.send(sender, CivColor.Green+CivSettings.localize.localizedString("cmd_plot_farmCropsGrown")+" "+CivColor.LightGreen+out);
-		
-		
+
+
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void setowner_cmd() throws CivException {
 		TownChunk tc = this.getStandingTownChunk();
 		validPlotOwner();
-		
+
 		if (args.length < 2) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_plot_setownerPrompt"));
 		}
-		
+
 		if (args[1].equalsIgnoreCase("none")) {
 			tc.perms.setOwner(null);
 			tc.save();
 			CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_plot_setownerNone"));
 			return;
 		}
-		
+
 		Resident resident = getNamedResident(1);
 
 		if (resident.getTown() != tc.getTown()) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_plot_setownerNotRes"));
 		}
-		
+
 		tc.perms.setOwner(resident);
 		tc.save();
-		
+
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_plot_setownerSuccess",args[1]));
-		
+
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void removegroup_cmd() throws CivException {
 		TownChunk tc= this.getStandingTownChunk();
 		validPlotOwner();
-		
+
 		if (args.length < 2) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_plot_removegroupPrompt"));
 		}
-		
+
 		if (args[1].equalsIgnoreCase("none")) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_plot_removegroupNone"));
 		}
-		
+
 		PermissionGroup grp = tc.getTown().getGroupByName(args[1]);
 		if (grp == null) {
 			throw new CivException(CivSettings.localize.localizedString("var_cmd_plot_removegroupInvalid",args[1]));
 		}
-		
+
 		tc.perms.removeGroup(grp);
 		tc.save();
-		
+
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_plot_removegroupSuccess",grp.getName()));
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void cleargroups_cmd() throws CivException {
 		TownChunk tc= this.getStandingTownChunk();
 		validPlotOwner();
-		
+
 		tc.perms.clearGroups();
 		tc.save();
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_plot_cleargroupsSuccess"));
 	}
 
+	@SuppressWarnings("unused")
 	public void addgroup_cmd() throws CivException {
 		TownChunk tc= this.getStandingTownChunk();
 		validPlotOwner();
-		
+
 		if (args.length < 2) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_plot_addgroupPrompt"));
 		}
-		
+
 		if (args[1].equalsIgnoreCase("none")) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_plot_addgroupNone"));
-			
+
 		}
-		
+
 		PermissionGroup grp = tc.getTown().getGroupByName(args[1]);
 		if (grp == null) {
 			throw new CivException(CivSettings.localize.localizedString("var_cmd_plot_removegroupInvalid",args[1]));
 		}
-		
+
 		tc.perms.addGroup(grp);
 		tc.save();
-		
+
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_plot_addgroupSuccess",grp.getName()));
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void buy_cmd() throws CivException {
 		TownChunk tc = this.getStandingTownChunk();
 		Resident resident = getResident();
-		
+
 		if (tc.isOutpost()) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_plot_buyOutpost"));
 		}
-		
+
 		if (resident.getTown() != tc.getTown()) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_plot_buyNotInTown"));
 		}
 
-        if (!tc.isForSale()) {
-            throw new CivException(CivSettings.localize.localizedString("cmd_plot_buyNotForSale"));
-        }
-		
+		if (!tc.isForSale()) {
+			throw new CivException(CivSettings.localize.localizedString("cmd_plot_buyNotForSale"));
+		}
+
 		tc.purchase(resident);
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_plot_buySuccess",tc.getChunkCoord(),tc.getValue(),CivSettings.CURRENCY_NAME));
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void fs_cmd() throws CivException {
 		TownChunk tc = this.getStandingTownChunk();
 		this.validPlotOwner();
-		
+
 		if (tc.isOutpost()) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_plot_sellOutpost"));
 		}
-		
+
 		if (args.length < 2) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_plot_sellNeedPrice"));
 		}
-		
+
 		try {
-            double price = Double.parseDouble(args[1]);
+			double price = Double.parseDouble(args[1]);
 			tc.setForSale(true);
 			tc.setPrice(price);
 			tc.save();
 		} catch (NumberFormatException e) {
 			throw new CivException(args[1]+" "+CivSettings.localize.localizedString("cmd_enterNumerError2"));
 		}
-		
+
 		CivMessage.sendTown(tc.getTown(), CivSettings.localize.localizedString("var_cmd_plot_sellSuccess1",tc.getCenterString(),args[1],CivSettings.CURRENCY_NAME));
 	}
-	
-	
+
+
+	@SuppressWarnings("unused")
 	public void nfs_cmd() throws CivException {
 		TownChunk tc = this.getStandingTownChunk();
 		this.validPlotOwner();
-	
+
 		try {
 			tc.setForSale(false);
 			tc.save();
 		} catch (NumberFormatException e) {
 			throw new CivException(args[1]+" "+CivSettings.localize.localizedString("cmd_enterNumerError2"));
 		}
-		
+
 		CivMessage.sendTown(tc.getTown(), CivSettings.localize.localizedString("cmd_plot_nfsSuccess")+" "+tc.getCenterString());
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void toggle_cmd() throws CivException {
 		TownChunk tc = this.getStandingTownChunk();
 		this.validPlotOwner();
-		
+
 		if (args.length < 2) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_plot_togglePrompt"));
 		}
-		
+
 		if (args[1].equalsIgnoreCase("mobs")) {
 			tc.perms.setMobs(!tc.perms.isMobs());
-			
-			CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_plot_toggleMobs",tc.perms.isMobs()));
-			
+
+			CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_plot_toggleMobs", tc.perms.isMobs()));
+
 		} else if (args[1].equalsIgnoreCase("fire")) {
 			tc.perms.setFire(!tc.perms.isFire());
-			CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_plot_toggleFire",tc.perms.isFire()));
+			CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_plot_toggleFire", tc.perms.isFire()));
 		}
 		tc.save();
 	}
 
-    public void perm_cmd() {
-        PlotPermCommand cmd = new PlotPermCommand();
-        cmd.onCommand(sender, null, "perm", this.stripArgs(args, 1));
-    }
-	
+	@SuppressWarnings("unused")
+	public void perm_cmd() {
+		PlotPermCommand cmd = new PlotPermCommand();
+		cmd.onCommand(sender, null, "perm", this.stripArgs(args, 1));
+	}
+
 	private void showCurrentPermissions(TownChunk tc) {
-		CivMessage.send(sender, CivColor.Green+CivSettings.localize.localizedString("cmd_plot_showPermBuild")+" "+CivColor.LightGreen+tc.perms.getBuildString());
-		CivMessage.send(sender, CivColor.Green+CivSettings.localize.localizedString("cmd_plot_showPermDestroy")+" "+CivColor.LightGreen+tc.perms.getDestroyString());
-		CivMessage.send(sender, CivColor.Green+CivSettings.localize.localizedString("cmd_plot_showPermInteract")+" "+CivColor.LightGreen+tc.perms.getInteractString());
-		CivMessage.send(sender, CivColor.Green+CivSettings.localize.localizedString("cmd_plot_showPermItemUse")+" "+CivColor.LightGreen+tc.perms.getItemUseString());
+		CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_plot_showPermBuild") + " " + CivColor.LightGreen + tc.perms.getBuildString());
+		CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_plot_showPermDestroy") + " " + CivColor.LightGreen + tc.perms.getDestroyString());
+		CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_plot_showPermInteract") + " " + CivColor.LightGreen + tc.perms.getInteractString());
+		CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_plot_showPermItemUse") + " " + CivColor.LightGreen + tc.perms.getItemUseString());
 	}
 	
 	private void showPermOwnership(TownChunk tc) {
@@ -297,16 +307,17 @@ public class PlotCommand extends CommandBase {
 		CivMessage.send(sender, CivColor.LightGray+"    types: [build|destroy|interact|itemuse|reset]");
 		CivMessage.send(sender, CivColor.LightGray+"    groupType: [owner|group|others]");
 	}*/
-	
+
+	@SuppressWarnings("unused")
 	public void info_cmd() throws CivException {
 		if (sender instanceof Player) {
 			Player player = (Player)sender;
-			
+
 			TownChunk tc = CivGlobal.getTownChunk(player.getLocation());
 			if (tc == null) {
 				throw new CivException(CivSettings.localize.localizedString("cmd_plot_infoNotOwned"));
 			}
-			
+
 			CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_plot_infoHeading"));
 			showPermOwnership(tc);
 			showCurrentPermissions(tc);

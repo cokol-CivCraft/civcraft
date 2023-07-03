@@ -47,56 +47,61 @@ public class DebugFarmCommand extends CommandBase {
 
 	}
 
+	@SuppressWarnings("unused")
 	public void unloadchunk_cmd() throws CivException {
-		
+
 		int x = getNamedInteger(1);
 		int z = getNamedInteger(2);
-		
+
 		Bukkit.getWorld("world").unloadChunk(x, z);
 		CivMessage.sendSuccess(sender, "Chunk "+x+","+z+" unloaded");
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void showgrowth_cmd() throws CivException {
 		Player player = getPlayer();
-	
+
 		ChunkCoord coord = new ChunkCoord(player.getLocation());
 		FarmChunk fc = CivGlobal.getFarmChunk(coord);
 		if (fc == null) {
 			throw new CivException("This is not a farm.");
 		}
-		
+
 		for(BlockCoord bcoord : fc.getLastGrownCrops()) {
 			bcoord.getBlock().getWorld().playEffect(bcoord.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
 		}
-		
+
 		CivMessage.sendSuccess(player, "Flashed last grown crops");
 	}
-	
-	
+
+
+	@SuppressWarnings("unused")
 	public void cropcache_cmd() throws CivException {
 		Player player = getPlayer();
-		
+
 		ChunkCoord coord = new ChunkCoord(player.getLocation());
 		FarmChunk fc = CivGlobal.getFarmChunk(coord);
 		if (fc == null) {
 			throw new CivException("This is not a farm.");
 		}
-		
+
 		for (BlockCoord bcoord : fc.cropLocationCache) {
 			bcoord.getBlock().getWorld().playEffect(bcoord.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
 		}
 		CivMessage.sendSuccess(player, "Flashed cached crops.");
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void grow_cmd() throws CivException {
-		
+
 		int count = getNamedInteger(1);
 		for (int i = 0; i < count; i++) {
 			TaskMaster.asyncTask(new FarmGrowthSyncTask(), 0);
 		}
 		CivMessage.sendSuccess(sender, "Grew all farms.");
 	}
-	
+
+	@SuppressWarnings("unused")
 	public void cache_cmd() {
 		TaskMaster.syncTask(new FarmPreCachePopulateTimer());
 	}
