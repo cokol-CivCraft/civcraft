@@ -45,11 +45,11 @@ public class Localize {
 
     public String localizedString(String pathToString) {
         if (this.isDefault()) {
-            return (String) Optional.of(this.getDefaultLocalizedStrings().get(pathToString)).orElse(pathToString);
+            return (String) Optional.ofNullable(this.getDefaultLocalizedStrings().get(pathToString)).orElse(pathToString);
         }
         Object value = this.getLocalizedStrings().get(pathToString);
         if (value == null) {
-            return (String) Optional.of(this.getDefaultLocalizedStrings().get(pathToString)).orElse(pathToString);
+            return (String) Optional.ofNullable(this.getDefaultLocalizedStrings().get(pathToString)).orElse(pathToString);
         }
         return (String) value;
     }

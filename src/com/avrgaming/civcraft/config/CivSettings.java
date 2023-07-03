@@ -854,7 +854,7 @@ public class CivSettings {
     }
 
     public static ConfigCultureBiomeInfo getCultureBiome(String name) {
-        return Optional.of(cultureBiomes.get(name)).orElseGet(() -> cultureBiomes.get("UNKNOWN"));
+        return Optional.ofNullable(cultureBiomes.get(name)).orElseGet(() -> cultureBiomes.get("UNKNOWN"));
     }
 
     public static boolean isUsingAC() {

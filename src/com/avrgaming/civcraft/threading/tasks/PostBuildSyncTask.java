@@ -373,7 +373,7 @@ public class PostBuildSyncTask implements Runnable {
                     }
                     break;
                 case "/sign":
-                    StructureSign structSign = Optional.of(CivGlobal.getStructureSign(absCoord)).orElseGet(() -> new StructureSign(absCoord, buildable));
+                    StructureSign structSign = Optional.ofNullable(CivGlobal.getStructureSign(absCoord)).orElseGet(() -> new StructureSign(absCoord, buildable));
                     block = absCoord.getBlock();
                     block.setType(sb.getType());
                     block.setData((byte) sb.getData());
@@ -391,7 +391,7 @@ public class PostBuildSyncTask implements Runnable {
 
                     break;
                 case "/chest":
-                    StructureChest structChest = Optional.of(CivGlobal.getStructureChest(absCoord)).orElseGet(() -> new StructureChest(absCoord, buildable));
+                    StructureChest structChest = Optional.ofNullable(CivGlobal.getStructureChest(absCoord)).orElseGet(() -> new StructureChest(absCoord, buildable));
                     structChest.setChestId(Integer.parseInt(sb.keyvalues.get("id")));
                     buildable.addStructureChest(structChest);
                     CivGlobal.addStructureChest(structChest);

@@ -18,6 +18,7 @@
 package com.avrgaming.civcraft.database;
 
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -36,58 +37,47 @@ public class SQLUpdate implements Runnable {
 
     public static void add(SQLObject obj) {
 
-        Integer count = statSaveRequests.get(obj.getClass().getSimpleName());
-        if (count == null) {
-            count = 0;
-        }
-        statSaveRequests.put(obj.getClass().getSimpleName(), ++count);
+        statSaveRequests.put(obj.getClass().getSimpleName(), 1 + Optional.ofNullable(statSaveRequests.get(obj.getClass().getSimpleName())).orElse(0));
 
         saveObjects.add(obj);
-	}
-	
-	public static void save() {
-		for (SQLObject obj : saveObjects) {
-			if (obj != null) {
-				try {
-					obj.saveNow();
-					Integer count = statSaveCompletions.get(obj.getClass().getSimpleName());
-					if (count == null) {
-						count = 0;
-					}
-					statSaveCompletions.put(obj.getClass().getSimpleName(), ++count);
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-	
-	@Override
-	public void run() {	
-		while(true) {
-			try {
-				if (CivCraft.isDisable) {
-					break;
-				}
-				SQLObject obj = saveObjects.poll();
-				if (obj == null) {
-					if (saveObjects.isEmpty()) {
-						Thread.sleep(500);
-					}
-					continue;
-				}
-				
-				obj.saveNow();
-				
-				Integer count = statSaveCompletions.get(obj.getClass().getSimpleName());
-				if (count == null) {
-					count = 0;
-				}
-				statSaveCompletions.put(obj.getClass().getSimpleName(), ++count);
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}	
+    }
+
+    public static void save() {
+        for (SQLObject obj : saveObjects) {
+            if (obj == null) {
+                continue;
+            }
+            try {
+                obj.saveNow();
+                statSaveCompletions.put(obj.getClass().getSimpleName(), 1 + Optional.ofNullable(statSaveCompletions.get(obj.getClass().getSimpleName())).orElse(0));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                if (CivCraft.isDisable) {
+                    break;
+                }
+                SQLObject obj = saveObjects.poll();
+                if (obj == null) {
+                    if (saveObjects.isEmpty()) {
+                        Thread.sleep(500);
+                    }
+                    continue;
+                }
+
+                obj.saveNow();
+
+                statSaveCompletions.put(obj.getClass().getSimpleName(), 1 + Optional.ofNullable(statSaveCompletions.get(obj.getClass().getSimpleName())).orElse(0));
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

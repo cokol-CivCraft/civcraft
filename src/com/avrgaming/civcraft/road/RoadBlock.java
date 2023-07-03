@@ -85,7 +85,7 @@ public class RoadBlock extends SQLObject implements BuildableDamageBlock {
 		this.setId(rs.getInt("id"));
 		this.setRoad((Road) CivGlobal.getStructureById(rs.getInt("road_id")));
 		this.oldData = rs.getInt("old_data");
-		this.oldType = Material.getMaterial(rs.getInt("old_type"));
+		this.oldType = Material.getMaterial("old_type");
 		this.aboveRoadBlock = rs.getBoolean("above_road");
 		if (this.road == null) {
 			int id = rs.getInt("road_id");

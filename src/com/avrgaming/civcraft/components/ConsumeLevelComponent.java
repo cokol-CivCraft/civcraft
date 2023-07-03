@@ -244,13 +244,13 @@ public class ConsumeLevelComponent extends Component {
                 continue;
             }
 
-            int count = Optional.of(foundCounts.get(stack.getType())).orElse(stack.getAmount()) + stack.getAmount();
+            int count = Optional.ofNullable(foundCounts.get(stack.getType())).orElse(stack.getAmount()) + stack.getAmount();
             foundCounts.put(stack.getType(), count);
         }
 
         boolean found = true;
         for (Material typeID : thisLevelConsumptions.keySet()) {
-            Integer foundCount = Optional.of(foundCounts.get(typeID)).orElse(0);
+            Integer foundCount = Optional.ofNullable(foundCounts.get(typeID)).orElse(0);
             Integer requireCount = thisLevelConsumptions.get(typeID);
 
             if (foundCount >= getConsumedAmount(requireCount)) {
@@ -265,8 +265,8 @@ public class ConsumeLevelComponent extends Component {
              * on our own. So instead, we'll try to see if we have enough if we use
              * our EE.
              */
-            Integer totalBase = Optional.of(foundCounts.get(ee.baseType)).orElse(0);
-            Integer totalAlt = Optional.of(foundCounts.get(ee.altType)).orElse(0);
+            Integer totalBase = Optional.ofNullable(foundCounts.get(ee.baseType)).orElse(0);
+            Integer totalAlt = Optional.ofNullable(foundCounts.get(ee.altType)).orElse(0);
 
             int total = totalBase + (totalAlt * ee.basePerAlt);
             if (total < getConsumedAmount(requireCount)) {
@@ -286,7 +286,7 @@ public class ConsumeLevelComponent extends Component {
         Map<Material, Integer> thisLevelConsumptions = consumptions.get(this.level);
 
         for (Material typeID : thisLevelConsumptions.keySet()) {
-            Integer count = Optional.of(foundCounts.get(typeID)).orElse(0);
+            Integer count = Optional.ofNullable(foundCounts.get(typeID)).orElse(0);
 
             int amount = getConsumedAmount(thisLevelConsumptions.get(typeID));
 
@@ -299,8 +299,8 @@ public class ConsumeLevelComponent extends Component {
                     continue;
                 }
                 /* Lets try to use the total from the EE to supplement the base item we didn't have enough of. */
-                int totalBase = Optional.of(foundCounts.get(ee.baseType)).orElse(0);
-                int totalAlt = Optional.of(foundCounts.get(ee.altType)).orElse(0);
+                int totalBase = Optional.ofNullable(foundCounts.get(ee.baseType)).orElse(0);
+                int totalAlt = Optional.ofNullable(foundCounts.get(ee.altType)).orElse(0);
 
                 /* Get total 'base' amount we have. */
                 /* Get difference between the total base we have vs the required amount. */

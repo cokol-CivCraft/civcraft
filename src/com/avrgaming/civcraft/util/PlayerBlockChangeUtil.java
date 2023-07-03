@@ -45,7 +45,7 @@ public class PlayerBlockChangeUtil {
 //		blocks.put(bcoord, sb);
 //		blocksToUpdate.put(playerName, blocks);
 
-        HashMap<ChunkCoord, LinkedList<SimpleBlock>> blocksInChunk = Optional.of(blocksInChunkToUpdate.get(playerName)).orElse(new HashMap<>());
+        HashMap<ChunkCoord, LinkedList<SimpleBlock>> blocksInChunk = Optional.ofNullable(blocksInChunkToUpdate.get(playerName)).orElse(new HashMap<>());
 
         /* Add to chunk table. */
         ChunkCoord coord = new ChunkCoord(bcoord);
@@ -55,7 +55,7 @@ public class PlayerBlockChangeUtil {
         sb2.y = bcoord.getY();
         sb2.z = bcoord.getZ();
 
-        LinkedList<SimpleBlock> blocks = Optional.of(blocksInChunk.get(coord)).orElse(new LinkedList<>());
+        LinkedList<SimpleBlock> blocks = Optional.ofNullable(blocksInChunk.get(coord)).orElse(new LinkedList<>());
 
         blocks.add(sb2);
         blocksInChunk.put(coord, blocks);

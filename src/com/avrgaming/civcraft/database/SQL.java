@@ -274,8 +274,7 @@ public class SQL {
             context = getGameConnection();
             DatabaseMetaData dbm = context.getMetaData();
             result = dbm.getColumns(null, null, SQL.tb_prefix + tablename, columnName);
-            boolean found = result.next();
-            return found;
+            return result.next();
         } finally {
             SQL.close(result, null, context);
         }
@@ -307,8 +306,7 @@ public class SQL {
             rs = dbm.getColumns(null, null, tablename, columnName);
 
             try {
-                boolean found = rs.next();
-                return found;
+                return rs.next();
             } finally {
                 rs.close();
             }
@@ -471,9 +469,8 @@ public class SQL {
             int id = 0;
             rs = ps.getGeneratedKeys();
 
-            while (rs.next()) {
+            if (rs.next()) {
                 id = rs.getInt(1);
-                break;
             }
 
             if (id == 0) {
