@@ -1,11 +1,10 @@
-/*************************************************************************
- * 
+/*
  * AVRGAMING LLC
  * __________________
- * 
+ *
  *  [2013] AVRGAMING LLC
  *  All Rights Reserved.
- * 
+ *
  * NOTICE:  All information contained herein is, and remains
  * the property of AVRGAMING LLC and its suppliers,
  * if any.  The intellectual and technical concepts contained
@@ -176,7 +175,7 @@ public class SessionDatabase {
 					se.civ_id = rs.getInt("civ_id");
 					se.town_id = rs.getInt("town_id");
 					se.struct_id = rs.getInt("struct_id");
-					
+
 					long time = rs.getLong("time");
 					se.time = time;
 					
@@ -230,7 +229,7 @@ public class SessionDatabase {
 						break;
 					else
 						se.value = line;
-					
+
 					long time = rs.getLong("time");
 					se.time = time;
 					

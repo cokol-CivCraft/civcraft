@@ -1,11 +1,10 @@
-/*************************************************************************
- * 
+/*
  * AVRGAMING LLC
  * __________________
- * 
+ *
  *  [2013] AVRGAMING LLC
  *  All Rights Reserved.
- * 
+ *
  * NOTICE:  All information contained herein is, and remains
  * the property of AVRGAMING LLC and its suppliers,
  * if any.  The intellectual and technical concepts contained
@@ -1934,7 +1933,7 @@ public class CivGlobal {
 
 	public static ArrayList<String> getNearbyPlayers(BlockCoord coord, double range) {
         ArrayList<String> playerNames = new ArrayList<>();
-		
+
 		//TODO make it async....
 	//	for (PlayerLocation)
 		

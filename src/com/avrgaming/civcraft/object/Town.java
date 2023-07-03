@@ -1,11 +1,10 @@
-/*************************************************************************
- * 
+/*
  * AVRGAMING LLC
  * __________________
- * 
+ *
  *  [2013] AVRGAMING LLC
  *  All Rights Reserved.
- * 
+ *
  * NOTICE:  All information contained herein is, and remains
  * the property of AVRGAMING LLC and its suppliers,
  * if any.  The intellectual and technical concepts contained
@@ -957,7 +956,7 @@ public class Town extends SQLObject {
 			civ.addTown(newTown);
 			
 			try {
-				
+
 				Location centerLoc = loc;
 				if (capitol) {
 					ConfigBuildableInfo buildableInfo = CivSettings.structures.get("s_capitol");

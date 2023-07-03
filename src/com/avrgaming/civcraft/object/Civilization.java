@@ -1,11 +1,10 @@
-/*************************************************************************
- * 
+/*
  * AVRGAMING LLC
  * __________________
- * 
+ *
  *  [2013] AVRGAMING LLC
  *  All Rights Reserved.
- * 
+ *
  * NOTICE:  All information contained herein is, and remains
  * the property of AVRGAMING LLC and its suppliers,
  * if any.  The intellectual and technical concepts contained
@@ -194,7 +193,7 @@ public class Civilization extends SQLObject {
 	@Override
 	public void load(ResultSet rs) throws SQLException, InvalidNameException {
 		this.setId(rs.getInt("id"));
-		this.setName(rs.getString("name"));		
+		this.setName(rs.getString("name"));
 		String resUUID = rs.getString("leaderName");
 //		Resident res = CivGlobal.getResidentViaUUID(UUID.fromString(resUUID));
 		leaderName = resUUID;
@@ -1678,7 +1677,7 @@ public class Civilization extends SQLObject {
 				conqueredCivs++;
 			}
 		}
-		
+
 		double percent = (double)conqueredCivs / (double)totalCivs;
 		return percent;
 	}
@@ -1878,7 +1877,7 @@ public class Civilization extends SQLObject {
 		if (resident != null) {
 			leader = resident.getName();
 		}
-		
+
 		ItemStack stack = ItemManager.spawnPlayerHead(leader, message+" ("+leader+")");
 		return stack;
 	}

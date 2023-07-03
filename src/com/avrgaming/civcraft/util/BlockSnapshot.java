@@ -1,11 +1,10 @@
-/*************************************************************************
- * 
+/*
  * AVRGAMING LLC
  * __________________
- * 
+ *
  *  [2013] AVRGAMING LLC
  *  All Rights Reserved.
- * 
+ *
  * NOTICE:  All information contained herein is, and remains
  * the property of AVRGAMING LLC and its suppliers,
  * if any.  The intellectual and technical concepts contained
@@ -64,8 +63,8 @@ public class BlockSnapshot {
 		if (nX < 0 || nX > 15) {
 			throw new InvalidBlockLocation();
 		}
-		
-		BlockSnapshot relative = new BlockSnapshot(this.getX() + xOff, this.getY() + yOff, this.getZ() + zOff, snapshot);		
+
+		BlockSnapshot relative = new BlockSnapshot(this.getX() + xOff, this.getY() + yOff, this.getZ() + zOff, snapshot);
 		return relative;
 	}
 	

@@ -1,5 +1,4 @@
-/*************************************************************************
- *
+/*
  * AVRGAMING LLC
  * __________________
  *
@@ -7,6 +6,7 @@
  *  All Rights Reserved.
  *
  * NOTICE:  All information contained herein is, and remains
+ * the property of AVRGAMING LLC and its suppliers,TICE:  All information contained herein is, and remains
  * the property of AVRGAMING LLC and its suppliers,
  * if any. The intellectual and technical concepts contained
  * herein are proprietary to AVRGAMING LLC

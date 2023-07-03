@@ -1,9 +1,7 @@
-package gpl;
-
-/**
+/*
  * ImprovedOfflinePlayer, a library for Bukkit.
  * Copyright (C) 2013 one4me@github.com
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
  * "Software"), to deal in the Software without restriction, including
@@ -23,6 +21,7 @@ package gpl;
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+package gpl;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -54,7 +53,6 @@ import net.minecraft.server.v1_12_R1.PlayerAbilities;
 import net.minecraft.server.v1_12_R1.PlayerInventory;
 
 /**
- * @name ImprovedOfflinePlayer
  * @version 1.6.0
  * @author one4me
  */

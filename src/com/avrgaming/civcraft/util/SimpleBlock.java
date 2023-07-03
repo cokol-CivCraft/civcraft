@@ -1,11 +1,10 @@
-/*************************************************************************
- * 
+/*
  * AVRGAMING LLC
  * __________________
- * 
+ *
  *  [2013] AVRGAMING LLC
  *  All Rights Reserved.
- * 
+ *
  * NOTICE:  All information contained herein is, and remains
  * the property of AVRGAMING LLC and its suppliers,
  * if any.  The intellectual and technical concepts contained
@@ -57,8 +56,6 @@ public class SimpleBlock {
 	
 	/**
 	 * Construct the block with its type.
-	 *
-	 * @param block
 	 */
 	    public SimpleBlock(Block block) {
 	        this.x = block.getX();
@@ -91,9 +88,6 @@ public class SimpleBlock {
 	    
 	/**
 	 * Construct the block with its type and data.
-	 *
-	 * @param material
-	 * @param data
 	 */
 	public SimpleBlock(Material material, int data) {
 		this.material = material;

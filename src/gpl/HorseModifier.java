@@ -25,12 +25,12 @@ import net.minecraft.server.v1_12_R1.EntityInsentient;
 import net.minecraft.server.v1_12_R1.GenericAttributes;
  
 /**
-* HorseModifier v1.1
-*
-* You are free to use it, modify it and redistribute it under the condition to give credit to me
-*
-* @author DarkBlade12
-*/
+ * HorseModifier v1.1
+ * <p></p>
+ * You are free to use it, modify it and redistribute it under the condition to give credit to me
+ *
+ * @author DarkBlade12
+ */
 public class HorseModifier {
     private Object entityHorse;
     private Object nbtTagCompound;

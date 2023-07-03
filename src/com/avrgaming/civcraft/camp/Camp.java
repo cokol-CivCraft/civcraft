@@ -1,11 +1,11 @@
-/*************************************************************************
- *
+/**
  * AVRGAMING LLC
+ * <p></p>
  * __________________
- *
- *  [2013] AVRGAMING LLC
- *  All Rights Reserved.
- *
+ * <p></p>
+ * [2013] AVRGAMING LLC
+ * All Rights Reserved.
+ * <p></p>
  * NOTICE:  All information contained herein is, and remains
  * the property of AVRGAMING LLC and its suppliers,
  * if any.  The intellectual and technical concepts contained
@@ -584,8 +584,6 @@ public class Camp extends Buildable {
                     this.doors.add(absCoord);
                     Block doorBlock = absCoord.getBlock();
                     Block doorBlock2 = absCoord.getBlock().getRelative(0, 1, 0);
-
-
 
 
                     doorBlock.setType(Material.WOODEN_DOOR);
