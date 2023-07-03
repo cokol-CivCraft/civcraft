@@ -27,7 +27,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 
 import com.avrgaming.civcraft.main.CivLog;
-import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.SimpleBlock;
 
 
@@ -66,35 +65,35 @@ private static final Queue<SimpleBlock> updateBlocks = new LinkedList<>();
 			
 				int i = 0;
 				for (i = 0; i < UPDATE_LIMIT; i++) {
-					SimpleBlock next = updateBlocks.poll();
-					if (next == null) {
-						break;
-					}
-					
-					Block block = Bukkit.getWorld(next.worldname).getBlockAt(next.x, next.y, next.z);			
-					block.setType(next.getType());
-					ItemManager.setData(block, next.getData());
-					
-					/* Handle Special Blocks */
-					Sign s;
-					switch (next.specialType) {
-					case COMMAND:
-						block.setType(Material.AIR);
-						ItemManager.setData(block, 0);
-						break;
-					case LITERAL:
-						if (block.getState() instanceof Sign) {
+                    SimpleBlock next = updateBlocks.poll();
+                    if (next == null) {
+                        break;
+                    }
 
-						s = (Sign)block.getState();
-						for (int j = 0; j < 4; j++) {
-							s.setLine(j, next.message[j]);
-						}
-						
-						s.update();
-						} else {
-							block.setType(Material.AIR);
-							ItemManager.setData(block, 0);
-						}
+                    Block block = Bukkit.getWorld(next.worldname).getBlockAt(next.x, next.y, next.z);
+                    block.setType(next.getType());
+                    block.setData((byte) next.getData());
+
+                    /* Handle Special Blocks */
+                    Sign s;
+                    switch (next.specialType) {
+                        case COMMAND:
+                            block.setType(Material.AIR);
+                            block.setData((byte) 0);
+                            break;
+                        case LITERAL:
+                            if (block.getState() instanceof Sign) {
+
+                                s = (Sign) block.getState();
+                                for (int j = 0; j < 4; j++) {
+                                    s.setLine(j, next.message[j]);
+                                }
+
+                                s.update();
+                            } else {
+                                block.setType(Material.AIR);
+                                block.setData((byte) 0);
+                            }
 						break;
 					case NORMAL:
 						break;

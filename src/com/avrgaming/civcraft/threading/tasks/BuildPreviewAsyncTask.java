@@ -49,9 +49,9 @@ public class BuildPreviewAsyncTask extends CivAsyncTask {
 	public UUID playerUUID;
 	public Boolean aborted = false;
 	public ReentrantLock lock = new ReentrantLock();
-	private int blocksPerTick;
-	private int speed;
-	private Resident resident;
+	private final int blocksPerTick;
+	private final int speed;
+	private final Resident resident;
 		
 	public BuildPreviewAsyncTask(Template t, Block center, UUID playerUUID) {
 		tpl = t;
@@ -95,8 +95,8 @@ public class BuildPreviewAsyncTask extends CivAsyncTask {
 
                             ItemManager.sendBlockChange(getPlayer(), b.getLocation(), CivSettings.previewMaterial, 5);
                             resident.previewUndo.put(new BlockCoord(b.getLocation()),
-									new SimpleBlock(b.getType(), ItemManager.getData(b)));
-							count++;			
+                                    new SimpleBlock(b.getType(), b.getData()));
+                            count++;
 						} finally {
 							lock.unlock();
 						}

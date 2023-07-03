@@ -100,18 +100,18 @@ public class ScoutShip extends WaterStructure {
 				scoutDebug(CivSettings.localize.localizedString("scoutTower_debug_isOP"));
 				continue;
 			}
-			
+
 			Location center = this.getCenterLocation().getLocation();
-			
+
 			/* Do not re-announce players announced by other scout towers */
-			if (alreadyAnnounced.contains(this.getCiv().getName()+":"+player.getName())) {
-				scoutDebug(CivSettings.localize.localizedString("scoutTower_debug_alreadyAnnounced")+pc.getName());
+			if (alreadyAnnounced.contains(this.getCiv().getName() + ":" + player.getName())) {
+				scoutDebug(CivSettings.localize.localizedString("scoutTower_debug_alreadyAnnounced") + pc.getName());
 				continue;
 			}
-			
+
 			/* Always announce outlaws, so skip down to bottom. */
-			String relationName = "";
-			String relationColor = "";
+			String relationName;
+			String relationColor;
 			if (!this.getTown().isOutlaw(player.getName())) {
 				/* do not announce residents in this civ */
 				Resident resident = CivGlobal.getResident(player);
@@ -119,7 +119,7 @@ public class ScoutShip extends WaterStructure {
 					scoutDebug(CivSettings.localize.localizedString("scoutTower_debug_sameCiv"));
 					continue;
 				}
-				
+
 				/* Only announce hostile, war, and neutral players */
 				Relation.Status relation = this.getCiv().getDiplomacyManager().getRelationStatus(player);
 				switch (relation) {

@@ -43,7 +43,6 @@ import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
-import com.avrgaming.civcraft.object.Buff;
 import com.avrgaming.civcraft.object.CultureChunk;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.StructureBlock;
@@ -56,7 +55,6 @@ import com.avrgaming.civcraft.tutorial.CivTutorial;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.CivColor;
-import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.SimpleBlock;
 import com.avrgaming.civcraft.war.War;
 import com.avrgaming.global.perks.Perk;
@@ -108,21 +106,22 @@ public class FortifiedWall extends Wall {
 		double refund = 0.0;
 		for (WallBlock wb : wallBlocks.values()) {
 
-			Material material = wb.getOldId();
-			if (CivSettings.restrictedUndoBlocks.contains(material)) {
-				continue;
-			}
+            Material material = wb.getOldId();
+            if (CivSettings.restrictedUndoBlocks.contains(material)) {
+                continue;
+            }
 
-			Block block = wb.getCoord().getBlock();
+            Block block = wb.getCoord().getBlock();
             block.setType(wb.getOldId());
-            ItemManager.setData(wb.getCoord().getBlock(), wb.getOldData());
-			refund += COST_PER_SEGMENT;
-			try {
-				wb.delete();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+            Block block1 = wb.getCoord().getBlock();
+            block1.setData((byte) (int) wb.getOldData());
+            refund += COST_PER_SEGMENT;
+            try {
+                wb.delete();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
 		
 		refund /= HEIGHT;
 		refund = Math.round(refund);
@@ -176,16 +175,17 @@ public class FortifiedWall extends Wall {
 		
 		if (this.nextWallBuilt == null) {
 			for (BlockCoord coord : wallBlocks.keySet()) {
-				WallBlock wb = wallBlocks.get(coord);
+                WallBlock wb = wallBlocks.get(coord);
                 Block block = coord.getBlock();
                 block.setType(wb.getOldId());
-                ItemManager.setData(coord.getBlock(), wb.getOldData());
-				try {
-					wb.delete();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+                Block block1 = coord.getBlock();
+                block1.setData((byte) (int) wb.getOldData());
+                try {
+                    wb.delete();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
 			
 			// Remove this wall chunk.
 			ChunkCoord coord = new ChunkCoord(this.getCorner());
@@ -356,11 +356,12 @@ public class FortifiedWall extends Wall {
 		
 		// build the blocks
 		for (SimpleBlock sb : simpleBlocks.values()) {
-			BlockCoord bcoord = new BlockCoord(sb);
-			bcoord.getBlock().setType(sb.getType());
-			ItemManager.setData(bcoord.getBlock(), sb.getData());
-			
-		}
+            BlockCoord bcoord = new BlockCoord(sb);
+            bcoord.getBlock().setType(sb.getType());
+            Block block = bcoord.getBlock();
+            block.setData((byte) sb.getData());
+
+        }
 		
 		// Add wall to town and global tables
 		this.getTown().addStructure(this);
@@ -623,17 +624,18 @@ public class FortifiedWall extends Wall {
 		}
 		
 		for (SimpleBlock sb : simpleBlocks.values()) {
-			BlockCoord bcoord = new BlockCoord(sb);
-			Block block = bcoord.getBlock();
-			int old_data = ItemManager.getData(bcoord.getBlock());
-			if (!wallBlocks.containsKey(bcoord)) {
-				WallBlock wb = new WallBlock(bcoord, this, block.getType(), old_data, sb.getType(), sb.getData());
+            BlockCoord bcoord = new BlockCoord(sb);
+            Block block = bcoord.getBlock();
+            Block block1 = bcoord.getBlock();
+            int old_data = block1.getData();
+            if (!wallBlocks.containsKey(bcoord)) {
+                WallBlock wb = new WallBlock(bcoord, this, block.getType(), old_data, sb.getType(), sb.getData());
 
-				wallBlocks.put(bcoord, wb);
-				this.addStructureBlock(bcoord, true);
-				wb.save();
-			}
-		}
+                wallBlocks.put(bcoord, wb);
+                this.addStructureBlock(bcoord, true);
+                wb.save();
+            }
+        }
 		return verticalSegments;
 	}
 
@@ -674,11 +676,12 @@ public class FortifiedWall extends Wall {
 		bindStructureBlocks();
 
 		for (WallBlock wb : this.wallBlocks.values()) {
-			BlockCoord bcoord = wb.getCoord();
-			Block block = bcoord.getBlock();
-			block.setType(wb.getTypeId());
-			ItemManager.setData(bcoord.getBlock(), wb.getData());
-		}
+            BlockCoord bcoord = wb.getCoord();
+            Block block = bcoord.getBlock();
+            block.setType(wb.getTypeId());
+            Block block1 = bcoord.getBlock();
+            block1.setData((byte) wb.getData());
+        }
 		
 		save();
 	}
@@ -699,11 +702,12 @@ public class FortifiedWall extends Wall {
 		bindStructureBlocks();
 		
 		for (WallBlock wb : this.wallBlocks.values()) {
-			BlockCoord bcoord = wb.getCoord();
+            BlockCoord bcoord = wb.getCoord();
             Block block = bcoord.getBlock();
             block.setType(wb.getTypeId());
-            ItemManager.setData(bcoord.getBlock(), wb.getData());
-		}
+            Block block1 = bcoord.getBlock();
+            block1.setData((byte) wb.getData());
+        }
 		
 		save();
 		getTown().getTreasury().withdraw(cost);

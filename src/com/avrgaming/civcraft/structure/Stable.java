@@ -28,6 +28,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_12_R1.util.HashTreeSet;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
@@ -51,7 +52,6 @@ import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.CivColor;
-import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.SimpleBlock;
 
 import gpl.HorseModifier;
@@ -317,7 +317,8 @@ public class Stable extends Structure {
         switch (sb.command) {
             case "/prev":
                 absCoord.getBlock().setType(sb.getType());
-                ItemManager.setData(absCoord.getBlock(), sb.getData());
+                Block block2 = absCoord.getBlock();
+                block2.setData((byte) sb.getData());
                 structSign = new StructureSign(absCoord, this);
                 structSign.setText("\n" + ChatColor.BOLD + ChatColor.UNDERLINE + CivSettings.localize.localizedString("stable_sign_previousUnit"));
                 structSign.setDirection(sb.getData());
@@ -329,7 +330,8 @@ public class Stable extends Structure {
                 break;
             case "/item":
                 absCoord.getBlock().setType(sb.getType());
-                ItemManager.setData(absCoord.getBlock(), sb.getData());
+                Block block1 = absCoord.getBlock();
+                block1.setData((byte) sb.getData());
 
                 structSign = new StructureSign(absCoord, this);
                 structSign.setText("");
@@ -353,7 +355,8 @@ public class Stable extends Structure {
                 break;
             case "/next":
                 absCoord.getBlock().setType(sb.getType());
-                ItemManager.setData(absCoord.getBlock(), sb.getData());
+                Block block = absCoord.getBlock();
+                block.setData((byte) sb.getData());
 
                 structSign = new StructureSign(absCoord, this);
                 structSign.setText("\n" + ChatColor.BOLD + ChatColor.UNDERLINE + CivSettings.localize.localizedString("stable_sign_nextUnit"));

@@ -314,11 +314,11 @@ public class BonusGoodieManager implements Listener {
 			if (frameStore != null) {
 				/* Make sure we're trying to place an item into the frame, test if the frame is empty. */
                 ItemStack stack = frame.getItem();
-                if (frame.getItem() == null || stack.getTypeId() == Material.AIR.getId()) {
-					CivMessage.sendError(event.getPlayer(), CivSettings.localize.localizedString("bonusGoodie_errorNotGoodie"));
-					event.setCancelled(true);
-					return;
-				}
+                if (frame.getItem() == null || stack.getType() == Material.AIR) {
+                    CivMessage.sendError(event.getPlayer(), CivSettings.localize.localizedString("bonusGoodie_errorNotGoodie"));
+                    event.setCancelled(true);
+                    return;
+                }
 			}
 		} else {
 			/* Trade goodie, make sure they only go into protect frames. */

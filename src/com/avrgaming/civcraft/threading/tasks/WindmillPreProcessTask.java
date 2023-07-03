@@ -33,7 +33,6 @@ import com.avrgaming.civcraft.structure.Windmill;
 import com.avrgaming.civcraft.threading.CivAsyncTask;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.MultiInventory;
 
 public class WindmillPreProcessTask extends CivAsyncTask {
@@ -117,14 +116,14 @@ public class WindmillPreProcessTask extends CivAsyncTask {
 			for (int x = 0; x < 16; x++) {
 				for (int z = 0; z < 16; z++) {
 					for (int y = 0; y < 255; y++) {
-						
-						
-						if (ItemManager.getBlockTypeId(snapshot, x, y, z) == Material.SOIL.getId()) {
-							if (ItemManager.getBlockTypeId(snapshot, x, y+1, z) == Material.AIR.getId()) {
-								int blockx = (snapshot.getX()*16) + x;
-								int blocky = y+1;
-								int blockz = (snapshot.getZ()*16) + z;
-								
+
+
+						if (snapshot.getBlockType(x, y, z) == Material.SOIL) {
+							if (snapshot.getBlockType(x, y + 1, z) == Material.AIR) {
+								int blockx = (snapshot.getX() * 16) + x;
+								int blocky = y + 1;
+								int blockz = (snapshot.getZ() * 16) + z;
+
 								blocks.add(new BlockCoord(this.windmill.getCorner().getWorldname(),
 										blockx, blocky, blockz));
 							}

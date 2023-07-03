@@ -65,10 +65,10 @@ public class PickRandomBlock extends RandomEventComponent {
 									Block block = coord.getChunk().getBlock(x, y, z);
 									//CivLog.debug("checking a block:"+block.toString());
 
-                                    if (block.getTypeId() == Material.STONE.getId() || block.getTypeId() == Material.GRAVEL.getId()) {
-										bcoord = new BlockCoord(block);
-										break;
-									}
+                                    if (block.getType() == Material.STONE || block.getType() == Material.GRAVEL) {
+                                        bcoord = new BlockCoord(block);
+                                        break;
+                                    }
 								}
 							}
 						}

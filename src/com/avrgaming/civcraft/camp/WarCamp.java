@@ -2,7 +2,6 @@ package com.avrgaming.civcraft.camp;
 
 import java.io.IOException;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,8 +23,6 @@ import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigBuildableInfo;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
-import com.avrgaming.civcraft.exception.InvalidNameException;
-import com.avrgaming.civcraft.exception.InvalidObjectException;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
@@ -47,7 +44,6 @@ import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.FireworkEffectPlayer;
-import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.SimpleBlock;
 import com.avrgaming.civcraft.util.SimpleBlock.Type;
 import com.avrgaming.civcraft.war.War;
@@ -339,7 +335,7 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
                             /* XXX Save it as a war block so it's automatically removed when war time ends. */
                             WarRegen.saveBlock(nextBlock, WarCamp.RESTORE_NAME, false);
                             nextBlock.setType(tpl.blocks[x][y][z].getType());
-                            ItemManager.setData(nextBlock, tpl.blocks[x][y][z].getData());
+                            nextBlock.setData((byte) tpl.blocks[x][y][z].getData());
                         }
 
                         if (nextBlock.getType() != Material.AIR) {
@@ -421,7 +417,7 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
         Block b = centerLoc.getBlock();
         WarRegen.saveBlock(b, WarCamp.RESTORE_NAME, false);
         b.setType(Material.FENCE);
-        ItemManager.setData(b, 0);
+        b.setData((byte) 0);
 
         StructureBlock sb = new StructureBlock(new BlockCoord(b), this);
         this.addStructureBlock(sb.getCoord(), true);

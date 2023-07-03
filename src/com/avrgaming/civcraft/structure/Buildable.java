@@ -91,7 +91,6 @@ import com.avrgaming.civcraft.util.CallbackInterface;
 import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.FireworkEffectPlayer;
-import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.SimpleBlock;
 import com.avrgaming.civcraft.util.SimpleBlock.Type;
 import com.avrgaming.civcraft.war.War;
@@ -1368,14 +1367,16 @@ public abstract class Buildable extends SQLObject {
                     // Each block has a 70% chance to turn into Air
                     if (rand.nextInt(100) <= 70) {
                         coord.getBlock().setType(Material.AIR);
-                        ItemManager.setData(coord.getBlock(), 0, true);
+                        Block block = coord.getBlock();
+                        block.setData((byte) 0, true);
                         continue;
                     }
 
                     // Each block has a 30% chance to turn into gravel
                     if (rand.nextInt(100) <= 30) {
                         coord.getBlock().setType(Material.COBBLESTONE);
-                        ItemManager.setData(coord.getBlock(), 0, true);
+                        Block block = coord.getBlock();
+                        block.setData((byte) 0, true);
                         continue;
                     }
 
@@ -1383,7 +1384,8 @@ public abstract class Buildable extends SQLObject {
                     // Each block has a 10% chance of starting a fire
                     if (rand.nextInt(100) <= 10) {
                         coord.getBlock().setType(Material.FIRE);
-                        ItemManager.setData(coord.getBlock(), 0, true);
+                        Block block = coord.getBlock();
+                        block.setData((byte) 0, true);
                         continue;
                     }
 
@@ -1517,12 +1519,11 @@ public abstract class Buildable extends SQLObject {
         this.invalidReason = invalidReason;
     }
 
-    public static int getBlockIDFromSnapshotMap(HashMap<ChunkCoord, ChunkSnapshot> snapshots, int absX, int absY, int absZ, String worldName) throws CivException {
+    public static Material getBlockIDFromSnapshotMap(HashMap<ChunkCoord, ChunkSnapshot> snapshots, int absX, int absY, int absZ, String worldName) throws CivException {
 
         int chunkX = ChunkCoord.castToChunkX(absX);
         int chunkZ = ChunkCoord.castToChunkZ(absZ);
-        ChunkCoord coord = new ChunkCoord(worldName, chunkX, chunkZ);
-        ChunkSnapshot snapshot = snapshots.get(coord);
+        ChunkSnapshot snapshot = snapshots.get(new ChunkCoord(worldName, chunkX, chunkZ));
         if (snapshot == null) {
             throw new CivException("Snapshot for chunk " + chunkX + ", " + chunkZ + " in " + worldName + " not found for abs:" + absX + "," + absZ);
         }
@@ -1538,7 +1539,7 @@ public abstract class Buildable extends SQLObject {
             blockChunkZ += 16;
         }
 
-        return ItemManager.getBlockTypeId(snapshot, blockChunkX, absY, blockChunkZ);
+        return snapshot.getBlockType(blockChunkX, absY, blockChunkZ);
     }
 
     public static double getReinforcementRequirementForLevel(int level) {

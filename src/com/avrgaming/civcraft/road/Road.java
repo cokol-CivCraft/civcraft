@@ -1,6 +1,5 @@
 package com.avrgaming.civcraft.road;
 
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -32,7 +31,6 @@ import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.FireworkEffectPlayer;
-import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.SimpleBlock;
 import com.avrgaming.civcraft.war.War;
 
@@ -106,7 +104,7 @@ public class Road extends Structure {
 
 			Block block = bcoord.getBlock();
 			block.setType(sb.getType());
-			ItemManager.setData(block, sb.getData());
+            block.setData((byte) sb.getData());
 		}
 
 		LinkedList<RoadBlock> removed = new LinkedList<>();
@@ -137,7 +135,7 @@ public class Road extends Structure {
 		for (RoadBlock rb : roadBlocks.values()) {
 			Block block = rb.getCoord().getBlock();
             block.setType(rb.getOldType());
-            ItemManager.setData(block, rb.getOldData());
+            block.setData((byte) rb.getOldData());
 		}
 	}
 	
@@ -275,25 +273,26 @@ public class Road extends Structure {
 		/* Build the road blocks */
 		this.hasOldBlockData = true;
 		for (SimpleBlock sb : simpleBlocks.values()) {
-			BlockCoord bcoord = new BlockCoord(sb);
-			
-			/* Save old block data. */
-		//	this.oldBlockData.put(new BlockCoord(bcoord), new SimpleBlock(bcoord.getBlock()));
-			addRoadBlock(bcoord);
+            BlockCoord bcoord = new BlockCoord(sb);
 
-			/* Set new block data. */
-			bcoord.getBlock().setType(sb.getType());
-			ItemManager.setData(bcoord.getBlock(), sb.getData());
-			
-			/* Set air blocks above road. */
-			for (int i = 1; i < Road.HEIGHT; i++) {
-				BlockCoord bcoord2 = new BlockCoord(bcoord);
-				bcoord2.setY(sb.y + i);
-				if (!simpleBlocks.containsKey(SimpleBlock.getKeyFromBlockCoord(bcoord2))) {
+            /* Save old block data. */
+            //	this.oldBlockData.put(new BlockCoord(bcoord), new SimpleBlock(bcoord.getBlock()));
+            addRoadBlock(bcoord);
+
+            /* Set new block data. */
+            bcoord.getBlock().setType(sb.getType());
+            Block block1 = bcoord.getBlock();
+            block1.setData((byte) sb.getData());
+
+            /* Set air blocks above road. */
+            for (int i = 1; i < Road.HEIGHT; i++) {
+                BlockCoord bcoord2 = new BlockCoord(bcoord);
+                bcoord2.setY(sb.y + i);
+                if (!simpleBlocks.containsKey(SimpleBlock.getKeyFromBlockCoord(bcoord2))) {
                     Block block = bcoord2.getBlock();
                     block.setType(Material.AIR);
                 }
-			}
+            }
 			
 		}
 		
@@ -715,18 +714,20 @@ public class Road extends Structure {
 			if (rand.nextInt(100) <= 10) {
                 Block block = coord.getBlock();
                 block.setType(Material.GRAVEL);
-                ItemManager.setData(coord.getBlock(), 0, true);
+                Block block6 = coord.getBlock();
+                block6.setData((byte) 0, true);
 
-				continue;
-			}
+                continue;
+            }
 			
 			// Each block has a 50% chance of starting a fire
 			if (rand.nextInt(100) <= 50) {
                 Block block = coord.getBlock();
                 block.setType(Material.FIRE);
-                ItemManager.setData(coord.getBlock(), 0, true);
-				continue;
-			}
+                Block block6 = coord.getBlock();
+                block6.setData((byte) 0, true);
+                continue;
+            }
 			
 			// Each block has a 1% chance of launching an explosion effect
 			if (rand.nextInt(100) <= 1) {

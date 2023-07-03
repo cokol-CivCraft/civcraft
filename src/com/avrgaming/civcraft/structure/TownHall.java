@@ -55,7 +55,6 @@ import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.FireworkEffectPlayer;
 import com.avrgaming.civcraft.util.ItemFrameStorage;
-import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.war.War;
 import com.avrgaming.civcraft.war.WarStats;
 
@@ -294,26 +293,26 @@ public class TownHall extends Structure implements RespawnLocationHolder {
 	}
 
 	public void createControlPoint(BlockCoord absCoord) {
-		
-		Location centerLoc = absCoord.getLocation();
-		
-		/* Build the bedrock tower. */
-		//for (int i = 0; i < 1; i++) {
-		Block b = centerLoc.getBlock();
+
+        Location centerLoc = absCoord.getLocation();
+
+        /* Build the bedrock tower. */
+        //for (int i = 0; i < 1; i++) {
+        Block b = centerLoc.getBlock();
         b.setTypeId(Material.FENCE.getId());
-        ItemManager.setData(b, 0);
-		
-		StructureBlock sb = new StructureBlock(new BlockCoord(b), this);
-		this.addStructureBlock(sb.getCoord(), true);
-		//}
-		
-		/* Build the control block. */
-		b = centerLoc.getBlock().getRelative(0, 1, 0);
+        b.setData((byte) 0);
+
+        StructureBlock sb = new StructureBlock(new BlockCoord(b), this);
+        this.addStructureBlock(sb.getCoord(), true);
+        //}
+
+        /* Build the control block. */
+        b = centerLoc.getBlock().getRelative(0, 1, 0);
         b.setTypeId(Material.OBSIDIAN.getId());
         sb = new StructureBlock(new BlockCoord(b), this);
-		this.addStructureBlock(sb.getCoord(), true);
-		
-		int townhallControlHitpoints;
+        this.addStructureBlock(sb.getCoord(), true);
+
+        int townhallControlHitpoints;
 		try {
 			townhallControlHitpoints = CivSettings.getInteger(CivSettings.warConfig, "war.control_block_hitpoints_townhall");
 		} catch (InvalidConfiguration e) {

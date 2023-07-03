@@ -21,7 +21,7 @@ import com.avrgaming.civcraft.object.StructureSign;
 import com.avrgaming.civcraft.object.MobSpawner;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.ItemManager;
+import org.bukkit.material.MaterialData;
 
 public class MobSpawnerPopulator extends BlockPopulator {
     
@@ -113,7 +113,8 @@ public class MobSpawnerPopulator extends BlockPopulator {
             structSign.setAction("");
             structSign.setType("");
             structSign.setText(sign.getLines());
-            structSign.setDirection(ItemManager.getData(sign.getData()));
+            MaterialData data1 = sign.getData();
+            structSign.setDirection(data1.getData());
             CivGlobal.addStructureSign(structSign);
             ProtectedBlock pbsign = new ProtectedBlock(new BlockCoord(signBlock), ProtectedBlock.Type.MOB_SPAWNER_MARKER);
             CivGlobal.addProtectedBlock(pbsign);

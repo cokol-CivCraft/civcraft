@@ -2,7 +2,6 @@ package com.avrgaming.civcraft.siege;
 
 import java.io.IOException;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -24,8 +23,6 @@ import org.bukkit.util.Vector;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
-import com.avrgaming.civcraft.exception.InvalidNameException;
-import com.avrgaming.civcraft.exception.InvalidObjectException;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
@@ -194,9 +191,9 @@ public class Cannon extends Buildable {
 				for (int z = 0; z < regionZ; z++) {
 					Block b = centerBlock.getRelative(x, y, z);
 
-                    if (b.getTypeId() == Material.CHEST.getId()) {
-						throw new CivException(CivSettings.localize.localizedString("cannotBuild_chestInWay"));
-					}
+                    if (b.getType() == Material.CHEST) {
+                        throw new CivException(CivSettings.localize.localizedString("cannotBuild_chestInWay"));
+                    }
 		
 					BlockCoord coord = new BlockCoord(b);
 										
@@ -295,40 +292,46 @@ public class Cannon extends Buildable {
 			BlockCoord coord;
 			
 			switch (sb.command) {
-			case "/fire":
-				coord = new BlockCoord(absCoord);
-				this.setFireSignLocation(coord);
+                case "/fire":
+                    coord = new BlockCoord(absCoord);
+                    this.setFireSignLocation(coord);
 
-				ItemManager.setTypeIdAndData(coord.getBlock(), sb.getType().getId(), sb.getData(), false);
-				updateFireSign(coord.getBlock());
+                    Block block = coord.getBlock();
+                    block.setType(sb.getType());
+                    block.setData((byte) sb.getData());
+                    updateFireSign(coord.getBlock());
 
-				
-				Cannon.fireSignLocations.put(coord, this);
-				break;
-			case "/angle":
-				coord = new BlockCoord(absCoord);
-				this.setAngleSignLocation(coord);
-				
-				ItemManager.setTypeIdAndData(coord.getBlock(), sb.getType().getId(), sb.getData(), false);
-				updateAngleSign(coord.getBlock());
-				
-				Cannon.angleSignLocations.put(coord, this);
-				break;
-			case "/power":
-				coord = new BlockCoord(absCoord);
-				this.setPowerSignLocation(coord);
 
-				ItemManager.setTypeIdAndData(coord.getBlock(), sb.getType().getId(), sb.getData(), false);
-				updatePowerSign(coord.getBlock());
+                    Cannon.fireSignLocations.put(coord, this);
+                    break;
+                case "/angle":
+                    coord = new BlockCoord(absCoord);
+                    this.setAngleSignLocation(coord);
 
-				Cannon.powerSignLocations.put(coord, this);
-				break;
-			case "/cannon":
-				coord = new BlockCoord(absCoord);
-				this.cannonLocation = coord.getLocation();
-				
-				switch (sb.getData()) {
-				case WALLSIGN_EAST:
+                    Block block1 = coord.getBlock();
+                    block1.setType(sb.getType());
+                    block1.setData((byte) sb.getData());
+                    updateAngleSign(coord.getBlock());
+
+                    Cannon.angleSignLocations.put(coord, this);
+                    break;
+                case "/power":
+                    coord = new BlockCoord(absCoord);
+                    this.setPowerSignLocation(coord);
+
+                    Block block2 = coord.getBlock();
+                    block2.setType(sb.getType());
+                    block2.setData((byte) sb.getData());
+                    updatePowerSign(coord.getBlock());
+
+                    Cannon.powerSignLocations.put(coord, this);
+                    break;
+                case "/cannon":
+                    coord = new BlockCoord(absCoord);
+                    this.cannonLocation = coord.getLocation();
+
+                    switch (sb.getData()) {
+                        case WALLSIGN_EAST:
 					cannonLocation.add(1,0,0);
 					direction.setX(1.0f);
 					direction.setY(0.0f);
@@ -437,15 +440,15 @@ public class Cannon extends Buildable {
 						if (nextBlock.getType() != tpl.blocks[x][y][z].getType()) {
 							/* Save it as a war block so it's automatically removed when war time ends. */
 							WarRegen.saveBlock(nextBlock, Cannon.RESTORE_NAME, false);
-							nextBlock.setType(tpl.blocks[x][y][z].getType());
-							ItemManager.setData(nextBlock, tpl.blocks[x][y][z].getData());
+                            nextBlock.setType(tpl.blocks[x][y][z].getType());
+                            nextBlock.setData((byte) tpl.blocks[x][y][z].getData());
 						}
 
-                        if (nextBlock.getTypeId() != Material.AIR.getId()) {
-							BlockCoord b = new BlockCoord(nextBlock.getLocation());
-							cannonBlocks.put(b, this);
-							blocks.add(b);
-						}
+                        if (nextBlock.getType() != Material.AIR) {
+                            BlockCoord b = new BlockCoord(nextBlock.getLocation());
+                            cannonBlocks.put(b, this);
+                            blocks.add(b);
+                        }
 					} catch (Exception e) {
 						CivLog.error(e.getMessage());
 					}
@@ -527,15 +530,15 @@ public class Cannon extends Buildable {
 			if (event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
 				ItemStack stack = event.getPlayer().getInventory().getItemInMainHand();
 				if (stack != null) {
-					if (stack.getTypeId() == Material.TNT.getId()) {
-						if (ItemManager.removeItemFromPlayer(event.getPlayer(), Material.TNT, 1)) {
-							this.tntLoaded++;
-							CivMessage.sendSuccess(event.getPlayer(), CivSettings.localize.localizedString("cannon_addedTNT"));
-							updateFireSign(fireSignLocation.getBlock());
+                    if (stack.getType() == Material.TNT) {
+                        if (ItemManager.removeItemFromPlayer(event.getPlayer(), Material.TNT, 1)) {
+                            this.tntLoaded++;
+                            CivMessage.sendSuccess(event.getPlayer(), CivSettings.localize.localizedString("cannon_addedTNT"));
+                            updateFireSign(fireSignLocation.getBlock());
 
-							return;
-						}
-					}
+                            return;
+                        }
+                    }
 				}
 				
 				CivMessage.sendError(event.getPlayer(), CivSettings.localize.localizedString("cannon_notLoaded"));
@@ -689,22 +692,27 @@ public class Cannon extends Buildable {
 	}
 	
 	private void destroy() {
-		for (BlockCoord b : blocks) {
-			launchExplodeFirework(b.getCenteredLocation());
-			if (b.getBlock().getType().equals(Material.COAL_BLOCK)) {
-				ItemManager.setTypeIdAndData(b.getBlock(), Material.GRAVEL.getId(), 0, false);
-			} else {
-				ItemManager.setTypeIdAndData(b.getBlock(), Material.AIR.getId(), 0, false);
-			}
-		}
-		
-		ItemManager.setTypeIdAndData(fireSignLocation.getBlock(), Material.AIR.getId(), 0, false);
-		ItemManager.setTypeIdAndData(angleSignLocation.getBlock(), Material.AIR.getId(), 0, false);
-		ItemManager.setTypeIdAndData(powerSignLocation.getBlock(), Material.AIR.getId(), 0, false);
-		
-		blocks.clear();
-		this.cleanup();
-	}
+        for (BlockCoord b : blocks) {
+            launchExplodeFirework(b.getCenteredLocation());
+            if (b.getBlock().getType().equals(Material.COAL_BLOCK)) {
+                b.getBlock().setType(Material.GRAVEL);
+                b.getBlock().setData((byte) 0);
+            } else {
+                b.getBlock().setType(Material.AIR);
+                b.getBlock().setData((byte) 0);
+            }
+        }
+
+        fireSignLocation.getBlock().setType(Material.AIR);
+        fireSignLocation.getBlock().setData((byte) 0);
+        angleSignLocation.getBlock().setType(Material.AIR);
+        angleSignLocation.getBlock().setData((byte) 0);
+        powerSignLocation.getBlock().setType(Material.AIR);
+        powerSignLocation.getBlock().setData((byte) 0);
+
+        blocks.clear();
+        this.cleanup();
+    }
 
 	public int getTntLoaded() {
 		return tntLoaded;

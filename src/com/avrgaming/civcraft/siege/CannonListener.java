@@ -34,25 +34,25 @@ public class CannonListener implements Listener {
 		
 		try {
 			bcoord.setFromLocation(event.getClickedBlock().getLocation());
-			Cannon cannon = Cannon.fireSignLocations.get(bcoord);
-			if (cannon != null) {
-				cannon.processFire(event);
+			Cannon cannon1 = Cannon.fireSignLocations.get(bcoord);
+			if (cannon1 != null) {
+				cannon1.processFire(event);
 				event.setCancelled(true);
 				return;
 			}
-			
-			cannon = Cannon.angleSignLocations.get(bcoord);
-			if (cannon != null) {
-				cannon.processAngle(event);
+
+			Cannon cannon2 = Cannon.angleSignLocations.get(bcoord);
+			if (cannon2 != null) {
+				cannon2.processAngle(event);
 				event.setCancelled(true);
 				return;
 			}
-	
-			cannon = Cannon.powerSignLocations.get(bcoord);
-			if (cannon != null) {
-                cannon.processPower(event);
-                event.setCancelled(true);
-            }
+
+			Cannon cannon3 = Cannon.powerSignLocations.get(bcoord);
+			if (cannon3 != null) {
+				cannon3.processPower(event);
+				event.setCancelled(true);
+			}
 		} catch (CivException e) {
 			CivMessage.sendError(event.getPlayer(), e.getMessage());
 			event.setCancelled(true);

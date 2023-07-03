@@ -601,7 +601,10 @@ public class BlockListener implements Listener {
     public void OnBlockFromToEvent(BlockFromToEvent event) {
         /* Disable cobblestone generators. */
         Material id = event.getBlock().getType();
-        if (id.getId() >= Material.STATIONARY_WATER.getId() && id.getId() <= Material.STATIONARY_LAVA.getId()) {
+        if (id == Material.WATER ||
+                id == Material.STATIONARY_WATER ||
+                id == Material.LAVA ||
+                id == Material.STATIONARY_LAVA) {
             Block b = event.getToBlock();
             bcoord.setFromLocation(b.getLocation());
 
@@ -971,9 +974,16 @@ public class BlockListener implements Listener {
             // Fix for bucket bug.
             if (event.getAction() == Action.RIGHT_CLICK_AIR) {
                 ItemStack stack = event.getPlayer().getInventory().getItemInMainHand();
-                int item = stack.getTypeId();
+                Material item = stack.getType();
                 // block cheats for placing water/lava/fire/lighter use.
-                if (item == 326 || item == 327 || item == 259 || (item >= 8 && item <= 11) || item == 51) {
+                if (item == Material.WATER_BUCKET ||
+                        item == Material.LAVA_BUCKET ||
+                        item == Material.FLINT_AND_STEEL ||
+                        item == Material.WATER ||
+                        item == Material.STATIONARY_WATER ||
+                        item == Material.LAVA ||
+                        item == Material.STATIONARY_LAVA ||
+                        item == Material.FIRE) {
                     event.setCancelled(true);
                 }
             }
@@ -982,7 +992,7 @@ public class BlockListener implements Listener {
 
         if (event.hasItem()) {
 
-            if (event.getItem().getType().equals(Material.POTION)) {
+            if (event.getItem().getType() == Material.POTION) {
                 int effect = event.getItem().getDurability() & 0x000F;
                 if (effect == 0xE) {
                     event.setCancelled(true);
@@ -1874,13 +1884,13 @@ public class BlockListener implements Listener {
 
         CampBlock cb = CivGlobal.getCampBlock(bcoord);
         if (cb != null) {
-            if (event.getBlock().getTypeId() == Material.WOOD_DOOR.getId() ||
-                    event.getBlock().getTypeId() == Material.IRON_DOOR.getId() ||
-                    event.getBlock().getTypeId() == Material.SPRUCE_DOOR.getId() ||
-                    event.getBlock().getTypeId() == Material.BIRCH_DOOR.getId() ||
-                    event.getBlock().getTypeId() == Material.JUNGLE_DOOR.getId() ||
-                    event.getBlock().getTypeId() == Material.ACACIA_DOOR.getId() ||
-                    event.getBlock().getTypeId() == Material.DARK_OAK_DOOR.getId()) {
+            if (event.getBlock().getType() == Material.WOOD_DOOR ||
+                    event.getBlock().getType() == Material.IRON_DOOR ||
+                    event.getBlock().getType() == Material.SPRUCE_DOOR ||
+                    event.getBlock().getType() == Material.BIRCH_DOOR ||
+                    event.getBlock().getType() == Material.JUNGLE_DOOR ||
+                    event.getBlock().getType() == Material.ACACIA_DOOR ||
+                    event.getBlock().getType() == Material.DARK_OAK_DOOR) {
                 event.setNewCurrent(0);
                 return;
             }
@@ -1931,14 +1941,12 @@ public class BlockListener implements Listener {
             }
         }
 
-        boolean defenderAtWarWithAttacker = false;
         if (defenderResident != null && defenderResident.hasTown()) {
-            defenderAtWarWithAttacker = defenderResident.getTown().getCiv().getDiplomacyManager().atWarWith(attacker);
             /*
              * If defenders are at war with attackers allow PVP. Location doesnt matter. Allies should be able to help
              * defend each other regardless of where they are currently located.
              */
-            if (defenderAtWarWithAttacker) {
+            if (defenderResident.getTown().getCiv().getDiplomacyManager().atWarWith(attacker)) {
                 //if (defenderResident.getTown().getCiv() == tc.getTown().getCiv() ||
                 //	attackerResident.getTown().getCiv() == tc.getTown().getCiv()) {
                 return PVPDenyReason.ALLOWED;

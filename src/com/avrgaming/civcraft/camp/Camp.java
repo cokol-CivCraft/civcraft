@@ -83,7 +83,6 @@ import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.FireworkEffectPlayer;
-import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.MultiInventory;
 import com.avrgaming.civcraft.util.SimpleBlock;
 import com.avrgaming.civcraft.util.SimpleBlock.Type;
@@ -474,7 +473,8 @@ public class Camp extends Buildable {
                 case "/gardensign":
                     if (!this.gardenEnabled) {
                         absCoord.getBlock().setType(Material.SIGN_POST);
-                        ItemManager.setData(absCoord.getBlock(), sb.getData());
+                        Block block = absCoord.getBlock();
+                        block.setData((byte) sb.getData());
 
                         Sign sign = (Sign) absCoord.getBlock().getState();
                         sign.setLine(0, "Garden Disabled");
@@ -518,7 +518,8 @@ public class Camp extends Buildable {
                     byte data = CivData.convertSignDataToChestData((byte) sb.getData());
                     Block block1 = absCoord.getBlock();
                     block1.setType(Material.FURNACE);
-                    ItemManager.setData(absCoord.getBlock(), data);
+                    Block block4 = absCoord.getBlock();
+                    block4.setData((byte) (int) data);
                     this.addCampBlock(absCoord);
 
                     break;
@@ -540,12 +541,14 @@ public class Camp extends Buildable {
                         Block block = absCoord.getBlock();
                         block.setType(Material.CHEST);
                         byte data2 = CivData.convertSignDataToChestData((byte) sb.getData());
-                        ItemManager.setData(absCoord.getBlock(), data2);
+                        Block block3 = absCoord.getBlock();
+                        block3.setData((byte) (int) data2);
                     } else {
                         try {
                             Block block = absCoord.getBlock();
                             block.setType(Material.SIGN_POST);
-                            ItemManager.setData(absCoord.getBlock(), sb.getData());
+                            Block block3 = absCoord.getBlock();
+                            block3.setData((byte) sb.getData());
 
                             Sign sign = (Sign) absCoord.getBlock().getState();
                             sign.setLine(0, CivSettings.localize.localizedString("camp_sifterUpgradeSign1"));
@@ -565,11 +568,13 @@ public class Camp extends Buildable {
                         Block block = absCoord.getBlock();
                         block.setType(Material.CHEST);
                         byte data3 = CivData.convertSignDataToChestData((byte) sb.getData());
-                        ItemManager.setData(absCoord.getBlock(), data3);
+                        Block block3 = absCoord.getBlock();
+                        block3.setData((byte) (int) data3);
                     } else {
                         Block block = absCoord.getBlock();
                         block.setType(Material.SIGN_POST);
-                        ItemManager.setData(absCoord.getBlock(), sb.getData());
+                        Block block3 = absCoord.getBlock();
+                        block3.setData((byte) sb.getData());
 
                         Sign sign = (Sign) absCoord.getBlock().getState();
                         sign.setLine(0, CivSettings.localize.localizedString("camp_longhouseSign1"));
@@ -601,7 +606,8 @@ public class Camp extends Buildable {
                     /* Unrecognized command... treat as a literal sign. */
                     Block block = absCoord.getBlock();
                     block.setType(Material.WALL_SIGN);
-                    ItemManager.setData(absCoord.getBlock(), sb.getData());
+                    Block block3 = absCoord.getBlock();
+                    block3.setData((byte) sb.getData());
 
                     Sign sign = (Sign) absCoord.getBlock().getState();
                     sign.setLine(0, sb.message[0]);
@@ -794,11 +800,11 @@ public class Camp extends Buildable {
                     try {
                         if (nextBlock.getType() != tpl.blocks[x][y][z].getType()) {
                             nextBlock.setType(tpl.blocks[x][y][z].getType());
-                            ItemManager.setData(nextBlock, tpl.blocks[x][y][z].getData());
+                            nextBlock.setData((byte) tpl.blocks[x][y][z].getData());
 
                         }
 
-                        if (nextBlock.getTypeId() != Material.AIR.getId()) {
+                        if (nextBlock.getType() != Material.AIR) {
                             this.addCampBlock(new BlockCoord(nextBlock.getLocation()));
                         }
                     } catch (Exception e) {
@@ -909,7 +915,7 @@ public class Camp extends Buildable {
                 for (int z = 0; z < regionZ; z++) {
                     Block b = centerBlock.getRelative(x, y, z);
 
-                    if (b.getTypeId() == Material.CHEST.getId()) {
+                    if (b.getType() == Material.CHEST) {
                         throw new CivException(CivSettings.localize.localizedString("cannotBuild_chestInWay"));
                     }
 
@@ -1062,22 +1068,13 @@ public class Camp extends Buildable {
             }
 
             Block block4 = coord.getBlock();
-            if (block4.getTypeId() == Material.CHEST.getId()) {
+            if (block4.getType() == Material.CHEST ||
+                    block4.getType() == Material.SIGN_POST ||
+                    block4.getType() == Material.WALL_SIGN) {
                 continue;
             }
 
-            Block block3 = coord.getBlock();
-            if (block3.getTypeId() == Material.SIGN_POST.getId()) {
-                continue;
-            }
-
-            Block block2 = coord.getBlock();
-            if (block2.getTypeId() == Material.WALL_SIGN.getId()) {
-                continue;
-            }
-
-            Block block1 = coord.getBlock();
-            if (CivSettings.alwaysCrumble.contains(block1.getType())) {
+            if (CivSettings.alwaysCrumble.contains(block4.getType())) {
                 Block block = coord.getBlock();
                 block.setType(Material.GRAVEL);
                 continue;
@@ -1120,17 +1117,16 @@ public class Camp extends Buildable {
 
         /* Build the bedrock tower. */
         Block b = centerLoc.getBlock();
-        b.setTypeId(Material.FENCE.getId());
-        ItemManager.setData(b, 0);
+        b.setType(Material.FENCE);
+        b.setData((byte) 0);
 
         StructureBlock sb = new StructureBlock(new BlockCoord(b), this);
         this.addCampBlock(sb.getCoord());
 
         /* Build the control block. */
         b = centerLoc.getBlock().getRelative(0, 1, 0);
-        b.setTypeId(Material.OBSIDIAN.getId());
-        sb = new StructureBlock(new BlockCoord(b), this);
-        this.addCampBlock(sb.getCoord());
+        b.setType(Material.OBSIDIAN);
+        this.addCampBlock(new StructureBlock(new BlockCoord(b), this).getCoord());
 
         int campControlHitpoints;
         try {
@@ -1255,7 +1251,7 @@ public class Camp extends Buildable {
 
     public void onControlBlockDestroy(ControlPoint cp, World world, Player player) {
         Block block = cp.getCoord().getLocation().getBlock();
-        block.setTypeId(Material.AIR.getId());
+        block.setType(Material.AIR);
         world.playSound(cp.getCoord().getLocation(), Sound.BLOCK_ANVIL_BREAK, 1.0f, -1.0f);
         world.playSound(cp.getCoord().getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f);
 

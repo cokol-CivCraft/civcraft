@@ -42,7 +42,7 @@ public class CultureChunk {
 	private Town town;
 	private ChunkCoord chunkCoord;
 	private int distance = 0;
-	private Biome biome = null;
+	private Biome biome;
 	
 	public CultureChunk(Town town, ChunkCoord coord) {
 		this.town = town;
@@ -92,15 +92,12 @@ public class CultureChunk {
 	public double getPower() {
 		// power = max/(distance^2).
 		// if distance == 0, power = DOUBLEMAX;
-		
+
 		if (this.distance == 0) {
 			return Double.MAX_VALUE;
 		}
-		
-		ConfigCultureLevel clc = CivSettings.cultureLevels.get(getTown().getCultureLevel());
-		double power = clc.amount / (Math.pow(distance, 2));
 
-		return power;
+		return CivSettings.cultureLevels.get(getTown().getCultureLevel()).amount / (Math.pow(distance, 2));
 	}
 	
 	public Biome getBiome() {
@@ -117,8 +114,7 @@ public class CultureChunk {
 	
 	public ConfigCultureBiomeInfo getCultureBiomeInfo() {
 		if (this.biome != null) {
-			ConfigCultureBiomeInfo info = CivSettings.getCultureBiome(this.biome.name());
-			return info;
+			return CivSettings.getCultureBiome(this.biome.name());
 		} else {
 			// This can happen within 1 tick of the chunk being created, that's OK. 
 			return CivSettings.getCultureBiome("UNKNOWN");

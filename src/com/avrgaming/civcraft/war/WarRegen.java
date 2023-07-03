@@ -40,7 +40,6 @@ import org.bukkit.inventory.Inventory;
 
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.util.BukkitObjects;
-import com.avrgaming.civcraft.util.ItemManager;
 
 public class WarRegen {
 
@@ -56,7 +55,7 @@ public class WarRegen {
 	}
 	
 	private static String blockBasicString(Block blk) {
-		return blk.getTypeId() +":"+ItemManager.getData(blk)+":"+blk.getX()+":"+blk.getY()+":"+blk.getZ()+":"+blk.getWorld().getName();
+		return blk.getTypeId() + ":" + blk.getData() + ":" + blk.getX() + ":" + blk.getY() + ":" + blk.getZ() + ":" + blk.getWorld().getName();
 	}
 	
 	public static String blockInventoryString(Inventory inv) {
@@ -134,8 +133,8 @@ public class WarRegen {
 
 		Block block = BukkitObjects.getWorld(world).getBlockAt(x, y, z);
 
-		block.setTypeId(type);
-		ItemManager.setData(block, data, false);
+        block.setTypeId(type);
+        block.setData((byte) (int) data, false);
 
 		// End of basic block info, try to get more now.
 		Inventory inv = null;
@@ -206,19 +205,19 @@ public class WarRegen {
 				((Furnace) blk.getState()).getInventory().clear();
 				break;
 			case DROPPER:
-				((Dropper) blk.getState()).getInventory().clear();
-			break;
-		case HOPPER:
-			((Hopper)blk.getState()).getInventory().clear();
-			break;
-		default:
-			break;
-		}
+                ((Dropper) blk.getState()).getInventory().clear();
+                break;
+            case HOPPER:
+                ((Hopper) blk.getState()).getInventory().clear();
+                break;
+            default:
+                break;
+        }
 
         blk.setTypeId(Material.AIR.getId());
-        ItemManager.setData(blk, 0x0, true);
-		
-	}
+        blk.setData((byte) 0x0, true);
+
+    }
 	
 	public static void destroyThisBlock(Block blk, Town town) {
 		
@@ -237,19 +236,19 @@ public class WarRegen {
 				((Furnace) blk.getState()).getInventory().clear();
 				break;
 			case DROPPER:
-				((Dropper) blk.getState()).getInventory().clear();
-			break;
-		case HOPPER:
-			((Hopper)blk.getState()).getInventory().clear();
-			break;
-		default:
-			break;
-		}
+                ((Dropper) blk.getState()).getInventory().clear();
+                break;
+            case HOPPER:
+                ((Hopper) blk.getState()).getInventory().clear();
+                break;
+            default:
+                break;
+        }
 
         blk.setTypeId(Material.AIR.getId());
-        ItemManager.setData(blk, 0x0, true);
-		
-	}
+        blk.setData((byte) 0x0, true);
+
+    }
 	
 	public static boolean canPlaceThisBlock(Block blk) {
 		switch (blk.getType()) {

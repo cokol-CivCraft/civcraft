@@ -36,7 +36,6 @@ import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.FireWorkTask;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.ItemManager;
 
 public class CannonExplosionProjectile {
 	Location loc;
@@ -174,9 +173,9 @@ public class CannonExplosionProjectile {
 				for (int z = -radius; z < radius; z++) {
 					Block block = loc.getWorld().getBlockAt(loc.getBlockX()+x, loc.getBlockY()+y, loc.getBlockZ()+z);
                     if (block.getType() == Material.AIR) {
-						block.setType(Material.FIRE);
-						ItemManager.setData(block, 0, true);
-					}
+                        block.setType(Material.FIRE);
+                        block.setData((byte) 0, true);
+                    }
 				}
 			}
 		}

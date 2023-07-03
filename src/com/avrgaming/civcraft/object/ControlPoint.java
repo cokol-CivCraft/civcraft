@@ -97,10 +97,7 @@ public class ControlPoint {
 	}
 	
 	public boolean isDestroyed() {
-		if (this.hitpoints <= 0) {
-			return true;
-		}
-		return false;
+		return this.hitpoints <= 0;
 	}
 
 	public Buildable getBuildable() {

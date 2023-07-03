@@ -1,13 +1,9 @@
 package com.avrgaming.civcraft.util;
 
-import org.bukkit.ChunkSnapshot;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -27,11 +23,6 @@ import org.bukkit.material.MaterialData;
 public class ItemManager {
 
 	@SuppressWarnings("deprecation")
-	public static MaterialData getMaterialData(int type_id, int data) {
-		return new MaterialData(type_id, (byte)data);
-	}
-	
-	@SuppressWarnings("deprecation")
 	public static Enchantment getEnchantById(int id) {
 		return Enchantment.getById(id);
 	}
@@ -41,58 +32,18 @@ public class ItemManager {
 		return e.getId();
 	}
 
-	@SuppressWarnings("deprecation")
-	public static byte getData(Block block) {
-		return block.getData();
-	}
-	
 	public static short getData(ItemStack stack) {
 		return stack.getDurability();
-	}
-	
-	@SuppressWarnings("deprecation")
-	public static byte getData(MaterialData data) {
-		return data.getData();
 	}
 
 	@SuppressWarnings("deprecation")
 	public static byte getData(BlockState state) {
 		return state.getRawData();
 	}
-	
-	@SuppressWarnings("deprecation")
-	public static void setData(Block block, int data) {
-		block.setData((byte)data);
-	}
 
-	@SuppressWarnings("deprecation")
-	public static void setData(Block block, int data, boolean update) {
-		block.setData((byte) data, update);
-	}
-
-	@SuppressWarnings("deprecation")
-	public static int getBlockTypeId(ChunkSnapshot snapshot, int x, int y, int z) {
-		return snapshot.getBlockTypeId(x, y, z);
-	}
-	
-	@SuppressWarnings("deprecation")
-	public static int getBlockData(ChunkSnapshot snapshot, int x, int y, int z) {
-		return snapshot.getBlockData(x, y, z);
-	}
-	
 	@SuppressWarnings("deprecation")
 	public static void sendBlockChange(Player player, Location loc, Material type, int data) {
 		player.sendBlockChange(loc, type, (byte)data);
-	}
-
-	@SuppressWarnings("deprecation")
-	public static int getId(BlockState newState) {
-		return newState.getTypeId();
-	}
-
-	@SuppressWarnings("deprecation")
-	public static short getId(EntityType entity) {
-		return entity.getTypeId();
 	}
 
 	@SuppressWarnings("deprecation")
@@ -100,11 +51,6 @@ public class ItemManager {
 		data.setData(chestData);
 	}
 
-	@SuppressWarnings("deprecation")
-	public static void setTypeIdAndData(Block block, int type, int data, boolean update) {
-		block.setTypeIdAndData(type, (byte)data, update);
-	}
-	
 	@SuppressWarnings("deprecation")
 	public static ItemStack spawnPlayerHead(String playerName, String itemDisplayName) {
 		ItemStack skull = new ItemStack(Material.SKULL_ITEM.getId(), 1, (short) 3);

@@ -139,14 +139,8 @@ public class EconObject {
 	}
 	
 	public boolean hasEnough(double amount) {
-		amount = Math.floor(amount);
-
 		synchronized (coins) {
-			if (coins >= amount) {
-				return true;
-			} else {
-				return false;
-			}
+			return coins >= Math.floor(amount);
 		}
 	//	return CivGlobal.econ.has(getEconomyName(), amount);
 	}
@@ -181,11 +175,7 @@ public class EconObject {
 	
 	public boolean inDebt() {
 		debt = Math.floor(debt);
-
-		if (debt > 0) {
-			return true;
-		}
-		return false;
+		return debt > 0;
 	}
 	
 	public double getDebt() {
@@ -194,8 +184,7 @@ public class EconObject {
 	}
 
 	public void setDebt(double debt) {
-		debt = Math.floor(debt);
-		this.debt = debt;
+		this.debt = Math.floor(debt);
 	}
 
 	public double getPrincipalAmount() {

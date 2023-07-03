@@ -1348,7 +1348,7 @@ public class CivGlobal {
 			return false;
 		}
 
-        if (item.getTypeId() == Material.AIR.getId()) {
+        if (item.getType() == Material.AIR) {
 			return false;
 		}
 		
@@ -1426,13 +1426,12 @@ public class CivGlobal {
         }
 
         Chunk chunk = frame.getLocation().getChunk();
-        ArrayList<Entity> removed = new ArrayList<>();
-        HashMap<Integer, Boolean> droppedItems = new HashMap<>();
+		ArrayList<Entity> removed = new ArrayList<>();
+		HashMap<Material, Boolean> droppedItems = new HashMap<>();
 
         try {
             if (!frame.isEmpty()) {
-                ItemStack stack = frame.getItem();
-                droppedItems.put(stack.getTypeId(), true);
+				droppedItems.put(frame.getItem().getType(), true);
             }
         } catch (CivException e1) {
             e1.printStackTrace();
@@ -1458,12 +1457,11 @@ public class CivGlobal {
 					boolean eFrameEmpty = (eFrame.getItem() == null || eFrame.getItem().getType().equals(Material.AIR));
 				
 					if (!eFrameEmpty) {
-                        ItemStack stack1 = eFrame.getItem();
-                        Boolean droppedAlready = droppedItems.get(stack1.getTypeId());
+						ItemStack stack1 = eFrame.getItem();
+						Boolean droppedAlready = droppedItems.get(stack1.getType());
                         if (droppedAlready == null || !droppedAlready) {
-                            ItemStack stack = eFrame.getItem();
-                            droppedItems.put(stack.getTypeId(), true);
-                            eFrame.getLocation().getWorld().dropItemNaturally(eFrame.getLocation(), eFrame.getItem());
+							droppedItems.put(eFrame.getItem().getType(), true);
+							eFrame.getLocation().getWorld().dropItemNaturally(eFrame.getLocation(), eFrame.getItem());
                         }
 					}
 					

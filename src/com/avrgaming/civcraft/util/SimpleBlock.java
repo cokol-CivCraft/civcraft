@@ -63,8 +63,8 @@ public class SimpleBlock {
 	        this.z = block.getZ();
 	        this.worldname = block.getWorld().getName();
             this.material = block.getType();
-	        this.data = ItemManager.getData(block);
-	        this.specialType = Type.NORMAL;
+			this.data = block.getData();
+			this.specialType = Type.NORMAL;
 	    }
 	    
 	    public SimpleBlock(String hash, Material material, byte data) {

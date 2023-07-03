@@ -42,7 +42,6 @@ import com.avrgaming.civcraft.threading.CivAsyncTask;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.BlockSnapshot;
 import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.ItemManager;
 
 public class FarmChunk {
 	private Town town;
@@ -99,7 +98,7 @@ public class FarmChunk {
 				
 		if (beneath != null) {
             if (beneath.getType() == Material.SOIL) {
-				return ItemManager.getData(beneath) != 0x0;
+                return beneath.getData() != 0x0;
 			}
 		}
 		return false;
@@ -139,32 +138,32 @@ public class FarmChunk {
 			// An invalid block location can occur if we try to grow 'off the chunk'
 			// this kind of growth is not valid, simply continue onward.
 			return;
-		}
-		
-		if (nextBlock == null) {
-			return;
-		}
-		
-		if (nextBlock.getMaterial() == Material.AIR) {
-			freeBlock = nextBlock;
-		}
-		
-		if ((nextBlock.getMaterial() == Material.MELON_BLOCK &&
-				bs.getMaterial() == Material.MELON_STEM) ||
-				(nextBlock.getMaterial() == Material.PUMPKIN &&
-				bs.getMaterial() == Material.PUMPKIN_STEM)) {
-			return;
-		}
-		
-		if (freeBlock == null) {
-			return;
-		}
-		
-		if (bs.getMaterial() == Material.MELON_STEM) {
-			addGrowBlock("world", growMe.getX()+xOff, growMe.getY(), growMe.getZ()+zOff, Material.MELON_BLOCK, 0x0, true);
-		} else {
-			addGrowBlock("world", growMe.getX()+xOff, growMe.getY(), growMe.getZ()+zOff, Material.PUMPKIN, 0x0, true);
-		}
+        }
+
+        if (nextBlock == null) {
+            return;
+        }
+
+        if (nextBlock.getType() == Material.AIR) {
+            freeBlock = nextBlock;
+        }
+
+        if ((nextBlock.getType() == Material.MELON_BLOCK &&
+                bs.getType() == Material.MELON_STEM) ||
+                (nextBlock.getType() == Material.PUMPKIN &&
+                        bs.getType() == Material.PUMPKIN_STEM)) {
+            return;
+        }
+
+        if (freeBlock == null) {
+            return;
+        }
+
+        if (bs.getType() == Material.MELON_STEM) {
+            addGrowBlock("world", growMe.getX() + xOff, growMe.getY(), growMe.getZ() + zOff, Material.MELON_BLOCK, 0x0, true);
+        } else {
+            addGrowBlock("world", growMe.getX() + xOff, growMe.getY(), growMe.getZ() + zOff, Material.PUMPKIN, 0x0, true);
+        }
 	}
 	
 	public void addGrowBlock(String world, int x, int y, int z, Material typeid, int data, boolean spawn) {
@@ -181,30 +180,30 @@ public class FarmChunk {
 				
 		//XXX we are skipping hydration as I guess we dont seem to care.
 		//XXX we also skip light level checks, as we dont really care about that either.
-		switch(bs.getMaterial()) {
-		case WHEAT:
-		case CARROT:
-		case POTATO:
-			if (bs.getData() < 0x7) {
-				addGrowBlock("world", growMe.getX(), growMe.getY(), growMe.getZ(), bs.getMaterial(), bs.getData()+0x1, false);
-			}
-			break;
-		case NETHER_WARTS:
-			if (bs.getData() < 0x3) {
-				addGrowBlock("world", growMe.getX(), growMe.getY(), growMe.getZ(), bs.getMaterial(), bs.getData()+0x1, false);
+        switch (bs.getType()) {
+            case WHEAT:
+            case CARROT:
+            case POTATO:
+                if (bs.getData() < 0x7) {
+                    addGrowBlock("world", growMe.getX(), growMe.getY(), growMe.getZ(), bs.getType(), bs.getData() + 0x1, false);
+                }
+                break;
+            case NETHER_WARTS:
+                if (bs.getData() < 0x3) {
+                    addGrowBlock("world", growMe.getX(), growMe.getY(), growMe.getZ(), bs.getType(), bs.getData() + 0x1, false);
 			}
 			break;
 		case MELON_STEM:
 		case PUMPKIN_STEM:
 			if (bs.getData() < 0x7) {
-				addGrowBlock("world", growMe.getX(), growMe.getY(), growMe.getZ(), bs.getMaterial(), bs.getData()+0x1, false);
+                addGrowBlock("world", growMe.getX(), growMe.getY(), growMe.getZ(), bs.getType(), bs.getData() + 0x1, false);
 			} else if (bs.getData() == 0x7) {
 				spawnMelonOrPumpkin(bs, growMe, task);
 			}
 			break;
 		case COCOA:
 			if (CivData.canCocoaGrow(bs)) {
-				addGrowBlock("world", growMe.getX(), growMe.getY(), growMe.getZ(), bs.getMaterial(),CivData.getNextCocoaValue(bs), false);
+                addGrowBlock("world", growMe.getX(), growMe.getY(), growMe.getZ(), bs.getType(), CivData.getNextCocoaValue(bs), false);
 			}
 			break;
 		}

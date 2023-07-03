@@ -38,7 +38,7 @@ import com.avrgaming.civcraft.object.StructureSign;
 import com.avrgaming.civcraft.object.TradeGood;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.ItemManager;
+import org.bukkit.material.MaterialData;
 
 public class TradeGoodPopulator extends BlockPopulator {
 	
@@ -104,26 +104,27 @@ public class TradeGoodPopulator extends BlockPopulator {
     		org.bukkit.material.Sign data = (org.bukkit.material.Sign)state.getData();
 
     		data.setFacingDirection(direction);
-    		sign.setLine(0, CivSettings.localize.localizedString("TradeGoodSign_Heading"));
-    		sign.setLine(1, "----");
-    		sign.setLine(2, good.name);
-    		sign.setLine(3, "");
-    		sign.update(true);
+            sign.setLine(0, CivSettings.localize.localizedString("TradeGoodSign_Heading"));
+            sign.setLine(1, "----");
+            sign.setLine(2, good.name);
+            sign.setLine(3, "");
+            sign.update(true);
 
-    		StructureSign structSign = new StructureSign(new BlockCoord(signBlock), null);
-    		structSign.setAction("");
-    		structSign.setType("");
-    		structSign.setText(sign.getLines());
-    		structSign.setDirection(ItemManager.getData(sign.getData()));
-    		CivGlobal.addStructureSign(structSign);
+            StructureSign structSign = new StructureSign(new BlockCoord(signBlock), null);
+            structSign.setAction("");
+            structSign.setType("");
+            structSign.setText(sign.getLines());
+            MaterialData data1 = sign.getData();
+            structSign.setDirection(data1.getData());
+            CivGlobal.addStructureSign(structSign);
             ProtectedBlock pbsign = new ProtectedBlock(new BlockCoord(signBlock), ProtectedBlock.Type.TRADE_MARKER);
             CivGlobal.addProtectedBlock(pbsign);
             if (sync) {
                 try {
-                	pbsign.saveNow();
+                    pbsign.saveNow();
                     structSign.saveNow();
                 } catch (SQLException e) {
-                	e.printStackTrace();
+                    e.printStackTrace();
                 }
             } else {
             	pbsign.save();

@@ -32,7 +32,6 @@ import com.avrgaming.civcraft.threading.tasks.FireWorkTask;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.CivColor;
-import com.avrgaming.civcraft.util.ItemManager;
 
 public class WarListener implements Listener {
 
@@ -137,8 +136,8 @@ public class WarListener implements Listener {
 					return;
 				}
 
-				event.getBlock().getWorld().spawnFallingBlock(event.getBlock().getLocation(), event.getBlock().getType(), ItemManager.getData(event.getBlock()));
-				event.getBlock().setType(Material.AIR);
+				event.getBlock().getWorld().spawnFallingBlock(event.getBlock().getLocation(), event.getBlock().getType(), event.getBlock().getData());
+                event.getBlock().setType(Material.AIR);
 
 				return;
 		}

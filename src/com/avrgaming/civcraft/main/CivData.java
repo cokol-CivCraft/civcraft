@@ -177,14 +177,14 @@ public class CivData {
             //int nextType = snapshot.getBlockData(arg0, arg1, arg2)
 
 
-            if (nextBs.getMaterial() == Material.AIR) {
+            if (nextBs.getType() == Material.AIR) {
                 hasAir = true;
             }
 
-            if ((nextBs.getMaterial() == Material.MELON_BLOCK &&
-                    bs.getMaterial() == Material.MELON_STEM) ||
-                    (nextBs.getMaterial() == Material.PUMPKIN &&
-                            bs.getMaterial() == Material.PUMPKIN_STEM)) {
+            if ((nextBs.getType() == Material.MELON_BLOCK &&
+                    bs.getType() == Material.MELON_STEM) ||
+                    (nextBs.getType() == Material.PUMPKIN &&
+                            bs.getType() == Material.PUMPKIN_STEM)) {
                 return false;
             }
         }
@@ -251,7 +251,7 @@ public class CivData {
     }
 
     public static boolean canGrow(BlockSnapshot bs) {
-        switch (bs.getMaterial()) {
+        switch (bs.getType()) {
             case WHEAT:
             case CARROT:
             case POTATO:

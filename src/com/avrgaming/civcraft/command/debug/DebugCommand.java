@@ -494,7 +494,7 @@ public class DebugCommand extends CommandBase {
                                         try {
                                             Block block = next.getBlock();
                                             block.setType(sb.getType());
-                                            ItemManager.setData(block, sb.getData());
+                                            block.setData((byte) sb.getData());
 
                                             Sign s = (Sign) block.getState();
                                             for (int j = 0; j < 4; j++) {
@@ -864,7 +864,7 @@ public class DebugCommand extends CommandBase {
 
         Block b = Bukkit.getWorld("world").getBlockAt(x, y, z);
 
-        CivMessage.send(sender, "type:" + b.getTypeId() + " data:" + ItemManager.getData(b) + " name:" + b.getType().name());
+        CivMessage.send(sender, "type:" + b.getTypeId() + " data:" + b.getData() + " name:" + b.getType().name());
 
     }
     @SuppressWarnings("unused")
@@ -1084,7 +1084,7 @@ public class DebugCommand extends CommandBase {
             BlockCoord bcoord = sign.getCoord();
             Block block = bcoord.getBlock();
             block.setType(Material.WALL_SIGN);
-            ItemManager.setData(block, sign.getDirection());
+            block.setData((byte) sign.getDirection());
 
             Sign s = (Sign) block.getState();
             String[] lines = sign.getText().split("\n");

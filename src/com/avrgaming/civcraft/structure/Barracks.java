@@ -29,6 +29,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -54,7 +55,6 @@ import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.UnitSaveAsyncTask;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.CivColor;
-import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.SimpleBlock;
 
 public class Barracks extends Structure {
@@ -328,88 +328,94 @@ public class Barracks extends Structure {
 		StructureSign structSign;
 
 		switch (sb.command) {
-		case "/prev":
-			absCoord.getBlock().setType(sb.getType());
-			ItemManager.setData(absCoord.getBlock(), sb.getData());
-			structSign = new StructureSign(absCoord, this);
-			structSign.setText("\n"+ChatColor.BOLD+ChatColor.UNDERLINE+CivSettings.localize.localizedString("barracks_sign_previousUnit"));
-			structSign.setDirection(sb.getData());
-			structSign.setAction("prev");
-			structSign.update();
-			this.addStructureSign(structSign);
-			CivGlobal.addStructureSign(structSign);
-			
-			break;
-		case "/unitname":
-			absCoord.getBlock().setType(sb.getType());
-			ItemManager.setData(absCoord.getBlock(), sb.getData());
+            case "/prev":
+                absCoord.getBlock().setType(sb.getType());
+                Block block5 = absCoord.getBlock();
+                block5.setData((byte) sb.getData());
+                structSign = new StructureSign(absCoord, this);
+                structSign.setText("\n" + ChatColor.BOLD + ChatColor.UNDERLINE + CivSettings.localize.localizedString("barracks_sign_previousUnit"));
+                structSign.setDirection(sb.getData());
+                structSign.setAction("prev");
+                structSign.update();
+                this.addStructureSign(structSign);
+                CivGlobal.addStructureSign(structSign);
 
-			structSign = new StructureSign(absCoord, this);
-			structSign.setText(getUnitSignText(0));
-			structSign.setDirection(sb.getData());
-			structSign.setAction("info");
-			structSign.update();
-			
-			this.unitNameSign = structSign;
-			
-			this.addStructureSign(structSign);
-			CivGlobal.addStructureSign(structSign);
-			
-			break;
-		case "/next":
-			absCoord.getBlock().setType(sb.getType());
-			ItemManager.setData(absCoord.getBlock(), sb.getData());
+                break;
+            case "/unitname":
+                absCoord.getBlock().setType(sb.getType());
+                Block block4 = absCoord.getBlock();
+                block4.setData((byte) sb.getData());
 
-			structSign = new StructureSign(absCoord, this);
-			structSign.setText("\n"+ChatColor.BOLD+ChatColor.UNDERLINE+CivSettings.localize.localizedString("barracks_sign_nextUnit"));
-			structSign.setDirection(sb.getData());
-			structSign.setAction("next");
-			structSign.update();
-			this.addStructureSign(structSign);
-			CivGlobal.addStructureSign(structSign);
-						
-			break;
-		case "/train":
-			absCoord.getBlock().setType(sb.getType());
-			ItemManager.setData(absCoord.getBlock(), sb.getData());
+                structSign = new StructureSign(absCoord, this);
+                structSign.setText(getUnitSignText(0));
+                structSign.setDirection(sb.getData());
+                structSign.setAction("info");
+                structSign.update();
 
-			structSign = new StructureSign(absCoord, this);
-			structSign.setText("\n"+ChatColor.BOLD+ChatColor.UNDERLINE+CivSettings.localize.localizedString("barracks_sign_train"));
-			structSign.setDirection(sb.getData());
-			structSign.setAction("train");
-			structSign.update();
-			this.addStructureSign(structSign);
-			CivGlobal.addStructureSign(structSign);
-			
-			break;
-		case "/progress":
-			absCoord.getBlock().setType(sb.getType());
-			ItemManager.setData(absCoord.getBlock(), sb.getData());
+                this.unitNameSign = structSign;
 
-			structSign = new StructureSign(absCoord, this);
-			structSign.setText("");
-			structSign.setDirection(sb.getData());
-			structSign.setAction("");
-			structSign.update();
-			this.addStructureSign(structSign);
-			CivGlobal.addStructureSign(structSign);
-			
-			this.progresBar.put(Integer.valueOf(sb.keyvalues.get("id")), structSign);
-			
-			break;
-		case "/repair":
-			absCoord.getBlock().setType(sb.getType());
-			ItemManager.setData(absCoord.getBlock(), sb.getData());
+                this.addStructureSign(structSign);
+                CivGlobal.addStructureSign(structSign);
 
-			structSign = new StructureSign(absCoord, this);
-			structSign.setText("\n"+ChatColor.BOLD+ChatColor.UNDERLINE+CivSettings.localize.localizedString("barracks_sign_repairItem"));
-			structSign.setDirection(sb.getData());
-			structSign.setAction("repair_item");
-			structSign.update();
-			this.addStructureSign(structSign);
-			CivGlobal.addStructureSign(structSign);
-			
-			break;
+                break;
+            case "/next":
+                absCoord.getBlock().setType(sb.getType());
+                Block block3 = absCoord.getBlock();
+                block3.setData((byte) sb.getData());
+
+                structSign = new StructureSign(absCoord, this);
+                structSign.setText("\n" + ChatColor.BOLD + ChatColor.UNDERLINE + CivSettings.localize.localizedString("barracks_sign_nextUnit"));
+                structSign.setDirection(sb.getData());
+                structSign.setAction("next");
+                structSign.update();
+                this.addStructureSign(structSign);
+                CivGlobal.addStructureSign(structSign);
+
+                break;
+            case "/train":
+                absCoord.getBlock().setType(sb.getType());
+                Block block2 = absCoord.getBlock();
+                block2.setData((byte) sb.getData());
+
+                structSign = new StructureSign(absCoord, this);
+                structSign.setText("\n" + ChatColor.BOLD + ChatColor.UNDERLINE + CivSettings.localize.localizedString("barracks_sign_train"));
+                structSign.setDirection(sb.getData());
+                structSign.setAction("train");
+                structSign.update();
+                this.addStructureSign(structSign);
+                CivGlobal.addStructureSign(structSign);
+
+                break;
+            case "/progress":
+                absCoord.getBlock().setType(sb.getType());
+                Block block1 = absCoord.getBlock();
+                block1.setData((byte) sb.getData());
+
+                structSign = new StructureSign(absCoord, this);
+                structSign.setText("");
+                structSign.setDirection(sb.getData());
+                structSign.setAction("");
+                structSign.update();
+                this.addStructureSign(structSign);
+                CivGlobal.addStructureSign(structSign);
+
+                this.progresBar.put(Integer.valueOf(sb.keyvalues.get("id")), structSign);
+
+                break;
+            case "/repair":
+                absCoord.getBlock().setType(sb.getType());
+                Block block = absCoord.getBlock();
+                block.setData((byte) sb.getData());
+
+                structSign = new StructureSign(absCoord, this);
+                structSign.setText("\n" + ChatColor.BOLD + ChatColor.UNDERLINE + CivSettings.localize.localizedString("barracks_sign_repairItem"));
+                structSign.setDirection(sb.getData());
+                structSign.setAction("repair_item");
+                structSign.update();
+                this.addStructureSign(structSign);
+                CivGlobal.addStructureSign(structSign);
+
+                break;
 
 		}
 	}

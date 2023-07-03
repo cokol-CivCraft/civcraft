@@ -45,7 +45,6 @@ import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.FireworkEffectPlayer;
 import com.avrgaming.civcraft.util.ItemFrameStorage;
-import com.avrgaming.civcraft.util.ItemManager;
 
 public class TradeOutpost extends Structure {
 
@@ -154,30 +153,30 @@ public class TradeOutpost extends Structure {
 		
 		/* Build the bedrock tower. */
 		for (int i = 0; i < 3; i++) {
-			Block b = centerLoc.getBlock().getRelative(0, i, 0);
+            Block b = centerLoc.getBlock().getRelative(0, i, 0);
             b.setType(Material.BEDROCK);
-            ItemManager.setData(b, 0);
-			
-			StructureBlock sb = new StructureBlock(new BlockCoord(b), this);
-			this.addStructureBlock(sb.getCoord(), false);
-			//CivGlobal.addStructureBlock(sb.getCoord(), this);
-		}
-		
-		/* Place the sign. */
-		Block b = centerLoc.getBlock().getRelative(1, 2, 0);
+            b.setData((byte) 0);
+
+            StructureBlock sb = new StructureBlock(new BlockCoord(b), this);
+            this.addStructureBlock(sb.getCoord(), false);
+            //CivGlobal.addStructureBlock(sb.getCoord(), this);
+        }
+
+        /* Place the sign. */
+        Block b = centerLoc.getBlock().getRelative(1, 2, 0);
         b.setType(Material.WALL_SIGN);
-        ItemManager.setData(b, CivData.DATA_SIGN_EAST);
-		Sign s = (Sign)b.getState();
-		s.setLine(0, good.getInfo().name);
-		s.update();
-		StructureBlock sb = new StructureBlock(new BlockCoord(b), this);
-		//CivGlobal.addStructureBlock(sb.getCoord(), this);
-		this.addStructureBlock(sb.getCoord(), false);
-		
-		/* Place the itemframe. */
-		b = centerLoc.getBlock().getRelative(1,1,0);
-		this.addStructureBlock(new BlockCoord(b), false);
-		Block b2 = b.getRelative(0, 0, 0);
+        b.setData((byte) (int) CivData.DATA_SIGN_EAST);
+        Sign s = (Sign) b.getState();
+        s.setLine(0, good.getInfo().name);
+        s.update();
+        StructureBlock sb = new StructureBlock(new BlockCoord(b), this);
+        //CivGlobal.addStructureBlock(sb.getCoord(), this);
+        this.addStructureBlock(sb.getCoord(), false);
+
+        /* Place the itemframe. */
+        b = centerLoc.getBlock().getRelative(1, 1, 0);
+        this.addStructureBlock(new BlockCoord(b), false);
+        Block b2 = b.getRelative(0, 0, 0);
 		Entity entity = CivGlobal.getEntityAtLocation(b2.getLocation());
 		this.addStructureBlock(new BlockCoord(b2), false);
 		

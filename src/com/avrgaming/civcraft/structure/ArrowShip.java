@@ -55,8 +55,7 @@ public class ArrowShip extends WaterStructure {
 	 * @return the damage
 	 */
 	public int getDamage() {
-		double rate = 1;
-		rate += this.getTown().getBuffManager().getEffectiveDouble(Buff.FIRE_BOMB);
+		double rate = 1 + this.getTown().getBuffManager().getEffectiveDouble(Buff.FIRE_BOMB);
 		return (int)(arrowComponent.getDamage()*rate);
 	}
 

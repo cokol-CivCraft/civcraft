@@ -23,7 +23,6 @@ import java.util.Random;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.structure.Windmill;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.MultiInventory;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -59,98 +58,104 @@ public class WindmillPostProcessSyncTask implements Runnable {
 			switch (randomCropType) {
 			case 0:
 				if (breadCount > 0) {
-					/* bread seed */
-					try {
-						source_inv.removeItem(Material.SEEDS, 1, true);
-					} catch (CivException e) {
-						e.printStackTrace();
-					}
-					breadCount--;
+                    /* bread seed */
+                    try {
+                        source_inv.removeItem(Material.SEEDS, 1, true);
+                    } catch (CivException e) {
+                        e.printStackTrace();
+                    }
+                    breadCount--;
                     Block block = coord.getBlock();
                     block.setType(Material.WHEAT);
-                    ItemManager.setData(coord.getBlock(), 0, true);
-					coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
-					continue;
-				}
+                    Block block1 = coord.getBlock();
+                    block1.setData((byte) 0, true);
+                    coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
+                    continue;
+                }
 			case 1:
 				if (carrotCount > 0) {
-					/* carrots */
-					try {
-						source_inv.removeItem(Material.CARROT_ITEM, 1, true);
-					} catch (CivException e) {
-						e.printStackTrace();
-					}
-					carrotCount--;
+                    /* carrots */
+                    try {
+                        source_inv.removeItem(Material.CARROT_ITEM, 1, true);
+                    } catch (CivException e) {
+                        e.printStackTrace();
+                    }
+                    carrotCount--;
                     Block block = coord.getBlock();
                     block.setType(Material.CARROT);
-                    ItemManager.setData(coord.getBlock(), 0, true);
-					coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
+                    Block block1 = coord.getBlock();
+                    block1.setData((byte) 0, true);
+                    coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
 
-					continue;
-				}
+                    continue;
+                }
 				break;
 			case 2: 
 				if (potatoCount > 0) {
-					/* potatoes */
-					try {
-						source_inv.removeItem(Material.POTATO_ITEM, 1, true);
-					} catch (CivException e) {
-						e.printStackTrace();
-					}
-					potatoCount--;
+                    /* potatoes */
+                    try {
+                        source_inv.removeItem(Material.POTATO_ITEM, 1, true);
+                    } catch (CivException e) {
+                        e.printStackTrace();
+                    }
+                    potatoCount--;
                     Block block = coord.getBlock();
                     block.setType(Material.POTATO);
-                    ItemManager.setData(coord.getBlock(), 0, true);
-					coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
+                    Block block1 = coord.getBlock();
+                    block1.setData((byte) 0, true);
+                    coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
 
-					continue;
-				}
+                    continue;
+                }
 			}	
 			
 			/* our randomly selected crop couldn't be placed, try them all now. */
 			if (breadCount > 0) {
-				/* bread seed */
-				try {
-					source_inv.removeItem(Material.SEEDS, 1, true);
-				} catch (CivException e) {
-					e.printStackTrace();
-				}
-				breadCount--;
+                /* bread seed */
+                try {
+                    source_inv.removeItem(Material.SEEDS, 1, true);
+                } catch (CivException e) {
+                    e.printStackTrace();
+                }
+                breadCount--;
                 Block block = coord.getBlock();
                 block.setType(Material.WHEAT);
-                ItemManager.setData(coord.getBlock(), 0, true);
-				coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
+                Block block1 = coord.getBlock();
+                block1.setData((byte) 0, true);
+                coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
 
-				continue;
-			}
+                continue;
+            }
 			if (carrotCount > 0) {
-				/* carrots */
-				try {
-					source_inv.removeItem(Material.CARROT_ITEM, 1, true);
-				} catch (CivException e) {
-					e.printStackTrace();
-				}
-				carrotCount--;
+                /* carrots */
+                try {
+                    source_inv.removeItem(Material.CARROT_ITEM, 1, true);
+                } catch (CivException e) {
+                    e.printStackTrace();
+                }
+                carrotCount--;
                 Block block = coord.getBlock();
                 block.setType(Material.CARROT);
-                ItemManager.setData(coord.getBlock(), 0, true);
-				coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
+                Block block1 = coord.getBlock();
+                block1.setData((byte) 0, true);
+                coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
 
-				continue;
-			}
+                continue;
+            }
 			if (potatoCount > 0) {
-				/* potatoes */
-				try {
-					source_inv.removeItem(Material.POTATO_ITEM, 1, true);
-				} catch (CivException e) {
-					e.printStackTrace();
-				}
-				potatoCount--;
+                /* potatoes */
+                try {
+                    source_inv.removeItem(Material.POTATO_ITEM, 1, true);
+                } catch (CivException e) {
+                    e.printStackTrace();
+                }
+                potatoCount--;
                 Block block = coord.getBlock();
                 block.setType(Material.POTATO);
-                ItemManager.setData(coord.getBlock(), 0, true);
-				coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
-			}
+                Block block1 = coord.getBlock();
+                block1.setData((byte) 0, true);
+                coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
+            }
 			
 		}
 		

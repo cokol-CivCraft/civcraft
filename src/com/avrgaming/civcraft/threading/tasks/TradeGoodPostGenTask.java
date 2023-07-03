@@ -41,7 +41,6 @@ import com.avrgaming.civcraft.populators.TradeGoodPopulator;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.ItemManager;
 
 public class TradeGoodPostGenTask implements Runnable {
 
@@ -173,7 +172,7 @@ public class TradeGoodPostGenTask implements Runnable {
                         break;
                     }
                     top.setType(Material.AIR);
-                    ItemManager.setData(top, 0, true);
+                    top.setData((byte) 0, true);
                     bcoord2.setY(bcoord2.getY() - 1);
                     for (BlockFace face : new BlockFace[]{BlockFace.NORTH, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST}) {
                         Block block = top.getRelative(face);
