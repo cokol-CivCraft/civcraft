@@ -67,15 +67,15 @@ public class WallBlock extends SQLObject {
 	public static final String TABLE_NAME = "WALLBLOCKS";
 	public static void init() throws SQLException {
 		if (!SQL.hasTable(TABLE_NAME)) {
-			String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME+" (" + 
+			String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME + " (" +
 					"`id` int(11) unsigned NOT NULL auto_increment," +
 					"`struct_id` int(11) NOT NULL DEFAULT 0," +
 					"`coord` mediumtext DEFAULT NULL," +
-					"`type_id` int(11) DEFAULT 0,"+
+					"`type_id` mediumtext DEFAULT 0," +
 					"`data` int(11) DEFAULT 0," +
-					"`old_id` int(11) DEFAULT 0," +
+					"`old_id` mediumtext DEFAULT 0," +
 					"`old_data` int(11) DEFAULT 0," +
-				"PRIMARY KEY (`id`)" + ")";
+					"PRIMARY KEY (`id`)" + ")";
 			
 			SQL.makeTable(table_create);
 			CivLog.info("Created "+TABLE_NAME+" table");
@@ -110,9 +110,9 @@ public class WallBlock extends SQLObject {
 		CivGlobal.addWallChunk(this.struct, new ChunkCoord(getCoord().getLocation()));
 		this.struct.addStructureBlock(this.getCoord(), true);
 		this.struct.wallBlocks.put(this.getCoord(), this);
-		this.old_id = Material.getMaterial(rs.getInt("old_id"));
+		this.old_id = Material.getMaterial(rs.getString("old_id"));
 		this.old_data = rs.getInt("old_data");
-		this.type_id = Material.getMaterial(rs.getInt("type_id"));
+		this.type_id = Material.getMaterial(rs.getString("type_id"));
 		this.data = rs.getInt("data");
 		
 	}
@@ -128,9 +128,9 @@ public class WallBlock extends SQLObject {
 		
 		hashmap.put("struct_id", this.getStruct().getId());
 		hashmap.put("coord", this.getCoord().toString());
-		hashmap.put("old_id", this.old_id);
+		hashmap.put("old_id", this.old_id.toString());
 		hashmap.put("old_data", this.old_data);
-		hashmap.put("type_id", this.type_id);
+		hashmap.put("type_id", this.type_id.toString());
 		hashmap.put("data", this.data);
 
 		SQL.updateNamedObject(this, hashmap, TABLE_NAME);

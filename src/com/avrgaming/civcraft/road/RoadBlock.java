@@ -49,14 +49,14 @@ public class RoadBlock extends SQLObject implements BuildableDamageBlock {
 
 	public static void init() throws SQLException {
 		if (!SQL.hasTable(TABLE_NAME)) {
-			String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME+" (" + 
+			String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME + " (" +
 					"`id` int(11) unsigned NOT NULL auto_increment," +
 					"`road_id` int(11) NOT NULL DEFAULT 0," +
-					"`old_type` int(11) NOT NULL DEFAULT 0," +
+					"`old_type` mediumtext NOT NULL DEFAULT 0," +
 					"`old_data` int(11) NOT NULL DEFAULT 0," +
-					"`above_road` bool DEFAULT 0,"+
+					"`above_road` bool DEFAULT 0," +
 					"`coord` mediumtext DEFAULT NULL," +
-				"PRIMARY KEY (`id`)" + ")";
+					"PRIMARY KEY (`id`)" + ")";
 			
 			SQL.makeTable(table_create);
 			CivLog.info("Created "+TABLE_NAME+" table");
@@ -107,7 +107,7 @@ public class RoadBlock extends SQLObject implements BuildableDamageBlock {
 		
 		hashmap.put("road_id", this.getRoad().getId());
 		hashmap.put("coord", this.getCoord().toString());
-		hashmap.put("old_type", this.getOldType());
+		hashmap.put("old_type", this.getOldType().toString());
 		hashmap.put("old_data", this.getOldData());
 		hashmap.put("above_road", this.aboveRoadBlock);
 	
