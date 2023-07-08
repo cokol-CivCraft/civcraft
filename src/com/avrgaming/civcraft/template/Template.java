@@ -178,21 +178,24 @@ public class Template {
     }
 
     public static String getTemplateFilePath(String template_file, String direction, TemplateType type, String theme) {
-        String typeStr = "";
-        if (type == TemplateType.STRUCTURE) {
-            typeStr = "structures";
+        switch (type) {
+            case STRUCTURE:
+                return getStructureFilePath(template_file, direction, theme);
+            case WONDER:
+                return getWonderFilePath(template_file, direction);
+            default:
+                throw new IllegalStateException("Unexpected value: " + type);
         }
-        if (type == TemplateType.WONDER) {
-            typeStr = "wonders";
-        }
+    }
 
+    public static String getStructureFilePath(String template_file, String direction, String theme) {
         template_file = template_file.replaceAll(" ", "_");
+        return ("templates/themes/" + theme + "/" + template_file + "/" + template_file + "_" + direction + ".def").toLowerCase();
+    }
 
-        if (direction.equals("")) {
-            return ("templates/themes/" + theme + "/" + typeStr + "/" + template_file + "/" + template_file + ".def").toLowerCase();
-        }
-
-        return ("templates/themes/" + theme + "/" + typeStr + "/" + template_file + "/" + template_file + "_" + direction + ".def").toLowerCase();
+    public static String getWonderFilePath(String template_file, String direction) {
+        template_file = template_file.replaceAll(" ", "_");
+        return ("templates/wonders/" + template_file + "/" + template_file + "_" + direction + ".def").toLowerCase();
     }
 
     @SuppressWarnings("unused")
