@@ -1,11 +1,5 @@
 package com.avrgaming.civcraft.loregui;
 
-import java.io.IOException;
-
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
-
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.lorestorage.LoreGuiItem;
@@ -17,6 +11,11 @@ import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.global.perks.Perk;
 import com.avrgaming.global.perks.components.CustomPersonalTemplate;
 import com.avrgaming.global.perks.components.CustomTemplate;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
+
+import java.io.IOException;
 
 public class BuildWithTemplate implements GuiAction {
 
@@ -26,22 +25,20 @@ public class BuildWithTemplate implements GuiAction {
 		Resident resident = CivGlobal.getResident(player);
 			
 		String perk_id = LoreGuiItem.getActionData(stack, "perk");
-		boolean useDefaultTemplate;
-		useDefaultTemplate = perk_id == null;
-		
+
 		try {
 			Template tpl;
-			if (!useDefaultTemplate) {
+			if (perk_id != null) {
 				/* Use a template defined by a perk. */
 				Perk perk = Perk.staticPerks.get(perk_id);
 				if (perk != null) {
-	
+
 					/* get the template name from the perk's CustomTemplate component. */
-					CustomTemplate customTemplate = (CustomTemplate)perk.getComponent("CustomTemplate");
+					CustomTemplate customTemplate = (CustomTemplate) perk.getComponent("CustomTemplate");
 					if (customTemplate != null) {
 						tpl = customTemplate.getTemplate(player, resident.pendingBuildable);
 					} else {
-						CustomPersonalTemplate customPersonalTemplate =  (CustomPersonalTemplate)perk.getComponent("CustomPersonalTemplate");
+						CustomPersonalTemplate customPersonalTemplate = (CustomPersonalTemplate) perk.getComponent("CustomPersonalTemplate");
 						tpl = customPersonalTemplate.getTemplate(player, resident.pendingBuildable.info);
 					}
 					

@@ -1,14 +1,5 @@
 package com.avrgaming.civcraft.road;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.database.SQL;
 import com.avrgaming.civcraft.database.SQLUpdate;
@@ -27,6 +18,14 @@ import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.StructureBlockHitEvent;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 
 public class RoadBlock extends SQLObject implements BuildableDamageBlock {
 	private BlockCoord coord;
@@ -52,7 +51,7 @@ public class RoadBlock extends SQLObject implements BuildableDamageBlock {
 			String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME + " (" +
 					"`id` int(11) unsigned NOT NULL auto_increment," +
 					"`road_id` int(11) NOT NULL DEFAULT 0," +
-					"`old_type` mediumtext NOT NULL DEFAULT 0," +
+					"`old_type` mediumtext NOT NULL," +
 					"`old_data` int(11) NOT NULL DEFAULT 0," +
 					"`above_road` bool DEFAULT 0," +
 					"`coord` mediumtext DEFAULT NULL," +

@@ -17,10 +17,6 @@
  */
 package com.avrgaming.civcraft.object;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashMap;
-
 import com.avrgaming.civcraft.database.SQL;
 import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.exception.CivException;
@@ -33,6 +29,10 @@ import com.avrgaming.civcraft.structure.Wall;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
 import org.bukkit.Material;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
 
 public class WallBlock extends SQLObject {
 
@@ -71,9 +71,9 @@ public class WallBlock extends SQLObject {
 					"`id` int(11) unsigned NOT NULL auto_increment," +
 					"`struct_id` int(11) NOT NULL DEFAULT 0," +
 					"`coord` mediumtext DEFAULT NULL," +
-					"`type_id` mediumtext DEFAULT 0," +
+					"`type_id` mediumtext," +
 					"`data` int(11) DEFAULT 0," +
-					"`old_id` mediumtext DEFAULT 0," +
+					"`old_id` mediumtext," +
 					"`old_data` int(11) DEFAULT 0," +
 					"PRIMARY KEY (`id`)" + ")";
 			

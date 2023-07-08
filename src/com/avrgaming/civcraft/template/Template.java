@@ -18,26 +18,6 @@
  */
 package com.avrgaming.civcraft.template;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Queue;
-
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.Sign;
-import org.bukkit.entity.Player;
-
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigBuildableInfo;
 import com.avrgaming.civcraft.exception.CivException;
@@ -46,13 +26,26 @@ import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.structure.Buildable;
-import com.avrgaming.civcraft.structure.Structure;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.threading.sync.SyncBuildUpdateTask;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.PlayerBlockChangeUtil;
 import com.avrgaming.civcraft.util.SimpleBlock;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Sign;
+import org.bukkit.entity.Player;
+import org.bukkit.material.Chest;
+import org.bukkit.material.Door;
+import org.bukkit.material.MaterialData;
+
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.util.*;
 
 public class Template {
     /* Handles the processing of CivTemplates which store cubiods of blocks for later use. */
@@ -179,16 +172,8 @@ public class Template {
 	}*/
 
     public static String getTemplateFilePath(Location playerLocationForDirection, Buildable buildable, String theme) {
-        TemplateType type = TemplateType.STRUCTURE;
-
-        if (buildable instanceof Structure) {
-            type = TemplateType.STRUCTURE;
-        } else if (buildable instanceof Wonder) {
-            type = TemplateType.WONDER;
-        }
-
-        String dir = Template.parseDirection(playerLocationForDirection);
-        dir = Template.invertDirection(dir);
+        TemplateType type = buildable instanceof Wonder ? TemplateType.WONDER : TemplateType.STRUCTURE;
+        String dir = Template.parseDirection(playerLocationForDirection).getOppositeFace().toString();
         return Template.getTemplateFilePath(buildable.getTemplateBaseName(), dir, type, theme);
     }
 
@@ -213,11 +198,10 @@ public class Template {
     @SuppressWarnings("unused")
     public void buildConstructionScaffolding(Location center, Player player) {
         //this.buildScaffolding(center);
-
-        Block block = center.getBlock();
-        block.setType(Material.CHEST);
-        block.setData((byte) 0);
+        center.getBlock().getState().setData(new Chest(Material.CHEST));
     }
+
+    public static final MaterialData SCAFFOLDING_BLOCK = new MaterialData(Material.BEDROCK);
 
     public void buildPreviewScaffolding(Location center, Player player) {
         Resident resident = CivGlobal.getResident(player);
@@ -276,40 +260,41 @@ public class Template {
 
     public void buildScaffolding(Location center) {
 
+
         for (int y = 0; y < this.size_y; y++) {
             Block b = center.getBlock().getRelative(0, y, 0);
-            b.setType(Material.BEDROCK);
+            b.getState().setData(SCAFFOLDING_BLOCK);
 
             b = center.getBlock().getRelative(this.size_x - 1, y, this.size_z - 1);
-            b.setType(Material.BEDROCK);
+            b.getState().setData(SCAFFOLDING_BLOCK);
 
             b = center.getBlock().getRelative(this.size_x - 1, y, 0);
-            b.setType(Material.BEDROCK);
+            b.getState().setData(SCAFFOLDING_BLOCK);
 
             b = center.getBlock().getRelative(0, y, this.size_z - 1);
-            b.setType(Material.BEDROCK);
+            b.getState().setData(SCAFFOLDING_BLOCK);
         }
 
         for (int x = 0; x < this.size_x; x++) {
             Block b = center.getBlock().getRelative(x, this.size_y - 1, 0);
-            b.setType(Material.BEDROCK);
+            b.getState().setData(SCAFFOLDING_BLOCK);
 
             b = center.getBlock().getRelative(x, this.size_y - 1, this.size_z - 1);
-            b.setType(Material.BEDROCK);
+            b.getState().setData(SCAFFOLDING_BLOCK);
         }
 
         for (int z = 0; z < this.size_z; z++) {
             Block b = center.getBlock().getRelative(0, this.size_y - 1, z);
-            b.setType(Material.BEDROCK);
+            b.getState().setData(SCAFFOLDING_BLOCK);
 
             b = center.getBlock().getRelative(this.size_x - 1, this.size_y - 1, z);
-            b.setType(Material.BEDROCK);
+            b.getState().setData(SCAFFOLDING_BLOCK);
         }
 
         for (int z = 0; z < this.size_z; z++) {
             for (int x = 0; x < this.size_x; x++) {
                 Block b = center.getBlock().getRelative(x, 0, z);
-                b.setType(Material.BEDROCK);
+                b.getState().setData(SCAFFOLDING_BLOCK);
             }
         }
 
@@ -318,58 +303,50 @@ public class Template {
     public void removeScaffolding(Location center) {
         for (int y = 0; y < this.size_y; y++) {
             Block b = center.getBlock().getRelative(0, y, 0);
-            if (b.getType() == Material.BEDROCK) {
-                b.setType(Material.AIR);
-                b.setData((byte) 0, true);
+            if (b.getState().getData() == SCAFFOLDING_BLOCK) {
+                b.getState().setData(new MaterialData(Material.AIR));
             }
 
             b = center.getBlock().getRelative(this.size_x - 1, y, this.size_z - 1);
-            if (b.getType() == Material.BEDROCK) {
-                b.setType(Material.AIR);
-                b.setData((byte) 0, true);
+            if (b.getState().getData() == SCAFFOLDING_BLOCK) {
+                b.getState().setData(new MaterialData(Material.AIR));
             }
 
             b = center.getBlock().getRelative(this.size_x - 1, y, 0);
-            if (b.getType() == Material.BEDROCK) {
-                b.setType(Material.AIR);
-                b.setData((byte) 0, true);
+            if (b.getState().getData() == SCAFFOLDING_BLOCK) {
+                b.getState().setData(new MaterialData(Material.AIR));
 
             }
 
             b = center.getBlock().getRelative(0, y, this.size_z - 1);
-            if (b.getType() == Material.BEDROCK) {
-                b.setType(Material.AIR);
-                b.setData((byte) 0, true);
+            if (b.getState().getData() == SCAFFOLDING_BLOCK) {
+                b.getState().setData(new MaterialData(Material.AIR));
 
             }
         }
 
         for (int x = 0; x < this.size_x; x++) {
             Block b = center.getBlock().getRelative(x, this.size_y - 1, 0);
-            if (b.getType() == Material.BEDROCK) {
-                b.setType(Material.AIR);
-                b.setData((byte) 0, true);
+            if (b.getState().getData() == SCAFFOLDING_BLOCK) {
+                b.getState().setData(new MaterialData(Material.AIR));
             }
 
             b = center.getBlock().getRelative(x, this.size_y - 1, this.size_z - 1);
-            if (b.getType() == Material.BEDROCK) {
-                b.setType(Material.AIR);
-                b.setData((byte) 0, true);
+            if (b.getState().getData() == SCAFFOLDING_BLOCK) {
+                b.getState().setData(new MaterialData(Material.AIR));
             }
 
         }
 
         for (int z = 0; z < this.size_z; z++) {
             Block b = center.getBlock().getRelative(0, this.size_y - 1, z);
-            if (b.getType() == Material.BEDROCK) {
-                b.setType(Material.AIR);
-                b.setData((byte) 0, true);
+            if (b.getState().getData() == SCAFFOLDING_BLOCK) {
+                b.getState().setData(new MaterialData(Material.AIR));
             }
 
             b = center.getBlock().getRelative(this.size_x - 1, this.size_y - 1, z);
-            if (b.getType() == Material.BEDROCK) {
-                b.setType(Material.AIR);
-                b.setData((byte) 0, true);
+            if (b.getState().getData() == SCAFFOLDING_BLOCK) {
+                b.getState().setData(new MaterialData(Material.AIR));
             }
 
         }
@@ -415,10 +392,7 @@ public class Template {
             for (int y = 0; y < this.size_y; y++) {
                 for (int z = 0; z < this.size_z; z++) {
                     // Must set to air in a different loop, since setting to air can break attachables.
-                    Block b = center.getBlock().getRelative(x, y, z);
-
-                    b.setType(Material.AIR);
-                    b.setData((byte) 0x0);
+                    center.getBlock().getRelative(x, y, z).getState().setData(new MaterialData(Material.AIR));
                 }
             }
         }
@@ -474,19 +448,11 @@ public class Template {
     }
 
     public void setDirection(Location center) throws CivException {
-        // Get the direction we are facing.
-        dir = parseDirection(center);
-        dir = invertDirection(dir); //We want the direction the building should be facing, not the player.
-
-        if (dir == null) {
-            throw new CivException(CivSettings.localize.localizedString("template_unknwonDirection"));
-        }
+        dir = parseDirection(center).getOppositeFace().toString().toLowerCase();
     }
 
     public static String getDirection(Location center) {
-        String dir = parseDirection(center);
-        dir = invertDirection(dir);
-        return dir;
+        return parseDirection(center).getOppositeFace().toString().toLowerCase();
     }
 
     public void resumeTemplate(String templatePath, Buildable buildable) throws IOException, CivException {
@@ -591,18 +557,12 @@ public class Template {
 
             SimpleBlock block = new SimpleBlock(Material.getMaterial(Integer.parseInt(typeSplit[0])), Integer.parseInt(typeSplit[1]));
 
-            if (block.getType() == Material.WOOD_DOOR ||
-                    block.getType() == Material.IRON_DOOR ||
-                    block.getType() == Material.SPRUCE_DOOR ||
-                    block.getType() == Material.BIRCH_DOOR ||
-                    block.getType() == Material.JUNGLE_DOOR ||
-                    block.getType() == Material.ACACIA_DOOR ||
-                    block.getType() == Material.DARK_OAK_DOOR) {
+            if (block.getType().getData() == Door.class) {
                 this.doorRelativeLocations.add(new BlockCoord("", blockX, blockY, blockZ));
             }
 
             // look for signs.
-            if (block.getType() == Material.WALL_SIGN || block.getType() == Material.SIGN_POST) {
+            if (block.getType().getData() == Material.WALL_SIGN.getData()) {
 
                 if (locTypeSplit.length > 2) {
 
@@ -674,47 +634,18 @@ public class Template {
         this.blocks = blocks;
     }
 
-    public static String parseDirection(Location loc) {
-        double rotation = (loc.getYaw() - 90) % 360;
-        if (rotation < 0) {
-            rotation += 360.0;
-        }
-        if (0 <= rotation && rotation < 22.5) {
-            return "east"; //S > E
-        } else if (22.5 <= rotation && rotation < 67.5) {
-            return "east"; //SW > SE
-        } else if (67.5 <= rotation && rotation < 112.5) {
-            return "south"; //W > E
-        } else if (112.5 <= rotation && rotation < 157.5) {
-            return "west"; //NW > SW
-        } else if (157.5 <= rotation && rotation < 202.5) {
-            return "west"; //N > W
-        } else if (202.5 <= rotation && rotation < 247.5) {
-            return "west"; //NE > NW
-        } else if (247.5 <= rotation && rotation < 292.5) {
-            return "north"; //E > N
-        } else if (292.5 <= rotation && rotation < 337.5) {
-            return "east"; //SE > NE
-        } else if (337.5 <= rotation && rotation < 360.0) {
-            return "east"; //S > E
-        } else {
-            return null;
-        }
-    }
+    public static BlockFace parseDirection(Location loc) {
+        double rotation = ((loc.getYaw() - 90) % 360 + 360.0) % 360;
 
-    public static String invertDirection(String dir) {
-        if (dir.equalsIgnoreCase("east"))
-            return "west";
-        if (dir.equalsIgnoreCase("west")) {
-            return "east";
+        if (45 <= rotation && rotation < 135) {
+            return BlockFace.SOUTH;
+        } else if (135 <= rotation && rotation < 225) {
+            return BlockFace.WEST;
+        } else if (225 <= rotation && rotation < 315) {
+            return BlockFace.NORTH;
+        } else {
+            return BlockFace.EAST;
         }
-        if (dir.equalsIgnoreCase("north")) {
-            return "south";
-        }
-        if (dir.equalsIgnoreCase("south")) {
-            return "north";
-        }
-        return null;
     }
 
     public void deleteUndoTemplate(String string, String subdir) {
@@ -763,7 +694,6 @@ public class Template {
     }
 
     public void buildUndoTemplate(Template tpl, Block centerBlock) {
-        HashMap<Chunk, Chunk> chunkUpdates = new HashMap<>();
 
         for (int x = 0; x < tpl.size_x; x++) {
             for (int y = 0; y < tpl.size_y; y++) {
@@ -791,8 +721,6 @@ public class Template {
 //							e.printStackTrace();
 //							//throw new CivException("Couldn't build undo template unknown error:"+e.getMessage());
 //						}
-
-                    chunkUpdates.put(b.getChunk(), b.getChunk());
 
                     if (b.getType() == Material.WALL_SIGN || b.getType() == Material.SIGN_POST) {
                         Sign s2 = (Sign) b.getState();

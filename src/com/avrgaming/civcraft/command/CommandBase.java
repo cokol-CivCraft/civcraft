@@ -17,21 +17,6 @@
  */
 package com.avrgaming.civcraft.command;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import com.avrgaming.civcraft.arena.ArenaTeam;
 import com.avrgaming.civcraft.camp.Camp;
 import com.avrgaming.civcraft.config.CivSettings;
@@ -44,6 +29,20 @@ import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.object.TownChunk;
 import com.avrgaming.civcraft.permission.PermissionGroup;
 import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public abstract class CommandBase implements CommandExecutor {
 	
@@ -104,37 +103,37 @@ public abstract class CommandBase implements CommandExecutor {
 		}
 		
 		for (String c : commands.keySet()) {
-		  if (c.equalsIgnoreCase(args[0])) {
-				try { 
-					Method method = this.getClass().getMethod(args[0].toLowerCase()+"_cmd");
-					try {
-						method.invoke(this);
-						return true;
-					} catch (IllegalAccessException | IllegalArgumentException e) {
-						e.printStackTrace();
+			if (!c.equalsIgnoreCase(args[0])) {
+				continue;
+			}
+			try {
+				Method method = this.getClass().getMethod(args[0].toLowerCase() + "_cmd");
+				try {
+					method.invoke(this);
+					return true;
+				} catch (IllegalAccessException | IllegalArgumentException e) {
+					e.printStackTrace();
+					CivMessage.sendError(sender, CivSettings.localize.localizedString("internalCommandException"));
+				} catch (InvocationTargetException e) {
+					if (e.getCause() instanceof CivException) {
+						CivMessage.sendError(sender, e.getCause().getMessage());
+					} else {
 						CivMessage.sendError(sender, CivSettings.localize.localizedString("internalCommandException"));
-					} catch (InvocationTargetException e) {
-						if (e.getCause() instanceof CivException) {
-							CivMessage.sendError(sender, e.getCause().getMessage());
-						} else {
-							CivMessage.sendError(sender, CivSettings.localize.localizedString("internalCommandException"));
-							e.getCause().printStackTrace();
-						}
+						e.getCause().printStackTrace();
 					}
-
-					
-				} catch (NoSuchMethodException e) {
-					if (sendUnknownToDefault) {
-						try {
-							doDefaultAction();
-						} catch (CivException e1) {
-							CivMessage.sendError(sender, e.getMessage());
-						}
-						return false;
-					}
-					CivMessage.sendError(sender, CivSettings.localize.localizedString("cmd_unknwonMethod")+" "+args[0]);
 				}
 				return true;
+
+			} catch (NoSuchMethodException e) {
+				if (!sendUnknownToDefault) {
+					CivMessage.sendError(sender, CivSettings.localize.localizedString("cmd_unknwonMethod") + " " + args[0]);
+				}
+				try {
+					doDefaultAction();
+				} catch (CivException e1) {
+					CivMessage.sendError(sender, e.getMessage());
+				}
+				return false;
 			}
 		}
 		
@@ -350,8 +349,7 @@ public abstract class CommandBase implements CommandExecutor {
 		}
 		
 		try {
-			Double number = Double.valueOf(args[index]);
-			return number;
+			return Double.valueOf(args[index]);
 		} catch (NumberFormatException e) {
 			throw new CivException(args[index]+" "+CivSettings.localize.localizedString("cmd_enterNumerError"));
 		}
@@ -364,8 +362,7 @@ public abstract class CommandBase implements CommandExecutor {
 		}
 		
 		try {
-			Integer number = Integer.valueOf(args[index]);
-			return number;
+			return Integer.valueOf(args[index]);
 		} catch (NumberFormatException e) {
 			throw new CivException(args[index]+" "+CivSettings.localize.localizedString("cmd_enterNumerError2"));
 		}
@@ -459,14 +456,13 @@ public abstract class CommandBase implements CommandExecutor {
 	}
 	
 	protected Civilization getNamedCapturedCiv(int index) throws CivException {
-		if (args.length < (index+1)) {
+		if (args.length < (index + 1)) {
 			throw new CivException(CivSettings.localize.localizedString("EnterCivName"));
 		}
-		
-		String name = args[index].toLowerCase();
-		name = name.replace("%", "(\\w*)");
 
-        ArrayList<Civilization> potentialMatches = new ArrayList<>();
+		String name = args[index].toLowerCase().replace("%", "(\\w*)");
+
+		ArrayList<Civilization> potentialMatches = new ArrayList<>();
 		for (Civilization civ : CivGlobal.getConqueredCivs()) {
 			String str = civ.getName().toLowerCase();
 			try {

@@ -17,38 +17,6 @@
  */
 package com.avrgaming.civcraft.structure;
 
-import java.io.File;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.ConcurrentHashMap;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.ChunkSnapshot;
-import org.bukkit.Color;
-import org.bukkit.Effect;
-import org.bukkit.FireworkEffect;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.World;
-import org.bukkit.block.Biome;
-import org.bukkit.block.Block;
-import org.bukkit.block.Sign;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
 import com.avrgaming.civcraft.components.Component;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigBuildableInfo;
@@ -61,18 +29,7 @@ import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
-import com.avrgaming.civcraft.object.Buff;
-import com.avrgaming.civcraft.object.BuildableDamageBlock;
-import com.avrgaming.civcraft.object.Civilization;
-import com.avrgaming.civcraft.object.CultureChunk;
-import com.avrgaming.civcraft.object.MobSpawner;
-import com.avrgaming.civcraft.object.ProtectedBlock;
-import com.avrgaming.civcraft.object.Resident;
-import com.avrgaming.civcraft.object.SQLObject;
-import com.avrgaming.civcraft.object.StructureChest;
-import com.avrgaming.civcraft.object.StructureSign;
-import com.avrgaming.civcraft.object.Town;
-import com.avrgaming.civcraft.object.TownChunk;
+import com.avrgaming.civcraft.object.*;
 import com.avrgaming.civcraft.permission.PlotPermissions;
 import com.avrgaming.civcraft.road.RoadBlock;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
@@ -84,19 +41,27 @@ import com.avrgaming.civcraft.threading.tasks.BuildAsyncTask;
 import com.avrgaming.civcraft.threading.tasks.BuildUndoTask;
 import com.avrgaming.civcraft.threading.tasks.PostBuildSyncTask;
 import com.avrgaming.civcraft.tutorial.CivTutorial;
-import com.avrgaming.civcraft.util.AABB;
-import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.BukkitObjects;
-import com.avrgaming.civcraft.util.CallbackInterface;
-import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.CivColor;
-import com.avrgaming.civcraft.util.FireworkEffectPlayer;
-import com.avrgaming.civcraft.util.SimpleBlock;
+import com.avrgaming.civcraft.util.*;
 import com.avrgaming.civcraft.util.SimpleBlock.Type;
 import com.avrgaming.civcraft.war.War;
 import com.avrgaming.global.perks.Perk;
 import com.wimbli.WorldBorder.BorderData;
 import com.wimbli.WorldBorder.Config;
+import org.bukkit.*;
+import org.bukkit.block.Biome;
+import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class Buildable extends SQLObject {
 
@@ -470,9 +435,11 @@ public abstract class Buildable extends SQLObject {
 
             /* Build an inventory full of templates to select. */
             Inventory inv = Bukkit.getServer().createInventory(player, CivTutorial.MAX_CHEST_SIZE * 9);
-            ItemStack infoRec = LoreGuiItem.build(CivSettings.localize.localizedString("buildable_lore_default") + " " + this.getDisplayName(),
+            ItemStack infoRec = LoreGuiItem.build(
+                    CivSettings.localize.localizedString("buildable_lore_default") + " " + this.getDisplayName(),
                     Material.WRITTEN_BOOK,
-                    0, CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"));
+                    0,
+                    CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"));
             infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
             inv.addItem(infoRec);
 
@@ -506,9 +473,7 @@ public abstract class Buildable extends SQLObject {
         }
 
 
-        Template tpl;
-
-        tpl = new Template();
+        Template tpl = new Template();
         try {
             tpl.initTemplate(centerLoc, this);
         } catch (CivException | IOException e) {
@@ -1224,9 +1189,7 @@ public abstract class Buildable extends SQLObject {
     }
 
     public int getDamagePercentage() {
-        double percentage = (double) hitpoints / (double) this.getMaxHitPoints();
-        percentage *= 100;
-        return (int) percentage;
+        return (int) ((double) hitpoints / (double) this.getMaxHitPoints() * 100);
     }
 
     public void damage(int amount) {
@@ -1367,16 +1330,14 @@ public abstract class Buildable extends SQLObject {
                     // Each block has a 70% chance to turn into Air
                     if (rand.nextInt(100) <= 70) {
                         coord.getBlock().setType(Material.AIR);
-                        Block block = coord.getBlock();
-                        block.setData((byte) 0, true);
+                        coord.getBlock().setData((byte) 0, true);
                         continue;
                     }
 
                     // Each block has a 30% chance to turn into gravel
                     if (rand.nextInt(100) <= 30) {
                         coord.getBlock().setType(Material.COBBLESTONE);
-                        Block block = coord.getBlock();
-                        block.setData((byte) 0, true);
+                        coord.getBlock().setData((byte) 0, true);
                         continue;
                     }
 
@@ -1384,8 +1345,7 @@ public abstract class Buildable extends SQLObject {
                     // Each block has a 10% chance of starting a fire
                     if (rand.nextInt(100) <= 10) {
                         coord.getBlock().setType(Material.FIRE);
-                        Block block = coord.getBlock();
-                        block.setData((byte) 0, true);
+                        coord.getBlock().setData((byte) 0, true);
                         continue;
                     }
 
