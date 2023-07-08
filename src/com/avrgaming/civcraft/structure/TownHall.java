@@ -17,22 +17,6 @@
  */
 package com.avrgaming.civcraft.structure;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-
-import org.bukkit.*;
-import org.bukkit.FireworkEffect.Type;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.ItemFrame;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigCultureLevel;
 import com.avrgaming.civcraft.exception.CivException;
@@ -42,21 +26,27 @@ import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
-import com.avrgaming.civcraft.object.Buff;
-import com.avrgaming.civcraft.object.BuildableDamageBlock;
-import com.avrgaming.civcraft.object.ControlPoint;
-import com.avrgaming.civcraft.object.Resident;
-import com.avrgaming.civcraft.object.StructureBlock;
-import com.avrgaming.civcraft.object.Town;
-import com.avrgaming.civcraft.object.TownChunk;
+import com.avrgaming.civcraft.object.*;
 import com.avrgaming.civcraft.siege.CannonProjectile;
-import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.CivColor;
-import com.avrgaming.civcraft.util.FireworkEffectPlayer;
-import com.avrgaming.civcraft.util.ItemFrameStorage;
+import com.avrgaming.civcraft.util.*;
 import com.avrgaming.civcraft.war.War;
 import com.avrgaming.civcraft.war.WarStats;
+import org.bukkit.*;
+import org.bukkit.FireworkEffect.Type;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.ItemFrame;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 
 public class TownHall extends Structure implements RespawnLocationHolder {
 
@@ -206,7 +196,7 @@ public class TownHall extends Structure implements RespawnLocationHolder {
 		ItemFrameStorage itemStore;
 		ItemFrame frame = null;
 		Entity entity = CivGlobal.getEntityAtLocation(absCoord.getBlock().getLocation());
-        if ((!(entity instanceof ItemFrame))) {
+        if (!(entity instanceof ItemFrame)) {
             itemStore = new ItemFrameStorage(attachedBlock.getLocation(), facingDirection);
         } else {
             try {
@@ -233,16 +223,16 @@ public class TownHall extends Structure implements RespawnLocationHolder {
 	public void setRespawnPoint(BlockCoord absCoord) {
 		this.respawnPoints.add(absCoord);
 	}
-	
-	public BlockCoord getRandomRespawnPoint() {
-		if (this.respawnPoints.size() == 0) {
-			return null;
-		}
-		
-		Random rand = new Random();
-		return this.respawnPoints.get(rand.nextInt(this.respawnPoints.size()));
-		
-	}
+
+    public BlockCoord getRandomRespawnPoint() { // FOR WAR-ROOM
+        if (this.respawnPoints.size() == 0) {
+            return null;
+        }
+
+        Random rand = new Random();
+        return this.respawnPoints.get(rand.nextInt(this.respawnPoints.size()));
+
+    }
 
 	public int getRespawnTime() {
 		try {
@@ -281,16 +271,16 @@ public class TownHall extends Structure implements RespawnLocationHolder {
 	public void setRevivePoint(BlockCoord absCoord) {
 		this.revivePoints.add(absCoord);
 	}
-	
-	public BlockCoord getRandomRevivePoint() {
-		if (this.revivePoints.size() == 0 || !this.isComplete()) {
-			return new BlockCoord(this.getCorner());
-		}
-		Random rand = new Random();
-		int index = rand.nextInt(this.revivePoints.size());
-		return this.revivePoints.get(index);
-		
-	}
+
+    public BlockCoord getRandomRevivePoint() { // FOR STRUCTURE
+        if (this.revivePoints.size() == 0 || !this.isComplete()) {
+            return new BlockCoord(this.getCorner());
+        }
+        Random rand = new Random();
+        int index = rand.nextInt(this.revivePoints.size());
+        return this.revivePoints.get(index);
+
+    }
 
 	public void createControlPoint(BlockCoord absCoord) {
 
@@ -299,20 +289,19 @@ public class TownHall extends Structure implements RespawnLocationHolder {
         /* Build the bedrock tower. */
         //for (int i = 0; i < 1; i++) {
         Block b = centerLoc.getBlock();
-        b.setTypeId(Material.FENCE.getId());
-        b.setData((byte) 0);
+		b.getState().setData(new MaterialData(Material.COBBLESTONE));
 
         StructureBlock sb = new StructureBlock(new BlockCoord(b), this);
         this.addStructureBlock(sb.getCoord(), true);
         //}
 
         /* Build the control block. */
-        b = centerLoc.getBlock().getRelative(0, 1, 0);
-        b.setTypeId(Material.OBSIDIAN.getId());
-        sb = new StructureBlock(new BlockCoord(b), this);
+		b = centerLoc.getBlock().getRelative(0, 1, 0);
+		b.setType(Material.OBSIDIAN);
+		sb = new StructureBlock(new BlockCoord(b), this);
         this.addStructureBlock(sb.getCoord(), true);
-
-        int townhallControlHitpoints;
+		
+		int townhallControlHitpoints;
 		try {
 			townhallControlHitpoints = CivSettings.getInteger(CivSettings.warConfig, "war.control_block_hitpoints_townhall");
 		} catch (InvalidConfiguration e) {
@@ -329,8 +318,8 @@ public class TownHall extends Structure implements RespawnLocationHolder {
 		Resident attacker = CivGlobal.getResident(player);
 
         Block block = hit.getCoord().getLocation().getBlock();
-        block.setTypeId(Material.AIR.getId());
-        world.playSound(hit.getCoord().getLocation(), Sound.BLOCK_ANVIL_BREAK, 1.0f, -1.0f);
+		block.setType(Material.AIR);
+		world.playSound(hit.getCoord().getLocation(), Sound.BLOCK_ANVIL_BREAK, 1.0f, -1.0f);
 		world.playSound(hit.getCoord().getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.0f, 1.0f);
 		
 		FireworkEffect effect = FireworkEffect.builder().with(Type.BURST).withColor(Color.YELLOW).withColor(Color.RED).withTrail().withFlicker().build();
@@ -393,7 +382,7 @@ public class TownHall extends Structure implements RespawnLocationHolder {
 		Resident attacker = CivGlobal.getResident(player);
 
         Block block = hit.getCoord().getLocation().getBlock();
-        block.setTypeId(Material.AIR.getId());
+		block.setType(Material.AIR);
 
         boolean allDestroyed = true;
 		for (ControlPoint c : this.controlPoints.values()) {

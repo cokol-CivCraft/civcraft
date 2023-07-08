@@ -1,24 +1,23 @@
-name: CivCraft
+name: CivCraft-Patched
 main: com.avrgaming.civcraft.main.CivCraft
 softdepends: [TitleAPI]
-version: 1.8.0-Beta6
-depend: [CustomMobs]
+version: 1.0.1-Beta
 
 commands:
     town:
-        aliases: [t]
+      aliases: [ t, е, ещцт ]
     plot:
-        aliases: [p]
+      aliases: [ p, з, здще ]
     resident:
-        aliases: [res]
+      aliases: [ res, куы, куышвуте ]
     dbg:
-        aliases: []
+      aliases: [ вип ]
     accept:
-        aliases: [yes]
+      aliases: [ yes, фссузе, нуы ]
     deny:
-        aliases: [no]
+      aliases: [ no, вутн, тщ ]
     civ:
-        aliases:
+      aliases: [ c, с ]
     tc:
         aliases:
     cc:
@@ -30,26 +29,26 @@ commands:
     ad:
         aliases:
     build:
-        aliases:
+      aliases: [ b, и ]
     market:
-        aliases: [m]
+      aliases: [ m, ь ]
     select:
-        aliases:
+      aliases: [ sel ]
     econ:
-        aliases: [money]
+      aliases: [ money, ьщтун ]
     pay:
         aliases:
     here:
-        aliases:
+      aliases: [ h, р, руку ]
     camp:
-        aliases:
+      aliases: [ ca, сф ]
     report:
-        aliases:
+      aliases: [ rep, куз ]
     trade:
-        aliases:
+      aliases: [ екфву ]
     kill:
-        aliases:
+      aliases: [ k, л, лшдд ]
     team:
-        aliases:
+      aliases: [ tm, еь, еуфь ]
     sb:
         aliases:

@@ -17,15 +17,6 @@
  */
 package com.avrgaming.civcraft.threading.tasks;
 
-import java.sql.SQLException;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.Queue;
-
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.block.Block;
-
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivLog;
@@ -39,7 +30,15 @@ import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.SimpleBlock;
 import com.avrgaming.civcraft.util.SimpleBlock.Type;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class BuildAsyncTask extends CivAsyncTask {
     /*
@@ -275,27 +274,18 @@ public class BuildAsyncTask extends CivAsyncTask {
         sb.buildable = buildable;
 
 
-        // Add this SimpleBlock to the update queue and *assume* that all of the
+        // Add this SimpleBlock to the update queue and *assume* that all the
         // synchronous stuff is now going to be handled later. Perform the reset
         // of the build task async.
         synchronized (this.aborted) {
             if (!this.aborted) {
-                // dont build doors, save it for post sync build.
-                if (sb.getType() != Material.WOODEN_DOOR &&
-                        sb.getType() != Material.IRON_DOOR &&
-                        sb.getType() != Material.SPRUCE_DOOR &&
-                        sb.getType() != Material.BIRCH_DOOR &&
-                        sb.getType() != Material.JUNGLE_DOOR &&
-                        sb.getType() != Material.ACACIA_DOOR &&
-                        sb.getType() != Material.DARK_OAK_DOOR &&
-                        !Template.isAttachable(sb.getType())) {
+
+                if (!CivData.isDoor(sb.getType()) && !Template.isAttachable(sb.getType())) {
                     sbs.add(sb);
                 }
-
                 if (!buildable.isDestroyable() && sb.getType() != Material.AIR) {
                     if (sb.specialType != Type.COMMAND) {
-                        BlockCoord coord = new BlockCoord(sb.worldname, sb.x, sb.y, sb.z);
-                        buildable.addStructureBlock(coord, sb.y != 0);
+                        buildable.addStructureBlock(new BlockCoord(sb.worldname, sb.x, sb.y, sb.z), sb.y != 0);
                     }
                 }
             } else {
@@ -345,7 +335,7 @@ public class BuildAsyncTask extends CivAsyncTask {
                 //Remove the scaffolding..
                 tpl.removeScaffolding(buildable.getCorner().getLocation());
                 try {
-                    buildable.delete();
+                     buildable.delete();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

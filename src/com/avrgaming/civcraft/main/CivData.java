@@ -18,14 +18,13 @@
 package com.avrgaming.civcraft.main;
 
 import com.avrgaming.civcraft.config.CivSettings;
+import com.avrgaming.civcraft.exception.InvalidBlockLocation;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
+import com.avrgaming.civcraft.util.BlockSnapshot;
 import com.avrgaming.civcraft.util.CivColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
-
-import com.avrgaming.civcraft.exception.InvalidBlockLocation;
-import com.avrgaming.civcraft.util.BlockSnapshot;
 
 public class CivData {
 
@@ -88,7 +87,20 @@ public class CivData {
         STRUCTURE, CONTROL, PLAYER, TECH, WONDERBUILD, STRUCTUREBUILD, NULL
     }
 
-    public static String getStringForBar(TaskType type, double HP, int maxHP) {
+    public static boolean isDoor(Material i) {
+        switch (i) {
+            case ACACIA_DOOR:
+            case DARK_OAK_DOOR:
+            case WOOD_DOOR:
+            case BIRCH_DOOR:
+            case IRON_DOOR:
+            case JUNGLE_DOOR:
+            case SPRUCE_DOOR:
+                return true;
+            default:
+                return false;
+        }
+    }public static String getStringForBar(TaskType type, double HP, int maxHP) {
         String s;
         String open = "<";
         String close = ">";

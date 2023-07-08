@@ -18,25 +18,30 @@ items:
       require_tech: 'tech_global_trade'
 
 potions:
-   - name: 'Fire Resist'
-     effect: 'FIRE_RESISTANCE'
-     amp: 1
-     require_tech: 'tech_alchemy'
+  - name: 'Fire Resist'
+    effect: 'FIRE_RESISTANCE'
+    amp: 1
+    require_tech: 'tech_alchemy'
 
-   - name: 'Swiftness'
-     effect: 'SPEED'
-     amp: 1
-     require_tech: 'tech_malting' 
+  - name: 'Swiftness'
+    effect: 'SPEED'
+    amp: 1
+    require_tech: 'tech_malting'
 
-   - name: 'Healing I'
-     effect: 'HEAL'
-     amp: 1
-     require_tech: 'tech_brewing'
+  - name: 'Swiftness II'
+    effect: 'SPEED'
+    amp: 2
+    require_tech: 'tech_electricity'
 
-   - name: 'Healing II'
-     effect: 'HEAL'
-     amp: 2
-     require_tech: 'tech_fermentation'
+  - name: 'Healing I'
+    effect: 'HEAL'
+    amp: 1
+    require_tech: 'tech_brewing'
+
+  - name: 'Healing II'
+    effect: 'HEAL'
+    amp: 2
+    require_tech: 'tech_fermentation'
 
 # ------------------------------------------
 # the amount to multiply cottage coins once taxation is researched

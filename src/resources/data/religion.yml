@@ -1,0 +1,54 @@
+# Religion v0.2;
+enabled: true
+
+#Era, when religion is banned (you can't select)
+banEra: 4
+
+#All religions;
+religions:
+  - id: 'rel_paganism'
+    displayName: 'Язычество'
+    required_points: 0 # сток
+    religion_type: 'NONE'
+    income_rate: 0.00
+
+  - id: 'rel_atheism'
+    displayName: 'Атеизм'
+    required_points: 0 # сток
+    religion_type: 'SCIENTIFIC'
+    income_rate: 0.15
+
+  - id: 'rel_islam'
+    displayName: 'Ислам'
+    required_points: 0 # сток
+    religion_type: 'WAR'
+    income_rate: 0.20
+
+  - id: 'rel_protestantism'
+    displayName: 'Протестантизм'
+    required_points: 0 # сток
+    religion_type: 'PRODUCTION'
+    income_rate: 0.20
+
+  - id: 'rel_orthodoxy'
+    displayName: 'Православие'
+    required_points: 0 # сток
+    religion_type: 'HAPPINESS'
+    income_rate: 0.10
+
+  - id: 'rel_catholicism'
+    displayName: 'Католицизм'
+    required_points: 0 # сток
+    religion_type: 'ECONOMY'
+    income_rate: 0.075
+
+  - id: 'rel_buddhism'
+    displayName: 'Буддизм'
+    required_points: 0 # сток
+    religion_type: 'CULTURAL'
+    income_rate: 0.075
+
+
+
+
+

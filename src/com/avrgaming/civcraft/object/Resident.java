@@ -102,7 +102,7 @@ public class Resident extends SQLObject {
     private boolean townChat = false;
     private boolean civChat = false;
     private boolean adminChat = false;
-    private boolean combatInfo = false;
+    private boolean combatInfo = true;
     private boolean titleAPI = true;
     private int respawntime;
 

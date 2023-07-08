@@ -62,7 +62,7 @@ public class PostBuildSyncTask implements Runnable {
     public static void validate(Template tpl, Buildable buildable) {
 
         /*
-         * Use the location's of the command blocks in the template and the buildable's corner
+         * Use the location's of the command blocks in the template and the buildable corner
          * to find their real positions. Then perform any special building we may want to do
          * at those locations.
          */

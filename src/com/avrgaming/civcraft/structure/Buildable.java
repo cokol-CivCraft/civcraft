@@ -193,6 +193,31 @@ public abstract class Buildable extends SQLObject {
         this.town = town;
     }
 
+    public boolean isOnWater(Biome b) {
+        switch (b) {
+            case BEACHES:
+            case COLD_BEACH:
+            case STONE_BEACH:
+            case RIVER:
+            case FROZEN_RIVER:
+            case OCEAN:
+            case DEEP_OCEAN:
+            case FROZEN_OCEAN:
+            case SWAMPLAND:
+            case MUTATED_SWAMPLAND:
+                return true;
+        }
+        return false;
+    }
+
+    public boolean isNationalWonder() {
+        return info.nationalWonder;
+    }
+
+    public boolean isWaterStructure() {
+        return info.waterstructure;
+    }
+
     public Civilization getCiv() {
         if (this.getTown() == null) {
             return null;
@@ -471,7 +496,6 @@ public abstract class Buildable extends SQLObject {
             player.openInventory(inv);
             return;
         }
-
 
         Template tpl = new Template();
         try {
@@ -774,17 +798,9 @@ public abstract class Buildable extends SQLObject {
             }
         }
 
-        if (this.getConfigId().equals("s_shipyard") || this.getConfigId().equals("s_arrowship") || this.getConfigId().equals("s_scoutship") || this.getConfigId().equals("s_cannonship") || this.getConfigId().equals("ti_tradeship") || this.getConfigId().equals("w_grand_ship_ingermanland")) {
-            if (!centerBlock.getBiome().equals(Biome.OCEAN) &&
-                    !centerBlock.getBiome().equals(Biome.BEACHES) &&
-                    !centerBlock.getBiome().equals(Biome.STONE_BEACH) &&
-                    !centerBlock.getBiome().equals(Biome.COLD_BEACH) &&
-                    !centerBlock.getBiome().equals(Biome.DEEP_OCEAN) &&
-                    !centerBlock.getBiome().equals(Biome.RIVER) &&
-                    !centerBlock.getBiome().equals(Biome.FROZEN_OCEAN) &&
-                    !centerBlock.getBiome().equals(Biome.FROZEN_RIVER)) {
-                throw new CivException(CivSettings.localize.localizedString("var_buildable_notEnoughWater", this.getDisplayName()));
-            }
+        if (this.isWaterStructure() && !this.isOnWater(centerBlock.getBiome())) {
+            throw new CivException(CivSettings.localize.localizedString("var_buildable_notEnoughWater", this.getDisplayName()));
+
         }
 
         Structure struct = CivGlobal.getStructure(new BlockCoord(centerBlock));
@@ -962,7 +978,8 @@ public abstract class Buildable extends SQLObject {
             try {
                 //XXX These will be added to the array list of objects to save in town.buildStructure();
                 this.townChunksToSave.add(TownChunk.townHallClaim(this.getTown(), c));
-            } catch (Exception ignored) {
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 
@@ -1022,12 +1039,12 @@ public abstract class Buildable extends SQLObject {
 
     public int getBuildSpeed() {
         // buildTime is in hours, we need to return milliseconds.
-        boolean hour;
+        boolean hour = false;
         double millisecondsPerBlock;
         try {
             hour = CivSettings.getBoolean(CivSettings.civConfig, "structurespeed");
         } catch (InvalidConfiguration e) {
-            hour = true;
+
             e.printStackTrace();
         }
         // We should return the number of milliseconds to wait between each block placement.
@@ -1054,7 +1071,7 @@ public abstract class Buildable extends SQLObject {
         double hoursPerBlock = (this.getHammerCost() / this.town.getHammers().total) / this.totalBlockCount;
         double millisecondsPerBlock = hoursPerBlock * 60 * 60 * 1000;
 
-        // Dont let this get lower than 1 just in case to prevent any crazyiness...
+        // Don't let this get lower than 1 just in case to prevent any crazyiness...
         //if (millisecondsPerBlock < 1)
         //millisecondsPerBlock = 1;
 
@@ -1429,7 +1446,6 @@ public abstract class Buildable extends SQLObject {
 
     public void updateSignText() {
     }
-
 //	public boolean isAborted() {
 //		return aborted;
 //	}
@@ -1562,7 +1578,7 @@ public abstract class Buildable extends SQLObject {
     public void onDemolish() throws CivException {
     }
 
-    public static int getReinforcementValue(Material material) {
+    public static double getReinforcementValue(Material material) {
         switch (material) {
             case STATIONARY_WATER:
             case WATER:
@@ -1572,11 +1588,24 @@ public abstract class Buildable extends SQLObject {
             case WEB:
                 return 0;
             case IRON_BLOCK:
+            case EMERALD_BLOCK:
+            case DIAMOND_BLOCK:
+            case GOLD_BLOCK:
+            case LAPIS_BLOCK:
                 return 4;
             case SMOOTH_BRICK:
                 return 3;
             case STONE:
+            case COAL_BLOCK:
+            case REDSTONE_BLOCK:
+            case NETHER_WART_BLOCK:
                 return 2;
+            case GRAVEL:
+                return 1.25;
+            case OBSIDIAN:
+                return 8;
+            case SPONGE:
+                return 2.75;
             default:
                 return 1;
         }

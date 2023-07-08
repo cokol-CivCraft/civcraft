@@ -5,21 +5,27 @@
 
 global:
    # Hour at which daily upkeep occurs.
-   daily_upkeep_hour: 20
+  daily_upkeep_hour: 20
 
-   # How often the 'hourly tick' should process in 'seconds'
-   # To speed up the game, you could cut this number in half
-   hourly_tick: 3600
+  # How often the 'hourly tick' should process in 'seconds'
+  # To speed up the game, you could cut this number in half
+  hourly_tick: 3600
 
-   # The Starting kit for all new players
-   # Feel free to customize as you see fit, such as removing the starting 'mat_found_camp' item.
-   # Every item in this list gets soulbound.
-   start_kit:
-        - '270:1'
-        - '271:1'
-        - '269:1'
-        - '17:10'
-        - '346:2'
+  #"True" if you using CivCraft Anti-Cheat, "False" if not
+  anticheat: false
+
+  #HP for actionbar
+  health: ■
+
+  # The Starting kit for all new players
+  # Feel free to customize as you see fit, such as removing the starting 'mat_found_camp' item.
+  # Every item in this list gets soulbound.
+  start_kit:
+    - '270:1'
+    - '271:1'
+    - '269:1'
+    - '17:10'
+    - '346:2'
         - '366:10'
         - '345:1'
         - 'mat_tutorial_book:1'
@@ -57,25 +63,28 @@ global:
    # Amount of extra attack each +1 gives to weapons
    attack_catalyst_multiplier: 1.0
 
-   # Amount of extra armor each +1 gives to armor
-   defense_catalyst_multiplier: 1.0
+  # Amount of extra armor each +1 gives to armor
+  defense_catalyst_multiplier: 1.0
 
-   # Casual mode, war disabled. Wonders for all. No spies.
-   casual_mode: 'false'
+  # Casual mode, war disabled. Wonders for all. No spies.
+  casual_mode: 'false'
 
-   # Attempt to validate structures to make sure they're not floating.
-   structure_validation: 'true'
+  # Attempt to validate structures to make sure they're not floating.
+  structure_validation: 'true'
 
-   # Have speed checks only on chunk changes. Default: true
-   # This means that players on roads need to move across a chunk to gain the movement bonus
-   # This used to be false, but the performance gain was too great to leave it as such.
-   # If this feature annoys your players, turn it off at your own risk of poor performance.
-   speed_check_chunks: true
+  # Want we build structures in hours ? (true - 60 min; false - 30 min)
+  structurespeed: true
 
-   # Minimum Build Height for Structures, Walls, and Roads. Default: 1
-   min_build_height: 1
+  # Have speed checks only on chunk changes. Default: true
+  # This means that players on roads need to move across a chunk to gain the movement bonus
+  # This used to be false, but the performance gain was too great to leave it as such.
+  # If this feature annoys your players, turn it off at your own risk of poor performance.
+  speed_check_chunks: true
 
-   #Use Experience as currency. Default: true
+  # Minimum Build Height for Structures, Walls, and Roads. Default: 1
+  min_build_height: 1
+
+  #Use Experience as currency. Default: true
    #If true, disables EXP enchanting and repair.
    use_exp_as_currency: true
 
@@ -99,10 +108,10 @@ civ:
     # Base amount of upkeep paid for town distance to capital
     town_distance_base_upkeep: 100.0
 
-    # Multiplier used to make distance upkeep expoential, greater = higher upkeep
+  # Multiplier used to make distance upkeep exponential, greater = higher upkeep
     town_distance_multiplier: 0.3
 
-    # Multiplier used when a town's culture doesnt connect to the capitals culture.
+  # Multiplier used when a town's culture doesn't connect to the capitals culture.
     town_distance_multiplier_outside_culture: 0.9
 
     # Maximum amount of distance upkeep anybody can pay per town
@@ -135,10 +144,10 @@ civ:
     gift_cooldown_hours: 48
 
 ore_rates:
-    iron: 20.0
+  iron: 20.0
     gold: 200.0
     diamond: 400.0
-    emerald: 500.0
+  emerald: 800.0
 
 # These are end condition configurations...
 end_conditions:

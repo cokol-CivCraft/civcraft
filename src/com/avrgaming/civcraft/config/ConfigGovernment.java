@@ -40,6 +40,7 @@ public class ConfigGovernment {
 	public double hammer_rate;
 	public double beaker_rate;
 	public double maximum_tax_rate;
+    public double trommel_rate;
 	
 	public static void loadConfig(FileConfiguration cfg, Map<String, ConfigGovernment> government_map) {
 		government_map.clear();
@@ -58,7 +59,8 @@ public class ConfigGovernment {
 			gov.culture_rate = (Double)level.get("culture_rate");
 			gov.hammer_rate = (Double)level.get("hammer_rate");
 			gov.beaker_rate = (Double)level.get("beaker_rate");
-			gov.maximum_tax_rate = (Double)level.get("maximum_tax_rate");
+            gov.maximum_tax_rate = (Double) level.get("maximum_tax_rate");
+            gov.trommel_rate = (Double) level.get("trommel_rate");
 
 			government_map.put(gov.id, gov);
 		}

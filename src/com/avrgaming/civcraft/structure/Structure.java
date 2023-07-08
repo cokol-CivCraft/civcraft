@@ -831,7 +831,7 @@ public class Structure extends Buildable {
 			for (HashMap<String,String> compInfo : compInfoList) {
 				String className = "com.avrgaming.civcraft.components."+compInfo.get("name");
 				Class<?> someClass;
-                try {
+				try {
                     someClass = Class.forName(className);
                     Component compClass = (Component) someClass.newInstance();
                     compClass.setName(compInfo.get("name"));
@@ -841,7 +841,7 @@ public class Structure extends Buildable {
                     }
 
                     compClass.createComponent(this, false);
-                } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
                     e.printStackTrace();
                 }
 			}

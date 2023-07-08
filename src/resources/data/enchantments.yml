@@ -2,15 +2,21 @@
 # This file contains any custom enchantments used on items
 #
 
-enchants:
-   - id: 'ench_fire_aspect'
-     name: 'Fire Aspect'
-     cost: 50000.0
-     description: 'Adds fire aspect to your weapon.'
-     enchant_id: 'FIRE_ASPECT'
+#Chance for Punchout's damage.
+punchout_chance: 50
 
-   - id: 'ench_fire_protection'
-     name: 'Fire Protection'
+#Limit for Punchout's damage.
+punchout_maxdamage: 5
+
+enchants:
+  - id: 'ench_fire_aspect'
+    name: 'Fire Aspect'
+    cost: 50000.0
+    description: 'Adds fire aspect to your weapon.'
+    enchant_id: 'FIRE_ASPECT'
+
+  - id: 'ench_fire_protection'
+    name: 'Fire Protection'
      cost: 25000.0
      description: 'Adds fire protection to your armor.'
      enchant_id: 'PROTECTION_FIRE'  

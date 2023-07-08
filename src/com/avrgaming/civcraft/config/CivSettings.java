@@ -113,6 +113,8 @@ public class CivSettings {
     public static Map<String, ConfigBuildableInfo> wonders = new HashMap<>();
     public static Map<String, ConfigWonderBuff> wonderBuffs = new HashMap<>();
 
+    public static FileConfiguration religionConfig; /*religion.yml */
+    public static Map<String, ConfigReligion> religions = new HashMap<>();
     public static FileConfiguration techsConfig; /* techs.yml */
     public static Map<String, ConfigTech> techs = new HashMap<>();
     public static Map<Material, ConfigTechItem> techItems = new HashMap<>();
@@ -442,7 +444,7 @@ public class CivSettings {
         cultureConfig = loadCivConfig("culture.yml");
         structureConfig = loadCivConfig("structures.yml");
         techsConfig = loadCivConfig("techs.yml");
-        goodsConfig = loadCivConfig("goods.yml");
+        religionConfig = loadCivConfig("religion.yml");goodsConfig = loadCivConfig("goods.yml");
         spawnersConfig = loadCivConfig("spawners.yml");
         buffConfig = loadCivConfig("buffs.yml");
         governmentConfig = loadCivConfig("governments.yml");
@@ -475,7 +477,7 @@ public class CivSettings {
         ConfigBuildableInfo.loadConfig(structureConfig, "structures", structures, false);
         ConfigBuildableInfo.loadConfig(wonderConfig, "wonders", wonders, true);
         ConfigTech.loadConfig(techsConfig, techs);
-        ConfigTechItem.loadConfig(techsConfig, techItems);
+        ConfigReligion.loadConfig(religionConfig, religions);ConfigTechItem.loadConfig(techsConfig, techItems);
         ConfigTechPotion.loadConfig(techsConfig, techPotions);
         ConfigHemisphere.loadConfig(goodsConfig, hemispheres);
         ConfigBuff.loadConfig(buffConfig, buffs);

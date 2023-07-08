@@ -5,406 +5,408 @@
 
 ################ General Settings ################
 shouldShowPreview: true
-previewBlock: GLASS
+# previewBlock: GLASS ; REMOVED
 
 ################# Quarry Settings #################
 quarry:
-    max: 100000
-    despotism_rate: 2.0
-    penalty_rate: 0.8
-    cobblestone_rate: 0.5
-    other_rate: 0.1
-    coal_rate: 0.05
-    iron_chance: 0.02
-    redstone_chance: 0.0075
-    gold_chance: 0.002
-    tungsten_chance: 0.0009
-    rare_chance: 0.0004
+  max: 100000
+  despotism_rate: 2.0
+  penalty_rate: 0.8
+  cobblestone_rate: 0.5
+  other_rate: 0.1
+  coal_rate: 0.05
+  iron_chance: 0.02
+  redstone_chance: 0.0075
+  gold_chance: 0.002
+  tungsten_chance: 0.0009
+  rare_chance: 0.0004
+  nodirt_buff: "buff_rush"
 
 
 ################# Fish Hatchery Settings #################
 fishery:
-    tierMax: 10000
-    t0_rate: 1.0
-    t1_rate: 0.5
-    t2_rate: 0.05
-    t3_rate: 0.01
-    t4_rate: 0.001
+  tierMax: 10000
+  t0_rate: 1.0
+  t1_rate: 0.5
+  t2_rate: 0.05
+  t3_rate: 0.01
+  t4_rate: 0.001
 
 
 ################# Trommel Settings #################
 trommel:
-    despotism_rate: 2.0
-    penalty_rate: 0.8
+  despotism_rate: 2.0
+  penalty_rate: 0.8
 
 trommel_gravel:
-    max: 10000
-    iron_chance: 0.06
-    redstone_chance: 0.04
-    gold_chance: 0.02
-    diamond_chance: 0.0050
-    emerald_chance: 0.0020
-    chromium_chance: 0.0008
+  max: 10000
+  iron_chance: 0.06
+  redstone_chance: 0.04
+  gold_chance: 0.02
+  diamond_chance: 0.0050
+  emerald_chance: 0.0020
+  chromium_chance: 0.0008
 
 trommel_granite:
-    max: 100000
-    gravel_rate: 1
-    dirt_rate: 0.75
-    polished_rate: 0.1
-    iron_chance: 0.06
-    redstone_chance: 0.04
-    gold_chance: 0.02
-    tungsten_chance: 0.0075
-    diamond_chance: 0.0050
-    emerald_chance: 0.0020
-    chromium_chance: 0.0008
-    crystal_fragment_chance: 0.0002
-    refined_chromium_chance: 0.00008
-    refined_tungsten_chance: 0.00004
-    crystal_chance: 0.00002
+  max: 100000
+  gravel_rate: 1
+  dirt_rate: 0.75
+  polished_rate: 0.1
+  iron_chance: 0.06
+  redstone_chance: 0.04
+  gold_chance: 0.02
+  tungsten_chance: 0.0075
+  diamond_chance: 0.0050
+  emerald_chance: 0.0020
+  chromium_chance: 0.0008
+  crystal_fragment_chance: 0.0002
+  refined_chromium_chance: 0.00008
+  refined_tungsten_chance: 0.00004
+  crystal_chance: 0.00002
 
 trommel_diorite:
-    max: 100000
-    gravel_rate: 1
-    dirt_rate: 0.75
-    polished_rate: 0.1
-    iron_chance: 0.06
-    redstone_chance: 0.045
-    gold_chance: 0.025
-    tungsten_chance: 0.00080
-    diamond_chance: 0.0055
-    emerald_chance: 0.0025
-    chromium_chance: 0.00085
-    crystal_fragment_chance: 0.00025
-    refined_chromium_chance: 0.00012
-    refined_tungsten_chance: 0.00008
-    crystal_chance: 0.00004
+  max: 100000
+  gravel_rate: 1
+  dirt_rate: 0.75
+  polished_rate: 0.1
+  iron_chance: 0.06
+  redstone_chance: 0.045
+  gold_chance: 0.025
+  tungsten_chance: 0.00080
+  diamond_chance: 0.0055
+  emerald_chance: 0.0025
+  chromium_chance: 0.00085
+  crystal_fragment_chance: 0.00025
+  refined_chromium_chance: 0.00012
+  refined_tungsten_chance: 0.00008
+  crystal_chance: 0.00004
 
 trommel_andesite:
-    max: 100000
-    gravel_rate: 1
-    dirt_rate: 0.75
-    polished_rate: 0.1
-    iron_chance: 0.06
-    redstone_chance: 0.05
-    gold_chance: 0.03
-    tungsten_chance: 0.0085
-    diamond_chance: 0.0060
-    emerald_chance: 0.0030
-    chromium_chance: 0.0009
-    crystal_fragment_chance: 0.0003
-    refined_chromium_chance: 0.00015
-    refined_tungsten_chance: 0.00010
-    crystal_chance: 0.00005
+  max: 100000
+  gravel_rate: 1
+  dirt_rate: 0.75
+  polished_rate: 0.1
+  iron_chance: 0.06
+  redstone_chance: 0.05
+  gold_chance: 0.03
+  tungsten_chance: 0.0085
+  diamond_chance: 0.0060
+  emerald_chance: 0.0030
+  chromium_chance: 0.0009
+  crystal_fragment_chance: 0.0003
+  refined_chromium_chance: 0.00015
+  refined_tungsten_chance: 0.00010
+  crystal_chance: 0.00005
 
 ################# Mob Grinder Settings #################
 mobGrinder:
-    t1_chance: 0.5
-    t2_chance: 0.1
-    t3_chance: 0.05
-    t4_chance: 0.01
-    pack_chance: 0.005
-    bigpack_chance: 0.001
-    hugepack_chance: 0.0005
-    tribalism_rate: 1.5
-    penalty_rate: 0.8
+  t1_chance: 0.5
+  t2_chance: 0.1
+  t3_chance: 0.05
+  t4_chance: 0.01
+  pack_chance: 0.005
+  bigpack_chance: 0.001
+  hugepack_chance: 0.0005
+  tribalism_rate: 1.5
+  penalty_rate: 0.8
 
 ################# Grocer Settings #################
 grocer_levels:
-    - level: 1
-      itemName: 'Fish'
-      itemId: 350
-      itemData: 0
-      amount: 1
-      price: 8.0 
+  - level: 1
+    itemName: 'Fish'
+    itemId: 350
+    itemData: 0
+    amount: 1
+    price: 8.0
 
-    - level: 2
-      itemName: 'Roast Chicken'
-      itemId: 366
-      itemData: 0
-      amount: 1
-      price: 15.0
+  - level: 2
+    itemName: 'Roast Chicken'
+    itemId: 366
+    itemData: 0
+    amount: 1
+    price: 15.0
 
-    - level: 3
-      itemName: 'Cooked Pork'
-      itemId: 320
-      itemData: 0
-      amount: 1
-      price: 20.0
- 
-    - level: 4
-      itemName: 'Golden Carrot'
-      itemId: 396
-      itemData: 0
-      amount: 1
-      price: 30.0
+  - level: 3
+    itemName: 'Cooked Pork'
+    itemId: 320
+    itemData: 0
+    amount: 1
+    price: 20.0
+
+  - level: 4
+    itemName: 'Golden Carrot'
+    itemId: 396
+    itemData: 0
+    amount: 1
+    price: 30.0
 ################# Blacksmith Settings #################
 blacksmith:
-    forge_cost: 2500.0
+  forge_cost: 2500.0
+  cooldown: 1
 
 ################# Cottage Settings #################
 cottage_levels:
-   - level: 1
-     consumes:
-         - 297,1
-         - 391,1
-     count: 24
-     coins: 100.0
+  - level: 1
+    consumes:
+      - 297,1
+      - 391,1
+    count: 24
+    coins: 140.0
 
-   - level: 2
-     consumes:
-         - 297,2
-         - 391,2
-         - 392,1
-     count: 48
-     coins: 200.0
+  - level: 2
+    consumes:
+      - 297,2
+      - 391,2
+      - 392,1
+    count: 48
+    coins: 390.0
 
-   - level: 3
-     consumes:
-         - 297,2
-         - 391,3
-         - 392,2
-     count: 96
-     coins: 300.0
+  - level: 3
+    consumes:
+      - 297,2
+      - 391,3
+      - 392,2
+    count: 96
+    coins: 445.0
 
-   - level: 4
-     consumes:
-         - 297,3
-         - 391,4
-         - 392,3
-     count: 120
-     coins: 400.0
-   
-   - level: 5
-     consumes:
-         - 297,4
-         - 391,5
-         - 392,4
-     count: 144
-     coins: 500.0
+  - level: 4
+    consumes:
+      - 297,3
+      - 391,4
+      - 392,3
+    count: 120
+    coins: 580.0
 
-   - level: 6
-     consumes:
-         - 297,5
-         - 391,6
-         - 392,6
-         - 319,1
-     count: 288
-     coins: 600.0
+  - level: 5
+    consumes:
+      - 297,4
+      - 391,5
+      - 392,4
+    count: 144
+    coins: 825.0
+
+  - level: 6
+    consumes:
+      - 297,5
+      - 391,6
+      - 392,6
+      - 319,1
+    count: 288
+    coins: 1070.0
 ################# Temple Settings #################
 temple:
-    # rate which temple modifies total culture output
-    culture_bonus: 0.15
+# rate which temple modifies total culture output
+#culture_bonus: 0.15 REMOVED
 
-    # range at which temple checks for sacrifies
-    range: 20.0
+# range at which temple checks for sacrifies
+#range: 20.0
 
-    # timeout for sacrifices. How long do they have to kill all the things?(in seconds)
-    sacrifice_timeout: 30
+# timeout for sacrifices. How long do they have to kill all the things?(in seconds)
+#sacrifice_timeout: 30
 
 temple_levels:
-    - level: 1
-      culture: 100.00
-      consumes:
-         - 423,2
-      count: 24
+  - level: 1
+    culture: 100.00
+    consumes:
+      - 423,2
+    count: 24
 
-    - level: 2
-      culture: 200.00
-      consumes:
-         - 423,4
-      count: 48
+  - level: 2
+    culture: 200.00
+    consumes:
+      - 423,4
+    count: 48
 
-    - level: 3
-      culture: 300.00
-      consumes:
-         - 423,6
-      count: 96
+  - level: 3
+    culture: 300.00
+    consumes:
+      - 423,6
+    count: 96
 
-    - level: 4
-      culture: 400.00
-      consumes:
-         - 423,8
-      count: 120
+  - level: 4
+    culture: 400.00
+    consumes:
+      - 423,8
+    count: 120
 
-    - level: 5
-      culture: 500.00
-      consumes:
-         - 423,10
-      count: 144
+  - level: 5
+    culture: 500.00
+    consumes:
+      - 423,10
+    count: 144
 
 ################# Mine Settings #################
 mine_levels:
-    - level: 1
-      hammers: 150.00
-      amount: 10
-      count: 24
-   
-    - level: 2
-      hammers: 200.00
-      amount: 15
-      count: 48
-    
-    - level: 3
-      hammers: 275.00
-      amount: 20
-      count: 96
-    
-    - level: 4
-      hammers: 350.00
-      amount: 25
-      count: 120
-    
-    - level: 5
-      hammers: 400.00
-      amount: 30
-      count: 144
+  - level: 1
+    hammers: 150.00
+    amount: 10
+    count: 24
+
+  - level: 2
+    hammers: 200.00
+    amount: 15
+    count: 48
+
+  - level: 3
+    hammers: 275.00
+    amount: 20
+    count: 96
+
+  - level: 4
+    hammers: 350.00
+    amount: 25
+    count: 120
+
+  - level: 5
+    hammers: 400.00
+    amount: 30
+    count: 144
 
 ################# Trade Ship Settings #################
 tradeship_levels:
-    - level: 1
-      culture: 0.1
-      maxTrade: 2
-      upgradeTrade: 1024
-      # 8 hours
+  - level: 1
+    culture: 0.1
+    maxTrade: 2
+    upgradeTrade: 1024
+    # 8 hours
 
-    - level: 2
-      culture: 0.2
-      maxTrade: 2
-      upgradeTrade: 2048
-      # 16 hours
+  - level: 2
+    culture: 0.2
+    maxTrade: 2
+    upgradeTrade: 2048
+    # 16 hours
 
-    - level: 3
-      culture: 0.3
-      maxTrade: 4
-      upgradeTrade: 4096
-      # 2 Chests Active
-      # 16 Hours
+  - level: 3
+    culture: 0.3
+    maxTrade: 4
+    upgradeTrade: 4096
+    # 2 Chests Active
+    # 16 Hours
 
-    - level: 4
-      culture: 0.4
-      maxTrade: 4
-      upgradeTrade: 8192
-      # 2 Chests Active
-      # 32 Hours
+  - level: 4
+    culture: 0.4
+    maxTrade: 4
+    upgradeTrade: 8192
+    # 2 Chests Active
+    # 32 Hours
 
-    - level: 5
-      culture: 0.5
-      maxTrade: 6
-      upgradeTrade: 12288
-      # 3 Chests Active
-      # 32 Hours
+  - level: 5
+    culture: 0.5
+    maxTrade: 6
+    upgradeTrade: 12288
+    # 3 Chests Active
+    # 32 Hours
 
-    - level: 6
-      culture: 0.6
-      maxTrade: 6
-      upgradeTrade: 24576
-      # 3 Chests Active
-      # 64 Hours
+  - level: 6
+    culture: 0.6
+    maxTrade: 6
+    upgradeTrade: 24576
+    # 3 Chests Active
+    # 64 Hours
 
-    - level: 7
-      culture: 0.7
-      maxTrade: 8
-      upgradeTrade: 32768
-      # 4 Chests Active
-      # 64 Hours
+  - level: 7
+    culture: 0.7
+    maxTrade: 8
+    upgradeTrade: 32768
+    # 4 Chests Active
+    # 64 Hours
 
-    - level: 8
-      culture: 0.8
-      maxTrade: 8
-      upgradeTrade: 65536
-      # 4 Chests Active
-      # 128 Hours
+  - level: 8
+    culture: 0.8
+    maxTrade: 8
+    upgradeTrade: 65536
+    # 4 Chests Active
+    # 128 Hours
 
-    - level: 9
-      culture: 0.9
-      maxTrade: 10
-      upgradeTrade: 81920
-      # 5 Chests Active
-      # 128 Hours
+  - level: 9
+    culture: 0.9
+    maxTrade: 10
+    upgradeTrade: 81920
+    # 5 Chests Active
+    # 128 Hours
 
-    - level: 10
-      culture: 1.0
-      maxTrade: 10
-      upgradeTrade: 163840
-      # 5 Chests Active
-      # 256 Hours
+  - level: 10
+    culture: 1.0
+    maxTrade: 10
+    upgradeTrade: 163840
+    # 5 Chests Active
+    # 256 Hours
 tradeship:
-    pack_chance: 0.05
-    mediumpack_chance: 0.01
-    bigpack_chance: 0.005
-    hugepack_chance: 0.001
+  pack_chance: 0.05
+  mediumpack_chance: 0.01
+  bigpack_chance: 0.005
+  hugepack_chance: 0.001
 
 ##################### Farm Settings ##########################
 farm:
-    # Number of crops that will grow per 100% of growth rate.
-    grows_per_tick: 6
+  # Number of crops that will grow per 100% of growth rate.
+  grows_per_tick: 6
 
-    # Number of seconds it takes for a growth tick to fire, cannot be less than 1.
-    grow_tick_rate: 60
+  # Number of seconds it takes for a growth tick to fire, cannot be less than 1.
+  grow_tick_rate: 60
 
-    # #keep this set to false to use the whole chunk height for growth in a farm chunk (Classic Behavior)
-    # uses_range: false
-    # #This the range above the base y in which the farm will grow.
-    # #Use this to add additional height in which to grow.
-    # #The default of 4 limits growth to the original height of the structure
-    # grow_range_y: 4
+  # #keep this false to use the whole chunk height for growth in a farm chunk (Classic Behavior)
+  # uses_range: false
+  # #This the range above the base y in which the farm will grow.
+  # #Use this to add additional height in which to grow.
+  # #The default of 4 limits growth to the original height of the structure
+  # grow_range_y: 4
 
 ##################### Windmill Settings #####################
 windmill:
-    # Max number of crops to plant per hour
-    # 16 crops per min.
-    plant_max: 16
+  # Max number of crops to plant per hour
+  # 16 crops per min.
+  plant_max: 16
 
 #################### Pasture Settings #######################
 pasture:
-    # Amount of each mob that gets spawned per hour in the pasture.
-    cow_count: 4
-    sheep_count: 4
-    pig_count: 4
-    chicken_count: 4
+  # Amount of each mob that gets spawned per hour in the pasture.
+  cow_count: 4
+  sheep_count: 4
+  pig_count: 4
+  chicken_count: 4
 
-    # Rate at which they spawn (in seconds)
-    spawn_rate: 3600
+  # Rate at which they spawn (in seconds)
+  spawn_rate: 3600
 
-    # Maximum amount of mobs for each type, per pasture
-    max_mobs: 30
+  # Maximum amount of mobs for each type, per pasture
+  max_mobs: 30
 
 #################### Battledome Settings #######################
 battledome:
-    # Amount of each mob that gets spawned per spawn_rate in the battledome.
-    spawn_count: 4
+  # Amount of each mob that gets spawned per spawn_rate in the battledome.
+  spawn_count: 4
 
-    # Rate at which they spawn (in seconds)
-    spawn_rate: 3600
+  # Rate at which they spawn (in seconds)
+  spawn_rate: 3600
 
-    # Maximum amount of mobs for each area, per battledome
-    max_mobs: 30
+  # Maximum amount of mobs for each area, per battledome
+  max_mobs: 30
 
 ################### Barracks Settings #######################
 barracks:
-    # Barracks repair cost uses the following formula.
-    #
-    # cost = ((base_repair * (((tier+1)*tier_damp) + ((1/damagedPercent)*damage_damp)))
-    #
-    # So the base repair cost is multiplied by the tier's value, the +1 is for tier 0
-    # Then that amount is modified by how damaged the weap is. The more damaged it is,
-    # then the more the repair will cost. The extra multiplier caused by damage is then dampened
-    # by multipliying it by the damage dampen.
-    #
-    # If you want the Tier to be more important, increase the tier damp.
-    # If you want the item durability to be more important increase the damage damp
+  # Barracks repair cost uses the following formula.
+  #
+  # cost = ((base_repair * (((tier+1)*tier_damp) + ((1/damagedPercent)*damage_damp)))
+  #
+  # So the base repair cost is multiplied by the tier's value, the +1 is for tier 0
+  # Then that amount is modified by how damaged the weap is. The more damaged it is,
+  # then the more the repair will cost. The extra multiplier caused by damage is then dampened
+  # by multipliying it by the damage dampen.
+  #
+  # If you want the Tier to be more important, increase the tier damp.
+  # If you want the item durability to be more important increase the damage damp
 
 
-    # Base repair cost of all items
-    base_damage_repair: 500.0
-    base_tier_repair: 2000.0
+  # Base repair cost of all items
+  base_damage_repair: 500.0
+  base_tier_repair: 2000.0
 
-    # damage dampen. 
-    damage_damp: 1.0
+  # damage dampen.
+  damage_damp: 1.0
 
-    # tier dampen
-    tier_damp: 0.175
+  # tier dampen
+  tier_damp: 0.175
 
 
 #################### Stable Settings ########################
@@ -419,141 +421,141 @@ barracks:
 # If the item_id is zero, we then try to find a horse via the horse_id
 # Horses are then configured in 'stable_horses'
 stable_items:
-    - name: 'Horse'
-      cost: 5000.0
-      store_id: 0
-      item_id: 0
-      horse_id: 1
-    
-    - name: 'Trusty Steed'
-      cost: 10000.0
-      store_id: 0
-      item_id: 0
-      horse_id: 2
+  - name: 'Horse'
+    cost: 5000.0
+    store_id: 0
+    item_id: 0
+    horse_id: 1
 
-    - name: 'Thoroughbred'
-      cost: 50000.0
-      store_id: 0
-      item_id: 0
-      horse_id: 3
+  - name: 'Trusty Steed'
+    cost: 10000.0
+    store_id: 0
+    item_id: 0
+    horse_id: 2
 
-    - name: 'Mule'
-      cost: 2500.0
-      store_id: 1
-      item_id: 0
-      horse_id: 4
+  - name: 'Thoroughbred'
+    cost: 50000.0
+    store_id: 0
+    item_id: 0
+    horse_id: 3
 
-    - name: 'War Horse'
-      cost: 100000.0
-      store_id: 0
-      item_id: 0
-      horse_id: 5
+  - name: 'Mule'
+    cost: 2500.0
+    store_id: 1
+    item_id: 0
+    horse_id: 4
 
-    - name: 'Saddle'
-      cost: 2000.0
-      store_id: 2
-      item_id: 329
-      horse_id: 0
+  - name: 'War Horse'
+    cost: 100000.0
+    store_id: 0
+    item_id: 0
+    horse_id: 5
 
-    - name: 'Name Tag'
-      cost: 10000.0
-      store_id: 2
-      item_id: 421
-      horse_id: 0
+  - name: 'Saddle'
+    cost: 2000.0
+    store_id: 2
+    item_id: 329
+    horse_id: 0
 
-    - name: 'Iron Horse Armor'
-      cost: 20000.0
-      store_id: 2
-      item_id: 417
-      horse_id: 0
+  - name: 'Name Tag'
+    cost: 10000.0
+    store_id: 2
+    item_id: 421
+    horse_id: 0
 
-    - name: 'Gold Horse Armor'
-      cost: 50000.0
-      store_id: 2
-      item_id: 418
-      horse_id: 0
+  - name: 'Iron Horse Armor'
+    cost: 20000.0
+    store_id: 2
+    item_id: 417
+    horse_id: 0
 
-    - name: 'Diamond Horse Armor'
-      cost: 100000.0
-      store_id: 2
-      item_id: 419
-      horse_id: 0
+  - name: 'Gold Horse Armor'
+    cost: 50000.0
+    store_id: 2
+    item_id: 418
+    horse_id: 0
+
+  - name: 'Diamond Horse Armor'
+    cost: 100000.0
+    store_id: 2
+    item_id: 419
+    horse_id: 0
 
 stable_horses:
-      # Normal Horse
-    - id: 1
-      speed: 0.0
-      jump: 0.8
-      health: 20.0
-      variant: 'BROWN'
-      name: 'Horse'
+  # Normal Horse
+  - id: 1
+    speed: 0.0
+    jump: 0.8
+    health: 20.0
+    variant: 'BROWN'
+    name: 'Horse'
 
-      # Trusty Steed
-    - id: 2
-      speed: 0.05
-      jump: 0.8
-      health: 20.0
-      variant: 'BLACK'
-      name: "Trusty Steed"
+    # Trusty Steed
+  - id: 2
+    speed: 0.05
+    jump: 0.8
+    health: 20.0
+    variant: 'BLACK'
+    name: "Trusty Steed"
 
-      # Thoroughbred
-    - id: 3
-      speed: 0.08
-      jump: 0.8
-      health: 20.0
-      variant: 'WHITE'
-      name: "Thoroughbred"
+    # Thoroughbred
+  - id: 3
+    speed: 0.08
+    jump: 0.8
+    health: 20.0
+    variant: 'WHITE'
+    name: "Thoroughbred"
 
-     # mule
-    - id: 4
-      speed: -0.1
-      jump: 0.8
-      health: 20.0
-      mule: true
-      variant: 'BLACK'
-      name: "Mule"
+  # mule
+  - id: 4
+    speed: -0.1
+    jump: 0.8
+    health: 20.0
+    mule: true
+    variant: 'BLACK'
+    name: "Mule"
 
-      # War Horse
-    - id: 5
-      speed: 0.1
-      jump: 1.0
-      health: 22.0
-      variant: 'CHESTNUT'
-      name: "War Horse"
+    # War Horse
+  - id: 5
+    speed: 0.1
+    jump: 1.0
+    health: 22.0
+    variant: 'CHESTNUT'
+    name: "War Horse"
 
 ################# Road Settings ######################
 road:
-    # Speed multiplier for players
-    player_speed: 1.5
+  # Speed multiplier for players
+  player_speed: 1.5
 
-    # Speed multiplier for players on horses
-    horse_speed: 1.1
+  # Speed multiplier for players on horses
+  horse_speed: 1.1
 
-    # Raid time in hours
-    raid_length: 2
+  # Raid time in hours
+  raid_length: 2
 
-    # Maximum number of blocks a single road can take.
-    max_segment: 50 
+  # Maximum number of blocks a single road can take.
+  max_segment: 50
 
-    # Cost of road per segment
-    cost_per_segment: 300.0
-######################################################################
-#               CIVCRAFT Structure config
-######################################################################
-#   id: <unique ID for this structure>
-#   template: <name of file containing block template>
-#   displayName: <string shown to players when interacting with this object>
-#   upgrade: <name ID of upgrade required for this structure>
-#   update: <name of function this structure invokes upon building/ticks>
-#   check: <name of function that checks for conditions this building requires to function, such as # of books in surrounding area> 
-#   effect: <called once every hour, used for long term effects or checks>
-#   limit: <number of this type of buildings allowed in town, 0 is unlimited.>
-#   onBuild: <function called when structure is built>
-#   signs: <list of signs attached to structure>
-#      id: <unique numerical identifier for sign>
-#      action: <name of function with params>
-#      (... can contain as many signs as needed)
-      
+  # Cost of road per segment
+  cost_per_segment: 300.0
+    ######################################################################
+    #               CIVCRAFT Structure config
+    ######################################################################
+    #   id: <unique ID for this structure>
+    #   template: <name of file containing block template>
+    #   displayName: <string shown to players when interacting with this object>
+    #   upgrade: <name ID of upgrade required for this structure>
+    #   update: <name of function this structure invokes upon building/ticks>
+    #   check: <name of function that checks for conditions this building requires to function, such as # of books in surrounding area>
+    #   effect: <called once every hour, used for long term effects or checks>
+    #   limit: <number of this type of buildings allowed in town, 0 is unlimited.>
+    #   onBuild: <function called when structure is built>
+    #   signs: <list of signs attached to structure>
+    #      id: <unique numerical identifier for sign>
+    #      action: <name of function with params>
+  #      (... can contain as many signs as needed)
+
 structures:
   - id: s_townhall
     template: town_hall
@@ -574,11 +576,11 @@ structures:
     allow_demolish: false
     strategic: true
     components:
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'CULTURE'
-          value: '25.0'
-  
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'CULTURE'
+        value: '25.0'
+
   - id: s_capitol
     template: capitol
     template_y_shift: 0
@@ -590,7 +592,7 @@ structures:
     update_event:
     onBuild_event:
     limit: 2
-    cost: 250000.0
+    cost: 125000.0
     upkeep: 0.0
     hammer_cost: 600.0
     points: 6000
@@ -598,10 +600,10 @@ structures:
     allow_demolish: false
     strategic: true
     components:
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'CULTURE'
-          value: '50.0'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'CULTURE'
+        value: '50.0'
 
   - id: s_lighthouse
     template: lighthouse
@@ -618,21 +620,21 @@ structures:
     max_hitpoints: 500
     ignore_floating: false
     components:
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'GROWTH'
-          value: '200.0'
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'HAMMERS'
-          value: '200'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'GROWTH'
+        value: '200.0'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'HAMMERS'
+        value: '200'
 
   - id: s_museum
     template: museum
     template_y_shift: -1
     displayName: Museum
     require_tech: 'tech_archaeology'
-    require_structure: 
+    require_structure:
     effect_event:
     limit: 1
     cost: 75000.0
@@ -642,21 +644,21 @@ structures:
     max_hitpoints: 1000
     ignore_floating: false
     components:
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'HAPPINESS'
-          value: '1.0'
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'CULTURE'
-          value: '300.0'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'HAPPINESS'
+        value: '1.0'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'CULTURE'
+        value: '300.0'
 
   - id: s_stadium
     template: stadium
     template_y_shift: 0
     displayName: Stadium
     require_tech: 'tech_refrigeration'
-    require_structure: 
+    require_structure:
     effect_event:
     limit: 1
     cost: 100000.0
@@ -666,21 +668,21 @@ structures:
     max_hitpoints: 1000
     ignore_floating: false
     components:
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'UNHAPPINESS'
-          value: '-2.0'
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'HAPPINESS'
-          value: '2.0'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'UNHAPPINESS'
+        value: '-2.0'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'HAPPINESS'
+        value: '2.0'
 
   - id: ti_hospital
     template: hospital
     template_y_shift: 0
     displayName: Hospital
     require_tech: 'tech_biology'
-    require_structure: 
+    require_structure:
     allow_outside_town: false
     effect_event:
     limit: 1
@@ -697,7 +699,7 @@ structures:
     template_y_shift: 0
     displayName: Bank
     require_upgrade:
-    require_tech: 'tech_religion' 
+    require_tech: 'tech_religion'
     effect_event:
     check_event:
     update_event:
@@ -708,15 +710,15 @@ structures:
     hammer_cost: 1200.0
     points: 1500
     max_hitpoints: 200
-  
+
   - id: s_trommel
     template: trommel
     template_y_shift: 0
     displayName: Trommel
     require_upgrade:
     require_tech: 'tech_mining'
-    effect_event: 
-    check_event: 
+    effect_event:
+    check_event:
     update_event: trommel_process
     onBuild_event:
     limit: 0
@@ -733,8 +735,8 @@ structures:
     displayName: Fish Hatchery
     require_upgrade:
     require_tech: 'tech_automation'
-    effect_event: 
-    check_event: 
+    effect_event:
+    check_event:
     update_event: fish_hatchery_process
     onBuild_event:
     limit: 0
@@ -752,8 +754,8 @@ structures:
     displayName: quarry
     require_upgrade:
     require_tech: 'tech_automation'
-    effect_event: 
-    check_event: 
+    effect_event:
+    check_event:
     update_event: quarry_process
     onBuild_event:
     limit: 1
@@ -771,8 +773,8 @@ structures:
     displayName: Mob Grinder
     require_upgrade:
     require_tech: 'tech_advanced_hunting'
-    effect_event: 
-    check_event: 
+    effect_event:
+    check_event:
     update_event: mobGrinder_process
     onBuild_event:
     limit: 1
@@ -817,14 +819,18 @@ structures:
     points: 5000
     max_hitpoints: 250
     components:
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'BEAKERS'
-          value: '100.0'
-        # - name: 'AttributeBiome'
-        #   biomes: 'OCEAN,TAGIA,DESERT'
-        #   attribute: 'BEAKERS'
-        #   value: '0.05'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'BEAKERS'
+        value: '100.0'
+      - name: 'AttributeBiome'
+        biomes: 'OCEAN,TAGIA,DESERT'
+        attribute: 'BEAKERS'
+        value: '0.05'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'FAITH'
+        value: '2.0'
 
   - id: s_university
     template: university
@@ -843,14 +849,14 @@ structures:
     points: 5000
     max_hitpoints: 500
     components:
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'BEAKERS'
-          value: '100.0'
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'BEAKERBOOST'
-          value: '0.01'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'BEAKERS'
+        value: '100.0'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'BEAKERBOOST'
+        value: '0.01'
 
   - id: s_school
     template: school
@@ -870,14 +876,18 @@ structures:
     points: 8000
     max_hitpoints: 500
     components:
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'BEAKERS'
-          value: '100.0'
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'BEAKERBOOST'
-          value: '0.01'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'BEAKERS'
+        value: '100.0'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'BEAKERBOOST'
+        value: '0.01'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'FAITH'
+        value: '2.5'
 
   - id: s_research_lab
     template: research_lab
@@ -897,14 +907,14 @@ structures:
     points: 10000
     max_hitpoints: 1000
     components:
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'BEAKERS'
-          value: '300.0'
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'BEAKERBOOST'
-          value: '0.01'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'BEAKERS'
+        value: '300.0'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'BEAKERBOOST'
+        value: '0.01'
 
   - id: s_grocer
     template: grocer
@@ -934,30 +944,30 @@ structures:
     update_event:
     onBuild_event:
     limit: 1
-    cost: 32000.0  
+    cost: 32000.0
     upkeep: 2000.0
     hammer_cost: 1500.0
     points: 10000
     max_hitpoints: 350
     components:
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'UNHAPPINESS'
-          value: '3.0'
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'GROWTH'
-          value: '-0.2'
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'HAMMERS'
-          value: '50.0'
-        - name: 'AttributeTradeGood'
-          type: 'direct'
-          attribute: 'HAMMERS'
-          value: '100.0'
-          goods: 'good_copper,good_oil,good_silver'
-  
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'UNHAPPINESS'
+        value: '3.0'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'GROWTH'
+        value: '-0.2'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'HAMMERS'
+        value: '50.0'
+      - name: 'AttributeTradeGood'
+        type: 'direct'
+        attribute: 'HAMMERS'
+        value: '100.0'
+        goods: 'good_copper,good_oil,good_silver'
+
   - id: s_granary
     template: granary
     template_y_shift: 0
@@ -965,7 +975,7 @@ structures:
     require_upgrade:
     require_tech: 'tech_pottery'
     effect_event:
-    check_event: 
+    check_event:
     update_event:
     onBuild_event:
     limit: 3
@@ -982,7 +992,7 @@ structures:
     require_upgrade:
     require_tech: 'tech_advanced_masonry'
     effect_event: generate_coins
-    check_event: 
+    check_event:
     update_event:
     onBuild_event:
     limit: 0
@@ -993,11 +1003,11 @@ structures:
     points: 1000
     max_hitpoints: 100
     components:
-        # - name: 'AttributeBiomeRadiusPerLevel'
-        #   attribute: 'COINS'
-        #   biomes: 'DESERT:5,BEACH:5,RIVER:5,JUNGLE:5'
-        #   base_value: '15.0'
-        - name: 'ConsumeLevelComponent'
+      # - name: 'AttributeBiomeRadiusPerLevel'
+      #   attribute: 'COINS'
+      #   biomes: 'DESERT:5,BEACH:5,RIVER:5,JUNGLE:5'
+      #   base_value: '15.0'
+      - name: 'ConsumeLevelComponent'
 
   - id: s_temple
     template: temple
@@ -1006,8 +1016,8 @@ structures:
     require_upgrade:
     require_tech: 'tech_priesthood'
     effect_event: temple_Culture
-    check_event: 
-    update_event: 
+    check_event:
+    update_event:
     onBuild_event:
     limit: 1
     cost: 30000.0
@@ -1016,15 +1026,19 @@ structures:
     points: 4700
     max_hitpoints: 250
     components:
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'CULTURE'
-          value: '200.0'
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'HAPPINESS'
-          value: '5.0'
-        - name: 'ConsumeLevelComponent'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'CULTURE'
+        value: '200.0'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'HAPPINESS'
+        value: '5.0'
+      - name: 'ConsumeLevelComponent'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'FAITH'
+        value: '16.0'
 
   - id: s_monument
     template: monument
@@ -1033,8 +1047,8 @@ structures:
     require_upgrade:
     require_tech: 'tech_religion'
     effect_event: generate_culture:400
-    check_event: 
-    update_event: 
+    check_event:
+    update_event:
     onBuild_event:
     limit: 1
     cost: 15000.0
@@ -1043,15 +1057,19 @@ structures:
     points: 1500
     max_hitpoints: 250
     components:
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'HAPPINESS'
-          value: '3.0'
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'CULTURE'
-          value: '200.0'
-  
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'HAPPINESS'
+        value: '3.0'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'CULTURE'
+        value: '200.0'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'FAITH'
+        value: '7.5'
+
   - id: s_shipyard
     template: shipyard
     template_y_shift: -3
@@ -1069,12 +1087,13 @@ structures:
     points: 7000
     max_hitpoints: 300
     ignore_floating: true
+    onwater: true
     components:
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'HAMMERS'
-          value: '200'
-  
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'HAMMERS'
+        value: '200'
+
   - id: ti_mine
     template: mine
     template_y_shift: -6
@@ -1094,11 +1113,11 @@ structures:
     max_hitpoints: 300
     allow_outside_town: false
     components:
-        # - name: 'AttributeBiomeRadiusPerLevel'
-        #   attribute: 'HAMMERS'
-        #   biomes: 'EXTREME_HILLS:3,SMALL_MOUNTAINS:3,ICE_MOUNTAINS:3,DESERT_HILLS:1,FOREST_HILLS:1,TAGIA_HILLS:1,JUNGLE_HILLS:1'
-        #   base_value: '7.0'
-        - name: 'ConsumeLevelComponent'
+      - name: 'AttributeBiomeRadiusPerLevel'
+        attribute: 'HAMMERS'
+        biomes: 'EXTREME_HILLS:3,SMALL_MOUNTAINS:3,ICE_MOUNTAINS:3,DESERT_HILLS:1,FOREST_HILLS:1,TAGIA_HILLS:1,JUNGLE_HILLS:1'
+        base_value: '7.0'
+      - name: 'ConsumeLevelComponent'
 
   - id: ti_trade_outpost
     template: trade_outpost
@@ -1118,7 +1137,12 @@ structures:
     points: 3000
     max_hitpoints: 500
     ignore_floating: true
-  
+    components:
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'FAITH'
+        value: '1.75'
+
   - id: ti_fishing_boat
     template: fishingboats
     template_y_shift: -3
@@ -1138,11 +1162,16 @@ structures:
     points: 3000
     max_hitpoints: 500
     ignore_floating: true
+    onwater: true
     components:
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'HAMMERS'
-          value: '50'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'HAMMERS'
+        value: '50'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'FAITH'
+        value: '1.25'
 
   - id: ti_trade_ship
     template: trade_ship
@@ -1163,25 +1192,30 @@ structures:
     points: 3000
     max_hitpoints: 500
     ignore_floating: true
+    onwater: true
     components:
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'HAPPINESS'
-          value: '2.0'
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'CULTURE'
-          value: '100.0'
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'GROWTH'
-          value: '100.0'
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'HAMMERS'
-          value: '100'
-        - name: 'TradeLevelComponent'
-  
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'HAPPINESS'
+        value: '2.0'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'CULTURE'
+        value: '100.0'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'GROWTH'
+        value: '100.0'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'FAITH'
+        value: '4.0'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'HAMMERS'
+        value: '100'
+      - name: 'TradeLevelComponent'
+
   - id: ti_farm
     template: farm
     template_y_shift: -1
@@ -1202,12 +1236,12 @@ structures:
     destroyable: true
     ignore_floating: true
     components:
-        - name: 'ActivateOnBiome'
-          effect: 'THIS'
-          attribute: 'GROWTH'
-          biomes: 'PLAINS'
-          value: '1.5'
-  
+      - name: 'ActivateOnBiome'
+        effect: 'THIS'
+        attribute: 'GROWTH'
+        biomes: 'PLAINS'
+        value: '1.5'
+
   - id: ti_pasture
     template: pasture
     template_y_shift: -2
@@ -1225,13 +1259,13 @@ structures:
     tile_improvement: true
     max_hitpoints: 500
     points: 1000
-  
+
   - id: ti_wall
     template: notused
     template_y_shift: 0
     displayName: Wall
     require_upgrade:
-    require_tech: 'tech_advanced_masonry' 
+    require_tech: 'tech_advanced_masonry'
     effect_event:
     check_event:
     update_event:
@@ -1250,7 +1284,7 @@ structures:
     template_y_shift: 0
     displayName: Fortified Wall
     require_upgrade:
-    require_tech: 'tech_machinery' 
+    require_tech: 'tech_machinery'
     effect_event:
     check_event:
     update_event:
@@ -1266,10 +1300,10 @@ structures:
 
   - id: ti_road
     template: notused
-    template_y_shift: 0 
+    template_y_shift: 0
     displayName: Road
     require_upgrade:
-    require_tech: 'tech_masonry' 
+    require_tech: 'tech_masonry'
     effect_event:
     check_event:
     update_event:
@@ -1282,7 +1316,7 @@ structures:
     max_hitpoints: 1000
     ignore_floating: true
     has_template: false
- 
+
   - id: s_arrowship
     template: arrow_ship
     template_y_shift: -5
@@ -1302,8 +1336,9 @@ structures:
     points: 4650
     allow_outside_town: true
     strategic: true
+    onwater: true
     ignore_floating: true
- 
+
   - id: s_arrowtower
     template: arrow_tower
     template_y_shift: 0
@@ -1322,7 +1357,7 @@ structures:
     points: 4650
     allow_outside_town: true
     strategic: true
-  
+
   - id: s_cannonship
     template: cannon_ship
     template_y_shift: -5
@@ -1342,8 +1377,9 @@ structures:
     points: 10000
     allow_outside_town: true
     strategic: true
+    onwater: true
     ignore_floating: true
-  
+
   - id: s_cannontower
     template: cannon_tower
     template_y_shift: 0
@@ -1389,8 +1425,8 @@ structures:
     require_upgrade:
     require_tech: 'tech_radio'
     effect_event:
-    check_event: 
-    update_event: 
+    check_event:
+    update_event:
     onBuild_event:
     limit: 1
     cost: 200000.0
@@ -1399,10 +1435,10 @@ structures:
     points: 25000
     max_hitpoints: 1500
     components:
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'CULTURE'
-          value: '200.0'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'CULTURE'
+        value: '200.0'
 
   - id: s_scoutship
     template: scout_ship
@@ -1423,6 +1459,7 @@ structures:
     points: 3000
     allow_outside_town: true
     strategic: true
+    onwater: true
     ignore_floating: true
 
   - id: s_scouttower
@@ -1443,7 +1480,7 @@ structures:
     points: 3000
     allow_outside_town: true
     strategic: true
-  
+
   - id: s_barracks
     template: barracks
     template_y_shift: 0
@@ -1462,9 +1499,9 @@ structures:
     points: 3000
     allow_outside_town: false
     components:
-        - name: 'AttributeWarUnhappiness'
-          value: '-1.0'
-  
+      - name: 'AttributeWarUnhappiness'
+        value: '-1.0'
+
   - id: ti_windmill
     template: windmill
     template_y_shift: 0
@@ -1482,7 +1519,7 @@ structures:
     hammer_cost: 3000.0
     points: 5000
     max_hitpoints: 350
-  
+
   - id: s_market
     template: market
     template_y_shift: 0
@@ -1501,20 +1538,20 @@ structures:
     points: 3500
     max_hitpoints: 200
     components:
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'HAPPINESS'
-          value: '1.0'
-        - name: 'AttributeRate'
-          attribute: 'TRADE'
-          value: '0.1'
-  
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'HAPPINESS'
+        value: '1.0'
+      - name: 'AttributeRate'
+        attribute: 'TRADE'
+        value: '0.1'
+
   - id: s_stable
     template: stable
     template_y_shift: -2
     displayName: Stable
     require_upgrade:
-    require_tech: 'tech_global_trade' 
+    require_tech: 'tech_global_trade'
     effect_event:
     check_event:
     update_event:
@@ -1526,8 +1563,8 @@ structures:
     points: 750
     max_hitpoints: 300
     components:
-        - name: 'AttributeStatic'
-          type: 'direct'
-          attribute: 'HAMMERS'
-          value: '50.0'
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'HAMMERS'
+        value: '50.0'
   

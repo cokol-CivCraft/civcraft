@@ -21,6 +21,7 @@ package com.avrgaming.civcraft.template;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigBuildableInfo;
 import com.avrgaming.civcraft.exception.CivException;
+import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.Resident;
@@ -39,7 +40,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.material.Chest;
-import org.bukkit.material.Door;
 import org.bukkit.material.MaterialData;
 
 import java.io.*;
@@ -560,7 +560,8 @@ public class Template {
 
             SimpleBlock block = new SimpleBlock(Material.getMaterial(Integer.parseInt(typeSplit[0])), Integer.parseInt(typeSplit[1]));
 
-            if (block.getType().getData() == Door.class) {
+
+            if (CivData.isDoor(block.getType())) {
                 this.doorRelativeLocations.add(new BlockCoord("", blockX, blockY, blockZ));
             }
 
@@ -599,6 +600,13 @@ public class Template {
                         block.specialType = SimpleBlock.Type.LITERAL;
 
                         // Literal sign, copy the sign into the simple block
+                       /* for (int i = 0 ; i < 4 ; i++) {
+                            try {
+                                block.message[i] = locTypeSplit[i+2];
+                            } catch (ArrayIndexOutOfBoundsException e) {
+                                block.message[i] = "";
+                            } maybe change to this? TODO
+                        } */
                         try {
                             block.message[0] = locTypeSplit[2];
                         } catch (ArrayIndexOutOfBoundsException e) {

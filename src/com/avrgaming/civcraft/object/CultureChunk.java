@@ -138,9 +138,13 @@ public class CultureChunk {
 		return getCultureBiomeInfo().growth+getAdditionalAttributes(Attribute.TypeKeys.GROWTH.name());
 	}
 	
-	public double getBeakers() {		
-		return getCultureBiomeInfo().beakers+getAdditionalAttributes(Attribute.TypeKeys.BEAKERS.name());
-	}
+	public double getBeakers() {
+        return getCultureBiomeInfo().beakers + getAdditionalAttributes(Attribute.TypeKeys.BEAKERS.name());
+    }
+
+    public double getFaith() {
+        return getCultureBiomeInfo().faith + getAdditionalAttributes(Attribute.TypeKeys.FAITH.name());
+    }
 	
 	private double getAdditionalAttributes(String attrType) {
 		if (getBiome() == null) {
@@ -180,19 +184,21 @@ public class CultureChunk {
 	//	CivLog.debug("showing info.");
 		
 		if (cc == null) {
-			CivMessage.send(player, CivColor.LightPurple+biome.name()+
-					CivColor.Green+" "+CivSettings.localize.localizedString("Coins")+" "+CivColor.LightGreen+info.coins+
-					CivColor.Green+" "+CivSettings.localize.localizedString("Happiness")+" "+CivColor.LightGreen+info.happiness+
-					CivColor.Green+" "+CivSettings.localize.localizedString("Hammers")+" "+CivColor.LightGreen+info.hammers+
-					CivColor.Green+" "+CivSettings.localize.localizedString("Growth")+" "+CivColor.LightGreen+info.growth+				
-					CivColor.Green+" "+CivSettings.localize.localizedString("Beakers")+" "+CivColor.LightGreen+info.beakers);
+            CivMessage.send(player, CivColor.LightPurple + biome.name() +
+                    CivColor.Green + " " + CivSettings.localize.localizedString("Coins") + " " + CivColor.LightGreen + info.coins +
+                    CivColor.Green + " " + CivSettings.localize.localizedString("Happiness") + " " + CivColor.LightGreen + info.happiness +
+                    CivColor.Green + " " + CivSettings.localize.localizedString("Hammers") + " " + CivColor.LightGreen + info.hammers +
+                    CivColor.Green + " " + CivSettings.localize.localizedString("Growth") + " " + CivColor.LightGreen + info.growth +
+                    CivColor.Green + " " + CivSettings.localize.localizedString("Beakers") + " " + CivColor.LightGreen + info.beakers +
+                    CivColor.LightGray + " " + CivSettings.localize.localizedString("Faith") + " " + CivColor.LightBlue + info.faith);
 		} else {
-			CivMessage.send(player, CivColor.LightPurple+biome.name()+
-					CivColor.Green+" "+CivSettings.localize.localizedString("Coins")+" "+CivColor.LightGreen+cc.getCoins()+
-					CivColor.Green+" "+CivSettings.localize.localizedString("Happiness")+" "+CivColor.LightGreen+info.happiness+
-					CivColor.Green+" "+CivSettings.localize.localizedString("Hammers")+" "+CivColor.LightGreen+info.hammers+
-					CivColor.Green+" "+CivSettings.localize.localizedString("Growth")+" "+CivColor.LightGreen+info.growth+				
-					CivColor.Green+" "+CivSettings.localize.localizedString("Beakers")+" "+CivColor.LightGreen+info.beakers);
+            CivMessage.send(player, CivColor.LightPurple + biome.name() +
+                    CivColor.Green + " " + CivSettings.localize.localizedString("Coins") + " " + CivColor.LightGreen + cc.getCoins() +
+                    CivColor.Green + " " + CivSettings.localize.localizedString("Happiness") + " " + CivColor.LightGreen + info.happiness +
+                    CivColor.Green + " " + CivSettings.localize.localizedString("Hammers") + " " + CivColor.LightGreen + info.hammers +
+                    CivColor.Green + " " + CivSettings.localize.localizedString("Growth") + " " + CivColor.LightGreen + info.growth +
+                    CivColor.Green + " " + CivSettings.localize.localizedString("Beakers") + " " + CivColor.LightGreen + info.beakers +
+                    CivColor.LightGray + " " + CivSettings.localize.localizedString("Faith") + " " + CivColor.LightBlue + info.faith);
 		}
 
 	}

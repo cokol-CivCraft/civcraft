@@ -27,6 +27,11 @@ wonders:
     max_hitpoints: 5000
     points: 190000
     regen_rate: 6
+    components:
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'FAITH'
+        value: '250.0'
   
   - id: w_greatlibrary
     template: the_great_library
@@ -101,6 +106,11 @@ wonders:
     points: 275000
     max_hitpoints: 5000
     regen_rate: 6
+    components:
+      - name: 'AttributeStatic'
+        type: 'direct'
+        attribute: 'FAITH'
+        value: '500.0'
 
   - id: w_chichen_itza
     template: chichen_itza
@@ -155,6 +165,7 @@ wonders:
     points: 100000
     max_hitpoints: 1000
     regen_rate: 1
+    national_wonder: true
 
   - id: w_globe_theatre
     template: globe_theatre
@@ -228,6 +239,7 @@ wonders:
     points: 500000
     max_hitpoints: 2000
     regen_rate: 2
+    onwater: true
 
   - id: w_battledome
     template: battledome
@@ -246,6 +258,7 @@ wonders:
     points: 100000
     max_hitpoints: 1000
     regen_rate: 1
+    national_wonder: true
 
 # Wonder Buffs
 #
@@ -288,8 +301,9 @@ wonder_buffs:
    
    - id: w_chichen_itza
      buffs:
-         - buff_chichen_itza_tower_hp
+       - buff_chichen_itza_tower_hp
          - buff_chichen_itza_regen_rate
+       - buff_chichen_itza_cp_bonus_hp
 
    - id: w_colosseum
      buffs:
