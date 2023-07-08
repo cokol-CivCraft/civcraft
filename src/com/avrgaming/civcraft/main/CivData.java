@@ -237,26 +237,42 @@ public class CivData {
 
 	private static String getHP() {
 		try {
-			hpCFG = CivSettings.getString(CivSettings.civConfig, "global.health");
-		} catch (InvalidConfiguration e){
-			hpCFG = hp;
-			e.printStackTrace();
-		}
-		return hpCFG;
-	}
-	public enum TaskType {
-		STRUCTURE, CONTROL, PLAYER, TECH, WONDERBUILD, STRUCTUREBUILD, NULL
-	}
+            hpCFG = CivSettings.getString(CivSettings.civConfig, "global.health");
+        } catch (InvalidConfiguration e) {
+            hpCFG = hp;
+            e.printStackTrace();
+        }
+        return hpCFG;
+    }
 
-	public static String getStringForBar(TaskType type, double HP, int maxHP) {
-		String s;
-		String open = "<";
-		String close = ">";
-		int tenPercentOfMax = maxHP / 10;
-		int sizeOfChars = (int) (HP / tenPercentOfMax);
-		int emptyChars = 10 - sizeOfChars;
-		switch (type) {
-			case STRUCTURE:
+    public enum TaskType {
+        STRUCTURE, CONTROL, PLAYER, TECH, WONDERBUILD, STRUCTUREBUILD, NULL
+    }
+
+    public static boolean isDoor(int i) {
+        switch (i) {
+            case ACACIA_DOOR:
+            case DARK_OAK_DOOR:
+            case WOOD_DOOR:
+            case BIRCH_DOOR:
+            case IRON_DOOR:
+            case JUNGLE_DOOR:
+            case SPRUCE_DOOR:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public static String getStringForBar(TaskType type, double HP, int maxHP) {
+        String s;
+        String open = "<";
+        String close = ">";
+        int tenPercentOfMax = maxHP / 10;
+        int sizeOfChars = (int) (HP / tenPercentOfMax);
+        int emptyChars = 10 - sizeOfChars;
+        switch (type) {
+            case STRUCTURE:
 				open = "❰";
 				close = "❱";
 				break;

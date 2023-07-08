@@ -50,12 +50,14 @@ public class ConfigBuildableInfo {
 	public Boolean destroyable = false;
 	public Boolean allow_outside_town = false;
 	public Boolean isWonder = false;
-	public Integer regenRate = 0;
+    public Boolean nationalWonder = false;
+    public Integer regenRate = 0;
 	public Boolean tile_improvement = false;
 	public Integer points = 0;
 	public boolean allow_demolish = false;
-	public boolean strategic = false;
-	public boolean ignore_floating = false;
+    public boolean strategic = false;
+    public boolean waterstructure = false;
+    public boolean ignore_floating = false;
 	public List<HashMap<String, String>> components = new LinkedList<HashMap<String, String>>();
 	public boolean has_template = true;
 	
@@ -112,26 +114,30 @@ public class ConfigBuildableInfo {
 			sinfo.update_event = (String)obj.get("update_event");
 			sinfo.onBuild_event = (String)obj.get("onBuild_event");
 			sinfo.limit = (Integer)obj.get("limit");
-			//TODO handle signs
-			sinfo.cost = (Double)obj.get("cost");
-			sinfo.upkeep = (Double)obj.get("upkeep");
-			sinfo.hammer_cost = (Double)obj.get("hammer_cost");
-			sinfo.max_hitpoints = (Integer)obj.get("max_hitpoints");
-			sinfo.destroyable = (Boolean)obj.get("destroyable");
-			sinfo.allow_outside_town = (Boolean)obj.get("allow_outside_town");
-			sinfo.regenRate = (Integer)obj.get("regen_rate");
-			sinfo.isWonder = isWonder;
-			sinfo.points = (Integer)obj.get("points");
-			
-				@SuppressWarnings("unchecked")
-				List<Map<?, ?>> comps = (List<Map<?, ?>>) obj.get("components");
-				if (comps != null) {
-					for (Map<?, ?> compObj : comps) {
-						
-						HashMap<String, String> compMap = new HashMap<String, String>();
-						for (Object key : compObj.keySet()) {
-							compMap.put((String)key, (String)compObj.get(key));
-						}
+            //TODO handle signs
+            sinfo.cost = (Double) obj.get("cost");
+            sinfo.upkeep = (Double) obj.get("upkeep");
+            sinfo.hammer_cost = (Double) obj.get("hammer_cost");
+            sinfo.max_hitpoints = (Integer) obj.get("max_hitpoints");
+            sinfo.destroyable = (Boolean) obj.get("destroyable");
+            sinfo.allow_outside_town = (Boolean) obj.get("allow_outside_town");
+            sinfo.regenRate = (Integer) obj.get("regen_rate");
+            sinfo.isWonder = isWonder;
+            sinfo.points = (Integer) obj.get("points");
+            sinfo.waterstructure = (Boolean) obj.get("onwater");
+            if (isWonder) {
+                sinfo.nationalWonder = (Boolean) obj.get("national_wonder");
+            }
+
+            @SuppressWarnings("unchecked")
+            List<Map<?, ?>> comps = (List<Map<?, ?>>) obj.get("components");
+            if (comps != null) {
+                for (Map<?, ?> compObj : comps) {
+
+                    HashMap<String, String> compMap = new HashMap<String, String>();
+                    for (Object key : compObj.keySet()) {
+                        compMap.put((String) key, (String) compObj.get(key));
+                    }
 				
 						sinfo.components.add(compMap);	
 					}

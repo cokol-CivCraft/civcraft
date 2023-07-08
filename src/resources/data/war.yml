@@ -57,11 +57,11 @@ war:
     respawn_time: 30
   
     # Respawn time per control block, destroying control blocks add this much time to respawn in seconds.
-    control_block_respawn_time: 30
+    control_block_respawn_time: 15
 
     # Control block hitpoints.
     control_block_hitpoints_capitol: 100
-    control_block_hitpoints_camp: 100
+    control_block_hitpoints_camp: 80
     control_block_hitpoints_townhall: 20
 
     # Penalty of income and hammers taken and given to server when captured.
@@ -71,14 +71,14 @@ war:
     invalid_hourly_penalty: 0.1
 
     # number of seconds increase the respawn time if captials/townhalls are invalid (in mins)
-    invalid_respawn_penalty: 10
+    invalid_respawn_penalty: 2
 
 ### PVP LOGGER settings.
     # Logout time is 2mins after being hit.
-    logout_time: 120
+  #logout_time: 120 REMOVED?
 
     # Time players remain zombies, in seconds
-    zombie_time: 30
+  #zombie_time: 30
 
 
 revolution:
@@ -104,7 +104,7 @@ scout_tower:
 
 arrow_tower:
     # Damage done per hit from arrow tower
-    damage: 7
+  damage: 5
 
     # Range of the arrow tower
     range: 100.0
@@ -126,10 +126,10 @@ cannon_tower:
     damage: 8
 
     # Cannon tower range
-    range: 130.0
+    range: 125.0
 
     # Distance cannon towers must be built apart
-    build_distance: 130.0
+    build_distance: 115.0
 
     # Min-range of cannon tower
     min_range: 30.0
@@ -146,13 +146,13 @@ cannon_tower:
 
 tesla_tower:
     # Damage done by lightning blast
-    damage: 8
+  damage: 7
 
     # Tesla tower range
     range: 150.0
 
     # Distance Tesla towers must be built apart
-    build_distance: 100.0
+  build_distance: 120.0
 
     # Min-range of Tesla tower
     min_range: 10.0

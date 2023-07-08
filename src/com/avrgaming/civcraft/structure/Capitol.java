@@ -218,23 +218,24 @@ public class Capitol extends TownHall {
 	
 	@Override
 	public void createControlPoint(BlockCoord absCoord) {
-		
-		Location centerLoc = absCoord.getLocation();
-		
-		/* Build the bedrock tower. */
-		//for (int i = 0; i < 1; i++) {
-		Block b = centerLoc.getBlock();
-		ItemManager.setTypeId(b, ItemManager.getId(Material.SANDSTONE)); ItemManager.setData(b, 0);
-		
-		StructureBlock sb = new StructureBlock(new BlockCoord(b), this);
-		this.addStructureBlock(sb.getCoord(), true);
-		//}
-		
-		/* Build the control block. */
-		b = centerLoc.getBlock().getRelative(0, 1, 0);
-		ItemManager.setTypeId(b, CivData.OBSIDIAN);
-		sb = new StructureBlock(new BlockCoord(b), this);
-		this.addStructureBlock(sb.getCoord(), true);
+
+        Location centerLoc = absCoord.getLocation();
+
+        /* Build the bedrock tower. */
+        //for (int i = 0; i < 1; i++) {
+        Block b = centerLoc.getBlock();
+        ItemManager.setTypeId(b, ItemManager.getId(Material.BEDROCK));
+        ItemManager.setData(b, 0);
+
+        StructureBlock sb = new StructureBlock(new BlockCoord(b), this);
+        this.addStructureBlock(sb.getCoord(), true);
+        //}
+
+        /* Build the control block. */
+        b = centerLoc.getBlock().getRelative(0, 1, 0);
+        ItemManager.setTypeId(b, CivData.OBSIDIAN);
+        sb = new StructureBlock(new BlockCoord(b), this);
+        this.addStructureBlock(sb.getCoord(), true);
 		
 		int capitolControlHitpoints;
 		try {

@@ -106,26 +106,28 @@ public class CivSettings {
 	private static Map<String, ConfigCultureBiomeInfo> cultureBiomes = new HashMap<String, ConfigCultureBiomeInfo>();
 
 	public static FileConfiguration structureConfig; /* structures.yml */
-	public static Map<String, ConfigBuildableInfo> structures = new HashMap<String, ConfigBuildableInfo>();
-	public static Map<Integer, ConfigGrocerLevel> grocerLevels = new HashMap<Integer, ConfigGrocerLevel>();
-	public static Map<Integer, ConfigCottageLevel> cottageLevels = new HashMap<Integer, ConfigCottageLevel>();
-	public static Map<Integer, ConfigMineLevel> mineLevels = new HashMap<Integer, ConfigMineLevel>();
-	public static Map<Integer, ConfigTempleLevel> templeLevels = new HashMap<Integer, ConfigTempleLevel>();
-	public static Map<Integer, ConfigTradeShipLevel> tradeShipLevels = new HashMap<Integer, ConfigTradeShipLevel>();
-	
-	public static FileConfiguration wonderConfig; /* wonders.yml */
-	public static Map<String, ConfigBuildableInfo> wonders = new HashMap<String, ConfigBuildableInfo>();
-	public static Map<String, ConfigWonderBuff> wonderBuffs = new HashMap<String, ConfigWonderBuff>();
-	
-	public static FileConfiguration techsConfig; /* techs.yml */
-	public static Map<String, ConfigTech> techs = new HashMap<String, ConfigTech>();
-	public static Map<Integer, ConfigTechItem> techItems = new HashMap<Integer, ConfigTechItem>();
-	public static Map<String, ConfigTechPotion> techPotions = new HashMap<String, ConfigTechPotion>();
-	
-	public static FileConfiguration spawnersConfig; /* spawners.yml */
-	public static Map<String, ConfigMobSpawner> spawners = new HashMap<String, ConfigMobSpawner>();
-	public static Map<String, ConfigMobSpawner> landSpawners = new HashMap<String, ConfigMobSpawner>();
-	public static Map<String, ConfigMobSpawner> waterSpawners = new HashMap<String, ConfigMobSpawner>();
+    public static Map<String, ConfigBuildableInfo> structures = new HashMap<String, ConfigBuildableInfo>();
+    public static Map<Integer, ConfigGrocerLevel> grocerLevels = new HashMap<Integer, ConfigGrocerLevel>();
+    public static Map<Integer, ConfigCottageLevel> cottageLevels = new HashMap<Integer, ConfigCottageLevel>();
+    public static Map<Integer, ConfigMineLevel> mineLevels = new HashMap<Integer, ConfigMineLevel>();
+    public static Map<Integer, ConfigTempleLevel> templeLevels = new HashMap<Integer, ConfigTempleLevel>();
+    public static Map<Integer, ConfigTradeShipLevel> tradeShipLevels = new HashMap<Integer, ConfigTradeShipLevel>();
+
+    public static FileConfiguration wonderConfig; /* wonders.yml */
+    public static Map<String, ConfigBuildableInfo> wonders = new HashMap<String, ConfigBuildableInfo>();
+    public static Map<String, ConfigWonderBuff> wonderBuffs = new HashMap<String, ConfigWonderBuff>();
+
+    public static FileConfiguration religionConfig; /*religion.yml */
+    public static Map<String, ConfigReligion> religions = new HashMap<>();
+    public static FileConfiguration techsConfig; /* techs.yml */
+    public static Map<String, ConfigTech> techs = new HashMap<String, ConfigTech>();
+    public static Map<Integer, ConfigTechItem> techItems = new HashMap<Integer, ConfigTechItem>();
+    public static Map<String, ConfigTechPotion> techPotions = new HashMap<String, ConfigTechPotion>();
+
+    public static FileConfiguration spawnersConfig; /* spawners.yml */
+    public static Map<String, ConfigMobSpawner> spawners = new HashMap<String, ConfigMobSpawner>();
+    public static Map<String, ConfigMobSpawner> landSpawners = new HashMap<String, ConfigMobSpawner>();
+    public static Map<String, ConfigMobSpawner> waterSpawners = new HashMap<String, ConfigMobSpawner>();
 
 	public static FileConfiguration goodsConfig; /* goods.yml */
 	public static Map<String, ConfigTradeGood> goods = new HashMap<String, ConfigTradeGood>();
@@ -449,8 +451,9 @@ public class CivSettings {
 		civConfig = loadCivConfig("civ.yml");
 		cultureConfig = loadCivConfig("culture.yml");
 		structureConfig = loadCivConfig("structures.yml");
-		techsConfig = loadCivConfig("techs.yml");
-		goodsConfig = loadCivConfig("goods.yml");
+        techsConfig = loadCivConfig("techs.yml");
+        religionConfig = loadCivConfig("religion.yml");
+        goodsConfig = loadCivConfig("goods.yml");
 		spawnersConfig = loadCivConfig("spawners.yml");
 		buffConfig = loadCivConfig("buffs.yml");
 		governmentConfig = loadCivConfig("governments.yml");
@@ -489,8 +492,9 @@ public class CivSettings {
 		ConfigCultureLevel.loadConfig(cultureConfig, cultureLevels);
 		ConfigBuildableInfo.loadConfig(structureConfig, "structures", structures, false);
 		ConfigBuildableInfo.loadConfig(wonderConfig, "wonders", wonders, true);
-		ConfigTech.loadConfig(techsConfig, techs);
-		ConfigTechItem.loadConfig(techsConfig, techItems);
+        ConfigTech.loadConfig(techsConfig, techs);
+        ConfigReligion.loadConfig(religionConfig, religions);
+        ConfigTechItem.loadConfig(techsConfig, techItems);
 		ConfigTechPotion.loadConfig(techsConfig, techPotions);
 		ConfigHemisphere.loadConfig(goodsConfig, hemispheres);
 		ConfigBuff.loadConfig(buffConfig, buffs);

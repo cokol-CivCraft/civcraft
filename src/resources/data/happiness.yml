@@ -5,15 +5,15 @@
 #
 happiness:
     # Amount of unhappiness per resident in the town.
-    per_resident: 1.0
+    per_resident: 0.25
 
     # Empire Unhappiness, how much unhappiness to add, per town, to the entire
     # civilization's towns.
-    per_town: 1.0
+    per_town: 0.75
 
     # Captured Town Unhappiness. Amount of unhappiness to add to each non-captured town
     # for each captured town in the civ.
-    per_captured_town: 2.0
+    per_captured_town: 1.66
 
     # Base distance Unhappiness
     distance_base: 0.01
@@ -41,28 +41,28 @@ happiness:
           happiness: 12.0
  
         - level: 2
-          happiness: 12.0
+          happiness: 16.0
 
         - level: 3
-          happiness: 12.0
+          happiness: 20.0
 
         - level: 4
-          happiness: 12.0
+          happiness: 23.0
 
         - level: 5
-          happiness: 12.0
+          happiness: 27.0
 
         - level: 6
-          happiness: 12.0
+          happiness: 32.0
 
         - level: 7
-          happiness: 12.0
+          happiness: 38.0
         
         - level: 8
-          happiness: 12.0
+          happiness: 43.0
 
         - level: 9
-          happiness: 12.0
+          happiness: 48.0
 
     # Happiness States
     #
@@ -78,11 +78,11 @@ happiness:
         - level: 0
           name: 'Revolt'
           color: 'Red'
-          amount: 0.0
-          beaker_rate: 0.20
-          coin_rate: 0.20
-          culture_rate: 0.20
-          hammer_rate: 0.20
+          amount: 0.05
+          beaker_rate: 0.25
+          coin_rate: 0.25
+          culture_rate: 0.25
+          hammer_rate: 0.25
 
         - level: 1
           name: 'Unrest'

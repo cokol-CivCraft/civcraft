@@ -60,11 +60,11 @@ public class PostBuildSyncTask implements Runnable {
 	public static void validate(Template tpl, Buildable buildable) {
 		
 		/*
-		 * Use the location's of the command blocks in the template and the buildable's corner 
-		 * to find their real positions. Then perform any special building we may want to do
-		 * at those locations.
-		 */
-		/* These block coords do not point to a location in the world, just a location in the template. */
+         * Use the location's of the command blocks in the template and the buildable corner
+         * to find their real positions. Then perform any special building we may want to do
+         * at those locations.
+         */
+        /* These block coords do not point to a location in the world, just a location in the template. */
 		for (BlockCoord relativeCoord : tpl.commandBlockRelativeLocations) {
 			SimpleBlock sb = tpl.blocks[relativeCoord.getX()][relativeCoord.getY()][relativeCoord.getZ()];
 			StructureSign structSign;

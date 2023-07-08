@@ -598,13 +598,8 @@ public class Template {
 
             SimpleBlock block = new SimpleBlock(blockId, blockData);
 
-            if (blockId == CivData.WOOD_DOOR ||
-                    blockId == CivData.IRON_DOOR ||
-                    blockId == CivData.SPRUCE_DOOR ||
-                    blockId == CivData.BIRCH_DOOR ||
-                    blockId == CivData.JUNGLE_DOOR ||
-                    blockId == CivData.ACACIA_DOOR ||
-                    blockId == CivData.DARK_OAK_DOOR) {
+
+            if (CivData.isDoor(blockId)) {
                 this.doorRelativeLocations.add(new BlockCoord("", blockX, blockY, blockZ));
             }
 
@@ -643,6 +638,13 @@ public class Template {
                         block.specialType = SimpleBlock.Type.LITERAL;
 
                         // Literal sign, copy the sign into the simple block
+                       /* for (int i = 0 ; i < 4 ; i++) {
+                            try {
+                                block.message[i] = locTypeSplit[i+2];
+                            } catch (ArrayIndexOutOfBoundsException e) {
+                                block.message[i] = "";
+                            } maybe change to this? TODO
+                        } */
                         try {
                             block.message[0] = locTypeSplit[2];
                         } catch (ArrayIndexOutOfBoundsException e) {

@@ -854,22 +854,18 @@ public class Structure extends Buildable {
 				String className = "com.avrgaming.civcraft.components."+compInfo.get("name");
 				Class<?> someClass;
 				try {
-					someClass = Class.forName(className);
-					Component compClass = (Component)someClass.newInstance();
-					compClass.setName(compInfo.get("name"));
-					
-					for (String key : compInfo.keySet()) {
-						compClass.setAttribute(key, compInfo.get(key));
-					}
-					
-					compClass.createComponent(this, false);
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				} catch (InstantiationException e) {
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-				}
+                    someClass = Class.forName(className);
+                    Component compClass = (Component) someClass.newInstance();
+                    compClass.setName(compInfo.get("name"));
+
+                    for (String key : compInfo.keySet()) {
+                        compClass.setAttribute(key, compInfo.get(key));
+                    }
+
+                    compClass.createComponent(this, false);
+                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
 			}
 		}
 		

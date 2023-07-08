@@ -8,7 +8,7 @@
 # Set if you want to use civcraft.net's server listing service (SLS). By setting this to true
 # the civcraft plugin will send your server's information to civcraft.net so players can find
 # your server while looking for civcraft servers to play on.
-use_server_listing_service: 'true'
+use_server_listing_service: 'false'
 
 # IP address or URL of your server. The SLS will use this to inform users how to connect to your server.
 # if left blank, the SLS will attempt to obtain it automatically from packets sent to the SLS.
@@ -22,7 +22,7 @@ server_name: 'CivilizationCraft'
 server_timezone: 'CST'
 
 # A short message to display on civcraft.net to advertise your server or explain what it's about.
-server_description: 'Just another MineTexas CivCraft server.'
+server_description: 'Just another MineTexas CivCraft server. (P)'
 
 # The URL to the homepage of your server
 server_url: 'http://www.civilizationcraft.net/'

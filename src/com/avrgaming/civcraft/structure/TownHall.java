@@ -25,14 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Effect;
-import org.bukkit.FireworkEffect;
+import org.bukkit.*;
 import org.bukkit.FireworkEffect.Type;
-import org.bukkit.Location;
-import org.bukkit.Sound;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
@@ -214,17 +208,17 @@ public class TownHall extends Structure implements RespawnLocationHolder {
 		ItemFrameStorage itemStore;
 		ItemFrame frame = null;
 		Entity entity = CivGlobal.getEntityAtLocation(absCoord.getBlock().getLocation());
-		if (entity == null || (!(entity instanceof ItemFrame))) {
-			itemStore = new ItemFrameStorage(attachedBlock.getLocation(), facingDirection);
-		} else {
-			try {
-				frame = (ItemFrame)entity;
-				itemStore = new ItemFrameStorage(frame, attachedBlock.getLocation());
-			} catch (CivException e) {
-				e.printStackTrace();
-				return;
-			}
-			if (facingDirection != BlockFace.EAST) {
+        if (!(entity instanceof ItemFrame)) {
+            itemStore = new ItemFrameStorage(attachedBlock.getLocation(), facingDirection);
+        } else {
+            try {
+                frame = (ItemFrame) entity;
+                itemStore = new ItemFrameStorage(frame, attachedBlock.getLocation());
+            } catch (CivException e) {
+                e.printStackTrace();
+                return;
+            }
+            if (facingDirection != BlockFace.EAST) {
 				itemStore.setFacingDirection(facingDirection);
 			}
 		}
@@ -241,16 +235,16 @@ public class TownHall extends Structure implements RespawnLocationHolder {
 	public void setRespawnPoint(BlockCoord absCoord) {
 		this.respawnPoints.add(absCoord);
 	}
-	
-	public BlockCoord getRandomRespawnPoint() {
-		if (this.respawnPoints.size() == 0) {
-			return null;
-		}
-		
-		Random rand = new Random();
-		return this.respawnPoints.get(rand.nextInt(this.respawnPoints.size()));
-		
-	}
+
+    public BlockCoord getRandomRespawnPoint() { // FOR WAR-ROOM
+        if (this.respawnPoints.size() == 0) {
+            return null;
+        }
+
+        Random rand = new Random();
+        return this.respawnPoints.get(rand.nextInt(this.respawnPoints.size()));
+
+    }
 
 	public int getRespawnTime() {
 		try {
@@ -289,35 +283,36 @@ public class TownHall extends Structure implements RespawnLocationHolder {
 	public void setRevivePoint(BlockCoord absCoord) {
 		this.revivePoints.add(absCoord);
 	}
-	
-	public BlockCoord getRandomRevivePoint() {
-		if (this.revivePoints.size() == 0 || !this.isComplete()) {
-			return new BlockCoord(this.getCorner());
-		}
-		Random rand = new Random();
-		int index = rand.nextInt(this.revivePoints.size());
-		return this.revivePoints.get(index);
-		
-	}
+
+    public BlockCoord getRandomRevivePoint() { // FOR STRUCTURE
+        if (this.revivePoints.size() == 0 || !this.isComplete()) {
+            return new BlockCoord(this.getCorner());
+        }
+        Random rand = new Random();
+        int index = rand.nextInt(this.revivePoints.size());
+        return this.revivePoints.get(index);
+
+    }
 
 	public void createControlPoint(BlockCoord absCoord) {
-		
-		Location centerLoc = absCoord.getLocation();
-		
-		/* Build the bedrock tower. */
-		//for (int i = 0; i < 1; i++) {
-		Block b = centerLoc.getBlock();
-		ItemManager.setTypeId(b, CivData.FENCE); ItemManager.setData(b, 0);
-		
-		StructureBlock sb = new StructureBlock(new BlockCoord(b), this);
-		this.addStructureBlock(sb.getCoord(), true);
-		//}
-		
-		/* Build the control block. */
-		b = centerLoc.getBlock().getRelative(0, 1, 0);
-		ItemManager.setTypeId(b, CivData.OBSIDIAN);
-		sb = new StructureBlock(new BlockCoord(b), this);
-		this.addStructureBlock(sb.getCoord(), true);
+
+        Location centerLoc = absCoord.getLocation();
+
+        /* Build the bedrock tower. */
+        //for (int i = 0; i < 1; i++) {
+        Block b = centerLoc.getBlock();
+        ItemManager.setTypeId(b, Material.COBBLE_WALL.getId());
+        ItemManager.setData(b, 0);
+
+        StructureBlock sb = new StructureBlock(new BlockCoord(b), this);
+        this.addStructureBlock(sb.getCoord(), true);
+        //}
+
+        /* Build the control block. */
+        b = centerLoc.getBlock().getRelative(0, 1, 0);
+        ItemManager.setTypeId(b, CivData.OBSIDIAN);
+        sb = new StructureBlock(new BlockCoord(b), this);
+        this.addStructureBlock(sb.getCoord(), true);
 		
 		int townhallControlHitpoints;
 		try {
@@ -351,10 +346,10 @@ public class TownHall extends Structure implements RespawnLocationHolder {
 		
 		boolean allDestroyed = true;
 		for (ControlPoint c : this.controlPoints.values()) {
-			if (c.isDestroyed() == false) {
-				allDestroyed = false;
-				break;
-			}
+            if (!c.isDestroyed()) {
+                allDestroyed = false;
+                break;
+            }
 		}
 		CivMessage.sendTownSound(hit.getTown(), Sound.AMBIENT_CAVE, 1.0f, 0.5f);
 

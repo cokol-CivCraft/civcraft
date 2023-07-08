@@ -66,11 +66,9 @@ public class FishingListener implements Listener {
                 stack = LoreCraftableMaterial.spawn(craftMat);
                 CivMessage.send(event.getPlayer(), CivColor.LightGreen + CivSettings.localize.localizedString("var_fishing_success", CivColor.LightPurple + craftMat.getName()));
             } else {
-                stack=null;
+                stack = null;
+                return;
             }
-        }
-        if (stack == null) {
-            return;
         }
         for (ItemStack is : player.getInventory().addItem(stack).values()) {
             player.getWorld().dropItem(player.getLocation(), is);

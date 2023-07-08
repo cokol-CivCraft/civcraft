@@ -18,6 +18,7 @@
  */
 package com.avrgaming.civcraft.listener;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -754,6 +755,54 @@ public class BlockListener implements Listener {
 		}
 	}
 
+	private void updateBlockUnderAttack(Block b) {
+		Material m = b.getType();
+		switch (b.getType()) {
+			case STEP:
+			case WOOD_STEP:
+				b.setType(Material.STONE_SLAB2);
+				break;
+			case SANDSTONE:
+			case RED_SANDSTONE:
+			case ICE:
+			case PACKED_ICE:
+			case SNOW_BLOCK:
+			case GRASS:
+			case DIRT:
+			case NETHERRACK:
+			case GRAVEL:
+			case SAND:
+			case SOUL_SAND:
+				b.setType(Material.BEDROCK);
+				break;
+			case LEAVES:
+			case LEAVES_2:
+				b.setType(Material.NETHER_WART_BLOCK);
+				break;
+			case ACACIA_STAIRS:
+			case BIRCH_WOOD_STAIRS:
+			case SANDSTONE_STAIRS:
+			case QUARTZ_STAIRS:
+			case WOOD_STAIRS:
+			case SPRUCE_WOOD_STAIRS:
+			case DARK_OAK_STAIRS:
+			case RED_SANDSTONE_STAIRS:
+			case JUNGLE_WOOD_STAIRS:
+			case PURPUR_STAIRS:
+			case BRICK_STAIRS:
+			case SMOOTH_STAIRS:
+			case NETHER_BRICK_STAIRS:
+				b.setType(Material.COBBLESTONE_STAIRS);
+				break;
+		}
+		try {
+			this.wait(7);
+			b.setType(m);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
 	@EventHandler(priority = EventPriority.HIGH)
 	public void OnBlockBreakEvent(BlockBreakEvent event) {
 		Resident resident = CivGlobal.getResident(event.getPlayer());
@@ -772,6 +821,7 @@ public class BlockListener implements Listener {
 
 		if (sb != null) {
 			event.setCancelled(true);
+			this.updateBlockUnderAttack(event.getBlock()); // TODO fix if any problems with that :/
 			TaskMaster.syncTask(new StructureBlockHitEvent(event.getPlayer().getName(), bcoord, sb, event.getBlock().getWorld()), 0);
 			return;
 		}
@@ -779,7 +829,7 @@ public class BlockListener implements Listener {
 		RoadBlock rb = CivGlobal.getRoadBlock(bcoord);
 		if (rb != null && !rb.isAboveRoadBlock()) {
 			if (War.isWarTime()) {
-				/* Allow blocks to be 'destroyed' during war time. */
+				/* Allow blocks to be 'destroyed' during wartime. */
 				WarRegen.destroyThisBlock(event.getBlock(), rb.getTown());
 				event.setCancelled(true);
 				return;

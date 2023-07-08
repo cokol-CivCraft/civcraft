@@ -1563,7 +1563,7 @@ materials:
               - "l l"
 
         # Checked 10/8/13
-        - id: 'mat_leather_Boots'
+        - id: 'mat_leather_boots'
           item_id: 301
           item_data: 0
           name: 'Leather Moccasins'
@@ -1571,9 +1571,9 @@ materials:
           shaped: true
           category: '<lightgreen>Gear Tier 1'
           components:
-              - name: 'NoVanillaDurability'
-              - name: 'DurabilityOnDeath'
-                value: '0.1'
+            - name: 'NoVanillaDurability'
+            - name: 'DurabilityOnDeath'
+              value: '0.1'
           ingredients:
               - type_id: 334
                 data: 0
@@ -2581,18 +2581,382 @@ materials:
               - name: 'DurabilityOnDeath'
                 value: '0.1'
           ingredients:
-              - type_id: 0
-                data: 0
-                custom_id: 'mat_tungsten_plate'
-                letter: 't'
+            - type_id: 0
+              data: 0
+              custom_id: 'mat_tungsten_plate'
+              letter: 't'
           shape:
-              - "ttt"
-              - "t t"
-              - "   "
+            - "ttt"
+            - "t t"
+            - "   "
+  #===============================================================#
+  #><><# {[NEW CONTENT]} {[ARENA ITEMS]} {[NEW CONTENT]} #><><#
+  #===============================================================#
 
 
+  # Checked 10/8/13
+        - id: 'mat_arena_leather_boots_two'
+          item_id: 301
+          item_data: 0
+          name: 'Boots of Iron Valor'
+          craftable: false
+          required_techs:
+          shaped: false
+          category: '<white>Arena Items'
+          components:
+            - name: 'Defense'
+              value: '6.5'
+            - name: 'LeatherColor'
+              color: 'FFFFFF'
+            - name: 'NoVanillaDurability'
+            - name: 'DurabilityOnDeath'
+              value: '0.0'
+            - name: 'NoCauldronWash'
 
-# Catalyst/Crystal ingredients
+  # Checked 10/8/13
+        - id: 'mat_arena_leather_leggings_two'
+          item_id: 300
+          item_data: 0
+          name: 'Leggings of Iron Valor'
+          craftable: false
+          required_techs:
+          shaped: false
+          category: '<white>Arena Items'
+          components:
+            - name: 'Defense'
+              value: '6.5'
+            - name: 'LeatherColor'
+              color: 'FFFFFF'
+            - name: 'NoVanillaDurability'
+            - name: 'DurabilityOnDeath'
+              value: '0.0'
+            - name: 'NoCauldronWash'
+
+  # Checked 10/8/13
+        - id: 'mat_arena_leather_chestplate_two'
+          item_id: 299
+          item_data: 0
+          name: 'Armor of Iron Valor'
+          craftable: false
+          required_techs:
+          shaped: false
+          category: '<white>Arena Items'
+          components:
+            - name: 'Defense'
+              value: '6.5'
+            - name: 'LeatherColor'
+              color: 'FFFFFF'
+            - name: 'NoVanillaDurability'
+            - name: 'DurabilityOnDeath'
+              value: '0.0'
+            - name: 'NoCauldronWash'
+
+  # Checked 10/8/13
+        - id: 'mat_arena_leather_helmet_two'
+          item_id: 298
+          item_data: 0
+          name: 'Hachigane'
+          craftable: false
+          required_techs:
+          shaped: false
+          category: '<white>Arena Items'
+          components:
+            - name: 'Defense'
+              value: '6.5'
+            - name: 'LeatherColor'
+              color: 'FFFFFF'
+            - name: 'NoVanillaDurability'
+            - name: 'DurabilityOnDeath'
+              value: '0.0'
+            - name: 'NoCauldronWash'
+
+  # Checked 10/8/13
+        - id: 'mat_arena_iron_chestplate_two'
+          item_id: 307
+          item_data: 0
+          name: 'Armor of Babel'
+          craftable: false
+          required_techs:
+          shaped: false
+          category: '<white>Arena Items'
+          components:
+            - name: 'Defense'
+              value: '7'
+            - name: 'NoVanillaDurability'
+            - name: 'DurabilityOnDeath'
+              value: '0.0'
+
+  # Checked 10/8/13
+        - id: 'mat_arena_iron_helmet_two'
+          item_id: 306
+          item_data: 0
+          name: 'Helmet of Babel'
+          craftable: false
+          required_techs:
+          shaped: false
+          category: '<white>Arena Items'
+          components:
+            - name: 'Defense'
+              value: '7'
+            - name: 'NoVanillaDurability'
+            - name: 'DurabilityOnDeath'
+              value: '0.0'
+
+  # Checked 10/8/13
+        - id: 'mat_arena_iron_leggings_two'
+          item_id: 308
+          item_data: 0
+          name: 'White-Soul Leggings'
+          craftable: false
+          required_techs:
+          shaped: false
+          category: '<white>Arena Items'
+          components:
+            - name: 'Defense'
+              value: '7'
+            - name: 'NoVanillaDurability'
+            - name: 'DurabilityOnDeath'
+              value: '0.0'
+
+  # Checked 10/8/13
+        - id: 'mat_arena_iron_boots_two'
+          item_id: 309
+          item_data: 0
+          name: 'White-Soul Boots'
+          craftable: false
+          required_techs:
+          shaped: false
+          category: '<white>Arena Items'
+          components:
+            - name: 'Defense'
+              value: '7'
+            - name: 'NoVanillaDurability'
+            - name: 'DurabilityOnDeath'
+              value: '0.0'
+
+
+  # Checked 10/8/13
+        - id: 'mat_arena_iron_helmet'
+          item_id: 314
+          item_data: 0
+          name: 'Soul Helmet'
+          craftable: false
+          required_techs:
+          shaped: false
+          category: '<yellow>Arena Items'
+          components:
+            - name: 'Defense'
+              value: '7'
+            - name: 'NoVanillaDurability'
+            - name: 'DurabilityOnDeath'
+              value: '0.0'
+
+  # Checked 10/8/13
+        - id: 'mat_arena_iron_chestplate'
+          item_id: 315
+          item_data: 0
+          name: 'Soul Chestplate'
+          craftable: false
+          required_techs:
+          shaped: false
+          category: '<yellow>Arena Items'
+          components:
+            - name: 'Defense'
+              value: '7'
+            - name: 'NoVanillaDurability'
+            - name: 'DurabilityOnDeath'
+              value: '0.0'
+
+  # Checked 10/8/13
+        - id: 'mat_arena_iron_leggings'
+          item_id: 316
+          item_data: 0
+          name: 'Soul Leggings'
+          craftable: false
+          required_techs:
+          shaped: false
+          category: '<yellow>Arena Items'
+          components:
+            - name: 'Defense'
+              value: '7'
+            - name: 'NoVanillaDurability'
+            - name: 'DurabilityOnDeath'
+              value: '0.0'
+
+  # Checked 10/8/13
+        - id: 'mat_arena_iron_boots'
+          item_id: 317
+          item_data: 0
+          name: 'Soul Boots'
+          craftable: false
+          required_techs:
+          shaped: false
+          category: '<yellow>Arena Items'
+          components:
+            - name: 'Defense'
+              value: '7'
+            - name: 'NoVanillaDurability'
+            - name: 'DurabilityOnDeath'
+              value: '0.0'
+
+  # Checked 10/8/13
+        - id: 'mat_arena_iron_sword'
+          item_id: 283
+          item_data: 0
+          name: 'Kishingatana'
+          craftable: false
+          required_techs:
+          shaped: false
+          category: '<yellow>Arena Items'
+          components:
+            - name: 'Attack'
+              value: '30'
+            - name: 'NoVanillaDurability'
+            - name: 'DurabilityOnDeath'
+              value: '0.0'
+
+  # Checked 10/8/13
+        - id: 'mat_arena_iron_sword_two'
+          item_id: 267
+          item_data: 0
+          name: 'Storm Ruler'
+          craftable: false
+          required_techs:
+          shaped: false
+          category: '<white>Arena Items'
+          components:
+            - name: 'Attack'
+              value: '30'
+            - name: 'NoVanillaDurability'
+            - name: 'DurabilityOnDeath'
+              value: '0.0'
+
+  # Checked 10/8/13
+        - id: 'mat_arena_iron_axe'
+          item_id: 286
+          item_data: 0
+          name: 'Mirandas axe'
+          craftable: false
+          required_techs:
+          shaped: false
+          category: '<yellow>Arena Items'
+          components:
+            - name: 'Attack'
+              value: '32'
+            - name: 'NoVanillaDurability'
+            - name: 'DurabilityOnDeath'
+              value: '0.0'
+
+  # Checked 10/8/13
+        - id: 'mat_arena_hunting_bow'
+          item_id: 261
+          item_data: 0
+          name: 'Hans Machine gun'
+          craftable: false
+          required_techs:
+          shaped: false
+          category: '<yellow>Arena Items'
+          components:
+            - name: 'RangedAttack'
+              value: '34'
+            - name: 'NoVanillaDurability'
+            - name: 'DurabilityOnDeath'
+              value: '0.0'
+
+  # Checked 10/8/13
+        - id: 'mat_arena_hunting_bow_two'
+          item_id: 261
+          item_data: 0
+          name: 'Mad Bow JubJub'
+          craftable: false
+          required_techs:
+          shaped: false
+          category: '<white>Arena Items'
+          components:
+            - name: 'RangedAttack'
+              value: '34'
+            - name: 'NoVanillaDurability'
+            - name: 'DurabilityOnDeath'
+              value: '0.0'
+
+  # Checked 10/8/13
+        - id: 'mat_arena_leather_boots'
+          item_id: 301
+          item_data: 0
+          name: 'Black-Soul Boots'
+          craftable: false
+          required_techs:
+          shaped: false
+          category: '<yellow>Arena Items'
+          components:
+            - name: 'Defense'
+              value: '6.5'
+            - name: 'LeatherColor'
+              color: '000000'
+            - name: 'NoVanillaDurability'
+            - name: 'DurabilityOnDeath'
+              value: '0.0'
+            - name: 'NoCauldronWash'
+
+  # Checked 10/8/13
+        - id: 'mat_arena_leather_leggings'
+          item_id: 300
+          item_data: 0
+          name: 'Black-Soul Leggings'
+          craftable: false
+          required_techs:
+          shaped: false
+          category: '<yellow>Arena Items'
+          components:
+            - name: 'Defense'
+              value: '6.5'
+            - name: 'LeatherColor'
+              color: '000000'
+            - name: 'NoVanillaDurability'
+            - name: 'DurabilityOnDeath'
+              value: '0.0'
+            - name: 'NoCauldronWash'
+
+  # Checked 10/8/13
+        - id: 'mat_arena_leather_chestplate'
+          item_id: 299
+          item_data: 0
+          name: 'Black-Soul Chestplate'
+          craftable: false
+          required_techs:
+          shaped: false
+          category: '<yellow>Arena Items'
+          components:
+            - name: 'Defense'
+              value: '6.5'
+            - name: 'LeatherColor'
+              color: '000000'
+            - name: 'NoVanillaDurability'
+            - name: 'DurabilityOnDeath'
+              value: '0.0'
+            - name: 'NoCauldronWash'
+
+  # Checked 10/8/13
+        - id: 'mat_arena_leather_helmet'
+          item_id: 298
+          item_data: 0
+          name: 'Mystery of the night sky'
+          craftable: false
+          required_techs:
+          shaped: false
+          category: '<yellow>Arena Items'
+          components:
+            - name: 'Defense'
+              value: '6.5'
+            - name: 'LeatherColor'
+              color: '000000'
+            - name: 'NoVanillaDurability'
+            - name: 'DurabilityOnDeath'
+              value: '0.0'
+            - name: 'NoCauldronWash'
+
+
+  # Catalyst/Crystal ingredients
         - id: 'mat_metallic_crystal_fragment_1'
           item_id: 370
           item_data: 0
@@ -2933,7 +3297,7 @@ materials:
                 data: 0
                 letter: 'e'
               - type_id: 0
-                custom_id: 'mat_ionic_crystal_4'
+                custom_id: 'mat_ionic_crystal_3'
                 data: 0
                 letter: 'c'
           shape:
@@ -3967,7 +4331,7 @@ materials:
               - name: 'NoRightClick'
               - name: 'Catalyst'
                 enhancement: 'LoreEnhancementDefense'
-                allowed_materials: 'mat_iron_chestplate, mat_iron_leggings, mat_iron_helmet, mat_iron_boots, mat_leather_chestplate, mat_leather_Boots, mat_leather_leggings, mat_leather_helmet'
+                allowed_materials: 'mat_iron_chestplate, mat_iron_leggings, mat_iron_helmet, mat_iron_boots, mat_leather_chestplate, mat_leather_boots, mat_leather_leggings, mat_leather_helmet'
                 chance: '66'
                 amount: '0.25'
           ingredients:
@@ -4659,12 +5023,11 @@ materials:
               - type_id: 0
                 custom_id: 'mat_refined_sulphur'
                 data: 0
-                count: 2
+                count: 1
               - type_id: 0
                 custom_id: 'mat_compacted_sand'
                 data: 0
                 count: 1
-                letter: 'g' 
 
         - id: 'mat_vanilla_ender_chest'
           item_id: 130

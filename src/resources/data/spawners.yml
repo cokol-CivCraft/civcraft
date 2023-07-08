@@ -13,16 +13,16 @@ enable: true
 ########### Mob Spawner Generation Options #######
 generation:
     # Minimum number of chunks mob spawners can be apart
-    chunks_min: 15
+    chunks_min: 150
 
     # Maximum number of chunks mob spawners should be apart
-    chunks_max: 30
+    chunks_max: 300
 
     # World size in x chunks (radius)
-    chunks_x: 625
+    chunks_x: 1
 #    chunks_x: 100 
     # World size in z chunks (radius)
-    chunks_z: 625
+    chunks_z: 1
 #    chunks_z: 100
     
     # Random seed for mob spawner locations
