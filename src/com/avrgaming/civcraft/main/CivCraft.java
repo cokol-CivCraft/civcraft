@@ -17,27 +17,10 @@
  */
 package com.avrgaming.civcraft.main;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import com.avrgaming.civcraft.arena.ArenaListener;
 import com.avrgaming.civcraft.arena.ArenaManager;
 import com.avrgaming.civcraft.arena.ArenaTimer;
-import com.avrgaming.civcraft.command.AcceptCommand;
-import com.avrgaming.civcraft.command.BuildCommand;
-import com.avrgaming.civcraft.command.DenyCommand;
-import com.avrgaming.civcraft.command.EconCommand;
-import com.avrgaming.civcraft.command.HereCommand;
-import com.avrgaming.civcraft.command.KillCommand;
-import com.avrgaming.civcraft.command.PayCommand;
-import com.avrgaming.civcraft.command.ReportCommand;
-import com.avrgaming.civcraft.command.SelectCommand;
-import com.avrgaming.civcraft.command.TradeCommand;
+import com.avrgaming.civcraft.command.*;
 import com.avrgaming.civcraft.command.admin.AdminCommand;
 import com.avrgaming.civcraft.command.camp.CampCommand;
 import com.avrgaming.civcraft.command.civ.CivChatCommand;
@@ -57,14 +40,7 @@ import com.avrgaming.civcraft.event.EventTimerTask;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.fishing.FishingListener;
-import com.avrgaming.civcraft.listener.BlockListener;
-import com.avrgaming.civcraft.listener.BonusGoodieManager;
-import com.avrgaming.civcraft.listener.ChatListener;
-import com.avrgaming.civcraft.listener.CustomItemManager;
-import com.avrgaming.civcraft.listener.DebugListener;
-import com.avrgaming.civcraft.listener.DisableXPListener;
-import com.avrgaming.civcraft.listener.MarkerPlacementManager;
-import com.avrgaming.civcraft.listener.PlayerListener;
+import com.avrgaming.civcraft.listener.*;
 import com.avrgaming.civcraft.listener.armor.ArmorListener;
 import com.avrgaming.civcraft.loreenhancements.LoreEnhancementArenaItem;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterialListener;
@@ -80,32 +56,24 @@ import com.avrgaming.civcraft.structure.farm.FarmPreCachePopulateTimer;
 import com.avrgaming.civcraft.structurevalidation.StructureValidationChecker;
 import com.avrgaming.civcraft.structurevalidation.StructureValidationPunisher;
 import com.avrgaming.civcraft.threading.TaskMaster;
-import com.avrgaming.civcraft.threading.sync.SyncBuildUpdateTask;
-import com.avrgaming.civcraft.threading.sync.SyncGetChestInventory;
-import com.avrgaming.civcraft.threading.sync.SyncGrowTask;
-import com.avrgaming.civcraft.threading.sync.SyncLoadChunk;
-import com.avrgaming.civcraft.threading.sync.SyncUpdateChunks;
-import com.avrgaming.civcraft.threading.sync.SyncUpdateInventory;
+import com.avrgaming.civcraft.threading.sync.*;
 import com.avrgaming.civcraft.threading.tasks.ArrowProjectileTask;
 import com.avrgaming.civcraft.threading.tasks.ProjectileComponentTimer;
 import com.avrgaming.civcraft.threading.tasks.ScoutTowerTask;
-import com.avrgaming.civcraft.threading.timers.AnnouncementTimer;
-import com.avrgaming.civcraft.threading.timers.BeakerTimer;
-import com.avrgaming.civcraft.threading.timers.ChangeGovernmentTimer;
-import com.avrgaming.civcraft.threading.timers.UpdateMinuteEventTimer;
-import com.avrgaming.civcraft.threading.timers.PlayerLocationCacheUpdate;
-import com.avrgaming.civcraft.threading.timers.PlayerProximityComponentTimer;
-import com.avrgaming.civcraft.threading.timers.ReduceExposureTimer;
-import com.avrgaming.civcraft.threading.timers.RegenTimer;
-import com.avrgaming.civcraft.threading.timers.UnitTrainTimer;
-import com.avrgaming.civcraft.threading.timers.UpdateEventTimer;
-import com.avrgaming.civcraft.threading.timers.WindmillTimer;
+import com.avrgaming.civcraft.threading.timers.*;
 import com.avrgaming.civcraft.trade.TradeInventoryListener;
 import com.avrgaming.civcraft.util.BukkitObjects;
 import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.TimeTools;
 import com.avrgaming.civcraft.war.WarListener;
 import com.avrgaming.global.scores.CalculateScoreTimer;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.IOException;
+import java.sql.SQLException;
 
 public final class CivCraft extends JavaPlugin {
 
@@ -214,8 +182,8 @@ public final class CivCraft extends JavaPlugin {
 		pluginManager.registerEvents(new DebugListener(), this);
 		pluginManager.registerEvents(new LoreCraftableMaterialListener(), this);
 		pluginManager.registerEvents(new LoreGuiItemListener(), this);
-		
-		boolean useEXPAsCurrency= true;
+
+        boolean useEXPAsCurrency;
 		try {
 			useEXPAsCurrency = CivSettings.getBoolean(CivSettings.civConfig, "global.use_exp_as_currency");
 			
@@ -267,48 +235,53 @@ public final class CivCraft extends JavaPlugin {
             return;
             //TODO disable plugin?
         }
-		
-		// Init commands
-		getCommand("town").setExecutor(new TownCommand());
-		getCommand("resident").setExecutor(new ResidentCommand());
-		getCommand("dbg").setExecutor(new DebugCommand());
-		getCommand("plot").setExecutor(new PlotCommand());
-		getCommand("accept").setExecutor(new AcceptCommand());
-		getCommand("deny").setExecutor(new DenyCommand());
-		getCommand("civ").setExecutor(new CivCommand());
-		getCommand("tc").setExecutor(new TownChatCommand());
-		getCommand("cc").setExecutor(new CivChatCommand());
-		//getCommand("gc").setExecutor(new GlobalChatCommand());
-		getCommand("ad").setExecutor(new AdminCommand());
-		getCommand("econ").setExecutor(new EconCommand());
-		getCommand("pay").setExecutor(new PayCommand());
-		getCommand("build").setExecutor(new BuildCommand());
-		getCommand("market").setExecutor(new MarketCommand());
-		getCommand("select").setExecutor(new SelectCommand());
-		getCommand("here").setExecutor(new HereCommand());
-		getCommand("camp").setExecutor(new CampCommand());
-		getCommand("report").setExecutor(new ReportCommand());
-		getCommand("trade").setExecutor(new TradeCommand());
-		getCommand("kill").setExecutor(new KillCommand());
-		getCommand("team").setExecutor(new TeamCommand());
-	
-		registerEvents();
 
-		
-		startTimers();
-				
-		//creativeInvPacketManager.init(this);		
-	}
-	
-	@Override
-	public void onDisable() {
-		super.onDisable();
-		isDisable = true;
-		SQLUpdate.save();
-	}
-	
-	public boolean hasPlugin(String name) {
-		Plugin p;
+        // Init commands
+        registerCommand(new TownCommand());
+        registerCommand(new ResidentCommand());
+        registerCommand(new DebugCommand());
+        registerCommand(new PlotCommand());
+        getCommand("accept").setExecutor(new AcceptCommand());
+        getCommand("deny").setExecutor(new DenyCommand());
+        registerCommand(new CivCommand());
+        getCommand("tc").setExecutor(new TownChatCommand());
+        getCommand("cc").setExecutor(new CivChatCommand());
+        //getCommand("gc").setExecutor(new GlobalChatCommand());
+        registerCommand(new AdminCommand());
+        registerCommand(new EconCommand());
+        getCommand("pay").setExecutor(new PayCommand());
+        registerCommand(new BuildCommand());
+        registerCommand(new MarketCommand());
+        getCommand("select").setExecutor(new SelectCommand());
+        getCommand("here").setExecutor(new HereCommand());
+        registerCommand(new CampCommand());
+        registerCommand(new ReportCommand());
+        registerCommand(new TradeCommand());
+        getCommand("kill").setExecutor(new KillCommand());
+        registerCommand(new TeamCommand());
+
+        registerEvents();
+
+
+        startTimers();
+
+        //creativeInvPacketManager.init(this);
+    }
+
+    public void registerCommand(CommandBase command) {
+        getCommand(command.command).setExecutor(command);
+        getCommand(command.command).setTabCompleter(command);
+    }
+
+    @Override
+    public void onDisable() {
+        super.onDisable();
+        isDisable = true;
+        SQLUpdate.save();
+    }
+
+    public boolean hasPlugin(String name) {
+        Plugin p;
 		p = getServer().getPluginManager().getPlugin(name);
 		return (p != null);
 	}

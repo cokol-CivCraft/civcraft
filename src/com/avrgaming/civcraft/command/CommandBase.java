@@ -33,8 +33,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
@@ -42,7 +42,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public abstract class CommandBase implements CommandExecutor {
+public abstract class CommandBase implements TabExecutor {
 
     private static final int MATCH_LIMIT = 5;
 
@@ -171,12 +171,9 @@ public abstract class CommandBase implements CommandExecutor {
     public void doLogging() {
     }
 
+    @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        List<String> al = new ArrayList<>();
-        al.add("sub1");
-        al.add("barg");
-        al.add("borg");
-        return al;
+        return new ArrayList<>(commands.keySet());
     }
 
     public void showBasicHelp() {
