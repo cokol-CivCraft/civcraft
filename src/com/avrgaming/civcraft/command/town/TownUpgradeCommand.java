@@ -29,7 +29,7 @@ import com.avrgaming.civcraft.util.CivColor;
 
 public class TownUpgradeCommand extends CommandBase {
 
-	@SuppressWarnings("unused")
+
 	@Override
 	public void init() {
         command = "/town upgrade";
@@ -41,7 +41,7 @@ public class TownUpgradeCommand extends CommandBase {
 
     }
 
-	@SuppressWarnings("unused")
+
 	public void purchased_cmd() throws CivException {
 		Town town = this.getSelectedTown();
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_town_upgrade_purchasedHeading"));
@@ -68,7 +68,7 @@ public class TownUpgradeCommand extends CommandBase {
 		}
 	}
 
-	@SuppressWarnings("unused")
+
 	public void list_cmd() throws CivException {
 		Town town = this.getSelectedTown();
 
@@ -88,7 +88,7 @@ public class TownUpgradeCommand extends CommandBase {
 
 	}
 
-	@SuppressWarnings("unused")
+
 	public void buy_cmd() throws CivException {
 		if (args.length < 2) {
 			list_upgrades("all", getSelectedTown());
@@ -119,7 +119,7 @@ public class TownUpgradeCommand extends CommandBase {
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_upgrade_buySuccess", upgrade.name));
 	}
 
-	@SuppressWarnings("unused")
+
 	@Override
 	public void doDefaultAction() {
 		showHelp();
@@ -130,7 +130,7 @@ public class TownUpgradeCommand extends CommandBase {
 		showBasicHelp();
 	}
 
-	@SuppressWarnings("unused")
+
 	@Override
 	public void permissionCheck() throws CivException {
 		this.validMayorAssistantLeader();

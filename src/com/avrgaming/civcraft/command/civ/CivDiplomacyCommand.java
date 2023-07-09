@@ -57,7 +57,6 @@ public class CivDiplomacyCommand extends CommandBase {
         register_sub("capitulate", this::capitulate_cmd, CivSettings.localize.localizedString("cmd_civ_dip_capitulateDesc"));
     }
 
-	@SuppressWarnings("unused")
 	public void capitulate_cmd() throws CivException {
 		if (War.isWarTime()) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_civ_dip_errorDuringWar"));
@@ -111,7 +110,6 @@ public class CivDiplomacyCommand extends CommandBase {
 
 	}
 
-	@SuppressWarnings("unused")
 	public void liberate_cmd() throws CivException {
 		if (War.isWarTime()) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_civ_dip_errorDuringWar"));
@@ -159,7 +157,6 @@ public class CivDiplomacyCommand extends CommandBase {
 		}
 	}
 
-	@SuppressWarnings("unused")
 	public void gift_cmd() throws CivException {
 		CivDiplomacyGiftCommand cmd = new CivDiplomacyGiftCommand();
 		if (War.isWarTime()) {
@@ -168,7 +165,7 @@ public class CivDiplomacyCommand extends CommandBase {
 		cmd.onCommand(sender, null, "gift", this.stripArgs(args, 1));
 	}
 
-	@SuppressWarnings("unused")
+
 	public void global_cmd() {
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_civ_globalHeading"));
 
@@ -179,7 +176,6 @@ public class CivDiplomacyCommand extends CommandBase {
 		}
 	}
 
-	@SuppressWarnings("unused")
 	public void wars_cmd() {
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_civ_warsHeading"));
 		HashSet<String> usedRelations = new HashSet<>();
@@ -197,7 +193,6 @@ public class CivDiplomacyCommand extends CommandBase {
 		}
 	}
 
-	@SuppressWarnings("unused")
 	public void respond_cmd() throws CivException {
 		validLeaderAdvisor();
 		if (War.isWarTime()) {
@@ -230,7 +225,6 @@ public class CivDiplomacyCommand extends CommandBase {
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_civ_dip_respondSuccess"));
 	}
 
-	@SuppressWarnings("unused")
 	public void request_cmd() throws CivException {
 		validLeaderAdvisor();
 		Civilization ourCiv = getSenderCiv();
@@ -301,7 +295,6 @@ public class CivDiplomacyCommand extends CommandBase {
 
 	}
 
-	@SuppressWarnings("unused")
 	public void declare_cmd() throws CivException {
 		validLeaderAdvisor();
 		Civilization ourCiv = getSenderCiv();
@@ -383,7 +376,6 @@ public class CivDiplomacyCommand extends CommandBase {
 
 	}
 
-	@SuppressWarnings("unused")
 	public void show_cmd() throws CivException {
 		if (args.length < 2) {
 			show(getSenderCiv());
@@ -413,7 +405,6 @@ public class CivDiplomacyCommand extends CommandBase {
 	}
 
 
-	@SuppressWarnings("unused")
 	@Override
 	public void doDefaultAction() {
 		showHelp();

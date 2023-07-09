@@ -48,7 +48,7 @@ public class AdminResCommand extends CommandBase {
         register_sub("rename", this::rename_cmd, CivSettings.localize.localizedString("adcmd_res_renameDesc"));
     }
 
-	@SuppressWarnings("unused")
+
 	public void rename_cmd() throws CivException {
 		Resident resident = getNamedResident(1);
 		String newName = getNamedString(2, CivSettings.localize.localizedString("adcmd_res_renamePrompt"));
@@ -92,7 +92,7 @@ public class AdminResCommand extends CommandBase {
 		CivMessage.send(sender, CivSettings.localize.localizedString("adcmd_res_renameSuccess"));
 	}
 
-	@SuppressWarnings("unused")
+
 	public void enchant_cmd() throws CivException {
 		Player player = getPlayer();
 		String enchant = getNamedString(1, CivSettings.localize.localizedString("adcmd_res_enchantHeading"));
@@ -113,7 +113,7 @@ public class AdminResCommand extends CommandBase {
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_res_enchantSuccess"));
 	}
 
-	@SuppressWarnings("unused")
+
 	public void cleartown_cmd() throws CivException {
 		if (args.length < 2) {
 			throw new CivException(CivSettings.localize.localizedString("EnterPlayerName"));

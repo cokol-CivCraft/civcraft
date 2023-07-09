@@ -54,7 +54,7 @@ public class PlotCommand extends CommandBase {
         register_sub("cleargroups", this::cleargroups_cmd, CivSettings.localize.localizedString("cmd_plot_cleargroupsDesc"));
     }
 
-	@SuppressWarnings("unused")
+
 	public void farminfo_cmd() throws CivException {
 		Player player = getPlayer();
 
@@ -99,7 +99,7 @@ public class PlotCommand extends CommandBase {
 
 	}
 
-	@SuppressWarnings("unused")
+
 	public void setowner_cmd() throws CivException {
 		TownChunk tc = this.getStandingTownChunk();
 		validPlotOwner();
@@ -128,7 +128,7 @@ public class PlotCommand extends CommandBase {
 
 	}
 
-	@SuppressWarnings("unused")
+
 	public void removegroup_cmd() throws CivException {
 		TownChunk tc= this.getStandingTownChunk();
 		validPlotOwner();
@@ -152,7 +152,7 @@ public class PlotCommand extends CommandBase {
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_plot_removegroupSuccess",grp.getName()));
 	}
 
-	@SuppressWarnings("unused")
+
 	public void cleargroups_cmd() throws CivException {
 		TownChunk tc= this.getStandingTownChunk();
 		validPlotOwner();
@@ -162,7 +162,7 @@ public class PlotCommand extends CommandBase {
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_plot_cleargroupsSuccess"));
 	}
 
-	@SuppressWarnings("unused")
+
 	public void addgroup_cmd() throws CivException {
 		TownChunk tc= this.getStandingTownChunk();
 		validPlotOwner();
@@ -187,7 +187,7 @@ public class PlotCommand extends CommandBase {
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_plot_addgroupSuccess",grp.getName()));
 	}
 
-	@SuppressWarnings("unused")
+
 	public void buy_cmd() throws CivException {
 		TownChunk tc = this.getStandingTownChunk();
 		Resident resident = getResident();
@@ -208,7 +208,7 @@ public class PlotCommand extends CommandBase {
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_plot_buySuccess",tc.getChunkCoord(),tc.getValue(),CivSettings.CURRENCY_NAME));
 	}
 
-	@SuppressWarnings("unused")
+
 	public void fs_cmd() throws CivException {
 		TownChunk tc = this.getStandingTownChunk();
 		this.validPlotOwner();
@@ -234,7 +234,7 @@ public class PlotCommand extends CommandBase {
 	}
 
 
-	@SuppressWarnings("unused")
+
 	public void nfs_cmd() throws CivException {
 		TownChunk tc = this.getStandingTownChunk();
 		this.validPlotOwner();
@@ -249,7 +249,7 @@ public class PlotCommand extends CommandBase {
 		CivMessage.sendTown(tc.getTown(), CivSettings.localize.localizedString("cmd_plot_nfsSuccess")+" "+tc.getCenterString());
 	}
 
-	@SuppressWarnings("unused")
+
 	public void toggle_cmd() throws CivException {
 		TownChunk tc = this.getStandingTownChunk();
 		this.validPlotOwner();
@@ -270,7 +270,7 @@ public class PlotCommand extends CommandBase {
 		tc.save();
 	}
 
-	@SuppressWarnings("unused")
+
 	public void perm_cmd() {
 		PlotPermCommand cmd = new PlotPermCommand();
 		cmd.onCommand(sender, null, "perm", this.stripArgs(args, 1));
@@ -308,7 +308,7 @@ public class PlotCommand extends CommandBase {
 		CivMessage.send(sender, CivColor.LightGray+"    groupType: [owner|group|others]");
 	}*/
 
-	@SuppressWarnings("unused")
+
 	public void info_cmd() throws CivException {
 		if (sender instanceof Player) {
 			Player player = (Player)sender;

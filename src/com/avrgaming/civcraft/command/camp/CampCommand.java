@@ -55,7 +55,6 @@ public class CampCommand extends CommandBase {
         register_sub("location", this::location_cmd, CivSettings.localize.localizedString("cmd_camp_locationDesc"));
     }
 
-	@SuppressWarnings("unused")
 	public void location_cmd() throws CivException {
 		Resident resident = getResident();
 
@@ -71,8 +70,6 @@ public class CampCommand extends CommandBase {
 		}
 	}
 
-
-	@SuppressWarnings("unused")
 	public void refresh_cmd() throws CivException {
 		Resident resident = getResident();
 
@@ -99,13 +96,11 @@ public class CampCommand extends CommandBase {
 		CivMessage.send(sender, CivSettings.localize.localizedString("cmd_camp_refreshSuccess"));
 	}
 
-	@SuppressWarnings("unused")
 	public void upgrade_cmd() {
 		CampUpgradeCommand cmd = new CampUpgradeCommand();
 		cmd.onCommand(sender, null, "camp", this.stripArgs(args, 1));
 	}
 
-	@SuppressWarnings("unused")
 	public void info_cmd() throws CivException {
 		Camp camp = this.getCurrentCamp();
 		SimpleDateFormat sdf = new SimpleDateFormat("M/dd h:mm:ss a z");
@@ -127,7 +122,6 @@ public class CampCommand extends CommandBase {
 		CivMessage.send(sender, this.makeInfoString(info, CivColor.Green, CivColor.LightGreen));
 	}
 
-	@SuppressWarnings("unused")
 	public void remove_cmd() throws CivException {
 		this.validCampOwner();
 		Camp camp = getCurrentCamp();
@@ -145,7 +139,6 @@ public class CampCommand extends CommandBase {
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_camp_removeSuccess",resident.getName()));
 	}
 
-	@SuppressWarnings("unused")
 	public void add_cmd() throws CivException {
 		this.validCampOwner();
 		Camp camp = this.getCurrentCamp();
@@ -172,7 +165,6 @@ public class CampCommand extends CommandBase {
 		CivMessage.sendSuccess(player, CivSettings.localize.localizedString("var_cmd_camp_addSuccess",resident.getName()));
 	}
 
-	@SuppressWarnings("unused")
 	public void setowner_cmd() throws CivException {
 		this.validCampOwner();
 		Camp camp = getCurrentCamp();
@@ -191,7 +183,6 @@ public class CampCommand extends CommandBase {
 
 	}
 
-	@SuppressWarnings("unused")
 	public void leave_cmd() throws CivException {
 		Resident resident = getResident();
 
@@ -209,12 +200,12 @@ public class CampCommand extends CommandBase {
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_camp_leaveSuccess", camp.getName()));
 	}
 
-	@SuppressWarnings("unused")
+
 	public void new_cmd() {
 
 	}
 
-	@SuppressWarnings("unused")
+
 	public void disband_cmd() throws CivException {
 		Resident resident = getResident();
 		this.validCampOwner();
@@ -228,7 +219,7 @@ public class CampCommand extends CommandBase {
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_camp_disbandSuccess"));
 	}
 
-	@SuppressWarnings("unused")
+
 	public void undo_cmd() throws CivException {
 		Resident resident = getResident();
 

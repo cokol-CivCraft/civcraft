@@ -20,7 +20,7 @@ public class AdminPerkCommand extends CommandBase {
 		register_sub("reload", this::reload_cmd, CivSettings.localize.localizedString("adcmd_perk_reloadDesc"));
 	}
 
-	@SuppressWarnings("unused")
+
 	public void list_cmd() {
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("adcmd_perk_listHeading"));
 		for (ConfigPerk perk : CivSettings.perks.values()) {
@@ -29,7 +29,7 @@ public class AdminPerkCommand extends CommandBase {
 		CivMessage.send(sender, CivColor.LightGray + CivSettings.localize.localizedString("adcmd_perk_listingSuccess"));
 	}
 
-	@SuppressWarnings("unused")
+
 	public void reload_cmd() {
 		try {
 			CivSettings.reloadPerks();

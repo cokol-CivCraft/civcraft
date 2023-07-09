@@ -68,7 +68,6 @@ import com.avrgaming.civcraft.util.TimeTools;
 import com.avrgaming.civcraft.war.WarListener;
 import com.avrgaming.global.scores.CalculateScoreTimer;
 import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -237,28 +236,42 @@ public final class CivCraft extends JavaPlugin {
         }
 
         // Init commands
-        registerCommand(new TownCommand());
-        registerCommand(new ResidentCommand());
-        registerCommand(new DebugCommand());
-        registerCommand(new PlotCommand());
-        getCommand("accept").setExecutor(new AcceptCommand());
-        getCommand("deny").setExecutor(new DenyCommand());
-        registerCommand(new CivCommand());
-        getCommand("tc").setExecutor(new TownChatCommand());
-        getCommand("cc").setExecutor(new CivChatCommand());
-        //getCommand("gc").setExecutor(new GlobalChatCommand());
-        registerCommand(new AdminCommand());
-        registerCommand(new EconCommand());
-        getCommand("pay").setExecutor(new PayCommand());
-        registerCommand(new BuildCommand());
-        registerCommand(new MarketCommand());
-        getCommand("select").setExecutor(new SelectCommand());
-        getCommand("here").setExecutor(new HereCommand());
-        registerCommand(new CampCommand());
-        registerCommand(new ReportCommand());
-        registerCommand(new TradeCommand());
-        getCommand("kill").setExecutor(new KillCommand());
-        registerCommand(new TeamCommand());
+		getCommand("town").setExecutor(new TownCommand());
+		getCommand("resident").setExecutor(new ResidentCommand());
+		getCommand("dbg").setExecutor(new DebugCommand());
+		getCommand("plot").setExecutor(new PlotCommand());
+		getCommand("accept").setExecutor(new AcceptCommand());
+		getCommand("deny").setExecutor(new DenyCommand());
+		getCommand("civ").setExecutor(new CivCommand());
+		getCommand("tc").setExecutor(new TownChatCommand());
+		getCommand("cc").setExecutor(new CivChatCommand());
+		//getCommand("gc").setExecutor(new GlobalChatCommand());
+		getCommand("ad").setExecutor(new AdminCommand());
+		getCommand("econ").setExecutor(new EconCommand());
+		getCommand("pay").setExecutor(new PayCommand());
+		getCommand("build").setExecutor(new BuildCommand());
+		getCommand("market").setExecutor(new MarketCommand());
+		getCommand("select").setExecutor(new SelectCommand());
+		getCommand("here").setExecutor(new HereCommand());
+		getCommand("camp").setExecutor(new CampCommand());
+		getCommand("report").setExecutor(new ReportCommand());
+		getCommand("trade").setExecutor(new TradeCommand());
+		getCommand("kill").setExecutor(new KillCommand());
+		getCommand("team").setExecutor(new TeamCommand());
+
+		getCommand("town").setTabCompleter(new TownCommand());
+		getCommand("resident").setTabCompleter(new ResidentCommand());
+		getCommand("dbg").setTabCompleter(new DebugCommand());
+		getCommand("plot").setTabCompleter(new PlotCommand());
+		getCommand("civ").setTabCompleter(new CivCommand());
+		getCommand("ad").setTabCompleter(new AdminCommand());
+		getCommand("econ").setTabCompleter(new EconCommand());
+		getCommand("build").setTabCompleter(new BuildCommand());
+		getCommand("market").setTabCompleter(new MarketCommand());
+		getCommand("camp").setTabCompleter(new CampCommand());
+		getCommand("report").setTabCompleter(new ReportCommand());
+		getCommand("trade").setTabCompleter(new TradeCommand());
+		getCommand("team").setTabCompleter(new TeamCommand());
 
         registerEvents();
 
@@ -268,12 +281,7 @@ public final class CivCraft extends JavaPlugin {
         //creativeInvPacketManager.init(this);
     }
 
-    public void registerCommand(CommandBase command) {
-        getCommand(command.command).setExecutor(command);
-        getCommand(command.command).setTabCompleter(command);
-    }
-
-    @Override
+	@Override
     public void onDisable() {
         super.onDisable();
         isDisable = true;
@@ -281,9 +289,7 @@ public final class CivCraft extends JavaPlugin {
     }
 
     public boolean hasPlugin(String name) {
-        Plugin p;
-		p = getServer().getPluginManager().getPlugin(name);
-		return (p != null);
+		return getServer().getPluginManager().getPlugin(name) != null;
 	}
 
 	public boolean isError() {

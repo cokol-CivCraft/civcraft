@@ -29,6 +29,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -125,14 +126,7 @@ public class TownCommand extends CommandBase {
             }
         }
 	}
-	public void loc_cmd() {
-		try {
-			location_cmd();
-		} catch (CivException e) {
-			e.printStackTrace();
-		}
-	}
-	
+
 	public void enablestructure_cmd() throws CivException {
 		Town town = getSelectedTown();
 		Resident resident = getResident();
@@ -224,7 +218,7 @@ public class TownCommand extends CommandBase {
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_claimmayorSuccess",town.getName()));
 		CivMessage.sendTown(town, CivSettings.localize.localizedString("var_cmd_town_claimmayorSuccess2",resident.getName()));
 	}
-	
+	@EventHandler
 	public void event_cmd() {
         TownEventCommand cmd = new TownEventCommand();
         cmd.onCommand(sender, null, "event", this.stripArgs(args, 1));
@@ -492,7 +486,7 @@ public class TownCommand extends CommandBase {
 		
 		CivMessage.send(sender, CivSettings.localize.localizedString("cmd_town_disbandtownSuccess"));
 	}
-	
+
 	public void top5_cmd() {	
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_town_top5Heading"));
 //		TreeMap<Integer, Town> scores = new TreeMap<Integer, Town>();

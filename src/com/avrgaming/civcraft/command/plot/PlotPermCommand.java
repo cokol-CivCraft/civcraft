@@ -38,7 +38,7 @@ public class PlotPermCommand extends CommandBase {
 		register_sub("set", this::set_cmd, CivSettings.localize.localizedString("cmd_plot_perm_setDesc"));
 	}
 
-	@SuppressWarnings("unused")
+
 	public void set_cmd() throws CivException {
 		Player player = (Player)sender;
 

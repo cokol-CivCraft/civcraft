@@ -35,7 +35,6 @@ import com.avrgaming.civcraft.war.War;
 
 public class CivDiplomacyGiftCommand extends CommandBase {
 
-	@SuppressWarnings("unused")
 	@Override
 	public void init() {
         command = "/civ dip gift";
@@ -62,7 +61,7 @@ public class CivDiplomacyGiftCommand extends CommandBase {
 		TaskMaster.asyncTask("", task, 0);
 	}
 
-	@SuppressWarnings("unused")
+
 	public void entireciv_cmd() throws CivException {
 		this.validLeader();
 		Civilization fromCiv = getSenderCiv();
@@ -99,7 +98,7 @@ public class CivDiplomacyGiftCommand extends CommandBase {
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_civ_dipgift_entirecivSuccess"));
 	}
 
-	@SuppressWarnings("unused")
+
 	public void town_cmd() throws CivException {
 		this.validLeader();
 		Civilization fromCiv = getSenderCiv();
@@ -145,7 +144,6 @@ public class CivDiplomacyGiftCommand extends CommandBase {
 
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	public void doDefaultAction() {
 		showHelp();
@@ -156,7 +154,7 @@ public class CivDiplomacyGiftCommand extends CommandBase {
 		showBasicHelp();
 	}
 
-	@SuppressWarnings("unused")
+
 	@Override
 	public void permissionCheck() {
 		// permission checked in parent command.

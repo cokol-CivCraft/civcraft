@@ -39,7 +39,7 @@ public class CivGovCommand extends CommandBase {
         register_sub("list", this::list_cmd, CivSettings.localize.localizedString("cmd_civ_gov_listDesc"));
     }
 
-	@SuppressWarnings("unused")
+
 	public void change_cmd() throws CivException {
 		Civilization civ = getSenderCiv();
 
@@ -60,7 +60,7 @@ public class CivGovCommand extends CommandBase {
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_civ_gov_changeSuccess"));
 	}
 
-	@SuppressWarnings("unused")
+
 	public void list_cmd() throws CivException {
 		Civilization civ = getSenderCiv();
 
@@ -77,7 +77,7 @@ public class CivGovCommand extends CommandBase {
 
 	}
 
-	@SuppressWarnings("unused")
+
 	public void info_cmd() throws CivException {
 		Civilization civ = getSenderCiv();
 

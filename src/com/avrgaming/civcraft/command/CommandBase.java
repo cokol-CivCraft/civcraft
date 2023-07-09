@@ -46,10 +46,10 @@ public abstract class CommandBase implements TabExecutor {
 
     private static final int MATCH_LIMIT = 5;
 
-    private final HashMap<String, SubCommand> commands = new HashMap<>();
+    private final HashMap<String, SubCommandRecord> commands = new HashMap<>();
 
     protected void register_sub(String literal, SubCommandFunction function, String description) {
-        commands.put(literal, new SubCommand(description, function));
+        commands.put(literal, new SubCommandRecord(description, function));
     }
 
     @FunctionalInterface
@@ -57,11 +57,11 @@ public abstract class CommandBase implements TabExecutor {
         void run() throws CivException;
     }
 
-    private static class SubCommand {
+    private static class SubCommandRecord {
         private final String description;
         private final SubCommandFunction command;
 
-        SubCommand(String description, SubCommandFunction command) {
+        SubCommandRecord(String description, SubCommandFunction command) {
             this.description = description;
             this.command = command;
         }
@@ -133,7 +133,7 @@ public abstract class CommandBase implements TabExecutor {
                 continue;
             }
 
-            SubCommand comm = commands.get(args[0]);
+            SubCommandRecord comm = commands.get(args[0]);
             if (comm == null) {
                 if (!sendUnknownToDefault) {
                     CivMessage.sendError(sender, CivSettings.localize.localizedString("cmd_unknwonMethod") + " " + args[0]);
@@ -179,8 +179,8 @@ public abstract class CommandBase implements TabExecutor {
     public void showBasicHelp() {
         CivMessage.sendHeading(sender, displayName + " " + CivSettings.localize.localizedString("cmd_CommandHelpTitle"));
         for (String c : commands.keySet()) {
-            SubCommand info = commands.get(c);
-            if (info != null) {
+            SubCommandRecord info = commands.get(c);
+            if (info.getDescription() != null) {
                 String text = info.getDescription().
                         replace("[", CivColor.Yellow + "[").
                         replace("]", "]" + CivColor.LightGray).

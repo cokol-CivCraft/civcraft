@@ -40,7 +40,7 @@ public class AdminTimerCommand extends CommandBase {
     }
 
 
-	@SuppressWarnings("unused")
+
 	public void run_cmd() throws CivException {
 		if (args.length < 2) {
 			throw new CivException(CivSettings.localize.localizedString("adcmd_timer_runPrompt"));

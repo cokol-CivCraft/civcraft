@@ -99,13 +99,13 @@ public class CivCommand extends CommandBase {
 	    }
 	}
 
-	@SuppressWarnings("unused")
+
 	public void motd_cmd() {
 		CivMotdCommand cmd = new CivMotdCommand();
 		cmd.onCommand(sender, null, "motd", this.stripArgs(args, 1));
 	}
 
-	@SuppressWarnings("unused")
+
 	public void claimleader_cmd() throws CivException {
 		Civilization civ = getSenderCiv();
 		Resident resident = getResident();
@@ -120,7 +120,7 @@ public class CivCommand extends CommandBase {
 		CivMessage.sendCiv(civ, CivSettings.localize.localizedString("var_cmd_civ_claimLeaderBroadcast", resident.getName()));
 	}
 
-	@SuppressWarnings("unused")
+
 	public void votes_cmd() {
 
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_civ_votesHeading"));
@@ -134,7 +134,7 @@ public class CivCommand extends CommandBase {
 		}
 	}
 
-	@SuppressWarnings("unused")
+
 	public void v_cmd() {
 		victory_cmd();
 	}
@@ -170,7 +170,7 @@ public class CivCommand extends CommandBase {
 		
 	}
 
-	@SuppressWarnings("unused")
+
 	public void revolution_cmd() throws CivException {
 		Town town = getSelectedTown();
 
@@ -258,7 +258,7 @@ public class CivCommand extends CommandBase {
 
 	}
 
-	@SuppressWarnings("unused")
+
 	public void disbandtown_cmd() throws CivException {
 		this.validLeaderAdvisor();
 		Town town = this.getNamedTown(1);
@@ -283,7 +283,7 @@ public class CivCommand extends CommandBase {
 		CivMessage.send(sender, CivColor.Yellow + CivSettings.localize.localizedString("cmd_civ_disbandtownPrompt"));
 	}
 
-	@SuppressWarnings("unused")
+
 	public void top5_cmd() {
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_civ_top5Heading"));
 //		TreeMap<Integer, Civilization> scores = new TreeMap<Integer, Civilization>();
@@ -308,19 +308,17 @@ public class CivCommand extends CommandBase {
 		
 	}
 
-	@SuppressWarnings("unused")
+
 	public void dip_cmd() {
 		CivDiplomacyCommand cmd = new CivDiplomacyCommand();
 		cmd.onCommand(sender, null, "dip", this.stripArgs(args, 1));
 	}
 
-	@SuppressWarnings("unused")
 	public void group_cmd() {
 		CivGroupCommand cmd = new CivGroupCommand();
 		cmd.onCommand(sender, null, "group", this.stripArgs(args, 1));
 	}
 
-	@SuppressWarnings("unused")
 	public void set_cmd() {
 		CivSetCommand cmd = new CivSetCommand();
 		cmd.onCommand(sender, null, "set", this.stripArgs(args, 1));
@@ -377,7 +375,6 @@ public class CivCommand extends CommandBase {
 		CivMessage.send(sender, out);
 	}
 
-	@SuppressWarnings("unused")
 	public void gov_cmd() {
 		CivGovCommand cmd = new CivGovCommand();
 		cmd.onCommand(sender, null, "gov", this.stripArgs(args, 1));
@@ -412,7 +409,6 @@ public class CivCommand extends CommandBase {
         CivMessage.send(sender, out.toString());
 	}
 
-	@SuppressWarnings("unused")
 	public void show_cmd() throws CivException {
 		if (args.length < 2) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_civ_showPrompt"));
@@ -450,7 +446,7 @@ public class CivCommand extends CommandBase {
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("Deposited")+args[1]+" "+CivSettings.CURRENCY_NAME);
 	}
 
-	@SuppressWarnings("unused")
+
 	public void d_cmd() throws  CivException{
 		if (args.length < 2) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_civ_despositPrompt"));
@@ -459,7 +455,7 @@ public class CivCommand extends CommandBase {
 		}
 	}
 
-	@SuppressWarnings("unused")
+
 	public void loc_cmd() {
 		try {
 			location_cmd();
@@ -497,7 +493,7 @@ public class CivCommand extends CommandBase {
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_civ_withdrawSuccess",args[1],CivSettings.CURRENCY_NAME));
 	}
 
-	@SuppressWarnings("unused")
+
 	public void w_cmd() throws CivException{
 		if (args.length < 2) {
 			throw new CivException(CivSettings.localize.localizedString("cmd_civ_withdrawPrompt"));
@@ -506,7 +502,7 @@ public class CivCommand extends CommandBase {
 		}
 	}
 
-	@SuppressWarnings("unused")
+
 	public void townlist_cmd() throws CivException {
 		Civilization civ = getSenderCiv();
 
@@ -523,12 +519,12 @@ public class CivCommand extends CommandBase {
 		cmd.onCommand(sender, null, "info", this.stripArgs(args, 1));
 	}
 
-	@SuppressWarnings("unused")
+
 	public void i_cmd() {
 		info_cmd();
 	}
 
-	@SuppressWarnings("unused")
+
 	public void vote_cmd() {
 
 		if (args.length < 2) {

@@ -77,7 +77,7 @@ public class AdminTownCommand extends CommandBase {
         register_sub("rename", this::rename_cmd, CivSettings.localize.localizedString("adcmd_town_renameDesc"));
     }
 
-    @SuppressWarnings("unused")
+
     public void rename_cmd() throws CivException {
         Town town = getNamedTown(1);
         String name = getNamedString(2, CivSettings.localize.localizedString("EnterTownName"));
@@ -95,7 +95,7 @@ public class AdminTownCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_town_renameSuccess"));
     }
 
-	@SuppressWarnings("unused")
+
 	public void event_cmd() throws CivException {
 		Town town = getNamedTown(1);
 
@@ -115,7 +115,7 @@ public class AdminTownCommand extends CommandBase {
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_town_eventRenameSuccess")+" "+event.name);
 	}
 
-	@SuppressWarnings("unused")
+
 	public void setunhappy_cmd() throws CivException {
 		Town town = getNamedTown(1);
 		double happy = getNamedDouble(2);

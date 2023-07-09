@@ -60,7 +60,7 @@ public class AdminBuildCommand extends CommandBase {
 //		register_sub("repairwonder", this::repairwonder_cmd, "Fixes the nearest wonder, requires confirmation.");
     }
 
-	@SuppressWarnings("unused")
+
 	public void showbuildable_cmd() throws CivException {
 		String locString = getNamedString(1, CivSettings.localize.localizedString("adcmd_build_showBuildableLocation"));
 
@@ -78,7 +78,7 @@ public class AdminBuildCommand extends CommandBase {
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("Finished"));
 	}
 
-	@SuppressWarnings("unused")
+
 	public void listinvalid_cmd() {
 		for (Buildable buildable : Buildable.invalidBuildables) {
 			CivMessage.send(sender, buildable.getDisplayName()+" @ "+buildable.getCorner()+" -> "+buildable.getTown().getName());
@@ -86,7 +86,7 @@ public class AdminBuildCommand extends CommandBase {
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("Finished"));
 	}
 
-    @SuppressWarnings("unused")
+
     public void validateall_cmd() {
         Buildable.invalidBuildables.clear();
 
@@ -105,7 +105,7 @@ public class AdminBuildCommand extends CommandBase {
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_build_validateAll"));
 	}
 
-	@SuppressWarnings("unused")
+
 	public void validatenearest_cmd() throws CivException {
 		Player player = getPlayer();
 		Town town = getNamedTown(1);
@@ -138,7 +138,7 @@ public class AdminBuildCommand extends CommandBase {
 //	}
 
 
-	@SuppressWarnings("unused")
+
 	public void destroynearest_cmd() throws CivException {
 
 		Town town = getNamedTown(1);
@@ -155,7 +155,7 @@ public class AdminBuildCommand extends CommandBase {
 		CivMessage.send(player, struct.getDisplayName()+" "+CivSettings.localize.localizedString("adcmd_build_destroyed"));
 	}
 
-	@SuppressWarnings("unused")
+
 	public void destroywonder_cmd() throws CivException {
 		Town town = getNamedTown(1);
 
@@ -187,7 +187,7 @@ public class AdminBuildCommand extends CommandBase {
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_build_destroyed"));
 	}
 
-	@SuppressWarnings("unused")
+
 	public void repair_cmd() throws CivException {
 		Player player = getPlayer();
 
@@ -213,7 +213,7 @@ public class AdminBuildCommand extends CommandBase {
 
 	}
 
-    @SuppressWarnings("unused")
+
     public void unbuild_cmd() throws CivException {
 
         if (args.length < 2) {
@@ -271,7 +271,7 @@ public class AdminBuildCommand extends CommandBase {
 		CivMessage.sendTown(struct.getTown(), struct.getDisplayName() + " " + CivSettings.localize.localizedString("adcmd_build_demolishComplete"));
 	}
 
-	@SuppressWarnings("unused")
+
 	public void demolish_cmd() throws CivException {
 
 		if (args.length < 2) {

@@ -61,7 +61,7 @@ public class BuildCommand extends CommandBase {
     }
 
 
-    @SuppressWarnings("unused")
+
     public void validatenearest_cmd() throws CivException {
         Player player = getPlayer();
         Resident resident = getResident();
@@ -83,14 +83,14 @@ public class BuildCommand extends CommandBase {
         buildable.validate(player);
     }
 
-    @SuppressWarnings("unused")
+
     public void refreshnearest_cmd() throws CivException {
         Town town = getSelectedTown();
         Resident resident = getResident();
         town.refreshNearestBuildable(resident);
     }
 
-    @SuppressWarnings("unused")
+
     public void repairnearest_cmd() throws CivException {
         Town town = getSelectedTown();
         Player player = getPlayer();
@@ -124,7 +124,7 @@ public class BuildCommand extends CommandBase {
         CivMessage.sendSuccess(player, nearest.getDisplayName() + " " + CivSettings.localize.localizedString("Repaired"));
     }
 
-    @SuppressWarnings("unused")
+
     public void demolishnearest_cmd() throws CivException {
         Town town = getSelectedTown();
         Player player = getPlayer();
@@ -175,7 +175,7 @@ public class BuildCommand extends CommandBase {
         }
     }
 
-    @SuppressWarnings("unused")
+
     public void d_cmd() {
         try {
             demolish_cmd();
@@ -189,7 +189,6 @@ public class BuildCommand extends CommandBase {
         town.processUndo();
     }
 
-    @SuppressWarnings("unused")
     public void u_cmd() {
         try {
             undo_cmd();
@@ -217,7 +216,6 @@ public class BuildCommand extends CommandBase {
 
     }
 
-    @SuppressWarnings("unused")
     public void p_cmd() {
         try {
             progress_cmd();
@@ -280,7 +278,6 @@ public class BuildCommand extends CommandBase {
         this.list_available_wonders();
     }
 
-    @SuppressWarnings("unused")
     public void l_cmd() {
         try {
             list_cmd();
@@ -302,7 +299,7 @@ public class BuildCommand extends CommandBase {
         buildByName(fullArgs.toString().trim());
     }
 
-    @SuppressWarnings("unused")
+
     public void preview_cmd() throws CivException {
         String fullArgs = this.combineArgs(this.stripArgs(args, 1));
 

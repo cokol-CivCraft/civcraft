@@ -97,7 +97,7 @@ public class AdminCommand extends CommandBase {
         register_sub("reloadac", this::reloadac_cmd, CivSettings.localize.localizedString("adcmd_reloadacDesc"));
     }
 
-    @SuppressWarnings("unused")
+
     public void reloadgov_cmd() throws CivException {
         try {
             CivSettings.reloadGovConfigFiles();
@@ -113,19 +113,19 @@ public class AdminCommand extends CommandBase {
         CivMessage.send(sender, CivColor.Gold + CivSettings.localize.localizedString("adcmd_reloadgovSuccess"));
     }
 
-    @SuppressWarnings("unused")
+
     public void reloadac_cmd() {
 
         CivMessage.send(sender, CivColor.Gold + CivSettings.localize.localizedString("adcmd_reloadacSuccess"));
     }
 
-    @SuppressWarnings("unused")
+
     public void perk_cmd() {
         AdminPerkCommand cmd = new AdminPerkCommand();
         cmd.onCommand(sender, null, "perk", this.stripArgs(args, 1));
     }
 
-    @SuppressWarnings("unused")
+
     public void endworld_cmd() {
         CivGlobal.endWorld = !CivGlobal.endWorld;
         if (CivGlobal.endWorld) {
@@ -135,7 +135,7 @@ public class AdminCommand extends CommandBase {
         }
     }
 
-    @SuppressWarnings("unused")
+
     public void clearendgame_cmd() throws CivException {
         String key = getNamedString(1, "enter key.");
         Civilization civ = getNamedCiv(2);
@@ -153,7 +153,7 @@ public class AdminCommand extends CommandBase {
         }
     }
 
-    @SuppressWarnings("unused")
+
     public void cbinstantbreak_cmd() throws CivException {
         Resident resident = getResident();
 
@@ -163,7 +163,7 @@ public class AdminCommand extends CommandBase {
 
     public static Inventory spawnInventory = null;
 
-    @SuppressWarnings("unused")
+
     public void items_cmd() throws CivException {
         Player player = getPlayer();
 
@@ -216,19 +216,19 @@ public class AdminCommand extends CommandBase {
         player.openInventory(spawnInventory);
     }
 
-    @SuppressWarnings("unused")
+
     public void arena_cmd() {
         AdminArenaCommand cmd = new AdminArenaCommand();
         cmd.onCommand(sender, null, "arena", this.stripArgs(args, 1));
     }
 
-    @SuppressWarnings("unused")
+
     public void road_cmd() {
         AdminRoadCommand cmd = new AdminRoadCommand();
         cmd.onCommand(sender, null, "camp", this.stripArgs(args, 1));
     }
 
-    @SuppressWarnings("unused")
+
     public void item_cmd() {
         AdminItemCommand cmd = new AdminItemCommand();
         cmd.onCommand(sender, null, "camp", this.stripArgs(args, 1));

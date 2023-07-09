@@ -36,7 +36,7 @@ public class ConfigTempleLevel {
 
     }
 
-    @SuppressWarnings("unused")
+
     public ConfigTempleLevel(ConfigTempleLevel currentLVL) {
         this.level = currentLVL.level;
         this.count = currentLVL.count;

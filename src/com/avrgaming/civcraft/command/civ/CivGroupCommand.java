@@ -42,7 +42,7 @@ public class CivGroupCommand extends CommandBase {
 
     }
 
-	@SuppressWarnings("unused")
+
 	public void remove_cmd() throws CivException {
 		Civilization civ = getSenderCiv();
 		Resident resident = getResident();
@@ -81,7 +81,7 @@ public class CivGroupCommand extends CommandBase {
 		}
 	}
 
-	@SuppressWarnings("unused")
+
 	public void add_cmd() throws CivException {
 		Civilization civ = getSenderCiv();
 		Resident resident = getResident();
@@ -119,7 +119,7 @@ public class CivGroupCommand extends CommandBase {
 	}
 
 
-	@SuppressWarnings("unused")
+
 	public void info_cmd() throws CivException {
 		Civilization civ = getSenderCiv();
 

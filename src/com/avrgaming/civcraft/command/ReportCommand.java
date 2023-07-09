@@ -20,7 +20,6 @@ public class ReportCommand extends CommandBase {
 		register_sub("player", this::player_cmd, CivSettings.localize.localizedString("cmd_report_playerDesc"));
 	}
 
-	@SuppressWarnings("unused")
 	public void player_cmd() throws CivException {
 		Resident resident = getResident();
 		Resident reportedResident = getNamedResident(1);

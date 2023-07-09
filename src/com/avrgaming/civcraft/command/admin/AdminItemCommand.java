@@ -31,7 +31,7 @@ public class AdminItemCommand extends CommandBase {
         register_sub("give", this::give_cmd, CivSettings.localize.localizedString("adcmd_item_giveDesc"));
     }
 
-	@SuppressWarnings("unused")
+
 	public void give_cmd() throws CivException {
 		Resident resident = getNamedResident(1);
 		String id = getNamedString(2, CivSettings.localize.localizedString("adcmd_item_givePrompt") + " materials.yml");
@@ -55,7 +55,7 @@ public class AdminItemCommand extends CommandBase {
 		CivMessage.sendSuccess(player, CivSettings.localize.localizedString("adcmd_item_giveSuccess"));
 	}
 
-	@SuppressWarnings("unused")
+
 	public void enhance_cmd() throws CivException {
 		Player player = getPlayer();
 		HashMap<String, LoreEnhancement> enhancements = new HashMap<>();
