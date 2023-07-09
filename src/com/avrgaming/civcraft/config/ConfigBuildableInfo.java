@@ -17,16 +17,11 @@
  */
 package com.avrgaming.civcraft.config;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import org.bukkit.configuration.file.FileConfiguration;
-
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.Town;
+import org.bukkit.configuration.file.FileConfiguration;
+
+import java.util.*;
 
 public class ConfigBuildableInfo {
 	public String id = "";
@@ -119,8 +114,8 @@ public class ConfigBuildableInfo {
             sinfo.allow_outside_town = (Boolean) obj.get("allow_outside_town");
             sinfo.regenRate = (Integer) obj.get("regen_rate");
             sinfo.isWonder = isWonder;
-            sinfo.points = (Integer) obj.get("points");
-            sinfo.waterstructure = (Boolean) obj.get("onwater");
+			sinfo.points = (Integer) obj.get("points");
+			sinfo.waterstructure = Optional.ofNullable((Boolean) obj.get("onwater")).orElse(false);
             if (isWonder) {
                 sinfo.nationalWonder = (Boolean) obj.get("national_wonder");
             }

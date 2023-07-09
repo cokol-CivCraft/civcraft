@@ -17,19 +17,19 @@ enchants:
 
   - id: 'ench_fire_protection'
     name: 'Fire Protection'
-     cost: 25000.0
-     description: 'Adds fire protection to your armor.'
-     enchant_id: 'PROTECTION_FIRE'  
- 
-   - id: 'ench_flame'
-     name: 'Flame (Bow)'
-     cost: 50000.0
-     description: 'Adds flame enchantment to your bow.'
-     enchant_id: 'ARROW_FIRE'
-   
-   - id: 'ench_punchout'
-     name: 'Punchout'
-     cost: 20000.0
-     description: '% chance to do extra damage to a structure.'
-     enchant_id: 'LoreEnhancementPunchout'
+    cost: 25000.0
+    description: 'Adds fire protection to your armor.'
+    enchant_id: 'PROTECTION_FIRE'
+
+  - id: 'ench_flame'
+    name: 'Flame (Bow)'
+    cost: 50000.0
+    description: 'Adds flame enchantment to your bow.'
+    enchant_id: 'ARROW_FIRE'
+
+  - id: 'ench_punchout'
+    name: 'Punchout'
+    cost: 20000.0
+    description: '% chance to do extra damage to a structure.'
+    enchant_id: 'LoreEnhancementPunchout'
 

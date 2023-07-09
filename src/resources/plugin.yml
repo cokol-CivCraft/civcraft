@@ -1,4 +1,4 @@
-name: CivCraft-Patched
+name: CivCraft
 main: com.avrgaming.civcraft.main.CivCraft
 softdepends: [TitleAPI]
 version: 1.0.1-Beta

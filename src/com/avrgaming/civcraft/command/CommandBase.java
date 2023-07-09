@@ -79,7 +79,7 @@ public abstract class CommandBase implements CommandExecutor {
     protected String[] args;
     protected CommandSender sender;
 
-    protected String command = "FIXME";
+    public String command = "FIXME";
     protected String displayName = "FIXME";
     protected boolean sendUnknownToDefault = false;
     protected DecimalFormat df = new DecimalFormat();
@@ -499,8 +499,7 @@ public abstract class CommandBase implements CommandExecutor {
             throw new CivException(CivSettings.localize.localizedString("EnterTownName"));
         }
 
-        String name = args[index].toLowerCase();
-        name = name.replace("%", "(\\w*)");
+        String name = args[index].toLowerCase().replace("%", "(\\w*)");
 
         ArrayList<Town> potentialMatches = new ArrayList<>();
         for (Town town : CivGlobal.getTowns()) {
@@ -608,10 +607,7 @@ public abstract class CommandBase implements CommandExecutor {
         if (args.length < (index + 1)) {
             throw new CivException(CivSettings.localize.localizedString("EnterCampName"));
         }
-
-        String name = args[index].toLowerCase();
-        name = name.replace("%", "(\\w*)");
-
+        String name = args[index].toLowerCase().replace("%", "(\\w*)");
         ArrayList<Camp> potentialMatches = new ArrayList<>();
         for (Camp camp : CivGlobal.getCamps()) {
             String str = camp.getName().toLowerCase();
@@ -652,21 +648,12 @@ public abstract class CommandBase implements CommandExecutor {
         if (args.length < (index + 1)) {
             throw new CivException(CivSettings.localize.localizedString("EnterTeamName"));
         }
-
-        String name = args[index].toLowerCase();
-        name = name.replace("%", "(\\w*)");
-
+        String name = args[index].toLowerCase().replace("%", "(\\w*)");
         ArrayList<ArenaTeam> potentialMatches = new ArrayList<>();
         for (ArenaTeam team : ArenaTeam.arenaTeams.values()) {
-            String str = team.getName().toLowerCase();
-            try {
-                if (str.matches(name)) {
-                    potentialMatches.add(team);
-                }
-            } catch (Exception e) {
-                throw new CivException(CivSettings.localize.localizedString("cmd_invalidPattern"));
+            if (team.getName().toLowerCase().matches(name)) {
+                potentialMatches.add(team);
             }
-
             if (potentialMatches.size() > MATCH_LIMIT) {
                 throw new CivException(CivSettings.localize.localizedString("cmd_TooManyResults"));
             }

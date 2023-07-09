@@ -26,42 +26,42 @@ global:
     - '269:1'
     - '17:10'
     - '346:2'
-        - '366:10'
-        - '345:1'
-        - 'mat_tutorial_book:1'
-        - 'mat_found_camp:1'
+    - '366:10'
+    - '345:1'
+    - 'mat_tutorial_book:1'
+    - 'mat_found_camp:1'
 
-   # Amount of mins PvP timer remains active after first login.
-   pvp_timer: 120
+  # Amount of mins PvP timer remains active after first login.
+  pvp_timer: 120
 
-   # Regen spawn at midnight every day.
-   regen_spawn_hour: 0
+  # Regen spawn at midnight every day.
+  regen_spawn_hour: 0
 
-   # Exchange rate you get using /resident exchange instead of using a bank.
-   exchange_rate: 0.3
+  # Exchange rate you get using /resident exchange instead of using a bank.
+  exchange_rate: 0.3
 
-   starting_coins: 250.0
+  starting_coins: 250.0
 
-   # Number of hours that must pass before a resident can join a different civ
-   join_civ_cooldown: 12
+  # Number of hours that must pass before a resident can join a different civ
+  join_civ_cooldown: 12
 
-   # Distance things must be built away from spawn.
-   distance_from_spawn: 1000.0
+  # Distance things must be built away from spawn.
+  distance_from_spawn: 1000.0
 
-   # max distance players can be apart for trading
-   max_trade_distance: 10.0
+  # max distance players can be apart for trading
+  max_trade_distance: 10.0
 
-   # catalyst free amount
-   free_catalyst_amount: 3
+  # catalyst free amount
+  free_catalyst_amount: 3
 
-   # extra percentage amount
-   extra_catalyst_amount: 3
+  # extra percentage amount
+  extra_catalyst_amount: 3
 
-   # extra percentage given
-   extra_catalyst_percent: 0.0
+  # extra percentage given
+  extra_catalyst_percent: 0.0
 
-   # Amount of extra attack each +1 gives to weapons
-   attack_catalyst_multiplier: 1.0
+  # Amount of extra attack each +1 gives to weapons
+  attack_catalyst_multiplier: 1.0
 
   # Amount of extra armor each +1 gives to armor
   defense_catalyst_multiplier: 1.0
@@ -85,12 +85,12 @@ global:
   min_build_height: 1
 
   #Use Experience as currency. Default: true
-   #If true, disables EXP enchanting and repair.
-   use_exp_as_currency: true
+  #If true, disables EXP enchanting and repair.
+  use_exp_as_currency: true
 
-   #Use Vault for player economy. Default: false
-   #Data will still be loaded from and saved to the database, but it will now be linked to Vault
-   use_vault: false
+  #Use Vault for player economy. Default: false
+  #Data will still be loaded from and saved to the database, but it will now be linked to Vault
+  use_vault: false
 
 
 civ:
@@ -145,8 +145,8 @@ civ:
 
 ore_rates:
   iron: 20.0
-    gold: 200.0
-    diamond: 400.0
+  gold: 200.0
+  diamond: 400.0
   emerald: 800.0
 
 # These are end condition configurations...

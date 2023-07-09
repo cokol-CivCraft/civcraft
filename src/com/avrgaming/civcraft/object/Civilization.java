@@ -16,32 +16,10 @@
  * from AVRGAMING LLC. */
 package com.avrgaming.civcraft.object;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-
-import com.avrgaming.civcraft.config.ConfigReligion;
-import com.avrgaming.civcraft.main.CivData;
-import com.avrgaming.civcraft.structure.wonders.Wonder;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import com.avrgaming.civcraft.camp.WarCamp;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigGovernment;
+import com.avrgaming.civcraft.config.ConfigReligion;
 import com.avrgaming.civcraft.config.ConfigTech;
 import com.avrgaming.civcraft.database.SQL;
 import com.avrgaming.civcraft.database.SQLUpdate;
@@ -51,6 +29,7 @@ import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.exception.InvalidNameException;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
+import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
@@ -60,14 +39,22 @@ import com.avrgaming.civcraft.structure.Capitol;
 import com.avrgaming.civcraft.structure.RespawnLocationHolder;
 import com.avrgaming.civcraft.structure.Structure;
 import com.avrgaming.civcraft.structure.TownHall;
+import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.UpdateTechBar;
 import com.avrgaming.civcraft.threading.timers.BeakerTimer;
-import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.CivColor;
-import com.avrgaming.civcraft.util.DateUtil;
-import com.avrgaming.civcraft.util.ItemManager;
+import com.avrgaming.civcraft.util.*;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Civilization extends SQLObject {
 
@@ -168,7 +155,7 @@ private ConfigReligion civReligion;
                     "`researchProgress` float NOT NULL DEFAULT 0," +
                     "`researched` mediumtext DEFAULT NULL, " +
                     "`government_id` mediumtext DEFAULT NULL," +
-                    "'religion_id' mediumtext DEFAULT NULL," +
+                    "`religion_id` mediumtext DEFAULT NULL," +
                     "`color` int(11) DEFAULT 0," +
                     //"`taxrate` float NOT NULL DEFAULT 0," +
                     "`science_percentage` float NOT NULL DEFAULT 0," +
@@ -324,29 +311,28 @@ private ConfigReligion civReligion;
 	private Object saveResearchedTechs() {
         StringBuilder out = new StringBuilder();
 
-		for (ConfigTech tech : this.techs.values()) {
-            out.append(tech.id).append( ",");
-		}
+        for (ConfigTech tech : this.techs.values()) {
+            out.append(tech.id).append(",");
+        }
 
         return out.toString();
     }
 
     public double loadIncomeTaxRate() {
-        double dd = 0.0;
-        dd += getGovernment().maximum_tax_rate;
-        dd += getReligion().tax_rate;
-        return dd;
-    }private void loadKeyValueString(String string, HashMap<String, Double> map) {
+        return getGovernment().maximum_tax_rate + getReligion().tax_rate;
+    }
 
-		String[] keyvalues = string.split(";");
+    private void loadKeyValueString(String string, HashMap<String, Double> map) {
 
-		for (String keyvalue : keyvalues) {
-			try {
-				String key = keyvalue.split(":")[0];
-				String value = keyvalue.split(":")[1];
+        String[] keyvalues = string.split(";");
 
-				map.put(key, Double.valueOf(value));
-			} catch (ArrayIndexOutOfBoundsException e) {
+        for (String keyvalue : keyvalues) {
+            try {
+                String key = keyvalue.split(":")[0];
+                String value = keyvalue.split(":")[1];
+
+                map.put(key, Double.valueOf(value));
+            } catch (ArrayIndexOutOfBoundsException e) {
 				// forget it then.
 			}
 		}
@@ -1134,10 +1120,7 @@ private ConfigReligion civReligion;
             throw new CivException(CivSettings.localize.localizedString("civ_gov_errorAnarchy"));
         }
 
-        boolean noanarchy = false;
-        if (this.hasWonder("w_notre_dame")) {
-            noanarchy = true;
-        }
+        boolean noanarchy = this.hasWonder("w_notre_dame");
 
         if (!noanarchy) {
             String key = "changegov_" + this.getId();

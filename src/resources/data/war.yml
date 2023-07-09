@@ -106,20 +106,20 @@ arrow_tower:
     # Damage done per hit from arrow tower
   damage: 5
 
-    # Range of the arrow tower
-    range: 100.0
+  # Range of the arrow tower
+  range: 100.0
 
-    # Min-range watch tower will target players at
-    min_range: 5.0
+  # Min-range watch tower will target players at
+  min_range: 5.0
 
-    # power of watch tower (basically arrow speed)
-    power: 2.8
+  # power of watch tower (basically arrow speed)
+  power: 2.8
 
-    # how fast each arrow is fired in seconds.
-    fire_rate: 1.0
+  # how fast each arrow is fired in seconds.
+  fire_rate: 1.0
 
-    # Distance before homing stops.
-    homing_stop_distance: 10.0
+  # Distance before homing stops.
+  homing_stop_distance: 10.0
 
 cannon_tower:
     # Damage done by cannon blast
@@ -145,21 +145,21 @@ cannon_tower:
     fire_rate: 4
 
 tesla_tower:
-    # Damage done by lightning blast
+  # Damage done by lightning blast
   damage: 7
 
-    # Tesla tower range
-    range: 150.0
+  # Tesla tower range
+  range: 150.0
 
-    # Distance Tesla towers must be built apart
+  # Distance Tesla towers must be built apart
   build_distance: 120.0
 
-    # Min-range of Tesla tower
-    min_range: 10.0
+  # Min-range of Tesla tower
+  min_range: 10.0
 
-    # Tesla tower fire rate
-    # Defined in number of half-seconds to delay. Higher numbers is lower fire rate.
-    fire_rate: 6
+  # Tesla tower fire rate
+  # Defined in number of half-seconds to delay. Higher numbers is lower fire rate.
+  fire_rate: 6
 
 wall:
    # Maximum height walls can be built at.

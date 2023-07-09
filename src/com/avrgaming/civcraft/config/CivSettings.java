@@ -18,30 +18,6 @@
  */
 package com.avrgaming.civcraft.config;
 
-import localize.Localize;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.*;
-
-import org.apache.commons.io.FileUtils;
-import org.bukkit.Material;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.EntityType;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import com.avrgaming.civcraft.camp.Camp;
 import com.avrgaming.civcraft.endgame.ConfigEndCondition;
 import com.avrgaming.civcraft.exception.CivException;
@@ -58,6 +34,20 @@ import com.avrgaming.civcraft.structure.FortifiedWall;
 import com.avrgaming.civcraft.structure.Wall;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.global.perks.Perk;
+import localize.Localize;
+import org.apache.commons.io.FileUtils;
+import org.bukkit.Material;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.EntityType;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.*;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 
 public class CivSettings {
 
@@ -418,7 +408,7 @@ public class CivSettings {
     }
 
     public static FileConfiguration loadCivConfig(String filepath) throws IOException, InvalidConfigurationException {
-
+        CivLog.warning(plugin.getDataFolder().getPath() + "/data/" + filepath);
         File file = new File(plugin.getDataFolder().getPath() + "/data/" + filepath);
         if (!file.exists()) {
             CivLog.warning("Configuration file:" + filepath + " was missing. Streaming to disk from Jar.");
