@@ -29,12 +29,12 @@ public class CivMotdCommand extends CommandBase {
 
 	@Override
 	public void init() {
-		command = "/civ motd";
-		displayName = CivSettings.localize.localizedString("cmd_civ_motd_name");
-		
-		commands.put("set", CivSettings.localize.localizedString("cmd_civ_motd_setDesc"));
-		commands.put("remove", CivSettings.localize.localizedString("cmd_civ_motd_removeDesc"));
-	}
+        command = "/civ motd";
+        displayName = CivSettings.localize.localizedString("cmd_civ_motd_name");
+
+        register_sub("set", this::set_cmd, CivSettings.localize.localizedString("cmd_civ_motd_setDesc"));
+        register_sub("remove", this::remove_cmd, CivSettings.localize.localizedString("cmd_civ_motd_removeDesc"));
+    }
 	
 	public void set_cmd() throws CivException {
 		Resident resident = getResident();

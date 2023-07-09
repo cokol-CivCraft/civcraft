@@ -1,17 +1,13 @@
 package com.avrgaming.civcraft.command.admin;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
-import org.bukkit.configuration.InvalidConfigurationException;
-
 import com.avrgaming.civcraft.command.CommandBase;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigPerk;
-import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.configuration.InvalidConfigurationException;
+
+import java.io.IOException;
 
 public class AdminPerkCommand extends CommandBase {
 
@@ -20,8 +16,8 @@ public class AdminPerkCommand extends CommandBase {
 		command = "/ad perk";
 		displayName = CivSettings.localize.localizedString("adcmd_perk_name");
 
-		commands.put("list", CivSettings.localize.localizedString("adcmd_perk_listDesc"));
-		commands.put("reload", CivSettings.localize.localizedString("adcmd_perk_reloadDesc"));
+		register_sub("list", this::list_cmd, CivSettings.localize.localizedString("adcmd_perk_listDesc"));
+		register_sub("reload", this::reload_cmd, CivSettings.localize.localizedString("adcmd_perk_reloadDesc"));
 	}
 
 	@SuppressWarnings("unused")
@@ -34,8 +30,12 @@ public class AdminPerkCommand extends CommandBase {
 	}
 
 	@SuppressWarnings("unused")
-	public void reload_cmd() throws IOException, InvalidConfigurationException, InvalidConfiguration {
-		CivSettings.reloadPerks();
+	public void reload_cmd() {
+		try {
+			CivSettings.reloadPerks();
+		} catch (IOException | InvalidConfigurationException e) {
+			e.printStackTrace();
+		}
 	}
 
 

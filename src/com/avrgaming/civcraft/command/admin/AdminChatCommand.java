@@ -30,23 +30,23 @@ public class AdminChatCommand extends CommandBase {
 
 	@Override
 	public void init() {
-		command = "/ad chat";
-		displayName = CivSettings.localize.localizedString("adcmd_chat_name");
-		
-		commands.put("tc", CivSettings.localize.localizedString("adcmd_chat_tcDesc"));
-		commands.put("cc", CivSettings.localize.localizedString("adcmd_chat_ccDesc"));
-		commands.put("cclisten", CivSettings.localize.localizedString("adcmd_chat_cclisten"));
-		commands.put("tclisten", CivSettings.localize.localizedString("adcmd_chat_tclisten"));
-		commands.put("listenoff", CivSettings.localize.localizedString("adcmd_chat_listenOffDesc"));
-		commands.put("cclistenall", CivSettings.localize.localizedString("adcmd_chat_listenAllDesc"));
-		commands.put("tclistenall", CivSettings.localize.localizedString("adcmd_chat_tclistenAllDesc"));	
-		commands.put("banwordon", CivSettings.localize.localizedString("adcmd_chat_banWordOnDesc"));
-		commands.put("banwordoff", CivSettings.localize.localizedString("adcmd_chat_banWordOffDesc"));
-		commands.put("banwordadd", CivSettings.localize.localizedString("admcd_chat_banwordaddDesc"));
-		commands.put("banwordremove", CivSettings.localize.localizedString("adcmd_chat_banwordremoveDesc"));
-		commands.put("banwordtoggle", CivSettings.localize.localizedString("adcmd_chat_banwordToggleDesc"));
-		
-	}
+        command = "/ad chat";
+        displayName = CivSettings.localize.localizedString("adcmd_chat_name");
+
+        register_sub("tc", this::tc_cmd, CivSettings.localize.localizedString("adcmd_chat_tcDesc"));
+        register_sub("cc", this::cc_cmd, CivSettings.localize.localizedString("adcmd_chat_ccDesc"));
+        register_sub("cclisten", this::cclisten_cmd, CivSettings.localize.localizedString("adcmd_chat_cclisten"));
+        register_sub("tclisten", this::tclisten_cmd, CivSettings.localize.localizedString("adcmd_chat_tclisten"));
+        register_sub("listenoff", this::listenoff_cmd, CivSettings.localize.localizedString("adcmd_chat_listenOffDesc"));
+        register_sub("cclistenall", this::cclistenall_cmd, CivSettings.localize.localizedString("adcmd_chat_listenAllDesc"));
+        register_sub("tclistenall", this::tclistenall_cmd, CivSettings.localize.localizedString("adcmd_chat_tclistenAllDesc"));
+        register_sub("banwordon", this::banwordon_cmd, CivSettings.localize.localizedString("adcmd_chat_banWordOnDesc"));
+        register_sub("banwordoff", this::banwordoff_cmd, CivSettings.localize.localizedString("adcmd_chat_banWordOffDesc"));
+        register_sub("banwordadd", this::banwordadd_cmd, CivSettings.localize.localizedString("admcd_chat_banwordaddDesc"));
+        register_sub("banwordremove", this::banwordremove_cmd, CivSettings.localize.localizedString("adcmd_chat_banwordremoveDesc"));
+        register_sub("banwordtoggle", this::banwordtoggle, CivSettings.localize.localizedString("adcmd_chat_banwordToggleDesc"));
+
+    }
 
 	@SuppressWarnings("unused")
 	public void tclistenall_cmd() throws CivException {

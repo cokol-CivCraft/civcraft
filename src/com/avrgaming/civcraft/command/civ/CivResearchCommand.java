@@ -37,20 +37,20 @@ public class CivResearchCommand extends CommandBase {
 
 	@Override
 	public void init() {
-		command = "/civ research";
-		displayName = CivSettings.localize.localizedString("cmd_civ_research_name");
-		
-		commands.put("list", CivSettings.localize.localizedString("cmd_civ_research_listDesc"));
-		commands.put("progress", CivSettings.localize.localizedString("cmd_civ_research_progressDesc"));
-		commands.put("on", CivSettings.localize.localizedString("cmd_civ_research_onDesc"));
-		commands.put("change", CivSettings.localize.localizedString("cmd_civ_research_changeDesc"));
-		commands.put("finished", CivSettings.localize.localizedString("cmd_civ_research_finishedDesc"));
-		commands.put("era", CivSettings.localize.localizedString("cmd_civ_research_eraDesc"));
-		commands.put("e", null);
-		commands.put("f", null);
-		commands.put("l", null);
-		commands.put("p",  null);
-	}
+        command = "/civ research";
+        displayName = CivSettings.localize.localizedString("cmd_civ_research_name");
+
+        register_sub("list", this::list_cmd, CivSettings.localize.localizedString("cmd_civ_research_listDesc"));
+        register_sub("progress", this::progress_cmd, CivSettings.localize.localizedString("cmd_civ_research_progressDesc"));
+        register_sub("on", this::on_cmd, CivSettings.localize.localizedString("cmd_civ_research_onDesc"));
+        register_sub("change", this::change_cmd, CivSettings.localize.localizedString("cmd_civ_research_changeDesc"));
+        register_sub("finished", this::finished_cmd, CivSettings.localize.localizedString("cmd_civ_research_finishedDesc"));
+        register_sub("era", this::era_cmd, CivSettings.localize.localizedString("cmd_civ_research_eraDesc"));
+        register_sub("e", this::era_cmd, null);
+        register_sub("f", this::finished_cmd, null);
+        register_sub("l", this::list_cmd, null);
+        register_sub("p", this::progress_cmd, null);
+    }
 	
 	public void change_cmd() throws CivException {
 		Civilization civ = getSenderCiv();

@@ -50,45 +50,50 @@ public class AdminTownCommand extends CommandBase {
 
 	@Override
 	public void init() {
-		command = "/ad town";
-		displayName = CivSettings.localize.localizedString("adcmd_town_name");
-		
-		commands.put("disband", CivSettings.localize.localizedString("adcmd_town_disbandDesc"));
-		commands.put("claim", CivSettings.localize.localizedString("adcmd_town_claimDesc"));
-		commands.put("unclaim", CivSettings.localize.localizedString("adcmd_town_unclaimDesc"));
-		commands.put("hammerrate", CivSettings.localize.localizedString("adcmd_town_hammerrateDesc"));
-		commands.put("addmayor", CivSettings.localize.localizedString("adcmd_town_addmayorDesc"));
-		commands.put("addassistant", CivSettings.localize.localizedString("adcmd_town_addAssistantDesc"));
-		commands.put("rmmayor", CivSettings.localize.localizedString("adcmd_town_rmmayorDesc"));
-		commands.put("rmassistant", CivSettings.localize.localizedString("adcmd_town_rmassistantDesc"));
-		commands.put("tp", CivSettings.localize.localizedString("adcmd_town_tpDesc"));
-		commands.put("culture", CivSettings.localize.localizedString("adcmd_town_cultureDesc"));
-		commands.put("info", CivSettings.localize.localizedString("adcmd_town_infoDesc"));
-		commands.put("setciv", CivSettings.localize.localizedString("adcmd_town_setcivDesc"));
-		commands.put("select", CivSettings.localize.localizedString("adcmd_town_selectDesc"));
-		commands.put("claimradius", CivSettings.localize.localizedString("adcmd_town_claimradiusDesc"));
-		commands.put("chestreport", CivSettings.localize.localizedString("adcmd_town_chestReportDesc"));
-		commands.put("rebuildgroups", CivSettings.localize.localizedString("adcmd_town_rebuildgroupsDesc"));
-		commands.put("capture", CivSettings.localize.localizedString("adcmd_town_captureDesc"));
-		commands.put("setmotherciv", CivSettings.localize.localizedString("adcmd_town_setmothercivDesc"));
-		commands.put("sethappy", CivSettings.localize.localizedString("adcmd_town_sethappyDesc"));
-		commands.put("setunhappy", CivSettings.localize.localizedString("adcmd_town_setunhappyDesc"));
-		commands.put("event", CivSettings.localize.localizedString("adcmd_town_eventDesc"));
-		commands.put("rename", CivSettings.localize.localizedString("adcmd_town_renameDesc"));
-	}
+        command = "/ad town";
+        displayName = CivSettings.localize.localizedString("adcmd_town_name");
 
-	@SuppressWarnings("unused")
-	public void rename_cmd() throws CivException, InvalidNameException {
-		Town town = getNamedTown(1);
-		String name = getNamedString(2, CivSettings.localize.localizedString("EnterTownName"));
+        register_sub("disband", this::disband_cmd, CivSettings.localize.localizedString("adcmd_town_disbandDesc"));
+        register_sub("claim", this::claim_cmd, CivSettings.localize.localizedString("adcmd_town_claimDesc"));
+        register_sub("unclaim", this::unclaim_cmd, CivSettings.localize.localizedString("adcmd_town_unclaimDesc"));
+        register_sub("hammerrate", this::hammerrate_cmd, CivSettings.localize.localizedString("adcmd_town_hammerrateDesc"));
+        register_sub("addmayor", this::addmayor_cmd, CivSettings.localize.localizedString("adcmd_town_addmayorDesc"));
+        register_sub("addassistant", this::addassistant_cmd, CivSettings.localize.localizedString("adcmd_town_addAssistantDesc"));
+        register_sub("rmmayor", this::rmmayor_cmd, CivSettings.localize.localizedString("adcmd_town_rmmayorDesc"));
+        register_sub("rmassistant", this::rmassistant_cmd, CivSettings.localize.localizedString("adcmd_town_rmassistantDesc"));
+        register_sub("tp", this::tp_cmd, CivSettings.localize.localizedString("adcmd_town_tpDesc"));
+        register_sub("culture", this::culture_cmd, CivSettings.localize.localizedString("adcmd_town_cultureDesc"));
+        register_sub("info", this::info_cmd, CivSettings.localize.localizedString("adcmd_town_infoDesc"));
+        register_sub("setciv", this::setciv_cmd, CivSettings.localize.localizedString("adcmd_town_setcivDesc"));
+        register_sub("select", this::select_cmd, CivSettings.localize.localizedString("adcmd_town_selectDesc"));
+        register_sub("claimradius", this::claimradius_cmd, CivSettings.localize.localizedString("adcmd_town_claimradiusDesc"));
+        register_sub("chestreport", this::chestreport_cmd, CivSettings.localize.localizedString("adcmd_town_chestReportDesc"));
+        register_sub("rebuildgroups", this::rebuildgroups_cmd, CivSettings.localize.localizedString("adcmd_town_rebuildgroupsDesc"));
+        register_sub("capture", this::capture_cmd, CivSettings.localize.localizedString("adcmd_town_captureDesc"));
+        register_sub("setmotherciv", this::setmotherciv_cmd, CivSettings.localize.localizedString("adcmd_town_setmothercivDesc"));
+        register_sub("sethappy", this::sethappy_cmd, CivSettings.localize.localizedString("adcmd_town_sethappyDesc"));
+        register_sub("setunhappy", this::setunhappy_cmd, CivSettings.localize.localizedString("adcmd_town_setunhappyDesc"));
+        register_sub("event", this::event_cmd, CivSettings.localize.localizedString("adcmd_town_eventDesc"));
+        register_sub("rename", this::rename_cmd, CivSettings.localize.localizedString("adcmd_town_renameDesc"));
+    }
 
-		if (args.length < 3) {
-			throw new CivException(CivSettings.localize.localizedString("adcmd_town_renameUnderscores"));
-		}
+    @SuppressWarnings("unused")
+    public void rename_cmd() throws CivException {
+        Town town = getNamedTown(1);
+        String name = getNamedString(2, CivSettings.localize.localizedString("EnterTownName"));
 
-		town.rename(name);
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_town_renameSuccess"));
-	}
+        if (args.length < 3) {
+            throw new CivException(CivSettings.localize.localizedString("adcmd_town_renameUnderscores"));
+        }
+
+        try {
+            town.rename(name);
+        } catch (InvalidNameException e) {
+            e.printStackTrace();
+            throw new CivException(e.getMessage());
+        }
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_town_renameSuccess"));
+    }
 
 	@SuppressWarnings("unused")
 	public void event_cmd() throws CivException {

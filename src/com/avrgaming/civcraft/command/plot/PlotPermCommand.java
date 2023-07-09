@@ -35,7 +35,7 @@ public class PlotPermCommand extends CommandBase {
 		command = "/plot perm";
 		displayName = CivSettings.localize.localizedString("cmd_plot_perm_name");
 		
-		commands.put("set", CivSettings.localize.localizedString("cmd_plot_perm_setDesc"));
+		register_sub("set", this::set_cmd, CivSettings.localize.localizedString("cmd_plot_perm_setDesc"));
 	}
 
 	@SuppressWarnings("unused")

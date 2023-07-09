@@ -17,7 +17,7 @@ public class ReportCommand extends CommandBase {
 		command = "/report";
 		displayName = CivSettings.localize.localizedString("cmd_reprot_Name");
 		
-		commands.put("player", CivSettings.localize.localizedString("cmd_report_playerDesc"));
+		register_sub("player", this::player_cmd, CivSettings.localize.localizedString("cmd_report_playerDesc"));
 	}
 
 	@SuppressWarnings("unused")

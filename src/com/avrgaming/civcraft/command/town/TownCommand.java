@@ -65,51 +65,51 @@ public class TownCommand extends CommandBase {
 	public static final long INVITE_TIMEOUT = 30000; //30 seconds
 	
 	public void init() {
-		command = "/town";
-		displayName = CivSettings.localize.localizedString("cmd_town_name");
-		
-		commands.put("claim", CivSettings.localize.localizedString("cmd_town_claimDesc"));
-		commands.put("unclaim", CivSettings.localize.localizedString("cmd_town_unclaimDesc"));
-		commands.put("group", CivSettings.localize.localizedString("cmd_town_groupDesc"));
-		commands.put("upgrade", CivSettings.localize.localizedString("cmd_town_upgradeDesc"));
-		commands.put("info", CivSettings.localize.localizedString("cmd_town_infoDesc"));
-		commands.put("add", CivSettings.localize.localizedString("cmd_town_addDesc"));
-		commands.put("members", CivSettings.localize.localizedString("cmd_town_membersDesc"));
-		commands.put("deposit", CivSettings.localize.localizedString("cmd_town_depositDesc"));
-		commands.put("withdraw", CivSettings.localize.localizedString("cmd_town_withdrawDesc"));
-		commands.put("set", CivSettings.localize.localizedString("cmd_town_setDesc"));
-		commands.put("leave", CivSettings.localize.localizedString("cmd_town_leaveDesc"));
-		commands.put("show", CivSettings.localize.localizedString("cmd_town_showDesc"));
-		commands.put("evict", CivSettings.localize.localizedString("cmd_town_evictDesc"));
-		commands.put("list", CivSettings.localize.localizedString("cmd_town_listDesc"));
-		commands.put("reset", CivSettings.localize.localizedString("cmd_town_resetDesc"));
-		commands.put("top5", CivSettings.localize.localizedString("cmd_town_top5Desc"));
-		commands.put("disbandtown", CivSettings.localize.localizedString("cmd_town_disbandtownDesc"));
-		commands.put("outlaw", CivSettings.localize.localizedString("cmd_town_outlawDesc"));
-		commands.put("leavegroup", CivSettings.localize.localizedString("cmd_town_leavegroupDesc"));
-		commands.put("select", CivSettings.localize.localizedString("cmd_town_selectDesc"));
-//		commands.put("capture", "[town] - instantly captures this town if they have a missing or illegally placed town hall during WarTime.");
-		commands.put("capitulate", CivSettings.localize.localizedString("cmd_town_capitulateDesc"));
-		commands.put("survey", CivSettings.localize.localizedString("cmd_town_surveyDesc"));
-		commands.put("templates", CivSettings.localize.localizedString("cmd_town_templatesDesc"));
-		commands.put("event", CivSettings.localize.localizedString("cmd_town_eventDesc"));
-		commands.put("claimmayor", CivSettings.localize.localizedString("cmd_town_claimmayorDesc"));
-//		commands.put("movestructure", "[coord] [town] moves the structure specified by the coord to the specfied town.");
-		commands.put("enablestructure", CivSettings.localize.localizedString("cmd_town_enableStructureDesc"));
-		commands.put("location", CivSettings.localize.localizedString("cmd_town_locationDesc"));
-		commands.put("e", null); // event
-		commands.put("s", null); // select
-		commands.put("l", null); // list
-		commands.put("w", null); // withdraw
-		commands.put("d", null); // deposit
-		commands.put("up", null); // upgrade -_-
-		commands.put("i", null); // info
-		commands.put("loc", null);
-		commands.put("m", null); // members
-		commands.put("u", null); // upgrade
-		commands.put("invite", null); // add
-		commands.put("kick", null); // evict
-	}
+        command = "/town";
+        displayName = CivSettings.localize.localizedString("cmd_town_name");
+
+        register_sub("claim", this::claim_cmd, CivSettings.localize.localizedString("cmd_town_claimDesc"));
+        register_sub("unclaim", this::unclaim_cmd, CivSettings.localize.localizedString("cmd_town_unclaimDesc"));
+        register_sub("group", this::group_cmd, CivSettings.localize.localizedString("cmd_town_groupDesc"));
+        register_sub("upgrade", this::upgrade_cmd, CivSettings.localize.localizedString("cmd_town_upgradeDesc"));
+        register_sub("info", this::info_cmd, CivSettings.localize.localizedString("cmd_town_infoDesc"));
+        register_sub("add", this::add_cmd, CivSettings.localize.localizedString("cmd_town_addDesc"));
+        register_sub("members", this::members_cmd, CivSettings.localize.localizedString("cmd_town_membersDesc"));
+        register_sub("deposit", this::deposit_cmd, CivSettings.localize.localizedString("cmd_town_depositDesc"));
+        register_sub("withdraw", this::withdraw_cmd, CivSettings.localize.localizedString("cmd_town_withdrawDesc"));
+        register_sub("set", this::set_cmd, CivSettings.localize.localizedString("cmd_town_setDesc"));
+        register_sub("leave", this::leave_cmd, CivSettings.localize.localizedString("cmd_town_leaveDesc"));
+        register_sub("show", this::show_cmd, CivSettings.localize.localizedString("cmd_town_showDesc"));
+        register_sub("evict", this::evict_cmd, CivSettings.localize.localizedString("cmd_town_evictDesc"));
+        register_sub("list", this::list_cmd, CivSettings.localize.localizedString("cmd_town_listDesc"));
+        register_sub("reset", this::reset_cmd, CivSettings.localize.localizedString("cmd_town_resetDesc"));
+        register_sub("top5", this::top5_cmd, CivSettings.localize.localizedString("cmd_town_top5Desc"));
+        register_sub("disbandtown", this::disbandtown_cmd, CivSettings.localize.localizedString("cmd_town_disbandtownDesc"));
+        register_sub("outlaw", this::outlaw_cmd, CivSettings.localize.localizedString("cmd_town_outlawDesc"));
+        register_sub("leavegroup", this::leavegroup_cmd, CivSettings.localize.localizedString("cmd_town_leavegroupDesc"));
+        register_sub("select", this::select_cmd, CivSettings.localize.localizedString("cmd_town_selectDesc"));
+//		register_sub();("capture", this::capture_cmd, "[town] - instantly captures this town if they have a missing or illegally placed town hall during WarTime.");
+        register_sub("capitulate", this::capitulate_cmd, CivSettings.localize.localizedString("cmd_town_capitulateDesc"));
+        register_sub("survey", this::survey_cmd, CivSettings.localize.localizedString("cmd_town_surveyDesc"));
+        register_sub("templates", this::templates_cmd, CivSettings.localize.localizedString("cmd_town_templatesDesc"));
+        register_sub("event", this::event_cmd, CivSettings.localize.localizedString("cmd_town_eventDesc"));
+        register_sub("claimmayor", this::claimmayor_cmd, CivSettings.localize.localizedString("cmd_town_claimmayorDesc"));
+//		register_sub();("movestructure, this::movestructure", "[coord] [town] moves the structure specified by the coord to the specfied town.");
+        register_sub("enablestructure", this::enablestructure_cmd, CivSettings.localize.localizedString("cmd_town_enableStructureDesc"));
+        register_sub("location", this::location_cmd, CivSettings.localize.localizedString("cmd_town_locationDesc"));
+        register_sub("e", this::event_cmd, null); // event
+        register_sub("s", this::s_cmd, null); // select
+        register_sub("l", this::list_cmd, null); // list
+        register_sub("w", this::w_cmd, null); // withdraw
+        register_sub("d", this::d_cmd, null); // deposit
+        register_sub("up", this::upgrade_cmd, null); // upgrade -_-
+        register_sub("i", this::info_cmd, null); // info
+        register_sub("loc", this::location_cmd, null);
+        register_sub("m", this::members_cmd, null); // members
+        register_sub("u", this::upgrade_cmd, null); // upgrade
+        register_sub("invite", this::invite_cmd, null); // add
+        register_sub("kick", this::kick_cmd, null); // evict
+    }
 	
 	public void location_cmd() throws CivException {
         Town town = getSelectedTown();

@@ -38,13 +38,13 @@ public class CivDiplomacyGiftCommand extends CommandBase {
 	@SuppressWarnings("unused")
 	@Override
 	public void init() {
-		command = "/civ dip gift";
-		displayName = CivSettings.localize.localizedString("cmd_civ_dipgift_name");
+        command = "/civ dip gift";
+        displayName = CivSettings.localize.localizedString("cmd_civ_dipgift_name");
 
-		commands.put("entireciv", CivSettings.localize.localizedString("cmd_civ_dipgift_entirecivDesc"));
-		commands.put("town", CivSettings.localize.localizedString("cmd_civ_dipgift_townDesc"));
+        register_sub("entireciv", this::entireciv_cmd, CivSettings.localize.localizedString("cmd_civ_dipgift_entirecivDesc"));
+        register_sub("town", this::town_cmd, CivSettings.localize.localizedString("cmd_civ_dipgift_townDesc"));
 
-	}
+    }
 
 	private void sendGiftRequest(Civilization toCiv, Civilization fromCiv, String message, 
 			QuestionResponseInterface finishedFunction) throws CivException {

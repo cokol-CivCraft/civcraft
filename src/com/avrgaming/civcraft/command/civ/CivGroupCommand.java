@@ -33,14 +33,14 @@ public class CivGroupCommand extends CommandBase {
 
 	@Override
 	public void init() {
-		command = "/civ group";
-		displayName = CivSettings.localize.localizedString("cmd_civ_group_name");
-		
-		commands.put("add", CivSettings.localize.localizedString("cmd_civ_group_addDesc"));
-		commands.put("remove", CivSettings.localize.localizedString("cmd_civ_group_removeDesc"));
-		commands.put("info", CivSettings.localize.localizedString("cmd_civ_group_infoDesc"));
-		
-	}
+        command = "/civ group";
+        displayName = CivSettings.localize.localizedString("cmd_civ_group_name");
+
+        register_sub("add", this::add_cmd, CivSettings.localize.localizedString("cmd_civ_group_addDesc"));
+        register_sub("remove", this::remove_cmd, CivSettings.localize.localizedString("cmd_civ_group_removeDesc"));
+        register_sub("info", this::info_cmd, CivSettings.localize.localizedString("cmd_civ_group_infoDesc"));
+
+    }
 
 	@SuppressWarnings("unused")
 	public void remove_cmd() throws CivException {
@@ -49,7 +49,7 @@ public class CivGroupCommand extends CommandBase {
 		Resident oldMember = getNamedResident(1);
 		String groupName = getNamedString(2, CivSettings.localize.localizedString("cmd_civ_group_removePrompt"));
 
-		PermissionGroup grp = null;
+        PermissionGroup grp;
 		if (groupName.equalsIgnoreCase("leaders")) {
 			grp = civ.getLeaderGroup();
 		} else if (groupName.equalsIgnoreCase("advisers")) {
@@ -88,7 +88,7 @@ public class CivGroupCommand extends CommandBase {
 		Resident newMember = getNamedResident(1);
 		String groupName = getNamedString(2, CivSettings.localize.localizedString("cmd_civ_group_removePrompt"));
 
-		PermissionGroup grp = null;
+        PermissionGroup grp;
 		if (groupName.equalsIgnoreCase("leaders")) {
 			grp = civ.getLeaderGroup();
 		} else if (groupName.equalsIgnoreCase("advisers")) {
@@ -124,7 +124,7 @@ public class CivGroupCommand extends CommandBase {
 		Civilization civ = getSenderCiv();
 
 		if (args.length > 1) {
-			PermissionGroup grp = null;
+            PermissionGroup grp;
 			if (args[1].equalsIgnoreCase("leaders")) {
 				grp = civ.getLeaderGroup();
 			} else if (args[1].equalsIgnoreCase("advisers")) {

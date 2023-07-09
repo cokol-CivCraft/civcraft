@@ -14,12 +14,12 @@ public class TownEventCommand extends CommandBase {
 
 	@Override
 	public void init() {
-		command = "/town event";
-		displayName = CivSettings.localize.localizedString("cmd_town_event_name");
-		
-		commands.put("show", CivSettings.localize.localizedString("cmd_town_event_showDesc"));
-		commands.put("activate", CivSettings.localize.localizedString("cmd_town_event_activateDesc"));
-	}
+        command = "/town event";
+        displayName = CivSettings.localize.localizedString("cmd_town_event_name");
+
+        register_sub("show", this::show_cmd, CivSettings.localize.localizedString("cmd_town_event_showDesc"));
+        register_sub("activate", this::activate_cmd, CivSettings.localize.localizedString("cmd_town_event_activateDesc"));
+    }
 
 	public void activate_cmd() throws CivException {
 		Town town = getSelectedTown();

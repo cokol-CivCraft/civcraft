@@ -45,19 +45,19 @@ public class BuildCommand extends CommandBase {
         displayName = CivSettings.localize.localizedString("cmd_build_Desc");
         sendUnknownToDefault = true;
 
-        commands.put("list", CivSettings.localize.localizedString("cmd_build_listDesc"));
-        commands.put("progress", CivSettings.localize.localizedString("cmd_build_progressDesc"));
-        commands.put("repairnearest", CivSettings.localize.localizedString("cmd_build_repairnearestDesc"));
-        commands.put("undo", CivSettings.localize.localizedString("cmd_build_undoDesc"));
-        commands.put("demolish", CivSettings.localize.localizedString("cmd_build_demolishDesc"));
-        commands.put("demolishnearest", CivSettings.localize.localizedString("cmd_build_demolishnearestDesc"));
-        commands.put("refreshnearest", CivSettings.localize.localizedString("cmd_build_refreshnearestDesc"));
-        commands.put("validatenearest", CivSettings.localize.localizedString("cmd_build_validateNearestDesc"));
-        //commands.put("preview", "shows a preview of this structure at this location.");
-        commands.put("d", null); // demolish
-        commands.put("p", null); // progress (TODO: add approx time [~7h])
-        commands.put("l", null); // list
-        commands.put("u", null); // undo
+        register_sub("list", this::list_cmd, CivSettings.localize.localizedString("cmd_build_listDesc"));
+        register_sub("progress", this::progress_cmd, CivSettings.localize.localizedString("cmd_build_progressDesc"));
+        register_sub("repairnearest", this::repairnearest_cmd, CivSettings.localize.localizedString("cmd_build_repairnearestDesc"));
+        register_sub("undo", this::undo_cmd, CivSettings.localize.localizedString("cmd_build_undoDesc"));
+        register_sub("demolish", this::demolish_cmd, CivSettings.localize.localizedString("cmd_build_demolishDesc"));
+        register_sub("demolishnearest", this::demolishnearest_cmd, CivSettings.localize.localizedString("cmd_build_demolishnearestDesc"));
+        register_sub("refreshnearest", this::refreshnearest_cmd, CivSettings.localize.localizedString("cmd_build_refreshnearestDesc"));
+        register_sub("validatenearest", this::validatenearest_cmd, CivSettings.localize.localizedString("cmd_build_validateNearestDesc"));
+        // commands.put("preview", "shows a preview of this structure at this location.");
+        register_sub("d", this::demolish_cmd, null); // demolish
+        register_sub("p", this::progress_cmd, null); // progress (TODO: add approx time [~7h])
+        register_sub("l", this::list_cmd, null); // list
+        register_sub("u", this::undo_cmd, null); // undo
     }
 
 

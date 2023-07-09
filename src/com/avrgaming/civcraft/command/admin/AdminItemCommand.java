@@ -24,12 +24,12 @@ public class AdminItemCommand extends CommandBase {
 
 	@Override
 	public void init() {
-		command = "/ad item";
-		displayName = CivSettings.localize.localizedString("adcmd_item_cmdDesc");
+        command = "/ad item";
+        displayName = CivSettings.localize.localizedString("adcmd_item_cmdDesc");
 
-		commands.put("enhance", CivSettings.localize.localizedString("adcmd_item_enhanceDesc"));
-		commands.put("give", CivSettings.localize.localizedString("adcmd_item_giveDesc"));
-	}
+        register_sub("enhance", this::enhance_cmd, CivSettings.localize.localizedString("adcmd_item_enhanceDesc"));
+        register_sub("give", this::give_cmd, CivSettings.localize.localizedString("adcmd_item_giveDesc"));
+    }
 
 	@SuppressWarnings("unused")
 	public void give_cmd() throws CivException {

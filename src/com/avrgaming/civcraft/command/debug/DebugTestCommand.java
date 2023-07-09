@@ -34,12 +34,12 @@ public class DebugTestCommand extends CommandBase {
 	
 	@Override
 	public void init() {
-		command = "/dbg test ";
-		displayName = "Test Commands";
-		
-		commands.put("getsyncchesttest", "Does a performance test by getting chests. NEVER RUN THIS ON PRODUCTION.");
-		commands.put("setlag", "[tps] - tries to set the tps to this amount to simulate lag.");
-	}
+        command = "/dbg test ";
+        displayName = "Test Commands";
+
+        register_sub("getsyncchesttest", this::getsyncchesttest_cmd, "Does a performance test by getting chests. NEVER RUN THIS ON PRODUCTION.");
+        register_sub("setlag", this::setlag_cmd, "[tps] - tries to set the tps to this amount to simulate lag.");
+    }
 
 	@SuppressWarnings("unused")
 	public void setlag_cmd() throws CivException {

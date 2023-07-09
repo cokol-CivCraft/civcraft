@@ -33,15 +33,14 @@ public class AdminCampCommand extends CommandBase {
 
 	@Override
 	public void init() {
-		command = "/ad camp";
-		displayName = CivSettings.localize.localizedString("adcmd_camp_name");	
-		
-		commands.put("destroy", CivSettings.localize.localizedString("adcmd_camp_destroyDesc"));
-		commands.put("setraidtime", CivSettings.localize.localizedString("adcmd_camp_setRaidTimeDesck"));
-		commands.put("rebuild", CivSettings.localize.localizedString("adcmd_camp_rebuildDesc"));
-	}
+        command = "/ad camp";
+        displayName = CivSettings.localize.localizedString("adcmd_camp_name");
 
-	@SuppressWarnings("unused")
+        register_sub("destroy", this::destroy_cmd, CivSettings.localize.localizedString("adcmd_camp_destroyDesc"));
+        register_sub("setraidtime", this::setraidtime_cmd, CivSettings.localize.localizedString("adcmd_camp_setRaidTimeDesck"));
+        register_sub("rebuild", this::rebuild_cmd, CivSettings.localize.localizedString("adcmd_camp_rebuildDesc"));
+    }
+
 	public void rebuild_cmd() throws CivException {
 		Camp camp = this.getNamedCamp(1);
 

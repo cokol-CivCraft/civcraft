@@ -66,41 +66,45 @@ public class AdminCommand extends CommandBase {
         command = "/ad";
         displayName = CivSettings.localize.localizedString("adcmd_Name");
 
-        commands.put("perm", CivSettings.localize.localizedString("adcmd_permDesc"));
-        commands.put("sbperm", CivSettings.localize.localizedString("adcmd_adpermDesc"));
-        commands.put("cbinstantbreak", CivSettings.localize.localizedString("adcmd_cbinstantbreakDesc"));
+        register_sub("perm", this::perm_cmd, CivSettings.localize.localizedString("adcmd_permDesc"));
+        register_sub("sbperm", this::sbperm_cmd, CivSettings.localize.localizedString("adcmd_adpermDesc"));
+        register_sub("cbinstantbreak", this::cbinstantbreak_cmd, CivSettings.localize.localizedString("adcmd_cbinstantbreakDesc"));
 
-        commands.put("recover", CivSettings.localize.localizedString("adcmd_recoverDesc"));
-        commands.put("server", CivSettings.localize.localizedString("adcmd_serverDesc"));
-        commands.put("spawnunit", CivSettings.localize.localizedString("adcmd_spawnUnitDesc"));
+        register_sub("recover", this::recover_cmd, CivSettings.localize.localizedString("adcmd_recoverDesc"));
+        register_sub("server", this::server_cmd, CivSettings.localize.localizedString("adcmd_serverDesc"));
+        register_sub("spawnunit", this::spawnunit_cmd, CivSettings.localize.localizedString("adcmd_spawnUnitDesc"));
 
-        commands.put("chestreport", CivSettings.localize.localizedString("adcmd_chestReportDesc"));
-        commands.put("playerreport", CivSettings.localize.localizedString("adcmd_playerreportDesc"));
+        register_sub("chestreport", this::chestreport_cmd, CivSettings.localize.localizedString("adcmd_chestReportDesc"));
+        register_sub("playerreport", this::playerreport_cmd, CivSettings.localize.localizedString("adcmd_playerreportDesc"));
 
-        commands.put("civ", CivSettings.localize.localizedString("adcmd_civDesc"));
-        commands.put("town", CivSettings.localize.localizedString("adcmd_townDesc"));
-        commands.put("war", CivSettings.localize.localizedString("adcmd_warDesc"));
-        commands.put("lag", CivSettings.localize.localizedString("adcmd_lagdesc"));
-        commands.put("camp", CivSettings.localize.localizedString("adcmd_campDesc"));
-        commands.put("chat", CivSettings.localize.localizedString("adcmd_chatDesc"));
-        commands.put("res", CivSettings.localize.localizedString("adcmd_resDesc"));
-        commands.put("build", CivSettings.localize.localizedString("adcmd_buildDesc"));
-        commands.put("items", CivSettings.localize.localizedString("adcmd_itemsDesc"));
-        commands.put("item", CivSettings.localize.localizedString("adcmd_itemDesc"));
-        commands.put("timer", CivSettings.localize.localizedString("adcmd_timerDesc"));
-        commands.put("road", CivSettings.localize.localizedString("adcmd_roadDesc"));
-        commands.put("clearendgame", CivSettings.localize.localizedString("adcmd_clearEndGameDesc"));
-        commands.put("endworld", CivSettings.localize.localizedString("adcmd_endworldDesc"));
-        commands.put("arena", CivSettings.localize.localizedString("adcmd_arenaDesc"));
-        commands.put("perk", CivSettings.localize.localizedString("adcmd_perkDesc"));
-        commands.put("reloadgov", CivSettings.localize.localizedString("adcmd_reloadgovDesc"));
-        commands.put("reloadac", CivSettings.localize.localizedString("adcmd_reloadacDesc"));
-        commands.put("heartbeat", CivSettings.localize.localizedString("adcmd_heartbeatDesc"));
+        register_sub("civ", this::civ_cmd, CivSettings.localize.localizedString("adcmd_civDesc"));
+        register_sub("town", this::town_cmd, CivSettings.localize.localizedString("adcmd_townDesc"));
+        register_sub("war", this::war_cmd, CivSettings.localize.localizedString("adcmd_warDesc"));
+        register_sub("lag", this::lag_cmd, CivSettings.localize.localizedString("adcmd_lagdesc"));
+        register_sub("camp", this::camp_cmd, CivSettings.localize.localizedString("adcmd_campDesc"));
+        register_sub("chat", this::chat_cmd, CivSettings.localize.localizedString("adcmd_chatDesc"));
+        register_sub("res", this::res_cmd, CivSettings.localize.localizedString("adcmd_resDesc"));
+        register_sub("build", this::build_cmd, CivSettings.localize.localizedString("adcmd_buildDesc"));
+        register_sub("items", this::items_cmd, CivSettings.localize.localizedString("adcmd_itemsDesc"));
+        register_sub("item", this::item_cmd, CivSettings.localize.localizedString("adcmd_itemDesc"));
+        register_sub("timer", this::timer_cmd, CivSettings.localize.localizedString("adcmd_timerDesc"));
+        register_sub("road", this::road_cmd, CivSettings.localize.localizedString("adcmd_roadDesc"));
+        register_sub("clearendgame", this::clearendgame_cmd, CivSettings.localize.localizedString("adcmd_clearEndGameDesc"));
+        register_sub("endworld", this::endworld_cmd, CivSettings.localize.localizedString("adcmd_endworldDesc"));
+        register_sub("arena", this::arena_cmd, CivSettings.localize.localizedString("adcmd_arenaDesc"));
+        register_sub("perk", this::perk_cmd, CivSettings.localize.localizedString("adcmd_perkDesc"));
+        register_sub("reloadgov", this::reloadgov_cmd, CivSettings.localize.localizedString("adcmd_reloadgovDesc"));
+        register_sub("reloadac", this::reloadac_cmd, CivSettings.localize.localizedString("adcmd_reloadacDesc"));
     }
 
     @SuppressWarnings("unused")
-    public void reloadgov_cmd() throws IOException, InvalidConfigurationException {
-        CivSettings.reloadGovConfigFiles();
+    public void reloadgov_cmd() throws CivException {
+        try {
+            CivSettings.reloadGovConfigFiles();
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
+            throw new CivException(e.getMessage());
+        }
         for (Civilization civ : CivGlobal.getCivs()) {
             ConfigGovernment gov = civ.getGovernment();
 

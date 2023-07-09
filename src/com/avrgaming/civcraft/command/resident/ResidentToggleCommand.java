@@ -28,19 +28,19 @@ public class ResidentToggleCommand extends CommandBase {
 	@SuppressWarnings("unused")
 	@Override
 	public void init() {
-		command = "/resident toggle";
-		displayName = CivSettings.localize.localizedString("cmd_res_toggle_name");
+        command = "/resident toggle";
+        displayName = CivSettings.localize.localizedString("cmd_res_toggle_name");
 
-		commands.put("map", CivSettings.localize.localizedString("cmd_res_toggle_mapDesc"));
-		commands.put("info", CivSettings.localize.localizedString("cmd_res_toggle_infoDesc"));
-		commands.put("showtown", CivSettings.localize.localizedString("cmd_res_toggle_showtownDesc"));
-		commands.put("showciv", CivSettings.localize.localizedString("cmd_res_toggle_showcivDesc"));
-		commands.put("showscout", CivSettings.localize.localizedString("cmd_res_toggle_showscoutDesc"));
-		commands.put("combatinfo", CivSettings.localize.localizedString("cmd_res_toggle_combatinfoDesc"));
-		commands.put("itemdrops", CivSettings.localize.localizedString("cmd_res_toggle_itemdropsDesc"));
-		commands.put("titles", CivSettings.localize.localizedString("cmd_res_toggle_titleAPIDesc"));
+        register_sub("map", this::map_cmd, CivSettings.localize.localizedString("cmd_res_toggle_mapDesc"));
+        register_sub("info", this::info_cmd, CivSettings.localize.localizedString("cmd_res_toggle_infoDesc"));
+        register_sub("showtown", this::showtown_cmd, CivSettings.localize.localizedString("cmd_res_toggle_showtownDesc"));
+        register_sub("showciv", this::showciv_cmd, CivSettings.localize.localizedString("cmd_res_toggle_showcivDesc"));
+        register_sub("showscout", this::showscout_cmd, CivSettings.localize.localizedString("cmd_res_toggle_showscoutDesc"));
+        register_sub("combatinfo", this::combatinfo_cmd, CivSettings.localize.localizedString("cmd_res_toggle_combatinfoDesc"));
+        register_sub("itemdrops", this::itemdrops_cmd, CivSettings.localize.localizedString("cmd_res_toggle_itemdropsDesc"));
+        register_sub("titles", this::titles_cmd, CivSettings.localize.localizedString("cmd_res_toggle_titleAPIDesc"));
 
-	}
+    }
 
 	@SuppressWarnings("unused")
 	public void itemdrops_cmd() throws CivException {

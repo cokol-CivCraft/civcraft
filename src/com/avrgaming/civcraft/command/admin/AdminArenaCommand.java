@@ -13,16 +13,17 @@ public class AdminArenaCommand extends CommandBase {
 
 	@Override
 	public void init() {
-		command = "/ad arena";
-		displayName = CivSettings.localize.localizedString("adcmd_arena_Name");
-				
-		commands.put("list", CivSettings.localize.localizedString("adcmd_arena_listDesc"));
-		commands.put("end", CivSettings.localize.localizedString("adcmd_arena_listDesc"));
-		commands.put("messageall", CivSettings.localize.localizedString("adcmd_arena_msgAllDesc"));
-		commands.put("message", CivSettings.localize.localizedString("adcmd_arena_msgdesc"));
-		commands.put("enable", CivSettings.localize.localizedString("adcmd_arena_enableDesc"));
-		commands.put("disable", CivSettings.localize.localizedString("adcmd_arena_disableDesc"));
-	}
+        command = "/ad arena";
+        displayName = CivSettings.localize.localizedString("adcmd_arena_Name");
+
+
+        register_sub("list", this::list_cmd, CivSettings.localize.localizedString("adcmd_arena_listDesc"));
+        register_sub("end", this::end_cmd, CivSettings.localize.localizedString("adcmd_arena_listDesc"));
+        register_sub("messageall", this::messageall_cmd, CivSettings.localize.localizedString("adcmd_arena_msgAllDesc"));
+        register_sub("message", this::message_cmd, CivSettings.localize.localizedString("adcmd_arena_msgdesc"));
+        register_sub("enable", this::enable_cmd, CivSettings.localize.localizedString("adcmd_arena_enableDesc"));
+        register_sub("disable", this::disable_cmd, CivSettings.localize.localizedString("adcmd_arena_disableDesc"));
+    }
 	@SuppressWarnings("unused")
 	public void enable_cmd() {
 		ArenaManager.enabled = true;

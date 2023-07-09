@@ -22,7 +22,7 @@ public class AdminRoadCommand extends CommandBase {
 		displayName = CivSettings.localize.localizedString("adcmd_road_name");	
 		
 	//	commands.put("destroy", "Destroys nearest road.");
-		commands.put("setraidtime", CivSettings.localize.localizedString("adcmd_road_setRaidTimeDesc"));		
+		register_sub("setraidtime", this::setraidtime_cmd, CivSettings.localize.localizedString("adcmd_road_setRaidTimeDesc"));
 	}
 
 	@SuppressWarnings("unused")

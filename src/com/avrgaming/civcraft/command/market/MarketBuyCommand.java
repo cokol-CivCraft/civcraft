@@ -31,13 +31,13 @@ public class MarketBuyCommand extends CommandBase {
 
 	@Override
 	public void init() {
-		command = "/market buy";
-		displayName = CivSettings.localize.localizedString("cmd_market_buy_Name");
-		
-		commands.put("towns", CivSettings.localize.localizedString("cmd_market_buy_townsDesc"));
-		commands.put("civs", CivSettings.localize.localizedString("cmd_market_buy_civsDesc"));
-		
-	}
+        command = "/market buy";
+        displayName = CivSettings.localize.localizedString("cmd_market_buy_Name");
+
+        register_sub("towns", this::towns_cmd, CivSettings.localize.localizedString("cmd_market_buy_townsDesc"));
+        register_sub("civs", this::civs_cmd, CivSettings.localize.localizedString("cmd_market_buy_civsDesc"));
+
+    }
 	
 	private void list_towns_for_sale(Civilization ourCiv) {
 		

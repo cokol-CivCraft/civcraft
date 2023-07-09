@@ -32,12 +32,12 @@ public class AdminTimerCommand extends CommandBase {
 
 	@Override
 	public void init() {
-		command = "/ad timer";
-		displayName = CivSettings.localize.localizedString("adcmd_timer_name");
-		
-		commands.put("set", CivSettings.localize.localizedString("adcmd_timer_setDesc"));
-		commands.put("run", CivSettings.localize.localizedString("adcmd_timer_runDesc"));		
-	}
+        command = "/ad timer";
+        displayName = CivSettings.localize.localizedString("adcmd_timer_name");
+
+        register_sub("set", this::set_cmd, CivSettings.localize.localizedString("adcmd_timer_setDesc"));
+        register_sub("run", this::run_cmd, CivSettings.localize.localizedString("adcmd_timer_runDesc"));
+    }
 
 
 	@SuppressWarnings("unused")

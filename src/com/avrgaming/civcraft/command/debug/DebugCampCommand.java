@@ -32,7 +32,7 @@ public class DebugCampCommand extends CommandBase {
 		command = "/dbg test ";
 		displayName = "Test Commands";
 		
-		commands.put("growth", "[name] - Shows a list of this player's camp growth spots.");
+		register_sub("growth", this::growth_cmd, "[name] - Shows a list of this player's camp growth spots.");
 		
 	}
 

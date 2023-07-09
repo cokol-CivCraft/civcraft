@@ -31,13 +31,13 @@ public class CivGovCommand extends CommandBase {
 
 	@Override
 	public void init() {
-		command = "/civ gov";
-		displayName = CivSettings.localize.localizedString("cmd_civ_gov_name");
-		
-		commands.put("info", CivSettings.localize.localizedString("cmd_civ_gov_infoDesc"));
-		commands.put("change", CivSettings.localize.localizedString("cmd_civ_gov_changeDesc"));
-		commands.put("list", CivSettings.localize.localizedString("cmd_civ_gov_listDesc"));
-	}
+        command = "/civ gov";
+        displayName = CivSettings.localize.localizedString("cmd_civ_gov_name");
+
+        register_sub("info", this::info_cmd, CivSettings.localize.localizedString("cmd_civ_gov_infoDesc"));
+        register_sub("change", this::change_cmd, CivSettings.localize.localizedString("cmd_civ_gov_changeDesc"));
+        register_sub("list", this::list_cmd, CivSettings.localize.localizedString("cmd_civ_gov_listDesc"));
+    }
 
 	@SuppressWarnings("unused")
 	public void change_cmd() throws CivException {

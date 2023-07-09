@@ -36,16 +36,16 @@ public class DebugFarmCommand extends CommandBase {
 
 	@Override
 	public void init() {
-		command = "/dbg farm ";
-		displayName = "Farm Commands";
-		
-		commands.put("showgrowth", "Highlight the crops that grew last tick.");
-		commands.put("grow", "[x] grows ALL farm chunks x many times.");
-		commands.put("cropcache", "show the crop cache for this plot.");
-		commands.put("unloadchunk", "[x] [z] unloads this farm chunk");
-		commands.put("cache", "Runs the crop cache task.");
+        command = "/dbg farm ";
+        displayName = "Farm Commands";
 
-	}
+        register_sub("showgrowth", this::showgrowth_cmd, "Highlight the crops that grew last tick.");
+        register_sub("grow", this::grow_cmd, "[x] grows ALL farm chunks x many times.");
+        register_sub("cropcache", this::cropcache_cmd, "show the crop cache for this plot.");
+        register_sub("unloadchunk", this::unloadchunk_cmd, "[x] [z] unloads this farm chunk");
+        register_sub("cache", this::cache_cmd, "Runs the crop cache task.");
+
+    }
 
 	@SuppressWarnings("unused")
 	public void unloadchunk_cmd() throws CivException {

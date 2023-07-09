@@ -32,14 +32,14 @@ public class TownUpgradeCommand extends CommandBase {
 	@SuppressWarnings("unused")
 	@Override
 	public void init() {
-		command = "/town upgrade";
-		displayName = CivSettings.localize.localizedString("cmd_town_upgrade_name");
+        command = "/town upgrade";
+        displayName = CivSettings.localize.localizedString("cmd_town_upgrade_name");
 
-		commands.put("list", CivSettings.localize.localizedString("cmd_town_upgrade_listDesc"));
-		commands.put("purchased", CivSettings.localize.localizedString("cmd_town_upgrade_purchasedDesc"));
-		commands.put("buy", CivSettings.localize.localizedString("cmd_town_upgrade_buyDesc"));
+        register_sub("list", this::list_cmd, CivSettings.localize.localizedString("cmd_town_upgrade_listDesc"));
+        register_sub("purchased", this::purchased_cmd, CivSettings.localize.localizedString("cmd_town_upgrade_purchasedDesc"));
+        register_sub("buy", this::buy_cmd, CivSettings.localize.localizedString("cmd_town_upgrade_buyDesc"));
 
-	}
+    }
 
 	@SuppressWarnings("unused")
 	public void purchased_cmd() throws CivException {

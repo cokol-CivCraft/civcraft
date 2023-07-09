@@ -37,12 +37,12 @@ public class AdminWarCommand extends CommandBase {
 	public void init() {
 		command = "/ad war";
 		displayName = CivSettings.localize.localizedString("adcmd_war_name");
-		
-		commands.put("start", CivSettings.localize.localizedString("adcmd_war_startDesc"));
-		commands.put("stop", CivSettings.localize.localizedString("adcmd_war_stopDesc"));
-		commands.put("resetstart", CivSettings.localize.localizedString("adcmd_war_resetstartDesc"));
+
+		register_sub("start", this::start_cmd, CivSettings.localize.localizedString("adcmd_war_startDesc"));
+		register_sub("stop", this::stop_cmd, CivSettings.localize.localizedString("adcmd_war_stopDesc"));
+		register_sub("resetstart", null, CivSettings.localize.localizedString("adcmd_war_resetstartDesc"));
 		//commands.put("setlastwar", "takes a date of the form: DAY:MONTH:YEAR:HOUR:MIN (24 hour time)");
-		commands.put("onlywarriors", CivSettings.localize.localizedString("adcmd_war_onlywarriorsDesc"));
+		register_sub("onlywarriors", this::onlywarriors_cmd, CivSettings.localize.localizedString("adcmd_war_onlywarriorsDesc"));
 	}
 
 	@SuppressWarnings("unused")

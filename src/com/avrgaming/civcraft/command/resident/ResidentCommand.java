@@ -43,29 +43,29 @@ public class ResidentCommand extends CommandBase {
 
 	@Override
 	public void init() {
-		command = "/resident";
-		displayName = CivSettings.localize.localizedString("cmd_res_Name");
-		
-		commands.put("info", CivSettings.localize.localizedString("cmd_res_infoDesc"));
-		commands.put("paydebt", CivSettings.localize.localizedString("cmd_res_paydebtDesc"));
-		commands.put("friend", CivSettings.localize.localizedString("cmd_res_friendDesc"));
-		commands.put("toggle", CivSettings.localize.localizedString("cmd_res_toggleDesc"));
-		commands.put("show", CivSettings.localize.localizedString("cmd_res_showDesc"));
-		commands.put("resetspawn", CivSettings.localize.localizedString("cmd_res_resetspawnDesc"));
-		commands.put("exchange", CivSettings.localize.localizedString("cmd_res_exchangeDesc"));
-		commands.put("book", CivSettings.localize.localizedString("cmd_res_bookDesc"));
-		commands.put("perks", CivSettings.localize.localizedString("cmd_res_perksDesc"));
-		commands.put("refresh", CivSettings.localize.localizedString("cmd_res_refreshDesc"));
-		commands.put("timezone", CivSettings.localize.localizedString("cmd_res_timezoneDesc"));
-		commands.put("pvptimer", CivSettings.localize.localizedString("cmd_res_pvptimerDesc"));
-		commands.put("pt", null); // pvptimer
-		commands.put("t", null); // timezone
-		commands.put("f", null); // friend
-		commands.put("i", null); // info
-		commands.put("b", null); // book
+        command = "/resident";
+        displayName = CivSettings.localize.localizedString("cmd_res_Name");
 
-		//commands.put("switchtown", "[town] - Allows you to instantly change your town to this town, if this town belongs to your civ.");
-	}
+        register_sub("info", this::info_cmd, CivSettings.localize.localizedString("cmd_res_infoDesc"));
+        register_sub("paydebt", this::paydebt_cmd, CivSettings.localize.localizedString("cmd_res_paydebtDesc"));
+        register_sub("friend", this::friend_cmd, CivSettings.localize.localizedString("cmd_res_friendDesc"));
+        register_sub("toggle", this::toggle_cmd, CivSettings.localize.localizedString("cmd_res_toggleDesc"));
+        register_sub("show", this::show_cmd, CivSettings.localize.localizedString("cmd_res_showDesc"));
+        register_sub("resetspawn", this::resetspawn_cmd, CivSettings.localize.localizedString("cmd_res_resetspawnDesc"));
+        register_sub("exchange", this::exchange_cmd, CivSettings.localize.localizedString("cmd_res_exchangeDesc"));
+        register_sub("book", this::book_cmd, CivSettings.localize.localizedString("cmd_res_bookDesc"));
+        register_sub("perks", this::perks_cmd, CivSettings.localize.localizedString("cmd_res_perksDesc"));
+        register_sub("refresh", this::refresh_cmd, CivSettings.localize.localizedString("cmd_res_refreshDesc"));
+        register_sub("timezone", this::timezone_cmd, CivSettings.localize.localizedString("cmd_res_timezoneDesc"));
+        register_sub("pvptimer", this::pvptimer_cmd, CivSettings.localize.localizedString("cmd_res_pvptimerDesc"));
+        register_sub("pt", this::pvptimer_cmd, null); // pvptimer
+        register_sub("t", this::timezone_cmd, null); // timezone
+        register_sub("f", this::friend_cmd, null); // friend
+        register_sub("i", this::info_cmd, null); // info
+        register_sub("b", this::book_cmd, null); // book
+
+        //commands.put("switchtown", "[town] - Allows you to instantly change your town to this town, if this town belongs to your civ.");
+    }
 
 	@SuppressWarnings("unused")
 	public void pt_cmd() {

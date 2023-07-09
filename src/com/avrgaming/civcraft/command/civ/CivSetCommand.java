@@ -28,14 +28,14 @@ public class CivSetCommand extends CommandBase {
 
 	@Override
 	public void init() {
-		command = "/civ set";
-		displayName = CivSettings.localize.localizedString("cmd_civ_set_Name");
-		
-		commands.put("taxes", CivSettings.localize.localizedString("cmd_civ_set_taxesDesc"));
-		commands.put("science", CivSettings.localize.localizedString("cmd_civ_set_scienceDesc"));
-		commands.put("color", CivSettings.localize.localizedString("cmd_civ_set_colorDesc"));
+        command = "/civ set";
+        displayName = CivSettings.localize.localizedString("cmd_civ_set_Name");
 
-	}
+        register_sub("taxes", this::taxes_cmd, CivSettings.localize.localizedString("cmd_civ_set_taxesDesc"));
+        register_sub("science", this::science_cmd, CivSettings.localize.localizedString("cmd_civ_set_scienceDesc"));
+        register_sub("color", this::color_cmd, CivSettings.localize.localizedString("cmd_civ_set_colorDesc"));
+
+    }
 
 	
 	private double vaildatePercentage(String arg) throws CivException {

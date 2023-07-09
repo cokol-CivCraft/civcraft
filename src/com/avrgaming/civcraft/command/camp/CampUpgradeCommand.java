@@ -28,15 +28,15 @@ import com.avrgaming.civcraft.util.CivColor;
 public class CampUpgradeCommand extends CommandBase {
 	@Override
 	public void init() {
-		command = "/camp upgrade";
-		displayName = CivSettings.localize.localizedString("cmd_camp_upgrade_name");
-		
-		
-		commands.put("list", CivSettings.localize.localizedString("cmd_camp_upgrade_listDesc"));
-		commands.put("purchased", CivSettings.localize.localizedString("cmd_camp_upgrade_purchasedDesc"));
-		commands.put("buy", CivSettings.localize.localizedString("cmd_camp_upgrade_buyDesc"));
-		
-	}
+        command = "/camp upgrade";
+        displayName = CivSettings.localize.localizedString("cmd_camp_upgrade_name");
+
+
+        register_sub("list", this::list_cmd, CivSettings.localize.localizedString("cmd_camp_upgrade_listDesc"));
+        register_sub("purchased", this::purchased_cmd, CivSettings.localize.localizedString("cmd_camp_upgrade_purchasedDesc"));
+        register_sub("buy", this::buy_cmd, CivSettings.localize.localizedString("cmd_camp_upgrade_buyDesc"));
+
+    }
 
 	public void purchased_cmd() throws CivException {
 		Camp camp = this.getCurrentCamp();

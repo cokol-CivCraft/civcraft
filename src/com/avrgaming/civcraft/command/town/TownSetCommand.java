@@ -39,42 +39,39 @@ public class TownSetCommand extends CommandBase {
 
 	@Override
 	public void init() {
-		command = "/town set";
-		displayName = CivSettings.localize.localizedString("cmd_town_set_name");
-		
-		commands.put("taxrate", CivSettings.localize.localizedString("cmd_town_set_taxrateDesc"));
-		commands.put("flattax", CivSettings.localize.localizedString("cmd_town_set_flattaxDesc"));
-		commands.put("bankfee", CivSettings.localize.localizedString("cmd_town_set_bankfeeDesc"));
-		commands.put("storefee", CivSettings.localize.localizedString("cmd_town_set_storefeeDesc"));
-		commands.put("grocerfee", CivSettings.localize.localizedString("cmd_town_set_grocerfeeDesc"));
-		commands.put("libraryfee", CivSettings.localize.localizedString("cmd_town_set_libraryfeeDesc"));
-		commands.put("blacksmithfee", CivSettings.localize.localizedString("cmd_town_set_blacksmithfeeDesc"));
-		commands.put("stablefee", CivSettings.localize.localizedString("cmd_town_set_stablefeeDesc"));
-		
-		commands.put("scoutrate", CivSettings.localize.localizedString("cmd_town_set_scoutrateDesc"));
-		
-	}
+        command = "/town set";
+        displayName = CivSettings.localize.localizedString("cmd_town_set_name");
+
+        register_sub("taxrate", this::taxrate_cmd, CivSettings.localize.localizedString("cmd_town_set_taxrateDesc"));
+        register_sub("flattax", this::flattax_cmd, CivSettings.localize.localizedString("cmd_town_set_flattaxDesc"));
+        register_sub("bankfee", this::bankfee_cmd, CivSettings.localize.localizedString("cmd_town_set_bankfeeDesc"));
+        register_sub("storefee", this::storefee_cmd, CivSettings.localize.localizedString("cmd_town_set_storefeeDesc"));
+        register_sub("grocerfee", this::grocerfee_cmd, CivSettings.localize.localizedString("cmd_town_set_grocerfeeDesc"));
+        register_sub("libraryfee", this::libraryfee_cmd, CivSettings.localize.localizedString("cmd_town_set_libraryfeeDesc"));
+        register_sub("blacksmithfee", this::blacksmithfee_cmd, CivSettings.localize.localizedString("cmd_town_set_blacksmithfeeDesc"));
+        register_sub("stablefee", this::stablefee_cmd, CivSettings.localize.localizedString("cmd_town_set_stablefeeDesc"));
+
+        register_sub("scoutrate", this::scoutrate_cmd, CivSettings.localize.localizedString("cmd_town_set_scoutrateDesc"));
+
+    }
 	
 	public void stablefee_cmd() throws CivException {
-		Town town = getSelectedTown();
-		Integer feeInt = getNamedInteger(1);
-		
-		Structure struct = town.findStructureByConfigId("s_stable");
-		if (struct == null) {
-			throw new CivException(CivSettings.localize.localizedString("cmd_town_set_stablefeeNone"));
-		}
-		
-		Stable stable = (Stable)struct;
-		
-		if (feeInt < Stable.FEE_MIN || feeInt > Stable.FEE_MAX) {
-			throw new CivException(CivSettings.localize.localizedString("cmd_town_set_stablefeeRates"));
-		}
-	
-		stable.setNonResidentFee(((double)feeInt/100));
-		stable.updateSignText();
-		
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_set_feeSuccess",feeInt));
-	}
+        Town town = getSelectedTown();
+        Integer feeInt = getNamedInteger(1);
+
+        Structure struct = town.findStructureByConfigId("s_stable");
+        if (struct == null) {
+            throw new CivException(CivSettings.localize.localizedString("cmd_town_set_stablefeeNone"));
+        }
+        if (feeInt < Stable.FEE_MIN || feeInt > Stable.FEE_MAX) {
+            throw new CivException(CivSettings.localize.localizedString("cmd_town_set_stablefeeRates"));
+        }
+        Stable stable = (Stable) struct;
+        stable.setNonResidentFee((double) feeInt / 100);
+        stable.updateSignText();
+
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_set_feeSuccess", feeInt));
+    }
 	
 	public void scoutrate_cmd() throws CivException {
 		Town town = getSelectedTown();

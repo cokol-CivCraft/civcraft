@@ -38,15 +38,15 @@ public class AdminResCommand extends CommandBase {
 
 	@Override
 	public void init() {
-		command = "/ad res";
-		displayName = CivSettings.localize.localizedString("adcmd_res_Name");
-		
-		commands.put("settown", CivSettings.localize.localizedString("adcmd_res_setTownDesc"));
-		commands.put("setcamp", CivSettings.localize.localizedString("adcmd_res_setCampDesc"));
-		commands.put("cleartown", CivSettings.localize.localizedString("adcmd_res_clearTownDesc"));
-		commands.put("enchant", CivSettings.localize.localizedString("adcmd_res_enchantDesc"));
-		commands.put("rename", CivSettings.localize.localizedString("adcmd_res_renameDesc"));
-	}
+        command = "/ad res";
+        displayName = CivSettings.localize.localizedString("adcmd_res_Name");
+
+        register_sub("settown", this::settown_cmd, CivSettings.localize.localizedString("adcmd_res_setTownDesc"));
+        register_sub("setcamp", this::setcamp_cmd, CivSettings.localize.localizedString("adcmd_res_setCampDesc"));
+        register_sub("cleartown", this::cleartown_cmd, CivSettings.localize.localizedString("adcmd_res_clearTownDesc"));
+        register_sub("enchant", this::enchant_cmd, CivSettings.localize.localizedString("adcmd_res_enchantDesc"));
+        register_sub("rename", this::rename_cmd, CivSettings.localize.localizedString("adcmd_res_renameDesc"));
+    }
 
 	@SuppressWarnings("unused")
 	public void rename_cmd() throws CivException {

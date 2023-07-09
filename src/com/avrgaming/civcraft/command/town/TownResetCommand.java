@@ -32,12 +32,12 @@ public class TownResetCommand extends CommandBase {
 
 	@Override
 	public void init() {
-		command = "/town reset";
-		displayName = CivSettings.localize.localizedString("cmd_town_reset_name");
-		
-		commands.put("library", CivSettings.localize.localizedString("cmd_town_reset_libraryDesc"));
-		commands.put("store", CivSettings.localize.localizedString("cmd_town_reset_storeDesc"));
-	}
+        command = "/town reset";
+        displayName = CivSettings.localize.localizedString("cmd_town_reset_name");
+
+        register_sub("library", this::library_cmd, CivSettings.localize.localizedString("cmd_town_reset_libraryDesc"));
+        register_sub("store", this::store_cmd, CivSettings.localize.localizedString("cmd_town_reset_storeDesc"));
+    }
 
 	public void library_cmd() throws CivException {
 		Town town = getSelectedTown();

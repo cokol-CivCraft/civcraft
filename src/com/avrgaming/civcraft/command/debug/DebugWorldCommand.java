@@ -19,14 +19,14 @@ public class DebugWorldCommand extends CommandBase {
 
 	@Override
 	public void init() {
-		command = "/dbg world";
-		displayName = "Debug World";
+        command = "/dbg world";
+        displayName = "Debug World";
 
-		commands.put("create", "[name] - creates a new test world with this name.");
-		commands.put("tp", "[name] teleports you to spawn at the specified world.");
-		commands.put("list", "Lists worlds according to bukkit.");
-		commands.put("createarena", "[name] - creates and arena with the given name");
-	}
+        register_sub("create", this::create_cmd, "[name] - creates a new test world with this name.");
+        register_sub("tp", this::tp_cmd, "[name] teleports you to spawn at the specified world.");
+        register_sub("list", this::list_cmd, "Lists worlds according to bukkit.");
+        register_sub("createarena", this::createarena_cmd, "[name] - creates and arena with the given name");
+    }
 
 	@SuppressWarnings("unused")
 	public void createarena_cmd() throws CivException {

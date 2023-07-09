@@ -43,19 +43,19 @@ public class CivDiplomacyCommand extends CommandBase {
 
 	@Override
 	public void init() {
-		command = "/civ dip";
-		displayName = CivSettings.localize.localizedString("cmd_civ_dip_name");
-		
-		commands.put("show", CivSettings.localize.localizedString("cmd_civ_dip_showDesc"));
-		commands.put("declare", CivSettings.localize.localizedString("cmd_civ_dip_declareDesc"));
-		commands.put("request", CivSettings.localize.localizedString("cmd_civ_dip_requestDesc"));
-		commands.put("gift", CivSettings.localize.localizedString("cmd_civ_dip_giftDesc"));
-		commands.put("global", CivSettings.localize.localizedString("cmd_civ_dip_globalDesc"));
-		commands.put("wars", CivSettings.localize.localizedString("cmd_civ_dip_warsDesc"));
-		commands.put("respond", CivSettings.localize.localizedString("cmd_civ_dip_respondDesc"));
-		commands.put("liberate", CivSettings.localize.localizedString("cmd_civ_dip_liberateDesc"));
-		commands.put("capitulate", CivSettings.localize.localizedString("cmd_civ_dip_capitulateDesc"));
-	}
+        command = "/civ dip";
+        displayName = CivSettings.localize.localizedString("cmd_civ_dip_name");
+
+        register_sub("show", this::show_cmd, CivSettings.localize.localizedString("cmd_civ_dip_showDesc"));
+        register_sub("declare", this::declare_cmd, CivSettings.localize.localizedString("cmd_civ_dip_declareDesc"));
+        register_sub("request", this::request_cmd, CivSettings.localize.localizedString("cmd_civ_dip_requestDesc"));
+        register_sub("gift", this::gift_cmd, CivSettings.localize.localizedString("cmd_civ_dip_giftDesc"));
+        register_sub("global", this::global_cmd, CivSettings.localize.localizedString("cmd_civ_dip_globalDesc"));
+        register_sub("wars", this::wars_cmd, CivSettings.localize.localizedString("cmd_civ_dip_warsDesc"));
+        register_sub("respond", this::respond_cmd, CivSettings.localize.localizedString("cmd_civ_dip_respondDesc"));
+        register_sub("liberate", this::liberate_cmd, CivSettings.localize.localizedString("cmd_civ_dip_liberateDesc"));
+        register_sub("capitulate", this::capitulate_cmd, CivSettings.localize.localizedString("cmd_civ_dip_capitulateDesc"));
+    }
 
 	@SuppressWarnings("unused")
 	public void capitulate_cmd() throws CivException {

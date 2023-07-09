@@ -40,20 +40,20 @@ public class CampCommand extends CommandBase {
 
 	@Override
 	public void init() {
-		command = "/camp";
-		displayName = CivSettings.localize.localizedString("Camp");
-		
-		commands.put("undo", CivSettings.localize.localizedString("cmd_camp_undoDesc"));
-		commands.put("add", CivSettings.localize.localizedString("cmd_camp_addDesc"));
-		commands.put("remove", CivSettings.localize.localizedString("cmd_camp_removeDesc"));
-		commands.put("leave", CivSettings.localize.localizedString("cmd_camp_leaveDesc"));
-		commands.put("setowner", CivSettings.localize.localizedString("cmd_camp_setownerDesc"));
-		commands.put("info", CivSettings.localize.localizedString("cmd_camp_infoDesc"));
-		commands.put("disband", CivSettings.localize.localizedString("cmd_camp_disbandDesc"));
-		commands.put("upgrade", CivSettings.localize.localizedString("cmd_camp_upgradeDesc"));
-		commands.put("refresh", CivSettings.localize.localizedString("cmd_camp_refreshDesc"));
-		commands.put("location", CivSettings.localize.localizedString("cmd_camp_locationDesc"));
-	}
+        command = "/camp";
+        displayName = CivSettings.localize.localizedString("Camp");
+
+        register_sub("undo", this::undo_cmd, CivSettings.localize.localizedString("cmd_camp_undoDesc"));
+        register_sub("add", this::add_cmd, CivSettings.localize.localizedString("cmd_camp_addDesc"));
+        register_sub("remove", this::remove_cmd, CivSettings.localize.localizedString("cmd_camp_removeDesc"));
+        register_sub("leave", this::leave_cmd, CivSettings.localize.localizedString("cmd_camp_leaveDesc"));
+        register_sub("setowner", this::setowner_cmd, CivSettings.localize.localizedString("cmd_camp_setownerDesc"));
+        register_sub("info", this::info_cmd, CivSettings.localize.localizedString("cmd_camp_infoDesc"));
+        register_sub("disband", this::disband_cmd, CivSettings.localize.localizedString("cmd_camp_disbandDesc"));
+        register_sub("upgrade", this::upgrade_cmd, CivSettings.localize.localizedString("cmd_camp_upgradeDesc"));
+        register_sub("refresh", this::refresh_cmd, CivSettings.localize.localizedString("cmd_camp_refreshDesc"));
+        register_sub("location", this::location_cmd, CivSettings.localize.localizedString("cmd_camp_locationDesc"));
+    }
 
 	@SuppressWarnings("unused")
 	public void location_cmd() throws CivException {

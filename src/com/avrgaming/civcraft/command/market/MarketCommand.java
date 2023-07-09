@@ -28,7 +28,7 @@ public class MarketCommand extends CommandBase {
 		command = "/market";
 		displayName = CivSettings.localize.localizedString("cmd_market_Name");	
 				
-		commands.put("buy", CivSettings.localize.localizedString("cmd_market_buyDesc"));
+		register_sub("buy", this::buy_cmd, CivSettings.localize.localizedString("cmd_market_buyDesc"));
 
 	}
 

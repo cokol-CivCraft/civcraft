@@ -36,15 +36,15 @@ public class TownGroupCommand extends CommandBase {
 
 	@Override
 	public void init() {
-		command = "/town group";
-		displayName = CivSettings.localize.localizedString("cmd_town_group_name");
-		
-		commands.put("new", CivSettings.localize.localizedString("cmd_town_group_newDesc"));
-		commands.put("delete", CivSettings.localize.localizedString("cmd_town_group_deleteDesc"));
-		commands.put("remove", CivSettings.localize.localizedString("cmd_town_group_removeDesc"));
-		commands.put("add", CivSettings.localize.localizedString("cmd_town_group_addDesc"));
-		commands.put("info", CivSettings.localize.localizedString("cmd_town_group_infoDesc"));
-	}
+        command = "/town group";
+        displayName = CivSettings.localize.localizedString("cmd_town_group_name");
+
+        register_sub("new", this::new_cmd, CivSettings.localize.localizedString("cmd_town_group_newDesc"));
+        register_sub("delete", this::delete_cmd, CivSettings.localize.localizedString("cmd_town_group_deleteDesc"));
+        register_sub("remove", this::remove_cmd, CivSettings.localize.localizedString("cmd_town_group_removeDesc"));
+        register_sub("add", this::add_cmd, CivSettings.localize.localizedString("cmd_town_group_addDesc"));
+        register_sub("info", this::info_cmd, CivSettings.localize.localizedString("cmd_town_group_infoDesc"));
+    }
 	
 	public void delete_cmd() throws CivException {
 		Town town = getSelectedTown();

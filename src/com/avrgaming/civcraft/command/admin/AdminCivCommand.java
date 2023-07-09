@@ -42,29 +42,29 @@ public class AdminCivCommand extends CommandBase {
 
 	@Override
 	public void init() {
-		command = "/ad civ";
-		displayName = CivSettings.localize.localizedString("adcmd_civ_name");
-		
-		commands.put("disband", CivSettings.localize.localizedString("adcmd_civ_disbandDesc"));
-		commands.put("addleader", CivSettings.localize.localizedString("adcmd_civ_addLeaderDesc"));
-		commands.put("addadviser", CivSettings.localize.localizedString("adcmd_civ_addAdvisorDesc"));
-		commands.put("rmleader", CivSettings.localize.localizedString("adcmd_civ_rmLeaderDesc"));
-		commands.put("rmadviser", CivSettings.localize.localizedString("adcmd_civ_rmAdvisorDesc"));
-		commands.put("givetech", CivSettings.localize.localizedString("adcmd_civ_giveTechDesc"));
-		commands.put("beakerrate", CivSettings.localize.localizedString("adcmd_civ_beakerRateDesc"));
-		commands.put("toggleadminciv", CivSettings.localize.localizedString("adcmd_civ_toggleadminCivDesc"));
-		commands.put("alltech", CivSettings.localize.localizedString("adcmd_civ_alltechDesc"));
-		commands.put("setrelation", CivSettings.localize.localizedString("adcmd_civ_setRelationDesc"));
-		commands.put("info", CivSettings.localize.localizedString("adcmd_civ_infoDesc"));
-		commands.put("merge", CivSettings.localize.localizedString("adcmd_civ_mergeDesc"));
-		commands.put("setgov", CivSettings.localize.localizedString("adcmd_civ_setgovDesc"));
-		commands.put("bankrupt", CivSettings.localize.localizedString("adcmd_civ_bankruptDesc"));
-		commands.put("conquered", CivSettings.localize.localizedString("adcmd_civ_concqueredDesc"));
-		commands.put("unconquer", CivSettings.localize.localizedString("adcmd_civ_unconquerDesc"));
-		commands.put("liberate", CivSettings.localize.localizedString("adcmd_civ_liberateDesc"));
-		commands.put("setvotes", CivSettings.localize.localizedString("adcmd_civ_setvotesDesc"));
-		commands.put("rename", CivSettings.localize.localizedString("adcmd_civ_renameDesc"));
-	}
+        command = "/ad civ";
+        displayName = CivSettings.localize.localizedString("adcmd_civ_name");
+
+        register_sub("disband", this::disband_cmd, CivSettings.localize.localizedString("adcmd_civ_disbandDesc"));
+        register_sub("addleader", this::addleader_cmd, CivSettings.localize.localizedString("adcmd_civ_addLeaderDesc"));
+        register_sub("addadviser", this::addadviser_cmd, CivSettings.localize.localizedString("adcmd_civ_addAdvisorDesc"));
+        register_sub("rmleader", this::rmleader_cmd, CivSettings.localize.localizedString("adcmd_civ_rmLeaderDesc"));
+        register_sub("rmadviser", this::rmadviser_cmd, CivSettings.localize.localizedString("adcmd_civ_rmAdvisorDesc"));
+        register_sub("givetech", this::givetech_cmd, CivSettings.localize.localizedString("adcmd_civ_giveTechDesc"));
+        register_sub("beakerrate", this::beakerrate_cmd, CivSettings.localize.localizedString("adcmd_civ_beakerRateDesc"));
+        register_sub("toggleadminciv", this::toggleadminciv_cmd, CivSettings.localize.localizedString("adcmd_civ_toggleadminCivDesc"));
+        register_sub("alltech", this::alltech_cmd, CivSettings.localize.localizedString("adcmd_civ_alltechDesc"));
+        register_sub("setrelation", this::setrelation_cmd, CivSettings.localize.localizedString("adcmd_civ_setRelationDesc"));
+        register_sub("info", this::info_cmd, CivSettings.localize.localizedString("adcmd_civ_infoDesc"));
+        register_sub("merge", this::merge_cmd, CivSettings.localize.localizedString("adcmd_civ_mergeDesc"));
+        register_sub("setgov", this::setgov_cmd, CivSettings.localize.localizedString("adcmd_civ_setgovDesc"));
+        register_sub("bankrupt", this::bankrupt_cmd, CivSettings.localize.localizedString("adcmd_civ_bankruptDesc"));
+        register_sub("conquered", this::conquered_cmd, CivSettings.localize.localizedString("adcmd_civ_concqueredDesc"));
+        register_sub("unconquer", this::unconquer_cmd, CivSettings.localize.localizedString("adcmd_civ_unconquerDesc"));
+        register_sub("liberate", this::liberate_cmd, CivSettings.localize.localizedString("adcmd_civ_liberateDesc"));
+        register_sub("setvotes", this::setvotes_cmd, CivSettings.localize.localizedString("adcmd_civ_setvotesDesc"));
+        register_sub("rename", this::rename_cmd, CivSettings.localize.localizedString("adcmd_civ_renameDesc"));
+    }
 
 	@SuppressWarnings("unused")
 	public void liberate_cmd() throws CivException {
@@ -86,18 +86,23 @@ public class AdminCivCommand extends CommandBase {
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_liberateSuccess")+" "+motherCiv.getName());
 	}
 
-	@SuppressWarnings("unused")
-	public void rename_cmd() throws CivException, InvalidNameException {
-		Civilization civ = getNamedCiv(1);
-		String name = getNamedString(2, CivSettings.localize.localizedString("adcmd_civ_newNamePrompt"));
+    @SuppressWarnings("unused")
+    public void rename_cmd() throws CivException {
+        Civilization civ = getNamedCiv(1);
+        String name = getNamedString(2, CivSettings.localize.localizedString("adcmd_civ_newNamePrompt"));
 
-		if (args.length < 3) {
-			throw new CivException(CivSettings.localize.localizedString("adcmd_civ_renameUseUnderscores"));
-		}
+        if (args.length < 3) {
+            throw new CivException(CivSettings.localize.localizedString("adcmd_civ_renameUseUnderscores"));
+        }
 
-		civ.rename(name);
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_renameCivSuccess"));
-	}
+        try {
+            civ.rename(name);
+        } catch (InvalidNameException e) {
+            e.printStackTrace();
+            throw new CivException(e.getMessage());
+        }
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_renameCivSuccess"));
+    }
 
 	@SuppressWarnings("unused")
 	public void setvotes_cmd() throws CivException {

@@ -60,24 +60,24 @@ public class TownInfoCommand extends CommandBase {
 	public void init() {
 		command = "/town info";
 		displayName = CivSettings.localize.localizedString("cmd_town_info_name");
-		
-		commands.put("upkeep", CivSettings.localize.localizedString("cmd_town_info_upkeepDesc"));
-		commands.put("cottage", CivSettings.localize.localizedString("cmd_town_info_cottageDesc"));
-		commands.put("temple", CivSettings.localize.localizedString("cmd_town_info_templeDesc"));
-		commands.put("structures", CivSettings.localize.localizedString("cmd_town_info_structuresDesc"));
-		commands.put("culture", CivSettings.localize.localizedString("cmd_town_info_cultureDesc"));
-		commands.put("trade", CivSettings.localize.localizedString("cmd_town_info_tradeDesc"));
-		commands.put("mine", CivSettings.localize.localizedString("cmd_town_info_mineDesc"));
-		commands.put("hammers", CivSettings.localize.localizedString("cmd_town_info_hammersDesc"));
-		commands.put("goodies", CivSettings.localize.localizedString("cmd_town_info_goodiesDesc"));
-		commands.put("rates", CivSettings.localize.localizedString("cmd_town_info_ratesDesc"));
-		commands.put("growth", CivSettings.localize.localizedString("cmd_town_info_growthDesc"));
-		commands.put("buffs", CivSettings.localize.localizedString("cmd_town_info_buffsDesc"));
-		commands.put("online", CivSettings.localize.localizedString("cmd_town_info_onlineDesc"));
-		commands.put("happiness", CivSettings.localize.localizedString("cmd_town_info_happinessDesc"));
-		commands.put("beakers", CivSettings.localize.localizedString("cmd_town_info_beakersDesc"));
-		commands.put("area", CivSettings.localize.localizedString("cmd_town_info_areaDesc"));
-		commands.put("disabled", CivSettings.localize.localizedString("cmd_town_info_disabledDesc"));
+
+		register_sub("upkeep", this::upkeep_cmd, CivSettings.localize.localizedString("cmd_town_info_upkeepDesc"));
+		register_sub("cottage", this::cottage_cmd, CivSettings.localize.localizedString("cmd_town_info_cottageDesc"));
+		register_sub("temple", this::temple_cmd, CivSettings.localize.localizedString("cmd_town_info_templeDesc"));
+		register_sub("structures", this::structures_cmd, CivSettings.localize.localizedString("cmd_town_info_structuresDesc"));
+		register_sub("culture", this::culture_cmd, CivSettings.localize.localizedString("cmd_town_info_cultureDesc"));
+		register_sub("trade", this::trade_cmd, CivSettings.localize.localizedString("cmd_town_info_tradeDesc"));
+		register_sub("mine", this::mine_cmd, CivSettings.localize.localizedString("cmd_town_info_mineDesc"));
+		register_sub("hammers", this::hammers_cmd, CivSettings.localize.localizedString("cmd_town_info_hammersDesc"));
+		register_sub("goodies", this::goodies_cmd, CivSettings.localize.localizedString("cmd_town_info_goodiesDesc"));
+		register_sub("rates", this::rates_cmd, CivSettings.localize.localizedString("cmd_town_info_ratesDesc"));
+		register_sub("growth", this::growth_cmd, CivSettings.localize.localizedString("cmd_town_info_growthDesc"));
+		register_sub("buffs", this::buffs_cmd, CivSettings.localize.localizedString("cmd_town_info_buffsDesc"));
+		register_sub("online", this::online_cmd, CivSettings.localize.localizedString("cmd_town_info_onlineDesc"));
+		register_sub("happiness", this::happiness_cmd, CivSettings.localize.localizedString("cmd_town_info_happinessDesc"));
+		register_sub("beakers", this::beakers_cmd, CivSettings.localize.localizedString("cmd_town_info_beakersDesc"));
+		register_sub("area", this::area_cmd, CivSettings.localize.localizedString("cmd_town_info_areaDesc"));
+		register_sub("disabled", this::disabled_cmd, CivSettings.localize.localizedString("cmd_town_info_disabledDesc"));
 	}
 
 	public void disabled_cmd() throws CivException {

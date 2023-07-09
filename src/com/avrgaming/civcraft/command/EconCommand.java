@@ -34,29 +34,29 @@ public class EconCommand extends CommandBase {
 
 	@Override
 	public void init() {
-		command = "/econ";
-		displayName = CivSettings.localize.localizedString("cmd_econ_Name");
+        command = "/econ";
+        displayName = CivSettings.localize.localizedString("cmd_econ_Name");
 
-		commands.put("add", CivSettings.localize.localizedString("cmd_econ_addDesc"));
-		commands.put("give", CivSettings.localize.localizedString("cmd_econ_giveDesc"));
-		commands.put("set", CivSettings.localize.localizedString("cmd_econ_setDesc"));
-		commands.put("sub",CivSettings.localize.localizedString("cmd_econ_subDesc"));
-		
-		commands.put("addtown", CivSettings.localize.localizedString("cmd_econ_addtownDesc"));
-		commands.put("settown", CivSettings.localize.localizedString("cmd_econ_settownDesc"));
-		commands.put("subtown", CivSettings.localize.localizedString("cmd_econ_subtownDesc"));
-		
-		commands.put("addciv", CivSettings.localize.localizedString("cmd_econ_addcivDesc"));
-		commands.put("setciv", CivSettings.localize.localizedString("cmd_econ_setcivDesc"));
-		commands.put("subciv", CivSettings.localize.localizedString("cmd_econ_subcivDesc"));
-		
-		commands.put("setdebt", CivSettings.localize.localizedString("cmd_econ_setdebtDesc"));
-		commands.put("setdebttown", CivSettings.localize.localizedString("cmd_econ_setdebttownDesc"));
-		commands.put("setdebtciv", CivSettings.localize.localizedString("cmd_econ_setdebtcivDesc"));
-		
-		commands.put("clearalldebt", CivSettings.localize.localizedString("cmd_econ_clearAllDebtDesc"));
-		
-	}
+        register_sub("add", this::add_cmd, CivSettings.localize.localizedString("cmd_econ_addDesc"));
+        register_sub("give", this::give_cmd, CivSettings.localize.localizedString("cmd_econ_giveDesc"));
+        register_sub("set", this::set_cmd, CivSettings.localize.localizedString("cmd_econ_setDesc"));
+        register_sub("sub", this::sub_cmd, CivSettings.localize.localizedString("cmd_econ_subDesc"));
+
+        register_sub("addtown", this::addtown_cmd, CivSettings.localize.localizedString("cmd_econ_addtownDesc"));
+        register_sub("settown", this::settown_cmd, CivSettings.localize.localizedString("cmd_econ_settownDesc"));
+        register_sub("subtown", this::subtown_cmd, CivSettings.localize.localizedString("cmd_econ_subtownDesc"));
+
+        register_sub("addciv", this::addciv_cmd, CivSettings.localize.localizedString("cmd_econ_addcivDesc"));
+        register_sub("setciv", this::setciv_cmd, CivSettings.localize.localizedString("cmd_econ_setcivDesc"));
+        register_sub("subciv", this::subciv_cmd, CivSettings.localize.localizedString("cmd_econ_subcivDesc"));
+
+        register_sub("setdebt", this::setdebt_cmd, CivSettings.localize.localizedString("cmd_econ_setdebtDesc"));
+        register_sub("setdebttown", this::setdebttown_cmd, CivSettings.localize.localizedString("cmd_econ_setdebttownDesc"));
+        register_sub("setdebtciv", this::setdebtciv_cmd, CivSettings.localize.localizedString("cmd_econ_setdebtcivDesc"));
+
+        register_sub("clearalldebt", this::clearalldebt_cmd, CivSettings.localize.localizedString("cmd_econ_clearAllDebtDesc"));
+
+    }
 	
 	public void clearalldebt_cmd() throws CivException {
 		validEcon();

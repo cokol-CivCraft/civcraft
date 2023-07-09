@@ -44,21 +44,21 @@ public class AdminBuildCommand extends CommandBase {
 
 	@Override
 	public void init() {
-		command = "/ad build";
-		displayName = CivSettings.localize.localizedString("adcmd_build_Name");
-		commands.put("unbuild", CivSettings.localize.localizedString("adcmd_build_unbuildDesc"));
-		commands.put("demolish", CivSettings.localize.localizedString("adcmd_build_demolishDesc"));
-		commands.put("repair", CivSettings.localize.localizedString("adcmd_build_repairDesc"));
-		commands.put("destroywonder", CivSettings.localize.localizedString("adcmd_build_destroyWonderDesc"));
-		commands.put("destroynearest", CivSettings.localize.localizedString("adcmd_build_destroyNearestDesc"));
-		commands.put("validatenearest", CivSettings.localize.localizedString("adcmd_build_valideateNearestDesc"));
-//		commands.put("changenearest", CivSettings.localize.localizedString("adcmd_build_changeNearestDesc"));
-		commands.put("validateall", CivSettings.localize.localizedString("adcmd_build_validateAllDesc"));
-		commands.put("listinvalid", CivSettings.localize.localizedString("adcmd_build_listInvalidDesc"));
-		commands.put("showbuildable", CivSettings.localize.localizedString("adcmd_build_showBuildableDesc"));
+        command = "/ad build";
+        displayName = CivSettings.localize.localizedString("adcmd_build_Name");
+        register_sub("unbuild", this::unbuild_cmd, CivSettings.localize.localizedString("adcmd_build_unbuildDesc"));
+        register_sub("demolish", this::demolish_cmd, CivSettings.localize.localizedString("adcmd_build_demolishDesc"));
+        register_sub("repair", this::repair_cmd, CivSettings.localize.localizedString("adcmd_build_repairDesc"));
+        register_sub("destroywonder", this::destroywonder_cmd, CivSettings.localize.localizedString("adcmd_build_destroyWonderDesc"));
+        register_sub("destroynearest", this::destroynearest_cmd, CivSettings.localize.localizedString("adcmd_build_destroyNearestDesc"));
+        register_sub("validatenearest", this::validatenearest_cmd, CivSettings.localize.localizedString("adcmd_build_valideateNearestDesc"));
+//		register_sub("changenearest", this::changenearest_cmd, CivSettings.localize.localizedString("adcmd_build_changeNearestDesc"));
+        register_sub("validateall", this::validateall_cmd, CivSettings.localize.localizedString("adcmd_build_validateAllDesc"));
+        register_sub("listinvalid", this::listinvalid_cmd, CivSettings.localize.localizedString("adcmd_build_listInvalidDesc"));
+        register_sub("showbuildable", this::showbuildable_cmd, CivSettings.localize.localizedString("adcmd_build_showBuildableDesc"));
 
-		//commands.put("repairwonder", "Fixes the nearest wonder, requires confirmation.");		
-	}
+//		register_sub("repairwonder", this::repairwonder_cmd, "Fixes the nearest wonder, requires confirmation.");
+    }
 
 	@SuppressWarnings("unused")
 	public void showbuildable_cmd() throws CivException {
@@ -86,18 +86,18 @@ public class AdminBuildCommand extends CommandBase {
 		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("Finished"));
 	}
 
-	@SuppressWarnings("unused")
-	public void validateall_cmd() throws CivException {
-		Buildable.invalidBuildables.clear();
+    @SuppressWarnings("unused")
+    public void validateall_cmd() {
+        Buildable.invalidBuildables.clear();
 
-		for (Structure struct : CivGlobal.getStructures()) {
-			if (struct.isStrategic()) {
-				struct.validate(null);
-			}
-		}
+        for (Structure struct : CivGlobal.getStructures()) {
+            if (struct.isStrategic()) {
+                struct.validate(null);
+            }
+        }
 
-		for (Wonder wonder : CivGlobal.getWonders()) {
-			if (wonder.isStrategic()) {
+        for (Wonder wonder : CivGlobal.getWonders()) {
+            if (wonder.isStrategic()) {
 				wonder.validate(null);
 			}
 		}
@@ -213,18 +213,18 @@ public class AdminBuildCommand extends CommandBase {
 
 	}
 
-	@SuppressWarnings("unused")
-	public void unbuild_cmd() throws CivException, SQLException {
+    @SuppressWarnings("unused")
+    public void unbuild_cmd() throws CivException {
 
-		if (args.length < 2) {
-			throw new CivException(CivSettings.localize.localizedString("adcmd_build_unbuildPrompt"));
-		}
+        if (args.length < 2) {
+            throw new CivException(CivSettings.localize.localizedString("adcmd_build_unbuildPrompt"));
+        }
 
-		Town town = getNamedTown(1);
+        Town town = getNamedTown(1);
 
-		if (args.length < 3) {
-			CivMessage.sendHeading(sender, CivSettings.localize.localizedString("adcmd_build_unbuildHeading"));
-			for (Structure struct : town.getStructures()) {
+        if (args.length < 3) {
+            CivMessage.sendHeading(sender, CivSettings.localize.localizedString("adcmd_build_unbuildHeading"));
+            for (Structure struct : town.getStructures()) {
 				CivMessage.send(sender, struct.getDisplayName()+": "+CivColor.Yellow+struct.getId()+
 						CivColor.White+" - "+CivSettings.localize.localizedString("Location")+" "+CivColor.Yellow+struct.getCorner().toString());
 			}
@@ -238,23 +238,26 @@ public class AdminBuildCommand extends CommandBase {
 		PreparedStatement ps = null;
 		Structure struct = null;
 
-		try {
-			context = SQL.getGameConnection();		
-			ps = context.prepareStatement("SELECT * FROM "+SQL.tb_prefix+Structure.TABLE_NAME+" WHERE id = "+id);
-			rs = ps.executeQuery();
-			
-			while(rs.next()) {
-				try {
-					Structure structure = Structure.newStructure(rs);
-					struct = CivGlobal.getStructure(structure.getCorner());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
+        try {
+            context = SQL.getGameConnection();
+            ps = context.prepareStatement("SELECT * FROM " + SQL.tb_prefix + Structure.TABLE_NAME + " WHERE id = " + id);
+            rs = ps.executeQuery();
 
-		} finally {
-			SQL.close(rs, ps, context);
-		}
+            while (rs.next()) {
+                try {
+                    Structure structure = Structure.newStructure(rs);
+                    struct = CivGlobal.getStructure(structure.getCorner());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new CivException(e.getMessage());
+        } finally {
+            SQL.close(rs, ps, context);
+        }
 		
 		
 		if (struct == null) {

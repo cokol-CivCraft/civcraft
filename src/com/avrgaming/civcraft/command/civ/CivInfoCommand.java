@@ -43,14 +43,14 @@ public class CivInfoCommand extends CommandBase {
 
 	@Override
 	public void init() {
-		command = "/civ info";
-		displayName = CivSettings.localize.localizedString("cmd_civ_info_name");
-		
-		commands.put("upkeep", CivSettings.localize.localizedString("cmd_civ_info_upkeepDesc"));
-		commands.put("taxes", CivSettings.localize.localizedString("cmd_civ_info_taxesDesc"));
-		commands.put("beakers", CivSettings.localize.localizedString("cmd_civ_info_beakersDesc"));
-		commands.put("online", CivSettings.localize.localizedString("cmd_civ_info_onlineDesc"));
-	}
+        command = "/civ info";
+        displayName = CivSettings.localize.localizedString("cmd_civ_info_name");
+
+        register_sub("upkeep", this::upkeep_cmd, CivSettings.localize.localizedString("cmd_civ_info_upkeepDesc"));
+        register_sub("taxes", this::taxes_cmd, CivSettings.localize.localizedString("cmd_civ_info_taxesDesc"));
+        register_sub("beakers", this::beakers_cmd, CivSettings.localize.localizedString("cmd_civ_info_beakersDesc"));
+        register_sub("online", this::online_cmd, CivSettings.localize.localizedString("cmd_civ_info_onlineDesc"));
+    }
 	
 	public void online_cmd() throws CivException {
 		Civilization civ = getSenderCiv();

@@ -38,17 +38,17 @@ public class TownOutlawCommand extends CommandBase {
 
 	@Override
 	public void init() {
-		command = "/town outlaw";
-		displayName = CivSettings.localize.localizedString("cmd_town_outlaw_name");
-		
-		commands.put("add", CivSettings.localize.localizedString("cmd_town_outlaw_addDesc"));
-		commands.put("remove", CivSettings.localize.localizedString("cmd_town_outlaw_removeDesc"));
-		commands.put("list", CivSettings.localize.localizedString("cmd_town_outlaw_listDesc"));
-		commands.put("addall",CivSettings.localize.localizedString("cmd_town_outlaw_addallDesc") );
-		commands.put("removeall", CivSettings.localize.localizedString("cmd_town_outlaw_removeallDesc"));
-		commands.put("addallciv", CivSettings.localize.localizedString("cmd_town_outlaw_addallcivDesc"));
-		commands.put("removeallciv", CivSettings.localize.localizedString("cmd_town_outlaw_removeallcivDesc"));
-	}
+        command = "/town outlaw";
+        displayName = CivSettings.localize.localizedString("cmd_town_outlaw_name");
+
+        register_sub("add", this::add_cmd, CivSettings.localize.localizedString("cmd_town_outlaw_addDesc"));
+        register_sub("remove", this::remove_cmd, CivSettings.localize.localizedString("cmd_town_outlaw_removeDesc"));
+        register_sub("list", this::list_cmd, CivSettings.localize.localizedString("cmd_town_outlaw_listDesc"));
+        register_sub("addall", this::addall_cmd, CivSettings.localize.localizedString("cmd_town_outlaw_addallDesc"));
+        register_sub("removeall", this::removeall_cmd, CivSettings.localize.localizedString("cmd_town_outlaw_removeallDesc"));
+        register_sub("addallciv", this::addallciv_cmd, CivSettings.localize.localizedString("cmd_town_outlaw_addallcivDesc"));
+        register_sub("removeallciv", this::removeallciv_cmd, CivSettings.localize.localizedString("cmd_town_outlaw_removeallcivDesc"));
+    }
 	
 	public void addall_cmd() throws CivException {
 		Town town = getSelectedTown();

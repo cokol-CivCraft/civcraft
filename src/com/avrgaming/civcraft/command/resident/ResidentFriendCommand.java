@@ -28,13 +28,13 @@ public class ResidentFriendCommand extends CommandBase {
 	@SuppressWarnings("unused")
 	@Override
 	public void init() {
-		command = "/resident friend";
-		displayName = CivSettings.localize.localizedString("cmd_res_friend_name");
+        command = "/resident friend";
+        displayName = CivSettings.localize.localizedString("cmd_res_friend_name");
 
-		commands.put("add", CivSettings.localize.localizedString("cmd_res_friend_addDesc"));
-		commands.put("remove", CivSettings.localize.localizedString("cmd_res_friend_removeDesc"));
-		commands.put("list", CivSettings.localize.localizedString("cmd_res_friend_listDesc"));
-	}
+        register_sub("add", this::add_cmd, CivSettings.localize.localizedString("cmd_res_friend_addDesc"));
+        register_sub("remove", this::remove_cmd, CivSettings.localize.localizedString("cmd_res_friend_removeDesc"));
+        register_sub("list", this::list_cmd, CivSettings.localize.localizedString("cmd_res_friend_listDesc"));
+    }
 
 	@SuppressWarnings("unused")
 	public void add_cmd() throws CivException {

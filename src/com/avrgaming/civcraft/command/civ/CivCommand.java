@@ -17,7 +17,6 @@
  */
 package com.avrgaming.civcraft.command.civ;
 
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -48,40 +47,40 @@ import com.avrgaming.civcraft.war.War;
 public class CivCommand extends CommandBase {
 
 	@Override
-	public void init() {		
-		command = "/civ";
-		displayName = CivSettings.localize.localizedString("cmd_civ_name");
-		
-		commands.put("townlist", CivSettings.localize.localizedString("cmd_civ_townlistDesc"));
-		commands.put("deposit", CivSettings.localize.localizedString("cmd_civ_depositDesc"));
-		commands.put("withdraw", CivSettings.localize.localizedString("cmd_civ_withdrawDesc"));
-		commands.put("info", CivSettings.localize.localizedString("cmd_civ_infoDesc"));
-		commands.put("show", CivSettings.localize.localizedString("cmd_civ_showDesc"));
-		commands.put("list", CivSettings.localize.localizedString("cmd_civ_listDesc"));
-		commands.put("research", CivSettings.localize.localizedString("cmd_civ_researchDesc"));
-		commands.put("gov", CivSettings.localize.localizedString("cmd_civ_govDesc"));
-		commands.put("time", CivSettings.localize.localizedString("cmd_civ_timeDesc"));
-		commands.put("set", CivSettings.localize.localizedString("cmd_civ_setDesc"));
-		commands.put("group", CivSettings.localize.localizedString("cmd_civ_groupDesc"));
-		commands.put("dip", CivSettings.localize.localizedString("cmd_civ_dipDesc"));
-		commands.put("victory", CivSettings.localize.localizedString("cmd_civ_victoryDesc"));
-		commands.put("vote", CivSettings.localize.localizedString("cmd_civ_voteDesc"));
-		commands.put("votes", CivSettings.localize.localizedString("cmd_civ_votesDesc"));
-		commands.put("top5", CivSettings.localize.localizedString("cmd_civ_top5Desc"));
-		commands.put("disbandtown", CivSettings.localize.localizedString("cmd_civ_disbandtownDesc"));
-		commands.put("revolution", CivSettings.localize.localizedString("cmd_civ_revolutionDesc"));
-		commands.put("claimleader", CivSettings.localize.localizedString("cmd_civ_claimleaderDesc"));
-		commands.put("motd", CivSettings.localize.localizedString("cmd_civ_motdDesc"));
-		commands.put("location", CivSettings.localize.localizedString("cmd_civ_locationDesc"));
-		commands.put("v", null); // TODO: add some info about commands and shortcuts;
-		commands.put("t", null);
-		commands.put("r", null);
-		commands.put("l", null);
-		commands.put("s", null);
-		commands.put("i", null);
-		commands.put("w", null);
-		commands.put("d", null);
-	}
+	public void init() {
+        command = "/civ";
+        displayName = CivSettings.localize.localizedString("cmd_civ_name");
+
+        register_sub("townlist", this::townlist_cmd, CivSettings.localize.localizedString("cmd_civ_townlistDesc"));
+        register_sub("deposit", this::deposit_cmd, CivSettings.localize.localizedString("cmd_civ_depositDesc"));
+        register_sub("withdraw", this::withdraw_cmd, CivSettings.localize.localizedString("cmd_civ_withdrawDesc"));
+        register_sub("info", this::info_cmd, CivSettings.localize.localizedString("cmd_civ_infoDesc"));
+        register_sub("show", this::show_cmd, CivSettings.localize.localizedString("cmd_civ_showDesc"));
+        register_sub("list", this::list_cmd, CivSettings.localize.localizedString("cmd_civ_listDesc"));
+        register_sub("research", this::research_cmd, CivSettings.localize.localizedString("cmd_civ_researchDesc"));
+        register_sub("gov", this::gov_cmd, CivSettings.localize.localizedString("cmd_civ_govDesc"));
+        register_sub("time", this::time_cmd, CivSettings.localize.localizedString("cmd_civ_timeDesc"));
+        register_sub("set", this::set_cmd, CivSettings.localize.localizedString("cmd_civ_setDesc"));
+        register_sub("group", this::group_cmd, CivSettings.localize.localizedString("cmd_civ_groupDesc"));
+        register_sub("dip", this::dip_cmd, CivSettings.localize.localizedString("cmd_civ_dipDesc"));
+        register_sub("victory", this::victory_cmd, CivSettings.localize.localizedString("cmd_civ_victoryDesc"));
+        register_sub("vote", this::vote_cmd, CivSettings.localize.localizedString("cmd_civ_voteDesc"));
+        register_sub("votes", this::votes_cmd, CivSettings.localize.localizedString("cmd_civ_votesDesc"));
+        register_sub("top5", this::top5_cmd, CivSettings.localize.localizedString("cmd_civ_top5Desc"));
+        register_sub("disbandtown", this::disbandtown_cmd, CivSettings.localize.localizedString("cmd_civ_disbandtownDesc"));
+        register_sub("revolution", this::revolution_cmd, CivSettings.localize.localizedString("cmd_civ_revolutionDesc"));
+        register_sub("claimleader", this::claimleader_cmd, CivSettings.localize.localizedString("cmd_civ_claimleaderDesc"));
+        register_sub("motd", this::motd_cmd, CivSettings.localize.localizedString("cmd_civ_motdDesc"));
+        register_sub("location", this::location_cmd, CivSettings.localize.localizedString("cmd_civ_locationDesc"));
+        register_sub("v", this::v_cmd, null); // TODO: add some info about commands and shortcuts;
+        register_sub("t", this::time_cmd, null);
+        register_sub("r", this::research_cmd, null);
+        register_sub("l", this::list_cmd, null);
+        register_sub("s", this::show_cmd, null);
+        register_sub("i", this::info_cmd, null);
+        register_sub("w", this::w_cmd, null);
+        register_sub("d", this::d_cmd, null);
+    }
 
 	public void location_cmd() throws CivException {
 		Civilization civ = getSenderCiv();
@@ -379,15 +378,6 @@ public class CivCommand extends CommandBase {
 	}
 
 	@SuppressWarnings("unused")
-	public void t_cmd() {
-		try {
-			time_cmd();
-		} catch (CivException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@SuppressWarnings("unused")
 	public void gov_cmd() {
 		CivGovCommand cmd = new CivGovCommand();
 		cmd.onCommand(sender, null, "gov", this.stripArgs(args, 1));
@@ -398,11 +388,6 @@ public class CivCommand extends CommandBase {
 		cmd.onCommand(sender, null, "research", this.stripArgs(args, 1));	
 	}
 
-	@SuppressWarnings("unused")
-	public void r_cmd() {
-		research_cmd();
-	}
-	
 	public void list_cmd() throws CivException {
 		if (args.length < 2) {
             StringBuilder out = new StringBuilder();
@@ -425,15 +410,6 @@ public class CivCommand extends CommandBase {
 		}
 
         CivMessage.send(sender, out.toString());
-	}
-
-	@SuppressWarnings("unused")
-	public void l_cmd() {
-		try {
-			list_cmd();
-		} catch (CivException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@SuppressWarnings("unused")

@@ -38,21 +38,21 @@ public class PlotCommand extends CommandBase {
 
 	@Override
 	public void init() {
-		command = "/plot";
-		displayName = CivSettings.localize.localizedString("cmd_plot_Name");
-		
-		commands.put("info", CivSettings.localize.localizedString("cmd_plot_infoDesc"));
-		commands.put("toggle", CivSettings.localize.localizedString("cmd_plot_toggleDesc"));
-		commands.put("perm",CivSettings.localize.localizedString("cmd_plot_permDesc"));
-		commands.put("fs", CivSettings.localize.localizedString("cmd_plot_fsDesc"));
-		commands.put("nfs", CivSettings.localize.localizedString("cmd_plot_nfsDesc"));
-		commands.put("buy", CivSettings.localize.localizedString("cmd_plot_buyDesc"));
-		commands.put("addgroup", CivSettings.localize.localizedString("cmd_plot_addgroupDesc"));
-		commands.put("setowner", CivSettings.localize.localizedString("cmd_plot_setowner"));
-		commands.put("farminfo", CivSettings.localize.localizedString("cmd_plot_farminfoDesc"));
-		commands.put("removegroup", CivSettings.localize.localizedString("cmd_plot_removegroupDesc"));
-		commands.put("cleargroups", CivSettings.localize.localizedString("cmd_plot_cleargroupsDesc"));
-	}
+        command = "/plot";
+        displayName = CivSettings.localize.localizedString("cmd_plot_Name");
+
+        register_sub("info", this::info_cmd, CivSettings.localize.localizedString("cmd_plot_infoDesc"));
+        register_sub("toggle", this::toggle_cmd, CivSettings.localize.localizedString("cmd_plot_toggleDesc"));
+        register_sub("perm", this::perm_cmd, CivSettings.localize.localizedString("cmd_plot_permDesc"));
+        register_sub("fs", this::fs_cmd, CivSettings.localize.localizedString("cmd_plot_fsDesc"));
+        register_sub("nfs", this::nfs_cmd, CivSettings.localize.localizedString("cmd_plot_nfsDesc"));
+        register_sub("buy", this::buy_cmd, CivSettings.localize.localizedString("cmd_plot_buyDesc"));
+        register_sub("addgroup", this::addgroup_cmd, CivSettings.localize.localizedString("cmd_plot_addgroupDesc"));
+        register_sub("setowner", this::setowner_cmd, CivSettings.localize.localizedString("cmd_plot_setowner"));
+        register_sub("farminfo", this::farminfo_cmd, CivSettings.localize.localizedString("cmd_plot_farminfoDesc"));
+        register_sub("removegroup", this::removegroup_cmd, CivSettings.localize.localizedString("cmd_plot_removegroupDesc"));
+        register_sub("cleargroups", this::cleargroups_cmd, CivSettings.localize.localizedString("cmd_plot_cleargroupsDesc"));
+    }
 
 	@SuppressWarnings("unused")
 	public void farminfo_cmd() throws CivException {

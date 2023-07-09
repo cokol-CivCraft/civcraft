@@ -20,20 +20,20 @@ public class TeamCommand  extends CommandBase {
 	public void init() {
 		command = "/team";
 		displayName = CivSettings.localize.localizedString("cmd_team_name");
-		
-		commands.put("info", CivSettings.localize.localizedString("cmd_team_infoDesc"));
-		commands.put("show", CivSettings.localize.localizedString("cmd_team_showDesc"));
-		commands.put("create", CivSettings.localize.localizedString("cmd_team_createDesc"));
-		commands.put("leave", CivSettings.localize.localizedString("cmd_team_leaveDesc"));
-		commands.put("disband", CivSettings.localize.localizedString("cmd_team_disbandDesc"));
-		commands.put("add", CivSettings.localize.localizedString("cmd_team_addDesc"));
-		commands.put("remove", CivSettings.localize.localizedString("cmd_team_removeDesc"));
-		commands.put("changeleader", CivSettings.localize.localizedString("cmd_team_changeleaderDesc"));
-		commands.put("arena", CivSettings.localize.localizedString("cmd_team_arenaDesc"));
-		commands.put("top5", CivSettings.localize.localizedString("cmd_team_top5Desc"));
-		commands.put("top10", CivSettings.localize.localizedString("cmd_team_top10Desc"));
-		commands.put("list", CivSettings.localize.localizedString("cmd_team_listDesc"));
-		commands.put("surrender", CivSettings.localize.localizedString("cmd_team_surrenderDesc"));
+
+		register_sub("info", this::info_cmd, CivSettings.localize.localizedString("cmd_team_infoDesc"));
+		register_sub("show", this::show_cmd, CivSettings.localize.localizedString("cmd_team_showDesc"));
+		register_sub("create", this::create_cmd, CivSettings.localize.localizedString("cmd_team_createDesc"));
+		register_sub("leave", this::leave_cmd, CivSettings.localize.localizedString("cmd_team_leaveDesc"));
+		register_sub("disband", this::disband_cmd, CivSettings.localize.localizedString("cmd_team_disbandDesc"));
+		register_sub("add", this::add_cmd, CivSettings.localize.localizedString("cmd_team_addDesc"));
+		register_sub("remove", this::remove_cmd, CivSettings.localize.localizedString("cmd_team_removeDesc"));
+		register_sub("changeleader", this::changeleader_cmd, CivSettings.localize.localizedString("cmd_team_changeleaderDesc"));
+		register_sub("arena", this::arena_cmd, CivSettings.localize.localizedString("cmd_team_arenaDesc"));
+		register_sub("top5", this::top5_cmd, CivSettings.localize.localizedString("cmd_team_top5Desc"));
+		register_sub("top10", this::top10_cmd, CivSettings.localize.localizedString("cmd_team_top10Desc"));
+		register_sub("list", this::list_cmd, CivSettings.localize.localizedString("cmd_team_listDesc"));
+		register_sub("surrender", this::surrender_cmd, CivSettings.localize.localizedString("cmd_team_surrenderDesc"));
 	}
 	
 	public void surrender_cmd() throws CivException {

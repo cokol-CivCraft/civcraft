@@ -28,22 +28,22 @@ public class AdminLagCommand extends CommandBase {
 
 	@Override
 	public void init() {
-		command = "/ad lag";
-		displayName = CivSettings.localize.localizedString("adcmd_lag_cmdDesc");
-		
-		commands.put("trommels", CivSettings.localize.localizedString("adcmd_lag_trommelsDesc"));
-		commands.put("quarries", CivSettings.localize.localizedString("adcmd_lag_quarryDesc"));
-		commands.put("fishery", CivSettings.localize.localizedString("adcmd_lag_fishHatcherDesc"));
-		commands.put("grinders", CivSettings.localize.localizedString("adcmd_lag_grinderDesc"));
-		commands.put("towers", CivSettings.localize.localizedString("adcmd_lag_towersDesc"));
-		commands.put("growth", CivSettings.localize.localizedString("adcmd_lag_growthDesc"));
-		commands.put("trade", CivSettings.localize.localizedString("adcmd_lag_tradeDesc"));
-		commands.put("score", CivSettings.localize.localizedString("adcmd_lag_scoreDesc"));
-		commands.put("warning", CivSettings.localize.localizedString("adcmd_lag_warningDesc"));
-		commands.put("blockupdate", CivSettings.localize.localizedString("adcmd_lag_blockUpdateDesc"));
-		commands.put("speedchunks", CivSettings.localize.localizedString("adcmd_lag_speedCheckOnChunk"));
-		
-	}
+        command = "/ad lag";
+        displayName = CivSettings.localize.localizedString("adcmd_lag_cmdDesc");
+
+        register_sub("trommels", this::trommels_cmd, CivSettings.localize.localizedString("adcmd_lag_trommelsDesc"));
+        register_sub("quarries", this::quarries_cmd, CivSettings.localize.localizedString("adcmd_lag_quarryDesc"));
+        register_sub("fishery", this::fishery_cmd, CivSettings.localize.localizedString("adcmd_lag_fishHatcherDesc"));
+        register_sub("grinders", this::grinders_cmd, CivSettings.localize.localizedString("adcmd_lag_grinderDesc"));
+        register_sub("towers", this::towers_cmd, CivSettings.localize.localizedString("adcmd_lag_towersDesc"));
+        register_sub("growth", this::growth_cmd, CivSettings.localize.localizedString("adcmd_lag_growthDesc"));
+        register_sub("trade", this::trade_cmd, CivSettings.localize.localizedString("adcmd_lag_tradeDesc"));
+        register_sub("score", this::score_cmd, CivSettings.localize.localizedString("adcmd_lag_scoreDesc"));
+        register_sub("warning", this::warning_cmd, CivSettings.localize.localizedString("adcmd_lag_warningDesc"));
+        register_sub("blockupdate", this::blockupdate_cmd, CivSettings.localize.localizedString("adcmd_lag_blockUpdateDesc"));
+        register_sub("speedchunks", this::speedchunks_cmd, CivSettings.localize.localizedString("adcmd_lag_speedCheckOnChunk"));
+
+    }
 
 	@SuppressWarnings("unused")
 	public void blockupdate_cmd() throws CivException {
