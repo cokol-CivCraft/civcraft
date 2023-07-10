@@ -94,37 +94,22 @@ public class ArenaManager implements Runnable {
                 CivMessage.sendTeam(team1, CivSettings.localize.localizedString("arena_enteringArenaIn10"));
                 CivMessage.sendTeam(team2, CivSettings.localize.localizedString("arena_enteringArenaIn10"));
 
-                class SyncTask implements Runnable {
-                    final Arena arena;
-                    final ArenaTeam team1;
-                    final ArenaTeam team2;
+                TaskMaster.syncTask(() -> {
+                    try {
+                        addTeamToArena(team1, team2, activeArena);
+                        addTeamToArena(team2, team1, activeArena);
+                        startArenaMatch(activeArena, team1, team2);
+                    } catch (CivException e) {
+                        CivMessage.sendTeam(team1, CivSettings.localize.localizedString("arena_ErrorKicked"));
+                        CivMessage.sendTeam(team2, CivSettings.localize.localizedString("arena_ErrorKicked"));
 
-                    public SyncTask(Arena arena, ArenaTeam team1, ArenaTeam team2) {
-                        this.arena = arena;
-                        this.team1 = team1;
-                        this.team2 = team2;
+                        CivMessage.sendTeam(team1, CivSettings.localize.localizedString("arena_ErrorKickedMessage") + e.getMessage());
+                        CivMessage.sendTeam(team2, CivSettings.localize.localizedString("arena_ErrorKickedMessage") + e.getMessage());
+
+                        e.printStackTrace();
                     }
 
-                    @Override
-                    public void run() {
-                        try {
-                            addTeamToArena(team1, team2, arena);
-                            addTeamToArena(team2, team1, arena);
-                            startArenaMatch(arena, team1, team2);
-                        } catch (CivException e) {
-                            CivMessage.sendTeam(team1, CivSettings.localize.localizedString("arena_ErrorKicked"));
-                            CivMessage.sendTeam(team2, CivSettings.localize.localizedString("arena_ErrorKicked"));
-
-                            CivMessage.sendTeam(team1, CivSettings.localize.localizedString("arena_ErrorKickedMessage") + e.getMessage());
-                            CivMessage.sendTeam(team2, CivSettings.localize.localizedString("arena_ErrorKickedMessage") + e.getMessage());
-
-                            e.printStackTrace();
-                        }
-
-                    }
-                }
-
-                TaskMaster.syncTask(new SyncTask(activeArena, team1, team2), TimeTools.toTicks(10));
+                }, TimeTools.toTicks(10));
             } catch (CivException e) {
                 e.printStackTrace();
                 return;
@@ -483,109 +468,78 @@ public class ArenaManager implements Runnable {
 
 
     public static void declareVictor(Arena arena, ArenaTeam loser, ArenaTeam winner) {
-
-
-        class SyncTask implements Runnable {
-            final Arena arena;
-            final ArenaTeam loser;
-            final ArenaTeam winner;
-
-            public SyncTask(Arena arena, ArenaTeam loser, ArenaTeam winner) {
-                this.arena = arena;
-                this.loser = loser;
-                this.winner = winner;
-            }
-
-            @Override
-            public void run() {
-                try {
-                    try {
-                        int base_points = CivSettings.getInteger(CivSettings.arenaConfig, "base_ladder_points");
-                        int slightly_favored_points = CivSettings.getInteger(CivSettings.arenaConfig, "slightly_favored_points");
-                        int favored_points = CivSettings.getInteger(CivSettings.arenaConfig, "favored_points");
-                        double slightly_favored_modifier = CivSettings.getDouble(CivSettings.arenaConfig, "slightly_favored_modifier");
-                        double favored_modifier = CivSettings.getDouble(CivSettings.arenaConfig, "favored_modifier");
-
-                        /* Calculate points. */
-                        int winnerDifference = winner.getLadderPoints() - loser.getLadderPoints();
-                        int points;
-
-                        if (winnerDifference > favored_points) {
-                            /* Winner was favored. */
-                            points = (int) (base_points * favored_modifier);
-                        } else if (winnerDifference > slightly_favored_points) {
-                            /* Winner was slightly favored. */
-                            points = (int) (base_points * slightly_favored_modifier);
-                        } else if (winnerDifference > 0) {
-                            /* Winner and loser were evenly matched. */
-                            points = base_points;
-                        } else if (winnerDifference < -favored_points) {
-                            /* Loser was favored. */
-                            points = base_points + (int) (base_points * (1 - favored_modifier));
-                        } else if (winnerDifference < -slightly_favored_points) {
-                            /* Loser was slightly favored. */
-                            points = base_points + (int) (base_points * (1 - slightly_favored_modifier));
-                        } else {
-                            points = base_points;
-                        }
-
-                        winner.setLadderPoints(winner.getLadderPoints() + points);
-                        loser.setLadderPoints(loser.getLadderPoints() - points);
-
-                        winner.save();
-                        loser.save();
-                        Civilization c = winner.getCivilization();
-                        c.getTreasury().deposit(c.getCurrentEra() * points * 150);
-                        Civilization bc = loser.getCivilization();
-                        bc.getTreasury().deposit(bc.getCurrentEra() * 1500);
-                        for (Resident r : winner.teamMembers) {
-                            r.clearRespawnTimeArena();
-                        }
-                        for (Resident r : loser.teamMembers) {
-                            r.clearRespawnTimeArena();
-                        }
-                        CivMessage.global(CivColor.LightGreen + CivColor.BOLD + winner.getName() + "(+" + points + ")" + CivColor.RESET + " defeated " +
-                                CivColor.Rose + CivColor.BOLD + loser.getName() + "(-" + points + ")" + CivColor.RESET + " in Arena!");
-
-                    } catch (InvalidConfiguration e) {
-                        e.printStackTrace();
-                    }
-
-                    ArenaManager.destroyArena(arena.getInstanceName());
-                } catch (CivException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }
-
         CivMessage.sendArena(arena, CivSettings.localize.localizedString("var_arena_hasDefeated", CivColor.LightGreen + CivColor.BOLD + winner.getName(), CivColor.Rose + CivColor.BOLD + loser.getName()));
         CivMessage.sendArena(arena, CivSettings.localize.localizedString("arena_leavingIn10"));
-        TaskMaster.syncTask(new SyncTask(arena, loser, winner), TimeTools.toTicks(10));
+        TaskMaster.syncTask(() -> {
+            try {
+                int base_points = CivSettings.getInteger(CivSettings.arenaConfig, "base_ladder_points");
+                int slightly_favored_points = CivSettings.getInteger(CivSettings.arenaConfig, "slightly_favored_points");
+                int favored_points = CivSettings.getInteger(CivSettings.arenaConfig, "favored_points");
+                double slightly_favored_modifier = CivSettings.getDouble(CivSettings.arenaConfig, "slightly_favored_modifier");
+                double favored_modifier = CivSettings.getDouble(CivSettings.arenaConfig, "favored_modifier");
+
+                /* Calculate points. */
+                int winnerDifference = winner.getLadderPoints() - loser.getLadderPoints();
+                int points;
+
+                if (winnerDifference > favored_points) {
+                    /* Winner was favored. */
+                    points = (int) (base_points * favored_modifier);
+                } else if (winnerDifference > slightly_favored_points) {
+                    /* Winner was slightly favored. */
+                    points = (int) (base_points * slightly_favored_modifier);
+                } else if (winnerDifference > 0) {
+                    /* Winner and loser were evenly matched. */
+                    points = base_points;
+                } else if (winnerDifference < -favored_points) {
+                    /* Loser was favored. */
+                    points = base_points + (int) (base_points * (1 - favored_modifier));
+                } else if (winnerDifference < -slightly_favored_points) {
+                    /* Loser was slightly favored. */
+                    points = base_points + (int) (base_points * (1 - slightly_favored_modifier));
+                } else {
+                    points = base_points;
+                }
+
+                winner.setLadderPoints(winner.getLadderPoints() + points);
+                loser.setLadderPoints(loser.getLadderPoints() - points);
+
+                winner.save();
+                loser.save();
+                Civilization c = winner.getCivilization();
+                c.getTreasury().deposit(c.getCurrentEra() * points * 150);
+                Civilization bc = loser.getCivilization();
+                bc.getTreasury().deposit(bc.getCurrentEra() * 1500);
+                for (Resident r : winner.teamMembers) {
+                    r.clearRespawnTimeArena();
+                }
+                for (Resident r : loser.teamMembers) {
+                    r.clearRespawnTimeArena();
+                }
+                CivMessage.global(CivColor.LightGreen + CivColor.BOLD + winner.getName() + "(+" + points + ")" + CivColor.RESET + " defeated " +
+                        CivColor.Rose + CivColor.BOLD + loser.getName() + "(-" + points + ")" + CivColor.RESET + " in Arena!");
+
+            } catch (InvalidConfiguration e) {
+                e.printStackTrace();
+            }
+
+            try {
+                ArenaManager.destroyArena(arena.getInstanceName());
+            } catch (CivException e) {
+                e.printStackTrace();
+            }
+        }, TimeTools.toTicks(10));
     }
 
     public static void declareDraw(Arena arena) {
-
-
-        class SyncTask implements Runnable {
-            final Arena arena;
-
-            public SyncTask(Arena arena) {
-                this.arena = arena;
-            }
-
-            @Override
-            public void run() {
-                try {
-                    ArenaManager.destroyArena(arena.getInstanceName());
-                } catch (CivException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
         CivMessage.sendArena(arena, CivSettings.localize.localizedString("arena_leavingIn10"));
-        TaskMaster.syncTask(new SyncTask(arena), TimeTools.toTicks(10));
+        TaskMaster.syncTask(() -> {
+            try {
+                ArenaManager.destroyArena(arena.getInstanceName());
+            } catch (CivException e) {
+                e.printStackTrace();
+            }
+        }, TimeTools.toTicks(10));
     }
 
 

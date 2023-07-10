@@ -107,62 +107,37 @@ public class CannonExplosionProjectile {
     }
 
     private void damagePlayers(Location loc, int radius) {
-        class SyncTask implements Runnable {
-            final Queue<Player> playerQueue;
-            final Queue<Double> damageQueue;
+        TaskMaster.asyncTask(() -> {
+            Queue<Player> playerList = new LinkedList<>();
+            Queue<Double> damageList = new LinkedList<>();
 
-            public SyncTask(Queue<Player> playerList, Queue<Double> damageList) {
-                this.playerQueue = playerList;
-                this.damageQueue = damageList;
+            //PlayerLocationCache.lock.lock();
+            for (PlayerLocationCache pc : PlayerLocationCache.getCache()) {
+                if (!(pc.getCoord().distanceSquared(new BlockCoord(target)) < radius)) {
+                    continue;
+                }
+                try {
+                    playerList.add(CivGlobal.getPlayer(pc.getName()));
+                    damageList.add((double) damage);
+                } catch (CivException e) {
+                    //player offline
+                }
+
             }
 
-            @Override
-            public void run() {
-                Player player = playerQueue.poll();
-                Double damage = damageQueue.poll();
+            TaskMaster.syncTask(() -> {
+                Player player = playerList.poll();
+                Double damage = damageList.poll();
 
                 while (player != null && damage != null) {
                     player.damage(damage);
 
-                    player = playerQueue.poll();
-                    damage = damageQueue.poll();
+                    player = playerList.poll();
+                    damage = damageList.poll();
                 }
-            }
-        }
+            });
 
-        class AsyncTask implements Runnable {
-
-            final int radius;
-
-            public AsyncTask(int radius) {
-                this.radius = radius;
-            }
-
-            @Override
-            public void run() {
-                Queue<Player> playerList = new LinkedList<>();
-                Queue<Double> damageList = new LinkedList<>();
-
-                //PlayerLocationCache.lock.lock();
-                for (PlayerLocationCache pc : PlayerLocationCache.getCache()) {
-                    if (pc.getCoord().distanceSquared(new BlockCoord(target)) < radius) {
-                        try {
-                            Player player = CivGlobal.getPlayer(pc.getName());
-                            playerList.add(player);
-                            damageList.add((double) damage);
-                        } catch (CivException e) {
-                            //player offline
-                        }
-
-                    }
-                }
-
-                TaskMaster.syncTask(new SyncTask(playerList, damageList));
-
-            }
-        }
-
-        TaskMaster.asyncTask(new AsyncTask(radius), 0);
+        }, 0);
     }
 
     private void setFireAt(Location loc, int radius) {
