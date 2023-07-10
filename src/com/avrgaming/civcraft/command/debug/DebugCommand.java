@@ -18,42 +18,9 @@
  */
 package com.avrgaming.civcraft.command.debug;
 
-import gpl.AttributeUtil;
-
-import java.io.IOException;
-import java.math.BigInteger;
-import java.security.SecureRandom;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.UUID;
-
-import org.bukkit.*;
-import org.bukkit.FireworkEffect.Type;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.block.Biome;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.Sign;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.ItemFrame;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
 import com.avrgaming.civcraft.command.CommandBase;
 import com.avrgaming.civcraft.command.admin.AdminTownCommand;
-import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.config.ConfigBuff;
-import com.avrgaming.civcraft.config.ConfigBuildableInfo;
-import com.avrgaming.civcraft.config.ConfigMobSpawner;
-import com.avrgaming.civcraft.config.ConfigPerk;
-import com.avrgaming.civcraft.config.ConfigTradeGood;
+import com.avrgaming.civcraft.config.*;
 import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.event.EventTimer;
 import com.avrgaming.civcraft.event.GoodieRepoEvent;
@@ -68,49 +35,45 @@ import com.avrgaming.civcraft.main.CivCraft;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
-import com.avrgaming.civcraft.object.Civilization;
-import com.avrgaming.civcraft.object.CultureChunk;
-import com.avrgaming.civcraft.object.Resident;
-import com.avrgaming.civcraft.object.StructureSign;
-import com.avrgaming.civcraft.object.Town;
-import com.avrgaming.civcraft.object.TownChunk;
+import com.avrgaming.civcraft.object.*;
 import com.avrgaming.civcraft.permission.PermissionGroup;
 import com.avrgaming.civcraft.populators.MobSpawnerPopulator;
 import com.avrgaming.civcraft.populators.TradeGoodPopulator;
 import com.avrgaming.civcraft.road.Road;
 import com.avrgaming.civcraft.siege.Cannon;
-import com.avrgaming.civcraft.structure.ArrowTower;
-import com.avrgaming.civcraft.structure.Buildable;
-import com.avrgaming.civcraft.structure.Capitol;
-import com.avrgaming.civcraft.structure.Structure;
-import com.avrgaming.civcraft.structure.TownHall;
-import com.avrgaming.civcraft.structure.Wall;
+import com.avrgaming.civcraft.structure.*;
 import com.avrgaming.civcraft.structure.wonders.GrandShipIngermanland;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.tasks.TradeGoodSignCleanupTask;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.template.TemplateStream;
 import com.avrgaming.civcraft.threading.TaskMaster;
-import com.avrgaming.civcraft.threading.tasks.ChunkGenerateTask;
-import com.avrgaming.civcraft.threading.tasks.CultureProcessAsyncTask;
-import com.avrgaming.civcraft.threading.tasks.FisheryAsyncTask;
-import com.avrgaming.civcraft.threading.tasks.MobSpawnerPostGenTask;
-import com.avrgaming.civcraft.threading.tasks.PostBuildSyncTask;
-import com.avrgaming.civcraft.threading.tasks.QuarryAsyncTask;
-import com.avrgaming.civcraft.threading.tasks.TradeGoodPostGenTask;
-import com.avrgaming.civcraft.threading.tasks.TrommelAsyncTask;
-import com.avrgaming.civcraft.threading.tasks.MobGrinderAsyncTask;
+import com.avrgaming.civcraft.threading.tasks.*;
 import com.avrgaming.civcraft.threading.timers.DailyTimer;
 import com.avrgaming.civcraft.tutorial.CivTutorial;
-import com.avrgaming.civcraft.util.AsciiMap;
-import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.CivColor;
-import com.avrgaming.civcraft.util.FireworkEffectPlayer;
-import com.avrgaming.civcraft.util.ItemFrameStorage;
-import com.avrgaming.civcraft.util.ItemManager;
-import com.avrgaming.civcraft.util.SimpleBlock;
+import com.avrgaming.civcraft.util.*;
 import com.avrgaming.global.perks.Perk;
+import gpl.AttributeUtil;
+import org.bukkit.*;
+import org.bukkit.FireworkEffect.Type;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.block.Biome;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Sign;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.ItemFrame;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.io.IOException;
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class DebugCommand extends CommandBase {
 
@@ -470,7 +433,7 @@ public class DebugCommand extends CommandBase {
                                         if (struct instanceof Capitol) {
                                             AdminTownCommand.claimradius(spawnCapitol, center, 15);
                                         }
-                                        struct.setTemplateName("templates/themes/default/structures/" + info.template_base_name + "/" + info.template_base_name + "_" + dir + ".def");
+                                        struct.setTemplateName("templates/themes/default/" + info.template_base_name + "/" + info.template_base_name + "_" + dir + ".def");
                                         struct.bindStructureBlocks();
                                         struct.setComplete(true);
                                         struct.setHitpoints(info.max_hitpoints);
