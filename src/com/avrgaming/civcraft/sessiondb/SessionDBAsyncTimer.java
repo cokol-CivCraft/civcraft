@@ -1,16 +1,11 @@
 package com.avrgaming.civcraft.sessiondb;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Types;
+import com.avrgaming.civcraft.database.SQL;
+
+import java.sql.*;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.locks.ReentrantLock;
-
-import com.avrgaming.civcraft.database.SQL;
 
 public class SessionDBAsyncTimer implements Runnable {
 
@@ -44,7 +39,7 @@ public class SessionDBAsyncTimer implements Runnable {
                             break;
                         case GLOBAL:
                             if (globalConnection == null || globalConnection.isClosed()) {
-                                globalConnection = SQL.getGlobalConnection();
+                                globalConnection = SQL.getGameConnection();
                             }
                             cntx = globalConnection;
                             break;

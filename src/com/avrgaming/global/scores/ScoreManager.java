@@ -17,16 +17,15 @@
  */
 package com.avrgaming.global.scores;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
-import org.bukkit.Bukkit;
-
 import com.avrgaming.civcraft.database.SQL;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.Town;
+import org.bukkit.Bukkit;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class ScoreManager {
 	
@@ -80,9 +79,7 @@ public class ScoreManager {
 			
 			SQL.makeGlobalTable(table_create);
 			CivLog.info("Created "+CIV_TABLE_NAME+" table");
-		} else {
-			CivLog.info(CIV_TABLE_NAME+" table OK!");
-		}		
+		}
 				
 		System.out.println("==================================================");
 	}
@@ -92,7 +89,7 @@ public class ScoreManager {
 		PreparedStatement s = null;
 
 		try {
-			global_context = SQL.getGlobalConnection();	
+			global_context = SQL.getGameConnection();
 			String query = "INSERT INTO `"+CIV_TABLE_NAME+"` (`key`, `server`, `local_id`, `local_name`, `local_capitol_name`, `points`) "+
 					"VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `local_name`=?, `local_capitol_name`=?, `points`=?";
 			s = global_context.prepareStatement(query);
@@ -123,7 +120,7 @@ public class ScoreManager {
 		PreparedStatement s = null;
 		
 		try {
-			global_context = SQL.getGlobalConnection();	
+			global_context = SQL.getGameConnection();
 			String query = "INSERT INTO `"+TOWN_TABLE_NAME+"` (`key`, `server`, `local_id`, `local_name`, `local_civ_name`, `points`) "+
 					"VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `local_name`=?, `local_civ_name`=?, `points`=?";
 			s = global_context.prepareStatement(query);

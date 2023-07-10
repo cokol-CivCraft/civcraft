@@ -57,21 +57,7 @@ public class SQL {
     public static Integer max_conns;
     public static Integer parts;
 //	public static Connection context = null;
-
-    //	public static Connection global_context = null;
-    public static String global_dsn = "";
-    public static String global_hostname = "";
-    public static String global_port = "";
-    public static String global_username = "";
-    public static String global_password = "";
-    public static String global_db = "";
-    public static Integer global_min_conns;
-    public static Integer global_max_conns;
-    public static Integer global_parts;
-
     public static ConnectionPool gameDatabase;
-    public static ConnectionPool globalDatabase;
-    public static ConnectionPool perkDatabase;
 
     public static void initialize() throws InvalidConfiguration, SQLException {
         CivLog.heading("Initializing SQL");
@@ -92,22 +78,6 @@ public class SQL {
         CivLog.info("\t Building Connection Pool for GAME database.");
         gameDatabase = new ConnectionPool(SQL.dsn, SQL.username, SQL.password);
         CivLog.info("\t Connected to GAME database");
-
-        CivLog.heading("Initializing Global SQL Database");
-        SQL.global_hostname = CivSettings.getStringBase("global_database.hostname");
-        SQL.global_port = CivSettings.getStringBase("global_database.port");
-        SQL.global_username = CivSettings.getStringBase("global_database.username");
-        SQL.global_password = CivSettings.getStringBase("global_database.password");
-        SQL.global_db = CivSettings.getStringBase("global_database.database");
-        SQL.global_min_conns = Integer.valueOf(CivSettings.getStringBase("global_database.min_conns"));
-        SQL.global_max_conns = Integer.valueOf(CivSettings.getStringBase("global_database.max_conns"));
-        SQL.global_parts = Integer.valueOf(CivSettings.getStringBase("global_database.parts"));
-
-        SQL.global_dsn = "jdbc:mysql://" + SQL.global_hostname + ":" + SQL.global_port + "/" + SQL.global_db + "?enabledTLSProtocols=TLSv1.2&useSSL=false";
-        CivLog.info("\t Using GLOBAL db at:" + SQL.global_hostname + ":" + SQL.global_port + " user:" + SQL.global_username + " DB:" + SQL.global_db);
-        CivLog.info("\t Building Connection Pool for GLOBAL database.");
-        globalDatabase = new ConnectionPool(SQL.global_dsn, SQL.global_username, SQL.global_password);
-        CivLog.info("\t Connected to GLOBAL database");
 
         CivLog.heading("Initializing SQL Finished");
     }
@@ -147,73 +117,14 @@ public class SQL {
 
     }
 
-//	public static void globalConnect() throws SQLException {
-//		if (global_context == null || global_context.isClosed()) {
-//			if (SQL.global_username.equalsIgnoreCase("") && SQL.global_password.equalsIgnoreCase("")) {
-//				global_context = DriverManager.getConnection(SQL.global_dsn);
-//			} else {
-//				global_context = DriverManager.getConnection(SQL.global_dsn, SQL.global_username, SQL.global_password);
-//			}
-//		}
-//
-//		if (global_context == null || global_context.isClosed()) {
-//			throw new SQLException("Lost context to GLOBAL MYSQL server!");
-//		}
-//		
-//		return;
-//	}
-
-//	public static void connect() throws SQLException {
-//		if (context == null || context.isClosed()) {
-//			if (SQL.username.equalsIgnoreCase("") && SQL.password.equalsIgnoreCase("")) {
-//				context = DriverManager.getConnection(SQL.dsn);
-//			} else {
-//				context = DriverManager.getConnection(SQL.dsn, SQL.username, SQL.password);
-//			}
-//		}
-//
-//		if (context == null || context.isClosed()) {
-//			throw new SQLException("Lost context to MYSQL server!");
-//		}
-//		
-//		return;
-//	}
-
     public static Connection getGameConnection() throws SQLException {
-        //CivLog.debug("get connection ----> free conns:"+SQL.getGameDatabaseStats().getTotalFree()+" leased:"+SQL.getGameDatabaseStats().getTotalLeased());
-//		if (SQL.getGameDatabaseStats().getTotalFree() == 0) {
-//			try {
-//				throw new CivException("No more free connections! Possible connection leak!");
-//			} catch (CivException e) {
-//				e.printStackTrace();
-//			}			
-//		}
-
         return gameDatabase.getConnection();
-    }
-
-    public static Connection getGlobalConnection() throws SQLException {
-        //CivLog.debug("get connection ----> free conns:"+SQL.getGameDatabaseStats().getTotalFree()+" leased:"+SQL.getGameDatabaseStats().getTotalLeased());
-//		if (SQL.getGlobalDatabaseStats().getTotalFree() == 0) {
-//			try {
-//				throw new CivException("No more free connections! Possible connection leak!");
-//			} catch (CivException e) {
-//				e.printStackTrace();
-//			}
-//		}
-
-        return globalDatabase.getConnection();
-    }
-
-    public static Connection getPerkConnection() throws SQLException {
-        //CivLog.debug("get connection ----> free conns:"+SQL.getGameDatabaseStats().getTotalFree()+" leased:"+SQL.getGameDatabaseStats().getTotalLeased());
-
-        return perkDatabase.getConnection();
     }
 
     public static boolean hasTable(String name) throws SQLException {
         Connection context = null;
         ResultSet result = null;
+
         try {
             context = getGameConnection();
             DatabaseMetaData dbm = context.getMetaData();
@@ -227,18 +138,19 @@ public class SQL {
     }
 
     public static boolean hasGlobalTable(String name) throws SQLException {
-        Connection global_context = null;
-        ResultSet rs = null;
+        Connection context = null;
+        ResultSet result = null;
 
         try {
-            global_context = getGlobalConnection();
-            DatabaseMetaData dbm = global_context.getMetaData();
+            context = getGameConnection();
+            DatabaseMetaData dbm = context.getMetaData();
             String[] types = {"TABLE"};
-            rs = dbm.getTables(null, null, name, types);
-            return rs.next();
+
+            result = dbm.getTables(null, null, name, types);
+            return result.next();
 
         } finally {
-            SQL.close(rs, null, global_context);
+            SQL.close(result, null, context);
         }
     }
 
@@ -277,7 +189,7 @@ public class SQL {
         ResultSet rs = null;
 
         try {
-            global_context = getGlobalConnection();
+            global_context = getGameConnection();
             DatabaseMetaData dbm = global_context.getMetaData();
             rs = dbm.getColumns(null, null, tablename, columnName);
 
@@ -297,10 +209,8 @@ public class SQL {
         PreparedStatement ps = null;
 
         try {
-            global_context = SQL.getGlobalConnection();
-            String table_alter = "ALTER TABLE " + tablename + " ADD " +
-                    columnDef;
-
+            global_context = SQL.getGameConnection();
+            String table_alter = "ALTER TABLE " + tablename + " ADD " + columnDef;
             ps = global_context.prepareStatement(table_alter);
             ps.execute();
             CivLog.info("\tADDED GLOBAL:" + columnDef);
@@ -524,7 +434,7 @@ public class SQL {
         PreparedStatement ps = null;
 
         try {
-            context = SQL.getGlobalConnection();
+            context = getGameConnection();
             ps = context.prepareStatement(table_create);
             ps.execute();
         } finally {

@@ -79,18 +79,6 @@ public class WallBlock extends SQLObject {
 			
 			SQL.makeTable(table_create);
 			CivLog.info("Created "+TABLE_NAME+" table");
-		} else {
-			CivLog.info(TABLE_NAME+" table OK!");
-			
-			if (!SQL.hasColumn(TABLE_NAME, "type_id")) {
-				CivLog.info("\tCouldn't find type_id column for wallblock.");
-				SQL.addColumn(TABLE_NAME, "`type_id` int(11) default 0");				
-			}
-			
-			if (!SQL.hasColumn(TABLE_NAME, "data")) {
-				CivLog.info("\tCouldn't find data column for wallblock.");
-				SQL.addColumn(TABLE_NAME, "`data` int(11) default 0");				
-			}
 		}
 	}
 

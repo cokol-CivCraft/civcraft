@@ -18,36 +18,6 @@
  */
 package com.avrgaming.civcraft.camp;
 
-import gpl.AttributeUtil;
-
-import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Random;
-import java.util.UUID;
-import java.util.concurrent.locks.ReentrantLock;
-
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Effect;
-import org.bukkit.FireworkEffect;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.block.Chest;
-import org.bukkit.block.Furnace;
-import org.bukkit.block.Sign;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import com.avrgaming.civcraft.components.ConsumeLevelComponent;
 import com.avrgaming.civcraft.components.ConsumeLevelComponent.Result;
 import com.avrgaming.civcraft.components.SifterComponent;
@@ -66,12 +36,7 @@ import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
-import com.avrgaming.civcraft.object.BuildableDamageBlock;
-import com.avrgaming.civcraft.object.ControlPoint;
-import com.avrgaming.civcraft.object.CultureChunk;
-import com.avrgaming.civcraft.object.Resident;
-import com.avrgaming.civcraft.object.StructureBlock;
-import com.avrgaming.civcraft.object.TownChunk;
+import com.avrgaming.civcraft.object.*;
 import com.avrgaming.civcraft.permission.PlotPermissions;
 import com.avrgaming.civcraft.road.RoadBlock;
 import com.avrgaming.civcraft.structure.Buildable;
@@ -79,13 +44,23 @@ import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.template.Template.TemplateType;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.PostBuildSyncTask;
-import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.CivColor;
-import com.avrgaming.civcraft.util.FireworkEffectPlayer;
-import com.avrgaming.civcraft.util.MultiInventory;
-import com.avrgaming.civcraft.util.SimpleBlock;
+import com.avrgaming.civcraft.util.*;
 import com.avrgaming.civcraft.util.SimpleBlock.Type;
+import gpl.AttributeUtil;
+import org.bukkit.*;
+import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
+import org.bukkit.block.Furnace;
+import org.bukkit.block.Sign;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Camp extends Buildable {
 
@@ -255,12 +230,6 @@ public class Camp extends Buildable {
 
             SQL.makeTable(table_create);
             CivLog.info("Created " + TABLE_NAME + " table");
-        } else {
-            CivLog.info(TABLE_NAME + " table OK!");
-            SQL.makeCol("name", "VARCHAR(64) NOT NULL", TABLE_NAME);
-            SQL.makeCol("upgrades", "mediumtext", TABLE_NAME);
-            SQL.makeCol("template_name", "mediumtext", TABLE_NAME);
-            SQL.makeCol("next_raid_date", "long", TABLE_NAME);
         }
     }
 

@@ -204,58 +204,6 @@ public class Resident extends SQLObject {
 
             SQL.makeTable(table_create);
             CivLog.info("Created " + TABLE_NAME + " table");
-        } else {
-            CivLog.info(TABLE_NAME + " table OK!");
-
-            if (!SQL.hasColumn(TABLE_NAME, "uuid")) {
-                CivLog.info("\tCouldn't find `uuid` for resident.");
-                SQL.addColumn(TABLE_NAME, "`uuid` VARCHAR(256) NOT NULL DEFAULT 'UNKNOWN'");
-            }
-
-            if (!SQL.hasColumn(TABLE_NAME, "currentName")) {
-                CivLog.info("\tCouldn't find `currentName` for resident.");
-                SQL.addColumn(TABLE_NAME, "`currentName` VARCHAR(64) DEFAULT NULL");
-            }
-
-            if (!SQL.hasColumn(TABLE_NAME, "banned")) {
-                CivLog.info("\tCouldn't find `banned` for resident.");
-                SQL.addColumn(TABLE_NAME, "`banned` bool default 0");
-            }
-
-            if (!SQL.hasColumn(TABLE_NAME, "bannedMessage")) {
-                CivLog.info("\tCouldn't find `bannedMessage` for resident.");
-                SQL.addColumn(TABLE_NAME, "`bannedMessage` mediumtext default null");
-            }
-
-            if (!SQL.hasColumn(TABLE_NAME, "last_ip")) {
-                CivLog.info("\tCouldn't find `last_ip` for resident.");
-                SQL.addColumn(TABLE_NAME, "`last_ip` mediumtext default null");
-            }
-
-            if (!SQL.hasColumn(TABLE_NAME, "camp_id")) {
-                CivLog.info("\tCouldn't find `camp_id` for resident.");
-                SQL.addColumn(TABLE_NAME, "`camp_id` int(11) default 0");
-            }
-
-            if (!SQL.hasColumn(TABLE_NAME, "timezone")) {
-                CivLog.info("\tCouldn't find `timezone` for resident.");
-                SQL.addColumn(TABLE_NAME, "`timezone` mediumtext default null");
-            }
-
-            if (!SQL.hasColumn(TABLE_NAME, "debug_civ")) {
-                CivLog.info("\tCouldn't find `debug_civ` for resident.");
-                SQL.addColumn(TABLE_NAME, "`debug_civ` mediumtext default null");
-            }
-
-            if (!SQL.hasColumn(TABLE_NAME, "debug_town")) {
-                CivLog.info("\tCouldn't find `debug_town` for resident.");
-                SQL.addColumn(TABLE_NAME, "`debug_town` mediumtext default null");
-            }
-
-            SQL.makeCol("flags", "mediumtext", TABLE_NAME);
-            SQL.makeCol("savedInventory", "mediumtext", TABLE_NAME);
-            SQL.makeCol("insideArena", "bool NOT NULL DEFAULT '0'", TABLE_NAME);
-            SQL.makeCol("isProtected", "bool NOT NULL DEFAULT '0'", TABLE_NAME);
         }
     }
 

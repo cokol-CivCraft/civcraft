@@ -59,22 +59,6 @@ public class RoadBlock extends SQLObject implements BuildableDamageBlock {
 			
 			SQL.makeTable(table_create);
 			CivLog.info("Created "+TABLE_NAME+" table");
-		} else {
-			//Check for new columns and update the table if we dont have them.
-			if (!SQL.hasColumn(TABLE_NAME, "old_type")) {
-				CivLog.info("\tCouldn't find old_type column for roadblock.");
-				SQL.addColumn(TABLE_NAME, "`old_type` int(11) NOT NULL DEFAULT 0");				
-			}
-			
-			if (!SQL.hasColumn(TABLE_NAME, "old_data")) {
-				CivLog.info("\tCouldn't find old_data column for roadblock.");
-				SQL.addColumn(TABLE_NAME, "`old_data` int(11) NOT NULL DEFAULT 0");				
-			}
-			
-			if (!SQL.hasColumn(TABLE_NAME, "above_road")) {
-				CivLog.info("\tCouldn't find above_road column for roadblock.");
-				SQL.addColumn(TABLE_NAME, "`above_road` bool DEFAULT 0");				
-			}
 		}
 	}
 	

@@ -17,19 +17,19 @@
  */
 package com.avrgaming.civcraft.sessiondb;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.concurrent.ConcurrentHashMap;
-
 import com.avrgaming.civcraft.database.SQL;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.sessiondb.SessionAsyncRequest.Database;
 import com.avrgaming.civcraft.sessiondb.SessionAsyncRequest.Operation;
 import com.avrgaming.civcraft.structure.Buildable;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class SessionDatabase {
@@ -203,7 +203,7 @@ public class SessionDatabase {
 
 		try {
 			try {
-				global_context = SQL.getGlobalConnection();	
+				global_context = SQL.getGameConnection();
 				String code;
 				code = "SELECT * FROM `GLOBAL_SESSIONS` WHERE `key` = ?";
 				s = global_context.prepareStatement(code);
