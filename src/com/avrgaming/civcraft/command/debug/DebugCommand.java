@@ -503,6 +503,7 @@ public class DebugCommand extends CommandBase {
     }
 
     public static TemplateStream tplStream = null;
+
     public void templatetest_cmd() throws CivException {
         Player player = getPlayer();
         String filename = getNamedString(1, "Enter a filename");
@@ -547,6 +548,7 @@ public class DebugCommand extends CommandBase {
 
         CivMessage.send(sender, makeInfoString(stats, CivColor.Green, CivColor.LightGreen));
     }
+
     public void preview_cmd() {
 //		Player player = getPlayer();
 //		PlayerBlockChangeUtil util = new PlayerBlockChangeUtil();
@@ -565,6 +567,7 @@ public class DebugCommand extends CommandBase {
 //		//util.sendUpdate(player.getName());
 //		//CivMessage.sendSuccess(player, "Changed block");
     }
+
     public void colorme_cmd() throws CivException {
         Player player = getPlayer();
         String hex = getNamedString(1, "color code");
@@ -580,6 +583,7 @@ public class DebugCommand extends CommandBase {
         player.getInventory().setItemInMainHand(attrs.getStack());
         CivMessage.sendSuccess(player, "Set color.");
     }
+
     public void circle_cmd() throws CivException {
         Player player = getPlayer();
         int radius = getNamedInteger(1);
@@ -598,6 +602,7 @@ public class DebugCommand extends CommandBase {
 
         CivMessage.sendSuccess(player, "Built a circle at your feet.");
     }
+
     public void setexposure_cmd() throws CivException {
         Resident resident = getResident();
         Player player = getPlayer();
@@ -606,10 +611,12 @@ public class DebugCommand extends CommandBase {
 
         CivMessage.sendSuccess(player, "Set Exposure.");
     }
+
     public void togglebookcheck_cmd() {
         CivGlobal.checkForBooks = !CivGlobal.checkForBooks;
         CivMessage.sendSuccess(sender, "Check for books is:" + CivGlobal.checkForBooks);
     }
+
     public void setcivnbt_cmd() throws CivException {
         Player player = getPlayer();
         String key = getNamedString(1, "key");
@@ -626,6 +633,7 @@ public class DebugCommand extends CommandBase {
         CivMessage.sendSuccess(player, "Set property.");
 
     }
+
     public void getcivnbt_cmd() throws CivException {
         Player player = getPlayer();
         String key = getNamedString(1, "key");
@@ -640,6 +648,7 @@ public class DebugCommand extends CommandBase {
         CivMessage.sendSuccess(player, "got property:" + value);
 
     }
+
     public void getdura_cmd() throws CivException {
         Player player = getPlayer();
         ItemStack inHand = player.getInventory().getItemInMainHand();
@@ -647,6 +656,7 @@ public class DebugCommand extends CommandBase {
         CivMessage.send(player, "MaxDura:" + inHand.getType().getMaxDurability());
 
     }
+
     public void setdura_cmd() throws CivException {
         Player player = getPlayer();
         Integer dura = getNamedInteger(1);
@@ -658,6 +668,7 @@ public class DebugCommand extends CommandBase {
         CivMessage.send(player, "MaxDura:" + inHand.getType().getMaxDurability());
 
     }
+
     public void getmid_cmd() throws CivException {
         Player player = getPlayer();
         ItemStack inHand = player.getInventory().getItemInMainHand();
@@ -667,6 +678,7 @@ public class DebugCommand extends CommandBase {
 
         CivMessage.send(player, "MID:" + LoreMaterial.getMID(inHand));
     }
+
     public void setspecial_cmd() throws CivException {
         Player player = getPlayer();
         ItemStack inHand = player.getInventory().getItemInMainHand();
@@ -680,6 +692,7 @@ public class DebugCommand extends CommandBase {
         player.getInventory().setItemInMainHand(stack);
         CivMessage.send(player, "Set it.");
     }
+
     public void getspecial_cmd() throws CivException {
         Player player = getPlayer();
         ItemStack inHand = player.getInventory().getItemInMainHand();
@@ -692,9 +705,11 @@ public class DebugCommand extends CommandBase {
 
         CivMessage.send(player, "Got:" + value);
     }
+
     public void showinv_cmd() throws CivException {
         CivTutorial.spawnGuiBook(getPlayer());
     }
+
     public void showcraftinv_cmd() throws CivException {
         CivTutorial.showCraftingHelp(getPlayer());
     }
@@ -712,12 +727,14 @@ public class DebugCommand extends CommandBase {
             CivMessage.sendSuccess(sender, "Disabled scout tower debugging in " + civ.getName());
         }
     }
+
     public void biomehere_cmd() throws CivException {
         Player player = getPlayer();
 
         Biome biome = player.getWorld().getBiome(player.getLocation().getBlockX(), player.getLocation().getBlockZ());
         CivMessage.send(player, "Got biome:" + biome.name());
     }
+
     public void clearresidents_cmd() throws CivException {
         Town town = getNamedTown(1);
 
@@ -732,6 +749,7 @@ public class DebugCommand extends CommandBase {
             town.removeResident(resident);
         }
     }
+
     public void fakeresidents_cmd() throws CivException {
         Town town = getNamedTown(1);
         Integer count = getNamedInteger(2);
@@ -751,6 +769,7 @@ public class DebugCommand extends CommandBase {
         }
         CivMessage.sendSuccess(sender, "Added " + count + " residents.");
     }
+
     public void trommel_cmd() throws CivException {
         Town town = getNamedTown(1);
 
@@ -762,6 +781,7 @@ public class DebugCommand extends CommandBase {
 
         CivMessage.send(sender, "Trommel toggled.");
     }
+
     public void quarry_cmd() throws CivException {
         Town town = getNamedTown(1);
 
@@ -773,6 +793,7 @@ public class DebugCommand extends CommandBase {
 
         CivMessage.send(sender, "Quarry toggled.");
     }
+
     public void fishery_cmd() throws CivException {
         Town town = getNamedTown(1);
 
@@ -784,6 +805,7 @@ public class DebugCommand extends CommandBase {
 
         CivMessage.send(sender, "Fish Hatchery toggled.");
     }
+
     public void mobgrinder_cmd() throws CivException {
         Town town = getNamedTown(1);
 
@@ -795,6 +817,7 @@ public class DebugCommand extends CommandBase {
 
         CivMessage.send(sender, "Mob Grinder toggled.");
     }
+
     public void blockinfo_cmd() throws CivException {
         int x = getNamedInteger(1);
         int y = getNamedInteger(2);
@@ -805,10 +828,12 @@ public class DebugCommand extends CommandBase {
         CivMessage.send(sender, "type:" + b.getType() + " data:" + b.getData() + " name:" + b.getType().name());
 
     }
+
     public void camp_cmd() {
         DebugCampCommand cmd = new DebugCampCommand();
         cmd.onCommand(sender, null, "farm", this.stripArgs(args, 1));
     }
+
     public void listconquered_cmd() {
         CivMessage.sendHeading(sender, "Conquered Civs");
         StringBuilder out = new StringBuilder();
@@ -817,6 +842,7 @@ public class DebugCommand extends CommandBase {
         }
         CivMessage.send(sender, out.toString());
     }
+
     public void touches_cmd() throws CivException {
         Town town = getNamedTown(1);
 
@@ -834,6 +860,7 @@ public class DebugCommand extends CommandBase {
 
         CivMessage.send(sender, out.toString());
     }
+
     public void refreshchunk_cmd() throws CivException {
         Player you = getPlayer();
         ChunkCoord coord = new ChunkCoord(you.getLocation());
@@ -843,6 +870,7 @@ public class DebugCommand extends CommandBase {
             player.getWorld().loadChunk(coord.getX(), coord.getZ());
         }
     }
+
     public void flashedges_cmd() throws CivException {
         Town town = getNamedTown(1);
 
@@ -857,10 +885,12 @@ public class DebugCommand extends CommandBase {
         }
         CivMessage.sendSuccess(sender, "flashed");
     }
+
     public void farm_cmd() {
         DebugFarmCommand cmd = new DebugFarmCommand();
         cmd.onCommand(sender, null, "farm", this.stripArgs(args, 1));
     }
+
     public void giveold_cmd() throws CivException {
         Player player = getPlayer();
 
@@ -894,6 +924,7 @@ public class DebugCommand extends CommandBase {
 //			LoreStoreage.setItemName("Pelts", inHand);
         //	LoreStoreage.setMatID(1337, inHand);
     }
+
     public void loretest_cmd() throws CivException {
         Player player = getPlayer();
 
@@ -908,6 +939,7 @@ public class DebugCommand extends CommandBase {
             }
         }
     }
+
     public void loreset_cmd() throws CivException {
         Player player = getPlayer();
 
@@ -934,7 +966,7 @@ public class DebugCommand extends CommandBase {
 //		}
 //	}
 
-//	public void addnbt_cmd() throws CivException {
+    //	public void addnbt_cmd() throws CivException {
 //		Player player = getPlayer();
 //		
 //		org.bukkit.inventory.ItemStack inHand = player.getInventory().getItemInMainHand();
@@ -962,6 +994,7 @@ public class DebugCommand extends CommandBase {
         }
 
     }
+
     public void setallculture_cmd() throws CivException {
         Integer culture = getNamedInteger(1);
 
@@ -973,12 +1006,14 @@ public class DebugCommand extends CommandBase {
         CivGlobal.processCulture();
         CivMessage.sendSuccess(sender, "Set all town culture to " + culture + " points.");
     }
+
     public void quickcodereload_cmd() {
 
         Bukkit.getPluginManager().getPlugin("QuickCode");
 
 
     }
+
     public void regentradegoodchunk_cmd() {
 
         World world = Bukkit.getWorld("world");
@@ -989,6 +1024,7 @@ public class DebugCommand extends CommandBase {
             CivMessage.send(sender, "Regened:" + coord);
         }
     }
+
     public void regenmobspawnerchunk_cmd() {
 
         World world = Bukkit.getWorld("world");
@@ -1000,6 +1036,7 @@ public class DebugCommand extends CommandBase {
 
         }
     }
+
     public void restoresigns_cmd() {
 
         CivMessage.send(sender, "restoring....");
@@ -1034,6 +1071,7 @@ public class DebugCommand extends CommandBase {
 
 
     }
+
     public void cleartradesigns_cmd() throws CivException {
         CivMessage.send(sender, "Starting task");
 
@@ -1051,6 +1089,7 @@ public class DebugCommand extends CommandBase {
         }
 
     }
+
     public void mobspawnergenerate_cmd() {
         if (CivSettings.hasCustomMobs) {
             String playerName;
@@ -1067,6 +1106,7 @@ public class DebugCommand extends CommandBase {
             CivMessage.send(sender, "Unable to generate CustomMob spawners, CustomMobs is not enabled.");
         }
     }
+
     public void tradegenerate_cmd() {
         String playerName;
 
@@ -1094,6 +1134,7 @@ public class DebugCommand extends CommandBase {
         TradeGoodPopulator.buildTradeGoodie(good, coord, getPlayer().getLocation().getWorld(), false);
         CivMessage.sendSuccess(sender, "Created a " + good.name + " here.");
     }
+
     public void createmobspawner_cmd() throws CivException {
         if (CivSettings.hasCustomMobs) {
             if (args.length < 2) {
@@ -1112,6 +1153,7 @@ public class DebugCommand extends CommandBase {
             CivMessage.send(sender, "Unable to generate CustomMob spawners, CustomMobs is not enabled.");
         }
     }
+
     public void generate_cmd() throws CivException {
         if (args.length < 5) {
             throw new CivException("Enter chunk coords to generate.");
@@ -1131,6 +1173,7 @@ public class DebugCommand extends CommandBase {
 
 
     }
+
     public void setspeed_cmd() throws CivException {
         Player player = getPlayer();
 
@@ -1141,6 +1184,7 @@ public class DebugCommand extends CommandBase {
         player.setWalkSpeed(Float.parseFloat(args[1]));
         CivMessage.sendSuccess(player, "speed changed");
     }
+
     public void unloadchunk_cmd() throws CivException {
         if (args.length < 3) {
             throw new CivException("Enter an x and z");
@@ -1164,6 +1208,7 @@ public class DebugCommand extends CommandBase {
         getSelectedTown().getBuffManager().addBuff(buff.id, buff.id, "Debug");
         CivMessage.sendSuccess(sender, "Gave buff " + buff.name + " to town");
     }
+
     public void addteam_cmd() throws IllegalStateException, IllegalArgumentException {
 //		Team team = CivGlobal.globalBoard.getTeam("everybody");
 //		team.addPlayer(CivGlobal.getFakeOfflinePlayer("FAKENAME"));
@@ -1175,6 +1220,7 @@ public class DebugCommand extends CommandBase {
         CivGlobal.processCulture();
         CivMessage.sendSuccess(sender, "Forced process of culture");
     }
+
     public void wall_cmd() throws CivException {
         Player player = getPlayer();
 
@@ -1188,6 +1234,7 @@ public class DebugCommand extends CommandBase {
             CivMessage.send(player, "Wall:" + wall.getId() + " town:" + wall.getTown() + " chunk:" + new ChunkCoord(player.getLocation()));
         }
     }
+
     public void arrow_cmd() throws CivException {
         if (args.length < 2) {
             throw new CivException("/arrow [power]");
@@ -1209,6 +1256,7 @@ public class DebugCommand extends CommandBase {
 
 
     }
+
     public void sound_cmd() throws CivException {
         Player player = getPlayer();
 
@@ -1218,6 +1266,7 @@ public class DebugCommand extends CommandBase {
 
         player.getWorld().playSound(player.getLocation(), Sound.valueOf(args[1].toUpperCase()), 1.0f, Float.parseFloat(args[2]));
     }
+
     public void firework_cmd() throws CivException {
         Player player = getPlayer();
 
@@ -1229,6 +1278,7 @@ public class DebugCommand extends CommandBase {
         }
 
     }
+
     public void repogoodie_cmd() throws CivException {
         if (args.length < 2) {
             throw new CivException("Enter the id of the goodie you want to repo.");
@@ -1244,6 +1294,7 @@ public class DebugCommand extends CommandBase {
 
 
     }
+
     public void printgoodie_cmd() throws CivException {
 
         if (args.length < 2) {
@@ -1294,13 +1345,14 @@ public class DebugCommand extends CommandBase {
         Player player = getPlayer();
 
         ItemStack stack = player.getInventory().getItemInMainHand();
-        if (player.getInventory().getItemInMainHand() == null || stack.getType() ==Material.AIR) {
+        if (player.getInventory().getItemInMainHand() == null || stack.getType() == Material.AIR) {
             throw new CivException("No item in hand.");
         }
 
         player.getInventory().addItem(player.getInventory().getItemInMainHand());
         CivMessage.sendSuccess(player, player.getInventory().getItemInMainHand().getType().name() + "duplicated.");
     }
+
     public void makeframe_cmd() throws CivException {
         if (args.length > 3) {
             throw new CivException("Provide a x,y,z and a direction (n,s,e,w)");
@@ -1333,6 +1385,7 @@ public class DebugCommand extends CommandBase {
         new ItemFrameStorage(loc, face);
         CivMessage.send(sender, "Created frame.");
     }
+
     public void show_cmd() throws CivException {
         Player player = getPlayer();
         Chunk chunk = player.getLocation().getChunk();
@@ -1342,6 +1395,7 @@ public class DebugCommand extends CommandBase {
             CivLog.info("E:" + entity.getType().name() + " UUID:" + entity.getUniqueId().toString());
         }
     }
+
     public void moveframes_cmd() throws CivException {
         Player player = getPlayer();
         Chunk chunk = player.getLocation().getChunk();
@@ -1360,6 +1414,7 @@ public class DebugCommand extends CommandBase {
         }
 
     }
+
     public void frame_cmd() throws CivException {
         Town town = getSelectedTown();
 
@@ -1379,9 +1434,11 @@ public class DebugCommand extends CommandBase {
         }
 
     }
+
     public void repo_cmd() {
         GoodieRepoEvent.repoProcess();
     }
+
     public void culturechunk_cmd() {
         if (sender instanceof Player) {
             Player player = (Player) sender;
@@ -1397,12 +1454,13 @@ public class DebugCommand extends CommandBase {
                     " distanceToNearest:" + cc.getDistanceToNearestEdge(cc.getTown().savedEdgeBlocks));
         }
     }
+
     public void runculture_cmd() {
         TaskMaster.asyncTask("cultureProcess", new CultureProcessAsyncTask(), 0);
         CivMessage.sendSuccess(sender, "Processed culture.");
     }
 
-//	public void addculture_cmd() throws CivException {
+    //	public void addculture_cmd() throws CivException {
 //		if (args.length < 3) {
 //			throw new CivException("enter the town, then level you want to set.");
 //		}
@@ -1425,6 +1483,7 @@ public class DebugCommand extends CommandBase {
         CivMessage.send(player, AsciiMap.getMapAsString(player.getLocation()));
 
     }
+
     public void civ_cmd() throws CivException {
         if (args.length < 2) {
             throw new CivException("Specify a civ name.");
@@ -1435,6 +1494,7 @@ public class DebugCommand extends CommandBase {
         CivMessage.sendHeading(sender, "Civ " + civ.getName());
         CivMessage.send(sender, "id:" + civ.getId() + " debt: " + civ.getTreasury().getDebt() + " balance:" + civ.getTreasury().getBalance());
     }
+
     public void newday_cmd() {
         CivMessage.send(sender, "Starting a new day...");
         TaskMaster.syncTask(new DailyTimer(), 0);
@@ -1444,6 +1504,7 @@ public class DebugCommand extends CommandBase {
     public void showHelp() {
         showBasicHelp();
     }
+
     public void town_cmd() throws CivException {
         if (args.length < 2) {
             CivMessage.sendError(sender, "Specifiy a town name.");
@@ -1456,6 +1517,7 @@ public class DebugCommand extends CommandBase {
         CivMessage.send(sender, "id:" + town.getId() + " level: " + town.getLevel());
 
     }
+
     public void townchunk_cmd() {
         if (sender instanceof Player) {
             Player player = (Player) sender;
@@ -1470,6 +1532,7 @@ public class DebugCommand extends CommandBase {
             CivMessage.send(sender, "id:" + tc.getId() + " coord:" + tc.getChunkCoord());
         }
     }
+
     public void resident_cmd() throws CivException {
         if (args.length < 2) {
             CivMessage.sendError(sender, "Specifiy a resident name.");

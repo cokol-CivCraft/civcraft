@@ -25,15 +25,15 @@ import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.timers.LagSimulationTimer;
 
 public class DebugTestCommand extends CommandBase {
-	
-	/*
-	 * Here we'll build a collection of integration tests that can be run on server
-	 * start to verify everything is working.
-	 */
-	
-	
-	@Override
-	public void init() {
+
+    /*
+     * Here we'll build a collection of integration tests that can be run on server
+     * start to verify everything is working.
+     */
+
+
+    @Override
+    public void init() {
         command = "/dbg test ";
         displayName = "Test Commands";
 
@@ -41,48 +41,45 @@ public class DebugTestCommand extends CommandBase {
         register_sub("setlag", this::setlag_cmd, "[tps] - tries to set the tps to this amount to simulate lag.");
     }
 
-	@SuppressWarnings("unused")
-	public void setlag_cmd() throws CivException {
-		Integer tps = getNamedInteger(1);
-		TaskMaster.syncTimer("lagtimer", new LagSimulationTimer(tps), 0);
-		CivMessage.sendSuccess(sender, "Let the lagging begin.");
-	}
+    @SuppressWarnings("unused")
+    public void setlag_cmd() throws CivException {
+        Integer tps = getNamedInteger(1);
+        TaskMaster.syncTimer("lagtimer", new LagSimulationTimer(tps), 0);
+        CivMessage.sendSuccess(sender, "Let the lagging begin.");
+    }
 
-	@SuppressWarnings("unused")
-	public void getsyncchesttest_cmd() throws CivException {
-		Integer count = getNamedInteger(1);
+    @SuppressWarnings("unused")
+    public void getsyncchesttest_cmd() throws CivException {
+        Integer count = getNamedInteger(1);
 
-		for (int i = 0; i < count; i++) {
-			TaskMaster.asyncTask(new TestGetChestThread(), 0);
-		}
+        for (int i = 0; i < count; i++) {
+            TaskMaster.asyncTask(new TestGetChestThread(), 0);
+        }
 
-		CivMessage.sendSuccess(sender, "Started "+count+" threads, watch logs.");
-	}
+        CivMessage.sendSuccess(sender, "Started " + count + " threads, watch logs.");
+    }
 
-	@Override
+    @Override
     public void doDefaultAction() {
         showHelp();
     }
 
-	@Override
-	public void showHelp() {
-		showBasicHelp();
-	}
+    @Override
+    public void showHelp() {
+        showBasicHelp();
+    }
 
-	private void isNetizen() throws CivException {
-		if(!getPlayer().getName().equalsIgnoreCase("netizen539")) {
-			throw new CivException("You must be netizen to run these commands.");
-		}
-	}
-	
-	
-	@Override
-	public void permissionCheck() throws CivException {
-		isNetizen();
-	}
+    private void isNetizen() throws CivException {
+        if (!getPlayer().getName().equalsIgnoreCase("netizen539")) {
+            throw new CivException("You must be netizen to run these commands.");
+        }
+    }
 
-	
 
-	
-	
+    @Override
+    public void permissionCheck() throws CivException {
+        isNetizen();
+    }
+
+
 }

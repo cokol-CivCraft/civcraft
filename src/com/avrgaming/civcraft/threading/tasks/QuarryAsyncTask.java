@@ -1,16 +1,5 @@
 package com.avrgaming.civcraft.threading.tasks;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Random;
-
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
 import com.avrgaming.civcraft.exception.CivTaskAbortException;
 import com.avrgaming.civcraft.lorestorage.LoreMaterial;
 import com.avrgaming.civcraft.main.CivData;
@@ -23,6 +12,16 @@ import com.avrgaming.civcraft.threading.CivAsyncTask;
 import com.avrgaming.civcraft.threading.sync.request.UpdateInventoryRequest.Action;
 import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.MultiInventory;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Random;
 
 public class QuarryAsyncTask extends CivAsyncTask {
 

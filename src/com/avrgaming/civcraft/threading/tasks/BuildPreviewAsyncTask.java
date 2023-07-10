@@ -35,89 +35,88 @@ import java.util.concurrent.locks.ReentrantLock;
 
 
 public class BuildPreviewAsyncTask extends CivAsyncTask {
-	/*
-	 * This task slow-builds a struct block-by-block based on the 
-	 * town's hammer rate. This task is per-structure building and will
-	 * use the CivAsynTask interface to send synchronous requests to the main
-	 * thread to build individual blocks.
-	 */
-	
-	public Template tpl;
-	public Block centerBlock;
-	public UUID playerUUID;
-	public Boolean aborted = false;
-	public ReentrantLock lock = new ReentrantLock();
-	private final int blocksPerTick;
-	private final int speed;
-	private final Resident resident;
-		
-	public BuildPreviewAsyncTask(Template t, Block center, UUID playerUUID) {
-		tpl = t;
-		centerBlock = center;
-		this.playerUUID = playerUUID;
-		resident = CivGlobal.getResidentViaUUID(playerUUID);
-		//this.blocksPerTick = getBlocksPerTick();
-		//this.speed = getBuildSpeed();
-		this.blocksPerTick = 100;
-		this.speed = 600;
-	}
-	
-	public Player getPlayer() throws CivException {
-		Player player = Bukkit.getPlayer(playerUUID);
-		if (player == null) {
-			throw new CivException("Player offline");
-		}
-		return player;
-	}
-		
-	@Override
-	public void run() {
-		
-		try {
-			int count = 0;
-			
-			for (int y = 0; y < tpl.size_y; y++) {
-				for (int x = 0; x < tpl.size_x; x++) {
-					for (int z = 0; z < tpl.size_z; z++) {
-						Block b = centerBlock.getRelative(x, y, z);
-						
-						if (tpl.blocks[x][y][z].isAir()) {
-							continue;
-						}
-						
-						lock.lock();
-						try {
-							if (aborted) {
-								return;
-							}
+    /*
+     * This task slow-builds a struct block-by-block based on the
+     * town's hammer rate. This task is per-structure building and will
+     * use the CivAsynTask interface to send synchronous requests to the main
+     * thread to build individual blocks.
+     */
 
-							ItemManager.sendBlockChange(getPlayer(), b.getLocation(), b.getType(), b.getData());
-							resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), b.getData()));
-							count++;
-						} finally {
-							lock.unlock();
-						}
-						
-						
-						if (count < blocksPerTick) {
-							continue;
-						}
-						
-						count = 0;
-						int timeleft = speed;
-						while (timeleft > 0) {
-							int min = Math.min(10000, timeleft);
-							Thread.sleep(min);
-							timeleft -= 10000;
-						}
-					}
-				}
-			}
-		} catch (CivException | InterruptedException e) {
-			//abort task.
-		}
-	}
-	
+    public Template tpl;
+    public Block centerBlock;
+    public UUID playerUUID;
+    public Boolean aborted = false;
+    public ReentrantLock lock = new ReentrantLock();
+    private final int blocksPerTick;
+    private final int speed;
+    private final Resident resident;
+
+    public BuildPreviewAsyncTask(Template t, Block center, UUID playerUUID) {
+        tpl = t;
+        centerBlock = center;
+        this.playerUUID = playerUUID;
+        resident = CivGlobal.getResidentViaUUID(playerUUID);
+        //this.blocksPerTick = getBlocksPerTick();
+        //this.speed = getBuildSpeed();
+        this.blocksPerTick = 100;
+        this.speed = 600;
+    }
+
+    public Player getPlayer() throws CivException {
+        Player player = Bukkit.getPlayer(playerUUID);
+        if (player == null) {
+            throw new CivException("Player offline");
+        }
+        return player;
+    }
+
+    @Override
+    public void run() {
+
+        try {
+            int count = 0;
+
+            for (int y = 0; y < tpl.size_y; y++) {
+                for (int x = 0; x < tpl.size_x; x++) {
+                    for (int z = 0; z < tpl.size_z; z++) {
+                        Block b = centerBlock.getRelative(x, y, z);
+
+                        if (tpl.blocks[x][y][z].isAir()) {
+                            continue;
+                        }
+
+                        lock.lock();
+                        try {
+                            if (aborted) {
+                                return;
+                            }
+
+                            ItemManager.sendBlockChange(getPlayer(), b.getLocation(), b.getType(), b.getData());
+                            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), b.getData()));
+                            count++;
+                        } finally {
+                            lock.unlock();
+                        }
+
+
+                        if (count < blocksPerTick) {
+                            continue;
+                        }
+
+                        count = 0;
+                        int timeleft = speed;
+                        while (timeleft > 0) {
+                            int min = Math.min(10000, timeleft);
+                            Thread.sleep(min);
+                            timeleft -= 10000;
+                        }
+                    }
+                }
+            }
+        } catch (CivException | InterruptedException e) {
+            //abort task.
+        }
+    }
 
 
 }

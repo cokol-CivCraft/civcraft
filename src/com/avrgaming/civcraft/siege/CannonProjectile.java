@@ -1,19 +1,5 @@
 package com.avrgaming.civcraft.siege;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Random;
-
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
-import org.bukkit.FireworkEffect.Type;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
-
 import com.avrgaming.civcraft.camp.CampBlock;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
@@ -30,8 +16,20 @@ import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.EntityProximity;
 import com.avrgaming.civcraft.war.WarRegen;
-
 import net.minecraft.server.v1_12_R1.EntityPlayer;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
+import org.bukkit.FireworkEffect.Type;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
+
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Random;
 
 public class CannonProjectile {
     public Cannon cannon;
@@ -197,24 +195,17 @@ public class CannonProjectile {
     }
 
     public void fire() {
-        class SyncTask implements Runnable {
-            final CannonProjectile proj;
 
-            public SyncTask(CannonProjectile proj) {
-                this.proj = proj;
-            }
-
+        TaskMaster.syncTask(new Runnable() {
             @Override
             public void run() {
-                if (proj.advance()) {
+                if (CannonProjectile.this.advance()) {
                     onHit();
                     return;
                 }
                 TaskMaster.syncTask(this, 1);
             }
-        }
-
-        TaskMaster.syncTask(new SyncTask(this));
+        });
     }
 
 }

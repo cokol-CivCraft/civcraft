@@ -1,13 +1,10 @@
 package com.avrgaming.civcraft.loreenhancements;
 
-import gpl.AttributeUtil;
-
-import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerItemDamageEvent;
-import org.bukkit.inventory.ItemStack;
-
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.util.CivColor;
+import gpl.AttributeUtil;
+import org.bukkit.event.player.PlayerItemDamageEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class LoreEnhancementUnbreaking extends LoreEnhancement {
 

@@ -17,8 +17,6 @@
  */
 package com.avrgaming.civcraft.command.admin;
 
-import java.sql.SQLException;
-
 import com.avrgaming.civcraft.command.CommandBase;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
@@ -30,6 +28,8 @@ import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.recover.RecoverStructuresAsyncTask;
 import com.avrgaming.civcraft.threading.TaskMaster;
+
+import java.sql.SQLException;
 
 public class AdminRecoverCommand extends CommandBase {
 

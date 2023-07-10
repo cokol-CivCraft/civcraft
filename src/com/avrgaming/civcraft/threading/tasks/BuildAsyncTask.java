@@ -335,7 +335,7 @@ public class BuildAsyncTask extends CivAsyncTask {
                 //Remove the scaffolding..
                 tpl.removeScaffolding(buildable.getCorner().getLocation());
                 try {
-                     buildable.delete();
+                    buildable.delete();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

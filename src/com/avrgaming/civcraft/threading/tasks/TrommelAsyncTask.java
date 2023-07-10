@@ -17,15 +17,6 @@
  */
 package com.avrgaming.civcraft.threading.tasks;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Random;
-
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivTaskAbortException;
 import com.avrgaming.civcraft.lorestorage.LoreMaterial;
@@ -39,152 +30,156 @@ import com.avrgaming.civcraft.threading.CivAsyncTask;
 import com.avrgaming.civcraft.threading.sync.request.UpdateInventoryRequest.Action;
 import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.MultiInventory;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Random;
 
 public class TrommelAsyncTask extends CivAsyncTask {
 
-	Trommel trommel;
-	private static final int GRAVEL_RATE = 1; //0.10%
-	
-	public static HashSet<String> debugTowns = new HashSet<>();
+    Trommel trommel;
+    private static final int GRAVEL_RATE = 1; //0.10%
 
-	public static void debug(Trommel trommel, String msg) {
-		if (debugTowns.contains(trommel.getTown().getName())) {
-			CivLog.warning("TrommelDebug:"+trommel.getTown().getName()+":"+msg);
-		}
-	}	
-	
-	public TrommelAsyncTask(Structure trommel) {
-		this.trommel = (Trommel)trommel;
-	}
-	
-	public void processTrommelUpdate() {
-		if (!trommel.isActive()) {
-			debug(trommel, "trommel inactive...");
-			return;
-		}
-		
-		debug(trommel, "Processing trommel...");
-		// Grab each CivChest object we'll require.
-		ArrayList<StructureChest> sources = trommel.getAllChestsById(1);
-		ArrayList<StructureChest> destinations = trommel.getAllChestsById(2);
-		
-		if (sources.size() != 2 || destinations.size() != 2) {
-			CivLog.error("Bad chests for trommel in town:"+trommel.getTown().getName()+" sources:"+sources.size()+" dests:"+destinations.size());
-			return;
-		}
-		
-		// Make sure the chunk is loaded before continuing. Also, add get chest and add it to inventory.
-		MultiInventory source_inv = new MultiInventory();
-		MultiInventory dest_inv = new MultiInventory();
+    public static HashSet<String> debugTowns = new HashSet<>();
 
-		try {
-			for (StructureChest src : sources) {
-				//this.syncLoadChunk(src.getCoord().getWorldname(), src.getCoord().getX(), src.getCoord().getZ());				
-				Inventory tmp;
-				try {
-					tmp = this.getChestInventory(src.getCoord().getWorldname(), src.getCoord().getX(), src.getCoord().getY(), src.getCoord().getZ(), false);
-				} catch (CivTaskAbortException e) {
-					//e.printStackTrace();
-					CivLog.warning("Trommel:"+e.getMessage());
-					return;
-				}
-				if (tmp == null) {
-					trommel.skippedCounter++;
-					return;
-				}
-				source_inv.addInventory(tmp);
-			}
-			
-			boolean full = true;
-			for (StructureChest dst : destinations) {
-				//this.syncLoadChunk(dst.getCoord().getWorldname(), dst.getCoord().getX(), dst.getCoord().getZ());
-				Inventory tmp;
-				try {
-					tmp = this.getChestInventory(dst.getCoord().getWorldname(), dst.getCoord().getX(), dst.getCoord().getY(), dst.getCoord().getZ(), false);
-				} catch (CivTaskAbortException e) {
-					//e.printStackTrace();
-					CivLog.warning("Trommel:"+e.getMessage());
-					return;
-				}
-				if (tmp == null) {
-					trommel.skippedCounter++;
-					return;
-				}
-				dest_inv.addInventory(tmp);
-				
-				for (ItemStack stack : tmp.getContents()) {
-					if (stack == null) {
-						full = false;
-						break;
-					}
-				}
-			}
-			
-			if (full) {
-				/* Trommel destination chest is full, stop processing. */
-				return;
-			}
-			
-		} catch (InterruptedException e) {
-			return;
-		}
-		
-		debug(trommel, "Processing trommel:"+trommel.skippedCounter+1);
-		ItemStack[] contents = source_inv.getContents();
-		for (int i = 0; i < trommel.skippedCounter+1; i++) {
-		
-			for(ItemStack stack : contents) {
-				if (stack == null) {
-					continue;
-				}
+    public static void debug(Trommel trommel, String msg) {
+        if (debugTowns.contains(trommel.getTown().getName())) {
+            CivLog.warning("TrommelDebug:" + trommel.getTown().getName() + ":" + msg);
+        }
+    }
+
+    public TrommelAsyncTask(Structure trommel) {
+        this.trommel = (Trommel) trommel;
+    }
+
+    public void processTrommelUpdate() {
+        if (!trommel.isActive()) {
+            debug(trommel, "trommel inactive...");
+            return;
+        }
+
+        debug(trommel, "Processing trommel...");
+        // Grab each CivChest object we'll require.
+        ArrayList<StructureChest> sources = trommel.getAllChestsById(1);
+        ArrayList<StructureChest> destinations = trommel.getAllChestsById(2);
+
+        if (sources.size() != 2 || destinations.size() != 2) {
+            CivLog.error("Bad chests for trommel in town:" + trommel.getTown().getName() + " sources:" + sources.size() + " dests:" + destinations.size());
+            return;
+        }
+
+        // Make sure the chunk is loaded before continuing. Also, add get chest and add it to inventory.
+        MultiInventory source_inv = new MultiInventory();
+        MultiInventory dest_inv = new MultiInventory();
+
+        try {
+            for (StructureChest src : sources) {
+                //this.syncLoadChunk(src.getCoord().getWorldname(), src.getCoord().getX(), src.getCoord().getZ());
+                Inventory tmp;
+                try {
+                    tmp = this.getChestInventory(src.getCoord().getWorldname(), src.getCoord().getX(), src.getCoord().getY(), src.getCoord().getZ(), false);
+                } catch (CivTaskAbortException e) {
+                    //e.printStackTrace();
+                    CivLog.warning("Trommel:" + e.getMessage());
+                    return;
+                }
+                if (tmp == null) {
+                    trommel.skippedCounter++;
+                    return;
+                }
+                source_inv.addInventory(tmp);
+            }
+
+            boolean full = true;
+            for (StructureChest dst : destinations) {
+                //this.syncLoadChunk(dst.getCoord().getWorldname(), dst.getCoord().getX(), dst.getCoord().getZ());
+                Inventory tmp;
+                try {
+                    tmp = this.getChestInventory(dst.getCoord().getWorldname(), dst.getCoord().getX(), dst.getCoord().getY(), dst.getCoord().getZ(), false);
+                } catch (CivTaskAbortException e) {
+                    //e.printStackTrace();
+                    CivLog.warning("Trommel:" + e.getMessage());
+                    return;
+                }
+                if (tmp == null) {
+                    trommel.skippedCounter++;
+                    return;
+                }
+                dest_inv.addInventory(tmp);
+
+                for (ItemStack stack : tmp.getContents()) {
+                    if (stack == null) {
+                        full = false;
+                        break;
+                    }
+                }
+            }
+
+            if (full) {
+                /* Trommel destination chest is full, stop processing. */
+                return;
+            }
+
+        } catch (InterruptedException e) {
+            return;
+        }
+
+        debug(trommel, "Processing trommel:" + trommel.skippedCounter + 1);
+        ItemStack[] contents = source_inv.getContents();
+        for (int i = 0; i < trommel.skippedCounter + 1; i++) {
+
+            for (ItemStack stack : contents) {
+                if (stack == null) {
+                    continue;
+                }
 
                 if (stack.getTypeId() == Material.COBBLESTONE.getId()) {
-					try {
-						this.updateInventory(Action.REMOVE, source_inv, new ItemStack(Material.COBBLESTONE.getId(), 1, (short) 0));
-					} catch (InterruptedException e) {
-						return;
-					}
-					
-					// Attempt to get special resources
-					Random rand = new Random();
-					int randMax = Trommel.GRAVEL_MAX_CHANCE;
-					int rand1 = rand.nextInt(randMax);
-					ItemStack newItem;
-									
-					if (rand1 < ((int)((trommel.getGravelChance(Mineral.CHROMIUM))*randMax))) {
-						newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_chromium_ore"));
-					} else if (rand1 < ((int)((trommel.getGravelChance(Mineral.EMERALD))*randMax))) {
-						newItem = new ItemStack(Material.EMERALD.getId(), 1, (short) 0);
-					}
-					else if (rand1 < ((int)((trommel.getGravelChance(Mineral.DIAMOND))*randMax))) {
-						newItem = new ItemStack(Material.DIAMOND.getId(), 1, (short) 0);
-	
-					}
-					else if (rand1 < ((int)((trommel.getGravelChance(Mineral.GOLD))*randMax))) {
-						newItem = new ItemStack(Material.GOLD_INGOT.getId(), 1, (short) 0);
-	
-					}
-					else if (rand1 < ((int)((trommel.getGravelChance(Mineral.REDSTONE))*randMax))) {
-						newItem = new ItemStack(Material.REDSTONE.getId(), 1, (short) 0);
-	
-					}
-					else if (rand1 < ((int)((trommel.getGravelChance(Mineral.IRON))*randMax))) {
-						newItem = new ItemStack(Material.IRON_INGOT.getId(), 1, (short) 0);
-	
-					}  else {
+                    try {
+                        this.updateInventory(Action.REMOVE, source_inv, new ItemStack(Material.COBBLESTONE.getId(), 1, (short) 0));
+                    } catch (InterruptedException e) {
+                        return;
+                    }
+
+                    // Attempt to get special resources
+                    Random rand = new Random();
+                    int randMax = Trommel.GRAVEL_MAX_CHANCE;
+                    int rand1 = rand.nextInt(randMax);
+                    ItemStack newItem;
+
+                    if (rand1 < ((int) ((trommel.getGravelChance(Mineral.CHROMIUM)) * randMax))) {
+                        newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_chromium_ore"));
+                    } else if (rand1 < ((int) ((trommel.getGravelChance(Mineral.EMERALD)) * randMax))) {
+                        newItem = new ItemStack(Material.EMERALD.getId(), 1, (short) 0);
+                    } else if (rand1 < ((int) ((trommel.getGravelChance(Mineral.DIAMOND)) * randMax))) {
+                        newItem = new ItemStack(Material.DIAMOND.getId(), 1, (short) 0);
+
+                    } else if (rand1 < ((int) ((trommel.getGravelChance(Mineral.GOLD)) * randMax))) {
+                        newItem = new ItemStack(Material.GOLD_INGOT.getId(), 1, (short) 0);
+
+                    } else if (rand1 < ((int) ((trommel.getGravelChance(Mineral.REDSTONE)) * randMax))) {
+                        newItem = new ItemStack(Material.REDSTONE.getId(), 1, (short) 0);
+
+                    } else if (rand1 < ((int) ((trommel.getGravelChance(Mineral.IRON)) * randMax))) {
+                        newItem = new ItemStack(Material.IRON_INGOT.getId(), 1, (short) 0);
+
+                    } else {
                         newItem = new ItemStack(Material.GRAVEL.getId(), GRAVEL_RATE, (short) 0);
-					}
-					
-					//Try to add the new item to the dest chest, if we cant, oh well.
-					try {
-						debug(trommel, "Updating inventory:"+newItem);
-						this.updateInventory(Action.ADD, dest_inv, newItem);
-					} catch (InterruptedException e) {
-						return;
-					}
-					break;
-				}
+                    }
+
+                    //Try to add the new item to the dest chest, if we cant, oh well.
+                    try {
+                        debug(trommel, "Updating inventory:" + newItem);
+                        this.updateInventory(Action.ADD, dest_inv, newItem);
+                    } catch (InterruptedException e) {
+                        return;
+                    }
+                    break;
+                }
                 if (stack.getTypeId() == Material.STONE.getId()) {
 
                     if (this.trommel.getLevel() >= 2 && ItemManager.getData(stack) ==
@@ -255,7 +250,7 @@ public class TrommelAsyncTask extends CivAsyncTask {
                             newItem = new ItemStack(Material.GRAVEL.getId(), GRAVEL_RATE, (short) 0);
                         }
 
-						//Try to add the new item to the dest chest, if we cant, oh well.
+                        //Try to add the new item to the dest chest, if we cant, oh well.
                         try {
                             debug(trommel, "Updating inventory:" + newItem);
                             this.updateInventory(Action.ADD, dest_inv, newItem);
@@ -333,7 +328,7 @@ public class TrommelAsyncTask extends CivAsyncTask {
                             newItem = new ItemStack(Material.GRAVEL.getId(), GRAVEL_RATE, (short) 0);
                         }
 
-						//Try to add the new item to the dest chest, if we cant, oh well.
+                        //Try to add the new item to the dest chest, if we cant, oh well.
                         try {
                             debug(trommel, "Updating inventory:" + newItem);
                             this.updateInventory(Action.ADD, dest_inv, newItem);
@@ -412,58 +407,56 @@ public class TrommelAsyncTask extends CivAsyncTask {
                         }
 
                         //Try to add the new item to the dest chest, if we cant, oh well.
-						try {
+                        try {
                             debug(trommel, "Updating inventory:" + newItem);
                             this.updateInventory(Action.ADD, dest_inv, newItem);
-							trommel.getCorner().getBlock().getWorld().playSound(trommel.getCenterLocation().getLocation(), Sound.ENTITY_MINECART_RIDING, 1.2f, 1.2f);
+                            trommel.getCorner().getBlock().getWorld().playSound(trommel.getCenterLocation().getLocation(), Sound.ENTITY_MINECART_RIDING, 1.2f, 1.2f);
 
-						} catch (InterruptedException e) {
-							return;
-						}
-						break;
-					}
-				}
-			}	
-		}
-		trommel.skippedCounter = 0;
-	}
-	
-	
-	
-	@Override
-	public void run() {
-		if (this.trommel.lock.tryLock()) {
-			try {
-				try {
-					if (this.trommel.getTown().getGovernment().id.equals("gov_theocracy") || this.trommel.getTown().getGovernment().id.equals("gov_monarchy")){
-						Random rand = new Random();
-						int randMax = 100;
+                        } catch (InterruptedException e) {
+                            return;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        trommel.skippedCounter = 0;
+    }
+
+
+    @Override
+    public void run() {
+        if (this.trommel.lock.tryLock()) {
+            try {
+                try {
+                    if (this.trommel.getTown().getGovernment().id.equals("gov_theocracy") || this.trommel.getTown().getGovernment().id.equals("gov_monarchy")) {
+                        Random rand = new Random();
+                        int randMax = 100;
                         int rand1 = rand.nextInt(randMax);
                         double chance = CivSettings.getDouble(CivSettings.structureConfig, "trommel.penalty_rate") * 100;
-						if (rand1 < chance)
-						{
-							processTrommelUpdate();
-							debug(this.trommel, "Not penalized");
-						} else {
+                        if (rand1 < chance) {
+                            processTrommelUpdate();
+                            debug(this.trommel, "Not penalized");
+                        } else {
 
-							debug(this.trommel, "Skip Due to Penalty");
-						}
-					} else {
-						processTrommelUpdate();
-						if (this.trommel.getTown().getGovernment().id.equals("gov_despotism")) {
-							debug(this.trommel, "Doing Bonus");
-							processTrommelUpdate();
-						}
-					}					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			} finally {
-				this.trommel.lock.unlock();
-			}
-		} else {
-			debug(this.trommel, "Failed to get lock while trying to start task, aborting.");
-		}
-	}
+                            debug(this.trommel, "Skip Due to Penalty");
+                        }
+                    } else {
+                        processTrommelUpdate();
+                        if (this.trommel.getTown().getGovernment().id.equals("gov_despotism")) {
+                            debug(this.trommel, "Doing Bonus");
+                            processTrommelUpdate();
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } finally {
+                this.trommel.lock.unlock();
+            }
+        } else {
+            debug(this.trommel, "Failed to get lock while trying to start task, aborting.");
+        }
+    }
 
 }

@@ -56,7 +56,7 @@ public class SQL {
     public static Integer min_conns;
     public static Integer max_conns;
     public static Integer parts;
-//	public static Connection context = null;
+    //	public static Connection context = null;
     public static ConnectionPool gameDatabase;
 
     public static void initialize() throws InvalidConfiguration, SQLException {

@@ -1,60 +1,60 @@
 package com.avrgaming.civcraft.components;
 
-import java.util.HashSet;
-
 import com.avrgaming.civcraft.structure.Buildable;
 
+import java.util.HashSet;
+
 public class ActivateOnBiome extends Component {
-	
-	public enum EffectType {
-		ALL,
-		THIS
-	}
-	
-	private final HashSet<String> biomeList = new HashSet<>();
+
+    public enum EffectType {
+        ALL,
+        THIS
+    }
+
+    private final HashSet<String> biomeList = new HashSet<>();
     private String attribute;
-	private double value;
-	private EffectType effectType; 
-	
-	@Override
-	public void createComponent(Buildable buildable, boolean async) {
-		super.createComponent(buildable, async);
-		
-		String[] biomes = this.getString("biomes").split(",");
-		for (String biome : biomes) {
-			biomeList.add(biome.trim().toUpperCase());
-		}
-		
-		setAttribute(this.getString("attribute"));
-		setValue(this.getDouble("value"));
-		setEffectType(EffectType.valueOf(this.getString("effect").toUpperCase()));
-	}
+    private double value;
+    private EffectType effectType;
 
-	public String getAttribute() {
-		return attribute;
-	}
+    @Override
+    public void createComponent(Buildable buildable, boolean async) {
+        super.createComponent(buildable, async);
 
-	public void setAttribute(String attribute) {
-		this.attribute = attribute;
-	}
+        String[] biomes = this.getString("biomes").split(",");
+        for (String biome : biomes) {
+            biomeList.add(biome.trim().toUpperCase());
+        }
 
-	public double getValue() {
-		return value;
-	}
+        setAttribute(this.getString("attribute"));
+        setValue(this.getDouble("value"));
+        setEffectType(EffectType.valueOf(this.getString("effect").toUpperCase()));
+    }
 
-	public void setValue(double value) {
-		this.value = value;
-	}
+    public String getAttribute() {
+        return attribute;
+    }
 
-	public EffectType getEffectType() {
-		return effectType;
-	}
+    public void setAttribute(String attribute) {
+        this.attribute = attribute;
+    }
 
-	public void setEffectType(EffectType effectType) {
-		this.effectType = effectType;
-	}
+    public double getValue() {
+        return value;
+    }
 
-	public boolean isValidBiome(String biomeName) {
-		return this.biomeList.contains(biomeName);
-	}
+    public void setValue(double value) {
+        this.value = value;
+    }
+
+    public EffectType getEffectType() {
+        return effectType;
+    }
+
+    public void setEffectType(EffectType effectType) {
+        this.effectType = effectType;
+    }
+
+    public boolean isValidBiome(String biomeName) {
+        return this.biomeList.contains(biomeName);
+    }
 }

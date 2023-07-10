@@ -19,7 +19,7 @@ package com.avrgaming.civcraft.threading.tasks;
 
 
 public class TemplateSelectQuestionTask extends PlayerQuestionTask {
-	
+
 //	String playerName; /* player who is being asked a question. */
 ////	Town town;
 ////	Structure struct;

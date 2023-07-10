@@ -17,21 +17,6 @@
  */
 package com.avrgaming.civcraft.structure;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.LinkedList;
-
-import net.minecraft.server.v1_12_R1.IBlockData;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.Sign;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerInteractEvent;
-
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigMarketItem;
 import com.avrgaming.civcraft.exception.CivException;
@@ -45,6 +30,18 @@ import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.SimpleBlock;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerInteractEvent;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 public class Market extends Structure {
 

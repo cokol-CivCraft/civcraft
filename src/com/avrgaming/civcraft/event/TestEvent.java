@@ -17,19 +17,18 @@
  */
 package com.avrgaming.civcraft.event;
 
-import java.util.Calendar;
-
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivMessage;
+
+import java.util.Calendar;
 
 public class TestEvent implements EventInterface {
 
-	@Override
-	public void process() {
-		CivMessage.global("This is a test event firing!");
-	}
+    @Override
+    public void process() {
+        CivMessage.global("This is a test event firing!");
+    }
 
-	@Override
+    @Override
     public Calendar getNextDate() {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.SECOND, 60);

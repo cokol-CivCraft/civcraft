@@ -20,15 +20,15 @@ package com.avrgaming.civcraft.object;
 import org.bukkit.Material;
 
 public class StoreMaterial {
-	public Material type;
-	public byte data;
-	public String name;
-	public double price;
+    public Material type;
+    public byte data;
+    public String name;
+    public double price;
 
-	public StoreMaterial(String strtype, String strdata, String strname, String strprice) {
-		type = Material.getMaterial(Integer.parseInt(strtype));
-		data = Integer.valueOf(strdata).byteValue();
-		name = strname;
-		price = Double.parseDouble(strprice);
-	}
+    public StoreMaterial(String strtype, String strdata, String strname, String strprice) {
+        type = Material.getMaterial(Integer.parseInt(strtype));
+        data = Integer.valueOf(strdata).byteValue();
+        name = strname;
+        price = Double.parseDouble(strprice);
+    }
 }

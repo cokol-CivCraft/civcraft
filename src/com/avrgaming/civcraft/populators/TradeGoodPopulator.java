@@ -17,18 +17,6 @@
  */
 package com.avrgaming.civcraft.populators;
 
-import java.sql.SQLException;
-import java.util.Random;
-
-import org.bukkit.Chunk;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
-import org.bukkit.block.Sign;
-import org.bukkit.generator.BlockPopulator;
-
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigTradeGood;
 import com.avrgaming.civcraft.main.CivGlobal;
@@ -38,72 +26,83 @@ import com.avrgaming.civcraft.object.StructureSign;
 import com.avrgaming.civcraft.object.TradeGood;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
+import org.bukkit.Chunk;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Sign;
+import org.bukkit.generator.BlockPopulator;
 import org.bukkit.material.MaterialData;
 
+import java.sql.SQLException;
+import java.util.Random;
+
 public class TradeGoodPopulator extends BlockPopulator {
-	
-	//private static final int RESOURCE_CHANCE = 400; 
+
+    //private static final int RESOURCE_CHANCE = 400;
     private static final int FLAG_HEIGHT = 3;
 //    private static final double MIN_DISTANCE = 400.0;
-    
+
 
     public static void buildTradeGoodie(ConfigTradeGood good, BlockCoord coord, World world, boolean sync) {
-    	TradeGood new_good = new TradeGood(good, coord);            
-    	CivGlobal.addTradeGood(new_good);
+        TradeGood new_good = new TradeGood(good, coord);
+        CivGlobal.addTradeGood(new_good);
 
-    	BlockFace direction = null;
-    	Block top = null;
-    	Random random = new Random();
-    	int dir = random.nextInt(4);
-    	if (dir == 0) {
-    		direction = BlockFace.NORTH;
-    	} else if (dir == 1) {
-    		direction = BlockFace.EAST;
-    	} else if (dir == 2) {
-    		direction = BlockFace.SOUTH;
-    	} else {
-    		direction = BlockFace.WEST;
-    	}
+        BlockFace direction = null;
+        Block top = null;
+        Random random = new Random();
+        int dir = random.nextInt(4);
+        if (dir == 0) {
+            direction = BlockFace.NORTH;
+        } else if (dir == 1) {
+            direction = BlockFace.EAST;
+        } else if (dir == 2) {
+            direction = BlockFace.SOUTH;
+        } else {
+            direction = BlockFace.WEST;
+        }
 
-    	//clear any stack goodies
-    	for (int y = coord.getY(); y < 256; y++) {
+        //clear any stack goodies
+        for (int y = coord.getY(); y < 256; y++) {
             top = world.getBlockAt(coord.getX(), y, coord.getZ());
             if (top.getType() == Material.BEDROCK) {
                 top.setType(Material.AIR);
             }
         }
-    	
-    	for (int y = coord.getY(); y < coord.getY() + FLAG_HEIGHT; y++) {
-    		top = world.getBlockAt(coord.getX(), y, coord.getZ());
-    		top.setType(Material.BEDROCK);
 
-    		ProtectedBlock pb = new ProtectedBlock(new BlockCoord(top), ProtectedBlock.Type.TRADE_MARKER);
-    		CivGlobal.addProtectedBlock(pb);
-    		if (sync) {
-    		try {
-				pb.saveNow();
-			} catch (SQLException e) {
-				CivLog.warning("Unable to Protect Goodie Sign");
-				e.printStackTrace();
-			}    
-    		} else {
-    			pb.save();
-    		}
-    	}
+        for (int y = coord.getY(); y < coord.getY() + FLAG_HEIGHT; y++) {
+            top = world.getBlockAt(coord.getX(), y, coord.getZ());
+            top.setType(Material.BEDROCK);
 
-    	Block signBlock = top.getRelative(direction);
-    	signBlock.setType(Material.WALL_SIGN);
-    	//TODO make sign a structure sign?
-    			//          Civ.protectedBlockTable.put(Civ.locationHash(signBlock.getLocation()), 
-    	//          		new ProtectedBlock(signBlock, null, null, null, ProtectedBlock.Type.TRADE_MARKER));
+            ProtectedBlock pb = new ProtectedBlock(new BlockCoord(top), ProtectedBlock.Type.TRADE_MARKER);
+            CivGlobal.addProtectedBlock(pb);
+            if (sync) {
+                try {
+                    pb.saveNow();
+                } catch (SQLException e) {
+                    CivLog.warning("Unable to Protect Goodie Sign");
+                    e.printStackTrace();
+                }
+            } else {
+                pb.save();
+            }
+        }
 
-    	BlockState state = signBlock.getState();
+        Block signBlock = top.getRelative(direction);
+        signBlock.setType(Material.WALL_SIGN);
+        //TODO make sign a structure sign?
+        //          Civ.protectedBlockTable.put(Civ.locationHash(signBlock.getLocation()),
+        //          		new ProtectedBlock(signBlock, null, null, null, ProtectedBlock.Type.TRADE_MARKER));
 
-    	if (state instanceof Sign) {
-    		Sign sign = (Sign)state;
-    		org.bukkit.material.Sign data = (org.bukkit.material.Sign)state.getData();
+        BlockState state = signBlock.getState();
 
-    		data.setFacingDirection(direction);
+        if (state instanceof Sign) {
+            Sign sign = (Sign) state;
+            org.bukkit.material.Sign data = (org.bukkit.material.Sign) state.getData();
+
+            data.setFacingDirection(direction);
             sign.setLine(0, CivSettings.localize.localizedString("TradeGoodSign_Heading"));
             sign.setLine(1, "----");
             sign.setLine(2, good.name);
@@ -127,46 +126,46 @@ public class TradeGoodPopulator extends BlockPopulator {
                     e.printStackTrace();
                 }
             } else {
-            	pbsign.save();
+                pbsign.save();
                 structSign.save();
             }
-    	}
-        
-    	if (sync) {
-	    	try {
-				new_good.saveNow();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-    	} else {
-    		new_good.save();
-    	}
+        }
+
+        if (sync) {
+            try {
+                new_good.saveNow();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            new_good.save();
+        }
     }
 
     public boolean checkForDuplicateTradeGood(String worldName, int centerX, int centerY, int centerZ) {
-    	/* 
-    	 * Search downward to bedrock for any trade goodies here. If we find one, don't generate. 
-    	 */
-    	
-    	BlockCoord coord = new BlockCoord(worldName, centerX, centerY, centerZ);
-    	for (int y = centerY; y > 0; y--) {
-    		coord.setY(y);    		
-    		
-    		if (CivGlobal.getTradeGood(coord) != null) {
-				/* Already a trade goodie here. DONT Generate it. */
-				return true;
-    		}		
-    	}
-    	return false;
+        /*
+         * Search downward to bedrock for any trade goodies here. If we find one, don't generate.
+         */
+
+        BlockCoord coord = new BlockCoord(worldName, centerX, centerY, centerZ);
+        for (int y = centerY; y > 0; y--) {
+            coord.setY(y);
+
+            if (CivGlobal.getTradeGood(coord) != null) {
+                /* Already a trade goodie here. DONT Generate it. */
+                return true;
+            }
+        }
+        return false;
     }
-    
+
     @Override
-	public void populate(World world, Random random, Chunk source) {
-    	
-    	ChunkCoord cCoord = new ChunkCoord(source);
-    	TradeGoodPick pick = CivGlobal.tradeGoodPreGenerator.goodPicks.get(cCoord);
-    	if (pick != null) {
-			int centerX = (source.getX() << 4) + 8;
+    public void populate(World world, Random random, Chunk source) {
+
+        ChunkCoord cCoord = new ChunkCoord(source);
+        TradeGoodPick pick = CivGlobal.tradeGoodPreGenerator.goodPicks.get(cCoord);
+        if (pick != null) {
+            int centerX = (source.getX() << 4) + 8;
             int centerZ = (source.getZ() << 4) + 8;
             int centerY = world.getHighestBlockYAt(centerX, centerZ);
             BlockCoord coord = new BlockCoord(world.getName(), centerX, centerY, centerZ);
@@ -189,11 +188,11 @@ public class TradeGoodPopulator extends BlockPopulator {
                 System.out.println("Could not find suitable good type during populate! aborting.");
                 return;
             }
-			
-			// Create a copy and save it in the global hash table.
-			buildTradeGoodie(good, coord, world, false);
-    	}
- 	
+
+            // Create a copy and save it in the global hash table.
+            buildTradeGoodie(good, coord, world, false);
+        }
+
     }
 
 }

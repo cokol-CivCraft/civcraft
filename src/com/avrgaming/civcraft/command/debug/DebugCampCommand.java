@@ -27,46 +27,46 @@ import com.avrgaming.civcraft.util.BlockCoord;
 
 public class DebugCampCommand extends CommandBase {
 
-	@Override
-	public void init() {
-		command = "/dbg test ";
-		displayName = "Test Commands";
-		
-		register_sub("growth", this::growth_cmd, "[name] - Shows a list of this player's camp growth spots.");
-		
-	}
+    @Override
+    public void init() {
+        command = "/dbg test ";
+        displayName = "Test Commands";
 
-	@SuppressWarnings("unused")
-	public void growth_cmd() throws CivException {
-		Resident resident = getNamedResident(1);
+        register_sub("growth", this::growth_cmd, "[name] - Shows a list of this player's camp growth spots.");
 
-		if (!resident.hasCamp()) {
-			throw new CivException("This guy doesnt have a camp.");
-		}
+    }
 
-		Camp camp = resident.getCamp();
+    @SuppressWarnings("unused")
+    public void growth_cmd() throws CivException {
+        Resident resident = getNamedResident(1);
 
-		CivMessage.sendHeading(sender, "Growth locations");
+        if (!resident.hasCamp()) {
+            throw new CivException("This guy doesnt have a camp.");
+        }
 
-		StringBuilder out = new StringBuilder();
-		for (BlockCoord coord : camp.growthLocations) {
-			boolean inGlobal = CivGlobal.vanillaGrowthLocations.contains(coord);
-			out.append(coord.toString()).append(" in global:").append(inGlobal);
-		}
+        Camp camp = resident.getCamp();
 
-		CivMessage.send(sender, out.toString());
+        CivMessage.sendHeading(sender, "Growth locations");
 
-	}
+        StringBuilder out = new StringBuilder();
+        for (BlockCoord coord : camp.growthLocations) {
+            boolean inGlobal = CivGlobal.vanillaGrowthLocations.contains(coord);
+            out.append(coord.toString()).append(" in global:").append(inGlobal);
+        }
+
+        CivMessage.send(sender, out.toString());
+
+    }
 
     @Override
     public void doDefaultAction() {
         showHelp();
     }
 
-	@Override
-	public void showHelp() {
-		showBasicHelp();
-	}
+    @Override
+    public void showHelp() {
+        showBasicHelp();
+    }
 
     @Override
     public void permissionCheck() {

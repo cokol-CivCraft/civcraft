@@ -17,8 +17,6 @@
  */
 package com.avrgaming.civcraft.interactive;
 
-import org.bukkit.entity.Player;
-
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivGlobal;
@@ -27,33 +25,34 @@ import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.FoundCivSync;
 import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.entity.Player;
 
 public class InteractiveConfirmCivCreation implements InteractiveResponse {
 
-	@Override
-	public void respond(String message, Resident resident) {
-		
-		Player player;
-		try {
-			player = CivGlobal.getPlayer(resident);
-		} catch (CivException e) {
-			return;
-		}
+    @Override
+    public void respond(String message, Resident resident) {
 
-		resident.clearInteractiveMode();
+        Player player;
+        try {
+            player = CivGlobal.getPlayer(resident);
+        } catch (CivException e) {
+            return;
+        }
 
-		if (!message.equalsIgnoreCase("yes")) {
-			CivMessage.send(player, CivSettings.localize.localizedString("interactive_civ_cancelcreate"));
-			return;
-		}
-		
-		if (resident.desiredCapitolName == null || resident.desiredCivName == null) {
-			CivMessage.send(player, CivColor.Rose+CivSettings.localize.localizedString("interactive_civ_createError"));
-			return;
-		}
-		
-		TaskMaster.syncTask(new FoundCivSync(resident));
+        resident.clearInteractiveMode();
 
-	}
+        if (!message.equalsIgnoreCase("yes")) {
+            CivMessage.send(player, CivSettings.localize.localizedString("interactive_civ_cancelcreate"));
+            return;
+        }
+
+        if (resident.desiredCapitolName == null || resident.desiredCivName == null) {
+            CivMessage.send(player, CivColor.Rose + CivSettings.localize.localizedString("interactive_civ_createError"));
+            return;
+        }
+
+        TaskMaster.syncTask(new FoundCivSync(resident));
+
+    }
 
 }

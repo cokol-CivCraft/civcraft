@@ -1,12 +1,10 @@
 package com.avrgaming.civcraft.loreenhancements;
 
-import gpl.AttributeUtil;
-
-import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.inventory.ItemStack;
-
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.util.CivColor;
+import gpl.AttributeUtil;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class LoreEnhancementSoulBound extends LoreEnhancement {
 
@@ -32,15 +30,15 @@ public class LoreEnhancementSoulBound extends LoreEnhancement {
 
     public String getDisplayName() {
         return CivSettings.localize.localizedString("itemLore_Soulbound");
-	}
-	
-	@Override
-	public String serialize(ItemStack stack) {
-		return "";
-	}
+    }
 
-	@Override
-	public ItemStack deserialize(ItemStack stack, String data) {
-		return stack;
-	}
+    @Override
+    public String serialize(ItemStack stack) {
+        return "";
+    }
+
+    @Override
+    public ItemStack deserialize(ItemStack stack, String data) {
+        return stack;
+    }
 }

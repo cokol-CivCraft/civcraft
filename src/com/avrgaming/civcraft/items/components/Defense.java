@@ -17,13 +17,6 @@
  */
 package com.avrgaming.civcraft.items.components;
 
-import gpl.AttributeUtil;
-
-import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.PlayerItemHeldEvent;
-import org.bukkit.inventory.ItemStack;
-
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.loreenhancements.LoreEnhancement;
 import com.avrgaming.civcraft.loreenhancements.LoreEnhancementDefense;
@@ -32,59 +25,64 @@ import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.util.CivColor;
+import gpl.AttributeUtil;
+import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class Defense extends ItemComponent {
 
-	@Override
-	public void onPrepareCreate(AttributeUtil attrs) {
-		attrs.addLore(CivColor.Blue + this.getDouble("value") + " " + CivSettings.localize.localizedString("newItemLore_Defense"));
-	}
-	
-	@Override
-	public void onHold(PlayerItemHeldEvent event) {	
-		
-		Resident resident = CivGlobal.getResident(event.getPlayer());
-		if (!resident.hasTechForItem(event.getPlayer().getInventory().getItem(event.getNewSlot()))) {		
-			CivMessage.send(resident, CivColor.Rose+CivSettings.localize.localizedString("itemLore_Warning")+" - "+CivColor.LightGray+CivSettings.localize.localizedString("itemLore_defenseHalfPower"));
-		}
-	}
-	
-	@Override
-	public void onDefense(EntityDamageByEntityEvent event, ItemStack stack) {
-		double defValue = this.getDouble("value");
-		
-		/* Try to get any extra defense enhancements from this item. */
-		LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(stack);
-		if (craftMat == null) {
-			return;
-		}
-				
-		double extraDef = 0;
-		AttributeUtil attrs = new AttributeUtil(stack);
-		
-		for (LoreEnhancement enh : attrs.getEnhancements()) {
-			if (enh instanceof LoreEnhancementDefense) {
-				extraDef +=  ((LoreEnhancementDefense)enh).getExtraDefense(attrs);
-			}
-		}
-		
-		defValue += extraDef;		
-		double damage = event.getDamage();
-		
-		if (event.getEntity() instanceof Player) {
-			Resident resident = CivGlobal.getResident(((Player)event.getEntity()));
-			if (!resident.hasTechForItem(stack)) {
-				defValue = defValue / 2;
-			}
-		}
-		
-		damage -= defValue;
-		if (damage < 0.5) {
-			/* Always do at least 0.5 damage. */
-			damage = 0.5;
-		}
-		
-		event.setDamage(damage);
-	}
+    @Override
+    public void onPrepareCreate(AttributeUtil attrs) {
+        attrs.addLore(CivColor.Blue + this.getDouble("value") + " " + CivSettings.localize.localizedString("newItemLore_Defense"));
+    }
+
+    @Override
+    public void onHold(PlayerItemHeldEvent event) {
+
+        Resident resident = CivGlobal.getResident(event.getPlayer());
+        if (!resident.hasTechForItem(event.getPlayer().getInventory().getItem(event.getNewSlot()))) {
+            CivMessage.send(resident, CivColor.Rose + CivSettings.localize.localizedString("itemLore_Warning") + " - " + CivColor.LightGray + CivSettings.localize.localizedString("itemLore_defenseHalfPower"));
+        }
+    }
+
+    @Override
+    public void onDefense(EntityDamageByEntityEvent event, ItemStack stack) {
+        double defValue = this.getDouble("value");
+
+        /* Try to get any extra defense enhancements from this item. */
+        LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(stack);
+        if (craftMat == null) {
+            return;
+        }
+
+        double extraDef = 0;
+        AttributeUtil attrs = new AttributeUtil(stack);
+
+        for (LoreEnhancement enh : attrs.getEnhancements()) {
+            if (enh instanceof LoreEnhancementDefense) {
+                extraDef += ((LoreEnhancementDefense) enh).getExtraDefense(attrs);
+            }
+        }
+
+        defValue += extraDef;
+        double damage = event.getDamage();
+
+        if (event.getEntity() instanceof Player) {
+            Resident resident = CivGlobal.getResident(((Player) event.getEntity()));
+            if (!resident.hasTechForItem(stack)) {
+                defValue = defValue / 2;
+            }
+        }
+
+        damage -= defValue;
+        if (damage < 0.5) {
+            /* Always do at least 0.5 damage. */
+            damage = 0.5;
+        }
+
+        event.setDamage(damage);
+    }
 
 }

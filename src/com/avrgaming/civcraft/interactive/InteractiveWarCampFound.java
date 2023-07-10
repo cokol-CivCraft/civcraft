@@ -8,22 +8,22 @@ import com.avrgaming.civcraft.object.Resident;
 
 public class InteractiveWarCampFound implements InteractiveResponse {
 
-	ConfigBuildableInfo info;
-	
-	public InteractiveWarCampFound(ConfigBuildableInfo info) {
-		this.info = info;
-	}
-	
-	@Override
-	public void respond(String message, Resident resident) {
-		resident.clearInteractiveMode();
+    ConfigBuildableInfo info;
 
-		if (!message.equalsIgnoreCase("yes")) {
-			CivMessage.send(resident, CivSettings.localize.localizedString("interactive_warcamp_Cancel"));
-			return;
-		}
-		
-		WarCamp.newCamp(resident, info);
-	}
+    public InteractiveWarCampFound(ConfigBuildableInfo info) {
+        this.info = info;
+    }
+
+    @Override
+    public void respond(String message, Resident resident) {
+        resident.clearInteractiveMode();
+
+        if (!message.equalsIgnoreCase("yes")) {
+            CivMessage.send(resident, CivSettings.localize.localizedString("interactive_warcamp_Cancel"));
+            return;
+        }
+
+        WarCamp.newCamp(resident, info);
+    }
 
 }

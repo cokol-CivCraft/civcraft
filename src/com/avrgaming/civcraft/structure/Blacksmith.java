@@ -17,28 +17,10 @@
  */
 package com.avrgaming.civcraft.structure;
 
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
-import gpl.AttributeUtil;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
 import com.avrgaming.civcraft.components.NonMemberFeeComponent;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
+import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.items.components.Catalyst;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.lorestorage.LoreMaterial;
@@ -50,12 +32,23 @@ import com.avrgaming.civcraft.object.StructureSign;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
 import com.avrgaming.civcraft.threading.tasks.NotificationTask;
-import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.BukkitObjects;
-import com.avrgaming.civcraft.util.CivColor;
-import com.avrgaming.civcraft.util.ItemManager;
-import com.avrgaming.civcraft.util.SimpleBlock;
-import com.avrgaming.civcraft.util.TimeTools;
+import com.avrgaming.civcraft.util.*;
+import gpl.AttributeUtil;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 
 public class Blacksmith extends Structure {
 

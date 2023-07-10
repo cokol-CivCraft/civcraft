@@ -1,9 +1,5 @@
 package com.avrgaming.civcraft.object;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashMap;
-
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigMobSpawner;
 import com.avrgaming.civcraft.database.SQL;
@@ -11,11 +7,14 @@ import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.exception.InvalidNameException;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.util.BlockCoord;
-
 import de.hellfirepvp.api.CustomMobsAPI;
 import de.hellfirepvp.api.data.ICustomMob;
 import de.hellfirepvp.api.data.ISpawnerEditor;
 import de.hellfirepvp.api.data.ISpawnerEditor.SpawnerInfo;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
 
 public class MobSpawner extends SQLObject {
 
@@ -24,7 +23,7 @@ public class MobSpawner extends SQLObject {
     private BlockCoord coord;
     private int buildable = 0;
     private Boolean active;
-    
+
     public MobSpawner(ConfigMobSpawner spawner, BlockCoord coord) {
         this.setSpawner(spawner);
         this.setCoord(coord);
@@ -42,24 +41,25 @@ public class MobSpawner extends SQLObject {
     }
 
     public static final String TABLE_NAME = "MOB_SPAWNERS";
+
     public static void init() throws SQLException {
         if (!SQL.hasTable(TABLE_NAME)) {
-            String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME+" (" + 
+            String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
-                    "`name` VARCHAR(64) NOT NULL," + 
+                    "`name` VARCHAR(64) NOT NULL," +
                     "`buildable_id` int(11), " +
-                    "`coord` mediumtext DEFAULT NULL,"+
-					"`active` boolean DEFAULT true,"+
+                    "`coord` mediumtext DEFAULT NULL," +
+                    "`active` boolean DEFAULT true," +
                     "PRIMARY KEY (`id`)" + ")";
-            
+
             SQL.makeTable(table_create);
-            CivLog.info("Created "+TABLE_NAME+" table");
+            CivLog.info("Created " + TABLE_NAME + " table");
         } else {
-            CivLog.info(TABLE_NAME+" table OK!");
+            CivLog.info(TABLE_NAME + " table OK!");
         }
     }
 
-    
+
     @Override
     public void load(ResultSet rs) throws SQLException, InvalidNameException {
         this.setId(rs.getInt("id"));
@@ -67,7 +67,7 @@ public class MobSpawner extends SQLObject {
         this.setName(rs.getString("name"));
         this.setCoord(new BlockCoord(rs.getString("coord")));
         this.setBuildable(rs.getInt("buildable_id"));
-        
+
         this.setActive(this.getBuildable() == 0);
     }
 
@@ -75,11 +75,11 @@ public class MobSpawner extends SQLObject {
     public void save() {
         SQLUpdate.add(this);
     }
-    
+
     @Override
     public void saveNow() throws SQLException {
         HashMap<String, Object> hashmap = new HashMap<>();
-        
+
         hashmap.put("name", this.getName());
         hashmap.put("coord", this.coord.toString());
         hashmap.put("active", this.active);
@@ -88,7 +88,7 @@ public class MobSpawner extends SQLObject {
         } else {
             hashmap.put("buildable_id", this.getBuildable());
         }
-        
+
         SQL.updateNamedObject(this, hashmap, TABLE_NAME);
     }
 
@@ -124,7 +124,7 @@ public class MobSpawner extends SQLObject {
     public void setCoord(BlockCoord coord) {
         this.coord = coord;
     }
-    
+
     public int getBuildable() {
         return buildable;
     }
@@ -133,39 +133,39 @@ public class MobSpawner extends SQLObject {
         this.buildable = buildable;
     }
 
-	public Boolean getActive() {
-		return active;
-	}
+    public Boolean getActive() {
+        return active;
+    }
 
-	public void setActive(Boolean active) {
-		this.active = active;
-		ISpawnerEditor spawnerEditor = CustomMobsAPI.getSpawnerEditor();
-		 if (spawnerEditor != null) {
-			if (this.active) {
-				SpawnerInfo spawner = spawnerEditor.getSpawner(this.getCoord().getLocation());
-				if (spawner.getSpawner() != null) {
+    public void setActive(Boolean active) {
+        this.active = active;
+        ISpawnerEditor spawnerEditor = CustomMobsAPI.getSpawnerEditor();
+        if (spawnerEditor != null) {
+            if (this.active) {
+                SpawnerInfo spawner = spawnerEditor.getSpawner(this.getCoord().getLocation());
+                if (spawner.getSpawner() != null) {
 //		            CivLog.warning("Unable to create Spawner; " + spawner.toString() + " spawner exists.");
-					return;
-				}
-		        ICustomMob mob = CustomMobsAPI.getCustomMob(this.getName());
-		        if (mob == null) {
+                    return;
+                }
+                ICustomMob mob = CustomMobsAPI.getCustomMob(this.getName());
+                if (mob == null) {
 
-		            CivLog.warning("Unable to create Spawner; " + this.getName() + " does not exist");
-		            return;
-		        }
-		        spawnerEditor.setSpawner(mob, this.getCoord().getLocation(), 60);
-			} else {
-				SpawnerInfo spawner = spawnerEditor.getSpawner(this.getCoord().getLocation());
-				if (spawner.getSpawner() != null) {
-		            CivLog.debug("Spawner Disabled at "+this.getCoord().getLocation());
-					spawnerEditor.resetSpawner(this.getCoord().getLocation());
-				}
-			}
-		} else {
+                    CivLog.warning("Unable to create Spawner; " + this.getName() + " does not exist");
+                    return;
+                }
+                spawnerEditor.setSpawner(mob, this.getCoord().getLocation(), 60);
+            } else {
+                SpawnerInfo spawner = spawnerEditor.getSpawner(this.getCoord().getLocation());
+                if (spawner.getSpawner() != null) {
+                    CivLog.debug("Spawner Disabled at " + this.getCoord().getLocation());
+                    spawnerEditor.resetSpawner(this.getCoord().getLocation());
+                }
+            }
+        } else {
 
             CivLog.warning("Unable to create Spawners; CustomMobsAPI does not exist");
         }
-	}
-    
-    
+    }
+
+
 }

@@ -23,16 +23,16 @@ import java.util.Collection;
 
 public class SyncUpdateTags implements Runnable {
 
-	Collection<Resident> residentsToSendUpdate;
-	String playerToUpdate;
-	
-	public SyncUpdateTags(String playerToUpdate, Collection<Resident> residentsToSendUpdate) {
-		this.residentsToSendUpdate = residentsToSendUpdate;
-		this.playerToUpdate = playerToUpdate;
-	}
+    Collection<Resident> residentsToSendUpdate;
+    String playerToUpdate;
 
-	@Override
-	public void run() {
-	}
-	
+    public SyncUpdateTags(String playerToUpdate, Collection<Resident> residentsToSendUpdate) {
+        this.residentsToSendUpdate = residentsToSendUpdate;
+        this.playerToUpdate = playerToUpdate;
+    }
+
+    @Override
+    public void run() {
+    }
+
 }

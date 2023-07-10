@@ -17,57 +17,58 @@
  */
 package com.avrgaming.civcraft.object;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashMap;
-
 import com.avrgaming.civcraft.database.SQL;
 import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.exception.InvalidNameException;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.util.BlockCoord;
 
-public class ProtectedBlock extends SQLObject {
-	
-	private BlockCoord coord;
-	private Type type;
-	//private Structure owner;
-	
-	public ProtectedBlock(BlockCoord coord, Type type) {
-		this.coord = coord;
-		this.type = type;
-	}
-	
-	public ProtectedBlock(ResultSet rs) throws SQLException, InvalidNameException {
-	//	this.coord = new BlockCoord(rs.getString("coord"));
-	//	this.type = Type.TRADE_MARKER;
-		//this.owner = rs.getInt(getId());
-		this.load(rs);
-	}
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
 
-	public enum Type {
+public class ProtectedBlock extends SQLObject {
+
+    private BlockCoord coord;
+    private Type type;
+    //private Structure owner;
+
+    public ProtectedBlock(BlockCoord coord, Type type) {
+        this.coord = coord;
+        this.type = type;
+    }
+
+    public ProtectedBlock(ResultSet rs) throws SQLException, InvalidNameException {
+        //	this.coord = new BlockCoord(rs.getString("coord"));
+        //	this.type = Type.TRADE_MARKER;
+        //this.owner = rs.getInt(getId());
+        this.load(rs);
+    }
+
+    public enum Type {
         NONE,
         TRADE_MARKER,
         PROTECTED_RAILWAY,
         MOB_SPAWNER_MARKER,
     }
-	
-	public static final String TABLE_NAME = "PROTECTED_BLOCKS";
-	public static void init() throws SQLException {
-		if (!SQL.hasTable(TABLE_NAME)) {
-			String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME+" (" + 
-					"`id` int(11) unsigned NOT NULL auto_increment," +
-					"`coord` mediumtext NOT NULL," +
-					"`type` mediumtext NOT NULL," + 
-					"`structure_id` int(11) DEFAULT 0," +
-					"PRIMARY KEY (`id`)" + ")";
-			
-			SQL.makeTable(table_create);
-			CivLog.info("Created "+TABLE_NAME+" table");
-		} else {
-			CivLog.info(TABLE_NAME+" table OK!");
-		}		
-	}
+
+    public static final String TABLE_NAME = "PROTECTED_BLOCKS";
+
+    public static void init() throws SQLException {
+        if (!SQL.hasTable(TABLE_NAME)) {
+            String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME + " (" +
+                    "`id` int(11) unsigned NOT NULL auto_increment," +
+                    "`coord` mediumtext NOT NULL," +
+                    "`type` mediumtext NOT NULL," +
+                    "`structure_id` int(11) DEFAULT 0," +
+                    "PRIMARY KEY (`id`)" + ")";
+
+            SQL.makeTable(table_create);
+            CivLog.info("Created " + TABLE_NAME + " table");
+        } else {
+            CivLog.info(TABLE_NAME + " table OK!");
+        }
+    }
 
     @Override
     public void load(ResultSet rs) throws SQLException {
@@ -81,26 +82,26 @@ public class ProtectedBlock extends SQLObject {
 //		}
     }
 
-	@Override
-	public void save() {
-		SQLUpdate.add(this);
-	}
-	
-	@Override
-	public void saveNow() throws SQLException {
+    @Override
+    public void save() {
+        SQLUpdate.add(this);
+    }
+
+    @Override
+    public void saveNow() throws SQLException {
         HashMap<String, Object> hashmap = new HashMap<>();
-		
-		hashmap.put("coord", this.coord.toString());
-		hashmap.put("type", this.type.name());
-		
+
+        hashmap.put("coord", this.coord.toString());
+        hashmap.put("type", this.type.name());
+
 //		if (this.owner == null) {
 //			hashmap.put("structure_id", 0);		
 //		} else {
 //			hashmap.put("structure_id", this.owner.getId());		
 //		}
 //		
-		SQL.updateNamedObject(this, hashmap, TABLE_NAME);
-	}
+        SQL.updateNamedObject(this, hashmap, TABLE_NAME);
+    }
 
     @Override
     public void delete() {
@@ -114,20 +115,20 @@ public class ProtectedBlock extends SQLObject {
 //		this.owner = owner;
 //	}
 
-	public Type getType() {
-		return type;
-	}
+    public Type getType() {
+        return type;
+    }
 
-	public void setType(Type type) {
-		this.type = type;
-	}
+    public void setType(Type type) {
+        this.type = type;
+    }
 
-	public BlockCoord getCoord() {
-		return coord;
-	}
+    public BlockCoord getCoord() {
+        return coord;
+    }
 
-	public void setCoord(BlockCoord coord) {
-		this.coord = coord;
-	}
+    public void setCoord(BlockCoord coord) {
+        this.coord = coord;
+    }
 
 }

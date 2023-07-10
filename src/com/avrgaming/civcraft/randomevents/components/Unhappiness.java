@@ -7,13 +7,13 @@ import com.avrgaming.civcraft.randomevents.RandomEventComponent;
 
 public class Unhappiness extends RandomEventComponent {
 
-	public static String getKey(Town town) {
-		return "randomevent:unhappiness:"+town.getId();
-	}
-	
-	
-	@Override
-	public void process() {
+    public static String getKey(Town town) {
+        return "randomevent:unhappiness:" + town.getId();
+    }
+
+
+    @Override
+    public void process() {
 
         int unhappiness = Integer.parseInt(this.getString("value"));
         int duration = Integer.parseInt(this.getString("duration"));

@@ -1,9 +1,8 @@
 package com.avrgaming.civcraft.object;
 
-import org.bukkit.entity.Player;
-
 import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.util.BlockCoord;
+import org.bukkit.entity.Player;
 
 public interface BuildableDamageBlock {
     Buildable getOwner();

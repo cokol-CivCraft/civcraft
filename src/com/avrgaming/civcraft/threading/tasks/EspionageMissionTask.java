@@ -17,9 +17,6 @@
  */
 package com.avrgaming.civcraft.threading.tasks;
 
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-
 import com.avrgaming.civcraft.cache.PlayerLocationCache;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigMission;
@@ -38,48 +35,50 @@ import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 public class EspionageMissionTask implements Runnable {
 
-	ConfigMission mission;
-	String playerName;
-	Town target;
-	int secondsLeft;
-	Location startLocation;
-	
-	
-	public EspionageMissionTask (ConfigMission mission, String playerName, Location startLocation, Town target, int seconds) {
-		this.mission = mission;
-		this.playerName = playerName;
-		this.target = target;
-		this.startLocation = startLocation;
-		this.secondsLeft = seconds;
-	}
-	
-	@Override
-	public void run() {
-		int exposePerSecond;
-		int exposePerPlayer;
-		int exposePerScout;
-		try {
-			exposePerSecond = CivSettings.getInteger(CivSettings.espionageConfig, "espionage.exposure_per_second");
-			exposePerPlayer = CivSettings.getInteger(CivSettings.espionageConfig, "espionage.exposure_per_player");
-			exposePerScout = CivSettings.getInteger(CivSettings.espionageConfig, "espionage.exposure_per_scout");
-		} catch (InvalidConfiguration e) {
-			e.printStackTrace();
-			return;
-		}	
-		
-		Player player;
-		try {
-			player = CivGlobal.getPlayer(playerName);
-		} catch (CivException e) {
-			return;
-		}
-		Resident resident = CivGlobal.getResident(player);	
-		CivMessage.send(player, CivColor.LightGreen+CivColor.BOLD+CivSettings.localize.localizedString("espionage_missionStarted"));
-			
-		while (secondsLeft > 0) {
+    ConfigMission mission;
+    String playerName;
+    Town target;
+    int secondsLeft;
+    Location startLocation;
+
+
+    public EspionageMissionTask(ConfigMission mission, String playerName, Location startLocation, Town target, int seconds) {
+        this.mission = mission;
+        this.playerName = playerName;
+        this.target = target;
+        this.startLocation = startLocation;
+        this.secondsLeft = seconds;
+    }
+
+    @Override
+    public void run() {
+        int exposePerSecond;
+        int exposePerPlayer;
+        int exposePerScout;
+        try {
+            exposePerSecond = CivSettings.getInteger(CivSettings.espionageConfig, "espionage.exposure_per_second");
+            exposePerPlayer = CivSettings.getInteger(CivSettings.espionageConfig, "espionage.exposure_per_player");
+            exposePerScout = CivSettings.getInteger(CivSettings.espionageConfig, "espionage.exposure_per_scout");
+        } catch (InvalidConfiguration e) {
+            e.printStackTrace();
+            return;
+        }
+
+        Player player;
+        try {
+            player = CivGlobal.getPlayer(playerName);
+        } catch (CivException e) {
+            return;
+        }
+        Resident resident = CivGlobal.getResident(player);
+        CivMessage.send(player, CivColor.LightGreen + CivColor.BOLD + CivSettings.localize.localizedString("espionage_missionStarted"));
+
+        while (secondsLeft > 0) {
 
             secondsLeft--;
 
@@ -145,12 +144,12 @@ public class EspionageMissionTask implements Runnable {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
-				return;
-			}
-		}
-		
-		resident.setPerformingMission(false);
-		TaskMaster.syncTask(new PerformMissionTask(mission, playerName));
-	}
+                return;
+            }
+        }
+
+        resident.setPerformingMission(false);
+        TaskMaster.syncTask(new PerformMissionTask(mission, playerName));
+    }
 
 }

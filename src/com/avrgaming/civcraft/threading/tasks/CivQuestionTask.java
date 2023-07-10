@@ -17,8 +17,6 @@
  */
 package com.avrgaming.civcraft.threading.tasks;
 
-import org.bukkit.entity.Player;
-
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivGlobal;
@@ -27,6 +25,7 @@ import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.questions.QuestionResponseInterface;
 import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.entity.Player;
 
 public class CivQuestionTask implements Runnable {
 
@@ -47,96 +46,96 @@ public class CivQuestionTask implements Runnable {
         this.question = question;
         this.timeout = timeout;
         this.finishedFunction = finishedFunction;
-		
-	}
-	
-	public void askPlayer(Player player) {
-		CivMessage.send(player, CivColor.LightGray+CivSettings.localize.localizedString("civleaderQtast_prompt1")+" "+CivColor.LightBlue+questionCiv.getName());
-		CivMessage.send(player, question);
-		CivMessage.send(player, CivColor.LightGray+CivSettings.localize.localizedString("civQtast_prompt2"));
-	}
-	
-	public void notifyExpired(Player player) {
-		CivMessage.send(player, CivColor.LightGray+CivSettings.localize.localizedString("var_civQtast_offerExpired",questionCiv.getName()));
-	}
-	
-	
-	@Override
-	public void run() {
-		for (Resident res : askedCiv.getLeaderGroup().getMemberList()) {
+
+    }
+
+    public void askPlayer(Player player) {
+        CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("civleaderQtast_prompt1") + " " + CivColor.LightBlue + questionCiv.getName());
+        CivMessage.send(player, question);
+        CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("civQtast_prompt2"));
+    }
+
+    public void notifyExpired(Player player) {
+        CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("var_civQtast_offerExpired", questionCiv.getName()));
+    }
+
+
+    @Override
+    public void run() {
+        for (Resident res : askedCiv.getLeaderGroup().getMemberList()) {
             try {
                 askPlayer(CivGlobal.getPlayer(res));
             } catch (CivException ignored) {
             }
-		}
-		
-		for (Resident res : askedCiv.getAdviserGroup().getMemberList()) {
+        }
+
+        for (Resident res : askedCiv.getAdviserGroup().getMemberList()) {
             try {
                 askPlayer(CivGlobal.getPlayer(res));
             } catch (CivException ignored) {
             }
-		}
-		
-		try {
-			synchronized(this) {
-				this.wait(timeout);
-			}
-		} catch (InterruptedException e) {
-			cleanup();
-			return;
-		}
-		
-		if (responded) {
-			finishedFunction.processResponse(response);
-			cleanup();
-			return;
-		}
-		
-		for (Resident res : askedCiv.getLeaderGroup().getMemberList()) {
+        }
+
+        try {
+            synchronized (this) {
+                this.wait(timeout);
+            }
+        } catch (InterruptedException e) {
+            cleanup();
+            return;
+        }
+
+        if (responded) {
+            finishedFunction.processResponse(response);
+            cleanup();
+            return;
+        }
+
+        for (Resident res : askedCiv.getLeaderGroup().getMemberList()) {
             try {
                 notifyExpired(CivGlobal.getPlayer(res));
             } catch (CivException ignored) {
             }
-		}
-		
-		for (Resident res : askedCiv.getAdviserGroup().getMemberList()) {
+        }
+
+        for (Resident res : askedCiv.getAdviserGroup().getMemberList()) {
             try {
                 notifyExpired(CivGlobal.getPlayer(res));
             } catch (CivException ignored) {
             }
-		}
-		
-		CivMessage.sendCiv(questionCiv, CivColor.LightGray+CivSettings.localize.localizedString("var_civQtast_NoResponse",askedCiv.getName()));
-		cleanup();		
-	}
-	
-	public Boolean getResponded() {
-		synchronized(responded) {
-			return responded;
-		}
-	}
+        }
 
-	public void setResponded(Boolean response) {
-		synchronized(this.responded) {
-			this.responded = response;
-		}
-	}
+        CivMessage.sendCiv(questionCiv, CivColor.LightGray + CivSettings.localize.localizedString("var_civQtast_NoResponse", askedCiv.getName()));
+        cleanup();
+    }
 
-	public String getResponse() {
-		synchronized(response) {
-			return response;
-		}
-	}
+    public Boolean getResponded() {
+        synchronized (responded) {
+            return responded;
+        }
+    }
 
-	public void setResponse(String response) {
-		synchronized(this.response) {
-			setResponded(true);
-			this.response = response;
-		}
-	}
-	
-	/* When this task finishes, remove itself from the hashtable. */
-	private void cleanup() {
-		CivGlobal.removeRequest(askedCiv.getName());
-	}
+    public void setResponded(Boolean response) {
+        synchronized (this.responded) {
+            this.responded = response;
+        }
+    }
+
+    public String getResponse() {
+        synchronized (response) {
+            return response;
+        }
+    }
+
+    public void setResponse(String response) {
+        synchronized (this.response) {
+            setResponded(true);
+            this.response = response;
+        }
+    }
+
+    /* When this task finishes, remove itself from the hashtable. */
+    private void cleanup() {
+        CivGlobal.removeRequest(askedCiv.getName());
+    }
 }

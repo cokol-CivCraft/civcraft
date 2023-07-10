@@ -18,15 +18,14 @@
  */
 package com.avrgaming.civcraft.config;
 
+import com.avrgaming.civcraft.main.CivLog;
+import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
-
-import com.avrgaming.civcraft.main.CivLog;
 
 public class ConfigPerk {
     public String id;

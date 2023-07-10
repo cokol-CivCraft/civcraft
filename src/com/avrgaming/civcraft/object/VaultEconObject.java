@@ -114,12 +114,12 @@ public class VaultEconObject extends EconObject {
         if (amount < 0) return;
         amount = Math.floor(amount);
 
-		/*
-		 * Update the principal we use to calculate interest,
-		 * if our current balance dips below the principal,
-		 * then we subtract from the principal.
-		 */
-        synchronized(principalAmount) {
+        /*
+         * Update the principal we use to calculate interest,
+         * if our current balance dips below the principal,
+         * then we subtract from the principal.
+         */
+        synchronized (principalAmount) {
             if (principalAmount > 0) {
                 double currentBalance = this.getBalance();
                 double diff = currentBalance - principalAmount;
@@ -136,7 +136,6 @@ public class VaultEconObject extends EconObject {
         if (save) {
             holder.save();
         }
-
 
 
 //		EconomyResponse resp;
@@ -174,7 +173,7 @@ public class VaultEconObject extends EconObject {
             return amount;
         }
 
-		/* Do not have enough to pay, pay what we can and put the rest into debt. */
+        /* Do not have enough to pay, pay what we can and put the rest into debt. */
         this.debt += amount - this.getBalance();
         objToPay.deposit(this.getBalance());
         this.withdraw(this.getBalance());

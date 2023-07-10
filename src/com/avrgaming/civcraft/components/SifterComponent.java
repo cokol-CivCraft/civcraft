@@ -18,18 +18,17 @@
  */
 package com.avrgaming.civcraft.components;
 
-import java.util.LinkedList;
-import java.util.Random;
-
-import org.bukkit.Material;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
 import com.avrgaming.civcraft.exception.CivTaskAbortException;
 import com.avrgaming.civcraft.threading.CivAsyncTask;
 import com.avrgaming.civcraft.threading.sync.request.UpdateInventoryRequest.Action;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.MultiInventory;
+import org.bukkit.Material;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.LinkedList;
+import java.util.Random;
 
 @SuppressWarnings("unused")
 public class SifterComponent extends Component {

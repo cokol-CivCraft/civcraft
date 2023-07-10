@@ -1315,74 +1315,68 @@ public abstract class Buildable extends SQLObject {
 
     public void fancyDestroyStructureBlocks() {
 
-        class SyncTask implements Runnable {
+        TaskMaster.syncTask(() -> {
+            for (BlockCoord coord : structureBlocks.keySet()) {
 
-            @Override
-            public void run() {
-                for (BlockCoord coord : structureBlocks.keySet()) {
+                if (CivGlobal.getStructureChest(coord) != null) {
+                    continue;
+                }
 
-                    if (CivGlobal.getStructureChest(coord) != null) {
+                if (CivGlobal.getStructureSign(coord) != null) {
+                    continue;
+                }
+                switch (coord.getBlock().getType()) {
+                    case AIR:
+                    case CHEST:
+                    case SIGN_POST:
+                    case WALL_SIGN:
                         continue;
-                    }
+                }
 
-                    if (CivGlobal.getStructureSign(coord) != null) {
-                        continue;
-                    }
-                    switch (coord.getBlock().getType()) {
-                        case AIR:
-                        case CHEST:
-                        case SIGN_POST:
-                        case WALL_SIGN:
-                            continue;
-                    }
+                if (CivSettings.alwaysCrumble.contains(coord.getBlock().getType())) {
+                    Block block = coord.getBlock();
+                    block.setType(Material.COBBLESTONE);
+                    continue;
+                }
 
-                    if (CivSettings.alwaysCrumble.contains(coord.getBlock().getType())) {
-                        Block block = coord.getBlock();
-                        block.setType(Material.COBBLESTONE);
-                        continue;
-                    }
+                Random rand = new Random();
 
-                    Random rand = new Random();
+                // Each block has a 70% chance to turn into Air
+                if (rand.nextInt(100) <= 70) {
+                    coord.getBlock().setType(Material.AIR);
+                    coord.getBlock().setData((byte) 0, true);
+                    continue;
+                }
 
-                    // Each block has a 70% chance to turn into Air
-                    if (rand.nextInt(100) <= 70) {
-                        coord.getBlock().setType(Material.AIR);
-                        coord.getBlock().setData((byte) 0, true);
-                        continue;
-                    }
-
-                    // Each block has a 30% chance to turn into gravel
-                    if (rand.nextInt(100) <= 30) {
-                        coord.getBlock().setType(Material.COBBLESTONE);
-                        coord.getBlock().setData((byte) 0, true);
-                        continue;
-                    }
+                // Each block has a 30% chance to turn into gravel
+                if (rand.nextInt(100) <= 30) {
+                    coord.getBlock().setType(Material.COBBLESTONE);
+                    coord.getBlock().setData((byte) 0, true);
+                    continue;
+                }
 
 
-                    // Each block has a 10% chance of starting a fire
-                    if (rand.nextInt(100) <= 10) {
-                        coord.getBlock().setType(Material.FIRE);
-                        coord.getBlock().setData((byte) 0, true);
-                        continue;
-                    }
+                // Each block has a 10% chance of starting a fire
+                if (rand.nextInt(100) <= 10) {
+                    coord.getBlock().setType(Material.FIRE);
+                    coord.getBlock().setData((byte) 0, true);
+                    continue;
+                }
 
-                    // Each block has a 1% chance of launching an explosion effect
-                    if (rand.nextInt(100) <= 1) {
-                        FireworkEffect effect = FireworkEffect.builder().with(org.bukkit.FireworkEffect.Type.BURST).withColor(Color.ORANGE).withColor(Color.RED).withTrail().withFlicker().build();
-                        FireworkEffectPlayer fePlayer = new FireworkEffectPlayer();
-                        for (int i = 0; i < 3; i++) {
-                            try {
-                                fePlayer.playFirework(coord.getBlock().getWorld(), coord.getLocation(), effect);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                // Each block has a 1% chance of launching an explosion effect
+                if (rand.nextInt(100) <= 1) {
+                    FireworkEffect effect = FireworkEffect.builder().with(FireworkEffect.Type.BURST).withColor(Color.ORANGE).withColor(Color.RED).withTrail().withFlicker().build();
+                    FireworkEffectPlayer fePlayer = new FireworkEffectPlayer();
+                    for (int i = 0; i < 3; i++) {
+                        try {
+                            fePlayer.playFirework(coord.getBlock().getWorld(), coord.getLocation(), effect);
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
                 }
             }
-        }
-
-        TaskMaster.syncTask(new SyncTask());
+        });
     }
 
     public abstract void onComplete();

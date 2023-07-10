@@ -17,14 +17,6 @@
  */
 package com.avrgaming.civcraft.structure;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerInteractEvent;
-
 import com.avrgaming.civcraft.components.NonMemberFeeComponent;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigGrocerLevel;
@@ -36,72 +28,79 @@ import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.StructureSign;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerInteractEvent;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Grocer extends Structure {
 
-	private int level = 1;
+    private int level = 1;
 
-	private final NonMemberFeeComponent nonMemberFeeComponent;
-	
-	protected Grocer(Location center, String id, Town town) throws CivException {
-		super(center, id, town);
-		nonMemberFeeComponent = new NonMemberFeeComponent(this);
-		nonMemberFeeComponent.onSave();
-		setLevel(town.saved_grocer_levels);
-	}
+    private final NonMemberFeeComponent nonMemberFeeComponent;
 
-	public Grocer(ResultSet rs) throws SQLException, CivException {
-		super(rs);
-		nonMemberFeeComponent = new NonMemberFeeComponent(this);
-		nonMemberFeeComponent.onLoad();
-	}
+    protected Grocer(Location center, String id, Town town) throws CivException {
+        super(center, id, town);
+        nonMemberFeeComponent = new NonMemberFeeComponent(this);
+        nonMemberFeeComponent.onSave();
+        setLevel(town.saved_grocer_levels);
+    }
 
-	@Override
-	public String getDynmapDescription() {
+    public Grocer(ResultSet rs) throws SQLException, CivException {
+        super(rs);
+        nonMemberFeeComponent = new NonMemberFeeComponent(this);
+        nonMemberFeeComponent.onLoad();
+    }
+
+    @Override
+    public String getDynmapDescription() {
         StringBuilder out = new StringBuilder("<u><b>" + this.getDisplayName() + "</u></b><br/>");
 
-		for (int i = 0; i < level; i++) {
-			ConfigGrocerLevel grocerlevel = CivSettings.grocerLevels.get(i+1);
+        for (int i = 0; i < level; i++) {
+            ConfigGrocerLevel grocerlevel = CivSettings.grocerLevels.get(i + 1);
             out.append("<b>").append(grocerlevel.itemName).append("</b> ").append(CivSettings.localize.localizedString("Amount")).append(" ").append(grocerlevel.amount).append(" ").append(CivSettings.localize.localizedString("Price")).append(" ").append(grocerlevel.price).append(" ").append(CivSettings.CURRENCY_NAME).append(".<br/>");
-		}
+        }
 
         return out.toString();
-	}
-	
-	@Override
-	public String getMarkerIconName() {
-		return "cutlery";
-	}
+    }
 
-	public int getLevel() {
-		return level;
-	}
+    @Override
+    public String getMarkerIconName() {
+        return "cutlery";
+    }
 
-	public void setLevel(int level) {
-		this.level = level;
-	}
+    public int getLevel() {
+        return level;
+    }
 
-	public double getNonResidentFee() {
-		return nonMemberFeeComponent.getFeeRate();
-	}
+    public void setLevel(int level) {
+        this.level = level;
+    }
 
-	public void setNonResidentFee(double nonResidentFee) {
-		this.nonMemberFeeComponent.setFeeRate(nonResidentFee);
-	}
-	
-	private String getNonResidentFeeString() {
+    public double getNonResidentFee() {
+        return nonMemberFeeComponent.getFeeRate();
+    }
+
+    public void setNonResidentFee(double nonResidentFee) {
+        this.nonMemberFeeComponent.setFeeRate(nonResidentFee);
+    }
+
+    private String getNonResidentFeeString() {
         return "Fee: " + ((int) (getNonResidentFee() * 100) + "%");
-	}
-	
-	private StructureSign getSignFromSpecialId(int special_id) {
-		for (StructureSign sign : getSigns()) {
+    }
+
+    private StructureSign getSignFromSpecialId(int special_id) {
+        for (StructureSign sign : getSigns()) {
             int id = Integer.parseInt(sign.getAction());
-			if (id == special_id) {
-				return sign;
-			}
-		}
-		return null;
-	}
+            if (id == special_id) {
+                return sign;
+            }
+        }
+        return null;
+    }
 
     public void sign_buy_material(Player player, String itemName, Material id, byte data, int amount, double price) {
         Resident resident;
@@ -114,64 +113,63 @@ public class Grocer extends Structure {
             if (t == this.getTown()) {
                 // Pay no taxes! You're a member.
                 resident.buyItem(itemName, id, data, price, amount);
-					CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("var_grocer_msgBought",amount,itemName,price+" "+CivSettings.CURRENCY_NAME));
-				} else {
-					// Pay non-resident taxes
-					resident.buyItem(itemName, id, data, price + payToTown, amount);
-					getTown().depositDirect(payToTown);
-					CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("var_grocer_msgBought",amount,itemName,price,CivSettings.CURRENCY_NAME));
-					CivMessage.send(player, CivColor.Yellow + CivSettings.localize.localizedString("var_grocer_msgPaidTaxes",this.getTown().getName(),payToTown+" "+CivSettings.CURRENCY_NAME));
-				}
-			
-			}
-			catch (CivException e) {
-				CivMessage.send(player, CivColor.Rose + e.getMessage());
-			}
-	}
+                CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("var_grocer_msgBought", amount, itemName, price + " " + CivSettings.CURRENCY_NAME));
+            } else {
+                // Pay non-resident taxes
+                resident.buyItem(itemName, id, data, price + payToTown, amount);
+                getTown().depositDirect(payToTown);
+                CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("var_grocer_msgBought", amount, itemName, price, CivSettings.CURRENCY_NAME));
+                CivMessage.send(player, CivColor.Yellow + CivSettings.localize.localizedString("var_grocer_msgPaidTaxes", this.getTown().getName(), payToTown + " " + CivSettings.CURRENCY_NAME));
+            }
 
-	
-	@Override
-	public void updateSignText() {
-		int count = 0;
-	
-		for (count = 0; count < level; count++) {
-			StructureSign sign = getSignFromSpecialId(count);
-			if (sign == null) {
-				CivLog.error("sign from special id was null, id:"+count);
-				return;
-			}
-			ConfigGrocerLevel grocerlevel = CivSettings.grocerLevels.get(count+1);
-			
-			sign.setText(CivSettings.localize.localizedString("grocer_sign_buy")+"\n"+grocerlevel.itemName+"\n"+
-						 CivSettings.localize.localizedString("grocer_sign_for")+" "+grocerlevel.price+" "+CivSettings.CURRENCY_NAME+"\n"+
-					     getNonResidentFeeString());
-			
-			sign.update();
-		}
-		
-		for (; count < getSigns().size(); count++) {
-			StructureSign sign = getSignFromSpecialId(count);
-			if (sign == null) {
-				CivLog.error("sign from special id was null, id:"+count);
-				return;
-			}
-			sign.setText(CivSettings.localize.localizedString("grocer_sign_empty"));
-			sign.update();
-		}
-		
-	}
-	
-	@Override
-	public void processSignAction(Player player, StructureSign sign, PlayerInteractEvent event) {
+        } catch (CivException e) {
+            CivMessage.send(player, CivColor.Rose + e.getMessage());
+        }
+    }
+
+
+    @Override
+    public void updateSignText() {
+        int count = 0;
+
+        for (count = 0; count < level; count++) {
+            StructureSign sign = getSignFromSpecialId(count);
+            if (sign == null) {
+                CivLog.error("sign from special id was null, id:" + count);
+                return;
+            }
+            ConfigGrocerLevel grocerlevel = CivSettings.grocerLevels.get(count + 1);
+
+            sign.setText(CivSettings.localize.localizedString("grocer_sign_buy") + "\n" + grocerlevel.itemName + "\n" +
+                    CivSettings.localize.localizedString("grocer_sign_for") + " " + grocerlevel.price + " " + CivSettings.CURRENCY_NAME + "\n" +
+                    getNonResidentFeeString());
+
+            sign.update();
+        }
+
+        for (; count < getSigns().size(); count++) {
+            StructureSign sign = getSignFromSpecialId(count);
+            if (sign == null) {
+                CivLog.error("sign from special id was null, id:" + count);
+                return;
+            }
+            sign.setText(CivSettings.localize.localizedString("grocer_sign_empty"));
+            sign.update();
+        }
+
+    }
+
+    @Override
+    public void processSignAction(Player player, StructureSign sign, PlayerInteractEvent event) {
         int special_id = Integer.parseInt(sign.getAction());
-		if (special_id < this.level) {
-			ConfigGrocerLevel grocerlevel = CivSettings.grocerLevels.get(special_id+1);
-			sign_buy_material(player, grocerlevel.itemName, grocerlevel.itemId, 
-					(byte)grocerlevel.itemData, grocerlevel.amount, grocerlevel.price);
-		} else {
-			CivMessage.send(player, CivColor.Rose+CivSettings.localize.localizedString("grocer_sign_needUpgrade"));
-		}
-	}
-	
-	
+        if (special_id < this.level) {
+            ConfigGrocerLevel grocerlevel = CivSettings.grocerLevels.get(special_id + 1);
+            sign_buy_material(player, grocerlevel.itemName, grocerlevel.itemId,
+                    (byte) grocerlevel.itemData, grocerlevel.amount, grocerlevel.price);
+        } else {
+            CivMessage.send(player, CivColor.Rose + CivSettings.localize.localizedString("grocer_sign_needUpgrade"));
+        }
+    }
+
+
 }

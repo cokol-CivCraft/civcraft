@@ -17,11 +17,6 @@
  */
 package com.avrgaming.civcraft.threading.timers;
 
-import java.text.DecimalFormat;
-import java.util.Iterator;
-import java.util.Map.Entry;
-import java.util.concurrent.locks.ReentrantLock;
-
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivGlobal;
@@ -30,161 +25,161 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.AttrSource;
 import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.Town;
-import com.avrgaming.civcraft.structure.Cottage;
-import com.avrgaming.civcraft.structure.Mine;
-import com.avrgaming.civcraft.structure.Structure;
-import com.avrgaming.civcraft.structure.Temple;
-import com.avrgaming.civcraft.structure.TownHall;
-import com.avrgaming.civcraft.structure.TradeShip;
+import com.avrgaming.civcraft.structure.*;
 import com.avrgaming.civcraft.threading.CivAsyncTask;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.CivColor;
 
+import java.text.DecimalFormat;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.concurrent.locks.ReentrantLock;
+
 public class EffectEventTimer extends CivAsyncTask {
-	
-	//public static Boolean running = false;
-	
-	public static ReentrantLock runningLock = new ReentrantLock();
-	
-	public EffectEventTimer() {
-	}
 
-	private void processTick() {
-		/* Clear the last taxes so they don't accumulate. */
-		for (Civilization civ : CivGlobal.getCivs()) {
-			civ.lastTaxesPaidMap.clear();
-		}
-		
-		//HashMap<Town, Integer> cultureGenerated = new HashMap<Town, Integer>();
-		
-		// Loop through each structure, if it has an update function call it in another async process
-		Iterator<Entry<BlockCoord, Structure>> iter = CivGlobal.getStructureIterator();
-		
-		while(iter.hasNext()) {
-			Structure struct = iter.next().getValue();
-			TownHall townhall = struct.getTown().getTownHall();
+    //public static Boolean running = false;
 
-			if (townhall == null) {
-				continue;
-			}
+    public static ReentrantLock runningLock = new ReentrantLock();
 
-			if (!struct.isActive())
-				continue;
+    public EffectEventTimer() {
+    }
 
-			struct.onEffectEvent();
+    private void processTick() {
+        /* Clear the last taxes so they don't accumulate. */
+        for (Civilization civ : CivGlobal.getCivs()) {
+            civ.lastTaxesPaidMap.clear();
+        }
 
-			if (struct.getEffectEvent() == null || struct.getEffectEvent().equals(""))
-				continue;
-			
-			String[] split = struct.getEffectEvent().toLowerCase().split(":"); 
-			switch (split[0]) {
-			case "generate_coins":
-				if (struct instanceof Cottage) {
-					Cottage cottage = (Cottage)struct;
-					//cottage.generate_coins(this);
-					cottage.generateCoins(this);
-				}
-				break;
-			case "process_mine":
-				if (struct instanceof Mine) {
-                    Mine mine = (Mine) struct;
-                    mine.process_mine(this);
+        //HashMap<Town, Integer> cultureGenerated = new HashMap<Town, Integer>();
+
+        // Loop through each structure, if it has an update function call it in another async process
+        Iterator<Entry<BlockCoord, Structure>> iter = CivGlobal.getStructureIterator();
+
+        while (iter.hasNext()) {
+            Structure struct = iter.next().getValue();
+            TownHall townhall = struct.getTown().getTownHall();
+
+            if (townhall == null) {
+                continue;
+            }
+
+            if (!struct.isActive())
+                continue;
+
+            struct.onEffectEvent();
+
+            if (struct.getEffectEvent() == null || struct.getEffectEvent().equals(""))
+                continue;
+
+            String[] split = struct.getEffectEvent().toLowerCase().split(":");
+            switch (split[0]) {
+                case "generate_coins":
+                    if (struct instanceof Cottage) {
+                        Cottage cottage = (Cottage) struct;
+                        //cottage.generate_coins(this);
+                        cottage.generateCoins(this);
+                    }
+                    break;
+                case "process_mine":
+                    if (struct instanceof Mine) {
+                        Mine mine = (Mine) struct;
+                        mine.process_mine(this);
+                    }
+                    break;
+                case "temple_culture":
+                    if (struct instanceof Temple) {
+                        Temple temple = (Temple) struct;
+                        try {
+                            temple.templeCulture(this);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    break;
+                case "process_trade_ship":
+                    if (struct instanceof TradeShip) {
+                        TradeShip tradeShip = (TradeShip) struct;
+                        try {
+                            tradeShip.process_trade_ship(this);
+                        } catch (InterruptedException | InvalidConfiguration e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    break;
+            }
+
+        }
+
+        /*
+         * Process any hourly attributes for this town.
+         *  - Culture
+         *
+         */
+        for (Town town : CivGlobal.getTowns()) {
+            double cultureGenerated;
+
+            // highjack this loop to display town hall warning.
+            TownHall townhall = town.getTownHall();
+            if (townhall == null) {
+                CivMessage.sendTown(town, CivColor.Yellow + CivSettings.localize.localizedString("effectEvent_noTownHall"));
+                continue;
+            }
+
+            AttrSource cultureSources = town.getCulture();
+
+            // Get amount generated after culture rate/bonus.
+            cultureGenerated = cultureSources.total;
+            cultureGenerated = Math.round(cultureGenerated);
+            town.addAccumulatedCulture(cultureGenerated);
+
+            // Get from unused beakers.
+            DecimalFormat df = new DecimalFormat();
+            double unusedBeakers = town.getUnusedBeakers();
+
+            try {
+                double cultureToBeakerConversion = CivSettings.getDouble(CivSettings.cultureConfig, "beakers_per_culture");
+                if (unusedBeakers > 0) {
+                    double cultureFromBeakers = unusedBeakers * cultureToBeakerConversion;
+                    cultureFromBeakers = Math.round(cultureFromBeakers);
+                    unusedBeakers = Math.round(unusedBeakers);
+
+                    if (cultureFromBeakers > 0) {
+                        CivMessage.sendTown(town, CivColor.LightGreen + CivSettings.localize.localizedString("var_effectEvent_convertBeakers", (CivColor.LightPurple +
+                                df.format(unusedBeakers) + CivColor.LightGreen), (CivColor.LightPurple +
+                                df.format(cultureFromBeakers) + CivColor.LightGreen)));
+                        cultureGenerated += cultureFromBeakers;
+                        town.addAccumulatedCulture(cultureFromBeakers);
+                        town.setUnusedBeakers(0);
+                    }
                 }
-				break;
-			case "temple_culture":
-				if (struct instanceof Temple) {
-					Temple temple = (Temple)struct;
-					try {
-						temple.templeCulture(this);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-				break;
-			case "process_trade_ship":
-				if (struct instanceof TradeShip) {
-					TradeShip tradeShip = (TradeShip)struct;
-					try {
-						tradeShip.process_trade_ship(this);
-					} catch (InterruptedException | InvalidConfiguration e) {
-						e.printStackTrace();
-					}
-				}
-				break;
-			}
-			
-		}
-		
-		/*
-		 * Process any hourly attributes for this town.
-		 *  - Culture
-		 *  
-		 */
-		for (Town town : CivGlobal.getTowns()) {
-			double cultureGenerated;
-			
-			// highjack this loop to display town hall warning.
-			TownHall townhall = town.getTownHall();
-			if (townhall == null) {
-				CivMessage.sendTown(town, CivColor.Yellow+CivSettings.localize.localizedString("effectEvent_noTownHall"));
-				continue;
-			}
-							
-			AttrSource cultureSources = town.getCulture();
-			
-			// Get amount generated after culture rate/bonus.
-			cultureGenerated = cultureSources.total;
-			cultureGenerated = Math.round(cultureGenerated);
-			town.addAccumulatedCulture(cultureGenerated);
-			
-			// Get from unused beakers.
-			DecimalFormat df = new DecimalFormat();
-			double unusedBeakers = town.getUnusedBeakers();
-	
-			try {
-				double cultureToBeakerConversion = CivSettings.getDouble(CivSettings.cultureConfig, "beakers_per_culture");
-				if (unusedBeakers > 0) {
-					double cultureFromBeakers = unusedBeakers*cultureToBeakerConversion;
-					cultureFromBeakers = Math.round(cultureFromBeakers);
-					unusedBeakers = Math.round(unusedBeakers);
-					
-					if (cultureFromBeakers > 0) {
-						CivMessage.sendTown(town, CivColor.LightGreen+CivSettings.localize.localizedString("var_effectEvent_convertBeakers",(CivColor.LightPurple+
-								df.format(unusedBeakers)+CivColor.LightGreen),(CivColor.LightPurple+
-								df.format(cultureFromBeakers)+CivColor.LightGreen)));
-						cultureGenerated += cultureFromBeakers;
-						town.addAccumulatedCulture(cultureFromBeakers);
-						town.setUnusedBeakers(0);
-					}
-				}
-			} catch (InvalidConfiguration e) {
-				e.printStackTrace();
-				return;
-			}
-			
-			cultureGenerated = Math.round(cultureGenerated);
-			CivMessage.sendTown(town, CivColor.LightGreen+CivSettings.localize.localizedString("var_effectEvent_generatedCulture",(CivColor.LightPurple+cultureGenerated+CivColor.LightGreen)));
-		}
-		
-		/* Checking for expired vassal states. */
-		CivGlobal.checkForExpiredRelations();
-	}
-	
-	@Override
-	public void run() {
-		
-		if (runningLock.tryLock()) {
-			try {
-				processTick();
-			} finally {
-				runningLock.unlock();
-			}
-		} else {
-			CivLog.error("COULDN'T GET LOCK FOR HOURLY TICK. LAST TICK STILL IN PROGRESS?");
-		}
-		
-				
-	}
-	
+            } catch (InvalidConfiguration e) {
+                e.printStackTrace();
+                return;
+            }
+
+            cultureGenerated = Math.round(cultureGenerated);
+            CivMessage.sendTown(town, CivColor.LightGreen + CivSettings.localize.localizedString("var_effectEvent_generatedCulture", (CivColor.LightPurple + cultureGenerated + CivColor.LightGreen)));
+        }
+
+        /* Checking for expired vassal states. */
+        CivGlobal.checkForExpiredRelations();
+    }
+
+    @Override
+    public void run() {
+
+        if (runningLock.tryLock()) {
+            try {
+                processTick();
+            } finally {
+                runningLock.unlock();
+            }
+        } else {
+            CivLog.error("COULDN'T GET LOCK FOR HOURLY TICK. LAST TICK STILL IN PROGRESS?");
+        }
+
+
+    }
+
 
 }

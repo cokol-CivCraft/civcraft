@@ -18,29 +18,21 @@
 package com.avrgaming.civcraft.threading.tasks;
 
 
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.Chest;
-import org.bukkit.material.MaterialData;
-
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.object.StructureChest;
 import com.avrgaming.civcraft.object.StructureSign;
-import com.avrgaming.civcraft.structure.ArrowShip;
-import com.avrgaming.civcraft.structure.ArrowTower;
-import com.avrgaming.civcraft.structure.Buildable;
-import com.avrgaming.civcraft.structure.CannonShip;
-import com.avrgaming.civcraft.structure.CannonTower;
-import com.avrgaming.civcraft.structure.TeslaTower;
-import com.avrgaming.civcraft.structure.TownHall;
-import com.avrgaming.civcraft.structure.TradeOutpost;
+import com.avrgaming.civcraft.structure.*;
 import com.avrgaming.civcraft.structure.wonders.GrandShipIngermanland;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.SimpleBlock;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
+import org.bukkit.material.MaterialData;
 
 import java.util.Optional;
 

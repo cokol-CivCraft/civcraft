@@ -17,8 +17,6 @@
  */
 package com.avrgaming.civcraft.command.civ;
 
-import org.bukkit.entity.Player;
-
 import com.avrgaming.civcraft.command.CommandBase;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
@@ -28,11 +26,12 @@ import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.permission.PermissionGroup;
 import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.entity.Player;
 
 public class CivGroupCommand extends CommandBase {
 
-	@Override
-	public void init() {
+    @Override
+    public void init() {
         command = "/civ group";
         displayName = CivSettings.localize.localizedString("cmd_civ_group_name");
 
@@ -43,128 +42,127 @@ public class CivGroupCommand extends CommandBase {
     }
 
 
-	public void remove_cmd() throws CivException {
-		Civilization civ = getSenderCiv();
-		Resident resident = getResident();
-		Resident oldMember = getNamedResident(1);
-		String groupName = getNamedString(2, CivSettings.localize.localizedString("cmd_civ_group_removePrompt"));
+    public void remove_cmd() throws CivException {
+        Civilization civ = getSenderCiv();
+        Resident resident = getResident();
+        Resident oldMember = getNamedResident(1);
+        String groupName = getNamedString(2, CivSettings.localize.localizedString("cmd_civ_group_removePrompt"));
 
         PermissionGroup grp;
-		if (groupName.equalsIgnoreCase("leaders")) {
-			grp = civ.getLeaderGroup();
-		} else if (groupName.equalsIgnoreCase("advisers")) {
-			grp = civ.getAdviserGroup();
-		} else {
-			throw new CivException(CivSettings.localize.localizedString("var_cmd_civ_group_removeInvalid",groupName));
-		}
+        if (groupName.equalsIgnoreCase("leaders")) {
+            grp = civ.getLeaderGroup();
+        } else if (groupName.equalsIgnoreCase("advisers")) {
+            grp = civ.getAdviserGroup();
+        } else {
+            throw new CivException(CivSettings.localize.localizedString("var_cmd_civ_group_removeInvalid", groupName));
+        }
 
-		if (grp == civ.getLeaderGroup() && !grp.hasMember(resident)) {
-			throw new CivException(CivSettings.localize.localizedString("cmd_civ_group_removeOnlyLeader"));
-		}
+        if (grp == civ.getLeaderGroup() && !grp.hasMember(resident)) {
+            throw new CivException(CivSettings.localize.localizedString("cmd_civ_group_removeOnlyLeader"));
+        }
 
-		if (!grp.hasMember(oldMember)) {
-			throw new CivException(CivSettings.localize.localizedString("var_cmd_civ_group_removeNotInGroup",oldMember.getName()));
-		}
+        if (!grp.hasMember(oldMember)) {
+            throw new CivException(CivSettings.localize.localizedString("var_cmd_civ_group_removeNotInGroup", oldMember.getName()));
+        }
 
-		if (grp == civ.getLeaderGroup() && resident == oldMember) {
-			throw new CivException(CivSettings.localize.localizedString("cmd_civ_group_removeYourself"));
-		}
+        if (grp == civ.getLeaderGroup() && resident == oldMember) {
+            throw new CivException(CivSettings.localize.localizedString("cmd_civ_group_removeYourself"));
+        }
 
-		grp.removeMember(oldMember);
-		grp.save();
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_civ_group_removeSuccess",oldMember.getName(),groupName));
-		try {
-			Player newPlayer = CivGlobal.getPlayer(oldMember);
-			CivMessage.send(newPlayer, CivColor.Rose+CivSettings.localize.localizedString("var_cmd_civ_group_removeNotify1",groupName,civ.getName()));
-		} catch (CivException e) {
-			/* player not online. forget the exception*/
-		}
-	}
+        grp.removeMember(oldMember);
+        grp.save();
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_civ_group_removeSuccess", oldMember.getName(), groupName));
+        try {
+            Player newPlayer = CivGlobal.getPlayer(oldMember);
+            CivMessage.send(newPlayer, CivColor.Rose + CivSettings.localize.localizedString("var_cmd_civ_group_removeNotify1", groupName, civ.getName()));
+        } catch (CivException e) {
+            /* player not online. forget the exception*/
+        }
+    }
 
 
-	public void add_cmd() throws CivException {
-		Civilization civ = getSenderCiv();
-		Resident resident = getResident();
-		Resident newMember = getNamedResident(1);
-		String groupName = getNamedString(2, CivSettings.localize.localizedString("cmd_civ_group_removePrompt"));
+    public void add_cmd() throws CivException {
+        Civilization civ = getSenderCiv();
+        Resident resident = getResident();
+        Resident newMember = getNamedResident(1);
+        String groupName = getNamedString(2, CivSettings.localize.localizedString("cmd_civ_group_removePrompt"));
 
         PermissionGroup grp;
-		if (groupName.equalsIgnoreCase("leaders")) {
-			grp = civ.getLeaderGroup();
-		} else if (groupName.equalsIgnoreCase("advisers")) {
-			grp = civ.getAdviserGroup();
-		} else {
-			throw new CivException(CivSettings.localize.localizedString("var_cmd_civ_group_removeInvalid",groupName));
-		}
+        if (groupName.equalsIgnoreCase("leaders")) {
+            grp = civ.getLeaderGroup();
+        } else if (groupName.equalsIgnoreCase("advisers")) {
+            grp = civ.getAdviserGroup();
+        } else {
+            throw new CivException(CivSettings.localize.localizedString("var_cmd_civ_group_removeInvalid", groupName));
+        }
 
-		if (grp == civ.getLeaderGroup() && !grp.hasMember(resident)) {
-			throw new CivException(CivSettings.localize.localizedString("cmd_civ_group_addOnlyLeader"));
-		}
+        if (grp == civ.getLeaderGroup() && !grp.hasMember(resident)) {
+            throw new CivException(CivSettings.localize.localizedString("cmd_civ_group_addOnlyLeader"));
+        }
 
-		if (newMember.getCiv() != civ) {
-			throw new CivException(CivSettings.localize.localizedString("cmd_civ_group_addNotInCiv"));
-		}
+        if (newMember.getCiv() != civ) {
+            throw new CivException(CivSettings.localize.localizedString("cmd_civ_group_addNotInCiv"));
+        }
 
-		grp.addMember(newMember);
-		grp.save();
+        grp.addMember(newMember);
+        grp.save();
 
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_civ_group_addSuccess",newMember.getName(),groupName));
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_civ_group_addSuccess", newMember.getName(), groupName));
 
-		try {
-			Player newPlayer = CivGlobal.getPlayer(newMember);
-			CivMessage.sendSuccess(newPlayer, CivSettings.localize.localizedString("var_cmd_civ_group_addNotify",groupName,civ.getName()));
-		} catch (CivException e) {
-			/* player not online. forget the exception*/
-		}
-	}
+        try {
+            Player newPlayer = CivGlobal.getPlayer(newMember);
+            CivMessage.sendSuccess(newPlayer, CivSettings.localize.localizedString("var_cmd_civ_group_addNotify", groupName, civ.getName()));
+        } catch (CivException e) {
+            /* player not online. forget the exception*/
+        }
+    }
 
 
+    public void info_cmd() throws CivException {
+        Civilization civ = getSenderCiv();
 
-	public void info_cmd() throws CivException {
-		Civilization civ = getSenderCiv();
-
-		if (args.length > 1) {
+        if (args.length > 1) {
             PermissionGroup grp;
-			if (args[1].equalsIgnoreCase("leaders")) {
-				grp = civ.getLeaderGroup();
-			} else if (args[1].equalsIgnoreCase("advisers")) {
-				grp = civ.getAdviserGroup();
-			} else {
-				throw new CivException(CivSettings.localize.localizedString("var_cmd_civ_group_removeInvalid",args[1]));
-			}
+            if (args[1].equalsIgnoreCase("leaders")) {
+                grp = civ.getLeaderGroup();
+            } else if (args[1].equalsIgnoreCase("advisers")) {
+                grp = civ.getAdviserGroup();
+            } else {
+                throw new CivException(CivSettings.localize.localizedString("var_cmd_civ_group_removeInvalid", args[1]));
+            }
 
-			CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_civ_group_listGroup")+" "+args[1]);
+            CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_civ_group_listGroup") + " " + args[1]);
 
-			StringBuilder residents = new StringBuilder();
-			for (Resident res : grp.getMemberList()) {
-				residents.append(res.getName()).append(" ");
-			}
-			CivMessage.send(sender, residents.toString());
+            StringBuilder residents = new StringBuilder();
+            for (Resident res : grp.getMemberList()) {
+                residents.append(res.getName()).append(" ");
+            }
+            CivMessage.send(sender, residents.toString());
 
-		} else {
-			CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_civ_group_listHeading"));
+        } else {
+            CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_civ_group_listHeading"));
 
-			PermissionGroup grp = civ.getLeaderGroup();
-			CivMessage.send(sender, CivSettings.localize.localizedString("var_cmd_civ_group_listGroup",grp.getName()+CivColor.LightGray,grp.getMemberCount()));
+            PermissionGroup grp = civ.getLeaderGroup();
+            CivMessage.send(sender, CivSettings.localize.localizedString("var_cmd_civ_group_listGroup", grp.getName() + CivColor.LightGray, grp.getMemberCount()));
 
-			grp = civ.getAdviserGroup();
-			CivMessage.send(sender, CivSettings.localize.localizedString("var_cmd_civ_group_listGroup",grp.getName()+CivColor.LightGray,grp.getMemberCount()));
-		}
-	}
+            grp = civ.getAdviserGroup();
+            CivMessage.send(sender, CivSettings.localize.localizedString("var_cmd_civ_group_listGroup", grp.getName() + CivColor.LightGray, grp.getMemberCount()));
+        }
+    }
 
     @Override
     public void doDefaultAction() {
         showHelp();
     }
 
-	@Override
-	public void showHelp() {
-		showBasicHelp();
-	}
+    @Override
+    public void showHelp() {
+        showBasicHelp();
+    }
 
-	@Override
-	public void permissionCheck() throws CivException {
-		this.validLeaderAdvisor();
-	}
+    @Override
+    public void permissionCheck() throws CivException {
+        this.validLeaderAdvisor();
+    }
 
 }

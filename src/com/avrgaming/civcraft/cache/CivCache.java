@@ -24,11 +24,11 @@ import java.util.UUID;
 
 public class CivCache {
 
-	/* Arrows fired that need to be updated. */
+    /* Arrows fired that need to be updated. */
     public static Map<UUID, ArrowFiredCache> arrowsFired = new HashMap<>();
 
     /* Cannon balls fired that need to be updated. */
     public static Map<UUID, CannonFiredCache> cannonBallsFired = new HashMap<>();
-	
-	
+
+
 }

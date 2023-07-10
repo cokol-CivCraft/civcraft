@@ -1,16 +1,12 @@
 package com.avrgaming.civcraft.config;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
+
+import java.util.*;
 
 public class ConfigRemovedRecipes {
     public Material type_id;

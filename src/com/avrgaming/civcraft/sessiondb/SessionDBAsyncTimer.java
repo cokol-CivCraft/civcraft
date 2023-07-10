@@ -9,20 +9,20 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class SessionDBAsyncTimer implements Runnable {
 
-	private static final int UPDATE_AMOUNT = 30;
-	public static ReentrantLock lock = new ReentrantLock();
+    private static final int UPDATE_AMOUNT = 30;
+    public static ReentrantLock lock = new ReentrantLock();
     public static Queue<SessionAsyncRequest> requestQueue = new LinkedList<>();
-	
-	
-	@Override
-	public void run() {
-		
-		Connection gameConnection = null;
-		Connection globalConnection = null;
-		
-		for (int i = 0; i < UPDATE_AMOUNT; i++) {
-			try {
-				lock.lock();
+
+
+    @Override
+    public void run() {
+
+        Connection gameConnection = null;
+        Connection globalConnection = null;
+
+        for (int i = 0; i < UPDATE_AMOUNT; i++) {
+            try {
+                lock.lock();
                 try {
                     SessionAsyncRequest request = requestQueue.poll();
                     if (request == null) {
@@ -69,108 +69,108 @@ public class SessionDBAsyncTimer implements Runnable {
                 } finally {
                     lock.unlock();
                 }
-			} finally {
-				try {
-					if (gameConnection != null) {
-						gameConnection.close();
-					}
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-				
-				try {
-					if (globalConnection != null) {
-						globalConnection.close();
-					}
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		
-	}
-	
-	public void performAdd(SessionAsyncRequest request, Connection cntx) throws Exception {
-		String code;
-		
-		code = "INSERT INTO `" + request.tb_prefix + "SESSIONS` (`request_id`, `key`, `value`, `time`, `civ_id`, `town_id`, `struct_id`) VALUES (?, ?, ?, ?, ?, ?, ?)";
-		PreparedStatement s = cntx.prepareStatement(code, Statement.RETURN_GENERATED_KEYS);
-		s.setNull(1, Types.INTEGER);
-		s.setString(2, request.entry.key);
-		s.setString(3, request.entry.value);
-		s.setLong(4, request.entry.time);
-		s.setInt(5, request.entry.civ_id);
-		s.setInt(6, request.entry.town_id);
-		s.setInt(7, request.entry.struct_id);
-		
-			
-		int rs = s.executeUpdate();
-		if (rs == 0) {
-			throw new Exception("Could not execute SQL code:"+code);
-		}
-		
-		ResultSet res = s.getGeneratedKeys();
-		while(res.next()) {
-			//Grab the first one...
-			request.entry.request_id = res.getInt(1);
-		}
-		res.close();
-		s.close();
+            } finally {
+                try {
+                    if (gameConnection != null) {
+                        gameConnection.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
 
-    }
-	
-	private void performUpdate(SessionAsyncRequest request, Connection cntx) throws Exception {
-		String code;
-		code = "UPDATE `"+ request.tb_prefix + "SESSIONS` SET `value`= ? WHERE `request_id` = ?";
-		PreparedStatement s = cntx.prepareStatement(code);
-		s.setString(1, request.entry.value);
-		s.setInt(2, request.entry.request_id);
-
-		int rs = s.executeUpdate();
-		s.close();
-		if (rs == 0) {
-			throw new Exception("Could not execute SQL code:"+code+" value="+request.entry.value+" reqid="+request.entry.request_id);
-		}
+                try {
+                    if (globalConnection != null) {
+                        globalConnection.close();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
     }
 
-	private void performUpdateInsert(SessionAsyncRequest request, Connection cntx) throws Exception { 
-		String code;
-		code = "UPDATE `"+ request.tb_prefix + "SESSIONS` SET `value`= ? WHERE `request_id` = ?";
-		PreparedStatement s = cntx.prepareStatement(code);
-		s.setString(1, request.entry.value);
-		s.setInt(2, request.entry.request_id);
-	
-		int rs = s.executeUpdate();
-		s.close();
-		if (rs == 0) {
-			throw new Exception("Could not execute SQL code:"+code);
-		}
+    public void performAdd(SessionAsyncRequest request, Connection cntx) throws Exception {
+        String code;
+
+        code = "INSERT INTO `" + request.tb_prefix + "SESSIONS` (`request_id`, `key`, `value`, `time`, `civ_id`, `town_id`, `struct_id`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement s = cntx.prepareStatement(code, Statement.RETURN_GENERATED_KEYS);
+        s.setNull(1, Types.INTEGER);
+        s.setString(2, request.entry.key);
+        s.setString(3, request.entry.value);
+        s.setLong(4, request.entry.time);
+        s.setInt(5, request.entry.civ_id);
+        s.setInt(6, request.entry.town_id);
+        s.setInt(7, request.entry.struct_id);
+
+
+        int rs = s.executeUpdate();
+        if (rs == 0) {
+            throw new Exception("Could not execute SQL code:" + code);
+        }
+
+        ResultSet res = s.getGeneratedKeys();
+        while (res.next()) {
+            //Grab the first one...
+            request.entry.request_id = res.getInt(1);
+        }
+        res.close();
+        s.close();
 
     }
 
-	private void performDeleteAll(SessionAsyncRequest request, Connection cntx) throws Exception {
-		String code = "DELETE FROM `"+ request.tb_prefix + "SESSIONS` WHERE `key` = ?";
-		PreparedStatement s = cntx.prepareStatement(code);
-		s.setString(1, request.entry.key);
-		s.executeUpdate();
-		s.close();
+    private void performUpdate(SessionAsyncRequest request, Connection cntx) throws Exception {
+        String code;
+        code = "UPDATE `" + request.tb_prefix + "SESSIONS` SET `value`= ? WHERE `request_id` = ?";
+        PreparedStatement s = cntx.prepareStatement(code);
+        s.setString(1, request.entry.value);
+        s.setInt(2, request.entry.request_id);
 
-	}
+        int rs = s.executeUpdate();
+        s.close();
+        if (rs == 0) {
+            throw new Exception("Could not execute SQL code:" + code + " value=" + request.entry.value + " reqid=" + request.entry.request_id);
+        }
+
+    }
+
+    private void performUpdateInsert(SessionAsyncRequest request, Connection cntx) throws Exception {
+        String code;
+        code = "UPDATE `" + request.tb_prefix + "SESSIONS` SET `value`= ? WHERE `request_id` = ?";
+        PreparedStatement s = cntx.prepareStatement(code);
+        s.setString(1, request.entry.value);
+        s.setInt(2, request.entry.request_id);
+
+        int rs = s.executeUpdate();
+        s.close();
+        if (rs == 0) {
+            throw new Exception("Could not execute SQL code:" + code);
+        }
+
+    }
+
+    private void performDeleteAll(SessionAsyncRequest request, Connection cntx) throws Exception {
+        String code = "DELETE FROM `" + request.tb_prefix + "SESSIONS` WHERE `key` = ?";
+        PreparedStatement s = cntx.prepareStatement(code);
+        s.setString(1, request.entry.key);
+        s.executeUpdate();
+        s.close();
+
+    }
 
 
-	private void performDelete(SessionAsyncRequest request, Connection cntx) throws Exception {
-		String code;
-		
-		code = "DELETE FROM `"+ request.tb_prefix + "SESSIONS` WHERE `request_id` = ?";
-		PreparedStatement s = cntx.prepareStatement(code);
-		s.setInt(1, request.entry.request_id);
+    private void performDelete(SessionAsyncRequest request, Connection cntx) throws Exception {
+        String code;
 
-		int rs = s.executeUpdate();
-		s.close();
-		if (rs == 0) {
-			throw new Exception("Could not execute SQL code:"+code+" where entry id:"+request.entry.request_id);
-		}
+        code = "DELETE FROM `" + request.tb_prefix + "SESSIONS` WHERE `request_id` = ?";
+        PreparedStatement s = cntx.prepareStatement(code);
+        s.setInt(1, request.entry.request_id);
+
+        int rs = s.executeUpdate();
+        s.close();
+        if (rs == 0) {
+            throw new Exception("Could not execute SQL code:" + code + " where entry id:" + request.entry.request_id);
+        }
 
     }
 

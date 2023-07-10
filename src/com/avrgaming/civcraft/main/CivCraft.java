@@ -76,151 +76,151 @@ import java.sql.SQLException;
 
 public final class CivCraft extends JavaPlugin {
 
-	private static JavaPlugin plugin;
-	private boolean isError = false;
-	public static boolean isDisable = false;
+    private static JavaPlugin plugin;
+    private boolean isError = false;
+    public static boolean isDisable = false;
 
-	public static boolean isValidate = true;
+    public static boolean isValidate = true;
 
-	public static void setIsValidate(boolean b) {
-		isValidate = b;
-	}
+    public static void setIsValidate(boolean b) {
+        isValidate = b;
+    }
 
-	public static boolean getIsValidate() {
-		return isValidate;
-	}
+    public static boolean getIsValidate() {
+        return isValidate;
+    }
 
-	private void startTimers() {
+    private void startTimers() {
 
-		TaskMaster.asyncTask("SQLUpdate", new SQLUpdate(), 0);
+        TaskMaster.asyncTask("SQLUpdate", new SQLUpdate(), 0);
 
-		// Sync Timers
-		TaskMaster.syncTimer(SyncBuildUpdateTask.class.getName(),
-				new SyncBuildUpdateTask(), 0, 1);
+        // Sync Timers
+        TaskMaster.syncTimer(SyncBuildUpdateTask.class.getName(),
+                new SyncBuildUpdateTask(), 0, 1);
 
-		TaskMaster.syncTimer(SyncUpdateChunks.class.getName(),
-				new SyncUpdateChunks(), 0, TimeTools.toTicks(1));
+        TaskMaster.syncTimer(SyncUpdateChunks.class.getName(),
+                new SyncUpdateChunks(), 0, TimeTools.toTicks(1));
 
-		TaskMaster.syncTimer(SyncLoadChunk.class.getName(),
-				new SyncLoadChunk(), 0, 1);
+        TaskMaster.syncTimer(SyncLoadChunk.class.getName(),
+                new SyncLoadChunk(), 0, 1);
 
-		TaskMaster.syncTimer(SyncGetChestInventory.class.getName(),
-				new SyncGetChestInventory(), 0, 1);
+        TaskMaster.syncTimer(SyncGetChestInventory.class.getName(),
+                new SyncGetChestInventory(), 0, 1);
 
-		TaskMaster.syncTimer(SyncUpdateInventory.class.getName(),
-				new SyncUpdateInventory(), 0, 1);
+        TaskMaster.syncTimer(SyncUpdateInventory.class.getName(),
+                new SyncUpdateInventory(), 0, 1);
 
-		TaskMaster.syncTimer(SyncGrowTask.class.getName(),
-				new SyncGrowTask(), 0, 1);
+        TaskMaster.syncTimer(SyncGrowTask.class.getName(),
+                new SyncGrowTask(), 0, 1);
 
-		TaskMaster.syncTimer(PlayerLocationCacheUpdate.class.getName(),
-				new PlayerLocationCacheUpdate(), 0, 10);
+        TaskMaster.syncTimer(PlayerLocationCacheUpdate.class.getName(),
+                new PlayerLocationCacheUpdate(), 0, 10);
 
-		TaskMaster.asyncTimer("RandomEventSweeper", new RandomEventSweeper(), 0, TimeTools.toTicks(10));
+        TaskMaster.asyncTimer("RandomEventSweeper", new RandomEventSweeper(), 0, TimeTools.toTicks(10));
 
-		// Structure event timers
-		TaskMaster.asyncTimer("UpdateEventTimer", new UpdateEventTimer(), TimeTools.toTicks(1));
-		TaskMaster.asyncTimer("UpdateMinuteEventTimer", new UpdateMinuteEventTimer(), TimeTools.toTicks(20));
-		TaskMaster.asyncTimer("RegenTimer", new RegenTimer(), TimeTools.toTicks(5));
+        // Structure event timers
+        TaskMaster.asyncTimer("UpdateEventTimer", new UpdateEventTimer(), TimeTools.toTicks(1));
+        TaskMaster.asyncTimer("UpdateMinuteEventTimer", new UpdateMinuteEventTimer(), TimeTools.toTicks(20));
+        TaskMaster.asyncTimer("RegenTimer", new RegenTimer(), TimeTools.toTicks(5));
 
-		TaskMaster.asyncTimer("BeakerTimer", new BeakerTimer(60), TimeTools.toTicks(60));
-		TaskMaster.syncTimer("UnitTrainTimer", new UnitTrainTimer(), TimeTools.toTicks(1));
-		TaskMaster.asyncTimer("ReduceExposureTimer", new ReduceExposureTimer(), 0, TimeTools.toTicks(5));
+        TaskMaster.asyncTimer("BeakerTimer", new BeakerTimer(60), TimeTools.toTicks(60));
+        TaskMaster.syncTimer("UnitTrainTimer", new UnitTrainTimer(), TimeTools.toTicks(1));
+        TaskMaster.asyncTimer("ReduceExposureTimer", new ReduceExposureTimer(), 0, TimeTools.toTicks(5));
 
-		try {
-			double arrow_firerate = CivSettings.getDouble(CivSettings.warConfig, "arrow_tower.fire_rate");
-			TaskMaster.syncTimer("arrowTower", new ProjectileComponentTimer(), (int) (arrow_firerate * 20));
-			TaskMaster.asyncTimer("ScoutTowerTask", new ScoutTowerTask(), TimeTools.toTicks(1));
+        try {
+            double arrow_firerate = CivSettings.getDouble(CivSettings.warConfig, "arrow_tower.fire_rate");
+            TaskMaster.syncTimer("arrowTower", new ProjectileComponentTimer(), (int) (arrow_firerate * 20));
+            TaskMaster.asyncTimer("ScoutTowerTask", new ScoutTowerTask(), TimeTools.toTicks(1));
 
-		} catch (InvalidConfiguration e) {
-			e.printStackTrace();
-			return;
-		}
-		TaskMaster.syncTimer("arrowhomingtask", new ArrowProjectileTask(), 5);
+        } catch (InvalidConfiguration e) {
+            e.printStackTrace();
+            return;
+        }
+        TaskMaster.syncTimer("arrowhomingtask", new ArrowProjectileTask(), 5);
 
-		// Global Event timers
-		TaskMaster.syncTimer("FarmCropCache", new FarmPreCachePopulateTimer(), TimeTools.toTicks(30));
+        // Global Event timers
+        TaskMaster.syncTimer("FarmCropCache", new FarmPreCachePopulateTimer(), TimeTools.toTicks(30));
 
-		TaskMaster.asyncTimer("FarmGrowthTimer",
-				new FarmGrowthSyncTask(), TimeTools.toTicks(Farm.GROW_RATE));
+        TaskMaster.asyncTimer("FarmGrowthTimer",
+                new FarmGrowthSyncTask(), TimeTools.toTicks(Farm.GROW_RATE));
 
-		TaskMaster.asyncTimer("announcer", new AnnouncementTimer("tips.txt", 5), 0, TimeTools.toTicks(60 * 60));
-		TaskMaster.asyncTimer("announcerwar", new AnnouncementTimer("war.txt", 60), 0, TimeTools.toTicks(60 * 60));
+        TaskMaster.asyncTimer("announcer", new AnnouncementTimer("tips.txt", 5), 0, TimeTools.toTicks(60 * 60));
+        TaskMaster.asyncTimer("announcerwar", new AnnouncementTimer("war.txt", 60), 0, TimeTools.toTicks(60 * 60));
 
-		TaskMaster.asyncTimer("ChangeGovernmentTimer", new ChangeGovernmentTimer(), TimeTools.toTicks(60));
-		TaskMaster.asyncTimer("CalculateScoreTimer", new CalculateScoreTimer(), 0, TimeTools.toTicks(60));
+        TaskMaster.asyncTimer("ChangeGovernmentTimer", new ChangeGovernmentTimer(), TimeTools.toTicks(60));
+        TaskMaster.asyncTimer("CalculateScoreTimer", new CalculateScoreTimer(), 0, TimeTools.toTicks(60));
 
-		TaskMaster.asyncTimer(PlayerProximityComponentTimer.class.getName(),
-				new PlayerProximityComponentTimer(), TimeTools.toTicks(1));
+        TaskMaster.asyncTimer(PlayerProximityComponentTimer.class.getName(),
+                new PlayerProximityComponentTimer(), TimeTools.toTicks(1));
 
-		TaskMaster.asyncTimer(EventTimerTask.class.getName(), new EventTimerTask(), TimeTools.toTicks(5));
+        TaskMaster.asyncTimer(EventTimerTask.class.getName(), new EventTimerTask(), TimeTools.toTicks(5));
 
 //		if (PlatinumManager.isEnabled()) {
 //			TaskMaster.asyncTimer(PlatinumManager.class.getName(), new PlatinumManager(), TimeTools.toTicks(5));
 //		}
 
-		TaskMaster.syncTimer("WindmillTimer", new WindmillTimer(), TimeTools.toTicks(60));
-		TaskMaster.asyncTimer("EndGameNotification", new EndConditionNotificationTask(), TimeTools.toTicks(3600));
+        TaskMaster.syncTimer("WindmillTimer", new WindmillTimer(), TimeTools.toTicks(60));
+        TaskMaster.asyncTimer("EndGameNotification", new EndConditionNotificationTask(), TimeTools.toTicks(3600));
 
-		TaskMaster.asyncTask(new StructureValidationChecker(), TimeTools.toTicks(120));
-		TaskMaster.asyncTimer("StructureValidationPunisher", new StructureValidationPunisher(), TimeTools.toTicks(3600));
-		TaskMaster.asyncTimer("SessionDBAsyncTimer", new SessionDBAsyncTimer(), 10);
+        TaskMaster.asyncTask(new StructureValidationChecker(), TimeTools.toTicks(120));
+        TaskMaster.asyncTimer("StructureValidationPunisher", new StructureValidationPunisher(), TimeTools.toTicks(3600));
+        TaskMaster.asyncTimer("SessionDBAsyncTimer", new SessionDBAsyncTimer(), 10);
 
-		TaskMaster.syncTimer("ArenaTimer", new ArenaManager(), TimeTools.toTicks(30));
-		TaskMaster.syncTimer("ArenaTimeoutTimer", new ArenaTimer(), TimeTools.toTicks(1));
+        TaskMaster.syncTimer("ArenaTimer", new ArenaManager(), TimeTools.toTicks(30));
+        TaskMaster.syncTimer("ArenaTimeoutTimer", new ArenaTimer(), TimeTools.toTicks(1));
 
-	}
+    }
 
-	private void registerEvents() {
-		final PluginManager pluginManager = getServer().getPluginManager();
-		pluginManager.registerEvents(new BlockListener(), this);
-		pluginManager.registerEvents(new ChatListener(), this);
-		pluginManager.registerEvents(new BonusGoodieManager(), this);
-		pluginManager.registerEvents(new MarkerPlacementManager(), this);
-		pluginManager.registerEvents(new CustomItemManager(), this);
-		pluginManager.registerEvents(new PlayerListener(), this);
-		pluginManager.registerEvents(new DebugListener(), this);
-		pluginManager.registerEvents(new LoreCraftableMaterialListener(), this);
-		pluginManager.registerEvents(new LoreGuiItemListener(), this);
+    private void registerEvents() {
+        final PluginManager pluginManager = getServer().getPluginManager();
+        pluginManager.registerEvents(new BlockListener(), this);
+        pluginManager.registerEvents(new ChatListener(), this);
+        pluginManager.registerEvents(new BonusGoodieManager(), this);
+        pluginManager.registerEvents(new MarkerPlacementManager(), this);
+        pluginManager.registerEvents(new CustomItemManager(), this);
+        pluginManager.registerEvents(new PlayerListener(), this);
+        pluginManager.registerEvents(new DebugListener(), this);
+        pluginManager.registerEvents(new LoreCraftableMaterialListener(), this);
+        pluginManager.registerEvents(new LoreGuiItemListener(), this);
 
         boolean useEXPAsCurrency;
-		try {
-			useEXPAsCurrency = CivSettings.getBoolean(CivSettings.civConfig, "global.use_exp_as_currency");
+        try {
+            useEXPAsCurrency = CivSettings.getBoolean(CivSettings.civConfig, "global.use_exp_as_currency");
 
-		} catch (InvalidConfiguration e) {
-			useEXPAsCurrency = true;
-			CivLog.error("Unable to check if EXP should be enabled. Disabling.");
-			e.printStackTrace();
-		}
+        } catch (InvalidConfiguration e) {
+            useEXPAsCurrency = true;
+            CivLog.error("Unable to check if EXP should be enabled. Disabling.");
+            e.printStackTrace();
+        }
 
-		if (useEXPAsCurrency) {
-			pluginManager.registerEvents(new DisableXPListener(), this);
-		}
-		pluginManager.registerEvents(new TradeInventoryListener(), this);
-		pluginManager.registerEvents(new ArenaListener(), this);
-		pluginManager.registerEvents(new CannonListener(), this);
-		pluginManager.registerEvents(new WarListener(), this);
-		pluginManager.registerEvents(new FishingListener(), this);
-		pluginManager.registerEvents(new LoreEnhancementArenaItem(), this);
+        if (useEXPAsCurrency) {
+            pluginManager.registerEvents(new DisableXPListener(), this);
+        }
+        pluginManager.registerEvents(new TradeInventoryListener(), this);
+        pluginManager.registerEvents(new ArenaListener(), this);
+        pluginManager.registerEvents(new CannonListener(), this);
+        pluginManager.registerEvents(new WarListener(), this);
+        pluginManager.registerEvents(new FishingListener(), this);
+        pluginManager.registerEvents(new LoreEnhancementArenaItem(), this);
 
-		pluginManager.registerEvents(new ArmorListener(getConfig().getStringList("blocked")), this);
-	}
+        pluginManager.registerEvents(new ArmorListener(getConfig().getStringList("blocked")), this);
+    }
 
 
-	@Override
-	public void onEnable() {
-		setPlugin(this);
+    @Override
+    public void onEnable() {
+        setPlugin(this);
 
-		this.saveDefaultConfig();
+        this.saveDefaultConfig();
 
-		CivLog.init(this);
-		BukkitObjects.initialize(this);
+        CivLog.init(this);
+        BukkitObjects.initialize(this);
 
-		//Load World Populators
-		BukkitObjects.getWorlds().get(0).getPopulators().add(new TradeGoodPopulator());
-		BukkitObjects.getWorlds().get(0).getPopulators().add(new MobSpawnerPopulator());
+        //Load World Populators
+        BukkitObjects.getWorlds().get(0).getPopulators().add(new TradeGoodPopulator());
+        BukkitObjects.getWorlds().get(0).getPopulators().add(new MobSpawnerPopulator());
 
-		try {
+        try {
             CivSettings.init(this);
 
             SQL.initialize();
@@ -229,77 +229,77 @@ public final class CivCraft extends JavaPlugin {
             CivGlobal.loadGlobals();
 
 
-		} catch (InvalidConfiguration | SQLException | IOException | InvalidConfigurationException | CivException e) {
-			e.printStackTrace();
-			setError(true);
-			return;
-			//TODO disable plugin?
-		}
+        } catch (InvalidConfiguration | SQLException | IOException | InvalidConfigurationException | CivException e) {
+            e.printStackTrace();
+            setError(true);
+            return;
+            //TODO disable plugin?
+        }
 
-		// Init commands
-		registerCommand("town", new TownCommand());
-		registerCommand("resident", new ResidentCommand());
-		registerCommand("dbg", new DebugCommand());
-		registerCommand("plot", new PlotCommand());
-		getCommand("accept").setExecutor(new AcceptCommand());
-		getCommand("deny").setExecutor(new DenyCommand());
-		registerCommand("civ", new CivCommand());
-		getCommand("tc").setExecutor(new TownChatCommand());
-		getCommand("cc").setExecutor(new CivChatCommand());
-		//getCommand("gc").setExecutor(new GlobalChatCommand());
-		registerCommand("ad", new AdminCommand());
-		registerCommand("econ", new EconCommand());
-		getCommand("pay").setExecutor(new PayCommand());
-		registerCommand("build", new BuildCommand());
-		registerCommand("market", new MarketCommand());
-		getCommand("select").setExecutor(new SelectCommand());
-		getCommand("here").setExecutor(new HereCommand());
-		registerCommand("camp", new CampCommand());
-		registerCommand("trade", new TradeCommand());
-		getCommand("kill").setExecutor(new KillCommand());
-		registerCommand("team", new TeamCommand());
+        // Init commands
+        registerCommand("town", new TownCommand());
+        registerCommand("resident", new ResidentCommand());
+        registerCommand("dbg", new DebugCommand());
+        registerCommand("plot", new PlotCommand());
+        getCommand("accept").setExecutor(new AcceptCommand());
+        getCommand("deny").setExecutor(new DenyCommand());
+        registerCommand("civ", new CivCommand());
+        getCommand("tc").setExecutor(new TownChatCommand());
+        getCommand("cc").setExecutor(new CivChatCommand());
+        //getCommand("gc").setExecutor(new GlobalChatCommand());
+        registerCommand("ad", new AdminCommand());
+        registerCommand("econ", new EconCommand());
+        getCommand("pay").setExecutor(new PayCommand());
+        registerCommand("build", new BuildCommand());
+        registerCommand("market", new MarketCommand());
+        getCommand("select").setExecutor(new SelectCommand());
+        getCommand("here").setExecutor(new HereCommand());
+        registerCommand("camp", new CampCommand());
+        registerCommand("trade", new TradeCommand());
+        getCommand("kill").setExecutor(new KillCommand());
+        registerCommand("team", new TeamCommand());
 
-		registerEvents();
-
-
-		startTimers();
-
-		//creativeInvPacketManager.init(this);
-	}
-
-	public void registerCommand(String name, CommandBase command) {
-		getCommand(name).setExecutor(command);
-		getCommand(name).setTabCompleter(command);
-	}
-
-	@Override
-	public void onDisable() {
-		super.onDisable();
-		isDisable = true;
-		SQLUpdate.save();
-	}
-
-	public boolean hasPlugin(String name) {
-		return getServer().getPluginManager().getPlugin(name) != null;
-	}
-
-	public boolean isError() {
-		return isError;
-	}
-
-	public void setError(boolean isError) {
-		this.isError = isError;
-	}
+        registerEvents();
 
 
-	public static JavaPlugin getPlugin() {
-		return plugin;
-	}
+        startTimers();
+
+        //creativeInvPacketManager.init(this);
+    }
+
+    public void registerCommand(String name, CommandBase command) {
+        getCommand(name).setExecutor(command);
+        getCommand(name).setTabCompleter(command);
+    }
+
+    @Override
+    public void onDisable() {
+        super.onDisable();
+        isDisable = true;
+        SQLUpdate.save();
+    }
+
+    public boolean hasPlugin(String name) {
+        return getServer().getPluginManager().getPlugin(name) != null;
+    }
+
+    public boolean isError() {
+        return isError;
+    }
+
+    public void setError(boolean isError) {
+        this.isError = isError;
+    }
 
 
-	public static void setPlugin(JavaPlugin plugin) {
-		CivCraft.plugin = plugin;
-	}
+    public static JavaPlugin getPlugin() {
+        return plugin;
+    }
+
+
+    public static void setPlugin(JavaPlugin plugin) {
+        CivCraft.plugin = plugin;
+    }
 
 
 }

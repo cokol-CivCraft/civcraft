@@ -28,8 +28,8 @@ import com.avrgaming.civcraft.object.Town;
 
 public class AdminChatCommand extends CommandBase {
 
-	@Override
-	public void init() {
+    @Override
+    public void init() {
         command = "/ad chat";
         displayName = CivSettings.localize.localizedString("adcmd_chat_name");
 
@@ -48,170 +48,170 @@ public class AdminChatCommand extends CommandBase {
 
     }
 
-	@SuppressWarnings("unused")
-	public void tclistenall_cmd() throws CivException {
-		Resident resident = getResident();
+    @SuppressWarnings("unused")
+    public void tclistenall_cmd() throws CivException {
+        Resident resident = getResident();
 
-		for (Town t : CivGlobal.getTowns()) {
-			CivMessage.addExtraTownChatListener(t, resident.getName());
-		}
+        for (Town t : CivGlobal.getTowns()) {
+            CivMessage.addExtraTownChatListener(t, resident.getName());
+        }
 
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_tclistenAllSuccess"));
-	}
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_tclistenAllSuccess"));
+    }
 
-	@SuppressWarnings("unused")
-	public void cclistenall_cmd() throws CivException {
-		Resident resident = getResident();
+    @SuppressWarnings("unused")
+    public void cclistenall_cmd() throws CivException {
+        Resident resident = getResident();
 
-		for (Civilization civ : CivGlobal.getCivs()) {
-			CivMessage.addExtraCivChatListener(civ, resident.getName());
-		}
+        for (Civilization civ : CivGlobal.getCivs()) {
+            CivMessage.addExtraCivChatListener(civ, resident.getName());
+        }
 
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_cclistenAllSuccess"));
-	}
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_cclistenAllSuccess"));
+    }
 
-	@SuppressWarnings("unused")
-	public void listenoff_cmd() throws CivException {
-		Resident resident = getResident();
+    @SuppressWarnings("unused")
+    public void listenoff_cmd() throws CivException {
+        Resident resident = getResident();
 
-		for (Town t : CivGlobal.getTowns()) {
-			CivMessage.removeExtraTownChatListener(t, resident.getName());
-		}
+        for (Town t : CivGlobal.getTowns()) {
+            CivMessage.removeExtraTownChatListener(t, resident.getName());
+        }
 
-		for (Civilization civ : CivGlobal.getCivs()) {
-			CivMessage.removeExtraCivChatListener(civ, resident.getName());
-		}
+        for (Civilization civ : CivGlobal.getCivs()) {
+            CivMessage.removeExtraCivChatListener(civ, resident.getName());
+        }
 
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_listenOffSuccess"));
-	}
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_listenOffSuccess"));
+    }
 
-	@SuppressWarnings("unused")
-	public void cclisten_cmd() throws CivException {
-		if (args.length < 2) {
-			throw new CivException(CivSettings.localize.localizedString("EnterCivName"));
-		}
+    @SuppressWarnings("unused")
+    public void cclisten_cmd() throws CivException {
+        if (args.length < 2) {
+            throw new CivException(CivSettings.localize.localizedString("EnterCivName"));
+        }
 
-		Resident resident = getResident();
+        Resident resident = getResident();
 
-		Civilization civ = getNamedCiv(1);
+        Civilization civ = getNamedCiv(1);
 
-		for (String str : CivMessage.getExtraCivChatListeners(civ)) {
-			if (str.equalsIgnoreCase(resident.getName())) {
-				CivMessage.removeExtraCivChatListener(civ, str);
-				CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_noLongerListenCiv")+" "+civ.getName());
-				return;
-			}
-		}
+        for (String str : CivMessage.getExtraCivChatListeners(civ)) {
+            if (str.equalsIgnoreCase(resident.getName())) {
+                CivMessage.removeExtraCivChatListener(civ, str);
+                CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_noLongerListenCiv") + " " + civ.getName());
+                return;
+            }
+        }
 
-		CivMessage.addExtraCivChatListener(civ, resident.getName());
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_listenCivSuccess")+" "+civ.getName());
-	}
+        CivMessage.addExtraCivChatListener(civ, resident.getName());
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_listenCivSuccess") + " " + civ.getName());
+    }
 
-	@SuppressWarnings("unused")
-	public void tclisten_cmd() throws CivException {
-		if (args.length < 2) {
-			throw new CivException(CivSettings.localize.localizedString("EnterTownName"));
-		}
+    @SuppressWarnings("unused")
+    public void tclisten_cmd() throws CivException {
+        if (args.length < 2) {
+            throw new CivException(CivSettings.localize.localizedString("EnterTownName"));
+        }
 
-		Resident resident = getResident();
+        Resident resident = getResident();
 
-		Town town = getNamedTown(1);
+        Town town = getNamedTown(1);
 
-		for (String str : CivMessage.getExtraTownChatListeners(town)) {
-			if (str.equalsIgnoreCase(resident.getName())) {
-				CivMessage.removeExtraTownChatListener(town, str);
-				CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_noLongerListenTown")+" "+town.getName());
-				return;
-			}
-		}
+        for (String str : CivMessage.getExtraTownChatListeners(town)) {
+            if (str.equalsIgnoreCase(resident.getName())) {
+                CivMessage.removeExtraTownChatListener(town, str);
+                CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_noLongerListenTown") + " " + town.getName());
+                return;
+            }
+        }
 
-		CivMessage.addExtraTownChatListener(town, resident.getName());
-		CivMessage.sendSuccess(sender,  CivSettings.localize.localizedString("adcmd_chat_listenTownSuccess")+" "+town.getName());
-	}
+        CivMessage.addExtraTownChatListener(town, resident.getName());
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_listenTownSuccess") + " " + town.getName());
+    }
 
-	@SuppressWarnings("unused")
-	public void tc_cmd() throws CivException {
-		Resident resident = getResident();
-		if (args.length < 2) {
-			resident.setTownChat(false);
-			resident.setTownChatOverride(null);
-			CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_noLongerChattingInTown"));
-			return;
-		}
+    @SuppressWarnings("unused")
+    public void tc_cmd() throws CivException {
+        Resident resident = getResident();
+        if (args.length < 2) {
+            resident.setTownChat(false);
+            resident.setTownChatOverride(null);
+            CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_noLongerChattingInTown"));
+            return;
+        }
 
-		Town town = getNamedTown(1);
+        Town town = getNamedTown(1);
 
-		resident.setTownChat(true);
-		resident.setTownChatOverride(town);
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_nowChattingInTown")+" "+town.getName());
-	}
+        resident.setTownChat(true);
+        resident.setTownChatOverride(town);
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_nowChattingInTown") + " " + town.getName());
+    }
 
-	@SuppressWarnings("unused")
-	public void cc_cmd() throws CivException {
-		Resident resident = getResident();
-		if (args.length < 2) {
-			resident.setCivChat(false);
-			resident.setCivChatOverride(null);
-			CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_noLongerChattingInCiv"));
-			return;
-		}
+    @SuppressWarnings("unused")
+    public void cc_cmd() throws CivException {
+        Resident resident = getResident();
+        if (args.length < 2) {
+            resident.setCivChat(false);
+            resident.setCivChatOverride(null);
+            CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_noLongerChattingInCiv"));
+            return;
+        }
 
-		Civilization civ = getNamedCiv(1);
+        Civilization civ = getNamedCiv(1);
 
-		resident.setCivChat(true);
-		resident.setCivChatOverride(civ);
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_nowChattingInCiv")+" "+civ.getName());
-	}
+        resident.setCivChat(true);
+        resident.setCivChatOverride(civ);
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_nowChattingInCiv") + " " + civ.getName());
+    }
 
-	@SuppressWarnings("unused")
-	public void banwordon_cmd() {
-		CivGlobal.banWordsActive = true;
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_banwordsActivated"));
-	}
+    @SuppressWarnings("unused")
+    public void banwordon_cmd() {
+        CivGlobal.banWordsActive = true;
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_banwordsActivated"));
+    }
 
-	@SuppressWarnings("unused")
-	public void banwordoff_cmd() {
-		CivGlobal.banWordsActive = false;
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_banwordsDeactivated"));
+    @SuppressWarnings("unused")
+    public void banwordoff_cmd() {
+        CivGlobal.banWordsActive = false;
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_banwordsDeactivated"));
 
-	}
+    }
 
-	@SuppressWarnings("unused")
-	public void banwordadd_cmd() throws CivException {
-		if (args.length < 2) {
-			throw new CivException(CivSettings.localize.localizedString("adcmd_chat_addBanwordPrompt"));
-		}
+    @SuppressWarnings("unused")
+    public void banwordadd_cmd() throws CivException {
+        if (args.length < 2) {
+            throw new CivException(CivSettings.localize.localizedString("adcmd_chat_addBanwordPrompt"));
+        }
 
-		CivGlobal.banWords.add(args[1]);
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_chat_banwordadded",args[1]));
-	}
+        CivGlobal.banWords.add(args[1]);
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_chat_banwordadded", args[1]));
+    }
 
-	@SuppressWarnings("unused")
-	public void banwordremove_cmd() throws CivException {
-		if (args.length < 2) {
-			throw new CivException(CivSettings.localize.localizedString("adcmd_chat_removeBanwordPrompt"));
-		}
+    @SuppressWarnings("unused")
+    public void banwordremove_cmd() throws CivException {
+        if (args.length < 2) {
+            throw new CivException(CivSettings.localize.localizedString("adcmd_chat_removeBanwordPrompt"));
+        }
 
-		CivGlobal.banWords.remove(args[1]);
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_chat_banwordremoved",args[1]));
-	}
+        CivGlobal.banWords.remove(args[1]);
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_chat_banwordremoved", args[1]));
+    }
 
-	@SuppressWarnings("unused")
-	public void banwordtoggle() {
+    @SuppressWarnings("unused")
+    public void banwordtoggle() {
 
-		CivGlobal.banWordsAlways = !CivGlobal.banWordsAlways;
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("admcd_chat_banwordAlways") + " " + CivGlobal.banWordsAlways);
-	}
+        CivGlobal.banWordsAlways = !CivGlobal.banWordsAlways;
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("admcd_chat_banwordAlways") + " " + CivGlobal.banWordsAlways);
+    }
 
     @Override
     public void doDefaultAction() {
         showHelp();
     }
 
-	@Override
-	public void showHelp() {
-		showBasicHelp();
-	}
+    @Override
+    public void showHelp() {
+        showBasicHelp();
+    }
 
     @Override
     public void permissionCheck() {

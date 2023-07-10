@@ -17,11 +17,12 @@
  */
 package com.avrgaming.civcraft.event;
 
-import java.util.Calendar;
-
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
 
+import java.util.Calendar;
+
 public interface EventInterface {
-	void process();
-	Calendar getNextDate() throws InvalidConfiguration;
+    void process();
+
+    Calendar getNextDate() throws InvalidConfiguration;
 }

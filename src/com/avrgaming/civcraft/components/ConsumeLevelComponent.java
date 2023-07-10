@@ -18,14 +18,6 @@
  */
 package com.avrgaming.civcraft.components;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigCottageLevel;
 import com.avrgaming.civcraft.config.ConfigMineLevel;
@@ -40,6 +32,13 @@ import com.avrgaming.civcraft.structure.Mine;
 import com.avrgaming.civcraft.structure.Temple;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.MultiInventory;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 public class ConsumeLevelComponent extends Component {
 

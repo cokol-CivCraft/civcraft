@@ -8,14 +8,14 @@ import org.bukkit.inventory.ItemStack;
  * @Website http://codingforcookies.com/
  * @since Jul 30, 2015 6:46:16 PM
  */
-public enum ArmorType{
-	HELMET(5), CHESTPLATE(6), LEGGINGS(7), BOOTS(8);
+public enum ArmorType {
+    HELMET(5), CHESTPLATE(6), LEGGINGS(7), BOOTS(8);
 
-	private final int slot;
+    private final int slot;
 
-	ArmorType(int slot){
-		this.slot = slot;
-	}
+    ArmorType(int slot) {
+        this.slot = slot;
+    }
 
     /**
      * Attempts to match the ArmorType for the specified ItemStack.
@@ -36,28 +36,28 @@ public enum ArmorType{
                 return HELMET;
             case DIAMOND_CHESTPLATE:
             case GOLD_CHESTPLATE:
-			case IRON_CHESTPLATE:
-			case CHAINMAIL_CHESTPLATE:
-			case LEATHER_CHESTPLATE:
-				return CHESTPLATE;
-			case DIAMOND_LEGGINGS:
-			case GOLD_LEGGINGS:
-			case IRON_LEGGINGS:
-			case CHAINMAIL_LEGGINGS:
-			case LEATHER_LEGGINGS:
-				return LEGGINGS;
-			case DIAMOND_BOOTS:
-			case GOLD_BOOTS:
-			case IRON_BOOTS:
-			case CHAINMAIL_BOOTS:
-			case LEATHER_BOOTS:
-				return BOOTS;
-			default:
-				return null;
-		}
-	}
+            case IRON_CHESTPLATE:
+            case CHAINMAIL_CHESTPLATE:
+            case LEATHER_CHESTPLATE:
+                return CHESTPLATE;
+            case DIAMOND_LEGGINGS:
+            case GOLD_LEGGINGS:
+            case IRON_LEGGINGS:
+            case CHAINMAIL_LEGGINGS:
+            case LEATHER_LEGGINGS:
+                return LEGGINGS;
+            case DIAMOND_BOOTS:
+            case GOLD_BOOTS:
+            case IRON_BOOTS:
+            case CHAINMAIL_BOOTS:
+            case LEATHER_BOOTS:
+                return BOOTS;
+            default:
+                return null;
+        }
+    }
 
-	public int getSlot(){
-		return slot;
-	}
+    public int getSlot() {
+        return slot;
+    }
 }

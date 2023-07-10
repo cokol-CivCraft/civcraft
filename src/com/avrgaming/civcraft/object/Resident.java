@@ -352,7 +352,7 @@ public class Resident extends SQLObject {
                     this.setCombatInfo(true);
                     break;
                 case "titleapi":
-					this.setTitleAPI(CivSettings.hasTitleAPI);
+                    this.setTitleAPI(CivSettings.hasTitleAPI);
                     break;
                 case "itemmoderare":
                     this.itemMode = "rare";
@@ -635,11 +635,13 @@ public class Resident extends SQLObject {
     public void setCivChat(boolean civChat) {
         this.civChat = civChat;
     }
-	@SuppressWarnings("unused")
+
+    @SuppressWarnings("unused")
     public boolean isAdminChat() {
         return adminChat;
     }
-	@SuppressWarnings("unused")
+
+    @SuppressWarnings("unused")
     public void setAdminChat(boolean adminChat) {
         this.adminChat = adminChat;
     }
@@ -689,8 +691,8 @@ public class Resident extends SQLObject {
         return count;
     }
 
-	@SuppressWarnings({"unused", "deprecation"})
-	public boolean takeItemInHand(int itemId, int itemData, int amount) throws CivException {
+    @SuppressWarnings({"unused", "deprecation"})
+    public boolean takeItemInHand(int itemId, int itemData, int amount) throws CivException {
         Player player = CivGlobal.getPlayer(this);
         Inventory inv = player.getInventory();
 
@@ -743,9 +745,9 @@ public class Resident extends SQLObject {
                 inv.removeItem(stack);
                 continue;
             }
-			stack.setAmount(stack.getAmount() - amount);
-			break;
-		}
+            stack.setAmount(stack.getAmount() - amount);
+            break;
+        }
 
         player.updateInventory();
         return true;
@@ -796,7 +798,7 @@ public class Resident extends SQLObject {
         return this.getTown().getCiv();
     }
 
-	@SuppressWarnings("unused")
+    @SuppressWarnings("unused")
     public void setScoreboardName(String name, String key) {
         if (this.scoreboard == null) {
             this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
@@ -810,7 +812,7 @@ public class Resident extends SQLObject {
 
     }
 
-	@SuppressWarnings("unused")
+    @SuppressWarnings("unused")
     public void setScoreboardValue(String name, String key, int value) {
         if (this.scoreboard == null) {
             return;
@@ -827,7 +829,8 @@ public class Resident extends SQLObject {
             score.setScore(value);
         }
     }
-	@SuppressWarnings("unused")
+
+    @SuppressWarnings("unused")
     public void showScoreboard() {
         if (this.scoreboard != null) {
             Player player;
@@ -839,7 +842,8 @@ public class Resident extends SQLObject {
             }
         }
     }
-	@SuppressWarnings("unused")
+
+    @SuppressWarnings("unused")
     public void hideScoreboard() {
         Player player;
         try {
@@ -1005,7 +1009,8 @@ public class Resident extends SQLObject {
     public void setShowInfo(boolean showInfo) {
         this.showInfo = showInfo;
     }
-	@SuppressWarnings("unused")
+
+    @SuppressWarnings("unused")
     public boolean isBanned() {
         return banned;
     }
@@ -1057,7 +1062,8 @@ public class Resident extends SQLObject {
     public boolean isOnRoad() {
         return onRoad;
     }
-	@SuppressWarnings("unused")
+
+    @SuppressWarnings("unused")
     public void setOnRoad(boolean onRoad) {
         this.onRoad = onRoad;
     }
@@ -1106,54 +1112,43 @@ public class Resident extends SQLObject {
 //			return;
 //		}
 
-        class AsyncTask implements Runnable {
-            final Resident resident;
+        TaskMaster.asyncTask(() -> {
+            Resident.this.perks.clear();
 
-            public AsyncTask(Resident resident) {
-                this.resident = resident;
-            }
+            try {
 
-            @Override
-            public void run() {
-                resident.perks.clear();
-
-                try {
-
-                    StringBuilder perkMessage = new StringBuilder();
-                    if (CivSettings.getString(CivSettings.perkConfig, "system.free_perks").equalsIgnoreCase("true")) {
-                        resident.giveAllFreePerks();
-                        perkMessage = new StringBuilder(CivSettings.localize.localizedString("PlayerLoginAsync_perksMsg1") + " ");
-                    } else if (CivSettings.getString(CivSettings.perkConfig, "system.free_admin_perks").equalsIgnoreCase("true")) {
-                        if (player.hasPermission(CivSettings.MINI_ADMIN) || player.hasPermission(CivSettings.FREE_PERKS)) {
-                            resident.giveAllFreePerks();
-                            perkMessage = new StringBuilder(CivSettings.localize.localizedString("PlayerLoginAsync_perksMsg1") + ": ");
-                            perkMessage.append("Weather" + ", ");
-                        }
+                StringBuilder perkMessage = new StringBuilder();
+                if (CivSettings.getString(CivSettings.perkConfig, "system.free_perks").equalsIgnoreCase("true")) {
+                    Resident.this.giveAllFreePerks();
+                    perkMessage = new StringBuilder(CivSettings.localize.localizedString("PlayerLoginAsync_perksMsg1") + " ");
+                } else if (CivSettings.getString(CivSettings.perkConfig, "system.free_admin_perks").equalsIgnoreCase("true")) {
+                    if (player.hasPermission(CivSettings.MINI_ADMIN) || player.hasPermission(CivSettings.FREE_PERKS)) {
+                        Resident.this.giveAllFreePerks();
+                        perkMessage = new StringBuilder(CivSettings.localize.localizedString("PlayerLoginAsync_perksMsg1") + ": ");
+                        perkMessage.append("Weather" + ", ");
                     }
-
-                    for (ConfigPerk p : CivSettings.templates.values()) {
-                        if (player.hasPermission("civ.perk." + p.simple_name)) {
-                            resident.giveTemplate(p.simple_name);
-                            perkMessage.append(p.display_name).append(", ");
-                        }
-                    }
-
-                    perkMessage.append(CivSettings.localize.localizedString("PlayerLoginAsync_perksMsg2"));
-
-                    CivMessage.send(resident, CivColor.LightGreen + perkMessage);
-                } catch (InvalidConfiguration e) {
-                    e.printStackTrace();
                 }
 
-                /* User was verified, lets see if it was the first time. */
-//				PlatinumManager.givePlatinumOnce(resident,
-//				CivSettings.platinumRewards.get("loginFirstVerified").name, 
-//				CivSettings.platinumRewards.get("loginFirstVerified").amount, 
-//				"Achievement! First time you've logged in while verified! %d");
-            }
-        }
+                for (ConfigPerk p : CivSettings.templates.values()) {
+                    if (player.hasPermission("civ.perk." + p.simple_name)) {
+                        Resident.this.giveTemplate(p.simple_name);
+                        perkMessage.append(p.display_name).append(", ");
+                    }
+                }
 
-        TaskMaster.asyncTask(new AsyncTask(this), 0);
+                perkMessage.append(CivSettings.localize.localizedString("PlayerLoginAsync_perksMsg2"));
+
+                CivMessage.send(Resident.this, CivColor.LightGreen + perkMessage);
+            } catch (InvalidConfiguration e) {
+                e.printStackTrace();
+            }
+
+            /* User was verified, lets see if it was the first time. */
+//				PlatinumManager.givePlatinumOnce(resident,
+//				CivSettings.platinumRewards.get("loginFirstVerified").name,
+//				CivSettings.platinumRewards.get("loginFirstVerified").amount,
+//				"Achievement! First time you've logged in while verified! %d");
+        }, 0);
     }
 
     public void setRejoinCooldown(Town town) {
@@ -1233,28 +1228,28 @@ public class Resident extends SQLObject {
         ArrayList<Perk> unboundPerks = new ArrayList<>();
         for (Perk ourPerk : perks.values()) {
 
-			if (ourPerk.getIdent().contains("template")) {
-				continue;
-			}
-			CustomTemplate customTemplate = (CustomTemplate) ourPerk.getComponent("CustomTemplate");
-			if (customTemplate == null) {
-				continue;
-			}
+            if (ourPerk.getIdent().contains("template")) {
+                continue;
+            }
+            CustomTemplate customTemplate = (CustomTemplate) ourPerk.getComponent("CustomTemplate");
+            if (customTemplate == null) {
+                continue;
+            }
 
-			if (!customTemplate.getString("template").equals(info.template_base_name)) {
-				/* Not the correct template. */
-				continue;
-			}
+            if (!customTemplate.getString("template").equals(info.template_base_name)) {
+                /* Not the correct template. */
+                continue;
+            }
 
-			for (Perk perk : alreadyBoundPerkList) {
-				if (perk.getIdent().equals(ourPerk.getIdent())) {
-					/* Perk is already bound in this town, do not display for binding. */
-					break;
-				}
-			}
+            for (Perk perk : alreadyBoundPerkList) {
+                if (perk.getIdent().equals(ourPerk.getIdent())) {
+                    /* Perk is already bound in this town, do not display for binding. */
+                    break;
+                }
+            }
 
-			unboundPerks.add(ourPerk);
-		}
+            unboundPerks.add(ourPerk);
+        }
 
         return unboundPerks;
     }
@@ -1267,11 +1262,12 @@ public class Resident extends SQLObject {
         this.controlBlockInstantBreak = controlBlockInstantBreak;
     }
 
-	@SuppressWarnings("unused")
+    @SuppressWarnings("unused")
     public boolean isMuted() {
         return muted;
     }
-	@SuppressWarnings("unused")
+
+    @SuppressWarnings("unused")
     public void setMuted(boolean muted) {
         this.muted = muted;
     }
@@ -1291,8 +1287,8 @@ public class Resident extends SQLObject {
 
         expire.add(Calendar.DATE, days);
 
-		return now.after(expire);
-	}
+        return now.after(expire);
+    }
 
     public String getTimezone() {
         return timezone;
@@ -1441,11 +1437,13 @@ public class Resident extends SQLObject {
             respawntime = 30;
         }
     }
-	@SuppressWarnings("unused")
+
+    @SuppressWarnings("unused")
     public Date getMuteExpires() {
         return muteExpires;
     }
-	@SuppressWarnings("unused")
+
+    @SuppressWarnings("unused")
     public void setMuteExpires(Date muteExpires) {
         this.muteExpires = muteExpires;
     }
@@ -1453,7 +1451,8 @@ public class Resident extends SQLObject {
     public String getItemMode() {
         return itemMode;
     }
-	@SuppressWarnings("unused")
+
+    @SuppressWarnings("unused")
     public void setItemMode(String itemMode) {
         this.itemMode = itemMode;
     }
@@ -1486,7 +1485,7 @@ public class Resident extends SQLObject {
             player = CivGlobal.getPlayer(this);
             teleportHome(player);
         } catch (CivException ignored) {
-		}
+        }
     }
 
     public void teleportHome(Player player) {
@@ -1504,7 +1503,7 @@ public class Resident extends SQLObject {
 
     public boolean canDamageControlBlock() {
         if (this.hasTown()) {
-			return this.getCiv().getCapitolStructure().isValid();
+            return this.getCiv().getCapitolStructure().isValid();
         }
 
         return true;
@@ -1514,18 +1513,19 @@ public class Resident extends SQLObject {
         CivGlobal.getPlayer(this);
         return usesAntiCheat;
     }
-	@SuppressWarnings("unused")
+
+    @SuppressWarnings("unused")
     public void setUsesAntiCheat(boolean usesAntiCheat) {
         this.usesAntiCheat = usesAntiCheat;
     }
 
     public boolean hasTeam() {
         ArenaTeam team = ArenaTeam.getTeamForResident(this);
-		return team != null;
-	}
+        return team != null;
+    }
 
     public ArenaTeam getTeam() {
-		return ArenaTeam.getTeamForResident(this);
+        return ArenaTeam.getTeamForResident(this);
     }
 
     public boolean isTeamLeader() {
@@ -1534,8 +1534,8 @@ public class Resident extends SQLObject {
             return false;
         }
 
-		return team.getLeader() == this;
-	}
+        return team.getLeader() == this;
+    }
 
     public void saveInventory() {
         try {
@@ -1574,7 +1574,8 @@ public class Resident extends SQLObject {
             this.save();
         }
     }
-	@SuppressWarnings("unused")
+
+    @SuppressWarnings("unused")
     public String getSavedInventory() {
         return savedInventory;
     }
@@ -1674,7 +1675,7 @@ public class Resident extends SQLObject {
         Inventory inv = Bukkit.getServer().createInventory(player, CivTutorial.MAX_CHEST_SIZE * 9, CivSettings.localize.localizedString("resident_perksGui_templatesHeading") + " " + name);
 
         for (Perk perk : perks.values()) {
-			if (perk.getIdent().contains("tpl_" + name)) {
+            if (perk.getIdent().contains("tpl_" + name)) {
                 ItemStack stack = LoreGuiItem.build(perk.configPerk.display_name,
                         perk.configPerk.type_id,
                         perk.configPerk.data, CivColor.Gold + CivSettings.localize.localizedString("resident_perksGui_clickToActivate"),
@@ -1704,7 +1705,8 @@ public class Resident extends SQLObject {
     public double getWalkingModifier() {
         return walkingModifier;
     }
-	@SuppressWarnings("unused")
+
+    @SuppressWarnings("unused")
     public void setWalkingModifier(double walkingModifier) {
         this.walkingModifier = walkingModifier;
     }

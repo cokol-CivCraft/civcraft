@@ -17,50 +17,50 @@
  */
 package com.avrgaming.civcraft.threading.timers;
 
-import java.util.ArrayList;
-
 import com.avrgaming.civcraft.cache.PlayerLocationCache;
 import com.avrgaming.civcraft.components.Component;
 import com.avrgaming.civcraft.components.PlayerProximityComponent;
 
+import java.util.ArrayList;
+
 public class PlayerProximityComponentTimer implements Runnable {
 
-	@Override
-	public void run() {
-		
-		/* 
-		 * Grab all of the player proximity components and update them, this task
-		 * runs asynchronously once per tick and gathers all of the player locations
-		 * into an async friendly data-structure.
-		 */
-		
-		Component.componentsLock.lock();
-		try {
-			ArrayList<Component> proximityComponents = Component.componentsByType.get(PlayerProximityComponent.class.getName());
-			
-			if (proximityComponents == null) {
-				return;
-			}
+    @Override
+    public void run() {
 
-			/* 
-			 * Wait for the lock to free up before we continue; 
-			 */
-			for (Component comp : proximityComponents) {
-				if (comp instanceof PlayerProximityComponent) {
-					PlayerProximityComponent ppc = (PlayerProximityComponent)comp;
-										
-					if (ppc.lock.tryLock()) {
-						try {
-							ppc.buildNearbyPlayers(PlayerLocationCache.getCache());
-						} finally {
-							ppc.lock.unlock();
-						}
-					} 
-				}
-			}
-		} finally {
-			Component.componentsLock.unlock();
-		}
-	}
+        /*
+         * Grab all of the player proximity components and update them, this task
+         * runs asynchronously once per tick and gathers all of the player locations
+         * into an async friendly data-structure.
+         */
+
+        Component.componentsLock.lock();
+        try {
+            ArrayList<Component> proximityComponents = Component.componentsByType.get(PlayerProximityComponent.class.getName());
+
+            if (proximityComponents == null) {
+                return;
+            }
+
+            /*
+             * Wait for the lock to free up before we continue;
+             */
+            for (Component comp : proximityComponents) {
+                if (comp instanceof PlayerProximityComponent) {
+                    PlayerProximityComponent ppc = (PlayerProximityComponent) comp;
+
+                    if (ppc.lock.tryLock()) {
+                        try {
+                            ppc.buildNearbyPlayers(PlayerLocationCache.getCache());
+                        } finally {
+                            ppc.lock.unlock();
+                        }
+                    }
+                }
+            }
+        } finally {
+            Component.componentsLock.unlock();
+        }
+    }
 
 }

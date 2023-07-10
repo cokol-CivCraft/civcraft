@@ -35,13 +35,13 @@ public class CivColor {
      */
     public static String colorize(String input) {
         String output = input;
-		
-		output = output.replaceAll("<red>", Red);
-		output = output.replaceAll("<rose>", Rose);
-		output = output.replaceAll("<gold>", Gold);
-		output = output.replaceAll("<yellow>", Yellow);
-		output = output.replaceAll("<green>", Green);
-		output = output.replaceAll("<lightgreen>", LightGreen);
+
+        output = output.replaceAll("<red>", Red);
+        output = output.replaceAll("<rose>", Rose);
+        output = output.replaceAll("<gold>", Gold);
+        output = output.replaceAll("<yellow>", Yellow);
+        output = output.replaceAll("<green>", Green);
+        output = output.replaceAll("<lightgreen>", LightGreen);
         output = output.replaceAll("<lightblue>", LightBlue);
         output = output.replaceAll("<blue>", Blue);
         output = output.replaceAll("<navy>", Navy);
@@ -61,80 +61,80 @@ public class CivColor {
 
         return output;
     }
-	
-	public static String strip(String line) {
 
-		for (ChatColor cc : ChatColor.values())
-			line.replaceAll(cc.toString(), "");
-		return line;
-	}
+    public static String strip(String line) {
 
-	public static String valueOf(String color) {
-		switch (color.toLowerCase()) {
-		case "black":
-			return Black;
-		case "navy":
-			return Navy;
-		case "green":
-			return Green;
-		case "blue":
-			return Blue;
-		case "red":
-			return Red;
-		case "purple":
-			return Purple;
-		case "gold":
-			return Gold;
-		case "lightgray":
-			return LightGray;
-		case "gray":
-			return Gray;
-		case "darkpurple":
-			return DarkPurple;
-		case "lightgreen":
-			return LightGreen;
-		case "lightblue":
-			return LightBlue;
-		case "rose":
-			return Rose;
-		case "lightpurple":
-			return LightPurple;
-		case "yellow":
-			return Yellow;
-		case "white":
-			return White;
-		default:
-			return White;
-		}		
-	}
+        for (ChatColor cc : ChatColor.values())
+            line.replaceAll(cc.toString(), "");
+        return line;
+    }
 
-	public static String stripTags(String input) {
-		String output = input;
-		
-		output = output.replaceAll("<red>", "");
-		output = output.replaceAll("<rose>", "");
-		output = output.replaceAll("<gold>", "");
-		output = output.replaceAll("<yellow>", "");
-		output = output.replaceAll("<green>", "");
-		output = output.replaceAll("<lightgreen>", "");
-		output = output.replaceAll("<lightblue>", "");
-		output = output.replaceAll("<blue>", "");
-		output = output.replaceAll("<navy>", "");
-		output = output.replaceAll("<darkpurple>", "");
-		output = output.replaceAll("<lightpurple>", "");
-		output = output.replaceAll("<purple>", "");
-		output = output.replaceAll("<white>", "");
-		output = output.replaceAll("<lightgray>", "");
-		output = output.replaceAll("<gray>", "");
-		output = output.replaceAll("<black>", "");
-		output = output.replaceAll("<b>", "");
-		output = output.replaceAll("<u>", "");
-		output = output.replaceAll("<i>", "");
-		output = output.replaceAll("<magic>", "");
-		output = output.replaceAll("<s>", "");
-		output = output.replaceAll("<r>", "");
-		
-		return output;
-	}
-	
+    public static String valueOf(String color) {
+        switch (color.toLowerCase()) {
+            case "black":
+                return Black;
+            case "navy":
+                return Navy;
+            case "green":
+                return Green;
+            case "blue":
+                return Blue;
+            case "red":
+                return Red;
+            case "purple":
+                return Purple;
+            case "gold":
+                return Gold;
+            case "lightgray":
+                return LightGray;
+            case "gray":
+                return Gray;
+            case "darkpurple":
+                return DarkPurple;
+            case "lightgreen":
+                return LightGreen;
+            case "lightblue":
+                return LightBlue;
+            case "rose":
+                return Rose;
+            case "lightpurple":
+                return LightPurple;
+            case "yellow":
+                return Yellow;
+            case "white":
+                return White;
+            default:
+                return White;
+        }
+    }
+
+    public static String stripTags(String input) {
+        String output = input;
+
+        output = output.replaceAll("<red>", "");
+        output = output.replaceAll("<rose>", "");
+        output = output.replaceAll("<gold>", "");
+        output = output.replaceAll("<yellow>", "");
+        output = output.replaceAll("<green>", "");
+        output = output.replaceAll("<lightgreen>", "");
+        output = output.replaceAll("<lightblue>", "");
+        output = output.replaceAll("<blue>", "");
+        output = output.replaceAll("<navy>", "");
+        output = output.replaceAll("<darkpurple>", "");
+        output = output.replaceAll("<lightpurple>", "");
+        output = output.replaceAll("<purple>", "");
+        output = output.replaceAll("<white>", "");
+        output = output.replaceAll("<lightgray>", "");
+        output = output.replaceAll("<gray>", "");
+        output = output.replaceAll("<black>", "");
+        output = output.replaceAll("<b>", "");
+        output = output.replaceAll("<u>", "");
+        output = output.replaceAll("<i>", "");
+        output = output.replaceAll("<magic>", "");
+        output = output.replaceAll("<s>", "");
+        output = output.replaceAll("<r>", "");
+
+        return output;
+    }
+
 }

@@ -21,17 +21,16 @@ import com.avrgaming.civcraft.structure.Barracks;
 
 public class UnitSaveAsyncTask implements Runnable {
 
-	Barracks barracks;
-	
-	public UnitSaveAsyncTask(Barracks barracks) {
-		this.barracks = barracks;
-	}
+    Barracks barracks;
 
-	@Override
-	public void run() {
-		barracks.saveProgress();
-	}
-	
-	
-	
+    public UnitSaveAsyncTask(Barracks barracks) {
+        this.barracks = barracks;
+    }
+
+    @Override
+    public void run() {
+        barracks.saveProgress();
+    }
+
+
 }

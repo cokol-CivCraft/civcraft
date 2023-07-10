@@ -31,63 +31,63 @@ import org.bukkit.entity.Player;
 
 public class InteractiveTownName implements InteractiveResponse {
 
-	@Override
-	public void respond(String message, Resident resident) {
+    @Override
+    public void respond(String message, Resident resident) {
 
-		Player player;
-		try {
-			player = CivGlobal.getPlayer(resident);
-		} catch (CivException e) {
-			return;
-		}
+        Player player;
+        try {
+            player = CivGlobal.getPlayer(resident);
+        } catch (CivException e) {
+            return;
+        }
 
-		if (message.equalsIgnoreCase("cancel")) {
-			CivMessage.send(player, CivSettings.localize.localizedString("interactive_town_cancelled"));
-			resident.clearInteractiveMode();
-			return;
-		}
+        if (message.equalsIgnoreCase("cancel")) {
+            CivMessage.send(player, CivSettings.localize.localizedString("interactive_town_cancelled"));
+            resident.clearInteractiveMode();
+            return;
+        }
 
-		if (!StringUtils.isAlpha(message) || !StringUtils.isAsciiPrintable(message)) {
-			CivMessage.send(player, CivColor.Rose + ChatColor.BOLD + CivSettings.localize.localizedString("interactive_town_nameInvalid"));
-			return;
-		}
+        if (!StringUtils.isAlpha(message) || !StringUtils.isAsciiPrintable(message)) {
+            CivMessage.send(player, CivColor.Rose + ChatColor.BOLD + CivSettings.localize.localizedString("interactive_town_nameInvalid"));
+            return;
+        }
 
-		resident.desiredTownName = message.replace(" ", "_").replace("\"", "").replace("'", "");
-		CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("var_interactive_town_confirmName", CivColor.Yellow + resident.desiredTownName + CivColor.LightGreen));
+        resident.desiredTownName = message.replace(" ", "_").replace("\"", "").replace("'", "");
+        CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("var_interactive_town_confirmName", CivColor.Yellow + resident.desiredTownName + CivColor.LightGreen));
 
-		class SyncTask implements Runnable {
-			final Resident resident;
+        class SyncTask implements Runnable {
+            final Resident resident;
 
-			public SyncTask(Resident resident) {
-				this.resident = resident;
-			}
+            public SyncTask(Resident resident) {
+                this.resident = resident;
+            }
 
 
-			@Override
-			public void run() {
-				Player player;
-				try {
-					player = CivGlobal.getPlayer(resident);
-				} catch (CivException e) {
-					return;
-				}
+            @Override
+            public void run() {
+                Player player;
+                try {
+                    player = CivGlobal.getPlayer(resident);
+                } catch (CivException e) {
+                    return;
+                }
 
-				CivMessage.sendHeading(player, CivSettings.localize.localizedString("interactive_town_surveyResults"));
-				CivMessage.send(player, TownCommand.survey(player.getLocation()));
+                CivMessage.sendHeading(player, CivSettings.localize.localizedString("interactive_town_surveyResults"));
+                CivMessage.send(player, TownCommand.survey(player.getLocation()));
 
-				if (resident.getCiv().getCapitolTownHallLocation() == null) {
-					CivMessage.sendError(player, CivSettings.localize.localizedString("interactive_town_noCapitol"));
-					resident.clearInteractiveMode();
-					return;
-				}
+                if (resident.getCiv().getCapitolTownHallLocation() == null) {
+                    CivMessage.sendError(player, CivSettings.localize.localizedString("interactive_town_noCapitol"));
+                    resident.clearInteractiveMode();
+                    return;
+                }
 
-				CivMessage.send(player, CivColor.LightGreen + ChatColor.BOLD + CivSettings.localize.localizedString("interactive_town_confirm"));
+                CivMessage.send(player, CivColor.LightGreen + ChatColor.BOLD + CivSettings.localize.localizedString("interactive_town_confirm"));
 
-				resident.setInteractiveMode(new InteractiveConfirmTownCreation());
-			}
-		}
-		
-		TaskMaster.syncTask(new SyncTask(resident));
+                resident.setInteractiveMode(new InteractiveConfirmTownCreation());
+            }
+        }
+
+        TaskMaster.syncTask(new SyncTask(resident));
 
 
     }

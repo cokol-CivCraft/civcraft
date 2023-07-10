@@ -35,5 +35,5 @@ public class SyncUpdateTagsBetweenCivs implements Runnable {
     @Override
     public void run() {
     }
-	
+
 }

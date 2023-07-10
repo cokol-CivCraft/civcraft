@@ -1,329 +1,330 @@
 package com.avrgaming.civcraft.threading.tasks;
 
-import java.util.*;
-
-import org.bukkit.Sound;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
 import com.avrgaming.civcraft.exception.CivTaskAbortException;
 import com.avrgaming.civcraft.lorestorage.LoreMaterial;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.StructureChest;
-import com.avrgaming.civcraft.structure.Structure;
 import com.avrgaming.civcraft.structure.MobGrinder;
 import com.avrgaming.civcraft.structure.MobGrinder.Crystal;
+import com.avrgaming.civcraft.structure.Structure;
 import com.avrgaming.civcraft.threading.CivAsyncTask;
 import com.avrgaming.civcraft.threading.sync.request.UpdateInventoryRequest.Action;
 import com.avrgaming.civcraft.util.MultiInventory;
+import org.bukkit.Sound;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Random;
 
 public class MobGrinderAsyncTask extends CivAsyncTask {
 
-	MobGrinder mobGrinder;
+    MobGrinder mobGrinder;
     public static HashSet<String> debugTowns = new HashSet<>();
     private final ArrayList<String> mobs = new ArrayList<>(Arrays.asList("PIG", "SHEEP", "COW", "CHICKEN", "ZOMBIE", "ENDERMAN", "SKELETON", "CREEPER", "SLIME", "SPIDER"));
-	public static void debug(MobGrinder mobGrinder, String msg) {
-		if (debugTowns.contains(mobGrinder.getTown().getName())) {
-			CivLog.warning("GrinderDebug:"+mobGrinder.getTown().getName()+":"+msg);
-		}
-	}	
-	
-	public MobGrinderAsyncTask(Structure mobGrinder) {
-		this.mobGrinder = (MobGrinder)mobGrinder;
-	}
-    private String getMobId(ItemStack is) {
-		String itemID = LoreMaterial.getMaterial(is).getId();
-		for (String s : mobs) {
-			if (itemID.contains(s.toLowerCase())) {
-				return s.toUpperCase();
-			}
-		}
-		return null;
+
+    public static void debug(MobGrinder mobGrinder, String msg) {
+        if (debugTowns.contains(mobGrinder.getTown().getName())) {
+            CivLog.warning("GrinderDebug:" + mobGrinder.getTown().getName() + ":" + msg);
+        }
     }
 
-	private int getEggTier(ItemStack is) {
-		String ss = LoreMaterial.getMaterial(is).getId().toLowerCase();
-		int i;
-		int r = 1;
-		for (i = 4 ; i > 0 ; i--) {
-			if (ss.contains("_egg_" + i)) {
-				r = i;
-				return i;
-			}
-			if (i == 1) {
-				if (ss.contains("_egg")) {
-					r = 1;
-					return 1;
-				}
-			}
-		}
-		return r;
-	}
+    public MobGrinderAsyncTask(Structure mobGrinder) {
+        this.mobGrinder = (MobGrinder) mobGrinder;
+    }
 
-	private ArrayList<ItemStack> getMobLoot(ItemStack is) {
-		int tier = getEggTier(is);
-		String id = getMobId(is);
-		ArrayList<ItemStack> newItems = new ArrayList<>();
-		switch (id) {
-			case "ZOMBIE":
-				switch (tier) {
-					case 1:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_zombie_egg_2")));
-						break;
-					case 2:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_zombie_egg_3")));
-						break;
-					case 3:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_zombie_egg_4")));
-						break;
-					case 4:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_boots")));
-						break;
-				}
-				break;
-			case "SHEEP":
-				switch (tier) {
-					case 1:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_sheep_egg_2")));
-						break;
-					case 2:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_sheep_egg_3")));
-						break;
-					case 3:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_sheep_egg_4")));
-						break;
-					case 4:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_boots")));
-						break;
-				}
-				break;
-			case "PIG":
-				switch (tier) {
-					case 1:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_pig_egg_2")));
-						break;
-					case 2:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_pig_egg_3")));
-						break;
-					case 3:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_pig_egg_4")));
-						break;
-					case 4:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_leggings")));
-						break;
-				}
-				break;
-			case "COW":
-				switch (tier) {
-					case 1:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_cow_egg_2")));
-						break;
-					case 2:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_cow_egg_3")));
-						break;
-					case 3:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_cow_egg_4")));
-						break;
-					case 4:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_chestplate")));
-						break;
-				}
-				break;
-			case "CHICKEN":
-				switch (tier) {
-					case 1:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_chicken_egg_2")));
-						break;
-					case 2:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_chicken_egg_3")));
-						break;
-					case 3:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_chicken_egg_4")));
-						break;
-					case 4:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_helmet")));
-						break;
-				}
-				break;
-			case "SKELETON":
-				switch (tier) {
-					case 1:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_skeleton_egg_2")));
-						break;
-					case 2:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_skeleton_egg_3")));
-						break;
-					case 3:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_skeleton_egg_4")));
-						break;
-					case 4:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_leggings")));
-						break;
-				}
-				break;
-			case "SLIME":
-				switch (tier) {
-					case 1:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_slime_egg_2")));
-						break;
-					case 2:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_slime_egg_3")));
-						break;
-					case 3:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_slime_egg_4")));
-						break;
-					case 4:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_sword")));
-						break;
-				}
-				break;
-			case "ENDERMAN":
-				switch (tier) {
-					case 1:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_enderman_egg_2")));
-						break;
-					case 2:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_enderman_egg_3")));
-						break;
-					case 3:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_enderman_egg_4")));
-						break;
-					case 4:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_sword")));
-						break;
-				}
-				break;
-			case "CREEPER":
-				switch (tier) {
-					case 1:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_creeper_egg_2")));
-						break;
-					case 2:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_creeper_egg_3")));
-						break;
-					case 3:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_creeper_egg_4")));
-						break;
-					case 4:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_chestplate")));
-						break;
-				}
-				break;
-			case "SPIDER":
-				switch (tier) {
-					case 1:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_spider_egg_2")));
-						break;
-					case 2:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_spider_egg_3")));
-						break;
-					case 3:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_spider_egg_4")));
-						break;
-					case 4:
-						newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_helmet")));
-						break;
-				}
-		}
-		return newItems;
-	}
+    private String getMobId(ItemStack is) {
+        String itemID = LoreMaterial.getMaterial(is).getId();
+        for (String s : mobs) {
+            if (itemID.contains(s.toLowerCase())) {
+                return s.toUpperCase();
+            }
+        }
+        return null;
+    }
+
+    private int getEggTier(ItemStack is) {
+        String ss = LoreMaterial.getMaterial(is).getId().toLowerCase();
+        int i;
+        int r = 1;
+        for (i = 4; i > 0; i--) {
+            if (ss.contains("_egg_" + i)) {
+                r = i;
+                return i;
+            }
+            if (i == 1) {
+                if (ss.contains("_egg")) {
+                    r = 1;
+                    return 1;
+                }
+            }
+        }
+        return r;
+    }
+
+    private ArrayList<ItemStack> getMobLoot(ItemStack is) {
+        int tier = getEggTier(is);
+        String id = getMobId(is);
+        ArrayList<ItemStack> newItems = new ArrayList<>();
+        switch (id) {
+            case "ZOMBIE":
+                switch (tier) {
+                    case 1:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_zombie_egg_2")));
+                        break;
+                    case 2:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_zombie_egg_3")));
+                        break;
+                    case 3:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_zombie_egg_4")));
+                        break;
+                    case 4:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_boots")));
+                        break;
+                }
+                break;
+            case "SHEEP":
+                switch (tier) {
+                    case 1:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_sheep_egg_2")));
+                        break;
+                    case 2:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_sheep_egg_3")));
+                        break;
+                    case 3:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_sheep_egg_4")));
+                        break;
+                    case 4:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_boots")));
+                        break;
+                }
+                break;
+            case "PIG":
+                switch (tier) {
+                    case 1:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_pig_egg_2")));
+                        break;
+                    case 2:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_pig_egg_3")));
+                        break;
+                    case 3:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_pig_egg_4")));
+                        break;
+                    case 4:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_leggings")));
+                        break;
+                }
+                break;
+            case "COW":
+                switch (tier) {
+                    case 1:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_cow_egg_2")));
+                        break;
+                    case 2:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_cow_egg_3")));
+                        break;
+                    case 3:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_cow_egg_4")));
+                        break;
+                    case 4:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_chestplate")));
+                        break;
+                }
+                break;
+            case "CHICKEN":
+                switch (tier) {
+                    case 1:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_chicken_egg_2")));
+                        break;
+                    case 2:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_chicken_egg_3")));
+                        break;
+                    case 3:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_chicken_egg_4")));
+                        break;
+                    case 4:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_helmet")));
+                        break;
+                }
+                break;
+            case "SKELETON":
+                switch (tier) {
+                    case 1:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_skeleton_egg_2")));
+                        break;
+                    case 2:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_skeleton_egg_3")));
+                        break;
+                    case 3:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_skeleton_egg_4")));
+                        break;
+                    case 4:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_leggings")));
+                        break;
+                }
+                break;
+            case "SLIME":
+                switch (tier) {
+                    case 1:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_slime_egg_2")));
+                        break;
+                    case 2:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_slime_egg_3")));
+                        break;
+                    case 3:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_slime_egg_4")));
+                        break;
+                    case 4:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_sword")));
+                        break;
+                }
+                break;
+            case "ENDERMAN":
+                switch (tier) {
+                    case 1:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_enderman_egg_2")));
+                        break;
+                    case 2:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_enderman_egg_3")));
+                        break;
+                    case 3:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_enderman_egg_4")));
+                        break;
+                    case 4:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_sword")));
+                        break;
+                }
+                break;
+            case "CREEPER":
+                switch (tier) {
+                    case 1:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_creeper_egg_2")));
+                        break;
+                    case 2:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_creeper_egg_3")));
+                        break;
+                    case 3:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_creeper_egg_4")));
+                        break;
+                    case 4:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_chestplate")));
+                        break;
+                }
+                break;
+            case "SPIDER":
+                switch (tier) {
+                    case 1:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_spider_egg_2")));
+                        break;
+                    case 2:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_spider_egg_3")));
+                        break;
+                    case 3:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_spider_egg_4")));
+                        break;
+                    case 4:
+                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_helmet")));
+                        break;
+                }
+        }
+        return newItems;
+    }
 
 
+    public void processMobGrinderUpdate() {
+        if (!mobGrinder.isActive()) {
+            debug(mobGrinder, "mobGrinder inactive...");
+            return;
+        }
 
+        debug(mobGrinder, "Processing mobGrinder...");
+        // Grab each CivChest object we'll require.
+        ArrayList<StructureChest> sources = mobGrinder.getAllChestsById(1);
+        ArrayList<StructureChest> destinations = mobGrinder.getAllChestsById(2);
 
-	
-	public void processMobGrinderUpdate() {
-		if (!mobGrinder.isActive()) {
-			debug(mobGrinder, "mobGrinder inactive...");
-			return;
-		}
-		
-		debug(mobGrinder, "Processing mobGrinder...");
-		// Grab each CivChest object we'll require.
-		ArrayList<StructureChest> sources = mobGrinder.getAllChestsById(1);
-		ArrayList<StructureChest> destinations = mobGrinder.getAllChestsById(2);
-		
-		if (sources.size() != 2 || destinations.size() != 2) {
-			CivLog.error("Bad chests for Mob Grinder in town:"+mobGrinder.getTown().getName()+" sources:"+sources.size()+" dests:"+destinations.size());
-			return;
-		}
-		
-		// Make sure the chunk is loaded before continuing. Also, add get chest and add it to inventory.
-		MultiInventory source_inv = new MultiInventory();
-		MultiInventory dest_inv = new MultiInventory();
+        if (sources.size() != 2 || destinations.size() != 2) {
+            CivLog.error("Bad chests for Mob Grinder in town:" + mobGrinder.getTown().getName() + " sources:" + sources.size() + " dests:" + destinations.size());
+            return;
+        }
 
-		try {
-			for (StructureChest src : sources) {
-				//this.syncLoadChunk(src.getCoord().getWorldname(), src.getCoord().getX(), src.getCoord().getZ());				
-				Inventory tmp;
-				try {
-					tmp = this.getChestInventory(src.getCoord().getWorldname(), src.getCoord().getX(), src.getCoord().getY(), src.getCoord().getZ(), false);
-				} catch (CivTaskAbortException e) {
-					//e.printStackTrace();
-					CivLog.warning("Mob Grinder:"+e.getMessage());
-					return;
-				}
-				if (tmp == null) {
-					mobGrinder.skippedCounter++;
-					return;
-				}
-				source_inv.addInventory(tmp);
-			}
-			
-			boolean full = true;
-			for (StructureChest dst : destinations) {
-				//this.syncLoadChunk(dst.getCoord().getWorldname(), dst.getCoord().getX(), dst.getCoord().getZ());
-				Inventory tmp;
-				try {
-					tmp = this.getChestInventory(dst.getCoord().getWorldname(), dst.getCoord().getX(), dst.getCoord().getY(), dst.getCoord().getZ(), false);
-				} catch (CivTaskAbortException e) {
-					//e.printStackTrace();
-					CivLog.warning("Mob Grinder:"+e.getMessage());
-					return;
-				}
-				if (tmp == null) {
-					mobGrinder.skippedCounter++;
-					return;
-				}
-				dest_inv.addInventory(tmp);
-				
-				for (ItemStack stack : tmp.getContents()) {
-					if (stack == null) {
-						full = false;
-						break;
-					}
-				}
-			}
-			
-			if (full) {
-				/* Mob Grinder destination chest is full, stop processing. */
-				return;
-			}
-			
-		} catch (InterruptedException e) {
-			return;
-		}
-		
-		debug(mobGrinder, "Processing mobGrinder:"+mobGrinder.skippedCounter+1);
-		ItemStack[] contents = source_inv.getContents();
-		for (int i = 0; i < mobGrinder.skippedCounter+1; i++) {
-		
-			for(ItemStack stack : contents) {
-				if (stack == null) {
-					continue;
-				}
-				if (!LoreMaterial.isCustom(stack)) {
-					continue;
-				}
-				String itemID = LoreMaterial.getMaterial(stack).getId();
-				try {
-					ItemStack newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get(itemID));
-					this.updateInventory(Action.REMOVE, source_inv, newItem);
-				} catch (InterruptedException e) {
-					return;
-				}
+        // Make sure the chunk is loaded before continuing. Also, add get chest and add it to inventory.
+        MultiInventory source_inv = new MultiInventory();
+        MultiInventory dest_inv = new MultiInventory();
 
-				Random rand = new Random();
+        try {
+            for (StructureChest src : sources) {
+                //this.syncLoadChunk(src.getCoord().getWorldname(), src.getCoord().getX(), src.getCoord().getZ());
+                Inventory tmp;
+                try {
+                    tmp = this.getChestInventory(src.getCoord().getWorldname(), src.getCoord().getX(), src.getCoord().getY(), src.getCoord().getZ(), false);
+                } catch (CivTaskAbortException e) {
+                    //e.printStackTrace();
+                    CivLog.warning("Mob Grinder:" + e.getMessage());
+                    return;
+                }
+                if (tmp == null) {
+                    mobGrinder.skippedCounter++;
+                    return;
+                }
+                source_inv.addInventory(tmp);
+            }
+
+            boolean full = true;
+            for (StructureChest dst : destinations) {
+                //this.syncLoadChunk(dst.getCoord().getWorldname(), dst.getCoord().getX(), dst.getCoord().getZ());
+                Inventory tmp;
+                try {
+                    tmp = this.getChestInventory(dst.getCoord().getWorldname(), dst.getCoord().getX(), dst.getCoord().getY(), dst.getCoord().getZ(), false);
+                } catch (CivTaskAbortException e) {
+                    //e.printStackTrace();
+                    CivLog.warning("Mob Grinder:" + e.getMessage());
+                    return;
+                }
+                if (tmp == null) {
+                    mobGrinder.skippedCounter++;
+                    return;
+                }
+                dest_inv.addInventory(tmp);
+
+                for (ItemStack stack : tmp.getContents()) {
+                    if (stack == null) {
+                        full = false;
+                        break;
+                    }
+                }
+            }
+
+            if (full) {
+                /* Mob Grinder destination chest is full, stop processing. */
+                return;
+            }
+
+        } catch (InterruptedException e) {
+            return;
+        }
+
+        debug(mobGrinder, "Processing mobGrinder:" + mobGrinder.skippedCounter + 1);
+        ItemStack[] contents = source_inv.getContents();
+        for (int i = 0; i < mobGrinder.skippedCounter + 1; i++) {
+
+            for (ItemStack stack : contents) {
+                if (stack == null) {
+                    continue;
+                }
+                if (!LoreMaterial.isCustom(stack)) {
+                    continue;
+                }
+                String itemID = LoreMaterial.getMaterial(stack).getId();
+                try {
+                    ItemStack newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get(itemID));
+                    this.updateInventory(Action.REMOVE, source_inv, newItem);
+                } catch (InterruptedException e) {
+                    return;
+                }
+
+                Random rand = new Random();
                 int rand1 = rand.nextInt(10000);
                 ArrayList<ItemStack> newItems = new ArrayList<>();
                 switch (getEggTier(stack)) {
@@ -488,46 +489,43 @@ public class MobGrinderAsyncTask extends CivAsyncTask {
                     default:
                         break;
                 }
-				if (newItems.size() >= 1)
-				{
-					//Try to add the new item to the dest chest, if we cant, oh well.
-					try {
-						for (ItemStack item : newItems)
-						{
-							debug(mobGrinder, "Updating inventory:"+item);
-							this.updateInventory(Action.ADD, dest_inv, item);
-						}
-						this.mobGrinder.getCenterLocation().getBlock().getLocation().getWorld().playSound(mobGrinder.getCenterLocation().getLocation(), Sound.BLOCK_DISPENSER_LAUNCH, 1f, 1f);
-					} catch (InterruptedException e) {
-						return;
-					}
-				} else {
+                if (newItems.size() >= 1) {
+                    //Try to add the new item to the dest chest, if we cant, oh well.
+                    try {
+                        for (ItemStack item : newItems) {
+                            debug(mobGrinder, "Updating inventory:" + item);
+                            this.updateInventory(Action.ADD, dest_inv, item);
+                        }
+                        this.mobGrinder.getCenterLocation().getBlock().getLocation().getWorld().playSound(mobGrinder.getCenterLocation().getLocation(), Sound.BLOCK_DISPENSER_LAUNCH, 1f, 1f);
+                    } catch (InterruptedException e) {
+                        return;
+                    }
+                } else {
 
-					debug(mobGrinder, "Didn't add any items. Perhaps ["+itemID+"] is an invalid item name?");
-				}
-				break;
-			}	
-		}
-		mobGrinder.skippedCounter = 0;
-	}
-	
-	
-	
-	@Override
-	public void run() {
-		if (this.mobGrinder.lock.tryLock()) {
-			try {
-				try {
-					processMobGrinderUpdate();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			} finally {
-				this.mobGrinder.lock.unlock();
-			}
-		} else {
-			debug(this.mobGrinder, "Failed to get lock while trying to start task, aborting.");
-		}
-	}
+                    debug(mobGrinder, "Didn't add any items. Perhaps [" + itemID + "] is an invalid item name?");
+                }
+                break;
+            }
+        }
+        mobGrinder.skippedCounter = 0;
+    }
+
+
+    @Override
+    public void run() {
+        if (this.mobGrinder.lock.tryLock()) {
+            try {
+                try {
+                    processMobGrinderUpdate();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } finally {
+                this.mobGrinder.lock.unlock();
+            }
+        } else {
+            debug(this.mobGrinder, "Failed to get lock while trying to start task, aborting.");
+        }
+    }
 
 }

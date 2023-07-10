@@ -18,14 +18,13 @@
 package com.avrgaming.civcraft.threading.tasks;
 
 
-import org.bukkit.entity.Player;
-
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.questions.QuestionBaseTask;
 import com.avrgaming.civcraft.questions.QuestionResponseInterface;
 import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.entity.Player;
 
 public class PlayerQuestionTask extends QuestionBaseTask implements Runnable {
 
@@ -48,67 +47,66 @@ public class PlayerQuestionTask extends QuestionBaseTask implements Runnable {
         this.askedPlayer = askedplayer;
         this.questionPlayer = questionplayer;
         this.question = question;
-		this.timeout = timeout;
-		this.finishedFunction = finishedFunction;
-		
-	}
-	
-	@Override
-	public void run() {	
-		CivMessage.send(askedPlayer, CivColor.LightGray+CivSettings.localize.localizedString("civleaderQtast_prompt1")+" "+CivColor.LightBlue+questionPlayer.getName());
-		CivMessage.send(askedPlayer, CivColor.LightPurple+CivColor.BOLD+question);
-		CivMessage.send(askedPlayer, CivColor.LightGray+CivSettings.localize.localizedString("civleaderQtast_prompt2"));
-		
-		try {
-			synchronized(this) {
-				this.wait(timeout);
-			}
-		} catch (InterruptedException e) {
-			cleanup();
-			return;
-		}
-		
-		if (responded) {
-			finishedFunction.processResponse(response);
-			cleanup();
-			return;
-		}
-		
-		CivMessage.send(askedPlayer, CivColor.LightGray+CivSettings.localize.localizedString("var_PlayerQuestionTask_failedInTime",questionPlayer.getName()));
-		CivMessage.send(questionPlayer, CivColor.LightGray+CivSettings.localize.localizedString("var_civQtast_NoResponse",askedPlayer.getName()));
-		cleanup();
-	}
+        this.timeout = timeout;
+        this.finishedFunction = finishedFunction;
 
-	public Boolean getResponded() {
-		synchronized(responded) {
-			return responded;
-		}
-	}
+    }
 
-	public void setResponded(Boolean response) {
-		synchronized(this.responded) {
-			this.responded = response;
-		}
-	}
+    @Override
+    public void run() {
+        CivMessage.send(askedPlayer, CivColor.LightGray + CivSettings.localize.localizedString("civleaderQtast_prompt1") + " " + CivColor.LightBlue + questionPlayer.getName());
+        CivMessage.send(askedPlayer, CivColor.LightPurple + CivColor.BOLD + question);
+        CivMessage.send(askedPlayer, CivColor.LightGray + CivSettings.localize.localizedString("civleaderQtast_prompt2"));
 
-	public String getResponse() {
-		synchronized(response) {
-			return response;
-		}
-	}
+        try {
+            synchronized (this) {
+                this.wait(timeout);
+            }
+        } catch (InterruptedException e) {
+            cleanup();
+            return;
+        }
 
-	public void setResponse(String response) {
-		synchronized(this.response) {
-			setResponded(true);
-			this.response = response;
-		}
-	}
-	
-	/* When this task finishes, remove itself from the hashtable. */
-	private void cleanup() {
-		CivGlobal.removeQuestion(askedPlayer.getName());
-	}
-	
-	
-	
+        if (responded) {
+            finishedFunction.processResponse(response);
+            cleanup();
+            return;
+        }
+
+        CivMessage.send(askedPlayer, CivColor.LightGray + CivSettings.localize.localizedString("var_PlayerQuestionTask_failedInTime", questionPlayer.getName()));
+        CivMessage.send(questionPlayer, CivColor.LightGray + CivSettings.localize.localizedString("var_civQtast_NoResponse", askedPlayer.getName()));
+        cleanup();
+    }
+
+    public Boolean getResponded() {
+        synchronized (responded) {
+            return responded;
+        }
+    }
+
+    public void setResponded(Boolean response) {
+        synchronized (this.responded) {
+            this.responded = response;
+        }
+    }
+
+    public String getResponse() {
+        synchronized (response) {
+            return response;
+        }
+    }
+
+    public void setResponse(String response) {
+        synchronized (this.response) {
+            setResponded(true);
+            this.response = response;
+        }
+    }
+
+    /* When this task finishes, remove itself from the hashtable. */
+    private void cleanup() {
+        CivGlobal.removeQuestion(askedPlayer.getName());
+    }
+
+
 }

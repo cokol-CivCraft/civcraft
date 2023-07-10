@@ -17,14 +17,13 @@
  */
 package com.avrgaming.civcraft.config;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.avrgaming.civcraft.main.CivLog;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import com.avrgaming.civcraft.main.CivLog;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ConfigCottageLevel {
     public int level;            /* Current level number */

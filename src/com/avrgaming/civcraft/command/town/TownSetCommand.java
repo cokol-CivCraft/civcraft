@@ -18,27 +18,18 @@
 package com.avrgaming.civcraft.command.town;
 
 
-import org.bukkit.entity.Player;
-
 import com.avrgaming.civcraft.command.CommandBase;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Town;
-import com.avrgaming.civcraft.structure.Bank;
-import com.avrgaming.civcraft.structure.Blacksmith;
-import com.avrgaming.civcraft.structure.Grocer;
-import com.avrgaming.civcraft.structure.Library;
-import com.avrgaming.civcraft.structure.ScoutShip;
-import com.avrgaming.civcraft.structure.ScoutTower;
-import com.avrgaming.civcraft.structure.Stable;
-import com.avrgaming.civcraft.structure.Store;
-import com.avrgaming.civcraft.structure.Structure;
+import com.avrgaming.civcraft.structure.*;
+import org.bukkit.entity.Player;
 
 public class TownSetCommand extends CommandBase {
 
-	@Override
-	public void init() {
+    @Override
+    public void init() {
         command = "/town set";
         displayName = CivSettings.localize.localizedString("cmd_town_set_name");
 
@@ -54,8 +45,8 @@ public class TownSetCommand extends CommandBase {
         register_sub("scoutrate", this::scoutrate_cmd, CivSettings.localize.localizedString("cmd_town_set_scoutrateDesc"));
 
     }
-	
-	public void stablefee_cmd() throws CivException {
+
+    public void stablefee_cmd() throws CivException {
         Town town = getSelectedTown();
         Integer feeInt = getNamedInteger(1);
 
@@ -72,176 +63,176 @@ public class TownSetCommand extends CommandBase {
 
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_set_feeSuccess", feeInt));
     }
-	
-	public void scoutrate_cmd() throws CivException {
-		Town town = getSelectedTown();
-		Integer rate = getNamedInteger(1);
-		
-		if (rate != 10 && rate != 30 && rate != 60) {
-			throw new CivException(CivSettings.localize.localizedString("cmd_town_set_scoutrateRates"));
-		}
-		
-		for (Structure struct : town.getStructures()) {
-			if (struct instanceof ScoutTower) {
-				((ScoutTower)struct).setReportSeconds(rate);
-			} else if (struct instanceof ScoutShip) {
-				((ScoutShip)struct).setReportSeconds(rate);
-			}
-		}
-		
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_set_scoutrateSuccess",rate));
-	}
-	
-	public void blacksmithfee_cmd() throws CivException {
-		Town town = getSelectedTown();
-		Integer feeInt = getNamedInteger(1);
-		
-		if (feeInt < 5 || feeInt > 15) {
-			throw new CivException(CivSettings.localize.localizedString("cmd_town_set_rate5to15"));
-		}
-		
-		Structure struct = town.findStructureByConfigId("s_blacksmith");
-		if (struct == null) {
-			throw new CivException(CivSettings.localize.localizedString("cmd_town_set_blacksmithfeeNone"));
-		}
 
-		((Blacksmith) struct).setNonResidentFee(((double) feeInt / 100));
+    public void scoutrate_cmd() throws CivException {
+        Town town = getSelectedTown();
+        Integer rate = getNamedInteger(1);
+
+        if (rate != 10 && rate != 30 && rate != 60) {
+            throw new CivException(CivSettings.localize.localizedString("cmd_town_set_scoutrateRates"));
+        }
+
+        for (Structure struct : town.getStructures()) {
+            if (struct instanceof ScoutTower) {
+                ((ScoutTower) struct).setReportSeconds(rate);
+            } else if (struct instanceof ScoutShip) {
+                ((ScoutShip) struct).setReportSeconds(rate);
+            }
+        }
+
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_set_scoutrateSuccess", rate));
+    }
+
+    public void blacksmithfee_cmd() throws CivException {
+        Town town = getSelectedTown();
+        Integer feeInt = getNamedInteger(1);
+
+        if (feeInt < 5 || feeInt > 15) {
+            throw new CivException(CivSettings.localize.localizedString("cmd_town_set_rate5to15"));
+        }
+
+        Structure struct = town.findStructureByConfigId("s_blacksmith");
+        if (struct == null) {
+            throw new CivException(CivSettings.localize.localizedString("cmd_town_set_blacksmithfeeNone"));
+        }
+
+        ((Blacksmith) struct).setNonResidentFee(((double) feeInt / 100));
         struct.updateSignText();
-		
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_set_feeSuccess",feeInt));
-	}
-	
-	
-	public void libraryfee_cmd() throws CivException {
-		Town town = getSelectedTown();
-		Integer feeInt = getNamedInteger(1);
-		
-		if (feeInt < 5 || feeInt > 15) {
-			throw new CivException(CivSettings.localize.localizedString("cmd_town_set_rate5to15"));
-		}
-		
-		Structure struct = town.findStructureByConfigId("s_library");
-		if (struct == null) {
-			throw new CivException(CivSettings.localize.localizedString("cmd_town_set_libraryfeeNone"));
-		}
+
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_set_feeSuccess", feeInt));
+    }
+
+
+    public void libraryfee_cmd() throws CivException {
+        Town town = getSelectedTown();
+        Integer feeInt = getNamedInteger(1);
+
+        if (feeInt < 5 || feeInt > 15) {
+            throw new CivException(CivSettings.localize.localizedString("cmd_town_set_rate5to15"));
+        }
+
+        Structure struct = town.findStructureByConfigId("s_library");
+        if (struct == null) {
+            throw new CivException(CivSettings.localize.localizedString("cmd_town_set_libraryfeeNone"));
+        }
 
         ((Library) struct).setNonResidentFee(((double) feeInt / 100));
         struct.updateSignText();
-		
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_set_feeSuccess",feeInt));
-	}
-	
-	public void grocerfee_cmd() throws CivException {
-		Town town = getSelectedTown();
-		Integer feeInt = getNamedInteger(1);
-		
-		if (feeInt < 5 || feeInt > 15) {
-			throw new CivException(CivSettings.localize.localizedString("cmd_town_set_rate5to15"));
-		}
-		
-		Structure struct = town.findStructureByConfigId("s_grocer");
-		if (struct == null) {
-			throw new CivException(CivSettings.localize.localizedString("cmd_town_set_grocerfeeNone"));
-		}
+
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_set_feeSuccess", feeInt));
+    }
+
+    public void grocerfee_cmd() throws CivException {
+        Town town = getSelectedTown();
+        Integer feeInt = getNamedInteger(1);
+
+        if (feeInt < 5 || feeInt > 15) {
+            throw new CivException(CivSettings.localize.localizedString("cmd_town_set_rate5to15"));
+        }
+
+        Structure struct = town.findStructureByConfigId("s_grocer");
+        if (struct == null) {
+            throw new CivException(CivSettings.localize.localizedString("cmd_town_set_grocerfeeNone"));
+        }
 
         ((Grocer) struct).setNonResidentFee(((double) feeInt / 100));
         struct.updateSignText();
-		
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_set_feeSuccess",feeInt));
-		
-	}
-	
-	public void storefee_cmd() throws CivException {
-		Town town = getSelectedTown();
-		Integer feeInt = getNamedInteger(1);
-		
-		if (feeInt < 5 || feeInt > 15) {
-			throw new CivException(CivSettings.localize.localizedString("cmd_town_set_rate5to15"));
-		}
-		
-		Structure struct = town.findStructureByConfigId("s_store");
-		if (struct == null) {
-			throw new CivException(CivSettings.localize.localizedString("cmd_town_set_storefeeNone"));
-		}
+
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_set_feeSuccess", feeInt));
+
+    }
+
+    public void storefee_cmd() throws CivException {
+        Town town = getSelectedTown();
+        Integer feeInt = getNamedInteger(1);
+
+        if (feeInt < 5 || feeInt > 15) {
+            throw new CivException(CivSettings.localize.localizedString("cmd_town_set_rate5to15"));
+        }
+
+        Structure struct = town.findStructureByConfigId("s_store");
+        if (struct == null) {
+            throw new CivException(CivSettings.localize.localizedString("cmd_town_set_storefeeNone"));
+        }
 
         ((Store) struct).setNonResidentFee(((double) feeInt / 100));
         struct.updateSignText();
-		
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_set_feeSuccess",feeInt));
-		
-	}
-	
-	public void bankfee_cmd() throws CivException {
-		Town town = getSelectedTown();
-		Integer feeInt = getNamedInteger(1);
-		
-		if (feeInt < 5 || feeInt > 15) {
-			throw new CivException(CivSettings.localize.localizedString("cmd_town_set_rate5to15"));
-		}
-		
-		Structure struct = town.findStructureByConfigId("s_bank");
-		if (struct == null) {
-			throw new CivException(CivSettings.localize.localizedString("cmd_town_set_bankfeeNone"));
-		}
+
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_set_feeSuccess", feeInt));
+
+    }
+
+    public void bankfee_cmd() throws CivException {
+        Town town = getSelectedTown();
+        Integer feeInt = getNamedInteger(1);
+
+        if (feeInt < 5 || feeInt > 15) {
+            throw new CivException(CivSettings.localize.localizedString("cmd_town_set_rate5to15"));
+        }
+
+        Structure struct = town.findStructureByConfigId("s_bank");
+        if (struct == null) {
+            throw new CivException(CivSettings.localize.localizedString("cmd_town_set_bankfeeNone"));
+        }
 
         ((Bank) struct).setNonResidentFee(((double) feeInt / 100));
         struct.updateSignText();
-		
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_set_feeSuccess",feeInt));
-		
-	}
-	
-	public void taxrate_cmd() throws CivException {
-		Town town = getSelectedTown();
-		
-		if (args.length < 2) {
-			throw new CivException(CivSettings.localize.localizedString("cmd_town_set_taxratePrompt"));
-		}
-		
-		try {
-            town.setTaxRate(Double.parseDouble(args[1]) / 100);
-		} catch (NumberFormatException e) {
-			throw new CivException(args[1]+" "+CivSettings.localize.localizedString("cmd_enterNumerError"));
-		}
-		
-		town.quicksave();
-		CivMessage.sendTown(town, CivSettings.localize.localizedString("var_cmd_town_set_taxrateSuccess",args[1]));
-	}
 
-	public void flattax_cmd() throws CivException {
-		Town town = getSelectedTown();	
-		if (args.length < 2) {
-			throw new CivException(CivSettings.localize.localizedString("cmd_town_set_taxratePrompt"));
-		}
-				
-		try {
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_set_feeSuccess", feeInt));
+
+    }
+
+    public void taxrate_cmd() throws CivException {
+        Town town = getSelectedTown();
+
+        if (args.length < 2) {
+            throw new CivException(CivSettings.localize.localizedString("cmd_town_set_taxratePrompt"));
+        }
+
+        try {
+            town.setTaxRate(Double.parseDouble(args[1]) / 100);
+        } catch (NumberFormatException e) {
+            throw new CivException(args[1] + " " + CivSettings.localize.localizedString("cmd_enterNumerError"));
+        }
+
+        town.quicksave();
+        CivMessage.sendTown(town, CivSettings.localize.localizedString("var_cmd_town_set_taxrateSuccess", args[1]));
+    }
+
+    public void flattax_cmd() throws CivException {
+        Town town = getSelectedTown();
+        if (args.length < 2) {
+            throw new CivException(CivSettings.localize.localizedString("cmd_town_set_taxratePrompt"));
+        }
+
+        try {
             town.setFlatTax(Integer.parseInt(args[1]));
-		} catch (NumberFormatException e) {
-			throw new CivException(args[1]+" "+CivSettings.localize.localizedString("cmd_enterNumerError"));
-		}
-		
-		town.quicksave();
-		CivMessage.send(town, CivSettings.localize.localizedString("var_cmd_town_set_flattaxSuccess",args[1]));
-	}
+        } catch (NumberFormatException e) {
+            throw new CivException(args[1] + " " + CivSettings.localize.localizedString("cmd_enterNumerError"));
+        }
+
+        town.quicksave();
+        CivMessage.send(town, CivSettings.localize.localizedString("var_cmd_town_set_flattaxSuccess", args[1]));
+    }
 
     @Override
     public void doDefaultAction() {
         showHelp();
     }
 
-	@Override
-	public void showHelp() {
-		showBasicHelp();
-	}
+    @Override
+    public void showHelp() {
+        showBasicHelp();
+    }
 
-	@Override
-	public void permissionCheck() throws CivException {
-		Town town = getSelectedTown();
-		Player player = getPlayer();
-		
-		if (!town.playerIsInGroupName("mayors", player) && !town.playerIsInGroupName("assistants", player)) {
-			throw new CivException(CivSettings.localize.localizedString("cmd_town_claimNoPerm"));
-		}		
-	}
+    @Override
+    public void permissionCheck() throws CivException {
+        Town town = getSelectedTown();
+        Player player = getPlayer();
+
+        if (!town.playerIsInGroupName("mayors", player) && !town.playerIsInGroupName("assistants", player)) {
+            throw new CivException(CivSettings.localize.localizedString("cmd_town_claimNoPerm"));
+        }
+    }
 
 }

@@ -17,13 +17,13 @@
  */
 package com.avrgaming.civcraft.database;
 
+import com.avrgaming.civcraft.main.CivCraft;
+import com.avrgaming.civcraft.object.SQLObject;
+
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
-
-import com.avrgaming.civcraft.object.SQLObject;
-import com.avrgaming.civcraft.main.CivCraft;
 
 public class SQLUpdate implements Runnable {
 

@@ -27,103 +27,103 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class ScoreManager {
-	
-	public static String TOWN_TABLE_NAME = "SCORES_TOWNS";
-	public static String CIV_TABLE_NAME = "SCORES_CIVS";
 
-	public static void init() throws SQLException {
-		System.out.println("================= SCORE_TOWN INIT ======================");
-		
-		// Check/Build SessionDB tables				
-		if (!SQL.hasGlobalTable(TOWN_TABLE_NAME)) {
-			String table_create = "CREATE TABLE " + TOWN_TABLE_NAME + " (" +
-					"`local_id` int(11)," +
-					"`local_name` mediumtext," +
-					"`local_civ_name` mediumtext," +
-					"`points` int(11)," +
-					"INDEX (`server`)," +
-					"PRIMARY KEY (`key`)" + ")";
-			
-			SQL.makeGlobalTable(table_create);
-			CivLog.info("Created "+TOWN_TABLE_NAME+" table");
-		} else {
-			CivLog.info(TOWN_TABLE_NAME+" table OK!");
-		}		
-				
-		System.out.println("==================================================");
+    public static String TOWN_TABLE_NAME = "SCORES_TOWNS";
+    public static String CIV_TABLE_NAME = "SCORES_CIVS";
 
-		System.out.println("================= SCORE_CIV INIT ======================");
-		
-		// Check/Build SessionDB tables				
-		if (!SQL.hasGlobalTable(CIV_TABLE_NAME)) {
-			String table_create = "CREATE TABLE " + CIV_TABLE_NAME + " (" +
-					"`local_id` int(11)," +
-					"`local_name` mediumtext," +
-					"`local_capitol_name` mediumtext," +
-					"`points` int(11)," +
-					"INDEX (`server`)," +
-					"PRIMARY KEY (`key`)" + ")";
-			
-			SQL.makeGlobalTable(table_create);
-			CivLog.info("Created "+CIV_TABLE_NAME+" table");
-		}
-				
-		System.out.println("==================================================");
-	}
-	
-	public static void UpdateScore(Civilization civ, int points) throws SQLException {
-		Connection global_context = null;
-		PreparedStatement s = null;
+    public static void init() throws SQLException {
+        System.out.println("================= SCORE_TOWN INIT ======================");
 
-		try {
-			global_context = SQL.getGameConnection();
-			String query = "INSERT INTO `" + CIV_TABLE_NAME + "` (`local_id`, `local_name`, `local_capitol_name`, `points`) " +
-					"VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE `local_name`=?, `local_capitol_name`=?, `points`=?";
-			s = global_context.prepareStatement(query);
+        // Check/Build SessionDB tables
+        if (!SQL.hasGlobalTable(TOWN_TABLE_NAME)) {
+            String table_create = "CREATE TABLE " + TOWN_TABLE_NAME + " (" +
+                    "`local_id` int(11)," +
+                    "`local_name` mediumtext," +
+                    "`local_civ_name` mediumtext," +
+                    "`points` int(11)," +
+                    "INDEX (`server`)," +
+                    "PRIMARY KEY (`key`)" + ")";
 
-			s.setInt(1, civ.getId());
-			s.setString(2, civ.getName());
-			s.setString(3, civ.getCapitolName());
-			s.setInt(4, points);
+            SQL.makeGlobalTable(table_create);
+            CivLog.info("Created " + TOWN_TABLE_NAME + " table");
+        } else {
+            CivLog.info(TOWN_TABLE_NAME + " table OK!");
+        }
 
-			s.setString(5, civ.getName());
-			s.setString(6, civ.getCapitolName());
-			s.setInt(7, points);
+        System.out.println("==================================================");
 
-			if (s.executeUpdate() == 0) {
-				throw new SQLException("Could not execute SQL code:" + query);
-			}
+        System.out.println("================= SCORE_CIV INIT ======================");
 
-		} finally {
-			SQL.close(null, s, global_context);
-		}
-	}
-	
-	public static void UpdateScore(Town town, int points) throws SQLException {
-		Connection global_context = null;
-		PreparedStatement s = null;
-		
-		try {
-			global_context = SQL.getGameConnection();
-			String query = "INSERT INTO `" + TOWN_TABLE_NAME + "` (`local_id`, `local_name`, `local_civ_name`, `points`) " +
-					"VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE `local_name`=?, `local_civ_name`=?, `points`=?";
-			s = global_context.prepareStatement(query);
+        // Check/Build SessionDB tables
+        if (!SQL.hasGlobalTable(CIV_TABLE_NAME)) {
+            String table_create = "CREATE TABLE " + CIV_TABLE_NAME + " (" +
+                    "`local_id` int(11)," +
+                    "`local_name` mediumtext," +
+                    "`local_capitol_name` mediumtext," +
+                    "`points` int(11)," +
+                    "INDEX (`server`)," +
+                    "PRIMARY KEY (`key`)" + ")";
 
-			s.setInt(1, town.getId());
-			s.setString(2, town.getName());
-			s.setString(3, town.getCiv().getName());
-			s.setInt(4, points);
+            SQL.makeGlobalTable(table_create);
+            CivLog.info("Created " + CIV_TABLE_NAME + " table");
+        }
 
-			s.setString(5, town.getName());
-			s.setString(6, town.getCiv().getName());
-			s.setInt(7, points);
+        System.out.println("==================================================");
+    }
 
-			if (s.executeUpdate() == 0) {
-				throw new SQLException("Could not execute SQL code:" + query);
-			}
+    public static void UpdateScore(Civilization civ, int points) throws SQLException {
+        Connection global_context = null;
+        PreparedStatement s = null;
 
-		} finally {
-			SQL.close(null, s, global_context);
-		}
-	}
+        try {
+            global_context = SQL.getGameConnection();
+            String query = "INSERT INTO `" + CIV_TABLE_NAME + "` (`local_id`, `local_name`, `local_capitol_name`, `points`) " +
+                    "VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE `local_name`=?, `local_capitol_name`=?, `points`=?";
+            s = global_context.prepareStatement(query);
+
+            s.setInt(1, civ.getId());
+            s.setString(2, civ.getName());
+            s.setString(3, civ.getCapitolName());
+            s.setInt(4, points);
+
+            s.setString(5, civ.getName());
+            s.setString(6, civ.getCapitolName());
+            s.setInt(7, points);
+
+            if (s.executeUpdate() == 0) {
+                throw new SQLException("Could not execute SQL code:" + query);
+            }
+
+        } finally {
+            SQL.close(null, s, global_context);
+        }
+    }
+
+    public static void UpdateScore(Town town, int points) throws SQLException {
+        Connection global_context = null;
+        PreparedStatement s = null;
+
+        try {
+            global_context = SQL.getGameConnection();
+            String query = "INSERT INTO `" + TOWN_TABLE_NAME + "` (`local_id`, `local_name`, `local_civ_name`, `points`) " +
+                    "VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE `local_name`=?, `local_civ_name`=?, `points`=?";
+            s = global_context.prepareStatement(query);
+
+            s.setInt(1, town.getId());
+            s.setString(2, town.getName());
+            s.setString(3, town.getCiv().getName());
+            s.setInt(4, points);
+
+            s.setString(5, town.getName());
+            s.setString(6, town.getCiv().getName());
+            s.setInt(7, points);
+
+            if (s.executeUpdate() == 0) {
+                throw new SQLException("Could not execute SQL code:" + query);
+            }
+
+        } finally {
+            SQL.close(null, s, global_context);
+        }
+    }
 }

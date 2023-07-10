@@ -21,9 +21,9 @@ import org.bukkit.Material;
 
 public class ConsumeLevelEquivExchange {
 
-	public Material baseType;
-	public Material altType;
-	public int basePerAlt;
-	
-	
+    public Material baseType;
+    public Material altType;
+    public int basePerAlt;
+
+
 }

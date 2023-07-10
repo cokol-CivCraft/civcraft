@@ -11,43 +11,43 @@ import java.io.IOException;
 
 public class AdminPerkCommand extends CommandBase {
 
-	@Override
-	public void init() {
-		command = "/ad perk";
-		displayName = CivSettings.localize.localizedString("adcmd_perk_name");
+    @Override
+    public void init() {
+        command = "/ad perk";
+        displayName = CivSettings.localize.localizedString("adcmd_perk_name");
 
-		register_sub("list", this::list_cmd, CivSettings.localize.localizedString("adcmd_perk_listDesc"));
-		register_sub("reload", this::reload_cmd, CivSettings.localize.localizedString("adcmd_perk_reloadDesc"));
-	}
-
-
-	public void list_cmd() {
-		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("adcmd_perk_listHeading"));
-		for (ConfigPerk perk : CivSettings.perks.values()) {
-			CivMessage.send(sender, CivColor.Green + perk.display_name + CivColor.LightGreen + " id:" + CivColor.Rose + perk.id);
-		}
-		CivMessage.send(sender, CivColor.LightGray + CivSettings.localize.localizedString("adcmd_perk_listingSuccess"));
-	}
+        register_sub("list", this::list_cmd, CivSettings.localize.localizedString("adcmd_perk_listDesc"));
+        register_sub("reload", this::reload_cmd, CivSettings.localize.localizedString("adcmd_perk_reloadDesc"));
+    }
 
 
-	public void reload_cmd() {
-		try {
-			CivSettings.reloadPerks();
-		} catch (IOException | InvalidConfigurationException e) {
-			e.printStackTrace();
-		}
-	}
+    public void list_cmd() {
+        CivMessage.sendHeading(sender, CivSettings.localize.localizedString("adcmd_perk_listHeading"));
+        for (ConfigPerk perk : CivSettings.perks.values()) {
+            CivMessage.send(sender, CivColor.Green + perk.display_name + CivColor.LightGreen + " id:" + CivColor.Rose + perk.id);
+        }
+        CivMessage.send(sender, CivColor.LightGray + CivSettings.localize.localizedString("adcmd_perk_listingSuccess"));
+    }
 
 
-	@Override
-	public void doDefaultAction() {
-		showHelp();
-	}
+    public void reload_cmd() {
+        try {
+            CivSettings.reloadPerks();
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
+    }
 
-	@Override
-	public void showHelp() {
-		showBasicHelp();
-	}
+
+    @Override
+    public void doDefaultAction() {
+        showHelp();
+    }
+
+    @Override
+    public void showHelp() {
+        showBasicHelp();
+    }
 
     @Override
     public void permissionCheck() {

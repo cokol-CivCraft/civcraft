@@ -17,19 +17,17 @@
  */
 package com.avrgaming.civcraft.threading.timers;
 
-import java.util.Date;
-
 import com.avrgaming.civcraft.main.CivGlobal;
 
 public class DateEventTimer implements Runnable {
 
-	/*
-	 * This task runs once per min to check various times. If the time for an event is after the
-	 * current time then we run the specified task.
-	 */
-		
-	@Override
-	public void run() {
+    /*
+     * This task runs once per min to check various times. If the time for an event is after the
+     * current time then we run the specified task.
+     */
+
+    @Override
+    public void run() {
 
         /* Check for spawn regen. */
         CivGlobal.getTodaysSpawnRegenDate();

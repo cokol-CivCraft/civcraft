@@ -17,54 +17,53 @@
  */
 package com.avrgaming.civcraft.threading.sync;
 
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.concurrent.locks.ReentrantLock;
-
+import com.avrgaming.civcraft.main.CivLog;
+import com.avrgaming.civcraft.util.SimpleBlock;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 
-import com.avrgaming.civcraft.main.CivLog;
-import com.avrgaming.civcraft.util.SimpleBlock;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.concurrent.locks.ReentrantLock;
 
 
 public class SyncBuildUpdateTask implements Runnable {
-	
-	public static int UPDATE_LIMIT = Integer.MAX_VALUE;
-	public static final int QUEUE_SIZE = 4096;
-	
-//	public static BlockingQueue<SimpleBlock> updateBlocks = new ArrayBlockingQueue<SimpleBlock>(QUEUE_SIZE);
-private static final Queue<SimpleBlock> updateBlocks = new LinkedList<>();
 
-	
-	public static ReentrantLock buildBlockLock = new ReentrantLock();
-	
-	public static void queueSimpleBlock(Queue<SimpleBlock> sbList) {
-		buildBlockLock.lock();
-		try {
-			updateBlocks.addAll(sbList);
-		} finally {
-			buildBlockLock.unlock();
-		}
-	}
-	
-	public SyncBuildUpdateTask() {
-	}
-	
-	/*
-	 * Runs once, per tick and changes the blocks represented by SimpleBlock 
-	 * up to UPDATE_LIMIT times.
-	 */
-	@Override
-	public void run() {
-		
-		if (buildBlockLock.tryLock()) {
-			try {
-			
-				int i = 0;
-				for (i = 0; i < UPDATE_LIMIT; i++) {
+    public static int UPDATE_LIMIT = Integer.MAX_VALUE;
+    public static final int QUEUE_SIZE = 4096;
+
+    //	public static BlockingQueue<SimpleBlock> updateBlocks = new ArrayBlockingQueue<SimpleBlock>(QUEUE_SIZE);
+    private static final Queue<SimpleBlock> updateBlocks = new LinkedList<>();
+
+
+    public static ReentrantLock buildBlockLock = new ReentrantLock();
+
+    public static void queueSimpleBlock(Queue<SimpleBlock> sbList) {
+        buildBlockLock.lock();
+        try {
+            updateBlocks.addAll(sbList);
+        } finally {
+            buildBlockLock.unlock();
+        }
+    }
+
+    public SyncBuildUpdateTask() {
+    }
+
+    /*
+     * Runs once, per tick and changes the blocks represented by SimpleBlock
+     * up to UPDATE_LIMIT times.
+     */
+    @Override
+    public void run() {
+
+        if (buildBlockLock.tryLock()) {
+            try {
+
+                int i = 0;
+                for (i = 0; i < UPDATE_LIMIT; i++) {
                     SimpleBlock next = updateBlocks.poll();
                     if (next == null) {
                         break;
@@ -94,21 +93,21 @@ private static final Queue<SimpleBlock> updateBlocks = new LinkedList<>();
                                 block.setType(Material.AIR);
                                 block.setData((byte) 0);
                             }
-						break;
-					case NORMAL:
-						break;
-					}
-					
-					if (next.buildable != null) {
-						next.buildable.savedBlockCount++;
-					}
-				}
-			} finally {
-				buildBlockLock.unlock();
-			}
-		} else {
-			CivLog.warning("Couldn't get sync build update lock, skipping until next tick.");
-		}		
-	}
+                            break;
+                        case NORMAL:
+                            break;
+                    }
+
+                    if (next.buildable != null) {
+                        next.buildable.savedBlockCount++;
+                    }
+                }
+            } finally {
+                buildBlockLock.unlock();
+            }
+        } else {
+            CivLog.warning("Couldn't get sync build update lock, skipping until next tick.");
+        }
+    }
 
 }

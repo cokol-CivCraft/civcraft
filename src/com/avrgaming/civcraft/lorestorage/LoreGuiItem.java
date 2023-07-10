@@ -20,13 +20,11 @@ package com.avrgaming.civcraft.lorestorage;
 
 import com.avrgaming.civcraft.loregui.*;
 import gpl.AttributeUtil;
-
-import java.lang.reflect.Constructor;
-import java.util.HashMap;
-
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.HashMap;
 
 public class LoreGuiItem {
 

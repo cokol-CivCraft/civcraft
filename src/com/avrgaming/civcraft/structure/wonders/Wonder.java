@@ -17,17 +17,6 @@
  */
 package com.avrgaming.civcraft.structure.wonders;
 
-import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashMap;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Sound;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigBuff;
 import com.avrgaming.civcraft.config.ConfigWonderBuff;
@@ -43,6 +32,15 @@ import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Sound;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
 
 public abstract class Wonder extends Buildable {
 
@@ -171,9 +169,9 @@ public abstract class Wonder extends Buildable {
         CivGlobal.removeWonder(this);
     }
 
-	@Override
-	public void updateBuildProgess() {
-		if (this.getId() != 0) {
+    @Override
+    public void updateBuildProgess() {
+        if (this.getId() != 0) {
             HashMap<String, Object> struct_hm = new HashMap<>();
             struct_hm.put("id", this.getId());
             struct_hm.put("type_id", this.getConfigId());
@@ -182,7 +180,7 @@ public abstract class Wonder extends Buildable {
 
             SQL.updateNamedObjectAsync(this, struct_hm, TABLE_NAME);
         }
-	}
+    }
 
     public static boolean isWonderAvailable(String configId) {
         if (CivGlobal.isCasualMode()) {
@@ -217,13 +215,13 @@ public abstract class Wonder extends Buildable {
         this.unbindStructureBlocks();
 
         try {
-			delete();
-			getTown().removeWonder(this);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new CivException(CivSettings.localize.localizedString("internalDatabaseException"));
-		}
-	}
+            delete();
+            getTown().removeWonder(this);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new CivException(CivSettings.localize.localizedString("internalDatabaseException"));
+        }
+    }
 
     @Override
     public void build(Player player, Location centerLoc, Template tpl) throws Exception {
@@ -232,7 +230,7 @@ public abstract class Wonder extends Buildable {
         // to the 'corner' of the structure.
         Location savedLocation = centerLoc.clone();
 
-        centerLoc = this.repositionCenter(centerLoc, tpl.dir(),  tpl.size_x,  tpl.size_z);
+        centerLoc = this.repositionCenter(centerLoc, tpl.dir(), tpl.size_x, tpl.size_z);
         Block centerBlock = centerLoc.getBlock();
         // Before we place the blocks, give our build function a chance to work on it
 
@@ -271,10 +269,10 @@ public abstract class Wonder extends Buildable {
     }
 
 
-	@Override
-	public String getMarkerIconName() {
-		return "beer";
-	}
+    @Override
+    public String getMarkerIconName() {
+        return "beer";
+    }
 
     @Override
     protected void runOnBuild(Location centerLoc, Template tpl) {

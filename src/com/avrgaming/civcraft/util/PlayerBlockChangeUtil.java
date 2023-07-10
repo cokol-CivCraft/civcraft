@@ -1,17 +1,15 @@
 package com.avrgaming.civcraft.util;
 
+import com.avrgaming.civcraft.exception.CivException;
+import com.avrgaming.civcraft.main.CivGlobal;
+import net.minecraft.server.v1_12_R1.PacketPlayOutMultiBlockChange;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Optional;
 import java.util.TreeMap;
-
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-
-import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.main.CivGlobal;
-
-import net.minecraft.server.v1_12_R1.PacketPlayOutMultiBlockChange;
 
 public class PlayerBlockChangeUtil {
     /*

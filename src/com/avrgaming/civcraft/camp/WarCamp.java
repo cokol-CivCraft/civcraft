@@ -1,24 +1,5 @@
 package com.avrgaming.civcraft.camp;
 
-import java.io.IOException;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-
-import org.bukkit.Color;
-import org.bukkit.Effect;
-import org.bukkit.FireworkEffect;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigBuildableInfo;
 import com.avrgaming.civcraft.exception.CivException;
@@ -28,11 +9,7 @@ import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
-import com.avrgaming.civcraft.object.BuildableDamageBlock;
-import com.avrgaming.civcraft.object.ControlPoint;
-import com.avrgaming.civcraft.object.Resident;
-import com.avrgaming.civcraft.object.StructureBlock;
-import com.avrgaming.civcraft.object.TownChunk;
+import com.avrgaming.civcraft.object.*;
 import com.avrgaming.civcraft.permission.PlotPermissions;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
 import com.avrgaming.civcraft.structure.Buildable;
@@ -40,14 +17,18 @@ import com.avrgaming.civcraft.structure.RespawnLocationHolder;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.template.Template.TemplateType;
 import com.avrgaming.civcraft.threading.TaskMaster;
-import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.CivColor;
-import com.avrgaming.civcraft.util.FireworkEffectPlayer;
-import com.avrgaming.civcraft.util.SimpleBlock;
+import com.avrgaming.civcraft.util.*;
 import com.avrgaming.civcraft.util.SimpleBlock.Type;
 import com.avrgaming.civcraft.war.War;
 import com.avrgaming.civcraft.war.WarRegen;
+import org.bukkit.*;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.util.*;
 
 public class WarCamp extends Buildable implements RespawnLocationHolder {
 

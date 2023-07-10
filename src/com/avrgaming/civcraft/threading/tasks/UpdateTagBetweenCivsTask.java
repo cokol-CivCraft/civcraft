@@ -17,30 +17,29 @@
  */
 package com.avrgaming.civcraft.threading.tasks;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.sync.SyncUpdateTagsBetweenCivs;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class UpdateTagBetweenCivsTask implements Runnable {
 
-	Civilization civ;
-	Civilization otherCiv;
-	
-	public UpdateTagBetweenCivsTask(Civilization civ, Civilization otherCiv) {
-		this.civ = civ;
-		this.otherCiv = otherCiv;
-	}
-	
-	@Override
-	public void run() {
+    Civilization civ;
+    Civilization otherCiv;
+
+    public UpdateTagBetweenCivsTask(Civilization civ, Civilization otherCiv) {
+        this.civ = civ;
+        this.otherCiv = otherCiv;
+    }
+
+    @Override
+    public void run() {
         Set<Player> civList = new HashSet<>();
         Set<Player> otherCivList = new HashSet<>();
 
@@ -53,11 +52,11 @@ public class UpdateTagBetweenCivsTask implements Runnable {
             if (resident.getTown().getCiv() == civ) {
                 civList.add(player);
             } else if (resident.getTown().getCiv() == otherCiv) {
-				otherCivList.add(player);
-			}
-		}
-		
-		TaskMaster.syncTask(new SyncUpdateTagsBetweenCivs(civList, otherCivList));		
-	}
+                otherCivList.add(player);
+            }
+        }
+
+        TaskMaster.syncTask(new SyncUpdateTagsBetweenCivs(civList, otherCivList));
+    }
 
 }

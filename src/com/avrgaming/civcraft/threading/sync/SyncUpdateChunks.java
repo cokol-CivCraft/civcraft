@@ -19,17 +19,17 @@ package com.avrgaming.civcraft.threading.sync;
 
 public class SyncUpdateChunks implements Runnable {
 
-	
-	//public static HashSet<ChunkCoord> updateChunks = new HashSet<ChunkCoord>();
 
-	/*
-	 * XXX This is not going to be used anymore. the "refreshChunk" has a bug in it that
-	 * prevents players from being able to hit each other when it finishes a refresh. 
-	 * 
-	 */
-	
-	@Override
-	public void run() {
+    //public static HashSet<ChunkCoord> updateChunks = new HashSet<ChunkCoord>();
+
+    /*
+     * XXX This is not going to be used anymore. the "refreshChunk" has a bug in it that
+     * prevents players from being able to hit each other when it finishes a refresh.
+     *
+     */
+
+    @Override
+    public void run() {
 
 //		int viewDistance = Bukkit.getViewDistance();
 //		
@@ -53,5 +53,5 @@ public class SyncUpdateChunks implements Runnable {
 //		}
 //	
 //		updateChunks.clear();
-	}
+    }
 }

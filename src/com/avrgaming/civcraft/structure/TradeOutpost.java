@@ -17,21 +17,6 @@
  */
 package com.avrgaming.civcraft.structure;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Random;
-
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.Sign;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.ItemFrame;
-import org.bukkit.inventory.ItemStack;
-
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.InvalidNameException;
@@ -45,114 +30,128 @@ import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.FireworkEffectPlayer;
 import com.avrgaming.civcraft.util.ItemFrameStorage;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Sign;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.ItemFrame;
+import org.bukkit.inventory.ItemStack;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Random;
 
 public class TradeOutpost extends Structure {
 
-	protected BlockCoord tradeGoodCoord;
-	protected BlockCoord tradeOutpostTower = null;	
-	protected ItemFrameStorage frameStore = null;
-	protected TradeGood good = null;
-	protected BonusGoodie goodie = null;
-	
-	
-	protected TradeOutpost(Location center, String id, Town town)
-			throws CivException {
-		super(center, id, town);
-		loadSettings();
-	}
+    protected BlockCoord tradeGoodCoord;
+    protected BlockCoord tradeOutpostTower = null;
+    protected ItemFrameStorage frameStore = null;
+    protected TradeGood good = null;
+    protected BonusGoodie goodie = null;
 
-	public TradeOutpost(ResultSet rs) throws SQLException, CivException {
-		super(rs);
-		loadSettings();
-	}
 
-	public void loadSettings() {
-	}
-	
-	public void checkForTradeGood(BlockCoord coord) {
-		
-	}
+    protected TradeOutpost(Location center, String id, Town town)
+            throws CivException {
+        super(center, id, town);
+        loadSettings();
+    }
 
-	public BlockCoord getTradeGoodCoord() {
-		return tradeGoodCoord;
-	}
+    public TradeOutpost(ResultSet rs) throws SQLException, CivException {
+        super(rs);
+        loadSettings();
+    }
 
-	public void setTradeGoodCoord(BlockCoord tradeGoodCoord) {
-		this.tradeGoodCoord = tradeGoodCoord;
-	}
+    public void loadSettings() {
+    }
 
-	@Override
-	public String getMarkerIconName() {
-		return "scales";
-	}
-	
-	@Override
-	public void onDemolish() throws CivException {
-		
-		/* 
-		 * If the trade goodie is not in our frame, we should not allow
-		 * the trade outpost to be demolished. As it may result in an inconsistent state.
-		 */
-		if (this.frameStore == null) {
-			return;
-		}
-		
-		ItemStack frameItem = this.frameStore.getItem();
-		if (frameItem != null) {
-			BonusGoodie goodie = CivGlobal.getBonusGoodie(frameItem);
-			if (goodie != null) {
-				if (goodie.getOutpost() == this) {
-					return;
-				}
-			}
-		}
-		
-		throw new CivException(CivSettings.localize.localizedString("tradeOutpost_demolish_missingGoodie"));
-	}
-	
-	public void build_trade_outpost(Location centerLoc) throws CivException {
-		
-		/* Add trade good to town. */
-		TradeGood good = CivGlobal.getTradeGood(tradeGoodCoord);
-		if (good == null) {
-			throw new CivException(CivSettings.localize.localizedString("tradeOutpost_notFound") + null);
-		}
-		
-		if (good.getInfo().water) {
-			throw new CivException(CivSettings.localize.localizedString("tradeOutpost_notOnWater"));
-		}
-		
-		if (good.getTown() != null) {
-			throw new CivException(CivSettings.localize.localizedString("tradeOutpost_alreadyClaimed"));
-		}
-		
-		good.setStruct(this);
-		good.setTown(this.getTown());
-		good.setCiv(this.getTown().getCiv());
-		
-		/* Save the good *afterwards* so the structure id is properly set. */
-		this.setGood(good);
-	}
+    public void checkForTradeGood(BlockCoord coord) {
 
-	public void build_trade_outpost_tower() throws CivException {
-		/* Add trade good to town. */
-		
-		/* this.good is set by the good's load function or by the onBuild function. */
-		TradeGood good = this.good;
-		if (good == null) {
-			throw new CivException(CivSettings.localize.localizedString("tradeOutpost_build_noGoodie") + " " + null);
-		}
-		
-		/* Build the 'trade good tower' */
-		/* This is always set on post build using the post build sync task. */
-		if (tradeOutpostTower == null) {
-			throw new CivException(CivSettings.localize.localizedString("tradeOutpost_build_noTower"));
-		}
-		
-		Location centerLoc = tradeOutpostTower.getLocation();
-		
-		/* Build the bedrock tower. */
-		for (int i = 0; i < 3; i++) {
+    }
+
+    public BlockCoord getTradeGoodCoord() {
+        return tradeGoodCoord;
+    }
+
+    public void setTradeGoodCoord(BlockCoord tradeGoodCoord) {
+        this.tradeGoodCoord = tradeGoodCoord;
+    }
+
+    @Override
+    public String getMarkerIconName() {
+        return "scales";
+    }
+
+    @Override
+    public void onDemolish() throws CivException {
+
+        /*
+         * If the trade goodie is not in our frame, we should not allow
+         * the trade outpost to be demolished. As it may result in an inconsistent state.
+         */
+        if (this.frameStore == null) {
+            return;
+        }
+
+        ItemStack frameItem = this.frameStore.getItem();
+        if (frameItem != null) {
+            BonusGoodie goodie = CivGlobal.getBonusGoodie(frameItem);
+            if (goodie != null) {
+                if (goodie.getOutpost() == this) {
+                    return;
+                }
+            }
+        }
+
+        throw new CivException(CivSettings.localize.localizedString("tradeOutpost_demolish_missingGoodie"));
+    }
+
+    public void build_trade_outpost(Location centerLoc) throws CivException {
+
+        /* Add trade good to town. */
+        TradeGood good = CivGlobal.getTradeGood(tradeGoodCoord);
+        if (good == null) {
+            throw new CivException(CivSettings.localize.localizedString("tradeOutpost_notFound") + null);
+        }
+
+        if (good.getInfo().water) {
+            throw new CivException(CivSettings.localize.localizedString("tradeOutpost_notOnWater"));
+        }
+
+        if (good.getTown() != null) {
+            throw new CivException(CivSettings.localize.localizedString("tradeOutpost_alreadyClaimed"));
+        }
+
+        good.setStruct(this);
+        good.setTown(this.getTown());
+        good.setCiv(this.getTown().getCiv());
+
+        /* Save the good *afterwards* so the structure id is properly set. */
+        this.setGood(good);
+    }
+
+    public void build_trade_outpost_tower() throws CivException {
+        /* Add trade good to town. */
+
+        /* this.good is set by the good's load function or by the onBuild function. */
+        TradeGood good = this.good;
+        if (good == null) {
+            throw new CivException(CivSettings.localize.localizedString("tradeOutpost_build_noGoodie") + " " + null);
+        }
+
+        /* Build the 'trade good tower' */
+        /* This is always set on post build using the post build sync task. */
+        if (tradeOutpostTower == null) {
+            throw new CivException(CivSettings.localize.localizedString("tradeOutpost_build_noTower"));
+        }
+
+        Location centerLoc = tradeOutpostTower.getLocation();
+
+        /* Build the bedrock tower. */
+        for (int i = 0; i < 3; i++) {
             Block b = centerLoc.getBlock().getRelative(0, i, 0);
             b.setType(Material.BEDROCK);
             b.setData((byte) 0);
@@ -177,172 +176,167 @@ public class TradeOutpost extends Structure {
         b = centerLoc.getBlock().getRelative(1, 1, 0);
         this.addStructureBlock(new BlockCoord(b), false);
         Block b2 = b.getRelative(0, 0, 0);
-		Entity entity = CivGlobal.getEntityAtLocation(b2.getLocation());
-		this.addStructureBlock(new BlockCoord(b2), false);
-		
-		if (!(entity instanceof ItemFrame)) {
-			this.frameStore = new ItemFrameStorage(b.getLocation(), BlockFace.EAST);	
-		} else {
-			this.frameStore = new ItemFrameStorage((ItemFrame)entity, b.getLocation());
-		}
-		
-		this.frameStore.setBuildable(this);
-	}
-	
+        Entity entity = CivGlobal.getEntityAtLocation(b2.getLocation());
+        this.addStructureBlock(new BlockCoord(b2), false);
+
+        if (!(entity instanceof ItemFrame)) {
+            this.frameStore = new ItemFrameStorage(b.getLocation(), BlockFace.EAST);
+        } else {
+            this.frameStore = new ItemFrameStorage((ItemFrame) entity, b.getLocation());
+        }
+
+        this.frameStore.setBuildable(this);
+    }
+
     public ItemFrameStorage getItemFrameStore() {
-		return this.frameStore;
-	}
-	
-	public BlockCoord getTradeOutpostTower() {
-		return tradeOutpostTower;
-	}
+        return this.frameStore;
+    }
 
-	public void setTradeOutpostTower(BlockCoord tradeOutpostTower) {
-		this.tradeOutpostTower = tradeOutpostTower;
-	}
+    public BlockCoord getTradeOutpostTower() {
+        return tradeOutpostTower;
+    }
 
-	public TradeGood getGood() {
-		return good;
-	}
+    public void setTradeOutpostTower(BlockCoord tradeOutpostTower) {
+        this.tradeOutpostTower = tradeOutpostTower;
+    }
 
-	public void setGood(TradeGood good) {
-		this.good = good;
-	}
+    public TradeGood getGood() {
+        return good;
+    }
 
-	public BonusGoodie getGoodie() {
-		return goodie;
-	}
+    public void setGood(TradeGood good) {
+        this.good = good;
+    }
 
-	public void setGoodie(BonusGoodie goodie) {
-		this.goodie = goodie;
-	}
-	
-	@Override
-	public void delete() throws SQLException {
-		if (this.goodie != null) {
-			this.goodie.delete();
-		}
-		
-		super.delete();
-	}
-	
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		
-		if (this.goodie != null) {
-			try {
-				this.goodie.delete();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	@Override
-	public void onComplete() {
-		class SyncTask implements Runnable {
+    public BonusGoodie getGoodie() {
+        return goodie;
+    }
 
-			@Override
-			public void run() {
-				try {
-					createTradeGood();
-				} catch (CivException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		TaskMaster.syncTask(new SyncTask(), 20);
-	}
-	
-	public void createTradeGood() throws CivException {
-		
-		if (!this.isActive()) {
-			return;
-		}
-		
-		/* Add custom item. 
-		 * This function is called on reload. The constructor either loads 
-		 * the good or creates a new one at the trade outpost if no good could
-		 * be found.
-		 * */
-		try {
-			this.goodie = new BonusGoodie(this);
-			
-			if (this.goodie.getFrame() == null) {
-				//goodie not in a frame, skip it.
-				return;
-			}
-			
-			TownHall townhall = this.goodie.getFrame().getTown().getTownHall();
-			if (townhall != null) {
-				for (ItemFrameStorage ifs : townhall.getGoodieFrames()) {
-					if (ifs.getFrameID() == this.goodie.getFrame().getFrameID()) {
-						townhall.getTown().loadGoodiePlaceIntoFrame(townhall, goodie);
-					}
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new CivException(CivSettings.localize.localizedString("internalDatabaseException"));
-		} catch (InvalidNameException e) {
-			e.printStackTrace();
-			throw new CivException(CivSettings.localize.localizedString("stringFormattingError"));
-		}
-	}
-	
-	@Override
-	public void onLoad() throws CivException {
-		createTradeGood();
-	}
-	
-	public void fancyDestroyStructureBlocks() {
-		for (BlockCoord coord : this.structureBlocks.keySet()) {
-			
-			if (CivGlobal.getStructureChest(coord) != null) {
-				continue;
-			}
-			
-			if (CivGlobal.getStructureSign(coord) != null) {
-				continue;
-			}
+    public void setGoodie(BonusGoodie goodie) {
+        this.goodie = goodie;
+    }
 
-			Block block1 = coord.getBlock();
-			Block block2 = coord.getBlock();
-			if (block2.getType() == Material.BEDROCK || block1.getType() == Material.AIR) {
-				//Be a bit more careful not to destroy any of the item frames..
-				continue;
-			}
-			
-			Random rand = new Random();
-			
-			// Each block has a 10% chance to turn into gravel
-			if (rand.nextInt(100) <= 10) {
+    @Override
+    public void delete() throws SQLException {
+        if (this.goodie != null) {
+            this.goodie.delete();
+        }
+
+        super.delete();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (this.goodie != null) {
+            try {
+                this.goodie.delete();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void onComplete() {
+        TaskMaster.syncTask(() -> {
+            try {
+                createTradeGood();
+            } catch (CivException e) {
+                e.printStackTrace();
+            }
+        }, 20);
+    }
+
+    public void createTradeGood() throws CivException {
+
+        if (!this.isActive()) {
+            return;
+        }
+
+        /* Add custom item.
+         * This function is called on reload. The constructor either loads
+         * the good or creates a new one at the trade outpost if no good could
+         * be found.
+         * */
+        try {
+            this.goodie = new BonusGoodie(this);
+
+            if (this.goodie.getFrame() == null) {
+                //goodie not in a frame, skip it.
+                return;
+            }
+
+            TownHall townhall = this.goodie.getFrame().getTown().getTownHall();
+            if (townhall != null) {
+                for (ItemFrameStorage ifs : townhall.getGoodieFrames()) {
+                    if (ifs.getFrameID() == this.goodie.getFrame().getFrameID()) {
+                        townhall.getTown().loadGoodiePlaceIntoFrame(townhall, goodie);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new CivException(CivSettings.localize.localizedString("internalDatabaseException"));
+        } catch (InvalidNameException e) {
+            e.printStackTrace();
+            throw new CivException(CivSettings.localize.localizedString("stringFormattingError"));
+        }
+    }
+
+    @Override
+    public void onLoad() throws CivException {
+        createTradeGood();
+    }
+
+    public void fancyDestroyStructureBlocks() {
+        for (BlockCoord coord : this.structureBlocks.keySet()) {
+
+            if (CivGlobal.getStructureChest(coord) != null) {
+                continue;
+            }
+
+            if (CivGlobal.getStructureSign(coord) != null) {
+                continue;
+            }
+
+            Block block1 = coord.getBlock();
+            Block block2 = coord.getBlock();
+            if (block2.getType() == Material.BEDROCK || block1.getType() == Material.AIR) {
+                //Be a bit more careful not to destroy any of the item frames..
+                continue;
+            }
+
+            Random rand = new Random();
+
+            // Each block has a 10% chance to turn into gravel
+            if (rand.nextInt(100) <= 10) {
                 Block block = coord.getBlock();
                 block.setType(Material.GRAVEL);
                 continue;
-			}
-			
-			// Each block has a 50% chance of starting a fire
-			if (rand.nextInt(100) <= 50) {
+            }
+
+            // Each block has a 50% chance of starting a fire
+            if (rand.nextInt(100) <= 50) {
                 Block block = coord.getBlock();
                 block.setType(Material.FIRE);
                 continue;
-			}
-			
-			// Each block has a 1% chance of launching an explosion effect
-			if (rand.nextInt(100) <= 1) {
-				FireworkEffect effect = FireworkEffect.builder().with(org.bukkit.FireworkEffect.Type.BURST).withColor(Color.ORANGE).withColor(Color.RED).withTrail().withFlicker().build();
-				FireworkEffectPlayer fePlayer = new FireworkEffectPlayer();
-				for (int i = 0; i < 3; i++) {
-					try {
-						fePlayer.playFirework(coord.getBlock().getWorld(), coord.getLocation(), effect);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}			
-			}
-		}
-	}
-	
+            }
+
+            // Each block has a 1% chance of launching an explosion effect
+            if (rand.nextInt(100) <= 1) {
+                FireworkEffect effect = FireworkEffect.builder().with(org.bukkit.FireworkEffect.Type.BURST).withColor(Color.ORANGE).withColor(Color.RED).withTrail().withFlicker().build();
+                FireworkEffectPlayer fePlayer = new FireworkEffectPlayer();
+                for (int i = 0; i < 3; i++) {
+                    try {
+                        fePlayer.playFirework(coord.getBlock().getWorld(), coord.getLocation(), effect);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+
 }

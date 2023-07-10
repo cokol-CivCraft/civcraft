@@ -16,55 +16,55 @@
  * from AVRGAMING LLC.
  */
 package com.avrgaming.civcraft.object;
+
 import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.util.BlockCoord;
 
 public class StructureChest {
 
-	private BlockCoord coord;
-	private Buildable owner;
-	private int direction;
-	
-	/* The chest id defines which chests are 'paired' for double chests. */
-	private int chestId;
-	
-	public StructureChest(BlockCoord coord, Buildable owner) {
-		this.setCoord(coord);
-		this.setOwner(owner);
-	}
-	
-	public BlockCoord getCoord() {
-		return coord;
-	}
+    private BlockCoord coord;
+    private Buildable owner;
+    private int direction;
 
-	public void setCoord(BlockCoord coord) {
-		this.coord = coord;
-	}
+    /* The chest id defines which chests are 'paired' for double chests. */
+    private int chestId;
 
-	public Buildable getOwner() {
-		return owner;
-	}
+    public StructureChest(BlockCoord coord, Buildable owner) {
+        this.setCoord(coord);
+        this.setOwner(owner);
+    }
 
-	public void setOwner(Buildable owner) {
-		this.owner = owner;
-	}
+    public BlockCoord getCoord() {
+        return coord;
+    }
 
-	public int getDirection() {
-		return direction;
-	}
+    public void setCoord(BlockCoord coord) {
+        this.coord = coord;
+    }
 
-	public void setDirection(int direction) {
-		this.direction = direction;
-	}
+    public Buildable getOwner() {
+        return owner;
+    }
 
-	public int getChestId() {
-		return chestId;
-	}
+    public void setOwner(Buildable owner) {
+        this.owner = owner;
+    }
 
-	public void setChestId(int chestId) {
-		this.chestId = chestId;
-	}
+    public int getDirection() {
+        return direction;
+    }
 
-	
-	
+    public void setDirection(int direction) {
+        this.direction = direction;
+    }
+
+    public int getChestId() {
+        return chestId;
+    }
+
+    public void setChestId(int chestId) {
+        this.chestId = chestId;
+    }
+
+
 }
