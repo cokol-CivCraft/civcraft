@@ -62,16 +62,16 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Town extends SQLObject {
 
-    private final ConcurrentHashMap<String, Resident> residents = new ConcurrentHashMap<>();
-    private final ConcurrentHashMap<String, Resident> fakeResidents = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, Resident> residents = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, Resident> fakeResidents = new ConcurrentHashMap<>();
 
-    private final ConcurrentHashMap<ChunkCoord, TownChunk> townChunks = new ConcurrentHashMap<>();
-    private final ConcurrentHashMap<ChunkCoord, TownChunk> outposts = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<ChunkCoord, TownChunk> townChunks = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<ChunkCoord, TownChunk> outposts = new ConcurrentHashMap<>();
     private ConcurrentHashMap<ChunkCoord, CultureChunk> cultureChunks = new ConcurrentHashMap<>();
 
-    private final ConcurrentHashMap<BlockCoord, Wonder> wonders = new ConcurrentHashMap<>();
-    private final ConcurrentHashMap<BlockCoord, Structure> structures = new ConcurrentHashMap<>();
-    private final ConcurrentHashMap<BlockCoord, Buildable> disabledBuildables = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<BlockCoord, Wonder> wonders = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<BlockCoord, Structure> structures = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<BlockCoord, Buildable> disabledBuildables = new ConcurrentHashMap<>();
 
     private int level;
     private double taxRate;
@@ -212,7 +212,7 @@ public class Town extends SQLObject {
         this.setLevel(rs.getInt("level"));
         this.setCiv(CivGlobal.getCivFromId(rs.getInt("civ_id")));
 
-        Integer motherCivId = rs.getInt("mother_civ_id");
+        int motherCivId = rs.getInt("mother_civ_id");
         if (motherCivId != 0) {
             Civilization mother = CivGlobal.getConqueredCivFromId(motherCivId);
             if (mother == null) {
@@ -256,7 +256,7 @@ public class Town extends SQLObject {
             this.outlaws.addAll(Arrays.asList(outlaws));
         }
 
-        Long ctime = rs.getLong("created_date");
+        long ctime = rs.getLong("created_date");
         if (ctime == 0) {
             this.setCreated(new Date(0)); //Forever in the past.
         } else {
@@ -2434,7 +2434,7 @@ public class Town extends SQLObject {
 
     public void validateResidentSelect(Resident resident) throws CivException {
         if (this.getMayorGroup() == null || this.getAssistantGroup() == null || this.getDefaultGroup() == null ||
-                this.getCiv().getLeaderGroup() == null || this.getAssistantGroup() == null) {
+                this.getCiv().getLeaderGroup() == null) {
             throw new CivException(CivSettings.localize.localizedString("town_validateSelect_error1"));
         }
 
@@ -2598,7 +2598,7 @@ public class Town extends SQLObject {
 
     public AttrSource getFaith() {
         double faith = 0;
-        HashMap<String, Double> sources = new HashMap<String, Double>();
+        HashMap<String, Double> sources = new HashMap<>();
 
         /* Grab beakers generated from culture. */
         double fromCulture = 0;
@@ -2646,7 +2646,7 @@ public class Town extends SQLObject {
 
     public AttrSource getFaithRate() {
         double rate = 0.0;
-        HashMap<String, Double> rates = new HashMap<String, Double>();
+        HashMap<String, Double> rates = new HashMap<>();
 
         ConfigHappinessState state = this.getHappinessState();
         double haprate = 0.0;

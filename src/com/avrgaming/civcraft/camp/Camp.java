@@ -29,7 +29,6 @@ import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.exception.InvalidNameException;
-import com.avrgaming.civcraft.exception.InvalidObjectException;
 import com.avrgaming.civcraft.items.components.Tagged;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.main.CivData;
@@ -159,7 +158,7 @@ public class Camp extends Buildable {
         loadSettings();
     }
 
-    public Camp(ResultSet rs) throws SQLException, InvalidNameException, InvalidObjectException, CivException {
+    public Camp(ResultSet rs) throws SQLException, InvalidNameException {
         this.load(rs);
         loadSettings();
     }

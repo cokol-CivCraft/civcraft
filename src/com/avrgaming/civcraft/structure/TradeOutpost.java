@@ -19,7 +19,6 @@ package com.avrgaming.civcraft.structure;
 
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidNameException;
 import com.avrgaming.civcraft.items.BonusGoodie;
 import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
@@ -279,9 +278,6 @@ public class TradeOutpost extends Structure {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new CivException(CivSettings.localize.localizedString("internalDatabaseException"));
-        } catch (InvalidNameException e) {
-            e.printStackTrace();
-            throw new CivException(CivSettings.localize.localizedString("stringFormattingError"));
         }
     }
 

@@ -54,7 +54,7 @@ public class EspionageMissionTask implements Runnable {
         this.startLocation = startLocation;
         this.secondsLeft = seconds;
     }
-
+    @SuppressWarnings("BusyWait")
     @Override
     public void run() {
         int exposePerSecond;

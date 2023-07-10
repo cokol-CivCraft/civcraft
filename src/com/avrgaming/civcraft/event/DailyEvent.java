@@ -33,7 +33,7 @@ public class DailyEvent implements EventInterface {
     public static Boolean dailyTimerFinished = true;
 
     public static int dayExecuted = 0;
-
+    @SuppressWarnings("BusyWait")
     @Override
     public void process() {
 

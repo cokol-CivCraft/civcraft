@@ -72,19 +72,14 @@ public class UpdateTechBar extends CivAsyncTask {
 
                     if (i <= blockCount) {
                         sb = new SimpleBlock(Material.WOOL, CivData.DATA_WOOL_GREEN);
-                        sb.x = bcoord.getX();
-                        sb.y = bcoord.getY();
-                        sb.z = bcoord.getZ();
-                        sb.worldname = bcoord.getWorldname();
-                        sbs.add(sb);
                     } else {
                         sb = new SimpleBlock(Material.WOOL, CivData.DATA_WOOL_BLACK);
-                        sb.x = bcoord.getX();
-                        sb.y = bcoord.getY();
-                        sb.z = bcoord.getZ();
-                        sb.worldname = bcoord.getWorldname();
-                        sbs.add(sb);
                     }
+                    sb.x = bcoord.getX();
+                    sb.y = bcoord.getY();
+                    sb.z = bcoord.getZ();
+                    sb.worldname = bcoord.getWorldname();
+                    sbs.add(sb);
 
                     townhall.addStructureBlock(townhall.getTechBar(i), false);
                 }

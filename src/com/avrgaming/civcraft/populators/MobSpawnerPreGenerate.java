@@ -25,9 +25,7 @@ public class MobSpawnerPreGenerate {
     }
 
     private TreeSet<ConfigMobSpawner> getValidMobSpawners(int x, int z, Map<String, ConfigMobSpawner> spawners) {
-        TreeSet<ConfigMobSpawner> validGoods = new TreeSet<>();
-        validGoods.addAll(spawners.values());
-        return validGoods;
+        return new TreeSet<>(spawners.values());
     }
 
     /*

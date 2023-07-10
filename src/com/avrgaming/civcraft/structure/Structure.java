@@ -268,12 +268,6 @@ public class Structure extends Buildable {
                 break;
             // Just for backwards compatibility with old typos on existing servers:
             case "s_capital":
-                if (rs == null) {
-                    struct = new Capitol(center, id, town);
-                } else {
-                    struct = new Capitol(rs);
-                }
-                break;
             case "s_capitol":
                 if (rs == null) {
                     struct = new Capitol(center, id, town);

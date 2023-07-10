@@ -28,7 +28,6 @@ import com.avrgaming.civcraft.event.EventTimer;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.exception.InvalidNameException;
-import com.avrgaming.civcraft.exception.InvalidObjectException;
 import com.avrgaming.civcraft.items.BonusGoodie;
 import com.avrgaming.civcraft.object.*;
 import com.avrgaming.civcraft.object.Relation.Status;
@@ -163,7 +162,7 @@ public class CivGlobal {
 
     public static int highestCivEra = 0;
 
-    public static void loadGlobals() throws SQLException, CivException {
+    public static void loadGlobals() throws SQLException {
 
 		/*
 		 Don't use CivSettings.getBoolean() to prevent error when using old config
@@ -287,8 +286,7 @@ public class CivGlobal {
             while (rs.next()) {
                 try {
                     new ArenaTeam(rs);
-                } catch (InvalidNameException | InvalidObjectException
-                         | CivException e) {
+                } catch (InvalidNameException e) {
                     e.printStackTrace();
                 }
             }

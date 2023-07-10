@@ -6,7 +6,6 @@ import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.exception.InvalidNameException;
-import com.avrgaming.civcraft.exception.InvalidObjectException;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
@@ -42,7 +41,7 @@ public class ArenaTeam extends SQLObject implements Comparable<ArenaTeam> {
         teamMembers.add(leader);
     }
 
-    public ArenaTeam(ResultSet rs) throws SQLException, InvalidNameException, InvalidObjectException, CivException {
+    public ArenaTeam(ResultSet rs) throws SQLException, InvalidNameException {
         load(rs);
     }
 

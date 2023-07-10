@@ -5,8 +5,6 @@ import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.database.SQL;
 import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidNameException;
-import com.avrgaming.civcraft.exception.InvalidObjectException;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
@@ -192,7 +190,7 @@ public class RandomEvent extends SQLObject {
         buildComponents();
     }
 
-    public RandomEvent(ResultSet rs) throws SQLException, InvalidNameException, InvalidObjectException, CivException {
+    public RandomEvent(ResultSet rs) throws SQLException, CivException {
         this.load(rs);
 
         /* Place ourselves back in the town we just loaded. */

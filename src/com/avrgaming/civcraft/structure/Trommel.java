@@ -83,10 +83,10 @@ public class Trommel extends Structure {
     private static final double ANDESITE_REFINED_CHROMIUM_CHANCE = CivSettings.getDoubleStructure("trommel_andesite.refined_chromium_chance");
     private static final double ANDESITE_REFINED_TUNGSTEN_CHANCE = CivSettings.getDoubleStructure("trommel_andesite.refined_tungsten_chance");
     private static final double ANDESITE_CRYSTAL_CHANCE = CivSettings.getDoubleStructure("trommel_andesite.crystal_chance");
-    private final HashMap<Mineral, Double> andesiteChance = new HashMap<Mineral, Double>();
-    private final HashMap<Mineral, Double> dioriteChance = new HashMap<Mineral, Double>();
-    private final HashMap<Mineral, Double> graniteChance = new HashMap<Mineral, Double>();
-    private final HashMap<Mineral, Double> gravelChance = new HashMap<Mineral, Double>();
+    private final HashMap<Mineral, Double> andesiteChance = new HashMap<>();
+    private final HashMap<Mineral, Double> dioriteChance = new HashMap<>();
+    private final HashMap<Mineral, Double> graniteChance = new HashMap<>();
+    private final HashMap<Mineral, Double> gravelChance = new HashMap<>();
     private int level = 1;
     public int skippedCounter = 0;
     public ReentrantLock lock = new ReentrantLock();

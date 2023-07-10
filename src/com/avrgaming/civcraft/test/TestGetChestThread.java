@@ -28,7 +28,7 @@ public class TestGetChestThread extends CivAsyncTask {
 
     public TestGetChestThread() {
     }
-
+    @SuppressWarnings("InfiniteLoopStatement")
     @Override
     public void run() {
 

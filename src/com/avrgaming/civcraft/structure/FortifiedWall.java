@@ -79,7 +79,7 @@ public class FortifiedWall extends Wall {
      *  This is used to chain together the wall chunks built by the last operation.
      * this allows us to undo all of the walls built in a single pass.
      */
-    private final FortifiedWall nextWallBuilt = null;
+    private FortifiedWall nextWallBuilt = null;
 
 //	private int verticalsegments = 0;
 
@@ -172,8 +172,7 @@ public class FortifiedWall extends Wall {
                 WallBlock wb = wallBlocks.get(coord);
                 Block block = coord.getBlock();
                 block.setType(wb.getOldId());
-                Block block1 = coord.getBlock();
-                block1.setData((byte) (int) wb.getOldData());
+                coord.getBlock().setData(wb.getOldData());
                 try {
                     wb.delete();
                 } catch (SQLException e) {
@@ -658,7 +657,7 @@ public class FortifiedWall extends Wall {
     }
 
     @Override
-    public void repairFromTemplate() throws CivException {
+    public void repairFromTemplate() {
         this.repairStructureForFree();
     }
 

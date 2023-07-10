@@ -450,7 +450,7 @@ public class Template {
         return copyTemplatePath + "/" + string;
     }
 
-    public void setDirection(Location center) throws CivException {
+    public void setDirection(Location center) {
         dir = parseDirection(center).getOppositeFace().toString().toLowerCase();
     }
 

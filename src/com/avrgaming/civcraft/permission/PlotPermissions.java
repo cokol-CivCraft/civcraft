@@ -17,7 +17,6 @@
  */
 package com.avrgaming.civcraft.permission;
 
-import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
@@ -67,7 +66,7 @@ public class PlotPermissions {
         return build.getSaveString() + "," + destroy.getSaveString() + "," + interact.getSaveString() + "," + itemUse.getSaveString() + "," + ownerString + "," + groupString + "," + fire + "," + mobs;
     }
 
-    public void loadFromSaveString(Town town, String src) throws CivException {
+    public void loadFromSaveString(Town town, String src) {
         String[] split = src.split(",");
 
         build.loadFromString(split[0]);

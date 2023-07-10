@@ -37,7 +37,6 @@ import com.avrgaming.civcraft.database.SQL;
 import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.endgame.EndConditionNotificationTask;
 import com.avrgaming.civcraft.event.EventTimerTask;
-import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.fishing.FishingListener;
 import com.avrgaming.civcraft.listener.*;
@@ -229,7 +228,7 @@ public final class CivCraft extends JavaPlugin {
             CivGlobal.loadGlobals();
 
 
-        } catch (InvalidConfiguration | SQLException | IOException | InvalidConfigurationException | CivException e) {
+        } catch (InvalidConfiguration | SQLException | IOException | InvalidConfigurationException e) {
             e.printStackTrace();
             setError(true);
             return;

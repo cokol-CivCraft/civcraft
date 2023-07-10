@@ -65,7 +65,7 @@ public class MobSpawnerPostGenTask implements Runnable {
         }
 
     }
-
+    @SuppressWarnings("BusyWait")
     @Override
     public void run() {
         CivLog.info("Generating/Clearing Mob Spawners...");
@@ -74,8 +74,7 @@ public class MobSpawnerPostGenTask implements Runnable {
         deleteAllMobSpawnersFromDB();
 
         /* Generate Trade Good Pillars. */
-        Queue<MobSpawnerPick> picksQueue = new LinkedList<>();
-        picksQueue.addAll(CivGlobal.mobSpawnerPreGenerator.spawnerPicks.values());
+        Queue<MobSpawnerPick> picksQueue = new LinkedList<>(CivGlobal.mobSpawnerPreGenerator.spawnerPicks.values());
 
         int count = 0;
         int amount = 20;

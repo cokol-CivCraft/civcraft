@@ -28,7 +28,10 @@ import org.bukkit.inventory.ItemStack;
 
 import java.io.IOException;
 import java.sql.ResultSet;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Random;
 
 public class WarCamp extends Buildable implements RespawnLocationHolder {
 
@@ -498,11 +501,6 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
     @Override
     public String getRespawnName() {
         return "WarCamp\n(" + this.corner.getX() + "," + this.corner.getY() + "," + this.corner.getZ() + ")";
-    }
-
-    @Override
-    public List<BlockCoord> getRespawnPoints() {
-        return this.getRespawnPoints();
     }
 
     @Override

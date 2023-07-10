@@ -20,7 +20,6 @@ package com.avrgaming.civcraft.object;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.database.SQL;
 import com.avrgaming.civcraft.database.SQLUpdate;
-import com.avrgaming.civcraft.exception.InvalidNameException;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.util.CivColor;
@@ -66,7 +65,7 @@ public class Relation extends SQLObject {
         this.save();
     }
 
-    public Relation(ResultSet rs) throws SQLException, InvalidNameException {
+    public Relation(ResultSet rs) throws SQLException {
         this.load(rs);
         if (this.civ != null) {
             civ.getDiplomacyManager().addRelation(this);
@@ -122,8 +121,8 @@ public class Relation extends SQLObject {
         }
 
 
-        Long createdLong = rs.getLong("created");
-        Long expiresLong = rs.getLong("expires");
+        long createdLong = rs.getLong("created");
+        long expiresLong = rs.getLong("expires");
 
         if (createdLong != 0) {
             created = new Date(createdLong);

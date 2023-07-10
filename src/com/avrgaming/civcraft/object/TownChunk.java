@@ -119,11 +119,7 @@ public class TownChunk extends SQLObject {
         ChunkCoord cord = new ChunkCoord(rs.getString("world"), rs.getInt("x"), rs.getInt("z"));
         this.setChunkCord(cord);
 
-        try {
-            this.perms.loadFromSaveString(town, rs.getString("permissions"));
-        } catch (CivException e) {
-            e.printStackTrace();
-        }
+        this.perms.loadFromSaveString(town, rs.getString("permissions"));
 
         this.perms.setOwner(CivGlobal.getResidentFromId(rs.getInt("owner_id")));
         //this.perms.setGroup(CivGlobal.getPermissionGroup(this.getTown(), rs.getInt("groups")));
