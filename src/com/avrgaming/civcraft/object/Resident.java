@@ -18,43 +18,6 @@
  */
 package com.avrgaming.civcraft.object;
 
-import gpl.InventorySerializer;
-
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-//import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-//import org.bukkit.potion.PotionEffect;
-//import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Score;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
-
 import com.avrgaming.civcraft.arena.Arena;
 import com.avrgaming.civcraft.arena.ArenaTeam;
 import com.avrgaming.civcraft.camp.Camp;
@@ -85,15 +48,26 @@ import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.BuildPreviewAsyncTask;
 import com.avrgaming.civcraft.tutorial.CivTutorial;
-import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.CallbackInterface;
-import com.avrgaming.civcraft.util.CivColor;
-import com.avrgaming.civcraft.util.PlayerBlockChangeUtil;
-import com.avrgaming.civcraft.util.SimpleBlock;
-import com.avrgaming.global.perks.NotVerifiedException;
+import com.avrgaming.civcraft.util.*;
 import com.avrgaming.global.perks.Perk;
 import com.avrgaming.global.perks.components.CustomPersonalTemplate;
 import com.avrgaming.global.perks.components.CustomTemplate;
+import gpl.InventorySerializer;
+import org.bukkit.*;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.scoreboard.*;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Resident extends SQLObject {
 
@@ -1193,21 +1167,8 @@ public class Resident extends SQLObject {
 
             @Override
             public void run() {
-                try {
-                    resident.perks.clear();
-                    Player player = CivGlobal.getPlayer(resident);
-                    try {
-                        CivGlobal.perkManager.loadPerksForResident(resident);
-                    } catch (SQLException e) {
-                        CivMessage.sendError(player, CivSettings.localize.localizedString("resident_couldnotloadperks"));
-                        e.printStackTrace();
-                        return;
-                    } catch (NotVerifiedException e) {
-                        return;
-                    }
-                } catch (CivException e1) {
-                    return;
-                }
+                resident.perks.clear();
+
                 try {
 
                     StringBuilder perkMessage = new StringBuilder();

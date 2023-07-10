@@ -25,7 +25,6 @@ import com.avrgaming.civcraft.config.ConfigMarketItem;
 import com.avrgaming.civcraft.event.EventTimer;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.items.BonusGoodie;
-import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.*;
 import com.avrgaming.civcraft.permission.PermissionGroup;
@@ -36,8 +35,6 @@ import com.avrgaming.civcraft.structure.Structure;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.BiomeCache;
-import com.avrgaming.global.perks.PerkManager;
-import com.avrgaming.global.perks.PerkManagerSimple;
 import com.avrgaming.global.reports.ReportManager;
 import com.avrgaming.global.scores.ScoreManager;
 
@@ -112,25 +109,6 @@ public class SQL {
         CivLog.info("\t Building Connection Pool for GLOBAL database.");
         globalDatabase = new ConnectionPool(SQL.global_dsn, SQL.global_username, SQL.global_password);
         CivLog.info("\t Connected to GLOBAL database");
-
-        CivGlobal.perkManager = new PerkManager();
-//		if (PlatinumManager.isLegacyEnabled()) {
-//			CivLog.heading("Initializing Perk/Web Database");	
-//			PerkManager.hostname = CivSettings.getStringBase("perk_database.hostname");
-//			PerkManager.port = CivSettings.getStringBase("perk_database.port");
-//			PerkManager.db_name = CivSettings.getStringBase("perk_database.database");
-//			PerkManager.username = CivSettings.getStringBase("perk_database.username");
-//			PerkManager.password = CivSettings.getStringBase("perk_database.password");
-//			PerkManager.dsn = "jdbc:mysql://" + PerkManager.hostname + ":" + PerkManager.port + "/" + PerkManager.db_name;
-//			CivLog.info("\t Using "+PerkManager.dsn+" as PERK database.");
-//			perkDatabase = new ConnectionPool(PerkManager.dsn, PerkManager.username, PerkManager.password, SQL.global_min_conns, SQL.global_max_conns, SQL.global_parts);
-//			CivLog.info("\t Connected to PERK database.");
-//		} else if (PlatinumManager.isEnabled()) {
-        CivGlobal.perkManager = new PerkManagerSimple();
-        CivGlobal.perkManager.init();
-        CivLog.info("Enabled SIMPLE PerkManager");
-//		}
-
 
         CivLog.heading("Initializing SQL Finished");
     }
