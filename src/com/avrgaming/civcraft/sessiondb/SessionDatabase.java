@@ -33,12 +33,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 public class SessionDatabase {
-	/* 
-	 * This object provides interface functions to allow CivCraft objects
-	 * to store temporary information in the SQL database. 
-	 */
-	private boolean initalized;
-	
+
 	String tb_prefix;
 	
 	private final ConcurrentHashMap<String, ArrayList<SessionEntry>> cache = new ConcurrentHashMap<>();
@@ -48,7 +43,7 @@ public class SessionDatabase {
 	}
 	
 	public static String TABLE_NAME = "SESSIONS";
-	public static String GLOBAL_TABLE_NAME = "GLOBAL_SESSIONS";
+
 	public static void init() throws SQLException {
 		System.out.println("================= SESSION DB INIT ======================");
 		// Check/Build SessionDB tables				
@@ -67,26 +62,6 @@ public class SessionDatabase {
 			CivLog.info("Created "+TABLE_NAME+" table");
 		} else {
 			CivLog.info(TABLE_NAME+" table OK!");
-		}			
-		System.out.println("==================================================");
-		
-		System.out.println("================= GLOBAL SESSION DB INIT ======================");
-		// Check/Build SessionDB tables				
-		if (!SQL.hasGlobalTable(GLOBAL_TABLE_NAME)) {
-			String table_create = "CREATE TABLE " + GLOBAL_TABLE_NAME+" (" + 
-					"`request_id` int(11) unsigned NOT NULL auto_increment," +
-					"`key` mediumtext," +
-					"`value` mediumtext," +
-					"`town_id` int(11)," +
-					"`civ_id` int(11)," +
-					"`struct_id` int(11)," +
-					"`time` long," +
-					"PRIMARY KEY (`request_id`)" + ")";
-			
-			SQL.makeGlobalTable(table_create);
-			CivLog.info("Created "+GLOBAL_TABLE_NAME+" table");
-		} else {
-			CivLog.info(GLOBAL_TABLE_NAME+" table OK!");
 		}			
 		System.out.println("==================================================");
 	}
@@ -114,26 +89,13 @@ public class SessionDatabase {
 		request.queue();
 		return true;
 	}
-	
-	public boolean global_add(String key, String value) {
-		SessionEntry se = new SessionEntry();
-		se.key = key;
-		se.value = value;
-		se.time = System.currentTimeMillis();
-		se.request_id = -1;
-		
-		//Fire async add to DB.
-		SessionAsyncRequest request = new SessionAsyncRequest(Operation.ADD, Database.GLOBAL, "GLOBAL_", se);
-		request.queue();
-		return true;
-	}
-		
+
 	public ArrayList<SessionEntry> lookup(String key) {
 		Connection cntx = null;
 		ResultSet rs = null;
 		PreparedStatement ps = null;
 		String code;
-		ArrayList<SessionEntry> retList = null;
+		ArrayList<SessionEntry> retList;
 		
 		try {
 			// Lookup in cache first, then look in DB.
@@ -194,59 +156,7 @@ public class SessionDatabase {
 			SQL.close(rs, ps, cntx);
 		}
 	}
-	
-	public ArrayList<SessionEntry> global_lookup(String key) {
-		Connection global_context = null;
-		ResultSet rs = null;
-        PreparedStatement s = null;
-        ArrayList<SessionEntry> retList = new ArrayList<>();
 
-		try {
-			try {
-				global_context = SQL.getGameConnection();
-				String code;
-				code = "SELECT * FROM `GLOBAL_SESSIONS` WHERE `key` = ?";
-				s = global_context.prepareStatement(code);
-				s.setString(1, key);
-			
-				rs = s.executeQuery();
-				
-				while (rs.next()) {
-					SessionEntry se = new SessionEntry();
-					String line;
-					
-					se.request_id = rs.getInt("request_id");
-	
-					line = rs.getString("key");
-	
-					if (line == null)
-						break;
-					else
-						se.key = line;
-					
-					line = rs.getString("value");
-					if (line == null)
-						break;
-					else
-						se.value = line;
-
-					long time = rs.getLong("time");
-					se.time = time;
-					
-					retList.add(se);
-				}
-			} catch (SQLException e) {
-				CivLog.error("SQL: select sql error " + e.getMessage());
-			}
-			
-			// Add what we found to the cache.
-			cache.put(key, retList);
-			return retList;
-		} finally {
-			SQL.close(rs, s, global_context);
-		}
-	}
-		
 	/* debug function to test the session DB */
 	public void test() {
 		add("ThisTestKey", "ThisTestData", 0, 0, 0);		
@@ -255,10 +165,6 @@ public class SessionDatabase {
 			System.out.println("GOT ME SOME:"+se.value);
 		}
 	
-	}
-
-	public boolean isInitialized() {
-		return this.initalized;
 	}
 
 	public boolean delete_all(String key) {
@@ -300,19 +206,7 @@ public class SessionDatabase {
 		return true;
 	}
 
-	public boolean global_update(int request_id, String key, String newValue) {
-		SessionEntry se = new SessionEntry();
-		se.request_id = request_id;
-		se.value = newValue;
-		se.key = key;
-		
-		//Fire async to update DB.
-		SessionAsyncRequest request = new SessionAsyncRequest(Operation.UPDATE, Database.GLOBAL, "GLOBAL_", se);
-		request.queue();
-		return true;
-	}
 
-	
 	public boolean update(int request_id, String key, String newValue) {
 		SessionEntry se = new SessionEntry();
 		se.request_id = request_id;
