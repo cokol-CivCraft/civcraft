@@ -3,8 +3,11 @@
 # Also stores some global data.
 #
 
+# Want we build structures in hours ? (true - 60 min; false - 30 min)
+structurespeed: true
+
 global:
-   # Hour at which daily upkeep occurs.
+  # Hour at which daily upkeep occurs.
   daily_upkeep_hour: 20
 
   # How often the 'hourly tick' should process in 'seconds'
@@ -71,9 +74,6 @@ global:
 
   # Attempt to validate structures to make sure they're not floating.
   structure_validation: 'true'
-
-  # Want we build structures in hours ? (true - 60 min; false - 30 min)
-  structurespeed: true
 
   # Have speed checks only on chunk changes. Default: true
   # This means that players on roads need to move across a chunk to gain the movement bonus
