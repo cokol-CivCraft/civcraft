@@ -35,7 +35,6 @@ import com.avrgaming.civcraft.structure.Structure;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.BiomeCache;
-import com.avrgaming.global.reports.ReportManager;
 import com.avrgaming.global.scores.ScoreManager;
 
 import java.sql.*;
@@ -142,7 +141,6 @@ public class SQL {
         StructureSign.init();
 
         CivLog.heading("Building Global Tables!!");
-        ReportManager.init();
         ScoreManager.init();
 
         CivLog.info("----- Done Building Tables ----");

@@ -255,7 +255,6 @@ public final class CivCraft extends JavaPlugin {
 		getCommand("select").setExecutor(new SelectCommand());
 		getCommand("here").setExecutor(new HereCommand());
 		registerCommand("camp", new CampCommand());
-		registerCommand("report", new ReportCommand());
 		registerCommand("trade", new TradeCommand());
 		getCommand("kill").setExecutor(new KillCommand());
 		registerCommand("team", new TeamCommand());
