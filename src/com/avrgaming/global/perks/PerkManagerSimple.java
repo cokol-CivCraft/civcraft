@@ -1,18 +1,17 @@
 package com.avrgaming.global.perks;
 
+import com.avrgaming.civcraft.config.CivSettings;
+import com.avrgaming.civcraft.config.ConfigPerk;
+import com.avrgaming.civcraft.database.SQL;
+import com.avrgaming.civcraft.main.CivGlobal;
+import com.avrgaming.civcraft.main.CivLog;
+import com.avrgaming.civcraft.object.Resident;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-
-import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.config.ConfigPerk;
-import com.avrgaming.civcraft.database.SQL;
-import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.main.CivGlobal;
-import com.avrgaming.civcraft.main.CivLog;
-import com.avrgaming.civcraft.object.Resident;
 
 public class PerkManagerSimple extends PerkManager {
 
@@ -41,26 +40,7 @@ public class PerkManagerSimple extends PerkManager {
 			CivLog.info(USER_PERKS_TABLE_NAME+" table OK!");
 		}		
 				
-		System.out.println("==================================================");	
-		
-		System.out.println("================= USER_PLATINUM INIT ======================");
-		
-		// Check/Build SessionDB tables				
-		if (!SQL.hasGlobalTable(USER_PLATINUM_TABLE_NAME)) {
-			String table_create = "CREATE TABLE " + USER_PLATINUM_TABLE_NAME+" (" +
-					"`id` int(11) unsigned NOT NULL auto_increment," +
-					"`uuid` varchar(256)," +
-					"`game_name` mediumtext," +
-					"`platinum` int(11),"+
-					"PRIMARY KEY (`id`)" + ")";
-			
-			SQL.makeGlobalTable(table_create);
-			CivLog.info("Created "+USER_PLATINUM_TABLE_NAME+" table");
-		} else {
-			CivLog.info(USER_PLATINUM_TABLE_NAME+" table OK!");
-		}		
-				
-		System.out.println("==================================================");	
+		System.out.println("==================================================");
 	}
 	
 	@Override
@@ -117,20 +97,18 @@ public class PerkManagerSimple extends PerkManager {
 
     @Override
     public int addPerkToResident(Resident resident, String perk_id, Integer count) throws SQLException {
-        String sql;
-        Connection context = null;
-        ResultSet rs = null;
-        PreparedStatement s = null;
+		Connection context = null;
+		PreparedStatement s = null;
 
-        try {
-            context = SQL.getGlobalConnection();
+		try {
+			context = SQL.getGlobalConnection();
 
-            String uuid = resident.getUUIDString();
+			String uuid = resident.getUUIDString();
 
 			int added = 0;
 			for (int i = 0; i < count; i++) {
 				/* Lookup join table for perks and users. */
-				sql = "INSERT INTO `"+USER_PERKS_TABLE_NAME+"` (uuid, perk_id) VALUES(?, ?)";
+				String sql = "INSERT INTO `" + USER_PERKS_TABLE_NAME + "` (uuid, perk_id) VALUES(?, ?)";
 				s = context.prepareStatement(sql);
 				s.setString(1, uuid);
 				s.setString(2, perk_id);
@@ -144,20 +122,15 @@ public class PerkManagerSimple extends PerkManager {
 
     @Override
     public int removePerkFromResident(Resident resident, String perk_id, Integer count) throws SQLException {
-        String sql;
-        Connection context = null;
-        ResultSet rs = null;
-        PreparedStatement s = null;
+		Connection context = null;
+		PreparedStatement s = null;
 
         try {
-            context = SQL.getGlobalConnection();
-
-            String uuid = resident.getUUIDString();
+			context = SQL.getGlobalConnection();
 
 			/* Lookup join table for perks and users. */
-			sql = "DELETE FROM `"+USER_PERKS_TABLE_NAME+"` WHERE `uuid` = ? AND `perk_id` = ? LIMIT ?";
-			s = context.prepareStatement(sql);
-			s.setString(1, uuid);
+			s = context.prepareStatement("DELETE FROM `" + USER_PERKS_TABLE_NAME + "` WHERE `uuid` = ? AND `perk_id` = ? LIMIT ?");
+			s.setString(1, resident.getUUIDString());
 			s.setString(2, perk_id);
 			s.setInt(3, count);
 			return s.executeUpdate();
@@ -165,34 +138,6 @@ public class PerkManagerSimple extends PerkManager {
             SQL.close(null, s, context);
 		}
 	}
-	
-//	@Override
-//	public void updatePlatinum(Resident resident, Integer plat) throws SQLException, NotVerifiedException {
-//		Connection context = null;
-//		PreparedStatement s = null;
-//	
-//		try {
-//			context = SQL.getGlobalConnection();
-//			String sql = "INSERT INTO `"+USER_PLATINUM_TABLE_NAME+"` (`uuid`, `game_name`, `platinum`) "+
-//					 "VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `platinum`=`platinum`+?";
-//			s = context.prepareStatement(sql);
-//			s.setString(1, resident.getUUIDString());
-//			s.setString(2, resident.getName());
-//			s.setInt(3, plat);
-//			s.setInt(4, plat);
-//
-//		
-//			CivLog.info("Updated Platinum, resident:"+resident.getName()+"(uuid:"+resident.getUUIDString()+")"+" with:"+plat);
-//			int update = s.executeUpdate();
-//			if (update != 1) {
-//				CivLog.error("Failed to update platinum. Updated "+update+" rows when it should have been 1");
-//			}
-//			
-//			return;
-//		} finally {
-//			SQL.close(null, s, context);
-//		}
-//	}
 
 //	@Override
 //	public void markAsUsed(Resident resident, Perk parent) throws SQLException, NotVerifiedException {
