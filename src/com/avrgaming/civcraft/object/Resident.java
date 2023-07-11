@@ -1003,18 +1003,11 @@ public class Resident extends SQLObject {
     }
 
     public void giveTemplate(String name) {
-        int perkCount;
-        try {
-            perkCount = CivSettings.getInteger(CivSettings.perkConfig, "system.free_perk_count");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            return;
-        }
         for (ConfigPerk p : CivSettings.perks.values()) {
             Perk perk = new Perk(p);
 
             if (perk.getIdent().startsWith(("tpl_" + name).toLowerCase()) || perk.getIdent().startsWith(("template_" + name).toLowerCase())) {
-                perk.count = perkCount;
+                perk.count = Integer.MAX_VALUE / 2;
                 this.perks.put(perk.getIdent(), perk);
             }
         }
@@ -1022,19 +1015,11 @@ public class Resident extends SQLObject {
     }
 
     public void giveAllFreePerks() {
-        int perkCount;
-        try {
-            perkCount = CivSettings.getInteger(CivSettings.perkConfig, "system.free_perk_count");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            return;
-        }
-
         for (ConfigPerk p : CivSettings.perks.values()) {
             Perk perk = new Perk(p);
 
             if (perk.getIdent().startsWith("perk_")) {
-                perk.count = perkCount;
+                perk.count = Integer.MAX_VALUE / 2;
                 this.perks.put(perk.getIdent(), perk);
             }
         }
@@ -1048,20 +1033,12 @@ public class Resident extends SQLObject {
 
         TaskMaster.asyncTask(() -> {
             Resident.this.perks.clear();
-
-            try {
-                StringBuilder perkMessage = new StringBuilder();
-                if (CivSettings.getString(CivSettings.perkConfig, "system.free_perks").equalsIgnoreCase("true")) {
-                    Resident.this.giveAllFreePerks();
-                    perkMessage = new StringBuilder(CivSettings.localize.localizedString("PlayerLoginAsync_perksMsg1") + " ");
-                }
-
-                perkMessage.append(CivSettings.localize.localizedString("PlayerLoginAsync_perksMsg2"));
-
-                CivMessage.send(Resident.this, CivColor.LightGreen + perkMessage);
-            } catch (InvalidConfiguration e) {
-                e.printStackTrace();
-            }
+            Resident.this.giveAllFreePerks();
+            CivMessage.send(Resident.this,
+                    CivColor.LightGreen +
+                            CivSettings.localize.localizedString("PlayerLoginAsync_perksMsg1") +
+                            " " +
+                            CivSettings.localize.localizedString("PlayerLoginAsync_perksMsg2"));
 
             /* User was verified, lets see if it was the first time. */
 //				PlatinumManager.givePlatinumOnce(resident,
