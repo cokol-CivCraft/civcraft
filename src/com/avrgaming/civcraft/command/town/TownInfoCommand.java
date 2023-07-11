@@ -33,7 +33,6 @@ import com.avrgaming.civcraft.structure.*;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.util.CivColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -545,15 +544,8 @@ public class TownInfoCommand extends CommandBase {
     public static void show(CommandSender sender, Resident resident, Town town, Civilization civ, CommandBase parent) throws CivException {
 
         DecimalFormat df = new DecimalFormat();
-        boolean isAdmin = false;
 
-        if (resident != null) {
-            Player player = CivGlobal.getPlayer(resident);
-            isAdmin = player.hasPermission(CivSettings.MINI_ADMIN);
-        } else {
-            /* We're the console! */
-            isAdmin = true;
-        }
+        boolean isAdmin = resident == null;
 
         CivMessage.sendHeading(sender, town.getName() + " " + CivSettings.localize.localizedString("cmd_town_info_showHeading"));
         ConfigTownLevel level = CivSettings.townLevels.get(town.getLevel());

@@ -126,18 +126,12 @@ public class PlayerLoginAsyncTask implements Runnable {
             }
 
             if (War.isWarTime() && War.isOnlyWarriors()) {
-                if (getPlayer().isOp() || getPlayer().hasPermission(CivSettings.MINI_ADMIN)) {
+                if (getPlayer().isOp()) {
                     //Allowed to connect since player is OP or mini admin.
                 } else if (!resident.hasTown() || !resident.getTown().getCiv().getDiplomacyManager().isAtWar()) {
                     TaskMaster.syncTask(new PlayerKickBan(getPlayer().getName(), true, false, CivSettings.localize.localizedString("PlayerLoginAsync_onlyWarriorsAllowed")));
                     return;
                 }
-            }
-
-            /* turn on allchat by default for admins and moderators. */
-            if (getPlayer().hasPermission(CivSettings.MODERATOR) || getPlayer().hasPermission(CivSettings.MINI_ADMIN)) {
-                resident.allchat = true;
-                Resident.allchatters.add(resident.getName());
             }
 
             if (resident.getTreasury().inDebt()) {

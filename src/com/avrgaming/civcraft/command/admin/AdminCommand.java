@@ -418,13 +418,6 @@ public class AdminCommand extends CommandBase {
 
     @Override
     public void permissionCheck() throws CivException {
-
-        if (sender instanceof Player && sender.hasPermission(CivSettings.MINI_ADMIN)) {
-            return;
-
-        }
-
-
         if (!sender.isOp()) {
             throw new CivException(CivSettings.localize.localizedString("adcmd_NotAdmin"));
         }

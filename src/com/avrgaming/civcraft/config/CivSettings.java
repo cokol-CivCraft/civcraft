@@ -192,19 +192,6 @@ public class CivSettings {
     public static HashMap<Material, ConfigRemovedRecipes> removedRecipies = new HashMap<>();
     public static HashSet<Material> restrictedUndoBlocks = new HashSet<>();
     public static boolean hasVanishNoPacket = false;
-
-    public static final String MINI_ADMIN = "civ.admin";
-    public static final String HACKER = "civ.hacker";
-    public static final String MODERATOR = "civ.moderator";
-    public static final String FREE_PERKS = "civ.freeperks";
-    public static final String ECON = "civ.econ";
-    public static final String TPALLY = "civ.tp.ally";
-    public static final String TPNEUTRAL = "civ.tp.neutral";
-    public static final String TPHOSTILE = "civ.tp.hostile";
-    public static final String TPWAR = "civ.tp.war";
-    public static final String TPPEACE = "civ.tp.peace";
-    public static final String TPCAMP = "civ.tp.camp";
-    public static final String TPALL = "civ.tp.*";
     public static final int MARKET_COIN_STEP = 5;
     public static final int MARKET_BUYSELL_COIN_DIFF = 30;
     public static final int MARKET_STEP_THRESHOLD = 2;

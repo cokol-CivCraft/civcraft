@@ -358,7 +358,7 @@ public class CivCommand extends CommandBase {
         } catch (CivException ignored) {
         }
 
-        if (player == null || player.hasPermission(CivSettings.MINI_ADMIN) || player.isOp()) {
+        if (player == null || player.isOp()) {
             cal.setTime(CivGlobal.getTodaysSpawnRegenDate());
             out.add(CivColor.LightPurple + CivSettings.localize.localizedString("cmd_civ_timeSpawnRegen") + " " + CivColor.LightGreen + sdf.format(cal.getTime()));
 

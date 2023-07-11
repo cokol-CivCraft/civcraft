@@ -1054,19 +1054,6 @@ public class Resident extends SQLObject {
                 if (CivSettings.getString(CivSettings.perkConfig, "system.free_perks").equalsIgnoreCase("true")) {
                     Resident.this.giveAllFreePerks();
                     perkMessage = new StringBuilder(CivSettings.localize.localizedString("PlayerLoginAsync_perksMsg1") + " ");
-                } else if (CivSettings.getString(CivSettings.perkConfig, "system.free_admin_perks").equalsIgnoreCase("true")) {
-                    if (player.hasPermission(CivSettings.MINI_ADMIN) || player.hasPermission(CivSettings.FREE_PERKS)) {
-                        Resident.this.giveAllFreePerks();
-                        perkMessage = new StringBuilder(CivSettings.localize.localizedString("PlayerLoginAsync_perksMsg1") + ": ");
-                        perkMessage.append("Weather" + ", ");
-                    }
-                }
-
-                for (ConfigPerk p : CivSettings.templates.values()) {
-                    if (player.hasPermission("civ.perk." + p.simple_name)) {
-                        Resident.this.giveTemplate(p.simple_name);
-                        perkMessage.append(p.display_name).append(", ");
-                    }
                 }
 
                 perkMessage.append(CivSettings.localize.localizedString("PlayerLoginAsync_perksMsg2"));

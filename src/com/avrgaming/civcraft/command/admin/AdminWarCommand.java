@@ -54,7 +54,7 @@ public class AdminWarCommand extends CommandBase {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 Resident resident = CivGlobal.getResident(player);
 
-                if (player.isOp() || player.hasPermission(CivSettings.MINI_ADMIN)) {
+                if (player.isOp()) {
                     CivMessage.send(sender, CivSettings.localize.localizedString("var_adcmd_war_onlywarriorsSkippedAdmin", player.getName()));
                     continue;
                 }

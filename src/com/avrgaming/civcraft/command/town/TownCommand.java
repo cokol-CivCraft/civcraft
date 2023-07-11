@@ -856,11 +856,6 @@ public class TownCommand extends CommandBase {
         Player player = getPlayer();
         Resident resident = getResident();
         TownChunk tc = this.getStandingTownChunk();
-        if (town.getCiv().isAdminCiv()) {
-            if (player.hasPermission(CivSettings.MODERATOR) && !player.hasPermission(CivSettings.MINI_ADMIN)) {
-                throw new CivException(CivSettings.localize.localizedString("cmd_town_claimNoPerm"));
-            }
-        }
 
         if (!town.playerIsInGroupName("mayors", player) && !town.playerIsInGroupName("assistants", player)) {
             throw new CivException(CivSettings.localize.localizedString("cmd_town_claimNoPerm"));

@@ -126,10 +126,11 @@ public class EconCommand extends CommandBase {
 
     private void validEcon() throws CivException {
         // Allow Console commands to manipulate the economy.
-        if (!(sender instanceof ConsoleCommandSender)) {
-            if (!getPlayer().isOp() || !getPlayer().hasPermission(CivSettings.ECON)) {
-                throw new CivException(CivSettings.localize.localizedString("cmd_MustBeOP"));
-            }
+        if (sender instanceof ConsoleCommandSender) {
+            return;
+        }
+        if (!getPlayer().isOp()) {
+            throw new CivException(CivSettings.localize.localizedString("cmd_MustBeOP"));
         }
     }
 
@@ -356,7 +357,7 @@ public class EconCommand extends CommandBase {
             return;
         }
 
-        if (!player.isOp() && !player.hasPermission(CivSettings.ECON)) {
+        if (!player.isOp()) {
             return;
         }
 
