@@ -1522,14 +1522,6 @@ public class Resident extends SQLObject {
         isProtected = prot;
     }
 
-    public void showPerkPage(int pageNumber) {
-
-    }
-
-    public void showTemplatePerks(String name) {
-
-    }
-
     public UUID getUUID() {
         return uid;
     }

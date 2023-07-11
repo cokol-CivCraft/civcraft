@@ -85,9 +85,7 @@ public class LoreGuiItem {
         gui_classes.put("BuildWithPersonalTemplate", BuildWithPersonalTemplate.class);
         gui_classes.put("BuildWithTemplate", BuildWithTemplate.class);
         gui_classes.put("OpenInventory", OpenInventory.class);
-        gui_classes.put("ShowPerkPage", ShowPerkPage.class);
         gui_classes.put("ShowRecipe", ShowRecipe.class);
-        gui_classes.put("ShowTemplateType", ShowTemplateType.class);
         gui_classes.put("SpawnItem", SpawnItem.class);
     }
 

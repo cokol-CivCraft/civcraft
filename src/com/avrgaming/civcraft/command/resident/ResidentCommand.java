@@ -52,7 +52,6 @@ public class ResidentCommand extends CommandBase {
         register_sub("resetspawn", this::resetspawn_cmd, CivSettings.localize.localizedString("cmd_res_resetspawnDesc"));
         register_sub("exchange", this::exchange_cmd, CivSettings.localize.localizedString("cmd_res_exchangeDesc"));
         register_sub("book", this::book_cmd, CivSettings.localize.localizedString("cmd_res_bookDesc"));
-        register_sub("perks", this::perks_cmd, CivSettings.localize.localizedString("cmd_res_perksDesc"));
         register_sub("refresh", this::refresh_cmd, CivSettings.localize.localizedString("cmd_res_refreshDesc"));
         register_sub("timezone", this::timezone_cmd, CivSettings.localize.localizedString("cmd_res_timezoneDesc"));
         register_sub("pvptimer", this::pvptimer_cmd, CivSettings.localize.localizedString("cmd_res_pvptimerDesc"));
@@ -133,16 +132,6 @@ public class ResidentCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_res_refreshSuccess"));
     }
 
-    @SuppressWarnings("unused")
-    public void perks_cmd() throws CivException {
-        Resident resident = getResident();
-
-        //CivMessage.sendHeading(sender, "Your Perks");
-        //for (Perk p : resident.perks.values()) {
-        //	CivMessage.send(sender, "Perk:"+p.getIdent());
-        //}
-        resident.showPerkPage(0);
-    }
 
     @SuppressWarnings("unused")
     public void b_cmd() {
