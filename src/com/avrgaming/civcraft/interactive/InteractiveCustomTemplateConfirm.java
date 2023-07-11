@@ -59,7 +59,6 @@ public class InteractiveCustomTemplateConfirm implements InteractiveResponse {
         }
 
         customTemplate.bindTemplateToTown(resident.getTown(), resident);
-        customTemplate.markAsUsed(resident);
         CivMessage.sendSuccess(player, CivSettings.localize.localizedString("var_interactive_template_success", customTemplate.getParent().getDisplayName(), resident.getTown().getName()));
     }
 }

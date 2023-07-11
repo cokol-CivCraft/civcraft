@@ -65,14 +65,12 @@ public class Perk {
 
                 ComponentsNames component_class = ComponentsNames.valueOf(compInfo.get("name"));
                 PerkComponent perkCompClass = component_class.getComponent().newInstance();
-                perkCompClass.setName(compInfo.get("name"));
                 perkCompClass.setParent(this);
 
                 for (String key : compInfo.keySet()) {
                     perkCompClass.setAttribute(key, compInfo.get(key));
                 }
 
-                perkCompClass.createComponent();
                 this.components.put(component_class, perkCompClass);
             } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();

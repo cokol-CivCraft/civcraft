@@ -66,12 +66,8 @@ public class CustomTemplate extends PerkComponent {
     }
 
     public boolean hasTownTemplate(Town town) {
-        ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getTemplateSessionKey(town));
-
-        for (SessionEntry entry : entries) {
-            String[] split = entry.value.split(":");
-
-            if (this.getParent().getIdent().equals(split[0])) {
+        for (SessionEntry entry : CivGlobal.getSessionDB().lookup(getTemplateSessionKey(town))) {
+            if (this.getParent().getIdent().equals(entry.value.split(":")[0])) {
                 return true;
             }
         }
@@ -80,20 +76,20 @@ public class CustomTemplate extends PerkComponent {
     }
 
     public static ArrayList<Perk> getTemplatePerksForBuildable(Town town, String buildableBaseName) {
-        ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getTemplateSessionKey(town, buildableBaseName));
         ArrayList<Perk> perks = new ArrayList<>();
 
-        for (SessionEntry entry : entries) {
+        for (SessionEntry entry : CivGlobal.getSessionDB().lookup(getTemplateSessionKey(town, buildableBaseName))) {
             String[] split = entry.value.split(":");
 
             Perk perk = Perk.staticPerks.get(split[0]);
-            if (perk != null) {
-                Perk tmpPerk = new Perk(perk.configPerk);
-                tmpPerk.provider = split[1];
-                perks.add(tmpPerk);
-            } else {
+            if (perk == null) {
                 CivLog.warning("Unknown perk in session db:" + split[0]);
+                continue;
             }
+            Perk tmpPerk = new Perk(perk.configPerk);
+            tmpPerk.provider = split[1];
+            perks.add(tmpPerk);
+
         }
 
         return perks;
@@ -107,7 +103,6 @@ public class CustomTemplate extends PerkComponent {
         } catch (CivException | IOException e) {
             e.printStackTrace();
         }
-
         return tpl;
     }
 
