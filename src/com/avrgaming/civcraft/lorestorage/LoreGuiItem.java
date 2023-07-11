@@ -80,7 +80,6 @@ public class LoreGuiItem {
 
     static {
         gui_classes.put("BuildChooseTemplate", BuildChooseTemplate.class);
-        gui_classes.put("BuildStructureList", BuildStructureList.class);
         gui_classes.put("BuildWithDefaultPersonalTemplate", BuildWithDefaultPersonalTemplate.class);
         gui_classes.put("BuildWithPersonalTemplate", BuildWithPersonalTemplate.class);
         gui_classes.put("BuildWithTemplate", BuildWithTemplate.class);
