@@ -56,7 +56,7 @@ public class ConfigUnit {
             unit.cost = (Double) b.get("cost");
             unit.hammer_cost = (Double) b.get("hammer_cost");
             unit.limit = (Integer) b.get("limit");
-            unit.item_id = Material.getMaterial((Integer) b.get("item_id"));
+            unit.item_id = Material.getMaterial((String) b.get("item_id"));
             unit.item_data = (Integer) b.get("item_data");
 
             units.put(unit.id, unit);
