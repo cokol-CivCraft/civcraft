@@ -382,28 +382,27 @@ public class ArenaManager implements Runnable {
     }
 
     private static World createArenaWorld(ConfigArena arena, String name) {
-        World world;
-        world = Bukkit.getServer().getWorld(name);
-        if (world == null) {
-            WorldCreator wc = new WorldCreator(name);
-            wc.environment(Environment.NORMAL);
-            wc.type(WorldType.FLAT);
-            wc.generateStructures(false);
-
-            world = Bukkit.getServer().createWorld(wc);
-            world.setAutoSave(false);
-            world.setSpawnFlags(false, false);
-            world.setKeepSpawnInMemory(false);
-            ChunkCoord.addWorld(world);
+        World world = Bukkit.getServer().getWorld(name);
+        if (world != null) {
+            return world;
         }
+        WorldCreator wc = new WorldCreator(name);
+        wc.environment(Environment.NORMAL);
+        wc.type(WorldType.FLAT);
+        wc.generateStructures(false);
 
-        return world;
+        World arena_world = Bukkit.getServer().createWorld(wc);
+        arena_world.setAutoSave(false);
+        arena_world.setSpawnFlags(false, false);
+        arena_world.setKeepSpawnInMemory(false);
+        ChunkCoord.addWorld(arena_world);
+
+        return arena_world;
     }
 
 
     private static void copyFolder(File src, File dest) throws IOException {
         if (src.isDirectory()) {
-
             //if directory not exists, create it
             if (!dest.exists()) {
                 dest.mkdir();

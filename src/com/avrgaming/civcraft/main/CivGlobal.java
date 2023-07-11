@@ -751,7 +751,6 @@ public class CivGlobal {
             SQL.close(rs, ps, context);
         }
     }
-
     public static Player getPlayer(Resident resident) throws CivException {
         Player player = Bukkit.getPlayer(resident.getUUID());
         if (player == null)

@@ -184,12 +184,11 @@ public class Relation extends SQLObject {
 
     @Override
     public String toString() {
-        String color = CivColor.White;
-        String out = "";
-
-        out = relation.name() + CivColor.White + " " + CivSettings.localize.localizedString("relation_with") + " " + this.other_civ.getName();
+        String color;
+        String out = relation.name() + CivColor.White + " " + CivSettings.localize.localizedString("relation_with") + " " + this.other_civ.getName();
         switch (relation) {
             case NEUTRAL:
+                color = CivColor.White;
                 break;
             case HOSTILE:
                 color = CivColor.Yellow;
@@ -211,12 +210,16 @@ public class Relation extends SQLObject {
 //			color = CivColor.LightPurple;
 //			out = "VASSAL"+CivColor.White+" to "+this.other_civ.getName();
 //			break;
+            default:
+                color = CivColor.White;
         }
 
-        String expireString = "";
+        String expireString;
         if (this.expires != null) {
             SimpleDateFormat sdf = new SimpleDateFormat("M/d/y k:m:s z");
             expireString = CivColor.LightGray + " (" + CivSettings.localize.localizedString("relation_expires") + " " + sdf.format(expires) + ")";
+        } else {
+            expireString = "";
         }
 
         return color + out + expireString;
@@ -277,14 +280,10 @@ public class Relation extends SQLObject {
      * where id1 is always less than id2.
      */
     public String getPairKey() {
-        String key = "";
-
         if (this.getCiv().getId() < this.getOtherCiv().getId()) {
-            key += this.getCiv().getId() + ":" + this.getOtherCiv().getId();
+            return this.getCiv().getId() + ":" + this.getOtherCiv().getId();
         } else {
-            key += this.getOtherCiv().getId() + ":" + this.getCiv().getId();
+            return this.getOtherCiv().getId() + ":" + this.getCiv().getId();
         }
-
-        return key;
     }
 }

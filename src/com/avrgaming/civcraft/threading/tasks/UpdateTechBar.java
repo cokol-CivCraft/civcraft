@@ -112,17 +112,14 @@ public class UpdateTechBar extends CivAsyncTask {
                 sb.worldname = bcoord.getWorldname();
                 sb.specialType = Type.LITERAL;
 
+                sb.message[0] = CivSettings.localize.localizedString("Researching");
+                sb.message[1] = "";
                 if (civ.getResearchTech() != null) {
-                    sb.message[0] = CivSettings.localize.localizedString("Researching");
-                    sb.message[1] = "";
                     sb.message[2] = civ.getResearchTech().name;
-                    sb.message[3] = "";
                 } else {
-                    sb.message[0] = CivSettings.localize.localizedString("Researching");
-                    sb.message[1] = "";
                     sb.message[2] = CivSettings.localize.localizedString("Nothing");
-                    sb.message[3] = "";
                 }
+                sb.message[3] = "";
                 sbs.add(sb);
 
                 townhall.addStructureBlock(townhall.getTechnameSign(), false);

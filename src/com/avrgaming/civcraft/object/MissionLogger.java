@@ -29,7 +29,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.UUID;
 
 public class MissionLogger {
 
@@ -80,36 +79,35 @@ public class MissionLogger {
         ResultSet rs = null;
         PreparedStatement ps = null;
 
+
+        ArrayList<String> out = new ArrayList<>();
         try {
-            ArrayList<String> out = new ArrayList<>();
-            try {
-                context = SQL.getGameConnection();
-                ps = context.prepareStatement("SELECT * FROM " + SQL.tb_prefix + TABLE_NAME + " WHERE `town_id` = ?");
-                ps.setInt(1, town.getId());
-                rs = ps.executeQuery();
+            context = SQL.getGameConnection();
+            ps = context.prepareStatement("SELECT * FROM " + SQL.tb_prefix + TABLE_NAME + " WHERE `town_id` = ?");
+            ps.setInt(1, town.getId());
+            rs = ps.executeQuery();
 
-                SimpleDateFormat sdf = new SimpleDateFormat("M/dd h:mm:ss a z");
-                while (rs.next()) {
-                    Date date = new Date(rs.getLong("time"));
-                    Town target = CivGlobal.getTownFromId(rs.getInt("target_id"));
-                    if (target == null) {
-                        continue;
-                    }
-
-                    String playerName = rs.getString("playerName");
-                    playerName = CivGlobal.getResidentViaUUID(UUID.fromString(playerName)).getName();
-
-                    String str = sdf.format(date) + " - " + rs.getString("playerName") + ":" + target.getName() + ":" + rs.getString("missionName") + " -- " + rs.getString("result");
-                    out.add(str);
+            SimpleDateFormat sdf = new SimpleDateFormat("M/dd h:mm:ss a z");
+            while (rs.next()) {
+                Town target = CivGlobal.getTownFromId(rs.getInt("target_id"));
+                if (target == null) {
+                    continue;
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
+                out.add(
+                        sdf.format(new Date(rs.getLong("time"))) +
+                                " - " + rs.getString("playerName") +
+                                ":" + target.getName() +
+                                ":" + rs.getString("missionName") +
+                                " -- " + rs.getString("result"));
             }
-
-            return out;
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
             SQL.close(rs, ps, context);
         }
+
+        return out;
+
     }
 
 }

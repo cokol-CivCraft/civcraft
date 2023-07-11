@@ -35,6 +35,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.material.MaterialData;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -172,7 +173,7 @@ public class Bank extends Structure {
             itemName = CivSettings.localize.localizedString("bank_itemName_stuff");
 
         exchange_rate = getBankExchangeRate();
-        int count = resident.takeItemsInHand(itemId, 0);
+        int count = resident.takeItemsInHand(new MaterialData(itemId));
         if (count == 0) {
             throw new CivException(CivSettings.localize.localizedString("var_bank_notEnoughInHand", itemName));
         }

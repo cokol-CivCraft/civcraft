@@ -141,8 +141,8 @@ public class MobSpawner extends SQLObject {
         this.active = active;
         ISpawnerEditor spawnerEditor = CustomMobsAPI.getSpawnerEditor();
         if (spawnerEditor != null) {
+            SpawnerInfo spawner = spawnerEditor.getSpawner(this.getCoord().getLocation());
             if (this.active) {
-                SpawnerInfo spawner = spawnerEditor.getSpawner(this.getCoord().getLocation());
                 if (spawner.getSpawner() != null) {
 //		            CivLog.warning("Unable to create Spawner; " + spawner.toString() + " spawner exists.");
                     return;
@@ -155,7 +155,6 @@ public class MobSpawner extends SQLObject {
                 }
                 spawnerEditor.setSpawner(mob, this.getCoord().getLocation(), 60);
             } else {
-                SpawnerInfo spawner = spawnerEditor.getSpawner(this.getCoord().getLocation());
                 if (spawner.getSpawner() != null) {
                     CivLog.debug("Spawner Disabled at " + this.getCoord().getLocation());
                     spawnerEditor.resetSpawner(this.getCoord().getLocation());
