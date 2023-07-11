@@ -41,8 +41,7 @@ public class ScoreManager {
                     "`local_name` mediumtext," +
                     "`local_civ_name` mediumtext," +
                     "`points` int(11)," +
-                    "INDEX (`server`)," +
-                    "PRIMARY KEY (`key`)" + ")";
+                    "PRIMARY KEY (`local_id`)" + ")";
 
             SQL.makeGlobalTable(table_create);
             CivLog.info("Created " + TOWN_TABLE_NAME + " table");
@@ -61,8 +60,7 @@ public class ScoreManager {
                     "`local_name` mediumtext," +
                     "`local_capitol_name` mediumtext," +
                     "`points` int(11)," +
-                    "INDEX (`server`)," +
-                    "PRIMARY KEY (`key`)" + ")";
+                    "PRIMARY KEY (`local_id`)" + ")";
 
             SQL.makeGlobalTable(table_create);
             CivLog.info("Created " + CIV_TABLE_NAME + " table");
