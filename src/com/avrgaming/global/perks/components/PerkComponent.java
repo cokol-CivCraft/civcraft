@@ -1,6 +1,5 @@
 package com.avrgaming.global.perks.components;
 
-import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.global.perks.Perk;
 
 import java.util.HashMap;
@@ -25,9 +24,6 @@ public class PerkComponent {
 
     public void setParent(Perk parent) {
         this.parent = parent;
-    }
-
-    public void onActivate(Resident resident) {
     }
 
 }

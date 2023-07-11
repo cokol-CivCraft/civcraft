@@ -2,7 +2,6 @@ package com.avrgaming.global.perks;
 
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigPerk;
-import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.global.perks.components.CustomPersonalTemplate;
 import com.avrgaming.global.perks.components.PerkComponent;
 
@@ -75,12 +74,6 @@ public class Perk {
             } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    public void onActivate(Resident resident) {
-        for (PerkComponent perk : this.components.values()) {
-            perk.onActivate(resident);
         }
     }
 

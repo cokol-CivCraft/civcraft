@@ -1,17 +1,13 @@
 package com.avrgaming.global.perks.components;
 
-import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.interactive.InteractiveCustomTemplateConfirm;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
-import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
 import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.template.Template;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.global.perks.Perk;
 import org.bukkit.entity.Player;
 
@@ -19,34 +15,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class CustomTemplate extends PerkComponent {
-
-    @Override
-    public void onActivate(Resident resident) {
-        Player player;
-        try {
-            player = CivGlobal.getPlayer(resident);
-        } catch (CivException e) {
-            return;
-        }
-
-        Town town = resident.getTown();
-        if (town == null) {
-            CivMessage.sendError(player, CivSettings.localize.localizedString("customTemplate_noTown"));
-            return;
-        }
-
-        if (hasTownTemplate(town)) {
-            CivMessage.sendError(player, CivColor.Rose + CivSettings.localize.localizedString("customTemplatE_alreadyBound"));
-            return;
-        }
-
-        /*
-         * Send resident into interactive mode to confirm that they want
-         * to bind the template to this town.
-         */
-        resident.setInteractiveMode(new InteractiveCustomTemplateConfirm(resident.getName(), this));
-
-    }
 
     private String getTemplateSessionKey(Town town) {
         return "customtemplate:" + town.getName() + ":" + this.getString("template");
