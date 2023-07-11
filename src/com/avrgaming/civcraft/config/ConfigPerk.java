@@ -43,7 +43,7 @@ public class ConfigPerk {
 
             p.id = (String) obj.get("id");
             p.display_name = (String) obj.get("display_name");
-            p.type_id = Material.getMaterial((Integer) obj.get("item_id"));
+            p.type_id = Material.getMaterial((String) obj.get("item_id"));
             p.data = (Integer) obj.get("data");
 
             p.components = new LinkedList<>();
@@ -79,7 +79,7 @@ public class ConfigPerk {
             if (p.simple_name == null) {
                 continue;
             }
-            p.type_id = Material.getMaterial((Integer) obj.get("item_id"));
+            p.type_id = Material.getMaterial((String) obj.get("item_id"));
             p.data = (Integer) obj.get("data");
 
             p.components = new LinkedList<>();
