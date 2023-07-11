@@ -3,8 +3,7 @@
 # Also stores some global data.
 #
 
-# Want we build structures in hours ? (true - 60 min; false - 30 min)
-structurespeed: true
+
 
 global:
   # Hour at which daily upkeep occurs.
@@ -16,6 +15,9 @@ global:
 
   #"True" if you using CivCraft Anti-Cheat, "False" if not
   anticheat: false
+
+  # Want we build structures in hours ? (true - 60 min; false - 30 min)
+  structurespeed: true
 
   #HP for actionbar
   health: ■

@@ -1042,9 +1042,8 @@ public abstract class Buildable extends SQLObject {
         boolean hour = false;
         double millisecondsPerBlock;
         try {
-            hour = CivSettings.getBoolean(CivSettings.civConfig, "structurespeed");
+            hour = CivSettings.getBoolean(CivSettings.civConfig, "system.structurespeed");
         } catch (InvalidConfiguration e) {
-
             e.printStackTrace();
         }
         // We should return the number of milliseconds to wait between each block placement.
