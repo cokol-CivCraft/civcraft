@@ -2740,9 +2740,6 @@ weather_heading: "Changing the Weather to Sunny"
 weather_confirmPrompt: "Are you sure you want the weather to be sunny?"
 weather_confirmPrompt2: "If so type 'yes', type anything else to cancel."
 
-#---- RenameCivOrTown ----
-RenameCivOrTown_NotResident: "You must be part of a civilization or town in order to rename it."
-
 # =========================== War Messages =========================
 var_war_overlordAnnounce: "Welcome our new overlords, the civilization of [%0]!"
 var_war_defeatedMsg1: "[%0] has honorably defeated [%1] on the field of combat. Their differences settled, they now revert to a neutral relationship."

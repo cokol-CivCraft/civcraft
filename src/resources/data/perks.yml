@@ -16,20 +16,6 @@
 #
 
 perks:
-########### Personal Perks
-#    - id: 'perk_rename_civ_town'
-#      display_name: 'Rename Civ or Town'
-#      item_id: 421
-#      data: 0
-#      components:
-#         - name: 'RenameCivOrTown'
-
-    - id: 'perk_sunny_weather'
-      display_name: 'Sunny Weather!'
-      item_id: WATCH
-      data: 0
-      components:
-         - name: 'ChangeWeather'
 
     - id: 'perk_haunted_camp'
       display_name: 'Haunted Camp'

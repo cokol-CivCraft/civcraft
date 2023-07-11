@@ -42,10 +42,8 @@ public class Perk {
     }
 
     public enum ComponentsNames {
-        ChangeWeather(com.avrgaming.global.perks.components.ChangeWeather.class),
         CustomPersonalTemplate(CustomPersonalTemplate.class),
-        CustomTemplate(com.avrgaming.global.perks.components.CustomTemplate.class),
-        RenameCivOrTown(com.avrgaming.global.perks.components.RenameCivOrTown.class);
+        CustomTemplate(com.avrgaming.global.perks.components.CustomTemplate.class);
         private final Class<? extends PerkComponent> component;
 
         ComponentsNames(Class<? extends PerkComponent> component) {
