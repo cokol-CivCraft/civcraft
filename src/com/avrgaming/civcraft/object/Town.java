@@ -47,7 +47,6 @@ import com.avrgaming.civcraft.threading.tasks.BuildUndoTask;
 import com.avrgaming.civcraft.util.*;
 import com.avrgaming.civcraft.war.War;
 import com.avrgaming.global.perks.Perk;
-import com.avrgaming.global.perks.components.CustomTemplate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -3135,9 +3134,7 @@ public class Town extends SQLObject {
     }
 
     public ArrayList<Perk> getTemplatePerks(Buildable buildable, Resident resident, ConfigBuildableInfo info) {
-        ArrayList<Perk> perks = CustomTemplate.getTemplatePerksForBuildable(this, buildable.getTemplateBaseName());
-
-        perks.addAll(resident.getPersonalTemplatePerks(info));
+        ArrayList<Perk> perks = new ArrayList<>(resident.getPersonalTemplatePerks(info));
         perks.addAll(resident.getUnboundTemplatePerks(perks, info));
 
         return perks;

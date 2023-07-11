@@ -20,12 +20,10 @@ package com.avrgaming.civcraft.command.town;
 
 import com.avrgaming.civcraft.command.CommandBase;
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.config.ConfigBuildableInfo;
 import com.avrgaming.civcraft.config.ConfigCultureBiomeInfo;
 import com.avrgaming.civcraft.config.ConfigCultureLevel;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
-import com.avrgaming.civcraft.lorestorage.LoreGuiItem;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Civilization;
@@ -36,21 +34,15 @@ import com.avrgaming.civcraft.permission.PermissionGroup;
 import com.avrgaming.civcraft.questions.JoinTownResponse;
 import com.avrgaming.civcraft.structure.Structure;
 import com.avrgaming.civcraft.structure.TownHall;
-import com.avrgaming.civcraft.tutorial.CivTutorial;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.war.War;
-import com.avrgaming.global.perks.Perk;
-import com.avrgaming.global.perks.components.CustomTemplate;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -89,7 +81,6 @@ public class TownCommand extends CommandBase {
 //		register_sub();("capture", this::capture_cmd, "[town] - instantly captures this town if they have a missing or illegally placed town hall during WarTime.");
         register_sub("capitulate", this::capitulate_cmd, CivSettings.localize.localizedString("cmd_town_capitulateDesc"));
         register_sub("survey", this::survey_cmd, CivSettings.localize.localizedString("cmd_town_surveyDesc"));
-        register_sub("templates", this::templates_cmd, CivSettings.localize.localizedString("cmd_town_templatesDesc"));
         register_sub("event", this::event_cmd, CivSettings.localize.localizedString("cmd_town_eventDesc"));
         register_sub("claimmayor", this::claimmayor_cmd, CivSettings.localize.localizedString("cmd_town_claimmayorDesc"));
 //		register_sub();("movestructure, this::movestructure", "[coord] [town] moves the structure specified by the coord to the specfied town.");
@@ -224,25 +215,6 @@ public class TownCommand extends CommandBase {
 
     public void e_cmd() {
         event_cmd();
-    }
-
-    public void templates_cmd() throws CivException {
-        Player player = getPlayer();
-        Town town = getSelectedTown();
-        Inventory inv = Bukkit.getServer().createInventory(player, CivTutorial.MAX_CHEST_SIZE * 9, town.getName() + " " + CivSettings.localize.localizedString("cmd_town_templatesHeading"));
-
-        for (ConfigBuildableInfo info : CivSettings.structures.values()) {
-            for (Perk p : CustomTemplate.getTemplatePerksForBuildable(town, info.template_base_name)) {
-
-                ItemStack stack = LoreGuiItem.build(p.configPerk.display_name,
-                        p.configPerk.type_id,
-                        p.configPerk.data,
-                        CivColor.Gray + CivSettings.localize.localizedString("cmd_town_templateProvider") + " " + CivColor.LightBlue + p.provider);
-                inv.addItem(stack);
-            }
-        }
-
-        player.openInventory(inv);
     }
 
     public static ArrayList<String> survey(Location loc) {
