@@ -34,11 +34,11 @@ public class BuildWithTemplate implements GuiAction {
                 if (perk != null) {
 
                     /* get the template name from the perk's CustomTemplate component. */
-                    CustomTemplate customTemplate = (CustomTemplate) perk.getComponent("CustomTemplate");
+                    CustomTemplate customTemplate = (CustomTemplate) perk.getComponent(Perk.ComponentsNames.CustomTemplate);
                     if (customTemplate != null) {
                         tpl = customTemplate.getTemplate(player, resident.pendingBuildable);
                     } else {
-                        CustomPersonalTemplate customPersonalTemplate = (CustomPersonalTemplate) perk.getComponent("CustomPersonalTemplate");
+                        CustomPersonalTemplate customPersonalTemplate = (CustomPersonalTemplate) perk.getComponent(Perk.ComponentsNames.CustomPersonalTemplate);
                         tpl = customPersonalTemplate.getTemplate(player, resident.pendingBuildable.info);
                     }
 

@@ -29,7 +29,7 @@ public class BuildWithPersonalTemplate implements GuiAction {
             /* get the template name from the perk's CustomTemplate component. */
             String perk_id = LoreGuiItem.getActionData(stack, "perk");
             Perk perk = Perk.staticPerks.get(perk_id);
-            CustomPersonalTemplate customTemplate = (CustomPersonalTemplate) perk.getComponent("CustomPersonalTemplate");
+            CustomPersonalTemplate customTemplate = (CustomPersonalTemplate) perk.getComponent(Perk.ComponentsNames.CustomPersonalTemplate);
             Template tpl = customTemplate.getTemplate(player, resident.pendingBuildableInfo);
             Location centerLoc = Buildable.repositionCenterStatic(player.getLocation(), info, Template.getDirection(player.getLocation()), tpl.size_x, tpl.size_z);
             TaskMaster.asyncTask(new StructureValidator(player, tpl.getFilepath(), centerLoc, resident.pendingCallback), 0);

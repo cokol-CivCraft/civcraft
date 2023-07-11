@@ -1109,7 +1109,7 @@ public class Resident extends SQLObject {
         LinkedList<Perk> templates = new LinkedList<>();
 
         for (Perk perk : this.perks.values()) {
-            CustomPersonalTemplate customTemplate = (CustomPersonalTemplate) perk.getComponent("CustomPersonalTemplate");
+            CustomPersonalTemplate customTemplate = (CustomPersonalTemplate) perk.getComponent(Perk.ComponentsNames.CustomPersonalTemplate);
             if (customTemplate == null) {
                 continue;
             }
@@ -1128,7 +1128,7 @@ public class Resident extends SQLObject {
             if (ourPerk.getIdent().contains("template")) {
                 continue;
             }
-            CustomTemplate customTemplate = (CustomTemplate) ourPerk.getComponent("CustomTemplate");
+            CustomTemplate customTemplate = (CustomTemplate) ourPerk.getComponent(Perk.ComponentsNames.CustomTemplate);
             if (customTemplate == null) {
                 continue;
             }

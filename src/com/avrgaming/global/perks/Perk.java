@@ -3,6 +3,7 @@ package com.avrgaming.global.perks;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigPerk;
 import com.avrgaming.civcraft.object.Resident;
+import com.avrgaming.global.perks.components.CustomPersonalTemplate;
 import com.avrgaming.global.perks.components.PerkComponent;
 
 import java.util.HashMap;
@@ -13,9 +14,9 @@ public class Perk {
     public static HashMap<String, Perk> staticPerks = new HashMap<>();
 
     private String ident;
-    private final HashMap<String, PerkComponent> components = new HashMap<>();
+    private final HashMap<ComponentsNames, PerkComponent> components = new HashMap<>();
     public ConfigPerk configPerk;
-    public int count = 0;
+    public int count;
     public String provider;
 
     public Perk(ConfigPerk config) {
@@ -40,29 +41,43 @@ public class Perk {
         this.ident = ident;
     }
 
+    public enum ComponentsNames {
+        ChangeWeather(com.avrgaming.global.perks.components.ChangeWeather.class),
+        CustomPersonalTemplate(CustomPersonalTemplate.class),
+        CustomTemplate(com.avrgaming.global.perks.components.CustomTemplate.class),
+        RenameCivOrTown(com.avrgaming.global.perks.components.RenameCivOrTown.class);
+        private final Class<? extends PerkComponent> component;
+
+        ComponentsNames(Class<? extends PerkComponent> component) {
+            this.component = component;
+        }
+
+        public Class<? extends PerkComponent> getComponent() {
+            return component;
+        }
+    }
+
     private void buildComponents() {
         List<HashMap<String, String>> compInfoList = this.configPerk.components;
-        if (compInfoList != null) {
-            for (HashMap<String, String> compInfo : compInfoList) {
-                String className = "com.avrgaming.global.perks.components." + compInfo.get("name");
-                Class<?> someClass;
+        if (compInfoList == null) {
+            return;
+        }
+        for (HashMap<String, String> compInfo : compInfoList) {
+            try {
 
-                try {
-                    someClass = Class.forName(className);
-                    PerkComponent perkCompClass;
-                    perkCompClass = (PerkComponent) someClass.newInstance();
-                    perkCompClass.setName(compInfo.get("name"));
-                    perkCompClass.setParent(this);
+                ComponentsNames component_class = ComponentsNames.valueOf(compInfo.get("name"));
+                PerkComponent perkCompClass = component_class.getComponent().newInstance();
+                perkCompClass.setName(compInfo.get("name"));
+                perkCompClass.setParent(this);
 
-                    for (String key : compInfo.keySet()) {
-                        perkCompClass.setAttribute(key, compInfo.get(key));
-                    }
-
-                    perkCompClass.createComponent();
-                    this.components.put(perkCompClass.getName(), perkCompClass);
-                } catch (InstantiationException | ClassNotFoundException | IllegalAccessException e) {
-                    e.printStackTrace();
+                for (String key : compInfo.keySet()) {
+                    perkCompClass.setAttribute(key, compInfo.get(key));
                 }
+
+                perkCompClass.createComponent();
+                this.components.put(component_class, perkCompClass);
+            } catch (InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -77,7 +92,7 @@ public class Perk {
         return configPerk.display_name;
     }
 
-    public PerkComponent getComponent(String key) {
+    public PerkComponent getComponent(ComponentsNames key) {
         return this.components.get(key);
     }
 
