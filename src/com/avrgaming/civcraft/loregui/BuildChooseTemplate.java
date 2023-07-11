@@ -62,21 +62,6 @@ public class BuildChooseTemplate implements GuiAction {
             }
         }
 
-        for (Perk perk : personalUnboundPerks) {
-            if (!perk.getIdent().contains("template")) {
-                infoRec = LoreGuiItem.build(perk.getDisplayName(),
-                        Material.BEDROCK,
-                        perk.configPerk.data, CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"),
-                        CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_unbound"),
-                        CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_unbound2"),
-                        CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_unbound3"),
-                        CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_unbound4"),
-                        CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_unbound5"));
-                infoRec = LoreGuiItem.setAction(infoRec, "ActivatePerk");
-                infoRec = LoreGuiItem.setActionData(infoRec, "perk", perk.getIdent());
-            }
-        }
-
         TaskMaster.syncTask(new OpenInventoryTask(player, inv));
     }
 }

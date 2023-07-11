@@ -478,20 +478,6 @@ public abstract class Buildable extends SQLObject {
                 inv.addItem(infoRec);
             }
 
-            for (Perk perk : personalUnboundPerks) {
-                infoRec = LoreGuiItem.build(perk.getDisplayName(),
-                        Material.BEDROCK,
-                        perk.configPerk.data, CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"),
-                        CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_unbound"),
-                        CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_unbound2"),
-                        CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_unbound3"),
-                        CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_unbound4"),
-                        CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_unbound5"));
-                infoRec = LoreGuiItem.setAction(infoRec, "ActivatePerk");
-                infoRec = LoreGuiItem.setActionData(infoRec, "perk", perk.getIdent());
-
-            }
-
             /* We will resume by calling buildPlayerPreview with the template when a gui item is clicked. */
             player.openInventory(inv);
             return;

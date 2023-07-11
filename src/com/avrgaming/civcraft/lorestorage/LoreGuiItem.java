@@ -79,7 +79,6 @@ public class LoreGuiItem {
     public static final HashMap<String, Class<? extends GuiAction>> gui_classes = new HashMap<>();
 
     static {
-        gui_classes.put("ActivatePerk", ActivatePerk.class);
         gui_classes.put("BuildChooseTemplate", BuildChooseTemplate.class);
         gui_classes.put("BuildStructureList", BuildStructureList.class);
         gui_classes.put("BuildWithDefaultPersonalTemplate", BuildWithDefaultPersonalTemplate.class);

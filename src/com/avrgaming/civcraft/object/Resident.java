@@ -47,7 +47,6 @@ import com.avrgaming.civcraft.structure.TownHall;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.BuildPreviewAsyncTask;
-import com.avrgaming.civcraft.tutorial.CivTutorial;
 import com.avrgaming.civcraft.util.*;
 import com.avrgaming.global.perks.Perk;
 import com.avrgaming.global.perks.components.CustomPersonalTemplate;
@@ -1524,67 +1523,11 @@ public class Resident extends SQLObject {
     }
 
     public void showPerkPage(int pageNumber) {
-        Player player;
-        try {
-            player = CivGlobal.getPlayer(this);
-        } catch (CivException e) {
-            return;
-        }
 
-        Inventory inv = Bukkit.getServer().createInventory(player, CivTutorial.MAX_CHEST_SIZE * 9, CivSettings.localize.localizedString("resident_perksGuiHeading"));
-
-        for (Perk perk : perks.values()) {
-
-            if (perk.getIdent().startsWith("temp")) {
-                ItemStack stack = LoreGuiItem.build(perk.configPerk.display_name,
-                        perk.configPerk.type_id,
-                        perk.configPerk.data, CivColor.LightBlue + CivSettings.localize.localizedString("resident_perksGuiClickToView"),
-                        CivColor.LightBlue + CivSettings.localize.localizedString("resident_perksGuiTheseTemplates"));
-                stack = LoreGuiItem.setAction(stack, "ShowTemplateType");
-                stack = LoreGuiItem.setActionData(stack, "perk", perk.configPerk.id);
-
-                inv.addItem(stack);
-            } else if (perk.getIdent().startsWith("perk")) {
-                ItemStack stack = LoreGuiItem.build(perk.getDisplayName(),
-                        perk.configPerk.type_id,
-                        perk.configPerk.data, CivColor.Gold + CivSettings.localize.localizedString("resident_perksGui_clickToActivate"),
-                        "Unlimted Uses");
-                stack = LoreGuiItem.setAction(stack, "ActivatePerk");
-                stack = LoreGuiItem.setActionData(stack, "perk", perk.configPerk.id);
-
-                inv.addItem(stack);
-
-            }
-
-        }
-
-        player.openInventory(inv);
     }
 
     public void showTemplatePerks(String name) {
-        Player player;
-        try {
-            player = CivGlobal.getPlayer(this);
-        } catch (CivException e) {
-            return;
-        }
 
-        Inventory inv = Bukkit.getServer().createInventory(player, CivTutorial.MAX_CHEST_SIZE * 9, CivSettings.localize.localizedString("resident_perksGui_templatesHeading") + " " + name);
-
-        for (Perk perk : perks.values()) {
-            if (perk.getIdent().contains("tpl_" + name)) {
-                ItemStack stack = LoreGuiItem.build(perk.configPerk.display_name,
-                        perk.configPerk.type_id,
-                        perk.configPerk.data, CivColor.Gold + CivSettings.localize.localizedString("resident_perksGui_clickToActivate"),
-                        CivColor.LightBlue + "Count: " + perk.count);
-                stack = LoreGuiItem.setAction(stack, "ActivatePerk");
-                stack = LoreGuiItem.setActionData(stack, "perk", perk.configPerk.id);
-
-                inv.addItem(stack);
-            }
-        }
-
-        player.openInventory(inv);
     }
 
     public UUID getUUID() {
