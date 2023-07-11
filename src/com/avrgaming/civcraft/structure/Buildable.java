@@ -1028,7 +1028,7 @@ public abstract class Buildable extends SQLObject {
         boolean hour = false;
         double millisecondsPerBlock;
         try {
-            hour = CivSettings.getBoolean(CivSettings.civConfig, "system.structurespeed");
+            hour = CivSettings.getBoolean(CivSettings.civConfig, "global.structurespeed");
         } catch (InvalidConfiguration e) {
             e.printStackTrace();
         }
