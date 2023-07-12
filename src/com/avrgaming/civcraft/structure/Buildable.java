@@ -484,7 +484,7 @@ public abstract class Buildable extends SQLObject {
                     perk.configPerk.data, CivColor.Gold + "<Click To Build>",
                     CivColor.Gray + "Provided by: " + CivColor.LightBlue + perk.provider);
             infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
-            infoRec = LoreGuiItem.setActionData(infoRec, "perk", perk.getIdent());
+            infoRec = LoreGuiItem.setActionData(infoRec, "theme", perk.theme);
             inv.addItem(infoRec);
         }
 
@@ -527,48 +527,49 @@ public abstract class Buildable extends SQLObject {
         Resident resident = CivGlobal.getResident(player);
         /* Look for any custom template perks and ask the player if they want to use them. */
         LinkedList<Perk> perkList = resident.getPersonalTemplatePerks(info);
-        if (perkList.size() != 0) {
+        if (perkList.size() == 0) {
+            String path = Template.getTemplateFilePath(info.template_base_name,
+                    Template.getDirection(player.getLocation()), TemplateType.STRUCTURE, "default");
 
-            /* Store the pending buildable. */
-            resident.pendingBuildableInfo = info;
-            resident.pendingCallback = callback;
-
-            /* Build an inventory full of templates to select. */
-            Inventory inv = Bukkit.getServer().createInventory(player, CivTutorial.MAX_CHEST_SIZE * 9);
-            ItemStack infoRec = LoreGuiItem.build("Default " + info.displayName,
-                    Material.WRITTEN_BOOK,
-                    0, CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"));
-            infoRec = LoreGuiItem.setAction(infoRec, "BuildWithDefaultPersonalTemplate");
-            inv.addItem(infoRec);
-
-            for (Perk perk : perkList) {
-                infoRec = LoreGuiItem.build(perk.getDisplayName(),
-                        perk.configPerk.type_id,
-                        perk.configPerk.data, CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"),
-                        CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_providedBy") + " " + CivColor.LightBlue + CivSettings.localize.localizedString("loreGui_template_Yourself"));
-                infoRec = LoreGuiItem.setAction(infoRec, "BuildWithPersonalTemplate");
-                infoRec = LoreGuiItem.setActionData(infoRec, "perk", perk.getIdent());
-                inv.addItem(infoRec);
-                player.openInventory(inv);
+            Template tpl;
+            try {
+                tpl = Template.getTemplate(path, player.getLocation());
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
             }
-            /* We will resume by calling buildPlayerPreview with the template when a gui item is clicked. */
+
+            centerLoc = repositionCenterStatic(centerLoc, info, tpl.dir(), tpl.size_x, tpl.size_z);
+            //validate(player, null, tpl, centerLoc, callback);
+            TaskMaster.asyncTask(new StructureValidator(player, tpl.getFilepath(), centerLoc, callback), 0);
             return;
         }
 
-        String path = Template.getTemplateFilePath(info.template_base_name,
-                Template.getDirection(player.getLocation()), TemplateType.STRUCTURE, "default");
+        /* Store the pending buildable. */
+        resident.pendingBuildableInfo = info;
+        resident.pendingCallback = callback;
 
-        Template tpl;
-        try {
-            tpl = Template.getTemplate(path, player.getLocation());
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
+        /* Build an inventory full of templates to select. */
+        Inventory inv = Bukkit.getServer().createInventory(player, CivTutorial.MAX_CHEST_SIZE * 9);
+        ItemStack infoRec = LoreGuiItem.build("Default " + info.displayName,
+                Material.WRITTEN_BOOK,
+                0, CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"));
+        infoRec = LoreGuiItem.setAction(infoRec, "BuildWithDefaultPersonalTemplate");
+        inv.addItem(infoRec);
+
+        for (Perk perk : perkList) {
+            infoRec = LoreGuiItem.build(perk.getDisplayName(),
+                    perk.configPerk.type_id,
+                    perk.configPerk.data, CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"),
+                    CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_providedBy") + " " + CivColor.LightBlue + CivSettings.localize.localizedString("loreGui_template_Yourself"));
+            infoRec = LoreGuiItem.setAction(infoRec, "BuildWithPersonalTemplate");
+            infoRec = LoreGuiItem.setActionData(infoRec, "theme", perk.theme);
+            inv.addItem(infoRec);
+            player.openInventory(inv);
         }
+        /* We will resume by calling buildPlayerPreview with the template when a gui item is clicked. */
 
-        centerLoc = repositionCenterStatic(centerLoc, info, tpl.dir(), tpl.size_x, tpl.size_z);
-        //validate(player, null, tpl, centerLoc, callback);
-        TaskMaster.asyncTask(new StructureValidator(player, tpl.getFilepath(), centerLoc, callback), 0);
+
     }
 
     public void undoFromTemplate() throws CivException {

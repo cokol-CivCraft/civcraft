@@ -10,7 +10,6 @@ import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.structurevalidation.StructureValidator;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.threading.TaskMaster;
-import com.avrgaming.global.perks.Perk;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -28,10 +27,10 @@ public class BuildWithPersonalTemplate implements GuiAction {
         ConfigBuildableInfo info = resident.pendingBuildableInfo;
         try {
             /* get the template name from the perk's CustomTemplate component. */
-            Perk perk = Perk.staticPerks.get(LoreGuiItem.getActionData(stack, "perk"));
+            String theme = LoreGuiItem.getActionData(stack, "theme");
             Template tpl = new Template();
             try {
-                tpl.initTemplate(player.getLocation(), info, perk.theme);
+                tpl.initTemplate(player.getLocation(), info, theme);
             } catch (CivException | IOException e) {
                 e.printStackTrace();
             }

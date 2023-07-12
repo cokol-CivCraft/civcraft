@@ -212,7 +212,7 @@ public class FortifiedWall extends Wall {
                         perk.configPerk.data, CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"),
                         CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_providedBy") + " " + CivColor.LightBlue + perk.provider);
                 infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
-                infoRec = LoreGuiItem.setActionData(infoRec, "perk", perk.getIdent());
+                infoRec = LoreGuiItem.setActionData(infoRec, "theme", perk.theme);
                 inv.addItem(infoRec);
             }
 
