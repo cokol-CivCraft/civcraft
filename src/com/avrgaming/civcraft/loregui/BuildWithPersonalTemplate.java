@@ -11,11 +11,12 @@ import com.avrgaming.civcraft.structurevalidation.StructureValidator;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.global.perks.Perk;
-import com.avrgaming.global.perks.components.CustomPersonalTemplate;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+
+import java.io.IOException;
 
 public class BuildWithPersonalTemplate implements GuiAction {
 
@@ -27,10 +28,13 @@ public class BuildWithPersonalTemplate implements GuiAction {
         ConfigBuildableInfo info = resident.pendingBuildableInfo;
         try {
             /* get the template name from the perk's CustomTemplate component. */
-            String perk_id = LoreGuiItem.getActionData(stack, "perk");
-            Perk perk = Perk.staticPerks.get(perk_id);
-            CustomPersonalTemplate customTemplate = (CustomPersonalTemplate) perk.getComponent(Perk.ComponentsNames.CustomPersonalTemplate);
-            Template tpl = customTemplate.getTemplate(player, resident.pendingBuildableInfo);
+            Perk perk = Perk.staticPerks.get(LoreGuiItem.getActionData(stack, "perk"));
+            Template tpl = new Template();
+            try {
+                tpl.initTemplate(player.getLocation(), info, perk.theme);
+            } catch (CivException | IOException e) {
+                e.printStackTrace();
+            }
             Location centerLoc = Buildable.repositionCenterStatic(player.getLocation(), info, Template.getDirection(player.getLocation()), tpl.size_x, tpl.size_z);
             TaskMaster.asyncTask(new StructureValidator(player, tpl.getFilepath(), centerLoc, resident.pendingCallback), 0);
             resident.desiredTemplate = tpl;

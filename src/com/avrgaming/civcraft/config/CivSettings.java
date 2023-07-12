@@ -146,7 +146,6 @@ public class CivSettings {
 
     public static FileConfiguration perkConfig; /* perks.yml */
     public static Map<String, ConfigPerk> perks = new HashMap<>();
-    public static Map<String, ConfigPerk> templates = new HashMap<>();
 
     public static FileConfiguration enchantConfig; /* enchantments.yml */
     public static Map<String, ConfigEnchant> enchants = new HashMap<>();
@@ -390,6 +389,7 @@ public class CivSettings {
         File dest = new File(plugin.getDataFolder().getPath() + filepath);
         if (inputUrl == null) {
             CivLog.error("Destination is null: " + filepath);
+            return;
         }
         FileUtils.copyURLToFile(inputUrl, dest);
     }
@@ -445,7 +445,6 @@ public class CivSettings {
     public static void reloadPerks() throws IOException, InvalidConfigurationException {
         perkConfig = loadCivConfig("perks.yml");
         ConfigPerk.loadConfig(perkConfig, perks);
-        ConfigPerk.loadTemplates(perkConfig, templates);
     }
 
     private static void loadConfigObjects() throws InvalidConfiguration {
@@ -472,7 +471,6 @@ public class CivSettings {
         ConfigUnit.loadConfig(unitConfig, units);
         ConfigMission.loadConfig(espionageConfig, missions);
         ConfigPerk.loadConfig(perkConfig, perks);
-        ConfigPerk.loadTemplates(perkConfig, templates);
         ConfigCampLonghouseLevel.loadConfig(campConfig, longhouseLevels);
         ConfigCampUpgrade.loadConfig(campConfig, campUpgrades);
         ConfigMarketItem.loadConfig(marketConfig, marketItems);

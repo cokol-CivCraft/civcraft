@@ -453,45 +453,45 @@ public abstract class Buildable extends SQLObject {
         /* Look for any custom template perks and ask the player if they want to use them. */
         Resident resident = CivGlobal.getResident(player);
         ArrayList<Perk> perkList = this.getTown().getTemplatePerks(this, resident, this.info);
-        ArrayList<Perk> personalUnboundPerks = resident.getUnboundTemplatePerks(perkList, this.info);
-        if (perkList.size() != 0 || personalUnboundPerks.size() != 0) {
-            /* Store the pending buildable. */
-            resident.pendingBuildable = this;
-
-            /* Build an inventory full of templates to select. */
-            Inventory inv = Bukkit.getServer().createInventory(player, CivTutorial.MAX_CHEST_SIZE * 9);
-            ItemStack infoRec = LoreGuiItem.build(
-                    CivSettings.localize.localizedString("buildable_lore_default") + " " + this.getDisplayName(),
-                    Material.WRITTEN_BOOK,
-                    0,
-                    CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"));
-            infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
-            inv.addItem(infoRec);
-
-            for (Perk perk : perkList) {
-                infoRec = LoreGuiItem.build(perk.getDisplayName(),
-                        perk.configPerk.type_id,
-                        perk.configPerk.data, CivColor.Gold + "<Click To Build>",
-                        CivColor.Gray + "Provided by: " + CivColor.LightBlue + perk.provider);
-                infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
-                infoRec = LoreGuiItem.setActionData(infoRec, "perk", perk.getIdent());
-                inv.addItem(infoRec);
+        if (perkList.size() == 0) {
+            Template tpl = new Template();
+            try {
+                tpl.initTemplate(centerLoc, this);
+            } catch (CivException | IOException e) {
+                e.printStackTrace();
+                throw e;
             }
 
-            /* We will resume by calling buildPlayerPreview with the template when a gui item is clicked. */
-            player.openInventory(inv);
+            buildPlayerPreview(player, centerLoc, tpl);
             return;
         }
+        /* Store the pending buildable. */
+        resident.pendingBuildable = this;
 
-        Template tpl = new Template();
-        try {
-            tpl.initTemplate(centerLoc, this);
-        } catch (CivException | IOException e) {
-            e.printStackTrace();
-            throw e;
+        /* Build an inventory full of templates to select. */
+        Inventory inv = Bukkit.getServer().createInventory(player, CivTutorial.MAX_CHEST_SIZE * 9);
+        ItemStack infoRec = LoreGuiItem.build(
+                CivSettings.localize.localizedString("buildable_lore_default") + " " + this.getDisplayName(),
+                Material.WRITTEN_BOOK,
+                0,
+                CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"));
+        infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
+        inv.addItem(infoRec);
+
+        for (Perk perk : perkList) {
+            infoRec = LoreGuiItem.build(perk.getDisplayName(),
+                    perk.configPerk.type_id,
+                    perk.configPerk.data, CivColor.Gold + "<Click To Build>",
+                    CivColor.Gray + "Provided by: " + CivColor.LightBlue + perk.provider);
+            infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
+            infoRec = LoreGuiItem.setActionData(infoRec, "perk", perk.getIdent());
+            inv.addItem(infoRec);
         }
 
-        buildPlayerPreview(player, centerLoc, tpl);
+        /* We will resume by calling buildPlayerPreview with the template when a gui item is clicked. */
+        player.openInventory(inv);
+
+
     }
 
 

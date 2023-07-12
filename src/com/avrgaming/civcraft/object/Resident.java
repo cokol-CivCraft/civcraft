@@ -49,8 +49,6 @@ import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.BuildPreviewAsyncTask;
 import com.avrgaming.civcraft.util.*;
 import com.avrgaming.global.perks.Perk;
-import com.avrgaming.global.perks.components.CustomPersonalTemplate;
-import com.avrgaming.global.perks.components.CustomTemplate;
 import gpl.InventorySerializer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -1001,18 +999,6 @@ public class Resident extends SQLObject {
         this.onRoad = onRoad;
     }
 
-    public void giveTemplate(String name) {
-        for (ConfigPerk p : CivSettings.perks.values()) {
-            Perk perk = new Perk(p);
-
-            if (perk.getIdent().startsWith(("tpl_" + name).toLowerCase()) || perk.getIdent().startsWith(("template_" + name).toLowerCase())) {
-                perk.count = Integer.MAX_VALUE / 2;
-                this.perks.put(perk.getIdent(), perk);
-            }
-        }
-
-    }
-
     public void giveAllFreePerks() {
         for (ConfigPerk p : CivSettings.perks.values()) {
             Perk perk = new Perk(p);
@@ -1108,46 +1094,11 @@ public class Resident extends SQLObject {
         LinkedList<Perk> templates = new LinkedList<>();
 
         for (Perk perk : this.perks.values()) {
-            CustomPersonalTemplate customTemplate = (CustomPersonalTemplate) perk.getComponent(Perk.ComponentsNames.CustomPersonalTemplate);
-            if (customTemplate == null) {
-                continue;
-            }
-
-            if (customTemplate.getString("id").equals(info.id)) {
+            if (perk.template.equals(info.template_base_name)) {
                 templates.add(perk);
             }
         }
         return templates;
-    }
-
-    public ArrayList<Perk> getUnboundTemplatePerks(ArrayList<Perk> alreadyBoundPerkList, ConfigBuildableInfo info) {
-        ArrayList<Perk> unboundPerks = new ArrayList<>();
-        for (Perk ourPerk : perks.values()) {
-
-            if (ourPerk.getIdent().contains("template")) {
-                continue;
-            }
-            CustomTemplate customTemplate = (CustomTemplate) ourPerk.getComponent(Perk.ComponentsNames.CustomTemplate);
-            if (customTemplate == null) {
-                continue;
-            }
-
-            if (!customTemplate.getString("template").equals(info.template_base_name)) {
-                /* Not the correct template. */
-                continue;
-            }
-
-            for (Perk perk : alreadyBoundPerkList) {
-                if (perk.getIdent().equals(ourPerk.getIdent())) {
-                    /* Perk is already bound in this town, do not display for binding. */
-                    break;
-                }
-            }
-
-            unboundPerks.add(ourPerk);
-        }
-
-        return unboundPerks;
     }
 
     public boolean isControlBlockInstantBreak() {

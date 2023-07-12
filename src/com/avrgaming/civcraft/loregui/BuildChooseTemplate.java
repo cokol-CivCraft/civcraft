@@ -37,7 +37,6 @@ public class BuildChooseTemplate implements GuiAction {
 
         /* Look for any custom template perks and ask the player if they want to use them. */
         ArrayList<Perk> perkList = struct.getTown().getTemplatePerks(struct, resident, struct.info);
-        ArrayList<Perk> personalUnboundPerks = resident.getUnboundTemplatePerks(perkList, struct.info);
         //if (perkList.size() != 0 || personalUnboundPerks.size() != 0) {
         /* Store the pending buildable. */
         resident.pendingBuildable = struct;

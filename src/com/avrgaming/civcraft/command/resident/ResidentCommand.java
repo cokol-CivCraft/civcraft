@@ -127,8 +127,6 @@ public class ResidentCommand extends CommandBase {
     @SuppressWarnings("unused")
     public void refresh_cmd() throws CivException {
         Resident resident = getResident();
-        resident.perks.clear();
-        resident.loadPerks(getPlayer());
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_res_refreshSuccess"));
     }
 
