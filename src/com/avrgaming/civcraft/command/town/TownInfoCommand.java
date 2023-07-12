@@ -566,7 +566,7 @@ public class TownInfoCommand extends CommandBase {
             CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("Assitants") + " " + CivColor.LightGreen + town.getAssistantGroup().getMembersString());
         }
 
-        if (resident == null || civ.hasResident(resident) || isAdmin) {
+        if (resident == null || civ.hasResident(resident)) {
 
             String color = CivColor.LightGreen;
             int maxTileImprovements = level.tile_improvements;
@@ -616,8 +616,7 @@ public class TownInfoCommand extends CommandBase {
             CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("Goodies") + " " + CivColor.LightGreen + goodies);
         }
 
-        if (resident == null || town.isInGroup("mayors", resident) || town.isInGroup("assistants", resident) ||
-                civ.getLeaderGroup().hasMember(resident) || civ.getAdviserGroup().hasMember(resident) || isAdmin) {
+        if (resident == null || town.isInGroup("mayors", resident) || town.isInGroup("assistants", resident) || civ.getLeaderGroup().hasMember(resident) || civ.getAdviserGroup().hasMember(resident)) {
             try {
                 CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("Treasury") + " " + CivColor.LightGreen + town.getBalance() + CivColor.Green + " " + CivSettings.CURRENCY_NAME + " " + CivSettings.localize.localizedString("cmd_town_info_structuresUpkeep") + " " + CivColor.LightGreen + town.getTotalUpkeep() * town.getGovernment().upkeep_rate);
                 Structure bank = town.getStructureByType("s_bank");

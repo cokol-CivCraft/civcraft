@@ -18,7 +18,6 @@
 package com.avrgaming.civcraft.command.admin;
 
 import com.avrgaming.civcraft.command.CommandBase;
-import com.avrgaming.civcraft.command.ReportChestsTask;
 import com.avrgaming.civcraft.command.town.TownInfoCommand;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.AlreadyRegisteredException;
@@ -34,7 +33,6 @@ import com.avrgaming.civcraft.permission.PermissionGroup;
 import com.avrgaming.civcraft.randomevents.ConfigRandomEvent;
 import com.avrgaming.civcraft.randomevents.RandomEvent;
 import com.avrgaming.civcraft.structure.TownHall;
-import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
 import org.bukkit.Bukkit;
@@ -42,8 +40,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
-import java.util.LinkedList;
-import java.util.Queue;
 
 public class AdminTownCommand extends CommandBase {
 
@@ -66,7 +62,6 @@ public class AdminTownCommand extends CommandBase {
         register_sub("setciv", this::setciv_cmd, CivSettings.localize.localizedString("adcmd_town_setcivDesc"));
         register_sub("select", this::select_cmd, CivSettings.localize.localizedString("adcmd_town_selectDesc"));
         register_sub("claimradius", this::claimradius_cmd, CivSettings.localize.localizedString("adcmd_town_claimradiusDesc"));
-        register_sub("chestreport", this::chestreport_cmd, CivSettings.localize.localizedString("adcmd_town_chestReportDesc"));
         register_sub("rebuildgroups", this::rebuildgroups_cmd, CivSettings.localize.localizedString("adcmd_town_rebuildgroupsDesc"));
         register_sub("capture", this::capture_cmd, CivSettings.localize.localizedString("adcmd_town_captureDesc"));
         register_sub("setmotherciv", this::setmotherciv_cmd, CivSettings.localize.localizedString("adcmd_town_setmothercivDesc"));
@@ -124,7 +119,6 @@ public class AdminTownCommand extends CommandBase {
 
     }
 
-    @SuppressWarnings("unused")
     public void sethappy_cmd() throws CivException {
         Town town = getNamedTown(1);
         double happy = getNamedDouble(2);
@@ -134,7 +128,6 @@ public class AdminTownCommand extends CommandBase {
 
     }
 
-    @SuppressWarnings("unused")
     public void setmotherciv_cmd() throws CivException {
         Town town = getNamedTown(1);
         Civilization civ = getNamedCiv(2);
@@ -145,7 +138,6 @@ public class AdminTownCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_town_setMotherCivSuccess", town.getName(), civ.getName()));
     }
 
-    @SuppressWarnings("unused")
     public void capture_cmd() throws CivException {
         Civilization civ = getNamedCiv(1);
         Town town = getNamedTown(2);
@@ -154,7 +146,6 @@ public class AdminTownCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_town_captureSuccess", town.getName(), civ.getName()));
     }
 
-    @SuppressWarnings("unused")
     public void rebuildgroups_cmd() throws CivException {
         Town town = getNamedTown(1);
 
@@ -212,22 +203,6 @@ public class AdminTownCommand extends CommandBase {
 
     }
 
-    @SuppressWarnings("unused")
-    public void chestreport_cmd() throws CivException {
-        Town town = getNamedTown(1);
-
-        Queue<ChunkCoord> coords = new LinkedList<>();
-        for (TownChunk tc : town.getTownChunks()) {
-            ChunkCoord coord = tc.getChunkCoord();
-            coords.add(coord);
-        }
-
-        CivMessage.sendHeading(sender, CivSettings.localize.localizedString("adcmd_town_chestReportStart") + " " + town.getName());
-        CivMessage.send(sender, CivSettings.localize.localizedString("adcmd_ReportStarted"));
-        TaskMaster.syncTask(new ReportChestsTask(sender, coords), 0);
-
-    }
-
     public static int claimradius(Town town, Location loc, Integer radius) {
         ChunkCoord coord = new ChunkCoord(loc);
 
@@ -248,7 +223,6 @@ public class AdminTownCommand extends CommandBase {
         return count;
     }
 
-    @SuppressWarnings("unused")
     public void claimradius_cmd() throws CivException {
         Town town = getSelectedTown();
         Integer radius = getNamedInteger(1);
@@ -257,7 +231,6 @@ public class AdminTownCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_town_claimradiusSuccess", count));
     }
 
-    @SuppressWarnings("unused")
     public void select_cmd() throws CivException {
         Resident resident = getResident();
         Town selectTown = getNamedTown(1);
@@ -277,7 +250,6 @@ public class AdminTownCommand extends CommandBase {
     }
 
 
-    @SuppressWarnings("unused")
     public void setciv_cmd() throws CivException {
         Town town = getNamedTown(1);
         Civilization civ = getNamedCiv(2);
@@ -296,7 +268,6 @@ public class AdminTownCommand extends CommandBase {
 
     }
 
-    @SuppressWarnings("unused")
     public void info_cmd() throws CivException {
         Town town = getNamedTown(1);
 
@@ -306,7 +277,6 @@ public class AdminTownCommand extends CommandBase {
         cmd.onCommand(sender, null, "info", this.stripArgs(args, 2));
     }
 
-    @SuppressWarnings("unused")
     public void culture_cmd() throws CivException {
         Town town = getNamedTown(1);
         Integer culture = getNamedInteger(2);
@@ -317,7 +287,6 @@ public class AdminTownCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_var_adcmd_town_cultureSuccess", town.getName(), culture));
     }
 
-    @SuppressWarnings("unused")
     public void tp_cmd() throws CivException {
         Town town = getNamedTown(1);
 
@@ -346,7 +315,6 @@ public class AdminTownCommand extends CommandBase {
     }
 
 
-    @SuppressWarnings("unused")
     public void rmassistant_cmd() throws CivException {
         Town town = getNamedTown(1);
         Resident resident = getNamedResident(2);
@@ -366,7 +334,6 @@ public class AdminTownCommand extends CommandBase {
 
     }
 
-    @SuppressWarnings("unused")
     public void rmmayor_cmd() throws CivException {
         Town town = getNamedTown(1);
         Resident resident = getNamedResident(2);
@@ -388,7 +355,6 @@ public class AdminTownCommand extends CommandBase {
 
     }
 
-    @SuppressWarnings("unused")
     public void addassistant_cmd() throws CivException {
         Town town = getNamedTown(1);
         Resident resident = getNamedResident(2);
@@ -404,7 +370,6 @@ public class AdminTownCommand extends CommandBase {
 
     }
 
-    @SuppressWarnings("unused")
     public void addmayor_cmd() throws CivException {
         Town town = getNamedTown(1);
         Resident resident = getNamedResident(2);
@@ -420,7 +385,6 @@ public class AdminTownCommand extends CommandBase {
 
     }
 
-    @SuppressWarnings("unused")
     public void disband_cmd() throws CivException {
         Town town = getNamedTown(1);
 
@@ -438,7 +402,6 @@ public class AdminTownCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_town_disbandSuccess"));
     }
 
-    @SuppressWarnings("unused")
     public void hammerrate_cmd() throws CivException {
         if (args.length < 3) {
             throw new CivException(CivSettings.localize.localizedString("adcmd_town_hammerratePrompt"));
@@ -456,7 +419,6 @@ public class AdminTownCommand extends CommandBase {
         town.save();
     }
 
-    @SuppressWarnings("unused")
     public void unclaim_cmd() throws CivException {
         Town town = getNamedTown(1);
         Player player = getPlayer();
@@ -481,7 +443,6 @@ public class AdminTownCommand extends CommandBase {
 
     }
 
-    @SuppressWarnings("unused")
     public void claim_cmd() throws CivException {
         Town town = getNamedTown(1);
         Player player = getPlayer();

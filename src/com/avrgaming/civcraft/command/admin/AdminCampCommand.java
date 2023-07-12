@@ -54,7 +54,6 @@ public class AdminCampCommand extends CommandBase {
         CivMessage.send(sender, CivSettings.localize.localizedString("Repaired"));
     }
 
-    @SuppressWarnings("unused")
     public void setraidtime_cmd() throws CivException {
         Resident resident = getNamedResident(1);
 
@@ -82,7 +81,6 @@ public class AdminCampCommand extends CommandBase {
 
     }
 
-    @SuppressWarnings("unused")
     public void destroy_cmd() throws CivException {
         Camp camp = getNamedCamp(1);
         camp.destroy();

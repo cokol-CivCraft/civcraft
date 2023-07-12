@@ -67,14 +67,14 @@ public class CivCommand extends CommandBase {
         register_sub("claimleader", this::claimleader_cmd, CivSettings.localize.localizedString("cmd_civ_claimleaderDesc"));
         register_sub("motd", this::motd_cmd, CivSettings.localize.localizedString("cmd_civ_motdDesc"));
         register_sub("location", this::location_cmd, CivSettings.localize.localizedString("cmd_civ_locationDesc"));
-        register_sub("v", this::v_cmd, null); // TODO: add some info about commands and shortcuts;
+        register_sub("v", this::victory_cmd, null); // TODO: add some info about commands and shortcuts;
         register_sub("t", this::time_cmd, null);
         register_sub("r", this::research_cmd, null);
         register_sub("l", this::list_cmd, null);
         register_sub("s", this::show_cmd, null);
         register_sub("i", this::info_cmd, null);
-        register_sub("w", this::w_cmd, null);
-        register_sub("d", this::d_cmd, null);
+        register_sub("w", this::withdraw_cmd, null);
+        register_sub("d", this::deposit_cmd, null);
     }
 
     public void location_cmd() throws CivException {
@@ -128,10 +128,6 @@ public class CivCommand extends CommandBase {
         }
     }
 
-
-    public void v_cmd() {
-        victory_cmd();
-    }
 
     public void victory_cmd() {
         Resident r;
@@ -429,9 +425,8 @@ public class CivCommand extends CommandBase {
             if (amount < 1) {
                 throw new CivException(amount + " " + CivSettings.localize.localizedString("cmd_enterNumerError2"));
             }
-            amount = Math.floor(amount);
 
-            civ.depositFromResident(resident, Double.valueOf(args[1]));
+            civ.depositFromResident(resident, Math.floor(amount));
 
         } catch (NumberFormatException e) {
             throw new CivException(args[1] + " " + CivSettings.localize.localizedString("cmd_enterNumerError"));
@@ -440,23 +435,6 @@ public class CivCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("Deposited") + args[1] + " " + CivSettings.CURRENCY_NAME);
     }
 
-
-    public void d_cmd() throws CivException {
-        if (args.length < 2) {
-            throw new CivException(CivSettings.localize.localizedString("cmd_civ_despositPrompt"));
-        } else {
-            deposit_cmd();
-        }
-    }
-
-
-    public void loc_cmd() {
-        try {
-            location_cmd();
-        } catch (CivException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void withdraw_cmd() throws CivException {
         if (args.length < 2) {
@@ -475,9 +453,8 @@ public class CivCommand extends CommandBase {
             if (amount < 1) {
                 throw new CivException(amount + " " + CivSettings.localize.localizedString("cmd_enterNumerError2"));
             }
-            amount = Math.floor(amount);
 
-            if (!civ.getTreasury().payTo(resident.getTreasury(), Double.parseDouble(args[1]))) {
+            if (!civ.getTreasury().payTo(resident.getTreasury(), Math.floor(amount))) {
                 throw new CivException(CivSettings.localize.localizedString("cmd_civ_withdrawTooPoor"));
             }
         } catch (NumberFormatException e) {
@@ -485,15 +462,6 @@ public class CivCommand extends CommandBase {
         }
 
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_civ_withdrawSuccess", args[1], CivSettings.CURRENCY_NAME));
-    }
-
-
-    public void w_cmd() throws CivException {
-        if (args.length < 2) {
-            throw new CivException(CivSettings.localize.localizedString("cmd_civ_withdrawPrompt"));
-        } else {
-            withdraw_cmd();
-        }
     }
 
 
@@ -514,11 +482,6 @@ public class CivCommand extends CommandBase {
     }
 
 
-    public void i_cmd() {
-        info_cmd();
-    }
-
-
     public void vote_cmd() {
 
         if (args.length < 2) {
@@ -526,29 +489,28 @@ public class CivCommand extends CommandBase {
             return;
         }
 
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
-            Resident resident = CivGlobal.getResident(player);
-
-            if (!resident.hasTown()) {
-                CivMessage.sendError(sender, CivSettings.localize.localizedString("cmd_civ_voteNotInTown"));
-                return;
-            }
-
-            Civilization civ = CivGlobal.getCiv(args[1]);
-            if (civ == null) {
-                CivMessage.sendError(sender, CivSettings.localize.localizedString("var_cmd_civ_voteInvalidCiv", args[1]));
-                return;
-            }
-
-            if (!EndConditionDiplomacy.canPeopleVote()) {
-                CivMessage.sendError(sender, CivSettings.localize.localizedString("cmd_civ_voteNoCouncil"));
-                return;
-            }
-
-            EndConditionDiplomacy.addVote(civ, resident);
-        } else {
+        if (!(sender instanceof Player)) {
+            return;
         }
+        Resident resident = CivGlobal.getResident((Player) sender);
+
+        if (!resident.hasTown()) {
+            CivMessage.sendError(sender, CivSettings.localize.localizedString("cmd_civ_voteNotInTown"));
+            return;
+        }
+
+        Civilization civ = CivGlobal.getCiv(args[1]);
+        if (civ == null) {
+            CivMessage.sendError(sender, CivSettings.localize.localizedString("var_cmd_civ_voteInvalidCiv", args[1]));
+            return;
+        }
+
+        if (!EndConditionDiplomacy.canPeopleVote()) {
+            CivMessage.sendError(sender, CivSettings.localize.localizedString("cmd_civ_voteNoCouncil"));
+            return;
+        }
+
+        EndConditionDiplomacy.addVote(civ, resident);
     }
 
     @Override

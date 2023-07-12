@@ -52,7 +52,6 @@ public class ResidentCommand extends CommandBase {
         register_sub("resetspawn", this::resetspawn_cmd, CivSettings.localize.localizedString("cmd_res_resetspawnDesc"));
         register_sub("exchange", this::exchange_cmd, CivSettings.localize.localizedString("cmd_res_exchangeDesc"));
         register_sub("book", this::book_cmd, CivSettings.localize.localizedString("cmd_res_bookDesc"));
-        register_sub("refresh", this::refresh_cmd, CivSettings.localize.localizedString("cmd_res_refreshDesc"));
         register_sub("timezone", this::timezone_cmd, CivSettings.localize.localizedString("cmd_res_timezoneDesc"));
         register_sub("pvptimer", this::pvptimer_cmd, CivSettings.localize.localizedString("cmd_res_pvptimerDesc"));
         register_sub("pt", this::pvptimer_cmd, null); // pvptimer
@@ -64,15 +63,6 @@ public class ResidentCommand extends CommandBase {
         //commands.put("switchtown", "[town] - Allows you to instantly change your town to this town, if this town belongs to your civ.");
     }
 
-    @SuppressWarnings("unused")
-    public void pt_cmd() {
-        try {
-            pvptimer_cmd();
-        } catch (CivException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void pvptimer_cmd() throws CivException {
         Resident resident = getResident();
 
@@ -82,16 +72,6 @@ public class ResidentCommand extends CommandBase {
 
         resident.setisProtected(false);
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_res_pvptimerSuccess"));
-    }
-
-    @SuppressWarnings("unused")
-    public void t_cmd() throws CivException {
-        Resident resident = getResident();
-        if (args.length < 2) {
-            CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_res_timezoneCurrent") + " " + resident.getTimezone());
-        } else {
-            timezone_cmd();
-        }
     }
 
     public void timezone_cmd() throws CivException {
@@ -124,21 +104,6 @@ public class ResidentCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_res_timezoneSuccess", timezone.getID()));
     }
 
-    @SuppressWarnings("unused")
-    public void refresh_cmd() throws CivException {
-        Resident resident = getResident();
-        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_res_refreshSuccess"));
-    }
-
-
-    @SuppressWarnings("unused")
-    public void b_cmd() {
-        try {
-            book_cmd();
-        } catch (CivException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void book_cmd() throws CivException {
         Player player = getPlayer();
@@ -204,7 +169,6 @@ public class ResidentCommand extends CommandBase {
 //		
 //	}
 
-    @SuppressWarnings("unused")
     public void exchange_cmd() throws CivException {
         Player player = getPlayer();
         Resident resident = getResident();
@@ -287,7 +251,6 @@ public class ResidentCommand extends CommandBase {
 
     }
 
-    @SuppressWarnings("unused")
     public void resetspawn_cmd() throws CivException {
         Player player = getPlayer();
         Location spawn = player.getWorld().getSpawnLocation();
@@ -295,7 +258,6 @@ public class ResidentCommand extends CommandBase {
         CivMessage.sendSuccess(player, CivSettings.localize.localizedString("cmd_res_resetspawnSuccess"));
     }
 
-    @SuppressWarnings("unused")
     public void show_cmd() throws CivException {
         if (args.length < 2) {
             throw new CivException(CivSettings.localize.localizedString("cmd_res_showPrompt"));
@@ -306,7 +268,6 @@ public class ResidentCommand extends CommandBase {
         show(sender, resident);
     }
 
-    @SuppressWarnings("unused")
     public void toggle_cmd() {
         ResidentToggleCommand cmd = new ResidentToggleCommand();
         cmd.onCommand(sender, null, "friend", this.stripArgs(args, 1));
@@ -317,12 +278,6 @@ public class ResidentCommand extends CommandBase {
         cmd.onCommand(sender, null, "friend", this.stripArgs(args, 1));
     }
 
-    @SuppressWarnings("unused")
-    public void f_cmd() {
-        friend_cmd();
-    }
-
-    @SuppressWarnings("unused")
     public void paydebt_cmd() throws CivException {
         Resident resident = getResident();
 
@@ -342,15 +297,6 @@ public class ResidentCommand extends CommandBase {
     public void info_cmd() throws CivException {
         Resident resident = getResident();
         show(sender, resident);
-    }
-
-    @SuppressWarnings("unused")
-    public void i_cmd() {
-        try {
-            info_cmd();
-        } catch (CivException e) {
-            e.printStackTrace();
-        }
     }
 
     public static void show(CommandSender sender, Resident resident) {

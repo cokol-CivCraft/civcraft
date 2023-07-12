@@ -66,7 +66,6 @@ public class AdminTimerCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_timer_runSuccess"));
     }
 
-    @SuppressWarnings("unused")
     public void set_cmd() throws CivException {
         if (args.length < 3) {
             throw new CivException(CivSettings.localize.localizedString("adcmd_timer_setPrompt"));

@@ -25,7 +25,6 @@ import com.avrgaming.civcraft.object.Resident;
 
 public class ResidentToggleCommand extends CommandBase {
 
-    @SuppressWarnings("unused")
     @Override
     public void init() {
         command = "/resident toggle";
@@ -42,42 +41,34 @@ public class ResidentToggleCommand extends CommandBase {
 
     }
 
-    @SuppressWarnings("unused")
     public void itemdrops_cmd() throws CivException {
         toggle();
     }
 
-    @SuppressWarnings("unused")
     public void map_cmd() throws CivException {
         toggle();
     }
 
-    @SuppressWarnings("unused")
     public void showtown_cmd() throws CivException {
         toggle();
     }
 
-    @SuppressWarnings("unused")
     public void showciv_cmd() throws CivException {
         toggle();
     }
 
-    @SuppressWarnings("unused")
     public void showscout_cmd() throws CivException {
         toggle();
     }
 
-    @SuppressWarnings("unused")
     public void info_cmd() throws CivException {
         toggle();
     }
 
-    @SuppressWarnings("unused")
     public void combatinfo_cmd() throws CivException {
         toggle();
     }
 
-    @SuppressWarnings("unused")
     public void titles_cmd() throws CivException {
         toggle();
     }
@@ -126,7 +117,6 @@ public class ResidentToggleCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_toggled") + " " + args[0] + " -> " + result);
     }
 
-    @SuppressWarnings("unused")
     @Override
     public void doDefaultAction() {
         showHelp();
@@ -137,7 +127,6 @@ public class ResidentToggleCommand extends CommandBase {
         showBasicHelp();
     }
 
-    @SuppressWarnings("unused")
     @Override
     public void permissionCheck() {
 

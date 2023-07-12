@@ -36,7 +36,6 @@ public class DebugCampCommand extends CommandBase {
 
     }
 
-    @SuppressWarnings("unused")
     public void growth_cmd() throws CivException {
         Resident resident = getNamedResident(1);
 

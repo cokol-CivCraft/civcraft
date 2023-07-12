@@ -87,10 +87,10 @@ public class TownCommand extends CommandBase {
         register_sub("enablestructure", this::enablestructure_cmd, CivSettings.localize.localizedString("cmd_town_enableStructureDesc"));
         register_sub("location", this::location_cmd, CivSettings.localize.localizedString("cmd_town_locationDesc"));
         register_sub("e", this::event_cmd, null); // event
-        register_sub("s", this::s_cmd, null); // select
+        register_sub("s", this::select_cmd, null); // select
         register_sub("l", this::list_cmd, null); // list
-        register_sub("w", this::w_cmd, null); // withdraw
-        register_sub("d", this::d_cmd, null); // deposit
+        register_sub("w", this::withdraw_cmd, null); // withdraw
+        register_sub("d", this::deposit_cmd, null); // deposit
         register_sub("up", this::upgrade_cmd, null); // upgrade -_-
         register_sub("i", this::info_cmd, null); // info
         register_sub("loc", this::location_cmd, null);
@@ -211,10 +211,6 @@ public class TownCommand extends CommandBase {
     public void event_cmd() {
         TownEventCommand cmd = new TownEventCommand();
         cmd.onCommand(sender, null, "event", this.stripArgs(args, 1));
-    }
-
-    public void e_cmd() {
-        event_cmd();
     }
 
     public static ArrayList<String> survey(Location loc) {
@@ -394,14 +390,6 @@ public class TownCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_selecteSuccess", selectTown.getName()));
     }
 
-    public void s_cmd() throws CivException {
-        if (args.length <= 1) {
-            throw new CivException(CivSettings.localize.localizedString("EnterTownName"));
-        } else {
-            select_cmd();
-        }
-    }
-
     public void leavegroup_cmd() throws CivException {
         Town town = getNamedTown(1);
         PermissionGroup grp = getNamedPermissionGroup(town, 2);
@@ -491,10 +479,6 @@ public class TownCommand extends CommandBase {
         }
 
         CivMessage.send(sender, out.toString());
-    }
-
-    public void l_cmd() {
-        list_cmd();
     }
 
     public void evict_cmd() throws CivException {
@@ -639,14 +623,6 @@ public class TownCommand extends CommandBase {
         cmd.onCommand(sender, null, "upgrade", this.stripArgs(args, 1));
     }
 
-    public void up_cmd() {
-        upgrade_cmd();
-    }
-
-    public void u_cmd() {
-        upgrade_cmd();
-    }
-
     public void withdraw_cmd() throws CivException {
         if (args.length < 2) {
             throw new CivException(CivSettings.localize.localizedString("cmd_town_withdrawPrompt"));
@@ -665,23 +641,14 @@ public class TownCommand extends CommandBase {
             if (amount < 1) {
                 throw new CivException(amount + " " + CivSettings.localize.localizedString("cmd_enterNumerError2"));
             }
-            amount = Math.floor(amount);
 
-            if (!town.getTreasury().payTo(resident.getTreasury(), Double.parseDouble(args[1]))) {
+            if (!town.getTreasury().payTo(resident.getTreasury(), Math.floor(amount))) {
                 throw new CivException(CivSettings.localize.localizedString("cmd_town_withdrawNotEnough"));
             }
         } catch (NumberFormatException e) {
             throw new CivException(args[1] + " " + CivSettings.localize.localizedString("cmd_enterNumerError2"));
         }
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_civ_withdrawSuccess", args[1], CivSettings.CURRENCY_NAME));
-    }
-
-    public void w_cmd() throws CivException {
-        if (args.length < 2) {
-            throw new CivException(CivSettings.localize.localizedString("cmd_town_withdrawPrompt"));
-        } else {
-            withdraw_cmd();
-        }
     }
 
     public void deposit_cmd() throws CivException {
@@ -705,14 +672,6 @@ public class TownCommand extends CommandBase {
         }
 
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_civ_despositSuccess", args[1], CivSettings.CURRENCY_NAME));
-    }
-
-    public void d_cmd() throws CivException {
-        if (args.length < 2) {
-            throw new CivException(CivSettings.localize.localizedString("cmd_civ_despositPrompt"));
-        } else {
-            deposit_cmd();
-        }
     }
 
     public void add_cmd() throws CivException {
@@ -775,11 +734,7 @@ public class TownCommand extends CommandBase {
         cmd.onCommand(sender, null, "info", this.stripArgs(args, 1));
     }
 
-    public void i_cmd() {
-        info_cmd();
-    }
-
-//	public void new_cmd() throws CivException {
+    //	public void new_cmd() throws CivException {
 //		if (!(sender instanceof Player)) {
 //			return;
 //		}
@@ -873,10 +828,6 @@ public class TownCommand extends CommandBase {
             out.append(res.getName()).append(", ");
         }
         CivMessage.send(sender, out.toString());
-    }
-
-    public void m_cmd() throws CivException {
-        members_cmd();
     }
 
     public void showHelp() {

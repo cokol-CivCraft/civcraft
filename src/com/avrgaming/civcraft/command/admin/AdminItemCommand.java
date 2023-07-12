@@ -76,7 +76,6 @@ public class AdminItemCommand extends CommandBase {
         }
 
         String name = getNamedString(1, "enchantname");
-        name.toLowerCase();
         for (String str : enhancements.keySet()) {
             if (name.equals(str)) {
                 LoreEnhancement enh = enhancements.get(str);

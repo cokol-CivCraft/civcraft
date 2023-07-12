@@ -64,7 +64,6 @@ public class MarketBuyCommand extends CommandBase {
         }
     }
 
-    @SuppressWarnings("unused")
     public void towns_cmd() throws CivException {
         this.validLeaderAdvisor();
         Civilization senderCiv = this.getSenderCiv();
@@ -103,7 +102,6 @@ public class MarketBuyCommand extends CommandBase {
     }
 
 
-    @SuppressWarnings("unused")
     public void civs_cmd() throws CivException {
         this.validLeaderAdvisor();
         Civilization senderCiv = this.getSenderCiv();

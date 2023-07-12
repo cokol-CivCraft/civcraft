@@ -153,7 +153,6 @@ public class DebugCommand extends CommandBase {
         register_sub("setexposure", this::setexposure_cmd, "[int] sets your exposure to this ammount.");
         register_sub("circle", this::circle_cmd, "[int] - draws a circle at your location, with this radius.");
         register_sub("colorme", this::colorme_cmd, "[hex] adds nbt color value to item held.");
-        register_sub("preview", this::preview_cmd, "show a single block preview at your feet.");
         register_sub("sql", this::sql_cmd, "Show SQL health info.");
         register_sub("templatetest", this::templatetest_cmd, "tests out some new template stream code.");
         register_sub("buildspawn", this::buildspawn_cmd, "[civname] [capitolname] Builds spawn from spawn template.");
@@ -502,25 +501,6 @@ public class DebugCommand extends CommandBase {
         }
 
         CivMessage.send(sender, makeInfoString(stats, CivColor.Green, CivColor.LightGreen));
-    }
-
-    public void preview_cmd() {
-//		Player player = getPlayer();
-//		PlayerBlockChangeUtil util = new PlayerBlockChangeUtil();
-//		
-//		ProtocolManager manager = ProtocolLibrary.getProtocolManager();
-//		PacketContainer mapChunk =  manager.createPacket(Packets.Server.MAP_CHUNK);
-//		
-//		mapChunk.getBytes().write(arg0, arg1)
-//		//Packet3CExplosion expo = new Packet3CExplosion();
-//		//Packet51MapChunk c = new Packet51MapChunk();
-//		c.
-//		//mapChunk.set
-//		
-//		
-//		//util.addUpdateBlock(player.getName(), new BlockCoord(player.getLocation().add(0, -1, 0)), CivData.WOOD, 3);
-//		//util.sendUpdate(player.getName());
-//		//CivMessage.sendSuccess(player, "Changed block");
     }
 
     public void colorme_cmd() throws CivException {
@@ -1162,13 +1142,6 @@ public class DebugCommand extends CommandBase {
 
         getSelectedTown().getBuffManager().addBuff(buff.id, buff.id, "Debug");
         CivMessage.sendSuccess(sender, "Gave buff " + buff.name + " to town");
-    }
-
-    public void addteam_cmd() throws IllegalStateException, IllegalArgumentException {
-//		Team team = CivGlobal.globalBoard.getTeam("everybody");
-//		team.addPlayer(CivGlobal.getFakeOfflinePlayer("FAKENAME"));
-//		getPlayer().setScoreboard(CivGlobal.globalBoard);
-//		CivMessage.sendSuccess(sender, "Added to scoreboard");
     }
 
     public void processculture_cmd() {

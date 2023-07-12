@@ -129,7 +129,7 @@ public class AdminResCommand extends CommandBase {
 
     }
 
-    @SuppressWarnings("unused")
+
     public void setcamp_cmd() throws CivException {
         Resident resident = getNamedResident(1);
         Camp camp = getNamedCamp(2);
@@ -146,7 +146,6 @@ public class AdminResCommand extends CommandBase {
     }
 
 
-    @SuppressWarnings("unused")
     public void settown_cmd() throws CivException {
 
         if (args.length < 3) {

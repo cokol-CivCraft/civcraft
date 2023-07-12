@@ -99,14 +99,6 @@ public class CivResearchCommand extends CommandBase {
         CivMessage.send(sender, out.toString());
     }
 
-    public void f_cmd() {
-        try {
-            finished_cmd();
-        } catch (CivException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void on_cmd() throws CivException {
         Civilization civ = getSenderCiv();
 
@@ -142,14 +134,6 @@ public class CivResearchCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_civ_research_start", tech.name));
     }
 
-    public void p_cmd() {
-        try {
-            progress_cmd();
-        } catch (CivException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void progress_cmd() throws CivException {
         Civilization civ = getSenderCiv();
 
@@ -177,14 +161,6 @@ public class CivResearchCommand extends CommandBase {
 
     }
 
-    public void l_cmd() {
-        try {
-            list_cmd();
-        } catch (CivException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void era_cmd() throws CivException {
         Civilization civ = getSenderCiv();
 
@@ -198,14 +174,6 @@ public class CivResearchCommand extends CommandBase {
         } else {
             CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("var_cmd_civ_research_eraDiscount", (eraRate * 100), CivSettings.CURRENCY_NAME));
 
-        }
-    }
-
-    public void e_cmd() {
-        try {
-            era_cmd();
-        } catch (CivException e) {
-            e.printStackTrace();
         }
     }
 

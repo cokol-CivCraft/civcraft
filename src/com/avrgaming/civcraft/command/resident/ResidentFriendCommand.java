@@ -25,7 +25,6 @@ import com.avrgaming.civcraft.object.Resident;
 
 public class ResidentFriendCommand extends CommandBase {
 
-    @SuppressWarnings("unused")
     @Override
     public void init() {
         command = "/resident friend";
@@ -36,7 +35,6 @@ public class ResidentFriendCommand extends CommandBase {
         register_sub("list", this::list_cmd, CivSettings.localize.localizedString("cmd_res_friend_listDesc"));
     }
 
-    @SuppressWarnings("unused")
     public void add_cmd() throws CivException {
         Resident resident = getResident();
 
@@ -51,7 +49,6 @@ public class ResidentFriendCommand extends CommandBase {
         resident.save();
     }
 
-    @SuppressWarnings("unused")
     public void remove_cmd() throws CivException {
         Resident resident = getResident();
 
@@ -66,7 +63,6 @@ public class ResidentFriendCommand extends CommandBase {
         resident.save();
     }
 
-    @SuppressWarnings("unused")
     public void list_cmd() throws CivException {
         Resident resident = getResident();
         CivMessage.sendHeading(sender, CivSettings.localize.localizedString("var_cmd_res_friend_listHeading", resident.getName()));
@@ -78,7 +74,6 @@ public class ResidentFriendCommand extends CommandBase {
         CivMessage.send(sender, out.toString());
     }
 
-    @SuppressWarnings("unused")
     @Override
     public void doDefaultAction() {
         showHelp();
@@ -89,7 +84,6 @@ public class ResidentFriendCommand extends CommandBase {
         showBasicHelp();
     }
 
-    @SuppressWarnings("unused")
     @Override
     public void permissionCheck() {
     }

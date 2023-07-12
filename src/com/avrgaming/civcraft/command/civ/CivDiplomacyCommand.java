@@ -78,7 +78,6 @@ public class CivDiplomacyCommand extends CommandBase {
             entireCiv = true;
         }
 
-        String requestMessage = "";
         CapitulateRequest capitulateResponse = new CapitulateRequest();
 
         if (args.length < 3 || !args[2].equalsIgnoreCase("yes")) {
@@ -92,6 +91,7 @@ public class CivDiplomacyCommand extends CommandBase {
             return;
         }
 
+        String requestMessage;
         if (entireCiv) {
             requestMessage = CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_civ_dip_capitulateRequest1", motherCiv.getName());
             capitulateResponse.from = town.getMotherCiv().getName();

@@ -212,7 +212,6 @@ public class CivSettings {
 
         CivLog.debug(localize.localizedString("welcome_string", "test", 1337, 100.50));
         CURRENCY_NAME = localize.localizedString("civ_currencyName");
-        CivGlobal.fullMessage = CivSettings.localize.localizedString("civGlobal_serverFullMsg");
 
         // Check for required data folder, if it's not there export it.
         CivSettings.validateFiles();

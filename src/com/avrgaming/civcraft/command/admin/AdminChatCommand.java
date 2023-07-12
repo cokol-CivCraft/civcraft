@@ -48,7 +48,6 @@ public class AdminChatCommand extends CommandBase {
 
     }
 
-    @SuppressWarnings("unused")
     public void tclistenall_cmd() throws CivException {
         Resident resident = getResident();
 
@@ -59,7 +58,6 @@ public class AdminChatCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_tclistenAllSuccess"));
     }
 
-    @SuppressWarnings("unused")
     public void cclistenall_cmd() throws CivException {
         Resident resident = getResident();
 
@@ -70,7 +68,6 @@ public class AdminChatCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_cclistenAllSuccess"));
     }
 
-    @SuppressWarnings("unused")
     public void listenoff_cmd() throws CivException {
         Resident resident = getResident();
 
@@ -85,7 +82,6 @@ public class AdminChatCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_listenOffSuccess"));
     }
 
-    @SuppressWarnings("unused")
     public void cclisten_cmd() throws CivException {
         if (args.length < 2) {
             throw new CivException(CivSettings.localize.localizedString("EnterCivName"));
@@ -107,7 +103,6 @@ public class AdminChatCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_listenCivSuccess") + " " + civ.getName());
     }
 
-    @SuppressWarnings("unused")
     public void tclisten_cmd() throws CivException {
         if (args.length < 2) {
             throw new CivException(CivSettings.localize.localizedString("EnterTownName"));
@@ -129,7 +124,6 @@ public class AdminChatCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_listenTownSuccess") + " " + town.getName());
     }
 
-    @SuppressWarnings("unused")
     public void tc_cmd() throws CivException {
         Resident resident = getResident();
         if (args.length < 2) {
@@ -146,7 +140,6 @@ public class AdminChatCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_nowChattingInTown") + " " + town.getName());
     }
 
-    @SuppressWarnings("unused")
     public void cc_cmd() throws CivException {
         Resident resident = getResident();
         if (args.length < 2) {
@@ -163,20 +156,17 @@ public class AdminChatCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_nowChattingInCiv") + " " + civ.getName());
     }
 
-    @SuppressWarnings("unused")
     public void banwordon_cmd() {
         CivGlobal.banWordsActive = true;
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_banwordsActivated"));
     }
 
-    @SuppressWarnings("unused")
     public void banwordoff_cmd() {
         CivGlobal.banWordsActive = false;
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_chat_banwordsDeactivated"));
 
     }
 
-    @SuppressWarnings("unused")
     public void banwordadd_cmd() throws CivException {
         if (args.length < 2) {
             throw new CivException(CivSettings.localize.localizedString("adcmd_chat_addBanwordPrompt"));
@@ -186,7 +176,6 @@ public class AdminChatCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_chat_banwordadded", args[1]));
     }
 
-    @SuppressWarnings("unused")
     public void banwordremove_cmd() throws CivException {
         if (args.length < 2) {
             throw new CivException(CivSettings.localize.localizedString("adcmd_chat_removeBanwordPrompt"));
@@ -196,7 +185,6 @@ public class AdminChatCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_chat_banwordremoved", args[1]));
     }
 
-    @SuppressWarnings("unused")
     public void banwordtoggle() {
 
         CivGlobal.banWordsAlways = !CivGlobal.banWordsAlways;
