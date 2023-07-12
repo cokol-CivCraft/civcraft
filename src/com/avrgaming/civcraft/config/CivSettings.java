@@ -144,7 +144,7 @@ public class CivSettings {
     public static FileConfiguration scoreConfig; /* score.yml */
 
     public static FileConfiguration perkConfig; /* perks.yml */
-    public static Map<String, ConfigPerk> perks = new HashMap<>();
+    public static ArrayList<ConfigTemplate> templates = new ArrayList<>();
 
     public static FileConfiguration enchantConfig; /* enchantments.yml */
     public static Map<String, ConfigEnchant> enchants = new HashMap<>();
@@ -442,7 +442,7 @@ public class CivSettings {
 
     public static void reloadPerks() throws IOException, InvalidConfigurationException {
         perkConfig = loadCivConfig("perks.yml");
-        ConfigPerk.loadConfig(perkConfig, perks);
+        ConfigTemplate.loadConfig(perkConfig, templates);
     }
 
     private static void loadConfigObjects() throws InvalidConfiguration {
@@ -468,7 +468,7 @@ public class CivSettings {
         ConfigEnchant.loadConfig(enchantConfig, enchants);
         ConfigUnit.loadConfig(unitConfig, units);
         ConfigMission.loadConfig(espionageConfig, missions);
-        ConfigPerk.loadConfig(perkConfig, perks);
+        ConfigTemplate.loadConfig(perkConfig, templates);
         ConfigCampLonghouseLevel.loadConfig(campConfig, longhouseLevels);
         ConfigCampUpgrade.loadConfig(campConfig, campUpgrades);
         ConfigMarketItem.loadConfig(marketConfig, marketItems);

@@ -152,7 +152,6 @@ public class DebugCommand extends CommandBase {
         register_sub("togglebookcheck", this::togglebookcheck_cmd, "Toggles checking for enchanted books on and off.");
         register_sub("setexposure", this::setexposure_cmd, "[int] sets your exposure to this ammount.");
         register_sub("circle", this::circle_cmd, "[int] - draws a circle at your location, with this radius.");
-        register_sub("loadperks", null, "loads perks for yourself");
         register_sub("colorme", this::colorme_cmd, "[hex] adds nbt color value to item held.");
         register_sub("preview", this::preview_cmd, "show a single block preview at your feet.");
         register_sub("sql", this::sql_cmd, "Show SQL health info.");
@@ -1000,7 +999,7 @@ public class DebugCommand extends CommandBase {
 
             BlockCoord bcoord = sign.getCoord();
             Block block = bcoord.getBlock();
-            block.setType(Material.WALL_SIGN);
+            block.getState().setData(new org.bukkit.material.Sign(Material.WALL_SIGN));
             block.setData((byte) sign.getDirection());
 
             Sign s = (Sign) block.getState();

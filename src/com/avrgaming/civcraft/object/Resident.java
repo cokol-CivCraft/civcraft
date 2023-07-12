@@ -23,7 +23,7 @@ import com.avrgaming.civcraft.arena.ArenaTeam;
 import com.avrgaming.civcraft.camp.Camp;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigBuildableInfo;
-import com.avrgaming.civcraft.config.ConfigPerk;
+import com.avrgaming.civcraft.config.ConfigTemplate;
 import com.avrgaming.civcraft.database.SQL;
 import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.event.EventTimer;
@@ -1074,9 +1074,9 @@ public class Resident extends SQLObject {
         }
     }
 
-    public ArrayList<ConfigPerk> getPersonalTemplatePerks(ConfigBuildableInfo info) {
-        ArrayList<ConfigPerk> templates = new ArrayList<>();
-        for (ConfigPerk perk : CivSettings.perks.values()) {
+    public ArrayList<ConfigTemplate> getPersonalTemplatePerks(ConfigBuildableInfo info) {
+        ArrayList<ConfigTemplate> templates = new ArrayList<>();
+        for (ConfigTemplate perk : CivSettings.templates) {
             if (info.template_base_name.equals(perk.template)) {
                 templates.add(perk);
             }

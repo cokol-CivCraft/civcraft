@@ -20,7 +20,7 @@ package com.avrgaming.civcraft.structure;
 import com.avrgaming.civcraft.components.Component;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigBuildableInfo;
-import com.avrgaming.civcraft.config.ConfigPerk;
+import com.avrgaming.civcraft.config.ConfigTemplate;
 import com.avrgaming.civcraft.config.ConfigTownLevel;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
@@ -452,7 +452,7 @@ public abstract class Buildable extends SQLObject {
 
         /* Look for any custom template perks and ask the player if they want to use them. */
         Resident resident = CivGlobal.getResident(player);
-        ArrayList<ConfigPerk> perkList = this.getTown().getTemplatePerks(this, resident, this.info);
+        ArrayList<ConfigTemplate> perkList = this.getTown().getTemplatePerks(this.info);
         if (perkList.size() == 0) {
             Template tpl = new Template();
             try {
@@ -478,7 +478,7 @@ public abstract class Buildable extends SQLObject {
         infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
         inv.addItem(infoRec);
 
-        for (ConfigPerk perk : perkList) {
+        for (ConfigTemplate perk : perkList) {
             infoRec = LoreGuiItem.build(
                     perk.display_name,
                     perk.type_id,
@@ -528,7 +528,7 @@ public abstract class Buildable extends SQLObject {
 
         Resident resident = CivGlobal.getResident(player);
         /* Look for any custom template perks and ask the player if they want to use them. */
-        ArrayList<ConfigPerk> perkList = resident.getPersonalTemplatePerks(info);
+        ArrayList<ConfigTemplate> perkList = resident.getPersonalTemplatePerks(info);
         if (perkList.size() == 0) {
             String path = Template.getTemplateFilePath(info.template_base_name,
                     Template.getDirection(player.getLocation()), TemplateType.STRUCTURE, "default");
@@ -559,7 +559,7 @@ public abstract class Buildable extends SQLObject {
         infoRec = LoreGuiItem.setAction(infoRec, "BuildWithDefaultPersonalTemplate");
         inv.addItem(infoRec);
 
-        for (ConfigPerk perk : perkList) {
+        for (ConfigTemplate perk : perkList) {
             infoRec = LoreGuiItem.build(perk.display_name,
                     perk.type_id,
                     perk.data,

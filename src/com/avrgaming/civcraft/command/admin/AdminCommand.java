@@ -85,7 +85,6 @@ public class AdminCommand extends CommandBase {
         register_sub("clearendgame", this::clearendgame_cmd, CivSettings.localize.localizedString("adcmd_clearEndGameDesc"));
         register_sub("endworld", this::endworld_cmd, CivSettings.localize.localizedString("adcmd_endworldDesc"));
         register_sub("arena", this::arena_cmd, CivSettings.localize.localizedString("adcmd_arenaDesc"));
-        register_sub("perk", this::perk_cmd, CivSettings.localize.localizedString("adcmd_perkDesc"));
         register_sub("reloadgov", this::reloadgov_cmd, CivSettings.localize.localizedString("adcmd_reloadgovDesc"));
         register_sub("reloadac", this::reloadac_cmd, CivSettings.localize.localizedString("adcmd_reloadacDesc"));
     }
@@ -110,12 +109,6 @@ public class AdminCommand extends CommandBase {
     public void reloadac_cmd() {
 
         CivMessage.send(sender, CivColor.Gold + CivSettings.localize.localizedString("adcmd_reloadacSuccess"));
-    }
-
-
-    public void perk_cmd() {
-        AdminPerkCommand cmd = new AdminPerkCommand();
-        cmd.onCommand(sender, null, "perk", this.stripArgs(args, 1));
     }
 
 

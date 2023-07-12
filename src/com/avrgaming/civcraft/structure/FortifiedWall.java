@@ -18,7 +18,7 @@
 package com.avrgaming.civcraft.structure;
 
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.config.ConfigPerk;
+import com.avrgaming.civcraft.config.ConfigTemplate;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.listener.MarkerPlacementManager;
@@ -193,7 +193,7 @@ public class FortifiedWall extends Wall {
 
         /* Look for any custom template perks and ask the player if they want to use them. */
         Resident resident = CivGlobal.getResident(player);
-        ArrayList<ConfigPerk> perkList = this.getTown().getTemplatePerks(this, resident, this.info);
+        ArrayList<ConfigTemplate> perkList = this.getTown().getTemplatePerks(this.info);
         if (perkList.size() != 0) {
             /* Store the pending buildable. */
             resident.pendingBuildable = this;
@@ -206,7 +206,7 @@ public class FortifiedWall extends Wall {
             infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
             inv.addItem(infoRec);
 
-            for (ConfigPerk perk : perkList) {
+            for (ConfigTemplate perk : perkList) {
                 infoRec = LoreGuiItem.build(
                         perk.display_name,
                         perk.type_id,

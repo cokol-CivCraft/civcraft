@@ -3132,9 +3132,9 @@ public class Town extends SQLObject {
         return false;
     }
 
-    public ArrayList<ConfigPerk> getTemplatePerks(Buildable buildable, Resident resident, ConfigBuildableInfo info) {
-        ArrayList<ConfigPerk> templates = new ArrayList<>();
-        for (ConfigPerk perk : CivSettings.perks.values()) {
+    public ArrayList<ConfigTemplate> getTemplatePerks(ConfigBuildableInfo info) {
+        ArrayList<ConfigTemplate> templates = new ArrayList<>();
+        for (ConfigTemplate perk : CivSettings.templates) {
             if (info.template_base_name.equals(perk.template)) {
                 templates.add(perk);
             }
