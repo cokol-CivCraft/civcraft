@@ -20,6 +20,7 @@ package com.avrgaming.civcraft.structure;
 import com.avrgaming.civcraft.components.Component;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigBuildableInfo;
+import com.avrgaming.civcraft.config.ConfigPerk;
 import com.avrgaming.civcraft.config.ConfigTownLevel;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
@@ -44,7 +45,6 @@ import com.avrgaming.civcraft.tutorial.CivTutorial;
 import com.avrgaming.civcraft.util.*;
 import com.avrgaming.civcraft.util.SimpleBlock.Type;
 import com.avrgaming.civcraft.war.War;
-import com.avrgaming.global.perks.Perk;
 import com.wimbli.WorldBorder.BorderData;
 import com.wimbli.WorldBorder.Config;
 import org.bukkit.*;
@@ -452,7 +452,7 @@ public abstract class Buildable extends SQLObject {
 
         /* Look for any custom template perks and ask the player if they want to use them. */
         Resident resident = CivGlobal.getResident(player);
-        ArrayList<Perk> perkList = this.getTown().getTemplatePerks(this, resident, this.info);
+        ArrayList<ConfigPerk> perkList = this.getTown().getTemplatePerks(this, resident, this.info);
         if (perkList.size() == 0) {
             Template tpl = new Template();
             try {
@@ -478,11 +478,13 @@ public abstract class Buildable extends SQLObject {
         infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
         inv.addItem(infoRec);
 
-        for (Perk perk : perkList) {
-            infoRec = LoreGuiItem.build(perk.getDisplayName(),
-                    perk.configPerk.type_id,
-                    perk.configPerk.data, CivColor.Gold + "<Click To Build>",
-                    CivColor.Gray + "Provided by: " + CivColor.LightBlue + perk.provider);
+        for (ConfigPerk perk : perkList) {
+            infoRec = LoreGuiItem.build(
+                    perk.display_name,
+                    perk.type_id,
+                    perk.data,
+                    CivColor.Gold + "<Click To Build>"
+            );
             infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
             infoRec = LoreGuiItem.setActionData(infoRec, "theme", perk.theme);
             inv.addItem(infoRec);
@@ -526,7 +528,7 @@ public abstract class Buildable extends SQLObject {
 
         Resident resident = CivGlobal.getResident(player);
         /* Look for any custom template perks and ask the player if they want to use them. */
-        LinkedList<Perk> perkList = resident.getPersonalTemplatePerks(info);
+        ArrayList<ConfigPerk> perkList = resident.getPersonalTemplatePerks(info);
         if (perkList.size() == 0) {
             String path = Template.getTemplateFilePath(info.template_base_name,
                     Template.getDirection(player.getLocation()), TemplateType.STRUCTURE, "default");
@@ -557,11 +559,12 @@ public abstract class Buildable extends SQLObject {
         infoRec = LoreGuiItem.setAction(infoRec, "BuildWithDefaultPersonalTemplate");
         inv.addItem(infoRec);
 
-        for (Perk perk : perkList) {
-            infoRec = LoreGuiItem.build(perk.getDisplayName(),
-                    perk.configPerk.type_id,
-                    perk.configPerk.data, CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"),
-                    CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_providedBy") + " " + CivColor.LightBlue + CivSettings.localize.localizedString("loreGui_template_Yourself"));
+        for (ConfigPerk perk : perkList) {
+            infoRec = LoreGuiItem.build(perk.display_name,
+                    perk.type_id,
+                    perk.data,
+                    CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild")
+            );
             infoRec = LoreGuiItem.setAction(infoRec, "BuildWithPersonalTemplate");
             infoRec = LoreGuiItem.setActionData(infoRec, "theme", perk.theme);
             inv.addItem(infoRec);

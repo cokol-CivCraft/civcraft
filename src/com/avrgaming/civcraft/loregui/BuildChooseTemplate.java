@@ -2,6 +2,7 @@ package com.avrgaming.civcraft.loregui;
 
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigBuildableInfo;
+import com.avrgaming.civcraft.config.ConfigPerk;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.lorestorage.LoreGuiItem;
 import com.avrgaming.civcraft.main.CivGlobal;
@@ -10,7 +11,6 @@ import com.avrgaming.civcraft.structure.Structure;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.tutorial.CivTutorial;
 import com.avrgaming.civcraft.util.CivColor;
-import com.avrgaming.global.perks.Perk;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -36,7 +36,7 @@ public class BuildChooseTemplate implements GuiAction {
         }
 
         /* Look for any custom template perks and ask the player if they want to use them. */
-        ArrayList<Perk> perkList = struct.getTown().getTemplatePerks(struct, resident, struct.info);
+        ArrayList<ConfigPerk> perkList = struct.getTown().getTemplatePerks(struct, resident, struct.info);
         //if (perkList.size() != 0 || personalUnboundPerks.size() != 0) {
         /* Store the pending buildable. */
         resident.pendingBuildable = struct;
@@ -49,16 +49,17 @@ public class BuildChooseTemplate implements GuiAction {
         infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
         inv.addItem(infoRec);
 
-        for (Perk perk : perkList) {
-            if (!perk.getIdent().contains("template")) {
-                infoRec = LoreGuiItem.build(perk.getDisplayName(),
-                        perk.configPerk.type_id,
-                        perk.configPerk.data, CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"),
-                        CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_providedBy") + " " + CivColor.LightBlue + perk.provider);
-                infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
-                infoRec = LoreGuiItem.setActionData(infoRec, "theme", perk.theme);
-                inv.addItem(infoRec);
-            }
+        for (ConfigPerk perk : perkList) {
+            infoRec = LoreGuiItem.build(
+                    perk.display_name,
+                    perk.type_id,
+                    perk.data,
+                    CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild")
+            );
+            infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
+            infoRec = LoreGuiItem.setActionData(infoRec, "theme", perk.theme);
+            inv.addItem(infoRec);
+
         }
 
         TaskMaster.syncTask(new OpenInventoryTask(player, inv));

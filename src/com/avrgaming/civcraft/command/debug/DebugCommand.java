@@ -52,7 +52,6 @@ import com.avrgaming.civcraft.threading.tasks.*;
 import com.avrgaming.civcraft.threading.timers.DailyTimer;
 import com.avrgaming.civcraft.tutorial.CivTutorial;
 import com.avrgaming.civcraft.util.*;
-import com.avrgaming.global.perks.Perk;
 import gpl.AttributeUtil;
 import org.bukkit.*;
 import org.bukkit.FireworkEffect.Type;
@@ -165,7 +164,6 @@ public class DebugCommand extends CommandBase {
         register_sub("spawn", null, "remote entities test");
         register_sub("heal", this::heal_cmd, "heals you....");
         register_sub("skull", this::skull_cmd, "[player] [title]");
-        register_sub("giveperk", this::giveperk_cmd, "<id> gives yourself this perk id.");
         register_sub("packet", this::packet_cmd, "sends custom auth packet.");
         register_sub("disablemap", this::disablemap_cmd, "disables zan's minimap");
         register_sub("world", this::world_cmd, "Show world debug options");
@@ -233,23 +231,6 @@ public class DebugCommand extends CommandBase {
         CivMessage.sendSuccess(player, "Sent test message");
     }
 
-    public void giveperk_cmd() throws CivException {
-        Resident resident = getResident();
-        String perkId = getNamedString(1, "Enter a perk ID");
-        ConfigPerk configPerk = CivSettings.perks.get(perkId);
-
-        Perk p2 = resident.perks.get(configPerk.id);
-        if (p2 != null) {
-            p2.count++;
-            resident.perks.put(p2.getIdent(), p2);
-        } else {
-            Perk p = new Perk(configPerk);
-            resident.perks.put(p.getIdent(), p);
-            p2 = p;
-        }
-
-        CivMessage.sendSuccess(resident, "Added perk:" + p2.getDisplayName());
-    }
 
     public void skull_cmd() throws CivException {
         Player player = getPlayer();

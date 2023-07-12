@@ -1004,7 +1004,6 @@ public class Resident extends SQLObject {
             Perk perk = new Perk(p);
 
             if (perk.getIdent().startsWith("perk_")) {
-                perk.count = Integer.MAX_VALUE / 2;
                 this.perks.put(perk.getIdent(), perk);
             }
         }
@@ -1090,11 +1089,10 @@ public class Resident extends SQLObject {
         }
     }
 
-    public LinkedList<Perk> getPersonalTemplatePerks(ConfigBuildableInfo info) {
-        LinkedList<Perk> templates = new LinkedList<>();
-
-        for (Perk perk : this.perks.values()) {
-            if (perk.template.equals(info.template_base_name)) {
+    public ArrayList<ConfigPerk> getPersonalTemplatePerks(ConfigBuildableInfo info) {
+        ArrayList<ConfigPerk> templates = new ArrayList<>();
+        for (ConfigPerk perk : CivSettings.perks.values()) {
+            if (info.template_base_name.equals(perk.template)) {
                 templates.add(perk);
             }
         }

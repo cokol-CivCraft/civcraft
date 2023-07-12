@@ -18,6 +18,7 @@
 package com.avrgaming.civcraft.structure;
 
 import com.avrgaming.civcraft.config.CivSettings;
+import com.avrgaming.civcraft.config.ConfigPerk;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.listener.MarkerPlacementManager;
@@ -35,7 +36,6 @@ import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.SimpleBlock;
 import com.avrgaming.civcraft.war.War;
-import com.avrgaming.global.perks.Perk;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -193,7 +193,7 @@ public class FortifiedWall extends Wall {
 
         /* Look for any custom template perks and ask the player if they want to use them. */
         Resident resident = CivGlobal.getResident(player);
-        ArrayList<Perk> perkList = this.getTown().getTemplatePerks(this, resident, this.info);
+        ArrayList<ConfigPerk> perkList = this.getTown().getTemplatePerks(this, resident, this.info);
         if (perkList.size() != 0) {
             /* Store the pending buildable. */
             resident.pendingBuildable = this;
@@ -206,11 +206,13 @@ public class FortifiedWall extends Wall {
             infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
             inv.addItem(infoRec);
 
-            for (Perk perk : perkList) {
-                infoRec = LoreGuiItem.build(perk.getDisplayName(),
-                        perk.configPerk.type_id,
-                        perk.configPerk.data, CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"),
-                        CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_providedBy") + " " + CivColor.LightBlue + perk.provider);
+            for (ConfigPerk perk : perkList) {
+                infoRec = LoreGuiItem.build(
+                        perk.display_name,
+                        perk.type_id,
+                        perk.data,
+                        CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild")
+                );
                 infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
                 infoRec = LoreGuiItem.setActionData(infoRec, "theme", perk.theme);
                 inv.addItem(infoRec);

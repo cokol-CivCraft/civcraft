@@ -33,7 +33,6 @@ import com.avrgaming.civcraft.randomevents.ConfigRandomEvent;
 import com.avrgaming.civcraft.structure.FortifiedWall;
 import com.avrgaming.civcraft.structure.Wall;
 import com.avrgaming.civcraft.template.Template;
-import com.avrgaming.global.perks.Perk;
 import localize.Localize;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Material;
@@ -228,7 +227,6 @@ public class CivSettings {
         loadConfigFiles();
         loadConfigObjects();
 
-        Perk.init();
         Unit.init();
 
         //CivSettings.leather_speed = (float)CivSettings.getDouble(CivSettings.unitConfig, "base.leather_speed");
