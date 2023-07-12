@@ -60,12 +60,12 @@ import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.MaterialData;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -331,149 +331,124 @@ public class DebugCommand extends CommandBase {
                 return;
             }
 
-            class BuildSpawnTask implements Runnable {
-                final CommandSender sender;
-                final int start_x;
-                final int start_y;
-                final int start_z;
-                final Town spawnCapitol;
+            TaskMaster.syncTask(() -> {
+                try {
 
-                public BuildSpawnTask(CommandSender sender, int x, int y, int z, Town capitol) {
-                    this.sender = sender;
-                    this.start_x = x;
-                    this.start_y = y;
-                    this.start_z = z;
-                    this.spawnCapitol = capitol;
-                }
-
-                @Override
-                public void run() {
+                    /* Initialize the spawn template */
+                    Template tpl = new Template();
                     try {
+                        tpl.load_template("templates/spawn.def");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        throw new CivException("IO Error.");
+                    }
 
-                        /* Initialize the spawn template */
-                        Template tpl = new Template();
-                        try {
-                            tpl.load_template("templates/spawn.def");
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            throw new CivException("IO Error.");
-                        }
+                    ConfigBuildableInfo info = new ConfigBuildableInfo();
+                    info.tile_improvement = false;
+                    info.templateYShift = 0;
+                    Location center = Buildable.repositionCenterStatic(getPlayer().getLocation(), info,
+                            Template.getDirection(getPlayer().getLocation()), tpl.size_x, tpl.size_z);
 
-                        Player player = (Player) sender;
-                        ConfigBuildableInfo info = new ConfigBuildableInfo();
-                        info.tile_improvement = false;
-                        info.templateYShift = 0;
-                        Location center = Buildable.repositionCenterStatic(player.getLocation(), info,
-                                Template.getDirection(player.getLocation()), tpl.size_x, tpl.size_z);
+                    CivMessage.send(sender, "Building from " + 0 + "," + 0 + "," + 0);
+                    for (int y = 0; y < tpl.size_y; y++) {
+                        for (int x = 0; x < tpl.size_x; x++) {
+                            for (int z = 0; z < tpl.size_z; z++) {
+                                BlockCoord next = new BlockCoord(center);
+                                next.setX(next.getX() + x);
+                                next.setY(next.getY() + y);
+                                next.setZ(next.getZ() + z);
 
-                        CivMessage.send(sender, "Building from " + start_x + "," + start_y + "," + start_z);
-                        for (int y = start_y; y < tpl.size_y; y++) {
-                            for (int x = start_x; x < tpl.size_x; x++) {
-                                for (int z = start_z; z < tpl.size_z; z++) {
-                                    BlockCoord next = new BlockCoord(center);
-                                    next.setX(next.getX() + x);
-                                    next.setY(next.getY() + y);
-                                    next.setZ(next.getZ() + z);
+                                SimpleBlock sb = tpl.blocks[x][y][z];
 
-                                    SimpleBlock sb = tpl.blocks[x][y][z];
-
-                                    if (sb.specialType.equals(SimpleBlock.Type.COMMAND)) {
-                                        String buildableName = sb.command.replace("/", "");
+                                if (sb.specialType.equals(SimpleBlock.Type.COMMAND)) {
+                                    String buildableName = sb.command.replace("/", "");
 
 
-                                        info = null;
-                                        for (ConfigBuildableInfo buildInfo : CivSettings.structures.values()) {
-                                            if (buildInfo.displayName.equalsIgnoreCase(buildableName)) {
-                                                info = buildInfo;
-                                                break;
-                                            }
+                                    info = null;
+                                    for (ConfigBuildableInfo buildInfo : CivSettings.structures.values()) {
+                                        if (buildInfo.displayName.equalsIgnoreCase(buildableName)) {
+                                            info = buildInfo;
+                                            break;
                                         }
-                                        if (info == null) {
-                                            try {
-                                                Block block = next.getBlock();
-                                                block.setType(Material.AIR);
-                                                block.setData((byte) 0);
-                                                continue;
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                                continue;
-                                            }
-                                        }
-
-                                        CivMessage.send(sender, "Setting up " + buildableName);
-                                        int yShift = 0;
-                                        String[] lines = sb.getKeyValueString().split(",");
-                                        String[] split = lines[0].split(":");
-                                        String dir = split[0];
-                                        yShift = Integer.parseInt(split[1]);
-
-                                        Location loc = next.getLocation();
-                                        loc.setY(loc.getY() + yShift);
-
-                                        Structure struct = Structure.newStructure(loc, info.id, spawnCapitol);
-                                        if (struct instanceof Capitol) {
-                                            AdminTownCommand.claimradius(spawnCapitol, center, 15);
-                                        }
-                                        struct.setTemplateName("templates/themes/default/" + info.template_base_name + "/" + info.template_base_name + "_" + dir + ".def");
-                                        struct.bindStructureBlocks();
-                                        struct.setComplete(true);
-                                        struct.setHitpoints(info.max_hitpoints);
-                                        CivGlobal.addStructure(struct);
-                                        spawnCapitol.addStructure(struct);
-
-                                        Template tplStruct;
+                                    }
+                                    if (info == null) {
                                         try {
-                                            tplStruct = Template.getTemplate(struct.getSavedTemplatePath(), null);
-                                            TaskMaster.syncTask(new PostBuildSyncTask(tplStruct, struct));
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                            throw new CivException("IO Exception.");
-                                        }
-
-                                        struct.save();
-                                        spawnCapitol.save();
-
-                                    } else if (sb.specialType.equals(SimpleBlock.Type.LITERAL)) {
-                                        try {
-                                            Block block = next.getBlock();
-                                            block.setType(sb.getType());
-                                            block.setData((byte) sb.getData());
-
-                                            Sign s = (Sign) block.getState();
-                                            for (int j = 0; j < 4; j++) {
-                                                s.setLine(j, sb.message[j]);
-                                            }
-
-                                            s.update();
+                                            next.getBlock().getState().setData(new MaterialData(Material.AIR));
+                                            continue;
                                         } catch (Exception e) {
                                             e.printStackTrace();
+                                            continue;
                                         }
-                                    } else {
-                                        try {
-                                            Block block = next.getBlock();
-                                            block.setType(sb.getType());
-                                            block.setData((byte) sb.getData());
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
+                                    }
+
+                                    CivMessage.send(sender, "Setting up " + buildableName);
+                                    String[] split = sb.getKeyValueString().split(",")[0].split(":");
+                                    String dir = split[0];
+                                    int yShift = Integer.parseInt(split[1]);
+
+                                    Location loc = next.getLocation();
+                                    loc.setY(loc.getY() + yShift);
+
+                                    Structure struct = Structure.newStructure(loc, info.id, spawnCapitol);
+                                    if (struct instanceof Capitol) {
+                                        AdminTownCommand.claimradius(spawnCapitol, center, 15);
+                                    }
+                                    struct.setTemplateName("templates/themes/default/" + info.template_base_name + "/" + info.template_base_name + "_" + dir + ".def");
+                                    struct.bindStructureBlocks();
+                                    struct.setComplete(true);
+                                    struct.setHitpoints(info.max_hitpoints);
+                                    CivGlobal.addStructure(struct);
+                                    spawnCapitol.addStructure(struct);
+
+                                    Template tplStruct;
+                                    try {
+                                        tplStruct = Template.getTemplate(struct.getSavedTemplatePath(), null);
+                                        TaskMaster.syncTask(new PostBuildSyncTask(tplStruct, struct));
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                        throw new CivException("IO Exception.");
+                                    }
+
+                                    struct.save();
+                                    spawnCapitol.save();
+
+                                } else if (sb.specialType.equals(SimpleBlock.Type.LITERAL)) {
+                                    try {
+                                        next.getBlock().setType(sb.getType());
+                                        next.getBlock().setData((byte) sb.getData());
+
+                                        Sign s = (Sign) next.getBlock().getState();
+                                        for (int j = 0; j < 4; j++) {
+                                            s.setLine(j, sb.message[j]);
                                         }
+
+                                        s.update();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                } else {
+                                    try {
+                                        Block block = next.getBlock();
+                                        block.setType(sb.getType());
+                                        block.setData((byte) sb.getData());
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
                                     }
                                 }
                             }
                         }
-
-                        CivMessage.send(sender, "Finished building.");
-
-                        spawnCapitol.addAccumulatedCulture(60000000);
-                        spawnCapitol.save();
-
-                    } catch (CivException e) {
-                        e.printStackTrace();
-                        CivMessage.send(sender, e.getMessage());
                     }
-                }
-            }
 
-            TaskMaster.syncTask(new BuildSpawnTask(sender, 0, 0, 0, spawnCapitol));
+                    CivMessage.send(sender, "Finished building.");
+
+                    spawnCapitol.addAccumulatedCulture(60000000);
+                    spawnCapitol.save();
+
+                } catch (CivException e) {
+                    e.printStackTrace();
+                    CivMessage.send(sender, e.getMessage());
+                }
+            });
         } catch (InvalidNameException e) {
             throw new CivException(e.getMessage());
         } catch (SQLException e) {

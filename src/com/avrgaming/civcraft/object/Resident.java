@@ -48,7 +48,6 @@ import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.BuildPreviewAsyncTask;
 import com.avrgaming.civcraft.util.*;
-import com.avrgaming.global.perks.Perk;
 import gpl.InventorySerializer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -145,7 +144,6 @@ public class Resident extends SQLObject {
     private boolean isProtected = false;
 
     public ConcurrentHashMap<BlockCoord, SimpleBlock> previewUndo = null;
-    public LinkedHashMap<String, Perk> perks = new LinkedHashMap<>();
     private Date lastKilledTime = null;
     private String lastIP = "";
     private UUID uid;
@@ -999,25 +997,12 @@ public class Resident extends SQLObject {
         this.onRoad = onRoad;
     }
 
-    public void giveAllFreePerks() {
-        for (ConfigPerk p : CivSettings.perks.values()) {
-            Perk perk = new Perk(p);
-
-            if (perk.getIdent().startsWith("perk_")) {
-                this.perks.put(perk.getIdent(), perk);
-            }
-        }
-
-    }
-
     public void loadPerks(final Player player) {
 //		if (!PlatinumManager.isEnabled()) {
 //			return;
 //		}
 
         TaskMaster.asyncTask(() -> {
-            Resident.this.perks.clear();
-            Resident.this.giveAllFreePerks();
             CivMessage.send(Resident.this,
                     CivColor.LightGreen +
                             CivSettings.localize.localizedString("PlayerLoginAsync_perksMsg1") +
