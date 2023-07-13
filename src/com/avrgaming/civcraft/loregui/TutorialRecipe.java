@@ -14,6 +14,10 @@ import org.bukkit.inventory.ItemStack;
 
 public class TutorialRecipe extends ShowRecipe {
 
+    public TutorialRecipe(GuiActions key) {
+        super(key);
+    }
+
     @Override
     public void performAction(InventoryClickEvent event, ItemStack stack) {
         Player player = (Player) event.getWhoClicked();
@@ -68,7 +72,7 @@ public class TutorialRecipe extends ShowRecipe {
 
         {
             ItemStack backButton = LoreGuiItem.build(CivSettings.localize.localizedString("loreGui_recipes_back"), Material.MAP, 0, CivSettings.localize.localizedString("loreGui_recipes_back"));
-            backButton = LoreGuiItem.setAction(backButton, "OpenInventory");
+            backButton = LoreGuiItem.setAction(backButton, GuiActions.OpenInventory);
             backButton = LoreGuiItem.setActionData(backButton, "invType", "showGuiInv");
             backButton = LoreGuiItem.setActionData(backButton, "invType", "showTutorialInventory");
             recInv.setItem(LoreGuiItem.MAX_INV_SIZE - 1, backButton);

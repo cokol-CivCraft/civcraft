@@ -22,6 +22,7 @@ import com.avrgaming.civcraft.config.ConfigTemplate;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.listener.MarkerPlacementManager;
+import com.avrgaming.civcraft.loregui.GuiActions;
 import com.avrgaming.civcraft.lorestorage.LoreGuiItem;
 import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
@@ -203,7 +204,7 @@ public class FortifiedWall extends Wall {
             ItemStack infoRec = LoreGuiItem.build("Default " + this.getDisplayName(),
                     Material.WRITTEN_BOOK,
                     0, CivColor.Gold + "<Click To Build>");
-            infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
+            infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithTemplate);
             inv.addItem(infoRec);
 
             for (ConfigTemplate perk : perkList) {
@@ -213,7 +214,7 @@ public class FortifiedWall extends Wall {
                         perk.data,
                         CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild")
                 );
-                infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
+                infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithTemplate);
                 infoRec = LoreGuiItem.setActionData(infoRec, "theme", perk.theme);
                 inv.addItem(infoRec);
             }

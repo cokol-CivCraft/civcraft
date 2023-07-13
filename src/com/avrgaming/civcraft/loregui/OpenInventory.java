@@ -12,7 +12,11 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public class OpenInventory implements GuiAction {
+public class OpenInventory extends GuiAction {
+
+    public OpenInventory(GuiActions key) {
+        super(key);
+    }
 
     @Override
     public void performAction(InventoryClickEvent event, ItemStack stack) {

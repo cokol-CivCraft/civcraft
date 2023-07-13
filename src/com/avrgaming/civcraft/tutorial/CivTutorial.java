@@ -3,6 +3,7 @@ package com.avrgaming.civcraft.tutorial;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigMaterial;
 import com.avrgaming.civcraft.config.ConfigMaterialCategory;
+import com.avrgaming.civcraft.loregui.GuiActions;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.lorestorage.LoreGuiItem;
 import com.avrgaming.civcraft.lorestorage.LoreGuiItemListener;
@@ -132,13 +133,13 @@ public class CivTutorial {
                     if (mat.id.equals("mat_found_civ")) {
                         ItemStack stack = getInfoBookForItem(mat.id);
                         if (stack != null) {
-                            stack = LoreGuiItem.setAction(stack, "TutorialRecipe");
+                            stack = LoreGuiItem.setAction(stack, GuiActions.TutorialRecipe);
                             tutorialInventory.setItem(19, LoreGuiItem.asGuiItem(stack));
                         }
                     } else if (mat.id.equals("mat_found_camp")) {
                         ItemStack stack = getInfoBookForItem(mat.id);
                         if (stack != null) {
-                            stack = LoreGuiItem.setAction(stack, "TutorialRecipe");
+                            stack = LoreGuiItem.setAction(stack, GuiActions.TutorialRecipe);
                             tutorialInventory.setItem(18, LoreGuiItem.asGuiItem(stack));
                         }
                     }
@@ -147,7 +148,7 @@ public class CivTutorial {
 
             /* Add back buttons. */
             ItemStack backButton = LoreGuiItem.build("Back", Material.MAP, 0, CivSettings.localize.localizedString("tutorial_lore_backToCategories"));
-            backButton = LoreGuiItem.setAction(backButton, "OpenInventory");
+            backButton = LoreGuiItem.setAction(backButton, GuiActions.OpenInventory);
             backButton = LoreGuiItem.setActionData(backButton, "invType", "showGuiInv");
             backButton = LoreGuiItem.setActionData(backButton, "invName", guiInventory.getName());
             tutorialInventory.setItem(26, backButton);
@@ -211,7 +212,7 @@ public class CivTutorial {
                         0,
                         CivColor.LightBlue + cat.materials.size() + " " + CivSettings.localize.localizedString("tutorial_lore_items"),
                         CivColor.Gold + CivSettings.localize.localizedString("tutorial_lore_clickToOpen"));
-                infoRec = LoreGuiItem.setAction(infoRec, "OpenInventory");
+                infoRec = LoreGuiItem.setAction(infoRec, GuiActions.OpenInventory);
                 infoRec = LoreGuiItem.setActionData(infoRec, "invType", "showGuiInv");
                 infoRec = LoreGuiItem.setActionData(infoRec, "invName", cat.name + " " + CivSettings.localize.localizedString("tutorial_lore_recipes"));
 
@@ -222,14 +223,14 @@ public class CivTutorial {
                 for (ConfigMaterial mat : cat.materials.values()) {
                     ItemStack stack = getInfoBookForItem(mat.id);
                     if (stack != null) {
-                        stack = LoreGuiItem.setAction(stack, "ShowRecipe");
+                        stack = LoreGuiItem.setAction(stack, GuiActions.ShowRecipe);
                         inv.addItem(LoreGuiItem.asGuiItem(stack));
                     }
                 }
 
                 /* Add back buttons. */
                 ItemStack backButton = LoreGuiItem.build("Back", Material.MAP, 0, CivSettings.localize.localizedString("tutorial_lore_backToCategories"));
-                backButton = LoreGuiItem.setAction(backButton, "OpenInventory");
+                backButton = LoreGuiItem.setAction(backButton, GuiActions.OpenInventory);
                 backButton = LoreGuiItem.setActionData(backButton, "invType", "showCraftingHelp");
                 inv.setItem(LoreGuiItem.MAX_INV_SIZE - 1, backButton);
 
@@ -238,7 +239,7 @@ public class CivTutorial {
 
             /* Add back buttons. */
             ItemStack backButton = LoreGuiItem.build("Back", Material.MAP, 0, CivSettings.localize.localizedString("tutorial_lore_backToCategories"));
-            backButton = LoreGuiItem.setAction(backButton, "OpenInventory");
+            backButton = LoreGuiItem.setAction(backButton, GuiActions.OpenInventory);
             backButton = LoreGuiItem.setActionData(backButton, "invType", "showGuiInv");
             backButton = LoreGuiItem.setActionData(backButton, "invName", guiInventory.getName());
             craftingHelpInventory.setItem(LoreGuiItem.MAX_INV_SIZE - 1, backButton);
@@ -259,14 +260,14 @@ public class CivTutorial {
             ItemStack infoRec = LoreGuiItem.build(CivSettings.localize.localizedString("tutorial_lore_civInfoShort"),
                     Material.WRITTEN_BOOK,
                     0, CivColor.Gold + CivSettings.localize.localizedString("tutorial_lore_clicktoView"));
-            infoRec = LoreGuiItem.setAction(infoRec, "OpenInventory");
+            infoRec = LoreGuiItem.setAction(infoRec, GuiActions.OpenInventory);
             infoRec = LoreGuiItem.setActionData(infoRec, "invType", "showTutorialInventory");
             guiInventory.addItem(infoRec);
 
             ItemStack craftRec = LoreGuiItem.build(CivSettings.localize.localizedString("tutorial_lore_craftingRecipes"),
                     Material.WORKBENCH,
                     0, CivColor.Gold + CivSettings.localize.localizedString("tutorial_lore_clicktoView"));
-            craftRec = LoreGuiItem.setAction(craftRec, "OpenInventory");
+            craftRec = LoreGuiItem.setAction(craftRec, GuiActions.OpenInventory);
             craftRec = LoreGuiItem.setActionData(craftRec, "invType", "showCraftingHelp");
             guiInventory.addItem(craftRec);
 

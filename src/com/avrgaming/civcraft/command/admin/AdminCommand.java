@@ -21,6 +21,7 @@ import com.avrgaming.civcraft.command.CommandBase;
 import com.avrgaming.civcraft.config.*;
 import com.avrgaming.civcraft.endgame.EndGameCondition;
 import com.avrgaming.civcraft.exception.CivException;
+import com.avrgaming.civcraft.loregui.GuiActions;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.lorestorage.LoreGuiItem;
 import com.avrgaming.civcraft.lorestorage.LoreGuiItemListener;
@@ -169,7 +170,7 @@ public class AdminCommand extends CommandBase {
                         0,
                         CivColor.LightBlue + cat.materials.size() + " Items",
                         CivColor.Gold + "<Click To Open>");
-                infoRec = LoreGuiItem.setAction(infoRec, "OpenInventory");
+                infoRec = LoreGuiItem.setAction(infoRec, GuiActions.OpenInventory);
                 infoRec = LoreGuiItem.setActionData(infoRec, "invType", "showGuiInv");
                 infoRec = LoreGuiItem.setActionData(infoRec, "invName", cat.name + " Spawn");
                 spawnInventory.addItem(infoRec);
@@ -180,7 +181,7 @@ public class AdminCommand extends CommandBase {
                     LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterialFromId(mat.id);
                     ItemStack stack = LoreMaterial.spawn(craftMat);
                     stack = LoreGuiItem.asGuiItem(stack);
-                    stack = LoreGuiItem.setAction(stack, "SpawnItem");
+                    stack = LoreGuiItem.setAction(stack, GuiActions.SpawnItem);
                     inv.addItem(stack);
                     LoreGuiItemListener.guiInventories.put(inv.getName(), inv);
                 }

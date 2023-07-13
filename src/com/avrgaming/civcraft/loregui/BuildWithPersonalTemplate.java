@@ -1,5 +1,6 @@
 package com.avrgaming.civcraft.loregui;
 
+import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigBuildableInfo;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.lorestorage.LoreGuiItem;
@@ -17,7 +18,10 @@ import org.bukkit.inventory.ItemStack;
 
 import java.io.IOException;
 
-public class BuildWithPersonalTemplate implements GuiAction {
+public class BuildWithPersonalTemplate extends GuiAction {
+    public BuildWithPersonalTemplate(GuiActions key) {
+        super(key);
+    }
 
     @Override
     public void performAction(InventoryClickEvent event, ItemStack stack) {
@@ -31,7 +35,10 @@ public class BuildWithPersonalTemplate implements GuiAction {
             Template tpl = new Template();
             try {
                 tpl.initTemplate(player.getLocation(), info, theme);
-            } catch (CivException | IOException e) {
+            } catch (IOException e) {
+                CivMessage.sendError(player, CivSettings.localize.localizedString("internalIOException"));
+                e.printStackTrace();
+            } catch (CivException e) {
                 e.printStackTrace();
             }
             Location centerLoc = Buildable.repositionCenterStatic(player.getLocation(), info, Template.getDirection(player.getLocation()), tpl.size_x, tpl.size_z);
@@ -40,6 +47,7 @@ public class BuildWithPersonalTemplate implements GuiAction {
             player.closeInventory();
         } catch (CivException e) {
             CivMessage.sendError(player, e.getMessage());
+            e.printStackTrace();
         }
     }
 

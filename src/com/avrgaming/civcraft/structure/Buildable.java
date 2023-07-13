@@ -25,6 +25,7 @@ import com.avrgaming.civcraft.config.ConfigTownLevel;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.interactive.InteractiveBuildCommand;
+import com.avrgaming.civcraft.loregui.GuiActions;
 import com.avrgaming.civcraft.lorestorage.LoreGuiItem;
 import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
@@ -475,7 +476,7 @@ public abstract class Buildable extends SQLObject {
                 Material.WRITTEN_BOOK,
                 0,
                 CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"));
-        infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
+        infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithTemplate);
         inv.addItem(infoRec);
 
         for (ConfigTemplate perk : perkList) {
@@ -485,7 +486,7 @@ public abstract class Buildable extends SQLObject {
                     perk.data,
                     CivColor.Gold + "<Click To Build>"
             );
-            infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
+            infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithTemplate);
             infoRec = LoreGuiItem.setActionData(infoRec, "theme", perk.theme);
             inv.addItem(infoRec);
         }
@@ -556,7 +557,7 @@ public abstract class Buildable extends SQLObject {
         ItemStack infoRec = LoreGuiItem.build("Default " + info.displayName,
                 Material.WRITTEN_BOOK,
                 0, CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"));
-        infoRec = LoreGuiItem.setAction(infoRec, "BuildWithDefaultPersonalTemplate");
+        infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithDefaultPersonalTemplate);
         inv.addItem(infoRec);
 
         for (ConfigTemplate perk : perkList) {
@@ -565,7 +566,7 @@ public abstract class Buildable extends SQLObject {
                     perk.data,
                     CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild")
             );
-            infoRec = LoreGuiItem.setAction(infoRec, "BuildWithPersonalTemplate");
+            infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithPersonalTemplate);
             infoRec = LoreGuiItem.setActionData(infoRec, "theme", perk.theme);
             inv.addItem(infoRec);
             player.openInventory(inv);

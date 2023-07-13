@@ -13,7 +13,10 @@ import org.bukkit.inventory.ItemStack;
 
 import java.io.IOException;
 
-public class BuildWithTemplate implements GuiAction {
+public class BuildWithTemplate extends GuiAction {
+    public BuildWithTemplate(GuiActions key) {
+        super(key);
+    }
 
     @Override
     public void performAction(InventoryClickEvent event, ItemStack stack) {
@@ -28,9 +31,11 @@ public class BuildWithTemplate implements GuiAction {
                 Template tpl = new Template();
                 try {
                     tpl.initTemplate(player.getLocation(), resident.pendingBuildable);
-                } catch (CivException | IOException e) {
+                } catch (IOException e) {
+                    CivMessage.sendError(player, CivSettings.localize.localizedString("internalIOException"));
                     e.printStackTrace();
-                    throw e;
+                } catch (CivException e) {
+                    e.printStackTrace();
                 }
 
                 resident.pendingBuildable.buildPlayerPreview(player, player.getLocation(), tpl);
@@ -42,7 +47,10 @@ public class BuildWithTemplate implements GuiAction {
             Template tpl = new Template();
             try {
                 tpl.initTemplate(player.getLocation(), resident.pendingBuildable, theme);
-            } catch (CivException | IOException e) {
+            } catch (IOException e) {
+                CivMessage.sendError(player, CivSettings.localize.localizedString("internalIOException"));
+                e.printStackTrace();
+            } catch (CivException e) {
                 e.printStackTrace();
             }
 
@@ -52,9 +60,6 @@ public class BuildWithTemplate implements GuiAction {
 
         } catch (CivException e) {
             CivMessage.sendError(player, e.getMessage());
-        } catch (IOException e) {
-            CivMessage.sendError(player, CivSettings.localize.localizedString("internalIOException"));
-            e.printStackTrace();
         }
     }
 

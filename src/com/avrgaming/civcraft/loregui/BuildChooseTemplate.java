@@ -18,7 +18,10 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public class BuildChooseTemplate implements GuiAction {
+public class BuildChooseTemplate extends GuiAction {
+    public BuildChooseTemplate(GuiActions key) {
+        super(key);
+    }
 
     @Override
     public void performAction(InventoryClickEvent event, ItemStack stack) {
@@ -45,7 +48,7 @@ public class BuildChooseTemplate implements GuiAction {
                 Material.WRITTEN_BOOK,
                 0,
                 CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"));
-        infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
+        infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithTemplate);
         inv.addItem(infoRec);
 
         for (ConfigTemplate config : struct.getTown().getTemplatePerks(struct.info)) {
@@ -55,7 +58,7 @@ public class BuildChooseTemplate implements GuiAction {
                     config.data,
                     CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild")
             );
-            infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
+            infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithTemplate);
             infoRec = LoreGuiItem.setActionData(infoRec, "theme", config.theme);
             inv.addItem(infoRec);
 
