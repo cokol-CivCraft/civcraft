@@ -74,7 +74,6 @@ public class AdminCommand extends CommandBase {
         register_sub("timer", this::timer_cmd, CivSettings.localize.localizedString("adcmd_timerDesc"));
         register_sub("road", this::road_cmd, CivSettings.localize.localizedString("adcmd_roadDesc"));
         register_sub("clearendgame", this::clearendgame_cmd, CivSettings.localize.localizedString("adcmd_clearEndGameDesc"));
-        register_sub("endworld", this::endworld_cmd, CivSettings.localize.localizedString("adcmd_endworldDesc"));
         register_sub("arena", this::arena_cmd, CivSettings.localize.localizedString("adcmd_arenaDesc"));
         register_sub("reloadgov", this::reloadgov_cmd, CivSettings.localize.localizedString("adcmd_reloadgovDesc"));
         register_sub("reloadac", this::reloadac_cmd, CivSettings.localize.localizedString("adcmd_reloadacDesc"));
@@ -100,16 +99,6 @@ public class AdminCommand extends CommandBase {
     public void reloadac_cmd() {
 
         CivMessage.send(sender, CivColor.Gold + CivSettings.localize.localizedString("adcmd_reloadacSuccess"));
-    }
-
-
-    public void endworld_cmd() {
-        CivGlobal.endWorld = !CivGlobal.endWorld;
-        if (CivGlobal.endWorld) {
-            CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_endworldOn"));
-        } else {
-            CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_endworldOff"));
-        }
     }
 
 

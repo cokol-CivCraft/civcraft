@@ -157,7 +157,6 @@ public class CivGlobal {
 
     public static boolean checkForBooks = true;
     public static boolean debugDateBypass = false;
-    public static boolean endWorld = false;
     public static boolean installMode = false;
 
     public static int highestCivEra = 0;
