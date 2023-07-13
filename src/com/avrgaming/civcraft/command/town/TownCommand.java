@@ -78,12 +78,10 @@ public class TownCommand extends CommandBase {
         register_sub("outlaw", this::outlaw_cmd, CivSettings.localize.localizedString("cmd_town_outlawDesc"));
         register_sub("leavegroup", this::leavegroup_cmd, CivSettings.localize.localizedString("cmd_town_leavegroupDesc"));
         register_sub("select", this::select_cmd, CivSettings.localize.localizedString("cmd_town_selectDesc"));
-//		register_sub();("capture", this::capture_cmd, "[town] - instantly captures this town if they have a missing or illegally placed town hall during WarTime.");
         register_sub("capitulate", this::capitulate_cmd, CivSettings.localize.localizedString("cmd_town_capitulateDesc"));
         register_sub("survey", this::survey_cmd, CivSettings.localize.localizedString("cmd_town_surveyDesc"));
         register_sub("event", this::event_cmd, CivSettings.localize.localizedString("cmd_town_eventDesc"));
         register_sub("claimmayor", this::claimmayor_cmd, CivSettings.localize.localizedString("cmd_town_claimmayorDesc"));
-//		register_sub();("movestructure, this::movestructure", "[coord] [town] moves the structure specified by the coord to the specfied town.");
         register_sub("enablestructure", this::enablestructure_cmd, CivSettings.localize.localizedString("cmd_town_enableStructureDesc"));
         register_sub("location", this::location_cmd, CivSettings.localize.localizedString("cmd_town_locationDesc"));
         register_sub("e", this::event_cmd, null); // event
@@ -147,47 +145,6 @@ public class TownCommand extends CommandBase {
         town.addStructure(struct);
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_town_enableStructureSuccess"));
     }
-
-//	public void movestructure_cmd() throws CivException {
-//		Town town = getSelectedTown();
-//		Resident resident = getResident();
-//		String coordString = getNamedString(1, "Coordinate of structure. Example: world,555,65,444");
-//		Town targetTown = getNamedTown(2);
-//		Structure struct;
-//		
-//		try {
-//			struct = CivGlobal.getStructure(new BlockCoord(coordString));
-//		} catch (Exception e) {
-//			throw new CivException("Invalid structure coordinate. Example: world,555,65,444");
-//		}
-//
-//		if (struct instanceof TownHall || struct instanceof Capitol) {
-//			throw new CivException("Cannot move town halls or capitols.");
-//		}
-//		
-//		if (War.isWarTime()) {
-//			throw new CivException("Cannot move structures during war time.");
-//		}
-//		
-//		if (struct == null) {
-//			throw new CivException("Structure at:"+coordString+" is not found.");
-//		}
-//		
-//		if (!resident.getCiv().getLeaderGroup().hasMember(resident)) {
-//			throw new CivException("You must be the civ's leader in order to do this.");
-//		}
-//		
-//		if (town.getCiv() != targetTown.getCiv()) {
-//			throw new CivException("You can only move structures between towns in your own civ.");
-//		}
-//		
-//		town.removeStructure(struct);
-//		targetTown.addStructure(struct);
-//		struct.setTown(targetTown);
-//		struct.save();
-//		
-//		CivMessage.sendSuccess(sender, "Moved structure "+coordString+" to town "+targetTown.getName());
-//	}
 
     public void claimmayor_cmd() throws CivException {
         Town town = getSelectedTown();
@@ -330,45 +287,6 @@ public class TownCommand extends CommandBase {
 
         CivMessage.global(CivSettings.localize.localizedString("var_cmd_town_capitulateSuccess1", town.getName(), town.getCiv().getName()));
     }
-
-//	public void capture_cmd() throws CivException {
-//		this.validLeaderAdvisor();
-//		
-//		if (!War.isWarTime()) {
-//			throw new CivException("Can only use this command during war time.");
-//		}
-//		
-//		Town town = getNamedTown(1);
-//		Civilization civ = getSenderCiv();
-//		
-//		if (town.getCiv().isAdminCiv()) {
-//			throw new CivException("Cannot capture spawn town.");
-//		}
-//		
-//		TownHall townhall = town.getTownHall();
-//		if (townhall != null && townhall.isValid()) {
-//			throw new CivException("Cannot capture, this town has a valid town hall.");
-//		}
-//		
-//		if (town.claimed) {
-//			throw new CivException("Town has already been claimed this war time.");
-//		}
-//		
-//		if (town.getMotherCiv() != null) {
-//			throw new CivException("Cannot capture a town already captured by another civ!");
-//		}
-//		
-//		if (town.isCapitol()) {
-//			town.getCiv().onDefeat(civ);
-//			CivMessage.global("The capitol civilization of "+town.getCiv().getName()+" had an illegal or missing town hall and was claimed by "+civ.getName());
-//		} else {
-//			town.onDefeat(civ);
-//			CivMessage.global("The town of "+town.getName()+" had an illegal or missing town hall and was claimed by "+civ.getName());
-//		}
-//		
-//		town.claimed = true;
-//		
-//	}
 
     public void select_cmd() throws CivException {
         Resident resident = getResident();
