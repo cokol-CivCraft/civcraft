@@ -72,9 +72,7 @@ public class AsciiMap {
                         }
                     }
 
-                    if (tc.isForSale()) {
-                        outRow.append(CivColor.Yellow + "$");
-                    } else if (tc.isOutpost()) {
+                    if (tc.isOutpost()) {
                         outRow.append(CivColor.Yellow + "O");
                     } else {
                         outRow.append(color).append("T");
