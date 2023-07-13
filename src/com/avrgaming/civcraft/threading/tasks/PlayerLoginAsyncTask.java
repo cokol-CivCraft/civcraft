@@ -173,7 +173,6 @@ public class PlayerLoginAsyncTask implements Runnable {
             //TODO send town board messages?
             //TODO set default modes?
             resident.showWarnings(getPlayer());
-            resident.loadPerks(getPlayer());
             resident.calculateWalkingModifier(getPlayer());
 
             // Check for pending respawns.

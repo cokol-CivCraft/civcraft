@@ -194,7 +194,7 @@ public class FortifiedWall extends Wall {
 
         /* Look for any custom template perks and ask the player if they want to use them. */
         Resident resident = CivGlobal.getResident(player);
-        ArrayList<ConfigTemplate> perkList = this.getTown().getTemplatePerks(this.info);
+        ArrayList<ConfigTemplate> perkList = getTemplates(this.info);
         if (perkList.size() != 0) {
             /* Store the pending buildable. */
             resident.pendingBuildable = this;

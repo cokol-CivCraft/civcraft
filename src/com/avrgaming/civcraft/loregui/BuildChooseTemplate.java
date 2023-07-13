@@ -51,7 +51,7 @@ public class BuildChooseTemplate extends GuiAction {
         infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithTemplate);
         inv.addItem(infoRec);
 
-        for (ConfigTemplate config : struct.getTown().getTemplatePerks(struct.info)) {
+        for (ConfigTemplate config : Structure.getTemplates(struct.info)) {
             infoRec = LoreGuiItem.build(
                     config.display_name,
                     config.type_id,

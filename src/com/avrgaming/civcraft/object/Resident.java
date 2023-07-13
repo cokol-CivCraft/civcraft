@@ -23,7 +23,6 @@ import com.avrgaming.civcraft.arena.ArenaTeam;
 import com.avrgaming.civcraft.camp.Camp;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigBuildableInfo;
-import com.avrgaming.civcraft.config.ConfigTemplate;
 import com.avrgaming.civcraft.database.SQL;
 import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.event.EventTimer;
@@ -997,26 +996,6 @@ public class Resident extends SQLObject {
         this.onRoad = onRoad;
     }
 
-    public void loadPerks(final Player player) {
-//		if (!PlatinumManager.isEnabled()) {
-//			return;
-//		}
-
-        TaskMaster.asyncTask(() -> {
-            CivMessage.send(Resident.this,
-                    CivColor.LightGreen +
-                            CivSettings.localize.localizedString("PlayerLoginAsync_perksMsg1") +
-                            " " +
-                            CivSettings.localize.localizedString("PlayerLoginAsync_perksMsg2"));
-
-            /* User was verified, lets see if it was the first time. */
-//				PlatinumManager.givePlatinumOnce(resident,
-//				CivSettings.platinumRewards.get("loginFirstVerified").name,
-//				CivSettings.platinumRewards.get("loginFirstVerified").amount,
-//				"Achievement! First time you've logged in while verified! %d");
-        }, 0);
-    }
-
     public void setRejoinCooldown(Town town) {
         String value = String.valueOf(town.getCiv().getId());
         String key = getCooldownKey();
@@ -1072,16 +1051,6 @@ public class Resident extends SQLObject {
 
             throw new CivException(CivSettings.localize.localizedString("var_resident_cannotJoinCivJustLeft1", cooldownHours));
         }
-    }
-
-    public ArrayList<ConfigTemplate> getPersonalTemplatePerks(ConfigBuildableInfo info) {
-        ArrayList<ConfigTemplate> templates = new ArrayList<>();
-        for (ConfigTemplate perk : CivSettings.templates) {
-            if (info.template_base_name.equals(perk.template)) {
-                templates.add(perk);
-            }
-        }
-        return templates;
     }
 
     public boolean isControlBlockInstantBreak() {
