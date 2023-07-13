@@ -30,27 +30,20 @@ public class EndConditionScience extends EndGameCondition {
             return false;
         }
 
-        boolean hasGreatLibrary = false;
         for (Town town : civ.getTowns()) {
             if (town.getMotherCiv() != null) {
                 continue;
             }
 
             for (Wonder wonder : town.getWonders()) {
-                if (wonder.isActive()) {
-                    if (wonder.getConfigId().equals("w_greatlibrary")) {
-                        hasGreatLibrary = true;
-                        break;
-                    }
+                if (wonder.isActive() && wonder.getConfigId().equals("w_greatlibrary")) {
+                    return true;
                 }
             }
 
-            if (hasGreatLibrary) {
-                break;
-            }
         }
 
-        return hasGreatLibrary;
+        return false;
     }
 
     @Override
@@ -109,26 +102,20 @@ public class EndConditionScience extends EndGameCondition {
 
     public void addExtraBeakersToCiv(Civilization civ, double beakers) {
         ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getBeakerSessionKey(civ));
-        double current = 0;
         if (entries.size() == 0) {
             CivGlobal.getSessionDB().add(getBeakerSessionKey(civ), String.valueOf(beakers), civ.getId(), 0, 0);
-            current += beakers;
         } else {
-            current = Double.parseDouble(entries.get(0).value);
-            current += beakers;
+            double current = Double.parseDouble(entries.get(0).value) + beakers;
             CivGlobal.getSessionDB().update(entries.get(0).request_id, entries.get(0).key, String.valueOf(current));
         }
-        //DecimalFormat df = new DecimalFormat("#.#");
-        //CivMessage.sendCiv(civ, "Added "+df.format(beakers)+" beakers to our scientific victory! We now have "+df.format(current)+" beakers saved up.");
     }
 
     public static Double getBeakersFor(Civilization civ) {
         ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getBeakerSessionKey(civ));
         if (entries.size() == 0) {
             return 0.0;
-        } else {
-            return Double.valueOf(entries.get(0).value);
         }
+        return Double.valueOf(entries.get(0).value);
     }
 
 }

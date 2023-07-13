@@ -69,12 +69,7 @@ public abstract class EndGameCondition {
     }
 
     public void onFailure(Civilization civ) {
-        ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getSessionKey());
-        if (entries.size() == 0) {
-            return;
-        }
-
-        for (SessionEntry entry : entries) {
+        for (SessionEntry entry : CivGlobal.getSessionDB().lookup(getSessionKey())) {
             if (civ == EndGameCondition.getCivFromSessionData(entry.value)) {
                 CivMessage.global(CivSettings.localize.localizedString("var_end_warLoss", CivColor.LightBlue + CivColor.BOLD + civ.getName() + CivColor.White, CivColor.LightPurple + CivColor.BOLD + this.victoryName + CivColor.White));
                 CivGlobal.getSessionDB().delete(entry.request_id, entry.key);
@@ -120,9 +115,7 @@ public abstract class EndGameCondition {
      * meeting winning conditions.
      */
     public boolean isActive(Civilization civ) {
-        ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getSessionKey());
-
-        return entries.size() != 0;
+        return CivGlobal.getSessionDB().lookup(getSessionKey()).size() != 0;
     }
 
     public int getDaysLeft(Civilization civ) {
@@ -151,28 +144,28 @@ public abstract class EndGameCondition {
             /* No entry yet, first time we hit the win condition, save entry. */
             civ.sessionAdd(getSessionKey(), getSessionData(civ, 0));
             civ.winConditionWarning(this, daysToHold);
-        } else {
-            /* Entries exists, check if enough days have passed. */
-            for (SessionEntry entry : entries) {
-                /* this function only checks non-conquered civs. should be good enough for vic cond. */
-                if (EndGameCondition.getCivFromSessionData(entry.value) != civ) {
-                    continue;
-                }
-
-                Integer daysHeld = this.getDaysHeldFromSessionData(entry.value);
-                daysHeld++;
-
-                if (daysHeld < daysToHold) {
-                    civ.winConditionWarning(this, daysToHold - daysHeld);
-                } else {
-                    if (this.finalWinCheck(civ)) {
-                        civ.declareAsWinner(this);
-                    }
-                }
-
-                CivGlobal.getSessionDB().update(entries.get(0).request_id, entries.get(0).key, getSessionData(civ, daysHeld));
-            }
+            return;
         }
+        /* Entries exists, check if enough days have passed. */
+        for (SessionEntry entry : entries) {
+            /* this function only checks non-conquered civs. should be good enough for vic cond. */
+            if (EndGameCondition.getCivFromSessionData(entry.value) != civ) {
+                continue;
+            }
+
+            int daysHeld = this.getDaysHeldFromSessionData(entry.value) + 1;
+
+            if (daysHeld < daysToHold) {
+                civ.winConditionWarning(this, daysToHold - daysHeld);
+            } else {
+                if (this.finalWinCheck(civ)) {
+                    civ.declareAsWinner(this);
+                }
+            }
+
+            CivGlobal.getSessionDB().update(entries.get(0).request_id, entries.get(0).key, getSessionData(civ, daysHeld));
+        }
+
 
     }
 
@@ -181,13 +174,11 @@ public abstract class EndGameCondition {
     }
 
     public static Civilization getCivFromSessionData(String data) {
-        String[] split = data.split(":");
-        return CivGlobal.getCivFromId(Integer.parseInt(split[0]));
+        return CivGlobal.getCivFromId(Integer.parseInt(data.split(":")[0]));
     }
 
     public Integer getDaysHeldFromSessionData(String data) {
-        String[] split = data.split(":");
-        return Integer.valueOf(split[1]);
+        return Integer.valueOf(data.split(":")[1]);
     }
 
     public static void onCivilizationWarDefeat(Civilization civ) {

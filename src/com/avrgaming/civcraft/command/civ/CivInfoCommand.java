@@ -168,10 +168,8 @@ public class CivInfoCommand extends CommandBase {
 
         boolean isOP = false;
         if (sender instanceof Player) {
-            Player player;
             try {
-                player = CivGlobal.getPlayer(resident);
-                if (player.isOp()) {
+                if (CivGlobal.getPlayer(resident).isOp()) {
                     isOP = true;
                 }
             } catch (CivException e) {
@@ -216,17 +214,16 @@ public class CivInfoCommand extends CommandBase {
         }
 
         for (EndGameCondition endCond : EndGameCondition.endConditions) {
-            ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(endCond.getSessionKey());
-            if (entries.size() == 0) {
-                continue;
-            }
-
-            for (SessionEntry entry : entries) {
+            for (SessionEntry entry : CivGlobal.getSessionDB().lookup(endCond.getSessionKey())) {
                 if (civ == EndGameCondition.getCivFromSessionData(entry.value)) {
                     int daysLeft = endCond.getDaysToHold() - endCond.getDaysHeldFromSessionData(entry.value);
 
-                    CivMessage.send(sender, CivSettings.localize.localizedString("var_cmd_civ_info_daysTillVictoryNew", CivColor.LightBlue + CivColor.BOLD + civ.getName() + CivColor.White,
-                            CivColor.Yellow + CivColor.BOLD + daysLeft + CivColor.White, CivColor.LightPurple + CivColor.BOLD + endCond.getVictoryName() + CivColor.White));
+                    CivMessage.send(sender,
+                            CivSettings.localize.localizedString("var_cmd_civ_info_daysTillVictoryNew",
+                                    CivColor.LightBlue + CivColor.BOLD + civ.getName() + CivColor.White,
+                                    CivColor.Yellow + CivColor.BOLD + daysLeft + CivColor.White,
+                                    CivColor.LightPurple + CivColor.BOLD + endCond.getVictoryName() + CivColor.White
+                            ));
                     break;
                 }
             }
@@ -261,9 +258,7 @@ public class CivInfoCommand extends CommandBase {
     }
 
     public void show_info() throws CivException {
-        Civilization civ = getSenderCiv();
-        Resident resident = getResident();
-        show(sender, resident, civ);
+        show(sender, getResident(), getSenderCiv());
     }
 
     @Override

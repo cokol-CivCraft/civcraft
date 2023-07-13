@@ -4,7 +4,6 @@ import com.avrgaming.civcraft.main.CivLog;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -16,8 +15,7 @@ public class ConfigEndCondition {
 
     public static void loadConfig(FileConfiguration cfg, Map<String, ConfigEndCondition> endconditionMap) {
         endconditionMap.clear();
-        List<Map<?, ?>> perks = cfg.getMapList("end_conditions");
-        for (Map<?, ?> obj : perks) {
+        for (Map<?, ?> obj : cfg.getMapList("end_conditions")) {
             ConfigEndCondition p = new ConfigEndCondition();
 
             p.id = (String) obj.get("id");
