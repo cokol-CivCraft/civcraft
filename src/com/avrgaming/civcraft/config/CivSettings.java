@@ -109,10 +109,7 @@ public class CivSettings {
     public static Map<Material, ConfigTechItem> techItems = new HashMap<>();
     public static Map<String, ConfigTechPotion> techPotions = new HashMap<>();
 
-    public static FileConfiguration spawnersConfig; /* spawners.yml */
-    public static Map<String, ConfigMobSpawner> spawners = new HashMap<>();
-    public static Map<String, ConfigMobSpawner> landSpawners = new HashMap<>();
-    public static Map<String, ConfigMobSpawner> waterSpawners = new HashMap<>();
+    public static FileConfiguration spawnersConfig;
 
     public static FileConfiguration goodsConfig; /* goods.yml */
     public static Map<String, ConfigTradeGood> goods = new HashMap<>();
@@ -294,13 +291,6 @@ public class CivSettings {
             CivLog.warning("TitleAPI not found, not registering TitleAPI hooks. This is fine if you're not using TitleAPI.");
         }
 
-        if (CivSettings.plugin.hasPlugin("CustomMobs") && CivSettings.getBoolean(spawnersConfig, "enable")) {
-            hasCustomMobs = true;
-            CivLog.info("CustomMobs hooks enabled");
-        } else {
-            CivLog.warning("CustomMobs not found or disabled, not registering CustomMob hooks. This is fine if you're not using Custom Mobs.");
-        }
-
         try {
             String materialName = CivSettings.getString(structureConfig, "previewBlock");
             previewMaterial = Material.getMaterial(materialName);
@@ -420,7 +410,6 @@ public class CivSettings {
         techsConfig = loadCivConfig("techs.yml");
         religionConfig = loadCivConfig("religion.yml");
         goodsConfig = loadCivConfig("goods.yml");
-        spawnersConfig = loadCivConfig("spawners.yml");
         buffConfig = loadCivConfig("buffs.yml");
         governmentConfig = loadCivConfig("governments.yml");
         warConfig = loadCivConfig("war.yml");
@@ -457,7 +446,6 @@ public class CivSettings {
         ConfigHemisphere.loadConfig(goodsConfig, hemispheres);
         ConfigBuff.loadConfig(buffConfig, buffs);
         ConfigWonderBuff.loadConfig(wonderConfig, wonderBuffs);
-        ConfigMobSpawner.loadConfig(spawnersConfig, spawners, landSpawners, waterSpawners);
         ConfigTradeGood.loadConfig(goodsConfig, goods, landGoods, waterGoods);
         ConfigGrocerLevel.loadConfig(structureConfig, grocerLevels);
         ConfigCottageLevel.loadConfig(structureConfig, cottageLevels);
@@ -485,7 +473,6 @@ public class CivSettings {
 
         ConfigRemovedRecipes.removeRecipes(materialsConfig, removedRecipies);
         CivGlobal.tradeGoodPreGenerator.preGenerate();
-        CivGlobal.mobSpawnerPreGenerator.preGenerate();
         Wall.init_settings();
         FortifiedWall.init_settings();
     }

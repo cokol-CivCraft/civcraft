@@ -99,7 +99,6 @@ public class SQL {
         RoadBlock.init();
         PermissionGroup.init();
         TradeGood.init();
-        MobSpawner.init();
         ProtectedBlock.init();
         BonusGoodie.init();
         MissionLogger.init();

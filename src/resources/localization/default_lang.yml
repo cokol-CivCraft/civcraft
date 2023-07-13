@@ -44,7 +44,6 @@ cannotBuild_outsideBorder: "Cannot build here. Part of the structure would sit b
 requiredToPurchase: "to purchase this upgrade."
 
 TradeGoodSign_Heading: "Trade Resource"
-MobSpawnerSign_Heading: "Mob Spawner"
 
 Finished: "Finished."
 Repaired: "Repaired."
