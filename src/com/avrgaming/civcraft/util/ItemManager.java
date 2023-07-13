@@ -23,11 +23,6 @@ import org.bukkit.material.MaterialData;
 public class ItemManager {
 
     @SuppressWarnings("deprecation")
-    public static Enchantment getEnchantById(int id) {
-        return Enchantment.getById(id);
-    }
-
-    @SuppressWarnings("deprecation")
     public static int getId(Enchantment e) {
         return e.getId();
     }

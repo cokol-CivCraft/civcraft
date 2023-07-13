@@ -1373,7 +1373,8 @@ public class Resident extends SQLObject {
             String serial = InventorySerializer.InventoryToString(player.getInventory());
             this.setSavedInventory(serial);
             this.save();
-        } catch (CivException ignored) {
+        } catch (CivException e) {
+            e.printStackTrace();
         }
     }
 
@@ -1382,7 +1383,8 @@ public class Resident extends SQLObject {
             Player player = CivGlobal.getPlayer(this);
             player.getInventory().clear();
             player.getInventory().setArmorContents(new ItemStack[4]);
-        } catch (CivException ignored) {
+        } catch (CivException e) {
+            e.printStackTrace();
         }
     }
 
