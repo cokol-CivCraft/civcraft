@@ -372,17 +372,6 @@ pasture:
   # Maximum amount of mobs for each type, per pasture
   max_mobs: 30
 
-#################### Battledome Settings #######################
-battledome:
-  # Amount of each mob that gets spawned per spawn_rate in the battledome.
-  spawn_count: 4
-
-  # Rate at which they spawn (in seconds)
-  spawn_rate: 3600
-
-  # Maximum amount of mobs for each area, per battledome
-  max_mobs: 30
-
 ################### Barracks Settings #######################
 barracks:
   # Barracks repair cost uses the following formula.

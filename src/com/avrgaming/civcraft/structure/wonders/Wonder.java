@@ -390,13 +390,6 @@ public abstract class Wonder extends Buildable {
                     wonder = new GrandShipIngermanland(rs);
                 }
                 break;
-            case "w_battledome":
-                if (rs == null) {
-                    wonder = new Battledome(center, id, town);
-                } else {
-                    wonder = new Battledome(rs);
-                }
-                break;
             default:
                 throw new CivException(CivSettings.localize.localizedString("wonder_unknwon_type") + " " + id);
         }

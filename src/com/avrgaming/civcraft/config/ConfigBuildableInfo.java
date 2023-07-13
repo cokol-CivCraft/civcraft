@@ -69,7 +69,7 @@ public class ConfigBuildableInfo {
                         if (id.equals("s_capitol") && !capitol) {
                             return false;
                         }
-                        if (id.equals("w_colosseum") || id.equals("w_battledome")) {
+                        if (id.equals("w_colosseum")) {
                             return capitol && town.getStructureTypeCount(id) <= 0;
                         }
 
