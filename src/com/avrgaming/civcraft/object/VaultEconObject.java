@@ -167,21 +167,4 @@ public class VaultEconObject extends EconObject {
             return true;
         }
     }
-
-    public double payToCreditor(EconObject objToPay, double amount) {
-        double total = 0;
-
-        if (this.hasEnough(amount)) {
-            this.withdraw(amount);
-            objToPay.deposit(amount);
-            return amount;
-        }
-
-        /* Do not have enough to pay, pay what we can and put the rest into debt. */
-        this.debt += amount - this.getBalance();
-        objToPay.deposit(this.getBalance());
-        this.withdraw(this.getBalance());
-
-        return total;
-    }
 }

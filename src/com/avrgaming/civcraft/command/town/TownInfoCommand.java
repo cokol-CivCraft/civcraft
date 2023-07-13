@@ -588,9 +588,7 @@ public class TownInfoCommand extends CommandBase {
                     CivColor.Green + CivSettings.localize.localizedString("Beakers") + " " + CivColor.LightGreen + df.format(town.getBeakers().total));
 
 
-            CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("Members") + " " + CivColor.LightGreen + town.getResidentCount() + " " +
-                    CivColor.Green + CivSettings.localize.localizedString("TaxRate") + " " + CivColor.LightGreen + town.getTaxRateString() + " " +
-                    CivColor.Green + CivSettings.localize.localizedString("FlatTax") + " " + CivColor.LightGreen + town.getFlatTax() + " " + CivSettings.CURRENCY_NAME);
+            CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("Members") + " " + CivColor.LightGreen + town.getResidentCount() + " " + CivSettings.CURRENCY_NAME);
 
             HashMap<String, String> info = new HashMap<>();
 //			info.put("Happiness", CivColor.White+"("+CivColor.LightGreen+"H"+CivColor.Yellow+town.getHappinessTotal()

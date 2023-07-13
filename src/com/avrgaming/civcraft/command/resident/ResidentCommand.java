@@ -308,8 +308,7 @@ public class ResidentCommand extends CommandBase {
         CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("Camp") + " " + CivColor.LightGreen + resident.getCampString());
 
         if (sender.getName().equalsIgnoreCase(resident.getName()) || sender.isOp()) {
-            CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_res_showTreasure") + " " + CivColor.LightGreen + resident.getTreasury().getBalance() + " " +
-                    CivColor.Green + CivSettings.localize.localizedString("cmd_res_showTaxes") + " " + CivColor.LightGreen + (resident.getPropertyTaxOwed() + resident.getFlatTaxOwed()));
+            CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_res_showTreasure") + " " + CivColor.LightGreen + resident.getTreasury().getBalance());
             if (resident.hasTown()) {
                 if (resident.getSelectedTown() != null) {
                     CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_res_showSelected") + " " + CivColor.LightGreen + resident.getSelectedTown().getName());

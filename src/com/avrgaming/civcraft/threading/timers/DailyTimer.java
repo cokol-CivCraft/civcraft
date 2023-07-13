@@ -52,7 +52,6 @@ public class DailyTimer implements Runnable {
                 try {
                     CivLog.info("---- Running Daily Timer -----");
                     CivMessage.globalTitle(CivColor.LightBlue + CivSettings.localize.localizedString("general_upkeep_tick"), "");
-                    collectTownTaxes();
                     payTownUpkeep();
                     payCivUpkeep();
                     decrementResidentGraceCounters();
@@ -153,50 +152,6 @@ public class DailyTimer implements Runnable {
                 e.printStackTrace();
             }
         }
-    }
-
-    private void collectTownTaxes() {
-
-        for (Civilization civ : CivGlobal.getCivs()) {
-            if (civ.isAdminCiv()) {
-                continue;
-            }
-
-
-            double total = 0;
-            for (Town t : civ.getTowns()) {
-                try {
-                    double taxrate = t.getDepositCiv().getIncomeTaxRate();
-                    double townTotal = 0;
-
-                    townTotal += t.collectPlotTax();
-                    townTotal += t.collectFlatTax();
-
-                    double taxesToCiv = total * taxrate;
-                    townTotal -= taxesToCiv;
-                    CivMessage.sendTown(t, CivSettings.localize.localizedString("var_daily_residentTaxes", townTotal, CivSettings.CURRENCY_NAME));
-                    t.depositTaxed(townTotal);
-
-                    if (t.getDepositCiv().getId() == civ.getId()) {
-                        total += taxesToCiv;
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            if (civ.isForSale()) {
-                /*
-                 * Civs for sale cannot maintain aggressive wars.
-                 */
-                civ.clearAggressiveWars();
-            }
-
-
-            //TODO make a better messaging system...
-            CivMessage.sendCiv(civ, CivSettings.localize.localizedString("var_daily_townTaxes", total, CivSettings.CURRENCY_NAME));
-        }
-
     }
 
     private void decrementResidentGraceCounters() {

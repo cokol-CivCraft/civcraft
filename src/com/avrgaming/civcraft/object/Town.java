@@ -74,8 +74,6 @@ public class Town extends SQLObject {
     private ConcurrentHashMap<BlockCoord, Buildable> disabledBuildables = new ConcurrentHashMap<>();
 
     private int level;
-    private double taxRate;
-    private double flatTax;
     private Civilization civ;
     private Civilization motherCiv;
     private int daysInDebt;
@@ -181,8 +179,6 @@ public class Town extends SQLObject {
                     "`debt` double DEFAULT 0," +
                     "`coins` double DEFAULT 0," +
                     "`daysInDebt` int(11) DEFAULT 0," +
-                    "`flat_tax` double NOT NULL DEFAULT '0'," +
-                    "`tax_rate` double DEFAULT 0," +
                     "`extra_hammers` double DEFAULT 0," +
                     "`culture` int(11) DEFAULT 0," +
                     "`created_date` long," +
@@ -233,8 +229,6 @@ public class Town extends SQLObject {
             throw new CivException("Failed to load town, bad data.");
         }
         this.setDaysInDebt(rs.getInt("daysInDebt"));
-        this.setFlatTax(rs.getDouble("flat_tax"));
-        this.setTaxRate(rs.getDouble("tax_rate"));
         this.setUpgradesFromString(rs.getString("upgrades"));
 
         //this.setHomeChunk(rs.getInt("homechunk_id"));
@@ -290,8 +284,6 @@ public class Town extends SQLObject {
         hashmap.put("level", this.getLevel());
         hashmap.put("debt", this.getTreasury().getDebt());
         hashmap.put("daysInDebt", this.getDaysInDebt());
-        hashmap.put("flat_tax", this.getFlatTax());
-        hashmap.put("tax_rate", this.getTaxRate());
         hashmap.put("extra_hammers", this.getExtraHammers());
         hashmap.put("culture", this.getAccumulatedCulture());
         hashmap.put("upgrades", this.getUpgradesString());
@@ -377,8 +369,6 @@ public class Town extends SQLObject {
     public Town(String name, Resident mayor, Civilization civ) throws InvalidNameException {
         this.setName(name);
         this.setLevel(1);
-        this.setTaxRate(0.0);
-        this.setFlatTax(0.0);
         this.setCiv(civ);
 
         this.setDaysInDebt(0);
@@ -520,27 +510,6 @@ public class Town extends SQLObject {
 //		}
 
         this.level = level;
-    }
-
-    public double getTaxRate() {
-        return taxRate;
-    }
-
-    public void setTaxRate(double taxRate) {
-        this.taxRate = taxRate;
-    }
-
-    public String getTaxRateString() {
-        long rounded = Math.round(this.taxRate * 100);
-        return rounded + "%";
-    }
-
-    public double getFlatTax() {
-        return flatTax;
-    }
-
-    public void setFlatTax(double flatTax) {
-        this.flatTax = flatTax;
     }
 
     public Civilization getCiv() {
@@ -1247,53 +1216,6 @@ public class Town extends SQLObject {
         resident.save();
         this.save();
         Player player = Bukkit.getPlayer(resident.getUUID());
-    }
-
-    public double collectPlotTax() {
-        double total = 0;
-        for (Resident resident : this.residents.values()) {
-            if (!resident.hasTown()) {
-                CivLog.warning("Resident in town list but doesnt have a town! Resident:" + resident.getName() + " town:" + this.getName());
-                continue;
-            }
-
-            if (resident.isTaxExempt()) {
-                continue;
-            }
-            double tax = resident.getPropertyTaxOwed();
-            boolean wasInDebt = resident.getTreasury().inDebt();
-
-            total += resident.getTreasury().payToCreditor(this.getTreasury(), tax);
-
-            if (resident.getTreasury().inDebt() && !wasInDebt) {
-                resident.onEnterDebt();
-            }
-        }
-
-        return total;
-    }
-
-    public double collectFlatTax() {
-        double total = 0;
-        for (Resident resident : this.residents.values()) {
-            if (!resident.hasTown()) {
-                CivLog.warning("Resident in town list but doesnt have a town! Resident:" + resident.getName() + " town:" + this.getName());
-                continue;
-            }
-
-            if (resident.isTaxExempt()) {
-                continue;
-            }
-            boolean wasInDebt = resident.getTreasury().inDebt();
-
-            total += resident.getTreasury().payToCreditor(this.getTreasury(), this.getFlatTax());
-
-            if (resident.getTreasury().inDebt() && !wasInDebt) {
-                resident.onEnterDebt();
-            }
-        }
-
-        return total;
     }
 
     public Collection<TownChunk> getTownChunks() {

@@ -500,22 +500,6 @@ public class Resident extends SQLObject {
         this.save();
     }
 
-    public double getPropertyTaxOwed() {
-        double total = 0;
-
-        if (this.getTown() == null) {
-            return total;
-        }
-
-        for (TownChunk tc : this.getTown().getTownChunks()) {
-            if (tc.perms.getOwner() == this) {
-                double tax = tc.getValue() * this.getTown().getTaxRate();
-                total += tax;
-            }
-        }
-        return total;
-    }
-
     public boolean isLandOwner() {
         if (this.getTown() == null)
             return false;
@@ -529,13 +513,6 @@ public class Resident extends SQLObject {
         return false;
     }
 
-
-    public double getFlatTaxOwed() {
-        if (this.getTown() == null)
-            return 0;
-
-        return this.getTown().getFlatTax();
-    }
 
     public boolean isTaxExempt() {
         return this.getTown().isInGroup("mayors", this) || this.getTown().isInGroup("assistants", this);
