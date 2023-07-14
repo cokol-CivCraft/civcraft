@@ -6,18 +6,6 @@ File("./run/plugins").let { sourceFile ->
     }
     sourceFile.mkdir()
 }
-File("./lib/CustomMobs-4.17.jar").let { sourceFile ->
-    if (File("./run/plugins/CustomMobs-4.17.jar").exists()) {
-        return@let;
-    }
-    sourceFile.copyTo(File("./run/plugins/CustomMobs-4.17.jar"))
-}
-File("./lib/CustomMobs-4.17.jar").let { sourceFile ->
-    if (File("./run/plugins/CustomMobs-4.17.jar").exists()) {
-        return@let;
-    }
-    sourceFile.copyTo(File("./run/plugins/CustomMobs-4.17.jar"))
-}
 File("./lib/EssentialsX-2.20.0.jar").let { sourceFile ->
     if (File("./run/plugins/EssentialsX-2.20.0.jar").exists()) {
         return@let;
