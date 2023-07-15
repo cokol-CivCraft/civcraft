@@ -251,14 +251,13 @@ public class Template {
             resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), b.getData()));
         }
 
-        for (int z = 0; z < this.size_z; z++) {
-            for (int x = 0; x < this.size_x; x++) {
-                Block b = center.getBlock().getRelative(x, 0, z);
-                ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK, 0);
-                resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), b.getData()));
-            }
-        }
-
+//        for (int z = 0; z < this.size_z; z++) {
+//            for (int x = 0; x < this.size_x; x++) {
+//                Block b = center.getBlock().getRelative(x, 0, z);
+//                ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK, 0);
+//                resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), b.getData()));
+//            }
+//        }
     }
 
     public void buildScaffolding(Location center) {
