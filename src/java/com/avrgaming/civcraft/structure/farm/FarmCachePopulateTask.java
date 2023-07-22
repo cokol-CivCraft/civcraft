@@ -17,9 +17,9 @@
  */
 package com.avrgaming.civcraft.structure.farm;
 
-import java.util.LinkedList;
-
 import com.avrgaming.civcraft.main.CivGlobal;
+
+import java.util.LinkedList;
 
 
 public class FarmCachePopulateTask implements Runnable {
