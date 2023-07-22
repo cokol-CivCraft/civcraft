@@ -375,7 +375,7 @@ public abstract class Buildable extends SQLObject {
 
         /* Look for any custom template perks and ask the player if they want to use them. */
         Resident resident = CivGlobal.getResident(player);
-        ArrayList<ConfigTemplate> perkList = Structure.getTemplates(this.info);
+        ArrayList<ConfigTemplate> perkList = this.info.getTemplates();
         if (perkList.size() == 0) {
             Template tpl = new Template();
             try {
@@ -451,7 +451,7 @@ public abstract class Buildable extends SQLObject {
 
         Resident resident = CivGlobal.getResident(player);
         /* Look for any custom template perks and ask the player if they want to use them. */
-        ArrayList<ConfigTemplate> perkList = Structure.getTemplates(info);
+        ArrayList<ConfigTemplate> perkList = info.getTemplates();
         if (perkList.size() == 0) {
             String path = Template.getTemplateFilePath(info.template_base_name, TemplateType.STRUCTURE, "default");
 

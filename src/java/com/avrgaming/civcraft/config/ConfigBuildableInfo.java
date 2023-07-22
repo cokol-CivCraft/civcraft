@@ -162,4 +162,7 @@ public class ConfigBuildableInfo {
         CivLog.info("Loaded " + structureMap.size() + " structures.");
     }
 
+    public ArrayList<ConfigTemplate> getTemplates() {
+        return CivSettings.templates.get(this.template_base_name);
+    }
 }

@@ -19,8 +19,6 @@ package com.avrgaming.civcraft.structure;
 
 import com.avrgaming.civcraft.components.Component;
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.config.ConfigBuildableInfo;
-import com.avrgaming.civcraft.config.ConfigTemplate;
 import com.avrgaming.civcraft.database.SQL;
 import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.exception.CivException;
@@ -844,16 +842,6 @@ public class Structure extends Buildable {
         }
 
         super.loadSettings();
-    }
-
-    public static ArrayList<ConfigTemplate> getTemplates(ConfigBuildableInfo info) {
-        ArrayList<ConfigTemplate> templates = new ArrayList<>();
-        for (ConfigTemplate perk : CivSettings.templates) {
-            if (info.template_base_name.equals(perk.template)) {
-                templates.add(perk);
-            }
-        }
-        return templates;
     }
 
 }

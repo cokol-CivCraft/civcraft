@@ -23,6 +23,8 @@ import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class ConfigTemplate {
@@ -40,8 +42,9 @@ public class ConfigTemplate {
         this.template = template;
     }
 
-    public static void loadConfig(FileConfiguration cfg, ArrayList<ConfigTemplate> template_map) {
+    public static void loadConfig(FileConfiguration cfg, HashMap<String, ArrayList<ConfigTemplate>> template_map) {
         template_map.clear();
+        HashSet<String> themes_map = new HashSet<>();
         for (Map<?, ?> obj : cfg.getMapList("perks")) {
             ConfigTemplate p = new ConfigTemplate(
                     (String) obj.get("display_name"),
@@ -49,11 +52,14 @@ public class ConfigTemplate {
                     (Integer) obj.get("data"),
                     (String) obj.get("theme"),
                     (String) obj.get("template"));
+            themes_map.add(p.theme);
 
-
-            template_map.add(p);
+            if (!template_map.containsKey(p.template)) {
+                template_map.put(p.template, new ArrayList<>());
+            }
+            template_map.get(p.template).add(p);
         }
-        CivLog.info("Loaded " + template_map.size() + " Perks.");
+        CivLog.info("Loaded " + themes_map.size() + " themes.");
     }
 
 

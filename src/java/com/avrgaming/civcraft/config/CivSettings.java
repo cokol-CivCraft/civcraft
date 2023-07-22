@@ -141,7 +141,7 @@ public class CivSettings {
     public static FileConfiguration scoreConfig; /* score.yml */
 
     public static FileConfiguration perkConfig; /* perks.yml */
-    public static ArrayList<ConfigTemplate> templates = new ArrayList<>();
+    public static HashMap<String, ArrayList<ConfigTemplate>> templates = new HashMap<>();
 
     public static FileConfiguration enchantConfig; /* enchantments.yml */
     public static Map<String, ConfigEnchant> enchants = new HashMap<>();
@@ -425,11 +425,6 @@ public class CivSettings {
         randomEventsConfig = loadCivConfig("randomevents.yml");
         arenaConfig = loadCivConfig("arena.yml");
         fishingConfig = loadCivConfig("fishing.yml");
-    }
-
-    public static void reloadPerks() throws IOException, InvalidConfigurationException {
-        perkConfig = loadCivConfig("perks.yml");
-        ConfigTemplate.loadConfig(perkConfig, templates);
     }
 
     private static void loadConfigObjects() throws InvalidConfiguration {
