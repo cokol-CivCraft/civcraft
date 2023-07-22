@@ -139,7 +139,7 @@ public class Cannon extends Buildable {
         /* Load in the template. */
         Template tpl;
         try {
-            String templatePath = Template.getTemplateFilePath(templateFile, Template.getDirection(center), TemplateType.STRUCTURE, "default");
+            String templatePath = Template.getTemplateFilePath(templateFile, TemplateType.STRUCTURE, "default");
             this.setTemplateName(templatePath);
             tpl = Template.getTemplate(templatePath, center);
         } catch (IOException | CivException e) {

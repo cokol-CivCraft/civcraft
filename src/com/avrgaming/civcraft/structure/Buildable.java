@@ -453,8 +453,7 @@ public abstract class Buildable extends SQLObject {
         /* Look for any custom template perks and ask the player if they want to use them. */
         ArrayList<ConfigTemplate> perkList = Structure.getTemplates(info);
         if (perkList.size() == 0) {
-            String path = Template.getTemplateFilePath(info.template_base_name,
-                    Template.getDirection(player.getLocation()), TemplateType.STRUCTURE, "default");
+            String path = Template.getTemplateFilePath(info.template_base_name, TemplateType.STRUCTURE, "default");
 
             Template tpl;
             try {

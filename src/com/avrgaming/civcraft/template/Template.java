@@ -31,8 +31,10 @@ import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.threading.sync.SyncBuildUpdateTask;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ItemManager;
-import com.avrgaming.civcraft.util.PlayerBlockChangeUtil;
 import com.avrgaming.civcraft.util.SimpleBlock;
+import net.minecraft.server.v1_12_R1.BlockPosition;
+import net.minecraft.server.v1_12_R1.EnumBlockRotation;
+import net.minecraft.server.v1_12_R1.IBlockData;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -43,9 +45,9 @@ import org.bukkit.material.Chest;
 import org.bukkit.material.MaterialData;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.*;
+
+import static java.lang.Math.abs;
 
 public class Template {
     /* Handles the processing of CivTemplates which store cubiods of blocks for later use. */
@@ -69,38 +71,9 @@ public class Template {
     public LinkedList<BlockCoord> attachableLocations = new LinkedList<>();
     public static HashSet<Material> attachableTypes = new HashSet<>();
 
-
     public static HashMap<String, Template> templateCache = new HashMap<>();
 
-
-    //	public static HashMap<String, Template> staticTemplates = new HashMap<String, Template>();
-//	
     public static void init() {
-//		/* Always cache default capitol, camp, and town hall templates. */
-//		CivLog.info("============= Loading Static Templates ===========");
-//		int count = 0;
-//		count += initStaticTemplatesDirection("north");
-//		count += initStaticTemplatesDirection("south");
-//		count += initStaticTemplatesDirection("east");
-//		count += initStaticTemplatesDirection("west");
-//		CivLog.info("Loaded "+count+" static templates.");
-    }
-
-    public static int initStaticTemplatesDirection(String dir) throws IOException, CivException {
-        Template tpl;
-
-        int count = 0;
-        for (ConfigBuildableInfo info : CivSettings.structures.values()) {
-            if (!info.has_template) {
-                continue;
-            }
-
-            tpl = new Template();
-            tpl.dir = dir;
-            tpl.load_template("templates/themes/default/structures/" + info.template_base_name + "/" + info.template_base_name + "_" + tpl.dir + ".def");
-            count++;
-        }
-        return count;
     }
 
     public static void initAttachableTypes() {
@@ -166,36 +139,31 @@ public class Template {
     public void updateBlocksQueue(Queue<SimpleBlock> sbs) {
         SyncBuildUpdateTask.queueSimpleBlock(sbs);
     }
-	
-	/*public CivTemplate(Location center, String name, Type type) throws TownyException, IOException {
-		initTemplate(center, name, type);
-	}*/
 
-    public static String getTemplateFilePath(Location playerLocationForDirection, Buildable buildable, String theme) {
+    public static String getTemplateFilePath(Buildable buildable, String theme) {
         TemplateType type = buildable instanceof Wonder ? TemplateType.WONDER : TemplateType.STRUCTURE;
-        String dir = Template.parseDirection(playerLocationForDirection).getOppositeFace().toString();
-        return Template.getTemplateFilePath(buildable.getTemplateBaseName(), dir, type, theme);
+        return Template.getTemplateFilePath(buildable.getTemplateBaseName(), type, theme);
     }
 
-    public static String getTemplateFilePath(String template_file, String direction, TemplateType type, String theme) {
+    public static String getTemplateFilePath(String template_file, TemplateType type, String theme) {
         switch (type) {
             case STRUCTURE:
-                return getStructureFilePath(template_file, direction, theme);
+                return getStructureFilePath(template_file, theme);
             case WONDER:
-                return getWonderFilePath(template_file, direction);
+                return getWonderFilePath(template_file);
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }
     }
 
-    public static String getStructureFilePath(String template_file, String direction, String theme) {
+    public static String getStructureFilePath(String template_file, String theme) {
         template_file = template_file.replaceAll(" ", "_");
-        return ("templates/themes/" + theme + "/" + template_file + "/" + template_file + "_" + direction + ".def").toLowerCase();
+        return ("templates/themes/" + theme + "/" + template_file + ".def").toLowerCase();
     }
 
-    public static String getWonderFilePath(String template_file, String direction) {
+    public static String getWonderFilePath(String template_file) {
         template_file = template_file.replaceAll(" ", "_");
-        return ("templates/wonders/" + template_file + "/" + template_file + "_" + direction + ".def").toLowerCase();
+        return ("templates/wonders/" + template_file + "/" + ".def").toLowerCase();
     }
 
     @SuppressWarnings("unused")
@@ -205,6 +173,7 @@ public class Template {
     }
 
     public static final MaterialData SCAFFOLDING_BLOCK = new MaterialData(Material.BEDROCK);
+
 
     public void buildPreviewScaffolding(Location center, Player player) {
         Resident resident = CivGlobal.getResident(player);
@@ -403,12 +372,10 @@ public class Template {
     public void initUndoTemplate(String structureHash, String subdir) throws IOException, CivException {
         String filepath = "templates/undo/" + subdir + "/" + structureHash;
 
-        File templateFile = new File(filepath);
-        BufferedReader reader = new BufferedReader(new FileReader(templateFile));
+        BufferedReader reader = new BufferedReader(new FileReader(filepath));
 
         // Read first line and get size.
-        String line = null;
-        line = reader.readLine();
+        String line = reader.readLine();
         if (line == null) {
             reader.close();
             throw new CivException(CivSettings.localize.localizedString("template_invalidFile") + " " + filepath);
@@ -420,33 +387,6 @@ public class Template {
         size_z = Integer.parseInt(split[2]);
         getTemplateBlocks(reader, size_x, size_y, size_z);
         reader.close();
-    }
-
-    /*
-     * This function will save a copy of the template currently building
-     * into the town's temp directory. It does this so that we:
-     * 1) Dont have to remember the template's direction when we resume
-     * 2) Can change the master template without messing up any builds in progress
-     * 3) So we can pick a random template and "resume" the correct one. (e.g. cottages)
-     */
-    public String getTemplateCopy(String masterTemplatePath, String string, Town town) {
-        String copyTemplatePath = "templates/inprogress/" + town.getName();
-        File inprogress_tpl_file = new File(copyTemplatePath);
-        inprogress_tpl_file.mkdirs();
-
-        // Copy File...
-        File master_tpl_file = new File(masterTemplatePath);
-        inprogress_tpl_file = new File(copyTemplatePath + "/" + string);
-
-        try {
-            Files.copy(master_tpl_file.toPath(), inprogress_tpl_file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            System.out.println("Failure to copy file!");
-            e.printStackTrace();
-            return null;
-        }
-
-        return copyTemplatePath + "/" + string;
     }
 
     public void setDirection(Location center) {
@@ -465,7 +405,7 @@ public class Template {
 
     public void initTemplate(Location center, ConfigBuildableInfo info, String theme) throws CivException, IOException {
         this.setDirection(center);
-        String templatePath = Template.getTemplateFilePath(info.template_base_name, dir, TemplateType.STRUCTURE, theme);
+        String templatePath = Template.getTemplateFilePath(info.template_base_name, TemplateType.STRUCTURE, theme);
         this.setFilepath(templatePath);
         load_template(templatePath);
     }
@@ -485,7 +425,7 @@ public class Template {
 
         // Find the template file.
         this.setTheme(theme);
-        String templatePath = Template.getTemplateFilePath(center, buildable, theme);
+        String templatePath = Template.getTemplateFilePath(buildable, theme);
         this.setFilepath(templatePath);
         load_template(templatePath);
         buildable.setTotalBlockCount(size_x * size_y * size_z);
@@ -514,6 +454,22 @@ public class Template {
         return tpl;
     }
 
+    private EnumBlockRotation getRotation() {
+        if (dir == null) {
+            return EnumBlockRotation.NONE;
+        }
+        switch (dir) {
+            case "east":
+                return EnumBlockRotation.COUNTERCLOCKWISE_90;
+            case "north":
+                return EnumBlockRotation.CLOCKWISE_180;
+            case "west":
+                return EnumBlockRotation.CLOCKWISE_90;
+            default:
+                return EnumBlockRotation.NONE;
+        }
+    }
+
     public void load_template(String filepath) throws IOException, CivException {
         File templateFile = new File(filepath);
         BufferedReader reader = new BufferedReader(new FileReader(templateFile));
@@ -526,9 +482,10 @@ public class Template {
         }
 
         String[] split = line.split(";");
-        size_x = Integer.parseInt(split[0]);
-        size_y = Integer.parseInt(split[1]);
-        size_z = Integer.parseInt(split[2]);
+        BlockPosition size = new BlockPosition(Integer.parseInt(split[0]), Integer.parseInt(split[1]), Integer.parseInt(split[2])).a(getRotation());
+        size_x = abs(size.getX());
+        size_y = abs(size.getY());
+        size_z = abs(size.getZ());
         getTemplateBlocks(reader, size_x, size_y, size_z);
         this.filepath = filepath;
         reader.close();
@@ -550,14 +507,24 @@ public class Template {
 
             //Parse location
             String[] locationSplit = location.split(":");
-            int blockX = Integer.parseInt(locationSplit[0]);
-            int blockY = Integer.parseInt(locationSplit[1]);
-            int blockZ = Integer.parseInt(locationSplit[2]);
+
+            BlockPosition pos = new BlockPosition(
+                    Integer.parseInt(locationSplit[0]),
+                    Integer.parseInt(locationSplit[1]),
+                    Integer.parseInt(locationSplit[2])
+            ).a(getRotation());
+            BlockPosition correction = new BlockPosition(1, 0, 1).a(getRotation());
+            int blockX = pos.getX() - (correction.getX() - 1) / 2 * (regionX - 1);
+            int blockY = pos.getY();
+            int blockZ = pos.getZ() - (correction.getZ() - 1) / 2 * (regionZ - 1);
 
             // Parse type
             String[] typeSplit = type.split(":");
 
-            SimpleBlock block = new SimpleBlock(Material.getMaterial(Integer.parseInt(typeSplit[0])), Integer.parseInt(typeSplit[1]));
+            net.minecraft.server.v1_12_R1.Block var1 = net.minecraft.server.v1_12_R1.Block.REGISTRY.getId(Integer.parseInt(typeSplit[0]));
+            IBlockData var2 = var1.fromLegacyData(Integer.parseInt(typeSplit[1])).a(getRotation());
+
+            SimpleBlock block = new SimpleBlock(Material.getMaterial(Integer.parseInt(typeSplit[0])), var2.getBlock().toLegacyData(var2));
 
 
             if (CivData.isDoor(block.getType())) {
@@ -676,31 +643,6 @@ public class Template {
 
     public void setFilepath(String filepath) {
         this.filepath = filepath;
-    }
-
-    public void previewEntireTemplate(Template tpl, Block cornerBlock, Player player) {
-        //HashMap<Chunk, Chunk> chunkUpdates = new HashMap<Chunk, Chunk>();
-        //	NMSHandler nms = new NMSHandler();
-        PlayerBlockChangeUtil util = new PlayerBlockChangeUtil();
-        for (int x = 0; x < tpl.size_x; x++) {
-            for (int y = 0; y < tpl.size_y; y++) {
-                for (int z = 0; z < tpl.size_z; z++) {
-                    Block b = cornerBlock.getRelative(x, y, z);
-                    //b.setTypeIdAndData(tpl.blocks[x][y][z].getType(), (byte)tpl.blocks[x][y][z].getData(), false);
-                    try {
-                        util.addUpdateBlock("", new BlockCoord(b), tpl.blocks[x][y][z].getType(), tpl.blocks[x][y][z].getData());
-
-//							nms.setBlockFast(b.getWorld(), b.getX(), b.getY(), b.getZ(), tpl.blocks[x][y][z].getType(), 
-//								(byte)tpl.blocks[x][y][z].getData());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        //throw new CivException("Couldn't build undo template unknown error:"+e.getMessage());
-                    }
-                }
-            }
-        }
-
-        util.sendUpdate(player.getName());
     }
 
     public void buildUndoTemplate(Template tpl, Block centerBlock) {

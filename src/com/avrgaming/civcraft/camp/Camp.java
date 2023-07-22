@@ -362,7 +362,7 @@ public class Camp extends Buildable {
         if (resident.desiredTemplate == null) {
             try {
                 //tpl.setDirection(center);
-                String templatePath = Template.getTemplateFilePath(templateFile, Template.getDirection(center), TemplateType.STRUCTURE, "default");
+                String templatePath = Template.getTemplateFilePath(templateFile, TemplateType.STRUCTURE, "default");
                 this.setTemplateName(templatePath);
                 //tpl.load_template(templatePath);
                 tpl = Template.getTemplate(templatePath, center);
