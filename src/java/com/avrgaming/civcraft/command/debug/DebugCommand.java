@@ -393,7 +393,7 @@ public class DebugCommand extends CommandBase {
                                     struct.setTemplateName("templates/themes/default/" + info.template_base_name + "/" + info.template_base_name + "_" + dir + ".def");
                                     struct.bindStructureBlocks();
                                     struct.setComplete(true);
-                                    struct.setHitpoints(info.max_hitpoints);
+                                    struct.setHitpoints(info.max_hp);
                                     CivGlobal.addStructure(struct);
                                     spawnCapitol.addStructure(struct);
 

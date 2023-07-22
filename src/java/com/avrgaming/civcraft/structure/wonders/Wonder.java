@@ -60,7 +60,7 @@ public abstract class Wonder extends Buildable {
         this.info = CivSettings.wonders.get(id);
         this.setTown(town);
         this.setCorner(new BlockCoord(center));
-        this.hitpoints = info.max_hitpoints;
+        this.hitpoints = info.max_hp;
 
         // Disallow duplicate structures with the same hash.
         Wonder wonder = CivGlobal.getWonder(this.getCorner());

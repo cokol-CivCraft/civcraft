@@ -52,7 +52,7 @@ public class Structure extends Buildable {
         this.info = CivSettings.structures.get(id);
         this.setTown(town);
         this.setCorner(new BlockCoord(center));
-        this.hitpoints = info.max_hitpoints;
+        this.hitpoints = info.max_hp;
 
         // Disallow duplicate structures with the same hash.
         Structure struct = CivGlobal.getStructure(this.getCorner());

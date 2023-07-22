@@ -40,7 +40,7 @@ public class ConfigBuildableInfo {
     public double cost = 0;
     public double upkeep = 0;
     public double hammer_cost = 0;
-    public int max_hitpoints = 0;
+    public int max_hp = 0;
     public Boolean destroyable = false;
     public Boolean allow_outside_town = false;
     public Boolean isWonder = false;
@@ -50,7 +50,7 @@ public class ConfigBuildableInfo {
     public Integer points = 0;
     public boolean allow_demolish = false;
     public boolean strategic = false;
-    public boolean waterstructure = false;
+    public boolean water_structure = false;
     public boolean ignore_floating = false;
     public List<HashMap<String, String>> components = new LinkedList<>();
     public boolean has_template = true;
@@ -81,6 +81,10 @@ public class ConfigBuildableInfo {
         return false;
     }
 
+    public ArrayList<ConfigTemplate> getTemplates() {
+        return CivSettings.templates.get(this.template_base_name);
+    }
+
     public static void loadConfig(FileConfiguration cfg, String path, Map<String, ConfigBuildableInfo> structureMap, boolean isWonder) {
         structureMap.clear();
         List<Map<?, ?>> structures = cfg.getMapList(path);
@@ -108,13 +112,13 @@ public class ConfigBuildableInfo {
             sinfo.cost = (Double) obj.get("cost");
             sinfo.upkeep = (Double) obj.get("upkeep");
             sinfo.hammer_cost = (Double) obj.get("hammer_cost");
-            sinfo.max_hitpoints = (Integer) obj.get("max_hitpoints");
+            sinfo.max_hp = (Integer) obj.get("max_hitpoints");
             sinfo.destroyable = (Boolean) obj.get("destroyable");
             sinfo.allow_outside_town = (Boolean) obj.get("allow_outside_town");
             sinfo.regenRate = (Integer) obj.get("regen_rate");
             sinfo.isWonder = isWonder;
             sinfo.points = (Integer) obj.get("points");
-            sinfo.waterstructure = Optional.ofNullable((Boolean) obj.get("onwater")).orElse(false);
+            sinfo.water_structure = Optional.ofNullable((Boolean) obj.get("onwater")).orElse(false);
             if (isWonder) {
                 sinfo.nationalWonder = (Boolean) obj.get("national_wonder");
             }
@@ -160,9 +164,5 @@ public class ConfigBuildableInfo {
             structureMap.put(sinfo.id, sinfo);
         }
         CivLog.info("Loaded " + structureMap.size() + " structures.");
-    }
-
-    public ArrayList<ConfigTemplate> getTemplates() {
-        return CivSettings.templates.get(this.template_base_name);
     }
 }

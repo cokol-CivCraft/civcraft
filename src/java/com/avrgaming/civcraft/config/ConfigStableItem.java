@@ -21,28 +21,34 @@ import com.avrgaming.civcraft.main.CivLog;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class ConfigStableItem {
-    public String name;
-    public double cost;
-    public int store_id;
-    public Material item_id;
-    public int horse_id;
+    public final String name;
+    public final double cost;
+    public final int store_id;
+    public final Material item_id;
+    public final int horse_id;
+
+    public ConfigStableItem(String name, double cost, int storeId, Material itemId, int horseId) {
+        this.name = name;
+        this.cost = cost;
+        store_id = storeId;
+        item_id = itemId;
+        horse_id = horseId;
+    }
 
     public static void loadConfig(FileConfiguration cfg, Set<ConfigStableItem> items) {
         items.clear();
-        List<Map<?, ?>> cfg_items = cfg.getMapList("stable_items");
-        for (Map<?, ?> level : cfg_items) {
-            ConfigStableItem itm = new ConfigStableItem();
-
-            itm.name = (String) level.get("name");
-            itm.cost = (Double) level.get("cost");
-            itm.store_id = (Integer) level.get("store_id");
-            itm.item_id = Material.getMaterial((Integer) level.get("item_id"));
-            itm.horse_id = (Integer) level.get("horse_id");
+        for (Map<?, ?> level : cfg.getMapList("stable_items")) {
+            ConfigStableItem itm = new ConfigStableItem(
+                    (String) level.get("name"),
+                    (Double) level.get("cost"),
+                    (Integer) level.get("store_id"),
+                    Material.getMaterial((Integer) level.get("item_id")),
+                    (Integer) level.get("horse_id")
+            );
 
             items.add(itm);
         }

@@ -29,7 +29,7 @@ public class FoundWarCamp extends ItemComponent implements CallbackInterface {
         info.template_base_name = "warcamp";
         info.tile_improvement = false;
         info.templateYShift = -1;
-        info.max_hitpoints = 100;
+        info.max_hp = 100;
     }
 
     @Override

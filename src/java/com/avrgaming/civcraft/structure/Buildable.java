@@ -139,7 +139,7 @@ public abstract class Buildable extends SQLObject {
     }
 
     public boolean isWaterStructure() {
-        return info.waterstructure;
+        return info.water_structure;
     }
 
     public Civilization getCiv() {
@@ -168,7 +168,7 @@ public abstract class Buildable extends SQLObject {
 
 
     public int getMaxHitPoints() {
-        return info.max_hitpoints;
+        return info.max_hp;
     }
 
 
