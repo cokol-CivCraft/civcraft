@@ -92,8 +92,8 @@ public class BuildPreviewAsyncTask extends CivAsyncTask {
                                 return;
                             }
 
-                            ItemManager.sendBlockChange(getPlayer(), b.getLocation(), CivSettings.previewMaterial, 5);
-                            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), b.getData()));
+                            ItemManager.sendBlockChange(getPlayer(), b.getLocation(), CivSettings.previewMaterial.getNewData((byte) 5));
+                            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getState().getData()));
                             count++;
                         } finally {
                             lock.unlock();

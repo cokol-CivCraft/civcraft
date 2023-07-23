@@ -232,8 +232,7 @@ public class PostBuildSyncTask implements Runnable {
             if (buildable.getCiv().isAdminCiv()) {
                 block.getState().setData(new MaterialData(Material.AIR));
             } else {
-                block.setType(sb.getType());
-                block.setData((byte) sb.getData());
+                block.getState().setData(sb.getMaterialData());
             }
         }
 
@@ -243,8 +242,7 @@ public class PostBuildSyncTask implements Runnable {
 
             Block block = absCoord.getBlock();
             if (block.getType() != sb.getType()) {
-                block.setType(sb.getType());
-                block.setData((byte) sb.getData());
+                block.getState().setData(sb.getMaterialData());
             }
         }
 

@@ -182,41 +182,41 @@ public class Template {
 
         for (int y = 0; y < this.size_y; y++) {
             Block b = center.getBlock().getRelative(0, y, 0);
-            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK, 0);
+            ItemManager.sendBlockChange(player, b.getLocation(), SCAFFOLDING_BLOCK);
             resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), b.getData()));
 
             b = center.getBlock().getRelative(this.size_x - 1, y, this.size_z - 1);
-            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK, 0);
+            ItemManager.sendBlockChange(player, b.getLocation(), SCAFFOLDING_BLOCK);
             resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), b.getData()));
 
             b = center.getBlock().getRelative(this.size_x - 1, y, 0);
-            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK, 0);
+            ItemManager.sendBlockChange(player, b.getLocation(), SCAFFOLDING_BLOCK);
             resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), b.getData()));
 
             b = center.getBlock().getRelative(0, y, this.size_z - 1);
-            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK, 0);
+            ItemManager.sendBlockChange(player, b.getLocation(), SCAFFOLDING_BLOCK);
             resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), b.getData()));
 
         }
 
         for (int x = 0; x < this.size_x; x++) {
             Block b = center.getBlock().getRelative(x, this.size_y - 1, 0);
-            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK, 0);
+            ItemManager.sendBlockChange(player, b.getLocation(), SCAFFOLDING_BLOCK);
             resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), b.getData()));
 
             b = center.getBlock().getRelative(x, this.size_y - 1, this.size_z - 1);
-            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK, 0);
+            ItemManager.sendBlockChange(player, b.getLocation(), SCAFFOLDING_BLOCK);
             resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), b.getData()));
 
         }
 
         for (int z = 0; z < this.size_z; z++) {
             Block b = center.getBlock().getRelative(0, this.size_y - 1, z);
-            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK, 0);
+            ItemManager.sendBlockChange(player, b.getLocation(), SCAFFOLDING_BLOCK);
             resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), b.getData()));
 
             b = center.getBlock().getRelative(this.size_x - 1, this.size_y - 1, z);
-            ItemManager.sendBlockChange(player, b.getLocation(), Material.BEDROCK, 0);
+            ItemManager.sendBlockChange(player, b.getLocation(), SCAFFOLDING_BLOCK);
             resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), b.getData()));
         }
 
