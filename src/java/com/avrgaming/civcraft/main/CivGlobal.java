@@ -45,7 +45,10 @@ import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.*;
-import com.avrgaming.civcraft.util.*;
+import com.avrgaming.civcraft.util.BlockCoord;
+import com.avrgaming.civcraft.util.BukkitObjects;
+import com.avrgaming.civcraft.util.ChunkCoord;
+import com.avrgaming.civcraft.util.ItemFrameStorage;
 import com.avrgaming.civcraft.war.War;
 import com.avrgaming.civcraft.war.WarRegen;
 import net.milkbowl.vault.economy.Economy;
@@ -365,7 +368,7 @@ public class CivGlobal {
     public static void setCurrentEra(int era, Civilization civ) {
         if (era > highestCivEra && !civ.isAdminCiv()) {
             highestCivEra = era;
-            CivMessage.globalTitle(CivColor.Green + localizedEraString(highestCivEra), CivColor.LightGreen + CivSettings.localize.localizedString("var_announce_newEraCiv", civ.getName()));
+            CivMessage.globalTitle(ChatColor.DARK_GREEN + localizedEraString(highestCivEra), ChatColor.GREEN + CivSettings.localize.localizedString("var_announce_newEraCiv", civ.getName()));
 
         }
     }
@@ -1483,19 +1486,19 @@ public class CivGlobal {
         String out = "";
         switch (status) {
             case NEUTRAL:
-                out += CivColor.LightGray + CivSettings.localize.localizedString("civGlobal_relation_Neutral") + CivColor.White;
+                out += ChatColor.GRAY + CivSettings.localize.localizedString("civGlobal_relation_Neutral") + ChatColor.WHITE;
                 break;
             case HOSTILE:
-                out += CivColor.Yellow + CivSettings.localize.localizedString("civGlobal_relation_Hostile") + CivColor.White;
+                out += ChatColor.YELLOW + CivSettings.localize.localizedString("civGlobal_relation_Hostile") + ChatColor.WHITE;
                 break;
             case WAR:
-                out += CivColor.Rose + CivSettings.localize.localizedString("civGlobal_relation_War") + CivColor.White;
+                out += ChatColor.RED + CivSettings.localize.localizedString("civGlobal_relation_War") + ChatColor.WHITE;
                 break;
             case PEACE:
-                out += CivColor.LightGreen + CivSettings.localize.localizedString("civGlobal_relation_Peace") + CivColor.White;
+                out += ChatColor.GREEN + CivSettings.localize.localizedString("civGlobal_relation_Peace") + ChatColor.WHITE;
                 break;
             case ALLY:
-                out += CivColor.Green + CivSettings.localize.localizedString("civGlobal_relation_Allied") + CivColor.White;
+                out += ChatColor.DARK_GREEN + CivSettings.localize.localizedString("civGlobal_relation_Allied") + ChatColor.WHITE;
                 break;
             default:
                 break;
@@ -1623,7 +1626,7 @@ public class CivGlobal {
         Resident playerRes = CivGlobal.getResident(player);
 
         if (CivGlobal.isMutualOutlaw(namedRes, playerRes)) {
-            return CivColor.Red + namedPlayer.getName();
+            return ChatColor.DARK_RED + namedPlayer.getName();
         }
 
         if (namedRes == null || !namedRes.hasTown()) {
@@ -1636,24 +1639,24 @@ public class CivGlobal {
 
         //ChatColor color = ChatColor.WHITE;
         //ChatColor style = ChatColor.RESET;
-        String color = CivColor.White;
+        String color = String.valueOf(ChatColor.WHITE);
         if (namedRes.getTown().getCiv() == playerRes.getTown().getCiv()) {
-            color = CivColor.LightGreen;
+            color = String.valueOf(ChatColor.GREEN);
         } else {
 
             Relation.Status status = playerRes.getTown().getCiv().getDiplomacyManager().getRelationStatus(namedRes.getTown().getCiv());
             switch (status) {
                 case PEACE:
-                    color = CivColor.LightBlue;
+                    color = String.valueOf(ChatColor.AQUA);
                     break;
                 case ALLY:
-                    color = CivColor.LightGreen;
+                    color = String.valueOf(ChatColor.GREEN);
                     break;
                 case HOSTILE:
-                    color = CivColor.Yellow;
+                    color = String.valueOf(ChatColor.YELLOW);
                     break;
                 case WAR:
-                    color = CivColor.Rose;
+                    color = String.valueOf(ChatColor.RED);
                     break;
                 default:
                     break;

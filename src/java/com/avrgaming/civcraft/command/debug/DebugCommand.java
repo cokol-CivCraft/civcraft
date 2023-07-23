@@ -499,7 +499,7 @@ public class DebugCommand extends CommandBase {
             CivMessage.send(sender, key + " requested:" + requests + " completed:" + completes);
         }
 
-        CivMessage.send(sender, makeInfoString(stats, CivColor.Green, CivColor.LightGreen));
+        CivMessage.send(sender, makeInfoString(stats, ChatColor.DARK_GREEN, ChatColor.GREEN));
     }
 
     public void colorme_cmd() throws CivException {
@@ -787,9 +787,9 @@ public class DebugCommand extends CommandBase {
         }
 
         if (town.touchesCapitolCulture(new HashSet<>())) {
-            CivMessage.send(sender, CivColor.LightGreen + "Touches capitol.");
+            CivMessage.send(sender, ChatColor.GREEN + "Touches capitol.");
         } else {
-            CivMessage.send(sender, CivColor.Rose + "Does NOT touch capitol.");
+            CivMessage.send(sender, ChatColor.RED + "Does NOT touch capitol.");
         }
 
         CivMessage.send(sender, out.toString());

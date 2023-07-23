@@ -397,7 +397,7 @@ public abstract class Buildable extends SQLObject {
                 CivSettings.localize.localizedString("buildable_lore_default") + " " + this.getDisplayName(),
                 Material.WRITTEN_BOOK,
                 0,
-                CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"));
+                ChatColor.GOLD + CivSettings.localize.localizedString("loreGui_template_clickToBuild"));
         infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithTemplate);
         inv.addItem(infoRec);
 
@@ -406,7 +406,7 @@ public abstract class Buildable extends SQLObject {
                     perk.display_name,
                     perk.type_id,
                     perk.data,
-                    CivColor.Gold + "<Click To Build>"
+                    ChatColor.GOLD + "<Click To Build>"
             );
             infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithTemplate);
             infoRec = LoreGuiItem.setActionData(infoRec, "theme", perk.theme);
@@ -427,8 +427,8 @@ public abstract class Buildable extends SQLObject {
         this.setCorner(new BlockCoord(centerLoc));
 
         CivMessage.sendHeading(player, CivSettings.localize.localizedString("buildable_preview_heading"));
-        CivMessage.send(player, CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("buildable_preview_prompt1"));
-        CivMessage.send(player, CivColor.LightGreen + ChatColor.BOLD + CivSettings.localize.localizedString("buildable_preview_prompt2"));
+        CivMessage.send(player, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("buildable_preview_prompt1"));
+        CivMessage.send(player, String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("buildable_preview_prompt2"));
         Resident resident = CivGlobal.getResident(player);
 
         if (!War.isWarTime() && CivSettings.showPreview) {
@@ -477,7 +477,7 @@ public abstract class Buildable extends SQLObject {
         Inventory inv = Bukkit.getServer().createInventory(player, CivTutorial.MAX_CHEST_SIZE * 9);
         ItemStack infoRec = LoreGuiItem.build("Default " + info.displayName,
                 Material.WRITTEN_BOOK,
-                0, CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"));
+                0, ChatColor.GOLD + CivSettings.localize.localizedString("loreGui_template_clickToBuild"));
         infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithDefaultPersonalTemplate);
         inv.addItem(infoRec);
 
@@ -485,7 +485,7 @@ public abstract class Buildable extends SQLObject {
             infoRec = LoreGuiItem.build(perk.display_name,
                     perk.type_id,
                     perk.data,
-                    CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild")
+                    ChatColor.GOLD + CivSettings.localize.localizedString("loreGui_template_clickToBuild")
             );
             infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithPersonalTemplate);
             infoRec = LoreGuiItem.setActionData(infoRec, "theme", perk.theme);
@@ -1161,16 +1161,16 @@ public abstract class Buildable extends SQLObject {
         if (player != null) {
             Resident resident = CivGlobal.getResident(player);
             if (resident.isCombatInfo()) {
-                CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("var_buildable_OnDamageSuccess", hit.getOwner().getDisplayName(), (hit.getOwner().hitpoints + "/" + hit.getOwner().getMaxHitPoints())));
+                CivMessage.send(player, ChatColor.GRAY + CivSettings.localize.localizedString("var_buildable_OnDamageSuccess", hit.getOwner().getDisplayName(), (hit.getOwner().hitpoints + "/" + hit.getOwner().getMaxHitPoints())));
             }
         }
 
     }
 
     public void onDamageNotification(Player player, BuildableDamageBlock hit) {
-        CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("var_buildable_OnDamageSuccess", hit.getOwner().getDisplayName(), (hit.getOwner().getDamagePercentage() + "%")));
+        CivMessage.send(player, ChatColor.GRAY + CivSettings.localize.localizedString("var_buildable_OnDamageSuccess", hit.getOwner().getDisplayName(), (hit.getOwner().getDamagePercentage() + "%")));
 
-        CivMessage.sendTown(hit.getTown(), CivColor.Yellow + CivSettings.localize.localizedString("var_buildable_underAttackAlert", hit.getOwner().getDisplayName(), hit.getOwner().getCorner(), hit.getOwner().getDamagePercentage()));
+        CivMessage.sendTown(hit.getTown(), ChatColor.YELLOW + CivSettings.localize.localizedString("var_buildable_underAttackAlert", hit.getOwner().getDisplayName(), hit.getOwner().getCorner(), hit.getOwner().getDamagePercentage()));
     }
 
     public Map<BlockCoord, Boolean> getStructureBlocks() {
@@ -1525,10 +1525,10 @@ public abstract class Buildable extends SQLObject {
         this.damage(damage);
 
         DecimalFormat df = new DecimalFormat("###");
-        CivMessage.sendTown(this.getTown(), CivColor.Rose + CivSettings.localize.localizedString("var_buildable_cannotSupport", this.getDisplayName(), (center.getX() + "," + center.getY() + "," + center.getZ())));
-        CivMessage.sendTown(this.getTown(), CivColor.Rose + CivSettings.localize.localizedString("var_buildable_cannotSupportDamage", df.format(invalid_hourly_penalty * 100), (this.hitpoints + "/" + this.getMaxHitPoints())));
-        CivMessage.sendTown(this.getTown(), CivColor.Rose + this.invalidLayerMessage);
-        CivMessage.sendTown(this.getTown(), CivColor.Rose + CivSettings.localize.localizedString("buildable_validationPrompt"));
+        CivMessage.sendTown(this.getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_buildable_cannotSupport", this.getDisplayName(), (center.getX() + "," + center.getY() + "," + center.getZ())));
+        CivMessage.sendTown(this.getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_buildable_cannotSupportDamage", df.format(invalid_hourly_penalty * 100), (this.hitpoints + "/" + this.getMaxHitPoints())));
+        CivMessage.sendTown(this.getTown(), ChatColor.RED + this.invalidLayerMessage);
+        CivMessage.sendTown(this.getTown(), ChatColor.RED + CivSettings.localize.localizedString("buildable_validationPrompt"));
         this.save();
 
     }

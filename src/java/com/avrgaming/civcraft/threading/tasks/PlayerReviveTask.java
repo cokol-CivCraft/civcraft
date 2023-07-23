@@ -23,7 +23,7 @@ import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.structure.TownHall;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -59,7 +59,7 @@ public class PlayerReviveTask implements Runnable {
             return;
         }
 
-        CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("var_PlayerReviveTask_repawnIn", timeout));
+        CivMessage.send(player, ChatColor.GRAY + CivSettings.localize.localizedString("var_PlayerReviveTask_repawnIn", timeout));
 
         try {
             synchronized (this) {
@@ -83,7 +83,7 @@ public class PlayerReviveTask implements Runnable {
             loc = revive.getLocation();
         }
 
-        CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("PlayerReviveTask_respawning"));
+        CivMessage.send(player, ChatColor.GREEN + CivSettings.localize.localizedString("PlayerReviveTask_respawning"));
 
         try {
             synchronized (this) {

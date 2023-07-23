@@ -31,7 +31,6 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.permission.PermissionGroup;
 import com.avrgaming.civcraft.permission.PlotPermissions;
 import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.CivColor;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -289,7 +288,7 @@ public class TownChunk extends SQLObject {
 
         Camp camp = CivGlobal.getCampFromChunk(coord);
         if (camp != null) {
-            CivMessage.sendCamp(camp, CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("var_town_chunk_dibandCamp", town.getName()));
+            CivMessage.sendCamp(camp, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("var_town_chunk_dibandCamp", town.getName()));
             camp.disband();
         }
 
@@ -305,7 +304,7 @@ public class TownChunk extends SQLObject {
     public static TownChunk claim(Town town, Player player, boolean outpost) throws CivException {
         double cost = getNextPlotCost(town);
         TownChunk tc = claim(town, new ChunkCoord(player.getLocation()), outpost);
-        CivMessage.sendSuccess(player, CivSettings.localize.localizedString("var_town_chunk_success", tc.getChunkCoord(), CivColor.Yellow + cost + CivColor.LightGreen, CivSettings.CURRENCY_NAME));
+        CivMessage.sendSuccess(player, CivSettings.localize.localizedString("var_town_chunk_success", tc.getChunkCoord(), String.valueOf(ChatColor.YELLOW) + cost + ChatColor.GREEN, CivSettings.CURRENCY_NAME));
         return tc;
     }
 
@@ -383,7 +382,7 @@ public class TownChunk extends SQLObject {
 
         Camp camp = CivGlobal.getCampFromChunk(coord);
         if (camp != null) {
-            CivMessage.sendCamp(camp, CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("var_town_chunk_dibandCamp", town.getName()));
+            CivMessage.sendCamp(camp, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("var_town_chunk_dibandCamp", town.getName()));
             camp.disband();
         }
 
@@ -420,11 +419,11 @@ public class TownChunk extends SQLObject {
         String out = "";
 
         if (this.perms.getOwner() != null) {
-            out += CivColor.LightGray + "[" + CivSettings.localize.localizedString("town_chunk_status_owned") + " " + CivColor.LightGreen + this.perms.getOwner().getName() + CivColor.LightGray + "]";
+            out += ChatColor.GRAY + "[" + CivSettings.localize.localizedString("town_chunk_status_owned") + " " + ChatColor.GREEN + this.perms.getOwner().getName() + ChatColor.GRAY + "]";
         }
 
         if (this.perms.getOwner() == null && fromTc != null && fromTc.perms.getOwner() != null) {
-            out += CivColor.LightGray + "[" + CivSettings.localize.localizedString("town_chunk_status_unowned") + "]";
+            out += ChatColor.GRAY + "[" + CivSettings.localize.localizedString("town_chunk_status_unowned") + "]";
         }
 
         return out;

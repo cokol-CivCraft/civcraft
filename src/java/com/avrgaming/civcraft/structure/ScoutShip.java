@@ -10,7 +10,7 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Relation;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -66,7 +66,7 @@ public class ScoutShip extends WaterStructure {
             } catch (CivException e) {
                 return;
             }
-            CivMessage.send(player, CivColor.Yellow + "[ScoutDebug] " + str);
+            CivMessage.send(player, ChatColor.YELLOW + "[ScoutDebug] " + str);
         }
     }
 
@@ -136,7 +136,7 @@ public class ScoutShip extends WaterStructure {
                 relationColor = Relation.getRelationColor(relation);
             } else {
                 relationName = CivSettings.localize.localizedString("scoutTower_isOutlaw");
-                relationColor = CivColor.Yellow;
+                relationColor = String.valueOf(ChatColor.YELLOW);
             }
 
 
@@ -148,11 +148,11 @@ public class ScoutShip extends WaterStructure {
             if (center.distance(player.getLocation()) < range) {
                 /* Notify the town or civ. */
                 CivMessage.sendScout(this.getCiv(), CivSettings.localize.localizedString("var_scoutTower_detection",
-                        (relationColor + player.getName() + "(" + relationName + ")" + CivColor.White), (player.getLocation().getBlockX() + "," + player.getLocation().getBlockY() + "," + player.getLocation().getBlockZ()),
+                        (relationColor + player.getName() + "(" + relationName + ")" + ChatColor.WHITE), (player.getLocation().getBlockX() + "," + player.getLocation().getBlockY() + "," + player.getLocation().getBlockZ()),
                         this.getTown().getName()));
                 player.playSound(player.getLocation(), Sound.ITEM_SHIELD_BLOCK, 1.11f, 1.11f);
                 alreadyAnnounced.add(this.getCiv().getName() + ":" + player.getName());
-                CivMessage.sendActionBar(player, CivSettings.localize.localizedString("var_scoutShip_you_detected", CivColor.Yellow + CivColor.Rose + CivColor.LightGreen + this.getTown().getName() + CivColor.Rose));
+                CivMessage.sendActionBar(player, CivSettings.localize.localizedString("var_scoutShip_you_detected", String.valueOf(ChatColor.YELLOW) + ChatColor.RED + ChatColor.GREEN + this.getTown().getName() + ChatColor.RED));
 
             }
         }

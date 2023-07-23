@@ -27,7 +27,7 @@ import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.DelayMoveInventoryItem;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
@@ -163,7 +163,7 @@ public class UnitMaterial extends LoreMaterial {
 
             lore = stripTownLore(lore);
 
-            lore.add("Town:" + town.getName() + " " + CivColor.Black + town.getId());
+            lore.add("Town:" + town.getName() + " " + ChatColor.BLACK + town.getId());
 
             meta.setLore(lore);
             stack.setItemMeta(meta);
@@ -190,7 +190,7 @@ public class UnitMaterial extends LoreMaterial {
         }
 
         try {
-            String[] split = loreLine.split(CivColor.Black);
+            String[] split = loreLine.split(String.valueOf(ChatColor.BLACK));
             int townId = Integer.parseInt(split[1]);
 
             return CivGlobal.getTownFromId(townId);

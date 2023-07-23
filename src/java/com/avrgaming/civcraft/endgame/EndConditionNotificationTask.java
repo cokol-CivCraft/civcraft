@@ -5,7 +5,7 @@ import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
 
@@ -26,11 +26,11 @@ public class EndConditionNotificationTask implements Runnable {
                     int daysLeft = endCond.getDaysToHold() - endCond.getDaysHeldFromSessionData(entry.value);
                     if (daysLeft == 0) {
                         CivMessage.global(CivSettings.localize.localizedString("var_cmd_civ_info_victory",
-                                CivColor.LightBlue + CivColor.BOLD + civ.getName() + CivColor.White, CivColor.LightPurple + CivColor.BOLD + endCond.getVictoryName() + CivColor.White));
+                                String.valueOf(ChatColor.AQUA) + ChatColor.BOLD + civ.getName() + ChatColor.WHITE, String.valueOf(ChatColor.LIGHT_PURPLE) + ChatColor.BOLD + endCond.getVictoryName() + ChatColor.WHITE));
                         break;
                     } else {
                         CivMessage.global(CivSettings.localize.localizedString("var_cmd_civ_info_daysTillVictoryNew",
-                                CivColor.LightBlue + CivColor.BOLD + civ.getName() + CivColor.White, CivColor.Yellow + CivColor.BOLD + daysLeft + CivColor.White, CivColor.LightPurple + CivColor.BOLD + endCond.getVictoryName() + CivColor.White));
+                                String.valueOf(ChatColor.AQUA) + ChatColor.BOLD + civ.getName() + ChatColor.WHITE, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + daysLeft + ChatColor.WHITE, String.valueOf(ChatColor.LIGHT_PURPLE) + ChatColor.BOLD + endCond.getVictoryName() + ChatColor.WHITE));
                     }
                 }
             }

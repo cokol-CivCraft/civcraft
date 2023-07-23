@@ -3,7 +3,7 @@ package com.avrgaming.civcraft.war;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.Town;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -74,7 +74,7 @@ public class WarStats {
             }
         }
 
-        return CivColor.LightGreen + CivColor.BOLD + out + CivColor.LightGray + " (" + CivSettings.localize.localizedString("var_war_over_announceKills", mostKills) + ")";
+        return String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + out + ChatColor.GRAY + " (" + CivSettings.localize.localizedString("var_war_over_announceKills", mostKills) + ")";
     }
 
     public static List<String> getCapturedCivs() {
@@ -86,7 +86,7 @@ public class WarStats {
                 continue;
             }
 
-            String line = CivColor.LightGreen + CivColor.BOLD + key + CivColor.Rose + CivColor.BOLD + " " + CivSettings.localize.localizedString("war_over_announceConquered") + " " + CivColor.RESET + CivColor.LightGray;
+            String line = String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + key + ChatColor.RED + ChatColor.BOLD + " " + CivSettings.localize.localizedString("war_over_announceConquered") + " " + ChatColor.RESET + ChatColor.GRAY;
             StringBuilder tmp = new StringBuilder();
             for (String str : conquered) {
                 tmp.append(str).append(", ");

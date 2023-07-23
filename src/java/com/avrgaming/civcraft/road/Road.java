@@ -14,7 +14,10 @@ import com.avrgaming.civcraft.sessiondb.SessionEntry;
 import com.avrgaming.civcraft.structure.Structure;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.template.Template;
-import com.avrgaming.civcraft.util.*;
+import com.avrgaming.civcraft.util.BlockCoord;
+import com.avrgaming.civcraft.util.ChunkCoord;
+import com.avrgaming.civcraft.util.FireworkEffectPlayer;
+import com.avrgaming.civcraft.util.SimpleBlock;
 import com.avrgaming.civcraft.war.War;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -107,7 +110,7 @@ public class Road extends Structure {
 
         double totalCost = this.getTotalCost();
         this.getTown().getTreasury().deposit(totalCost);
-        CivMessage.sendTown(this.getTown(), CivColor.Yellow + CivSettings.localize.localizedString("var_road_undoComplete", totalCost, CivSettings.CURRENCY_NAME));
+        CivMessage.sendTown(this.getTown(), ChatColor.YELLOW + CivSettings.localize.localizedString("var_road_undoComplete", totalCost, CivSettings.CURRENCY_NAME));
 
         try {
             this.delete();
@@ -202,7 +205,7 @@ public class Road extends Structure {
         }
 
         if (locs.size() <= 1) {
-            CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("road_marker1"));
+            CivMessage.send(player, ChatColor.GRAY + CivSettings.localize.localizedString("road_marker1"));
             return;
         }
 
@@ -285,7 +288,7 @@ public class Road extends Structure {
 
         /* Register structure in global tables. */
         this.getTown().getTreasury().withdraw(totalCost);
-        CivMessage.sendTown(this.getTown(), CivColor.LightGreen + CivSettings.localize.localizedString("var_road_success", CivColor.Yellow + totalCost + CivColor.LightGreen, CivSettings.CURRENCY_NAME));
+        CivMessage.sendTown(this.getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_road_success", String.valueOf(ChatColor.YELLOW) + totalCost + ChatColor.GREEN, CivSettings.CURRENCY_NAME));
         this.getTown().addStructure(this);
         CivGlobal.addStructure(this);
         this.getTown().lastBuildableBuilt = this;

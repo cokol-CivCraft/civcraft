@@ -43,7 +43,11 @@ import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.UpdateTechBar;
 import com.avrgaming.civcraft.threading.timers.BeakerTimer;
-import com.avrgaming.civcraft.util.*;
+import com.avrgaming.civcraft.util.BlockCoord;
+import com.avrgaming.civcraft.util.ChunkCoord;
+import com.avrgaming.civcraft.util.DateUtil;
+import com.avrgaming.civcraft.util.ItemManager;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -1350,7 +1354,7 @@ public class Civilization extends SQLObject {
                     CultureChunk cc = CivGlobal.getCultureChunk(coord);
                     if (cc != null && cc.getCiv() != this &&
                             cc.getCiv().getDiplomacyManager().atWarWith(this)) {
-                        CivMessage.send(player, CivColor.Purple + reason);
+                        CivMessage.send(player, ChatColor.DARK_PURPLE + reason);
                         player.teleport(revive.getLocation());
                     }
 

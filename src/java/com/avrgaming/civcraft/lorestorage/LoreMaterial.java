@@ -20,8 +20,8 @@ package com.avrgaming.civcraft.lorestorage;
 
 import com.avrgaming.civcraft.loreenhancements.LoreEnhancement;
 import com.avrgaming.civcraft.object.BuildableDamageBlock;
-import com.avrgaming.civcraft.util.CivColor;
 import gpl.AttributeUtil;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -60,7 +60,7 @@ public abstract class LoreMaterial {
     private String name;
 
     public static Map<String, LoreMaterial> materialMap = new HashMap<>();
-    public static final String MID_TAG = CivColor.Black + "MID";
+    public static final String MID_TAG = ChatColor.BLACK + "MID";
 
     public LoreMaterial(String id, Material material, short damage) {
         this.id = id;
@@ -176,7 +176,7 @@ public abstract class LoreMaterial {
         boolean isShiny = false;
         if (material instanceof LoreCraftableMaterial) {
             LoreCraftableMaterial craftMat = (LoreCraftableMaterial) material;
-            attrs.addLore(CivColor.ITALIC + craftMat.getConfigMaterial().category);
+            attrs.addLore(ChatColor.ITALIC + craftMat.getConfigMaterial().category);
             if (craftMat.getConfigMaterial().tradeable) {
                 attrs.setCivCraftProperty("tradeable", "true");
             }

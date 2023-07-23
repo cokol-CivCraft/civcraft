@@ -34,7 +34,6 @@ import com.avrgaming.civcraft.object.StructureSign;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.SimpleBlock;
 import gpl.HorseModifier;
 import gpl.HorseModifier.HorseType;
@@ -170,7 +169,7 @@ public class Stable extends Structure {
 
                     resident.getTreasury().withdraw(getItemCost(cost));
                     getTown().depositTaxed(getFeeToTown(cost));
-                    CivMessage.send(player, CivColor.Yellow + CivSettings.localize.localizedString("var_taxes_paid", getFeeToTown(cost), CivSettings.CURRENCY_NAME));
+                    CivMessage.send(player, ChatColor.YELLOW + CivSettings.localize.localizedString("var_taxes_paid", getFeeToTown(cost), CivSettings.CURRENCY_NAME));
                     paid = getItemCost(cost);
                 } else {
                     if (!resident.getTreasury().hasEnough(cost)) {
@@ -202,7 +201,7 @@ public class Stable extends Structure {
                 mod.getHorse().setCustomName(horse.name);
                 mod.getHorse().setCustomNameVisible(true);
 
-                CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("var_stable_buySuccess", paid, CivSettings.CURRENCY_NAME));
+                CivMessage.send(player, ChatColor.GREEN + CivSettings.localize.localizedString("var_stable_buySuccess", paid, CivSettings.CURRENCY_NAME));
             }
         }
 
@@ -233,7 +232,7 @@ public class Stable extends Structure {
                     }
 
                     resident.getTreasury().withdraw(getItemCost(cost));
-                    CivMessage.send(player, CivColor.Yellow + CivSettings.localize.localizedString("var_taxes_paid", getFeeToTown(cost), CivSettings.CURRENCY_NAME));
+                    CivMessage.send(player, ChatColor.YELLOW + CivSettings.localize.localizedString("var_taxes_paid", getFeeToTown(cost), CivSettings.CURRENCY_NAME));
                     paid = getItemCost(cost);
                 } else {
                     if (!resident.getTreasury().hasEnough(cost)) {
@@ -252,7 +251,7 @@ public class Stable extends Structure {
                     }
                 }
 
-                CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("var_stable_buySuccess", paid, CivSettings.CURRENCY_NAME));
+                CivMessage.send(player, ChatColor.GREEN + CivSettings.localize.localizedString("var_stable_buySuccess", paid, CivSettings.CURRENCY_NAME));
             }
 
         }
@@ -263,9 +262,9 @@ public class Stable extends Structure {
                 continue;
             }
             if (item.item_id == Material.AIR) {
-                comp.addItem(new String[]{CivColor.LightGreen + item.name, CivSettings.localize.localizedString("stable_sign_buyFor"), String.valueOf(item.cost), CivSettings.localize.localizedString("Fee:") + this.nonMemberFeeComponent.getFeeString()}, new buyHorseAction(item.horse_id, item.cost));
+                comp.addItem(new String[]{ChatColor.GREEN + item.name, CivSettings.localize.localizedString("stable_sign_buyFor"), String.valueOf(item.cost), CivSettings.localize.localizedString("Fee:") + this.nonMemberFeeComponent.getFeeString()}, new buyHorseAction(item.horse_id, item.cost));
             } else {
-                comp.addItem(new String[]{CivColor.LightGreen + item.name, CivSettings.localize.localizedString("stable_sign_buyFor"), String.valueOf(item.cost), CivSettings.localize.localizedString("Fee:") + this.nonMemberFeeComponent.getFeeString()}, new buyItemAction(item.item_id, item.cost));
+                comp.addItem(new String[]{ChatColor.GREEN + item.name, CivSettings.localize.localizedString("stable_sign_buyFor"), String.valueOf(item.cost), CivSettings.localize.localizedString("Fee:") + this.nonMemberFeeComponent.getFeeString()}, new buyItemAction(item.item_id, item.cost));
             }
         }
     }

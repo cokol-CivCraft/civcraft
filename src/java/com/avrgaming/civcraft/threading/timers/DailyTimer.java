@@ -31,7 +31,7 @@ import com.avrgaming.civcraft.structure.wonders.NotreDame;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -51,7 +51,7 @@ public class DailyTimer implements Runnable {
             try {
                 try {
                     CivLog.info("---- Running Daily Timer -----");
-                    CivMessage.globalTitle(CivColor.LightBlue + CivSettings.localize.localizedString("general_upkeep_tick"), "");
+                    CivMessage.globalTitle(ChatColor.AQUA + CivSettings.localize.localizedString("general_upkeep_tick"), "");
                     payTownUpkeep();
                     payCivUpkeep();
                     decrementResidentGraceCounters();
@@ -79,7 +79,7 @@ public class DailyTimer implements Runnable {
 
                 } finally {
                     CivLog.info("Daily timer is finished, setting true.");
-                    CivMessage.globalTitle(CivColor.LightBlue + CivSettings.localize.localizedString("general_upkeep_tick_finish"), "");
+                    CivMessage.globalTitle(ChatColor.AQUA + CivSettings.localize.localizedString("general_upkeep_tick_finish"), "");
                     DailyEvent.dailyTimerFinished = true;
                 }
             } finally {
@@ -128,7 +128,7 @@ public class DailyTimer implements Runnable {
                 if (civ.getTreasury().inDebt()) {
                     civ.incrementDaysInDebt();
                 }
-                CivMessage.sendCiv(civ, CivColor.Yellow + CivSettings.localize.localizedString("var_daily_civUpkeep", total, CivSettings.CURRENCY_NAME));
+                CivMessage.sendCiv(civ, ChatColor.YELLOW + CivSettings.localize.localizedString("var_daily_civUpkeep", total, CivSettings.CURRENCY_NAME));
                 civ.save();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -146,7 +146,7 @@ public class DailyTimer implements Runnable {
                 }
 
                 t.save();
-                CivMessage.sendTown(t, CivColor.Yellow + CivSettings.localize.localizedString("var_daily_townUpkeep", total, CivSettings.CURRENCY_NAME));
+                CivMessage.sendTown(t, ChatColor.YELLOW + CivSettings.localize.localizedString("var_daily_townUpkeep", total, CivSettings.CURRENCY_NAME));
 
             } catch (Exception e) {
                 e.printStackTrace();

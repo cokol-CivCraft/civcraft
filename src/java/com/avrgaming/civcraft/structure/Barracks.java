@@ -38,7 +38,6 @@ import com.avrgaming.civcraft.sessiondb.SessionEntry;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.UnitSaveAsyncTask;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.SimpleBlock;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -86,7 +85,7 @@ public class Barracks extends Structure {
         ArrayList<ConfigUnit> unitList = getTown().getAvailableUnits();
 
         if (unitList.size() == 0) {
-            return "\n" + CivColor.LightGray + CivSettings.localize.localizedString("Nothing") + "\n" + CivColor.LightGray + CivSettings.localize.localizedString("Available");
+            return "\n" + ChatColor.GRAY + CivSettings.localize.localizedString("Nothing") + "\n" + ChatColor.GRAY + CivSettings.localize.localizedString("Available");
         }
 
         ConfigUnit unit = unitList.get(index);
@@ -105,9 +104,9 @@ public class Barracks extends Structure {
             coinCost *= previousSettlers;
         }
 
-        out += CivColor.LightPurple + unit.name + "\n";
-        out += CivColor.Yellow + coinCost + "\n";
-        out += CivColor.Yellow + CivSettings.CURRENCY_NAME;
+        out += ChatColor.LIGHT_PURPLE + unit.name + "\n";
+        out += String.valueOf(ChatColor.YELLOW) + coinCost + "\n";
+        out += ChatColor.YELLOW + CivSettings.CURRENCY_NAME;
 
         return out;
     }
@@ -212,7 +211,7 @@ public class Barracks extends Structure {
                             throw new CivException(CivSettings.localize.localizedString("barracks_actionNoPerms"));
                         }
                     } catch (CivException e) {
-                        CivMessage.send(player, CivColor.Rose + e.getMessage());
+                        CivMessage.send(player, ChatColor.RED + e.getMessage());
                     }
                 }
                 break;
@@ -460,9 +459,9 @@ public class Barracks extends Structure {
         } catch (SecurityException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException e) {
             this.trainingUnit = null;
             this.currentHammers = 0.0;
-            CivMessage.sendTown(getTown(), CivColor.Red + CivSettings.localize.localizedString("barracks_errorUnknown") + e.getMessage());
+            CivMessage.sendTown(getTown(), ChatColor.DARK_RED + CivSettings.localize.localizedString("barracks_errorUnknown") + e.getMessage());
         } catch (InvocationTargetException e) {
-            CivMessage.sendTown(getTown(), CivColor.Rose + e.getCause().getMessage());
+            CivMessage.sendTown(getTown(), ChatColor.RED + e.getCause().getMessage());
             this.currentHammers -= 20.0;
             if (this.currentHammers < 0.0) {
                 this.currentHammers = 0.0;
@@ -502,7 +501,7 @@ public class Barracks extends Structure {
             }
 
             if (i == (size / 2)) {
-                text[1] = CivColor.LightGreen + this.trainingUnit.name;
+                text[1] = ChatColor.GREEN + this.trainingUnit.name;
             }
 
             structSign.setText(text);

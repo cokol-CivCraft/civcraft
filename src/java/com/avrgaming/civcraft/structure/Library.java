@@ -29,7 +29,7 @@ import com.avrgaming.civcraft.object.LibraryEnchantment;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.StructureSign;
 import com.avrgaming.civcraft.object.Town;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -229,7 +229,7 @@ public class Library extends Structure {
         int special_id = Integer.parseInt(sign.getAction());
 
         if (!event.hasItem()) {
-            CivMessage.send(player, CivColor.Rose + CivSettings.localize.localizedString("library_enchant_itemNotInHand"));
+            CivMessage.send(player, ChatColor.RED + CivSettings.localize.localizedString("library_enchant_itemNotInHand"));
             return;
         }
         ItemStack item = event.getItem();
@@ -254,7 +254,7 @@ public class Library extends Structure {
 
         // Determine if resident can pay.
         if (!resident.getTreasury().hasEnough(ench.price + payToTown)) {
-            CivMessage.send(player, CivColor.Rose + CivSettings.localize.localizedString("var_library_enchant_cannotAfford", ench.price + payToTown, CivSettings.CURRENCY_NAME));
+            CivMessage.send(player, ChatColor.RED + CivSettings.localize.localizedString("var_library_enchant_cannotAfford", ench.price + payToTown, CivSettings.CURRENCY_NAME));
             return;
         }
 
@@ -264,13 +264,13 @@ public class Library extends Structure {
         // Send money to town for non-resident fee
         if (payToTown != 0) {
             getTown().depositDirect(payToTown);
-            CivMessage.send(player, CivColor.Yellow + " " + CivSettings.localize.localizedString("var_taxes_paid", payToTown, CivSettings.CURRENCY_NAME));
+            CivMessage.send(player, ChatColor.YELLOW + " " + CivSettings.localize.localizedString("var_taxes_paid", payToTown, CivSettings.CURRENCY_NAME));
         }
 
         // Successful payment, process enchantment.
         ItemStack newStack = this.addEnchantment(item, ench);
         player.getInventory().setItemInMainHand(newStack);
-        CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("var_library_enchantment_added", ench.displayName));
+        CivMessage.send(player, ChatColor.GREEN + CivSettings.localize.localizedString("var_library_enchantment_added", ench.displayName));
     }
 
     @Override
@@ -278,7 +278,7 @@ public class Library extends Structure {
         try {
             add_enchantment_to_tool(player, sign, event);
         } catch (CivException e) {
-            CivMessage.send(player, CivColor.Rose + e.getMessage());
+            CivMessage.send(player, ChatColor.RED + e.getMessage());
         }
     }
 

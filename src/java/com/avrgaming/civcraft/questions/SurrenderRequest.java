@@ -21,7 +21,7 @@ import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.Resident;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 
 public class SurrenderRequest implements QuestionResponseInterface {
 
@@ -34,7 +34,7 @@ public class SurrenderRequest implements QuestionResponseInterface {
             fromCiv.onDefeat(toCiv);
             CivMessage.global(CivSettings.localize.localizedString("var_surrender_accepted", fromCiv.getName(), toCiv.getName()));
         } else {
-            CivMessage.sendCiv(fromCiv, CivColor.LightGray + CivSettings.localize.localizedString("var_RequestDecline", toCiv.getName()));
+            CivMessage.sendCiv(fromCiv, ChatColor.GRAY + CivSettings.localize.localizedString("var_RequestDecline", toCiv.getName()));
         }
     }
 

@@ -2,8 +2,8 @@ package com.avrgaming.civcraft.items.components;
 
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.tutorial.CivTutorial;
-import com.avrgaming.civcraft.util.CivColor;
 import gpl.AttributeUtil;
+import org.bukkit.ChatColor;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -12,8 +12,8 @@ public class TutorialBook extends ItemComponent {
 
     @Override
     public void onPrepareCreate(AttributeUtil attrs) {
-        attrs.addLore(CivColor.Gold + CivSettings.localize.localizedString("tutorialBook_lore1"));
-        attrs.addLore(CivColor.Rose + CivSettings.localize.localizedString("tutorialBook_lore2"));
+        attrs.addLore(ChatColor.GOLD + CivSettings.localize.localizedString("tutorialBook_lore1"));
+        attrs.addLore(ChatColor.RED + CivSettings.localize.localizedString("tutorialBook_lore2"));
     }
 
 

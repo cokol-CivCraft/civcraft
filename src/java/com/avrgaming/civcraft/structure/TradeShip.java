@@ -17,7 +17,11 @@ import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.threading.CivAsyncTask;
 import com.avrgaming.civcraft.threading.TaskMaster;
-import com.avrgaming.civcraft.util.*;
+import com.avrgaming.civcraft.util.BlockCoord;
+import com.avrgaming.civcraft.util.MultiInventory;
+import com.avrgaming.civcraft.util.SimpleBlock;
+import com.avrgaming.civcraft.util.TimeTools;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -289,17 +293,17 @@ public class TradeShip extends WaterStructure {
         Result result = tradeResult.getResult();
         switch (result) {
             case STAGNATE:
-                CivMessage.sendTown(getTown(), CivColor.Rose + CivSettings.localize.localizedString("var_tradeship_stagnated", getConsumeComponent().getLevel(), CivColor.LightGreen + getConsumeComponent().getCountString()));
+                CivMessage.sendTown(getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_tradeship_stagnated", getConsumeComponent().getLevel(), ChatColor.GREEN + getConsumeComponent().getCountString()));
                 break;
             case GROW:
-                CivMessage.sendTown(getTown(), CivColor.LightGreen + CivSettings.localize.localizedString("var_tradeship_productionGrew", getConsumeComponent().getLevel(), getConsumeComponent().getCountString()));
+                CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_tradeship_productionGrew", getConsumeComponent().getLevel(), getConsumeComponent().getCountString()));
                 break;
             case LEVELUP:
-                CivMessage.sendTown(getTown(), CivColor.LightGreen + CivSettings.localize.localizedString("var_tradeship_lvlUp", getConsumeComponent().getLevel()));
+                CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_tradeship_lvlUp", getConsumeComponent().getLevel()));
                 this.reprocessCommandSigns();
                 break;
             case MAXED:
-                CivMessage.sendTown(getTown(), CivColor.LightGreen + CivSettings.localize.localizedString("var_tradeship_maxed", getConsumeComponent().getLevel(), CivColor.LightGreen + getConsumeComponent().getCountString()));
+                CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_tradeship_maxed", getConsumeComponent().getLevel(), ChatColor.GREEN + getConsumeComponent().getCountString()));
                 break;
             default:
                 break;
@@ -326,10 +330,10 @@ public class TradeShip extends WaterStructure {
             double taxesPaid = total_coins * this.getTown().getDepositCiv().getIncomeTaxRate();
 
             if (total_coins >= 1) {
-                CivMessage.sendTown(getTown(), CivColor.LightGreen + CivSettings.localize.localizedString("var_tradeship_success", Math.round(total_coins), CivSettings.CURRENCY_NAME, tradeResult.getCulture(), tradeResult.getConsumed()));
+                CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_tradeship_success", Math.round(total_coins), CivSettings.CURRENCY_NAME, tradeResult.getCulture(), tradeResult.getConsumed()));
             }
             if (taxesPaid > 0) {
-                CivMessage.sendTown(this.getTown(), CivColor.Yellow + CivSettings.localize.localizedString("var_tradeship_taxesPaid", Math.round(taxesPaid), CivSettings.CURRENCY_NAME));
+                CivMessage.sendTown(this.getTown(), ChatColor.YELLOW + CivSettings.localize.localizedString("var_tradeship_taxesPaid", Math.round(taxesPaid), CivSettings.CURRENCY_NAME));
             }
 
             this.getTown().getTreasury().deposit(total_coins - taxesPaid);
@@ -354,7 +358,7 @@ public class TradeShip extends WaterStructure {
             for (ItemStack item : tradeResult.getReturnCargo()) {
                 multiInv.addItemStack(item);
             }
-            CivMessage.sendTown(getTown(), CivColor.LightGreen + CivSettings.localize.localizedString("tradeship_successSpecail"));
+            CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("tradeship_successSpecail"));
         }
     }
 

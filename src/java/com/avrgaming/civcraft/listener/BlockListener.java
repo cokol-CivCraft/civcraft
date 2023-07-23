@@ -41,7 +41,6 @@ import com.avrgaming.civcraft.threading.tasks.FireWorkTask;
 import com.avrgaming.civcraft.threading.tasks.StructureBlockHitEvent;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.ItemFrameStorage;
 import com.avrgaming.civcraft.war.War;
 import com.avrgaming.civcraft.war.WarRegen;
@@ -782,7 +781,7 @@ public class BlockListener implements Listener {
                         event.setCancelled(true);
                         return;
                     } else {
-                        CivMessage.send(event.getPlayer(), CivColor.LightGray + CivSettings.localize.localizedString("blockBreak_wallAlert") + " " +
+                        CivMessage.send(event.getPlayer(), ChatColor.GRAY + CivSettings.localize.localizedString("blockBreak_wallAlert") + " " +
                                 resident.getTown().getCiv().getName());
                         break;
                     }
@@ -985,9 +984,9 @@ public class BlockListener implements Listener {
 
                 try {
                     MarkerPlacementManager.setMarker(event.getPlayer(), block.getLocation());
-                    CivMessage.send(event.getPlayer(), CivColor.LightGreen + CivSettings.localize.localizedString("itemUse_marked"));
+                    CivMessage.send(event.getPlayer(), ChatColor.GREEN + CivSettings.localize.localizedString("itemUse_marked"));
                 } catch (CivException e) {
-                    CivMessage.send(event.getPlayer(), CivColor.Rose + e.getMessage());
+                    CivMessage.send(event.getPlayer(), ChatColor.RED + e.getMessage());
                 }
 
                 event.setCancelled(true);
@@ -1005,7 +1004,7 @@ public class BlockListener implements Listener {
                             sign.getOwner().processSignAction(event.getPlayer(), sign, event);
                             event.setCancelled(true);
                         } catch (CivException e) {
-                            CivMessage.send(event.getPlayer(), CivColor.Rose + e.getMessage());
+                            CivMessage.send(event.getPlayer(), ChatColor.RED + e.getMessage());
                             event.setCancelled(true);
                             return;
                         }
@@ -1798,15 +1797,15 @@ public class BlockListener implements Listener {
                     case ALLOWED:
                         continue;
                     case NOT_AT_WAR:
-                        CivMessage.send(attacker, CivColor.Rose + CivSettings.localize.localizedString("var_itemUse_potionError1", defender.getName()));
+                        CivMessage.send(attacker, ChatColor.RED + CivSettings.localize.localizedString("var_itemUse_potionError1", defender.getName()));
                         event.setCancelled(true);
                         return;
                     case NEUTRAL_IN_WARZONE:
-                        CivMessage.send(attacker, CivColor.Rose + CivSettings.localize.localizedString("var_itemUse_potionError2", defender.getName()));
+                        CivMessage.send(attacker, ChatColor.RED + CivSettings.localize.localizedString("var_itemUse_potionError2", defender.getName()));
                         event.setCancelled(true);
                         return;
                     case NON_PVP_ZONE:
-                        CivMessage.send(attacker, CivColor.Rose + CivSettings.localize.localizedString("var_itemUse_potionError3", defender.getName()));
+                        CivMessage.send(attacker, ChatColor.RED + CivSettings.localize.localizedString("var_itemUse_potionError3", defender.getName()));
                         event.setCancelled(true);
                         return;
                 }

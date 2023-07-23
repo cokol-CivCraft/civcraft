@@ -13,15 +13,11 @@ import com.avrgaming.civcraft.structure.TownHall;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.FireWorkTask;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.EntityProximity;
 import com.avrgaming.civcraft.war.WarRegen;
 import net.minecraft.server.v1_12_R1.EntityPlayer;
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
+import org.bukkit.*;
 import org.bukkit.FireworkEffect.Type;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -135,14 +131,14 @@ public class CannonProjectile {
                                         }
 
                                         sb.getOwner().onDamage(cannon.getDamage(), b.getWorld(), player, sb.getCoord(), sb);
-                                        CivMessage.sendCiv(sb.getCiv(), CivColor.Yellow + CivSettings.localize.localizedString("cannonProjectile_hitAnnounce", sb.getOwner().getDisplayName(),
+                                        CivMessage.sendCiv(sb.getCiv(), ChatColor.YELLOW + CivSettings.localize.localizedString("cannonProjectile_hitAnnounce", sb.getOwner().getDisplayName(),
                                                 sb.getOwner().getCenterLocation().getX() + "," +
                                                         sb.getOwner().getCenterLocation().getY() + "," +
                                                         sb.getOwner().getCenterLocation().getZ())
                                                 + " (" + sb.getOwner().getHitpoints() + "/" + sb.getOwner().getMaxHitPoints() + ")");
                                     }
 
-                                    CivMessage.sendCiv(whoFired.getCiv(), CivColor.LightGreen + CivSettings.localize.localizedString("var_cannonProjectile_hitSuccess", sb.getOwner().getTown().getName(), sb.getOwner().getDisplayName()) +
+                                    CivMessage.sendCiv(whoFired.getCiv(), ChatColor.GREEN + CivSettings.localize.localizedString("var_cannonProjectile_hitSuccess", sb.getOwner().getTown().getName(), sb.getOwner().getDisplayName()) +
                                             " (" + sb.getOwner().getHitpoints() + "/" + sb.getOwner().getMaxHitPoints() + ")");
                                 }
                             } else {
@@ -163,7 +159,7 @@ public class CannonProjectile {
             Player player = (Player) e;
             player.damage(playerDamage);
             if (player.isDead()) {
-                CivMessage.global(CivColor.LightGray + CivSettings.localize.localizedString("var_cannonProjectile_userKilled", player.getName(), whoFired.getName()));
+                CivMessage.global(ChatColor.GRAY + CivSettings.localize.localizedString("var_cannonProjectile_userKilled", player.getName(), whoFired.getName()));
             }
         }
     }

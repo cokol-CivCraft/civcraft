@@ -21,7 +21,7 @@ import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.InvalidBlockLocation;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.util.BlockSnapshot;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
@@ -144,16 +144,16 @@ public class CivData {
     }
 
     private static String paintString(String open, String close, int full, int empty) {
-        StringBuilder s = new StringBuilder(CivColor.LightGray + open);
-        s.append(CivColor.Rose);
+        StringBuilder s = new StringBuilder(ChatColor.GRAY + open);
+        s.append(ChatColor.RED);
         for (; full > 0; full--) {
             s.append(getHP());
         }
-        s.append(CivColor.White);
+        s.append(ChatColor.WHITE);
         for (; empty > 0; empty--) {
             s.append(getHP());
         }
-        s.append(CivColor.LightGray).append(close);
+        s.append(ChatColor.GRAY).append(close);
         return s.toString();
     }
 

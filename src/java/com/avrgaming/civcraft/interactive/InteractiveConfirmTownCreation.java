@@ -23,7 +23,7 @@ import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.questions.TownNewRequest;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class InteractiveConfirmTownCreation implements InteractiveResponse {
@@ -46,7 +46,7 @@ public class InteractiveConfirmTownCreation implements InteractiveResponse {
         }
 
         if (resident.desiredTownName == null) {
-            CivMessage.send(player, CivColor.Rose + CivSettings.localize.localizedString("interactive_town_createError"));
+            CivMessage.send(player, ChatColor.RED + CivSettings.localize.localizedString("interactive_town_createError"));
             return;
         }
 
@@ -61,7 +61,7 @@ public class InteractiveConfirmTownCreation implements InteractiveResponse {
             return;
         }
 
-        CivMessage.send(player, CivColor.Yellow + CivSettings.localize.localizedString("interactive_town_request"));
+        CivMessage.send(player, ChatColor.YELLOW + CivSettings.localize.localizedString("interactive_town_request"));
 //		CivGlobal.questionPlayer(player, CivGlobal.getPlayer(newResident), 
 //				"Would you like to join the town of "+town.getName()+"?",
 //				INVITE_TIMEOUT, join);

@@ -23,7 +23,7 @@ import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.Resident;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 
 public class CivMotdCommand extends CommandBase {
 
@@ -73,9 +73,9 @@ public class CivMotdCommand extends CommandBase {
         Resident resident = getResident();
         Civilization civ = getSenderCiv();
         if (civ.MOTD() != null) {
-            CivMessage.send(resident, CivColor.LightPurple + "[Civ MOTD] " + CivColor.White + resident.getCiv().MOTD());
+            CivMessage.send(resident, ChatColor.LIGHT_PURPLE + "[Civ MOTD] " + ChatColor.WHITE + resident.getCiv().MOTD());
         } else {
-            CivMessage.send(resident, CivColor.LightPurple + "[Civ MOTD] " + CivColor.White + CivSettings.localize.localizedString("cmd_civ_motd_noneSet"));
+            CivMessage.send(resident, ChatColor.LIGHT_PURPLE + "[Civ MOTD] " + ChatColor.WHITE + CivSettings.localize.localizedString("cmd_civ_motd_noneSet"));
         }
 
     }

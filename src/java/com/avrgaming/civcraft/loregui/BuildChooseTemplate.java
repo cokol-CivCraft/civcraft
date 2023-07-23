@@ -10,8 +10,8 @@ import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.structure.Structure;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.tutorial.CivTutorial;
-import com.avrgaming.civcraft.util.CivColor;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -47,7 +47,7 @@ public class BuildChooseTemplate extends GuiAction {
                 "Default " + struct.getDisplayName(),
                 Material.WRITTEN_BOOK,
                 0,
-                CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"));
+                ChatColor.GOLD + CivSettings.localize.localizedString("loreGui_template_clickToBuild"));
         infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithTemplate);
         inv.addItem(infoRec);
 
@@ -56,7 +56,7 @@ public class BuildChooseTemplate extends GuiAction {
                     config.display_name,
                     config.type_id,
                     config.data,
-                    CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild")
+                    ChatColor.GOLD + CivSettings.localize.localizedString("loreGui_template_clickToBuild")
             );
             infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithTemplate);
             infoRec = LoreGuiItem.setActionData(infoRec, "theme", config.theme);

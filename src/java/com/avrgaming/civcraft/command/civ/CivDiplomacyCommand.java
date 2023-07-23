@@ -31,7 +31,6 @@ import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.questions.CapitulateRequest;
 import com.avrgaming.civcraft.questions.ChangeRelationResponse;
 import com.avrgaming.civcraft.threading.tasks.CivQuestionTask;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.war.War;
 import org.bukkit.ChatColor;
 
@@ -82,22 +81,22 @@ public class CivDiplomacyCommand extends CommandBase {
 
         if (args.length < 3 || !args[2].equalsIgnoreCase("yes")) {
             if (entireCiv) {
-                CivMessage.send(sender, CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_civ_dip_capitulateConfirm1", town.getCiv().getName()));
-                CivMessage.send(sender, CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_civ_dip_capitulateConfirm3", town.getName()));
+                CivMessage.send(sender, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_civ_dip_capitulateConfirm1", town.getCiv().getName()));
+                CivMessage.send(sender, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_civ_dip_capitulateConfirm3", town.getName()));
             } else {
-                CivMessage.send(sender, CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_civ_dip_capitulateConfirm1b", town.getCiv().getName()));
-                CivMessage.send(sender, CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_civ_dip_capitulateConfirm3", town.getName()));
+                CivMessage.send(sender, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_civ_dip_capitulateConfirm1b", town.getCiv().getName()));
+                CivMessage.send(sender, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_civ_dip_capitulateConfirm3", town.getName()));
             }
             return;
         }
 
         String requestMessage;
         if (entireCiv) {
-            requestMessage = CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_civ_dip_capitulateRequest1", motherCiv.getName());
+            requestMessage = String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_civ_dip_capitulateRequest1", motherCiv.getName());
             capitulateResponse.from = town.getMotherCiv().getName();
         } else {
             capitulateResponse.from = "Town of " + town.getName();
-            requestMessage = CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("cmd_civ_dip_capitulateRequest1b", town.getName());
+            requestMessage = String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("cmd_civ_dip_capitulateRequest1b", town.getName());
         }
 
         capitulateResponse.playerName = resident.getName();
@@ -184,7 +183,7 @@ public class CivDiplomacyCommand extends CommandBase {
                 if (relation.getStatus().equals(Status.WAR)) {
                     if (!usedRelations.contains(relation.getPairKey())) {
                         CivMessage.send(sender,
-                                CivColor.LightBlue + CivColor.BOLD + relation.getCiv().getName() + CivColor.Rose + " <-- " + CivSettings.localize.localizedString("WAR") + " --> " + CivColor.LightBlue + CivColor.BOLD + relation.getOtherCiv().getName());
+                                String.valueOf(ChatColor.AQUA) + ChatColor.BOLD + relation.getCiv().getName() + ChatColor.RED + " <-- " + CivSettings.localize.localizedString("WAR") + " --> " + ChatColor.AQUA + ChatColor.BOLD + relation.getOtherCiv().getName());
                         usedRelations.add(relation.getPairKey());
                     }
                 }
@@ -249,7 +248,7 @@ public class CivDiplomacyCommand extends CommandBase {
                 throw new CivException(CivSettings.localize.localizedString("var_AlreadyStatusWithCiv", status.name(), otherCiv.getName()));
             }
 
-            String message = CivColor.LightGreen + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_civ_dip_requestHasRequested", ourCiv.getName()) + " ";
+            String message = String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_civ_dip_requestHasRequested", ourCiv.getName()) + " ";
             switch (status) {
                 case NEUTRAL:
                     message += CivSettings.localize.localizedString("cmd_civ_dip_requestNeutral");
@@ -387,7 +386,7 @@ public class CivDiplomacyCommand extends CommandBase {
     }
 
     public void show(Civilization civ) {
-        CivMessage.sendHeading(sender, CivSettings.localize.localizedString("var_cmd_civ_dip_showHeading", CivColor.Yellow + civ.getName()));
+        CivMessage.sendHeading(sender, CivSettings.localize.localizedString("var_cmd_civ_dip_showHeading", ChatColor.YELLOW + civ.getName()));
 
         for (Relation relation : civ.getDiplomacyManager().getRelations()) {
             if (relation.getStatus() == Relation.Status.NEUTRAL) {
@@ -398,9 +397,9 @@ public class CivDiplomacyCommand extends CommandBase {
 
         int warCount = civ.getDiplomacyManager().getWarCount();
         if (warCount != 0) {
-            CivMessage.send(sender, CivColor.Rose + CivSettings.localize.localizedString("var_cmd_civ_dip_showSuccess1", warCount));
+            CivMessage.send(sender, ChatColor.RED + CivSettings.localize.localizedString("var_cmd_civ_dip_showSuccess1", warCount));
         }
-        CivMessage.send(sender, CivColor.LightGray + CivSettings.localize.localizedString("cmd_civ_dip_showNeutral"));
+        CivMessage.send(sender, ChatColor.GRAY + CivSettings.localize.localizedString("cmd_civ_dip_showNeutral"));
     }
 
 

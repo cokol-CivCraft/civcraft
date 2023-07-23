@@ -32,8 +32,12 @@ import com.avrgaming.civcraft.object.StructureSign;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
 import com.avrgaming.civcraft.threading.tasks.NotificationTask;
-import com.avrgaming.civcraft.util.*;
+import com.avrgaming.civcraft.util.BlockCoord;
+import com.avrgaming.civcraft.util.BukkitObjects;
+import com.avrgaming.civcraft.util.ItemManager;
+import com.avrgaming.civcraft.util.TimeTools;
 import gpl.AttributeUtil;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -309,7 +313,7 @@ public class Blacksmith extends Structure {
                 String str = lore[i];
                 if (str.contains("free enhancements")) {
                     if (level != 0) {
-                        lore[i] = CivColor.LightBlue + CivSettings.localize.localizedString("var_blacksmith_forge_loreFreeEnchancements", level);
+                        lore[i] = ChatColor.AQUA + CivSettings.localize.localizedString("var_blacksmith_forge_loreFreeEnchancements", level);
                     } else {
                         lore[i] = "";
                     }
@@ -380,10 +384,10 @@ public class Blacksmith extends Structure {
         //BukkitTools.sch
         // Schedule a message to notify the player when the smelting is finished.
         BukkitObjects.scheduleAsyncDelayedTask(new NotificationTask(player.getName(),
-                        CivColor.LightGreen + CivSettings.localize.localizedString("var_blacksmith_smelt_asyncNotify", itemsInHand.getAmount(), CivData.getDisplayName(itemsInHand.getType()))),
+                        ChatColor.GREEN + CivSettings.localize.localizedString("var_blacksmith_smelt_asyncNotify", itemsInHand.getAmount(), CivData.getDisplayName(itemsInHand.getType()))),
                 TimeTools.toTicks(SMELT_TIME_SECONDS));
 
-        CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("var_blacksmith_smelt_depositSuccess", itemsInHand.getAmount(), CivData.getDisplayName(itemsInHand.getType())));
+        CivMessage.send(player, ChatColor.GREEN + CivSettings.localize.localizedString("var_blacksmith_smelt_depositSuccess", itemsInHand.getAmount(), CivData.getDisplayName(itemsInHand.getType())));
 
         player.updateInventory();
     }
@@ -432,7 +436,7 @@ public class Blacksmith extends Structure {
 
                 double timeLeft = ((double) Blacksmith.SMELT_TIME_SECONDS - (double) secondsBetween) / (double) 60;
                 //Date finish = new Date(now+(secondsBetween*1000));
-                CivMessage.send(player, CivColor.Yellow + CivSettings.localize.localizedString("var_blacksmith_smelt_inProgress1", amount, CivData.getDisplayName(itemId), df1.format(timeLeft)));
+                CivMessage.send(player, ChatColor.YELLOW + CivSettings.localize.localizedString("var_blacksmith_smelt_inProgress1", amount, CivData.getDisplayName(itemId), df1.format(timeLeft)));
                 continue;
             }
 
@@ -447,7 +451,7 @@ public class Blacksmith extends Structure {
                 break;
             }
             // We do not have space in our inventory, inform the player.
-            CivMessage.send(player, CivColor.Rose + CivSettings.localize.localizedString("blacksmith_smelt_notEnoughInvenSpace"));
+            CivMessage.send(player, ChatColor.RED + CivSettings.localize.localizedString("blacksmith_smelt_notEnoughInvenSpace"));
 
             // If the leftover size is the same as the size we are trying to withdraw, do nothing.
             int leftoverAmount = CivGlobal.getLeftoverSize(leftovers);

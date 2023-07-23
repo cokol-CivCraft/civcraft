@@ -13,7 +13,6 @@ import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.TimeTools;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.*;
@@ -248,10 +247,10 @@ public class ArenaManager implements Runnable {
         team.setCurrentArena(arena);
 
         CivMessage.sendTeamHeading(team, CivSettings.localize.localizedString("arena_statsHeading"));
-        CivMessage.sendTeam(team, CivSettings.localize.localizedString("arena_statsName") + " " + CivColor.Yellow + CivColor.BOLD + arena.config.name);
-        CivMessage.sendTeam(team, CivColor.LightGreen + CivColor.BOLD + team.getName() + CivColor.RESET + " VS " + CivColor.Rose + CivColor.BOLD + otherTeam.getName());
-        CivMessage.sendTeam(team, CivSettings.localize.localizedString("arena_statsScore") + " " + CivColor.LightGreen + team.getLadderPoints() + " " + getFavoredString(team, otherTeam));
-        CivMessage.sendTeam(team, CivSettings.localize.localizedString("arena_statsTheirScore") + " " + CivColor.LightGreen + otherTeam.getLadderPoints() + " " + getFavoredString(otherTeam, team));
+        CivMessage.sendTeam(team, CivSettings.localize.localizedString("arena_statsName") + " " + ChatColor.YELLOW + ChatColor.BOLD + arena.config.name);
+        CivMessage.sendTeam(team, String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + team.getName() + ChatColor.RESET + " VS " + ChatColor.RED + ChatColor.BOLD + otherTeam.getName());
+        CivMessage.sendTeam(team, CivSettings.localize.localizedString("arena_statsScore") + " " + ChatColor.GREEN + team.getLadderPoints() + " " + getFavoredString(team, otherTeam));
+        CivMessage.sendTeam(team, CivSettings.localize.localizedString("arena_statsTheirScore") + " " + ChatColor.GREEN + otherTeam.getLadderPoints() + " " + getFavoredString(otherTeam, team));
         CivMessage.sendTeam(team, CivSettings.localize.localizedString("arena_statsTheirTeam") + " " + otherTeam.getMemberListSaveString());
     }
 
@@ -452,9 +451,9 @@ public class ArenaManager implements Runnable {
 
             int diff = target.getLadderPoints() - other.getLadderPoints();
             if (diff > favored_points) {
-                return CivColor.Rose + "Favored";
+                return ChatColor.RED + "Favored";
             } else if (diff > slightly_favored_points) {
-                return CivColor.Yellow + "Slightly Favored";
+                return ChatColor.YELLOW + "Slightly Favored";
             }
 
             return "";
@@ -467,7 +466,7 @@ public class ArenaManager implements Runnable {
 
 
     public static void declareVictor(Arena arena, ArenaTeam loser, ArenaTeam winner) {
-        CivMessage.sendArena(arena, CivSettings.localize.localizedString("var_arena_hasDefeated", CivColor.LightGreen + CivColor.BOLD + winner.getName(), CivColor.Rose + CivColor.BOLD + loser.getName()));
+        CivMessage.sendArena(arena, CivSettings.localize.localizedString("var_arena_hasDefeated", String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + winner.getName(), String.valueOf(ChatColor.RED) + ChatColor.BOLD + loser.getName()));
         CivMessage.sendArena(arena, CivSettings.localize.localizedString("arena_leavingIn10"));
         TaskMaster.syncTask(() -> {
             try {
@@ -515,8 +514,8 @@ public class ArenaManager implements Runnable {
                 for (Resident r : loser.teamMembers) {
                     r.clearRespawnTimeArena();
                 }
-                CivMessage.global(CivColor.LightGreen + CivColor.BOLD + winner.getName() + "(+" + points + ")" + CivColor.RESET + " defeated " +
-                        CivColor.Rose + CivColor.BOLD + loser.getName() + "(-" + points + ")" + CivColor.RESET + " in Arena!");
+                CivMessage.global(String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + winner.getName() + "(+" + points + ")" + ChatColor.RESET + " defeated " +
+                        ChatColor.RED + ChatColor.BOLD + loser.getName() + "(-" + points + ")" + ChatColor.RESET + " in Arena!");
 
             } catch (InvalidConfiguration e) {
                 e.printStackTrace();

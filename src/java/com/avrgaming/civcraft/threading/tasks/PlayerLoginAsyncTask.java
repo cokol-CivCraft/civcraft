@@ -33,9 +33,9 @@ import com.avrgaming.civcraft.sessiondb.SessionEntry;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.war.War;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -102,8 +102,8 @@ public class PlayerLoginAsyncTask implements Runnable {
                     e1.printStackTrace();
                     return;
                 }
-                CivMessage.send(resident, CivColor.LightGray + CivSettings.localize.localizedString("var_PlayerLoginAsync_pvpTimerPropmt1", mins));
-                CivMessage.send(resident, CivColor.LightGray + CivSettings.localize.localizedString("PlayerLoginAsync_pvpTimerPropmt2"));
+                CivMessage.send(resident, ChatColor.GRAY + CivSettings.localize.localizedString("var_PlayerLoginAsync_pvpTimerPropmt1", mins));
+                CivMessage.send(resident, ChatColor.GRAY + CivSettings.localize.localizedString("PlayerLoginAsync_pvpTimerPropmt2"));
 
             }
 
@@ -154,11 +154,11 @@ public class PlayerLoginAsyncTask implements Runnable {
 
                         if (resident.getLastOnline() < War.getStart().getTime()) {
                             resident.teleportHome();
-                            CivMessage.send(resident, CivColor.LightGray + CivSettings.localize.localizedString("PlayerLoginAsync_loginDuringWar"));
+                            CivMessage.send(resident, ChatColor.GRAY + CivSettings.localize.localizedString("PlayerLoginAsync_loginDuringWar"));
                         }
                     } else if (!status.equals(Relation.Status.ALLY) && !status.equals(Relation.Status.PEACE) && !cc.getCiv().isAdminCiv()) {
                         resident.teleportHome();
-                        CivMessage.send(resident, CivColor.LightGray + CivSettings.localize.localizedString("PlayerLoginAsync_loginNotAllies"));
+                        CivMessage.send(resident, ChatColor.GRAY + CivSettings.localize.localizedString("PlayerLoginAsync_loginNotAllies"));
                     }
 
                     CivMessage.sendCiv(cc.getCiv(), CivSettings.localize.localizedString("var_PlayerLoginAsync_inBorderAlert", (color + getPlayer().getDisplayName() + "(" + relationName + ")")));
@@ -201,7 +201,7 @@ public class PlayerLoginAsyncTask implements Runnable {
 
                 ArrayList<SessionEntry> deathEvents = CivGlobal.getSessionDB().lookup("pvplogger:death:" + resident.getName());
                 if (deathEvents.size() != 0) {
-                    CivMessage.send(resident, CivColor.Rose + CivColor.BOLD + CivSettings.localize.localizedString("PlayerLoginAsync_killedWhilePVPLogged"));
+                    CivMessage.send(resident, String.valueOf(ChatColor.RED) + ChatColor.BOLD + CivSettings.localize.localizedString("PlayerLoginAsync_killedWhilePVPLogged"));
                     class SyncTask implements Runnable {
                         final String playerName;
 
@@ -229,12 +229,12 @@ public class PlayerLoginAsyncTask implements Runnable {
             }
 
             if (EndConditionDiplomacy.canPeopleVote()) {
-                CivMessage.send(resident, CivColor.LightGreen + CivSettings.localize.localizedString("PlayerLoginAsync_councilOf8"));
+                CivMessage.send(resident, ChatColor.GREEN + CivSettings.localize.localizedString("PlayerLoginAsync_councilOf8"));
             }
             Civilization civ = resident.getCiv();
             if (civ != null) {
                 if (civ.MOTD() != null) {
-                    CivMessage.send(resident, CivColor.LightPurple + "[Civ MOTD] " + CivColor.White + resident.getCiv().MOTD());
+                    CivMessage.send(resident, ChatColor.LIGHT_PURPLE + "[Civ MOTD] " + ChatColor.WHITE + resident.getCiv().MOTD());
                 }
             }
 

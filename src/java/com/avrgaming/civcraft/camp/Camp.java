@@ -628,11 +628,11 @@ public class Camp extends Buildable {
             }
         } else {
             this.firepoints--;
-            CivMessage.sendCamp(this, CivColor.Yellow + CivSettings.localize.localizedString("var_camp_campfireDown", this.firepoints));
+            CivMessage.sendCamp(this, ChatColor.YELLOW + CivSettings.localize.localizedString("var_camp_campfireDown", this.firepoints));
 
             double percentLeft = (double) this.firepoints / (double) this.maxFirePoints;
             if (percentLeft < 0.3) {
-                CivMessage.sendCamp(this, CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("camp_campfire30percent"));
+                CivMessage.sendCamp(this, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("camp_campfire30percent"));
             }
 
             if (this.firepoints < 0) {
@@ -659,7 +659,7 @@ public class Camp extends Buildable {
         }
 
         if (mInv.getInventoryCount() == 0) {
-            CivMessage.sendCamp(this, CivColor.Rose + CivSettings.localize.localizedString("camp_longhouseNoChest"));
+            CivMessage.sendCamp(this, ChatColor.RED + CivSettings.localize.localizedString("camp_longhouseNoChest"));
             return;
         }
 
@@ -669,16 +669,16 @@ public class Camp extends Buildable {
 
         switch (result) {
             case STARVE:
-                CivMessage.sendCamp(this, CivColor.LightGreen + CivSettings.localize.localizedString("var_camp_yourLonghouseDown", (CivColor.Rose + CivSettings.localize.localizedString("var_camp_longhouseStarved", consumeComponent.getCountString()) + CivColor.LightGreen), CivSettings.CURRENCY_NAME));
+                CivMessage.sendCamp(this, ChatColor.GREEN + CivSettings.localize.localizedString("var_camp_yourLonghouseDown", (ChatColor.RED + CivSettings.localize.localizedString("var_camp_longhouseStarved", consumeComponent.getCountString()) + ChatColor.GREEN), CivSettings.CURRENCY_NAME));
                 return;
             case LEVELDOWN:
-                CivMessage.sendCamp(this, CivColor.LightGreen + CivSettings.localize.localizedString("var_camp_yourLonghouseDown", (CivColor.Rose + CivSettings.localize.localizedString("camp_longhouseStavedAndLeveledDown") + CivColor.LightGreen), CivSettings.CURRENCY_NAME));
+                CivMessage.sendCamp(this, ChatColor.GREEN + CivSettings.localize.localizedString("var_camp_yourLonghouseDown", (ChatColor.RED + CivSettings.localize.localizedString("camp_longhouseStavedAndLeveledDown") + ChatColor.GREEN), CivSettings.CURRENCY_NAME));
                 return;
             case STAGNATE:
-                CivMessage.sendCamp(this, CivColor.LightGreen + CivSettings.localize.localizedString("var_camp_yourLonghouseDown", (CivColor.Yellow + CivSettings.localize.localizedString("camp_longhouseStagnated") + CivColor.LightGreen), CivSettings.CURRENCY_NAME));
+                CivMessage.sendCamp(this, ChatColor.GREEN + CivSettings.localize.localizedString("var_camp_yourLonghouseDown", (ChatColor.YELLOW + CivSettings.localize.localizedString("camp_longhouseStagnated") + ChatColor.GREEN), CivSettings.CURRENCY_NAME));
                 return;
             case UNKNOWN:
-                CivMessage.sendCamp(this, CivColor.LightGreen + CivSettings.localize.localizedString("var_camp_yourLonghouseDown", (CivColor.Purple + CivSettings.localize.localizedString("camp_longhouseSomethingUnknown") + CivColor.LightGreen), CivSettings.CURRENCY_NAME));
+                CivMessage.sendCamp(this, ChatColor.GREEN + CivSettings.localize.localizedString("var_camp_yourLonghouseDown", (ChatColor.DARK_PURPLE + CivSettings.localize.localizedString("camp_longhouseSomethingUnknown") + ChatColor.GREEN), CivSettings.CURRENCY_NAME));
                 return;
             default:
                 break;
@@ -704,28 +704,29 @@ public class Camp extends Buildable {
             token = tag.addTag(token, res.getUUIDString());
 
             AttributeUtil attrs = new AttributeUtil(token);
-            attrs.addLore(CivColor.LightGray + res.getName());
+            attrs.addLore(ChatColor.GRAY + res.getName());
             token = attrs.getStack();
 
             mInv.addItems(token, true);
         }
 
-        String stateMessage = "";
+        String stateMessage;
         switch (result) {
             case GROW:
-                stateMessage = CivColor.Green + CivSettings.localize.localizedString("var_camp_longhouseGrew", consumeComponent.getCountString() + CivColor.LightGreen);
+                stateMessage = ChatColor.DARK_GREEN + CivSettings.localize.localizedString("var_camp_longhouseGrew", consumeComponent.getCountString() + ChatColor.GREEN);
                 break;
             case LEVELUP:
-                stateMessage = CivColor.Green + CivSettings.localize.localizedString("camp_longhouselvlUp") + CivColor.LightGreen;
+                stateMessage = ChatColor.DARK_GREEN + CivSettings.localize.localizedString("camp_longhouselvlUp") + ChatColor.GREEN;
                 break;
             case MAXED:
-                stateMessage = CivColor.Green + CivSettings.localize.localizedString("var_camp_longhouseIsMaxed", consumeComponent.getCountString() + CivColor.LightGreen);
+                stateMessage = ChatColor.DARK_GREEN + CivSettings.localize.localizedString("var_camp_longhouseIsMaxed", consumeComponent.getCountString() + ChatColor.GREEN);
                 break;
             default:
+                stateMessage = "";
                 break;
         }
 
-        CivMessage.sendCamp(this, CivColor.LightGreen + CivSettings.localize.localizedString("var_camp_yourLonghouse", stateMessage, total_coins, CivSettings.CURRENCY_NAME));
+        CivMessage.sendCamp(this, ChatColor.GREEN + CivSettings.localize.localizedString("var_camp_yourLonghouse", stateMessage, total_coins, CivSettings.CURRENCY_NAME));
     }
 
     private void buildCampFromTemplate(Template tpl, BlockCoord corner) {
@@ -1194,8 +1195,8 @@ public class Camp extends Buildable {
         world.playEffect(cp.getCoord().getLocation(), Effect.MOBSPAWNER_FLAMES, 0);
         CivMessage.sendActionBar(player, CivData.getStringForBar(CivData.TaskType.CONTROL, cp.getHitpoints(), cp.getMaxHitpoints()));
 
-        CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("camp_hitControlBlock") + "(" + cp.getHitpoints() + " / " + cp.getMaxHitpoints() + ")");
-        CivMessage.sendCamp(this, CivColor.Yellow + CivSettings.localize.localizedString("camp_controlBlockUnderAttack"));
+        CivMessage.send(player, ChatColor.GRAY + CivSettings.localize.localizedString("camp_hitControlBlock") + "(" + cp.getHitpoints() + " / " + cp.getMaxHitpoints() + ")");
+        CivMessage.sendCamp(this, ChatColor.YELLOW + CivSettings.localize.localizedString("camp_controlBlockUnderAttack"));
     }
 
 
@@ -1224,10 +1225,10 @@ public class Camp extends Buildable {
         }
 
         if (allDestroyed) {
-            CivMessage.sendCamp(this, CivColor.Rose + CivSettings.localize.localizedString("camp_destroyed"));
+            CivMessage.sendCamp(this, ChatColor.RED + CivSettings.localize.localizedString("camp_destroyed"));
             this.destroy();
         } else {
-            CivMessage.sendCamp(this, CivColor.Rose + CivSettings.localize.localizedString("camp_controlBlockDestroyed"));
+            CivMessage.sendCamp(this, ChatColor.RED + CivSettings.localize.localizedString("camp_controlBlockDestroyed"));
         }
 
     }
@@ -1254,11 +1255,11 @@ public class Camp extends Buildable {
                         onControlBlockHit(cp, world, player);
                     }
                 } else {
-                    CivMessage.send(player, CivColor.Rose + CivSettings.localize.localizedString("camp_controlBlockAlreadyDestroyed"));
+                    CivMessage.send(player, ChatColor.RED + CivSettings.localize.localizedString("camp_controlBlockAlreadyDestroyed"));
                 }
             } else {
                 SimpleDateFormat sdf = new SimpleDateFormat("M/dd h:mm:ss a z");
-                CivMessage.send(player, CivColor.Rose + CivSettings.localize.localizedString("camp_protectedUntil") + " " + sdf.format(getNextRaidDate()));
+                CivMessage.send(player, ChatColor.RED + CivSettings.localize.localizedString("camp_protectedUntil") + " " + sdf.format(getNextRaidDate()));
             }
 
         }

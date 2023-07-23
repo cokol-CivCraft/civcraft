@@ -32,7 +32,6 @@ import com.avrgaming.civcraft.object.Relation;
 import com.avrgaming.civcraft.object.Relation.Status;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
-import com.avrgaming.civcraft.util.CivColor;
 import org.bukkit.ChatColor;
 
 import java.sql.SQLException;
@@ -143,7 +142,7 @@ public class AdminCivCommand extends CommandBase {
         Civilization civ = getNamedCiv(1);
 
         if (args.length < 3) {
-            CivMessage.send(sender, CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("adcmd_civ_bankruptConfirmPrompt"));
+            CivMessage.send(sender, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("adcmd_civ_bankruptConfirmPrompt"));
             CivMessage.send(sender, CivSettings.localize.localizedString("adcmd_civ_bankruptConfirmCmd"));
         }
 

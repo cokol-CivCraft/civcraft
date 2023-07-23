@@ -36,7 +36,6 @@ import com.avrgaming.civcraft.structure.Structure;
 import com.avrgaming.civcraft.structure.TownHall;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.war.War;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -104,11 +103,11 @@ public class TownCommand extends CommandBase {
         if (resident.getTown() == town) {
             TownHall townhall = town.getTownHall();
             if (townhall == null) {
-                CivMessage.send(sender, CivColor.LightGreen + CivColor.BOLD + town.getName() + " - ");
-                CivMessage.send(sender, CivColor.Rose + CivColor.BOLD + CivSettings.localize.localizedString("cmd_civ_locationMissingTownHall"));
+                CivMessage.send(sender, String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + town.getName() + " - ");
+                CivMessage.send(sender, String.valueOf(ChatColor.RED) + ChatColor.BOLD + CivSettings.localize.localizedString("cmd_civ_locationMissingTownHall"));
             } else {
-                CivMessage.send(sender, CivColor.LightGreen + CivColor.BOLD + town.getName() + " - ");
-                CivMessage.send(sender, CivColor.LightGreen + CivSettings.localize.localizedString("Location") + " " + CivColor.LightPurple + townhall.getCorner());
+                CivMessage.send(sender, String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + town.getName() + " - ");
+                CivMessage.send(sender, ChatColor.GREEN + CivSettings.localize.localizedString("Location") + " " + ChatColor.LIGHT_PURPLE + townhall.getCorner());
             }
         }
     }
@@ -239,22 +238,22 @@ public class TownCommand extends CommandBase {
             beakers += info.beakers;
         }
 
-        outList.add(CivColor.LightBlue + CivSettings.localize.localizedString("cmd_town_biomeList"));
+        outList.add(ChatColor.AQUA + CivSettings.localize.localizedString("cmd_town_biomeList"));
         //int totalBiomes = 0;
         StringBuilder out = new StringBuilder();
         for (String biome : biomes.keySet()) {
             Integer count = biomes.get(biome);
-            out.append(CivColor.Green).append(biome).append(": ").append(CivColor.LightGreen).append(count).append(CivColor.Green).append(", ");
+            out.append(ChatColor.DARK_GREEN).append(biome).append(": ").append(ChatColor.GREEN).append(count).append(ChatColor.DARK_GREEN).append(", ");
             //totalBiomes += count;
         }
         outList.add(out.toString());
         //	outList.add(CivColor.Green+"Biome Count: "+CivColor.LightGreen+totalBiomes);
 
-        outList.add(CivColor.LightBlue + CivSettings.localize.localizedString("cmd_town_totals"));
-        outList.add(CivColor.Green + " " + CivSettings.localize.localizedString("cmd_town_happiness") + " " + CivColor.LightGreen + df.format(happiness) +
-                CivColor.Green + " " + CivSettings.localize.localizedString("Hammers") + " " + CivColor.LightGreen + df.format(hammers) +
-                CivColor.Green + " " + CivSettings.localize.localizedString("cmd_town_growth") + " " + CivColor.LightGreen + df.format(growth) +
-                CivColor.Green + " " + CivSettings.localize.localizedString("Beakers") + " " + CivColor.LightGreen + df.format(beakers));
+        outList.add(ChatColor.AQUA + CivSettings.localize.localizedString("cmd_town_totals"));
+        outList.add(ChatColor.DARK_GREEN + " " + CivSettings.localize.localizedString("cmd_town_happiness") + " " + ChatColor.GREEN + df.format(happiness) +
+                ChatColor.DARK_GREEN + " " + CivSettings.localize.localizedString("Hammers") + " " + ChatColor.GREEN + df.format(hammers) +
+                ChatColor.DARK_GREEN + " " + CivSettings.localize.localizedString("cmd_town_growth") + " " + ChatColor.GREEN + df.format(growth) +
+                ChatColor.DARK_GREEN + " " + CivSettings.localize.localizedString("Beakers") + " " + ChatColor.GREEN + df.format(beakers));
         return outList;
     }
 
@@ -276,8 +275,8 @@ public class TownCommand extends CommandBase {
         }
 
         if (args.length < 2 || !args[1].equalsIgnoreCase("yes")) {
-            CivMessage.send(sender, CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_town_capitulatePrompt1", town.getCiv().getName()));
-            CivMessage.send(sender, CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("cmd_town_capitulateConfirm"));
+            CivMessage.send(sender, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_town_capitulatePrompt1", town.getCiv().getName()));
+            CivMessage.send(sender, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("cmd_town_capitulateConfirm"));
             return;
         }
 
@@ -378,7 +377,7 @@ public class TownCommand extends CommandBase {
         synchronized (CivGlobal.townScores) {
             int i = 1;
             for (Integer score : CivGlobal.townScores.descendingKeySet()) {
-                CivMessage.send(sender, i + ") " + CivColor.Gold + CivGlobal.townScores.get(score).getName() + CivColor.White + " - " + score);
+                CivMessage.send(sender, i + ") " + ChatColor.GOLD + CivGlobal.townScores.get(score).getName() + ChatColor.WHITE + " - " + score);
                 i++;
                 if (i > 5) {
                     break;
@@ -425,7 +424,7 @@ public class TownCommand extends CommandBase {
             town.removeResident(residentToKick);
 
             try {
-                CivMessage.send(CivGlobal.getPlayer(residentToKick), CivColor.Yellow + CivSettings.localize.localizedString("cmd_town_evictAlert"));
+                CivMessage.send(CivGlobal.getPlayer(residentToKick), ChatColor.YELLOW + CivSettings.localize.localizedString("cmd_town_evictAlert"));
             } catch (CivException e) {
                 //Player not online.
             }
@@ -478,11 +477,11 @@ public class TownCommand extends CommandBase {
                             potentialDistanceLow = civ.getDistanceUpkeepAtLocation(ourCapLoc, theirTownHallLoc, true);
                             potentialDistanceHigh = civ.getDistanceUpkeepAtLocation(ourCapLoc, theirTownHallLoc, false);
 
-                            CivMessage.send(player, CivColor.Yellow + CivSettings.localize.localizedString("var_cmd_town_showCost1", potentialDistanceLow));
-                            CivMessage.send(player, CivColor.Yellow + CivSettings.localize.localizedString("cmd_town_showCost3"));
-                            CivMessage.send(player, CivColor.Yellow + CivSettings.localize.localizedString("var_cmd_town_showCost3", potentialDistanceHigh, CivSettings.CURRENCY_NAME));
+                            CivMessage.send(player, ChatColor.YELLOW + CivSettings.localize.localizedString("var_cmd_town_showCost1", potentialDistanceLow));
+                            CivMessage.send(player, ChatColor.YELLOW + CivSettings.localize.localizedString("cmd_town_showCost3"));
+                            CivMessage.send(player, ChatColor.YELLOW + CivSettings.localize.localizedString("var_cmd_town_showCost3", potentialDistanceHigh, CivSettings.CURRENCY_NAME));
                         } else {
-                            CivMessage.send(player, CivColor.Yellow + CivSettings.localize.localizedString("cmd_town_showNoTownHall"));
+                            CivMessage.send(player, ChatColor.YELLOW + CivSettings.localize.localizedString("cmd_town_showNoTownHall"));
                         }
                     } catch (InvalidConfiguration e) {
                         e.printStackTrace();
@@ -516,7 +515,7 @@ public class TownCommand extends CommandBase {
 
         if (resident.isTownChat()) {
             resident.setTownChat(false);
-            CivMessage.send(sender, CivColor.LightGray + CivSettings.localize.localizedString("cmd_town_leaveTownChat"));
+            CivMessage.send(sender, ChatColor.GRAY + CivSettings.localize.localizedString("cmd_town_leaveTownChat"));
         }
 
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_leaveSuccess", town.getName()));
@@ -610,7 +609,7 @@ public class TownCommand extends CommandBase {
         if (newResident.hasCamp()) {
             try {
                 Player resPlayer = CivGlobal.getPlayer(newResident);
-                CivMessage.send(resPlayer, CivColor.Yellow + CivSettings.localize.localizedString("var_cmd_town_addAlertError1", player.getName(), town.getName()));
+                CivMessage.send(resPlayer, ChatColor.YELLOW + CivSettings.localize.localizedString("var_cmd_town_addAlertError1", player.getName(), town.getName()));
             } catch (CivException e) {
                 //player not online
             }
@@ -636,7 +635,7 @@ public class TownCommand extends CommandBase {
                 CivSettings.localize.localizedString("var_cmd_town_addInvite", town.getName()),
                 INVITE_TIMEOUT, join);
 
-        CivMessage.sendSuccess(sender, CivColor.LightGray + CivSettings.localize.localizedString("var_cmd_town_addSuccess", args[1], town.getName()));
+        CivMessage.sendSuccess(sender, ChatColor.GRAY + CivSettings.localize.localizedString("var_cmd_town_addSuccess", args[1], town.getName()));
     }
 
     public void invite_cmd() throws CivException {

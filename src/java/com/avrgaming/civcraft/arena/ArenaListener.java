@@ -7,10 +7,10 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.DateUtil;
 import com.avrgaming.civcraft.util.TimeTools;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -69,7 +69,7 @@ public class ArenaListener implements Listener {
                     resident12.setInsideArena(false);
                     resident12.save();
 
-                    CivMessage.send(resident12, CivColor.LightGray + CivSettings.localize.localizedString("arena_destroyedTeleport"));
+                    CivMessage.send(resident12, ChatColor.GRAY + CivSettings.localize.localizedString("arena_destroyedTeleport"));
                 }, 10);
             }
         }
@@ -141,7 +141,7 @@ public class ArenaListener implements Listener {
 
         Location loc = arena.getRespawnLocation(resident);
         if (loc != null) {
-            CivMessage.send(resident, CivColor.LightGray + CivSettings.localize.localizedString("arena_respawned"));
+            CivMessage.send(resident, ChatColor.GRAY + CivSettings.localize.localizedString("arena_respawned"));
             World world = Bukkit.getWorld(arena.getInstanceName());
             loc.setWorld(world);
 
@@ -211,7 +211,7 @@ public class ArenaListener implements Listener {
                 Location loc = revive.getCenteredLocation();
                 World world = Bukkit.getWorld(arena.getInstanceName());
                 loc.setWorld(world);
-                CivMessage.send(resident, CivColor.LightGray + CivSettings.localize.localizedString("arena_revived"));
+                CivMessage.send(resident, ChatColor.GRAY + CivSettings.localize.localizedString("arena_revived"));
 
                 try {
                     CivGlobal.getPlayer(resident).teleport(loc);

@@ -24,8 +24,8 @@ import com.avrgaming.civcraft.structure.Structure;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.SimpleBlock.Type;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
@@ -126,7 +126,7 @@ public class RecoverStructuresAsyncTask implements Runnable {
             try {
                 if (isBrokenStructure(struct)) {
                     if (listOnly) {
-                        CivMessage.send(sender, struct.getDisplayName() + " at " + CivColor.Yellow + struct.getCorner());
+                        CivMessage.send(sender, struct.getDisplayName() + " at " + ChatColor.YELLOW + struct.getCorner());
                     }
 
                     //CivLog.debug("\tIS BROKEN");

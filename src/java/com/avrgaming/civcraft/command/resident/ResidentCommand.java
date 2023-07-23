@@ -25,7 +25,7 @@ import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -95,8 +95,8 @@ public class ResidentCommand extends CommandBase {
         TimeZone timezone = TimeZone.getTimeZone(args[1]);
 
         if (timezone.getID().equals("GMT") && !args[1].equalsIgnoreCase("GMT")) {
-            CivMessage.send(sender, CivColor.LightGray + CivSettings.localize.localizedString("var_cmd_res_timezonenotFound1", args[1]));
-            CivMessage.send(sender, CivColor.LightGray + CivSettings.localize.localizedString("cmd_res_timezoneNotFound3"));
+            CivMessage.send(sender, ChatColor.GRAY + CivSettings.localize.localizedString("var_cmd_res_timezonenotFound1", args[1]));
+            CivMessage.send(sender, ChatColor.GRAY + CivSettings.localize.localizedString("cmd_res_timezoneNotFound3"));
         }
 
         resident.setTimezone(timezone.getID());
@@ -303,39 +303,39 @@ public class ResidentCommand extends CommandBase {
         CivMessage.sendHeading(sender, CivSettings.localize.localizedString("var_Resident", resident.getName()));
         Date lastOnline = new Date(resident.getLastOnline());
         SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yy h:mm:ss a z");
-        CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_res_showLastOnline") + " " + CivColor.LightGreen + sdf.format(lastOnline));
-        CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("Town") + " " + CivColor.LightGreen + resident.getTownString());
-        CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("Camp") + " " + CivColor.LightGreen + resident.getCampString());
+        CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("cmd_res_showLastOnline") + " " + ChatColor.GREEN + sdf.format(lastOnline));
+        CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("Town") + " " + ChatColor.GREEN + resident.getTownString());
+        CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("Camp") + " " + ChatColor.GREEN + resident.getCampString());
 
         if (sender.getName().equalsIgnoreCase(resident.getName()) || sender.isOp()) {
-            CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_res_showTreasure") + " " + CivColor.LightGreen + resident.getTreasury().getBalance());
+            CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("cmd_res_showTreasure") + " " + ChatColor.GREEN + resident.getTreasury().getBalance());
             if (resident.hasTown()) {
                 if (resident.getSelectedTown() != null) {
-                    CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_res_showSelected") + " " + CivColor.LightGreen + resident.getSelectedTown().getName());
+                    CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("cmd_res_showSelected") + " " + ChatColor.GREEN + resident.getSelectedTown().getName());
                 } else {
-                    CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_res_showSelected") + " " + CivColor.LightGreen + resident.getTown().getName());
+                    CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("cmd_res_showSelected") + " " + ChatColor.GREEN + resident.getTown().getName());
                 }
             }
         }
 
         if (resident.getTreasury().inDebt()) {
-            CivMessage.send(resident, CivColor.Yellow + CivSettings.localize.localizedString("cmd_res_showDebt") + " " + resident.getTreasury().getDebt() + " " + CivSettings.CURRENCY_NAME);
+            CivMessage.send(resident, ChatColor.YELLOW + CivSettings.localize.localizedString("cmd_res_showDebt") + " " + resident.getTreasury().getDebt() + " " + CivSettings.CURRENCY_NAME);
         }
 
         if (resident.getDaysTilEvict() > 0) {
-            CivMessage.send(resident, CivColor.Yellow + CivSettings.localize.localizedString("cmd_res_showEviction") + " " + resident.getDaysTilEvict());
+            CivMessage.send(resident, ChatColor.YELLOW + CivSettings.localize.localizedString("cmd_res_showEviction") + " " + resident.getDaysTilEvict());
         }
 
-        CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("Groups") + " " + resident.getGroupsString());
+        CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("Groups") + " " + resident.getGroupsString());
 
         try {
             if (resident.isUsesAntiCheat()) {
-                CivMessage.send(sender, CivColor.LightGreen + CivSettings.localize.localizedString("cmd_res_showAC1"));
+                CivMessage.send(sender, ChatColor.GREEN + CivSettings.localize.localizedString("cmd_res_showAC1"));
             } else {
-                CivMessage.send(sender, CivColor.Rose + CivSettings.localize.localizedString("cmd_res_showAC2"));
+                CivMessage.send(sender, ChatColor.RED + CivSettings.localize.localizedString("cmd_res_showAC2"));
             }
         } catch (CivException e) {
-            CivMessage.send(sender, CivColor.LightGray + CivSettings.localize.localizedString("cmd_res_showOffline"));
+            CivMessage.send(sender, ChatColor.GRAY + CivSettings.localize.localizedString("cmd_res_showOffline"));
         }
     }
 

@@ -6,7 +6,6 @@ import com.avrgaming.civcraft.loreenhancements.LoreEnhancement;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.lorestorage.LoreMaterial;
 import com.avrgaming.civcraft.main.CivLog;
-import com.avrgaming.civcraft.util.CivColor;
 import gpl.AttributeUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
@@ -17,7 +16,7 @@ public class Catalyst extends ItemComponent {
 
     @Override
     public void onPrepareCreate(AttributeUtil attrUtil) {
-        attrUtil.addLore(ChatColor.RESET + CivColor.Gold + CivSettings.localize.localizedString("itemLore_Catalyst"));
+        attrUtil.addLore(ChatColor.RESET + String.valueOf(ChatColor.GOLD) + CivSettings.localize.localizedString("itemLore_Catalyst"));
     }
 
     public ItemStack getEnchantedItem(ItemStack stack) {

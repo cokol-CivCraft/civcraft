@@ -21,7 +21,7 @@ import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -58,7 +58,7 @@ public class CivChatCommand implements CommandExecutor {
         }
 
         if (resident.getTown() == null) {
-            player.sendMessage(CivColor.Rose + CivSettings.localize.localizedString("cmd_civchat_error"));
+            player.sendMessage(ChatColor.RED + CivSettings.localize.localizedString("cmd_civchat_error"));
             return false;
         }
 

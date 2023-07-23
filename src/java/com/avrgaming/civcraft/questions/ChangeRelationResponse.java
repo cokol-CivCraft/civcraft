@@ -23,7 +23,7 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.Relation;
 import com.avrgaming.civcraft.object.Resident;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 
 public class ChangeRelationResponse implements QuestionResponseInterface {
 
@@ -36,7 +36,7 @@ public class ChangeRelationResponse implements QuestionResponseInterface {
         if (param.equalsIgnoreCase("accept")) {
             CivGlobal.setRelation(fromCiv, toCiv, status);
         } else {
-            CivMessage.sendCiv(fromCiv, CivColor.LightGray + CivSettings.localize.localizedString("var_RequestDecline", toCiv.getName()));
+            CivMessage.sendCiv(fromCiv, ChatColor.GRAY + CivSettings.localize.localizedString("var_RequestDecline", toCiv.getName()));
         }
     }
 

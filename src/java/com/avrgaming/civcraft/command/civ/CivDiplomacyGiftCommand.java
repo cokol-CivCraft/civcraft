@@ -28,7 +28,6 @@ import com.avrgaming.civcraft.questions.DiplomacyGiftResponse;
 import com.avrgaming.civcraft.questions.QuestionResponseInterface;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.CivQuestionTask;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.war.War;
 import org.bukkit.ChatColor;
 
@@ -92,7 +91,7 @@ public class CivDiplomacyGiftCommand extends CommandBase {
         dipResponse.toCiv = toCiv;
 
         sendGiftRequest(toCiv, fromCiv,
-                CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_civ_dipgift_entirecivRequest1", fromCiv.getName()) +
+                String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_civ_dipgift_entirecivRequest1", fromCiv.getName()) +
                         " " + CivSettings.localize.localizedString("var_cmd_civ_dipgift_entirecivRequest2", fromCiv.getMergeCost(), CivSettings.CURRENCY_NAME), dipResponse);
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_civ_dipgift_entirecivSuccess"));
     }

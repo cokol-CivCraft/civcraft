@@ -26,7 +26,7 @@ import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.questions.JoinCampResponse;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -64,7 +64,7 @@ public class CampCommand extends CommandBase {
 
         if (camp != null) {
             CivMessage.send(sender, "");
-            CivMessage.send(sender, CivColor.LightGreen + CivColor.BOLD + CivSettings.localize.localizedString("cmd_camp_locationSuccess") + " " + CivColor.LightPurple + camp.getCorner());
+            CivMessage.send(sender, String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("cmd_camp_locationSuccess") + " " + ChatColor.LIGHT_PURPLE + camp.getCorner());
             CivMessage.send(sender, "");
         }
     }
@@ -109,16 +109,16 @@ public class CampCommand extends CommandBase {
         info.put(CivSettings.localize.localizedString("Owner"), camp.getOwnerName());
         info.put(CivSettings.localize.localizedString("Members"), String.valueOf(camp.getMembers().size()));
         info.put(CivSettings.localize.localizedString("NextRaid"), sdf.format(camp.getNextRaidDate()));
-        CivMessage.send(sender, this.makeInfoString(info, CivColor.Green, CivColor.LightGreen));
+        CivMessage.send(sender, this.makeInfoString(info, ChatColor.DARK_GREEN, ChatColor.GREEN));
 
         info.clear();
         info.put(CivSettings.localize.localizedString("cmd_camp_infoFireLeft"), String.valueOf(camp.getFirepoints()));
         info.put(CivSettings.localize.localizedString("cmd_camp_infoLonghouseLevel"), camp.getLonghouseLevel() + camp.getLonghouseCountString());
-        CivMessage.send(sender, this.makeInfoString(info, CivColor.Green, CivColor.LightGreen));
+        CivMessage.send(sender, this.makeInfoString(info, ChatColor.DARK_GREEN, ChatColor.GREEN));
 
         info.clear();
         info.put(CivSettings.localize.localizedString("Members"), camp.getMembersString());
-        CivMessage.send(sender, this.makeInfoString(info, CivColor.Green, CivColor.LightGreen));
+        CivMessage.send(sender, this.makeInfoString(info, ChatColor.DARK_GREEN, ChatColor.GREEN));
     }
 
     public void remove_cmd() throws CivException {
@@ -240,7 +240,7 @@ public class CampCommand extends CommandBase {
         HashMap<Integer, ItemStack> leftovers = player.getInventory().addItem(newStack);
         for (ItemStack stack : leftovers.values()) {
             player.getWorld().dropItem(player.getLocation(), stack);
-            CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("cmd_camp_undoFullInven"));
+            CivMessage.send(player, ChatColor.GRAY + CivSettings.localize.localizedString("cmd_camp_undoFullInven"));
         }
 
         camp.undo();

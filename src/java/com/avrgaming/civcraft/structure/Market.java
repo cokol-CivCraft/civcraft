@@ -27,7 +27,6 @@ import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.StructureSign;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.SimpleBlock;
 import org.bukkit.ChatColor;
@@ -134,13 +133,13 @@ public class Market extends Structure {
         String itemColor;
         switch (item.lastaction) {
             case BUY:
-                itemColor = CivColor.LightGreen;
+                itemColor = String.valueOf(ChatColor.GREEN);
                 break;
             case SELL:
-                itemColor = CivColor.Rose;
+                itemColor = String.valueOf(ChatColor.RED);
                 break;
             default:
-                itemColor = CivColor.Black;
+                itemColor = String.valueOf(ChatColor.BLACK);
                 break;
         }
 

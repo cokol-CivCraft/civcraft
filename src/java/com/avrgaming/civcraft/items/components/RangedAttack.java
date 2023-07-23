@@ -7,8 +7,8 @@ import com.avrgaming.civcraft.loreenhancements.LoreEnhancementAttack;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
-import com.avrgaming.civcraft.util.CivColor;
 import gpl.AttributeUtil;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -21,7 +21,7 @@ public class RangedAttack extends ItemComponent {
 
     @Override
     public void onPrepareCreate(AttributeUtil attrs) {
-        attrs.addLore(CivColor.Rose + this.getDouble("value") + " " + CivSettings.localize.localizedString("itemLore_RangedAttack"));
+        attrs.addLore(String.valueOf(ChatColor.RED) + this.getDouble("value") + " " + CivSettings.localize.localizedString("itemLore_RangedAttack"));
     }
 
     private static final double ARROW_MAX_VEL = 6.0;
@@ -39,7 +39,7 @@ public class RangedAttack extends ItemComponent {
 
         Resident resident = CivGlobal.getResident(event.getPlayer());
         if (!resident.hasTechForItem(event.getPlayer().getInventory().getItem(event.getNewSlot()))) {
-            CivMessage.send(resident, CivColor.Rose + CivSettings.localize.localizedString("itemLore_Warning") + " - " + CivColor.LightGray +
+            CivMessage.send(resident, ChatColor.RED + CivSettings.localize.localizedString("itemLore_Warning") + " - " + ChatColor.GRAY +
                     CivSettings.localize.localizedString("itemLore_attackHalfDamage"));
         }
     }

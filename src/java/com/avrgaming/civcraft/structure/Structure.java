@@ -31,7 +31,7 @@ import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.road.Road;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -748,7 +748,7 @@ public class Structure extends Buildable {
             throw new CivException(CivSettings.localize.localizedString("internalDatabaseException"));
         }
 
-        CivMessage.sendTown(getTown(), CivColor.LightGreen + CivSettings.localize.localizedString("var_structure_undo_success", getDisplayName()));
+        CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_structure_undo_success", getDisplayName()));
 
         double refund = this.getCost();
         this.getTown().depositDirect(refund);
@@ -813,7 +813,7 @@ public class Structure extends Buildable {
         repairStructureForFree();
 
         getTown().getTreasury().withdraw(cost);
-        CivMessage.sendTown(getTown(), CivColor.Yellow + CivSettings.localize.localizedString("var_structure_repair_success", getTown().getName(), getDisplayName(), getCorner()));
+        CivMessage.sendTown(getTown(), ChatColor.YELLOW + CivSettings.localize.localizedString("var_structure_repair_success", getTown().getName(), getDisplayName(), getCorner()));
     }
 
     @Override

@@ -44,9 +44,13 @@ import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.sync.SyncUpdateTags;
 import com.avrgaming.civcraft.threading.tasks.BuildAsyncTask;
 import com.avrgaming.civcraft.threading.tasks.BuildUndoTask;
-import com.avrgaming.civcraft.util.*;
+import com.avrgaming.civcraft.util.BlockCoord;
+import com.avrgaming.civcraft.util.ChunkCoord;
+import com.avrgaming.civcraft.util.DateUtil;
+import com.avrgaming.civcraft.util.ItemFrameStorage;
 import com.avrgaming.civcraft.war.War;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -62,16 +66,16 @@ import static java.lang.Math.max;
 
 public class Town extends SQLObject {
 
-    private ConcurrentHashMap<String, Resident> residents = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<String, Resident> fakeResidents = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, Resident> residents = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, Resident> fakeResidents = new ConcurrentHashMap<>();
 
-    private ConcurrentHashMap<ChunkCoord, TownChunk> townChunks = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<ChunkCoord, TownChunk> outposts = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<ChunkCoord, TownChunk> townChunks = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<ChunkCoord, TownChunk> outposts = new ConcurrentHashMap<>();
     private ConcurrentHashMap<ChunkCoord, CultureChunk> cultureChunks = new ConcurrentHashMap<>();
 
-    private ConcurrentHashMap<BlockCoord, Wonder> wonders = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<BlockCoord, Structure> structures = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<BlockCoord, Buildable> disabledBuildables = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<BlockCoord, Wonder> wonders = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<BlockCoord, Structure> structures = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<BlockCoord, Buildable> disabledBuildables = new ConcurrentHashMap<>();
 
     private int level;
     private Civilization civ;
@@ -611,7 +615,7 @@ public class Town extends SQLObject {
 
             double bonus = culturePerTown * townCount;
 
-            CivMessage.sendTown(this, CivColor.LightGreen + CivSettings.localize.localizedString("var_town_GlobeTheatreCulture", CivColor.Yellow + bonus + CivColor.LightGreen, townCount));
+            CivMessage.sendTown(this, ChatColor.GREEN + CivSettings.localize.localizedString("var_town_GlobeTheatreCulture", String.valueOf(ChatColor.YELLOW) + bonus + ChatColor.GREEN, townCount));
 
             fromStructures += bonus;
         }
@@ -1087,7 +1091,7 @@ public class Town extends SQLObject {
             }
 
             double capturePayment = amount * capturedPenalty;
-            CivMessage.sendTown(this, CivColor.Yellow + CivSettings.localize.localizedString("var_town_capturePenalty1", (amount - capturePayment), CivSettings.CURRENCY_NAME, this.getCiv().getName()));
+            CivMessage.sendTown(this, ChatColor.YELLOW + CivSettings.localize.localizedString("var_town_capturePenalty1", (amount - capturePayment), CivSettings.CURRENCY_NAME, this.getCiv().getName()));
             amount = capturePayment;
         }
 
@@ -1185,12 +1189,12 @@ public class Town extends SQLObject {
     public String getPvpString() {
         if (!this.getCiv().getDiplomacyManager().isAtWar()) {
             if (pvp) {
-                return CivColor.Red + "[PvP]";
+                return ChatColor.DARK_RED + "[PvP]";
             } else {
-                return CivColor.Green + "[No PvP]";
+                return ChatColor.DARK_GREEN + "[No PvP]";
             }
         } else {
-            return CivColor.Red + "[WAR-PvP]";
+            return ChatColor.DARK_RED + "[WAR-PvP]";
         }
     }
 
@@ -1521,7 +1525,7 @@ public class Town extends SQLObject {
         wonders.put(wonder.getCorner(), wonder);
 
         this.getTreasury().withdraw(cost);
-        CivMessage.sendTown(this, CivColor.Yellow + CivSettings.localize.localizedString("var_town_buildwonder_success", wonder.getDisplayName()));
+        CivMessage.sendTown(this, ChatColor.YELLOW + CivSettings.localize.localizedString("var_town_buildwonder_success", wonder.getDisplayName()));
         this.save();
     }
 
@@ -1597,7 +1601,7 @@ public class Town extends SQLObject {
         }
 
         this.getTreasury().withdraw(cost);
-        CivMessage.sendTown(this, CivColor.Yellow + CivSettings.localize.localizedString("var_town_buildwonder_success", struct.getDisplayName()));
+        CivMessage.sendTown(this, ChatColor.YELLOW + CivSettings.localize.localizedString("var_town_buildwonder_success", struct.getDisplayName()));
 
         //	try {
         //this.save();
@@ -3025,7 +3029,7 @@ public class Town extends SQLObject {
         try {
 
             if (percent >= CivSettings.getDouble(CivSettings.espionageConfig, "espionage.town_exposure_failure")) {
-                CivMessage.sendTown(this, CivColor.Yellow + CivColor.BOLD + CivSettings.localize.localizedString("town_spy_thwarted"));
+                CivMessage.sendTown(this, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("town_spy_thwarted"));
                 return true;
             }
 
@@ -3043,7 +3047,7 @@ public class Town extends SQLObject {
 
             if (message.length() > 0) {
                 if (lastMessage == null || !lastMessage.equals(message)) {
-                    CivMessage.sendTown(this, CivColor.Yellow + CivColor.BOLD + message);
+                    CivMessage.sendTown(this, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + message);
                     lastMessage = message;
                 }
             }

@@ -32,8 +32,8 @@ import com.avrgaming.civcraft.object.Relation.Status;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
 import com.avrgaming.civcraft.siege.Cannon;
-import com.avrgaming.civcraft.util.CivColor;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
@@ -149,7 +149,7 @@ public class War {
 
         if (warTime && !War.hasWars()) {
 
-            CivMessage.globalHeading(CivColor.BOLD + CivSettings.localize.localizedString("war_wartimeSkippedHeading"));
+            CivMessage.globalHeading(ChatColor.BOLD + CivSettings.localize.localizedString("war_wartimeSkippedHeading"));
             try {
                 DisableTeleportEvent.enableTeleport();
             } catch (IOException e) {
@@ -184,7 +184,7 @@ public class War {
             File file = new File("wartime");
             file.delete();
 
-            CivMessage.globalTitle(CivColor.Yellow + CivColor.BOLD + CivSettings.localize.localizedString("war_wartimeEndedHeading"), CivSettings.localize.localizedString("var_war_mostLethal", WarStats.getTopKiller()));
+            CivMessage.globalTitle(String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("war_wartimeEndedHeading"), CivSettings.localize.localizedString("var_war_mostLethal", WarStats.getTopKiller()));
             /* display some stats. */
             List<String> civs = WarStats.getCapturedCivs();
             if (civs.size() > 0) {
@@ -215,7 +215,7 @@ public class War {
             }
 
             /* War time has started. */
-            CivMessage.globalTitle(CivColor.Red + CivColor.BOLD + CivSettings.localize.localizedString("war_wartimeBeginHeading"), CivSettings.localize.localizedString("war_wartimeBegin_title_length", mins / 60.0));
+            CivMessage.globalTitle(String.valueOf(ChatColor.DARK_RED) + ChatColor.BOLD + CivSettings.localize.localizedString("war_wartimeBeginHeading"), CivSettings.localize.localizedString("war_wartimeBegin_title_length", mins / 60.0));
             for (Player p : Bukkit.getServer().getOnlinePlayers()) {
                 p.playSound(p.getLocation(), Sound.ITEM_TOTEM_USE, 1.25f, 1.25f);
             }
@@ -303,7 +303,7 @@ public class War {
                     Civilization winner = defeatedTowns.get(townName);
 
                     town.onDefeat(winner);
-                    CivMessage.sendTown(town, CivColor.LightBlue + CivSettings.localize.localizedString("var_war_overlordAnnounce", winner.getName()));
+                    CivMessage.sendTown(town, ChatColor.AQUA + CivSettings.localize.localizedString("var_war_overlordAnnounce", winner.getName()));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -322,7 +322,7 @@ public class War {
                     }
 
                     Civilization winner = defeatedCivs.get(civName);
-                    CivMessage.sendCiv(civ, CivColor.LightBlue + CivColor.LightBlue + CivSettings.localize.localizedString("var_war_overlordAnnounce", winner.getName()));
+                    CivMessage.sendCiv(civ, String.valueOf(ChatColor.AQUA) + ChatColor.AQUA + CivSettings.localize.localizedString("var_war_overlordAnnounce", winner.getName()));
                     civ.onDefeat(winner);
                 } catch (Exception e) {
                     e.printStackTrace();

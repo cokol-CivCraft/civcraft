@@ -10,7 +10,6 @@ import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.EspionageMissionTask;
-import com.avrgaming.civcraft.util.CivColor;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -63,13 +62,13 @@ public class InteractiveSpyMission implements InteractiveResponse {
             length += CivSettings.localize.localizedString("var_interactive_spy_seconds", seconds);
         }
 
-        CivMessage.send(player, CivColor.Green + CivColor.BOLD + CivSettings.localize.localizedString("var_interactive_spy_prompt1", CivColor.LightGreen + successChance + CivColor.Green + CivColor.BOLD));
-        CivMessage.send(player, CivColor.Green + CivColor.BOLD + CivSettings.localize.localizedString("var_interactive_spy_prompt2", CivColor.LightGreen + compromiseChance + CivColor.Green + CivColor.BOLD));
-        CivMessage.send(player, CivColor.Green + CivColor.BOLD + CivSettings.localize.localizedString("var_interactive_spy_prompt3", CivColor.Yellow + mission.cost + CivColor.Green + CivColor.BOLD, CivSettings.CURRENCY_NAME));
-        CivMessage.send(player, CivColor.Green + CivColor.BOLD + CivSettings.localize.localizedString("var_interactive_spy_prompt4", CivColor.Yellow + length + CivColor.Green + CivColor.BOLD));
-        CivMessage.send(player, CivColor.Green + CivColor.BOLD + CivSettings.localize.localizedString("interactive_spy_prompt5"));
-        CivMessage.send(player, CivColor.Green + CivColor.BOLD + CivSettings.localize.localizedString("interactive_spy_prompt6"));
-        CivMessage.send(player, CivColor.Green + ChatColor.BOLD + CivSettings.localize.localizedString("interactive_spy_prompt7"));
+        CivMessage.send(player, String.valueOf(ChatColor.DARK_GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("var_interactive_spy_prompt1", ChatColor.GREEN + successChance + ChatColor.DARK_GREEN + ChatColor.BOLD));
+        CivMessage.send(player, String.valueOf(ChatColor.DARK_GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("var_interactive_spy_prompt2", ChatColor.GREEN + compromiseChance + ChatColor.DARK_GREEN + ChatColor.BOLD));
+        CivMessage.send(player, String.valueOf(ChatColor.DARK_GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("var_interactive_spy_prompt3", String.valueOf(ChatColor.YELLOW) + mission.cost + ChatColor.DARK_GREEN + ChatColor.BOLD, CivSettings.CURRENCY_NAME));
+        CivMessage.send(player, String.valueOf(ChatColor.DARK_GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("var_interactive_spy_prompt4", ChatColor.YELLOW + length + ChatColor.DARK_GREEN + ChatColor.BOLD));
+        CivMessage.send(player, String.valueOf(ChatColor.DARK_GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("interactive_spy_prompt5"));
+        CivMessage.send(player, String.valueOf(ChatColor.DARK_GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("interactive_spy_prompt6"));
+        CivMessage.send(player, String.valueOf(ChatColor.DARK_GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("interactive_spy_prompt7"));
     }
 
 

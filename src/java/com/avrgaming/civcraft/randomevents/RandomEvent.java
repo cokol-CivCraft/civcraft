@@ -14,8 +14,8 @@ import com.avrgaming.civcraft.randomevents.components.HammerRate;
 import com.avrgaming.civcraft.randomevents.components.Happiness;
 import com.avrgaming.civcraft.randomevents.components.Unhappiness;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
-import com.avrgaming.civcraft.util.CivColor;
 import com.mysql.jdbc.StringUtils;
+import org.bukkit.ChatColor;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import java.sql.ResultSet;
@@ -255,7 +255,7 @@ public class RandomEvent extends SQLObject {
                 comp.process();
             } else {
                 requireActivation = true;
-                CivMessage.sendTown(this.town, CivColor.Yellow + CivSettings.localize.localizedString("re_activationRequired"));
+                CivMessage.sendTown(this.town, ChatColor.YELLOW + CivSettings.localize.localizedString("re_activationRequired"));
             }
         }
 

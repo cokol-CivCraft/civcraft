@@ -28,7 +28,7 @@ import com.avrgaming.civcraft.permission.PermissionGroup;
 import com.avrgaming.civcraft.structure.farm.FarmChunk;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.text.SimpleDateFormat;
@@ -73,24 +73,24 @@ public class PlotCommand extends CommandBase {
         }
 
         CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_plot_farmInfoHeading"));
-        CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_plot_farmLastGrowTime") + " " + CivColor.LightGreen + dateString);
-        CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_plot_farmLastGrowVolume") + " " + CivColor.LightGreen + fc.getLastGrowTickCount());
-        CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_plot_farmunloaded") + " " + CivColor.LightGreen + fc.getMissedGrowthTicksStat());
-        CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_plot_farmRate") + " " + CivColor.LightGreen + df.format(fc.getFarm().getLastEffectiveGrowthRate() * 100) + "%");
+        CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("cmd_plot_farmLastGrowTime") + " " + ChatColor.GREEN + dateString);
+        CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("cmd_plot_farmLastGrowVolume") + " " + ChatColor.GREEN + fc.getLastGrowTickCount());
+        CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("cmd_plot_farmunloaded") + " " + ChatColor.GREEN + fc.getMissedGrowthTicksStat());
+        CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("cmd_plot_farmRate") + " " + ChatColor.GREEN + df.format(fc.getFarm().getLastEffectiveGrowthRate() * 100) + "%");
 
         String success = "no";
         if (fc.getLastRandomInt() < fc.getLastChanceForLast()) {
             success = "yes";
         }
 
-        CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_plot_farmExtraRate") + " " + CivColor.LightGreen + fc.getLastChanceForLast() + " vs " + CivColor.LightGreen + fc.getLastRandomInt() + " " + CivSettings.localize.localizedString("cmd_plot_farmsuccessToo") + " " + CivColor.LightGreen + success);
+        CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("cmd_plot_farmExtraRate") + " " + ChatColor.GREEN + fc.getLastChanceForLast() + " vs " + ChatColor.GREEN + fc.getLastRandomInt() + " " + CivSettings.localize.localizedString("cmd_plot_farmsuccessToo") + " " + ChatColor.GREEN + success);
 
         StringBuilder out = new StringBuilder();
         for (BlockCoord bcoord : fc.getLastGrownCrops()) {
             out.append(bcoord.toString()).append(", ");
         }
 
-        CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_plot_farmCropsGrown") + " " + CivColor.LightGreen + out);
+        CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("cmd_plot_farmCropsGrown") + " " + ChatColor.GREEN + out);
 
 
     }
@@ -210,22 +210,22 @@ public class PlotCommand extends CommandBase {
     }
 
     private void showCurrentPermissions(TownChunk tc) {
-        CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_plot_showPermBuild") + " " + CivColor.LightGreen + tc.perms.getBuildString());
-        CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_plot_showPermDestroy") + " " + CivColor.LightGreen + tc.perms.getDestroyString());
-        CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_plot_showPermInteract") + " " + CivColor.LightGreen + tc.perms.getInteractString());
-        CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_plot_showPermItemUse") + " " + CivColor.LightGreen + tc.perms.getItemUseString());
+        CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("cmd_plot_showPermBuild") + " " + ChatColor.GREEN + tc.perms.getBuildString());
+        CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("cmd_plot_showPermDestroy") + " " + ChatColor.GREEN + tc.perms.getDestroyString());
+        CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("cmd_plot_showPermInteract") + " " + ChatColor.GREEN + tc.perms.getInteractString());
+        CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("cmd_plot_showPermItemUse") + " " + ChatColor.GREEN + tc.perms.getItemUseString());
     }
 
     private void showPermOwnership(TownChunk tc) {
-        String out = CivColor.Green + CivSettings.localize.localizedString("Town") + " " + CivColor.LightGreen + tc.getTown().getName();
-        out += CivColor.Green + " " + CivSettings.localize.localizedString("Owner") + " " + CivColor.LightGreen;
+        String out = ChatColor.DARK_GREEN + CivSettings.localize.localizedString("Town") + " " + ChatColor.GREEN + tc.getTown().getName();
+        out += ChatColor.DARK_GREEN + " " + CivSettings.localize.localizedString("Owner") + " " + ChatColor.GREEN;
         if (tc.perms.getOwner() != null) {
             out += tc.perms.getOwner().getName();
         } else {
             out += CivSettings.localize.localizedString("none");
         }
 
-        out += CivColor.Green + " " + CivSettings.localize.localizedString("cmd_civ_group_listGroup") + " " + CivColor.LightGreen;
+        out += ChatColor.DARK_GREEN + " " + CivSettings.localize.localizedString("cmd_civ_group_listGroup") + " " + ChatColor.GREEN;
         if (tc.perms.getGroups().size() != 0) {
             out += tc.perms.getGroupString();
         } else {
@@ -260,8 +260,8 @@ public class PlotCommand extends CommandBase {
     }
 
     private void showToggles(TownChunk tc) {
-        CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_plot_showMobs") + " " + CivColor.LightGreen + tc.perms.isMobs() + " " +
-                CivColor.Green + CivSettings.localize.localizedString("cmd_plot_showFire") + " " + CivColor.LightGreen + tc.perms.isFire());
+        CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("cmd_plot_showMobs") + " " + ChatColor.GREEN + tc.perms.isMobs() + " " +
+                ChatColor.DARK_GREEN + CivSettings.localize.localizedString("cmd_plot_showFire") + " " + ChatColor.GREEN + tc.perms.isFire());
     }
 
     @Override

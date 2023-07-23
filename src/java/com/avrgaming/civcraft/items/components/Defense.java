@@ -24,8 +24,8 @@ import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
-import com.avrgaming.civcraft.util.CivColor;
 import gpl.AttributeUtil;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
@@ -35,7 +35,7 @@ public class Defense extends ItemComponent {
 
     @Override
     public void onPrepareCreate(AttributeUtil attrs) {
-        attrs.addLore(CivColor.Blue + this.getDouble("value") + " " + CivSettings.localize.localizedString("newItemLore_Defense"));
+        attrs.addLore(String.valueOf(ChatColor.DARK_AQUA) + this.getDouble("value") + " " + CivSettings.localize.localizedString("newItemLore_Defense"));
     }
 
     @Override
@@ -43,7 +43,7 @@ public class Defense extends ItemComponent {
 
         Resident resident = CivGlobal.getResident(event.getPlayer());
         if (!resident.hasTechForItem(event.getPlayer().getInventory().getItem(event.getNewSlot()))) {
-            CivMessage.send(resident, CivColor.Rose + CivSettings.localize.localizedString("itemLore_Warning") + " - " + CivColor.LightGray + CivSettings.localize.localizedString("itemLore_defenseHalfPower"));
+            CivMessage.send(resident, ChatColor.RED + CivSettings.localize.localizedString("itemLore_Warning") + " - " + ChatColor.GRAY + CivSettings.localize.localizedString("itemLore_defenseHalfPower"));
         }
     }
 

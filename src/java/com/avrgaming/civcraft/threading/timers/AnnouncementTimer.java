@@ -20,7 +20,7 @@ package com.avrgaming.civcraft.threading.timers;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -81,7 +81,7 @@ public class AnnouncementTimer implements Runnable {
     public void run() {
 
         for (String str : announcements) {
-            CivMessage.sendAll(CivColor.Gold + CivSettings.localize.localizedString("TipHeading") + " " + CivColor.White + str);
+            CivMessage.sendAll(ChatColor.GOLD + CivSettings.localize.localizedString("TipHeading") + " " + ChatColor.WHITE + str);
 
             try {
                 Thread.sleep(60L * minutes * 1000); //sleep for x mins

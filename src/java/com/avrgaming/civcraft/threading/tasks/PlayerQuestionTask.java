@@ -23,7 +23,7 @@ import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.questions.QuestionBaseTask;
 import com.avrgaming.civcraft.questions.QuestionResponseInterface;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class PlayerQuestionTask extends QuestionBaseTask implements Runnable {
@@ -54,9 +54,9 @@ public class PlayerQuestionTask extends QuestionBaseTask implements Runnable {
 
     @Override
     public void run() {
-        CivMessage.send(askedPlayer, CivColor.LightGray + CivSettings.localize.localizedString("civleaderQtast_prompt1") + " " + CivColor.LightBlue + questionPlayer.getName());
-        CivMessage.send(askedPlayer, CivColor.LightPurple + CivColor.BOLD + question);
-        CivMessage.send(askedPlayer, CivColor.LightGray + CivSettings.localize.localizedString("civleaderQtast_prompt2"));
+        CivMessage.send(askedPlayer, ChatColor.GRAY + CivSettings.localize.localizedString("civleaderQtast_prompt1") + " " + ChatColor.AQUA + questionPlayer.getName());
+        CivMessage.send(askedPlayer, String.valueOf(ChatColor.LIGHT_PURPLE) + ChatColor.BOLD + question);
+        CivMessage.send(askedPlayer, ChatColor.GRAY + CivSettings.localize.localizedString("civleaderQtast_prompt2"));
 
         try {
             synchronized (this) {
@@ -73,8 +73,8 @@ public class PlayerQuestionTask extends QuestionBaseTask implements Runnable {
             return;
         }
 
-        CivMessage.send(askedPlayer, CivColor.LightGray + CivSettings.localize.localizedString("var_PlayerQuestionTask_failedInTime", questionPlayer.getName()));
-        CivMessage.send(questionPlayer, CivColor.LightGray + CivSettings.localize.localizedString("var_civQtast_NoResponse", askedPlayer.getName()));
+        CivMessage.send(askedPlayer, ChatColor.GRAY + CivSettings.localize.localizedString("var_PlayerQuestionTask_failedInTime", questionPlayer.getName()));
+        CivMessage.send(questionPlayer, ChatColor.GRAY + CivSettings.localize.localizedString("var_civQtast_NoResponse", askedPlayer.getName()));
         cleanup();
     }
 

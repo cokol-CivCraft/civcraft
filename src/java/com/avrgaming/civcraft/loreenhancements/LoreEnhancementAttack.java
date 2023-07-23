@@ -4,8 +4,8 @@ import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.main.CivLog;
-import com.avrgaming.civcraft.util.CivColor;
 import gpl.AttributeUtil;
+import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 
 public class LoreEnhancementAttack extends LoreEnhancement {
@@ -22,7 +22,7 @@ public class LoreEnhancementAttack extends LoreEnhancement {
             e.printStackTrace();
             m = 1;
         }
-        return CivColor.Blue + "+" + (baseLevel * m) + " " + CivSettings.localize.localizedString("itemLore_Attack");
+        return ChatColor.DARK_AQUA + "+" + (baseLevel * m) + " " + CivSettings.localize.localizedString("itemLore_Attack");
     }
 
     @Override
@@ -58,7 +58,7 @@ public class LoreEnhancementAttack extends LoreEnhancement {
         } else {
             attrs.addEnhancement("LoreEnhancementAttack", "level", String.valueOf(baseLevel));
             attrs.addLore(getLoreString(baseLevel));
-            attrs.setName(attrs.getName() + CivColor.LightBlue + "(+" + amount + ")");
+            attrs.setName(attrs.getName() + ChatColor.AQUA + "(+" + amount + ")");
         }
 
         LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterialFromId(attrs.getCivCraftProperty("mid"));
@@ -107,7 +107,7 @@ public class LoreEnhancementAttack extends LoreEnhancement {
     public ItemStack deserialize(ItemStack stack, String data) {
         AttributeUtil attrs = new AttributeUtil(stack);
         attrs.setEnhancementData("LoreEnhancementAttack", "level", data);
-        attrs.setName(attrs.getName() + CivColor.LightBlue + "(+" + Double.valueOf(data) + ")");
+        attrs.setName(attrs.getName() + ChatColor.AQUA + "(+" + Double.valueOf(data) + ")");
         return attrs.getStack();
     }
 }

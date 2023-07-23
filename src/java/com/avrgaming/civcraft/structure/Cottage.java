@@ -32,8 +32,8 @@ import com.avrgaming.civcraft.object.StructureChest;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
 import com.avrgaming.civcraft.threading.CivAsyncTask;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.MultiInventory;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
@@ -119,7 +119,7 @@ public class Cottage extends Structure {
                 CivGlobal.getSessionDB().add(key, String.valueOf(max_poison_ticks), this.getTown().getCiv().getId(), this.getTown().getId(), this.getId());
 
             // Add some rotten flesh to the chest lol
-            CivMessage.sendTown(this.getTown(), CivColor.Rose + CivSettings.localize.localizedString("cottage_poisoned"));
+            CivMessage.sendTown(this.getTown(), ChatColor.RED + CivSettings.localize.localizedString("cottage_poisoned"));
             inv.addItemStack(new ItemStack(Material.ROTTEN_FLESH, 4, (short) 0));
             return true;
         }
@@ -187,16 +187,16 @@ public class Cottage extends Structure {
         /* Bail early for results that do not generate coins. */
         switch (result) {
             case STARVE:
-                CivMessage.sendTown(getTown(), CivColor.Rose + CivSettings.localize.localizedString("var_cottage_starved_base", getConsumeComponent().getLevel(), CivSettings.localize.localizedString("var_cottage_status_starved", getConsumeComponent().getCountString()), CivSettings.CURRENCY_NAME));
+                CivMessage.sendTown(getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_cottage_starved_base", getConsumeComponent().getLevel(), CivSettings.localize.localizedString("var_cottage_status_starved", getConsumeComponent().getCountString()), CivSettings.CURRENCY_NAME));
                 return;
             case LEVELDOWN:
-                CivMessage.sendTown(getTown(), CivColor.Rose + CivSettings.localize.localizedString("var_cottage_starved_base", (getConsumeComponent().getLevel() + 1), CivSettings.localize.localizedString("var_cottage_status_lvlDown"), CivSettings.CURRENCY_NAME));
+                CivMessage.sendTown(getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_cottage_starved_base", (getConsumeComponent().getLevel() + 1), CivSettings.localize.localizedString("var_cottage_status_lvlDown"), CivSettings.CURRENCY_NAME));
                 return;
             case STAGNATE:
-                CivMessage.sendTown(getTown(), CivColor.Rose + CivSettings.localize.localizedString("var_cottage_starved_base", getConsumeComponent().getLevel(), CivSettings.localize.localizedString("var_cottage_status_stagnated", getConsumeComponent().getCountString()), CivSettings.CURRENCY_NAME));
+                CivMessage.sendTown(getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_cottage_starved_base", getConsumeComponent().getLevel(), CivSettings.localize.localizedString("var_cottage_status_stagnated", getConsumeComponent().getCountString()), CivSettings.CURRENCY_NAME));
                 return;
             case UNKNOWN:
-                CivMessage.sendTown(getTown(), CivColor.DarkPurple + CivSettings.localize.localizedString("var_cottage_starved_unknwon", CivSettings.CURRENCY_NAME));
+                CivMessage.sendTown(getTown(), ChatColor.BLUE + CivSettings.localize.localizedString("var_cottage_starved_unknwon", CivSettings.CURRENCY_NAME));
                 return;
             default:
                 break;
@@ -237,23 +237,23 @@ public class Cottage extends Structure {
         String stateMessage = "";
         switch (result) {
             case GROW:
-                stateMessage = CivColor.Green + CivSettings.localize.localizedString("var_cottage_grew", getConsumeComponent().getCountString()) + CivColor.LightGreen;
+                stateMessage = ChatColor.DARK_GREEN + CivSettings.localize.localizedString("var_cottage_grew", getConsumeComponent().getCountString()) + ChatColor.GREEN;
                 break;
             case LEVELUP:
-                stateMessage = CivColor.Green + CivSettings.localize.localizedString("var_cottage_grew_lvlUp") + CivColor.LightGreen;
+                stateMessage = ChatColor.DARK_GREEN + CivSettings.localize.localizedString("var_cottage_grew_lvlUp") + ChatColor.GREEN;
                 break;
             case MAXED:
-                stateMessage = CivColor.Green + CivSettings.localize.localizedString("var_cottage_grew_isMaxed", getConsumeComponent().getCountString()) + CivColor.LightGreen;
+                stateMessage = ChatColor.DARK_GREEN + CivSettings.localize.localizedString("var_cottage_grew_isMaxed", getConsumeComponent().getCountString()) + ChatColor.GREEN;
                 break;
             default:
                 break;
         }
 
         if (taxesPaid > 0) {
-            CivMessage.sendTown(this.getTown(), CivColor.LightGreen + CivSettings.localize.localizedString("var_cottage_grew_base", getConsumeComponent().getLevel(), stateMessage, total_coins, CivSettings.CURRENCY_NAME,
-                    CivColor.Yellow + CivSettings.localize.localizedString("var_cottage_grew_taxes", Math.floor(taxesPaid), this.getTown().getDepositCiv().getName())));
+            CivMessage.sendTown(this.getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_cottage_grew_base", getConsumeComponent().getLevel(), stateMessage, total_coins, CivSettings.CURRENCY_NAME,
+                    ChatColor.YELLOW + CivSettings.localize.localizedString("var_cottage_grew_taxes", Math.floor(taxesPaid), this.getTown().getDepositCiv().getName())));
         } else {
-            CivMessage.sendTown(this.getTown(), CivColor.LightGreen + CivSettings.localize.localizedString("var_cottage_grew_base", getConsumeComponent().getLevel(), stateMessage, total_coins, CivSettings.CURRENCY_NAME, ""));
+            CivMessage.sendTown(this.getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_cottage_grew_base", getConsumeComponent().getLevel(), stateMessage, total_coins, CivSettings.CURRENCY_NAME, ""));
         }
 
         this.getTown().getTreasury().deposit(total_coins - taxesPaid);

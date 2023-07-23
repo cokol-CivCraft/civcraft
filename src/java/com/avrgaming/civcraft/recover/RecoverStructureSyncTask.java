@@ -23,8 +23,8 @@ import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.structure.Structure;
 import com.avrgaming.civcraft.template.Template;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.SimpleBlock.Type;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
@@ -98,7 +98,7 @@ public class RecoverStructureSyncTask implements Runnable {
     @Override
     public void run() {
         for (Structure struct : this.structures) {
-            CivMessage.send(sender, CivSettings.localize.localizedString("structureRepairStart") + " " + struct.getDisplayName() + " @ " + CivColor.Yellow + struct.getCorner());
+            CivMessage.send(sender, CivSettings.localize.localizedString("structureRepairStart") + " " + struct.getDisplayName() + " @ " + ChatColor.YELLOW + struct.getCorner());
             repairStructure(struct);
         }
 

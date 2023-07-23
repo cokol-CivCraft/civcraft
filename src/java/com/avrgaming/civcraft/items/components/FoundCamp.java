@@ -26,7 +26,6 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.util.CallbackInterface;
-import com.avrgaming.civcraft.util.CivColor;
 import gpl.AttributeUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -37,10 +36,10 @@ public class FoundCamp extends ItemComponent implements CallbackInterface {
 
     @Override
     public void onPrepareCreate(AttributeUtil attrUtil) {
-        attrUtil.addLore(ChatColor.RESET + CivColor.Gold + CivSettings.localize.localizedString("buildCamp_lore1"));
-        attrUtil.addLore(ChatColor.RESET + CivColor.Rose + CivSettings.localize.localizedString("itemLore_RightClickToUse"));
+        attrUtil.addLore(ChatColor.RESET + String.valueOf(ChatColor.GOLD) + CivSettings.localize.localizedString("buildCamp_lore1"));
+        attrUtil.addLore(ChatColor.RESET + String.valueOf(ChatColor.RED) + CivSettings.localize.localizedString("itemLore_RightClickToUse"));
         attrUtil.addEnhancement("LoreEnhancementSoulBound", null, null);
-        attrUtil.addLore(CivColor.Gold + CivSettings.localize.localizedString("itemLore_Soulbound"));
+        attrUtil.addLore(ChatColor.GOLD + CivSettings.localize.localizedString("itemLore_Soulbound"));
     }
 
     public void foundCamp(Player player) throws CivException {
@@ -57,7 +56,7 @@ public class FoundCamp extends ItemComponent implements CallbackInterface {
         /*
          * Build a preview for the Capitol structure.
          */
-        CivMessage.send(player, CivColor.LightGreen + CivColor.BOLD + CivSettings.localize.localizedString("build_checking_position"));
+        CivMessage.send(player, String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("build_checking_position"));
         ConfigBuildableInfo info = new ConfigBuildableInfo();
         info.id = "camp";
         info.displayName = "Camp";
@@ -94,10 +93,10 @@ public class FoundCamp extends ItemComponent implements CallbackInterface {
         Resident resident = CivGlobal.getResident(playerName);
 
         CivMessage.sendHeading(player, CivSettings.localize.localizedString("buildCamp_Heading"));
-        CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("buildCamp_prompt1"));
+        CivMessage.send(player, ChatColor.GREEN + CivSettings.localize.localizedString("buildCamp_prompt1"));
         CivMessage.send(player, " ");
-        CivMessage.send(player, CivColor.LightGreen + ChatColor.BOLD + CivSettings.localize.localizedString("buildCamp_prompt2"));
-        CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("build_cancel_prompt"));
+        CivMessage.send(player, String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("buildCamp_prompt2"));
+        CivMessage.send(player, ChatColor.GRAY + CivSettings.localize.localizedString("build_cancel_prompt"));
 
         resident.setInteractiveMode(new InteractiveCampName());
     }

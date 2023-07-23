@@ -31,8 +31,8 @@ import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.CivColor;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -206,7 +206,7 @@ public abstract class Wonder extends Buildable {
     public void processUndo() throws CivException {
         this.undoFromTemplate();
 
-        CivMessage.global(CivSettings.localize.localizedString("var_wonder_undo_broadcast", (CivColor.LightGreen + this.getDisplayName() + CivColor.White), this.getTown().getName(), this.getTown().getCiv().getName()));
+        CivMessage.global(CivSettings.localize.localizedString("var_wonder_undo_broadcast", (ChatColor.GREEN + this.getDisplayName() + ChatColor.WHITE), this.getTown().getName(), this.getTown().getCiv().getName()));
 
         double refund = this.getCost();
         this.getTown().depositDirect(refund);
@@ -479,7 +479,7 @@ public abstract class Wonder extends Buildable {
         double total = coinsPerCulture * cultureCount;
         this.getCiv().getTreasury().deposit(total);
 
-        CivMessage.sendCiv(this.getCiv(), CivColor.LightGreen + CivSettings.localize.localizedString("var_colossus_generatedCoins", (CivColor.Yellow + total + CivColor.LightGreen), CivSettings.CURRENCY_NAME, cultureCount));
+        CivMessage.sendCiv(this.getCiv(), ChatColor.GREEN + CivSettings.localize.localizedString("var_colossus_generatedCoins", (String.valueOf(ChatColor.YELLOW) + total + ChatColor.GREEN), CivSettings.CURRENCY_NAME, cultureCount));
     }
 
     public void processCoinsFromColosseum() {
@@ -492,6 +492,6 @@ public abstract class Wonder extends Buildable {
         double total = coinsPerTown * townCount;
         this.getCiv().getTreasury().deposit(total);
 
-        CivMessage.sendCiv(this.getCiv(), CivColor.LightGreen + CivSettings.localize.localizedString("var_colosseum_generatedCoins", (CivColor.Yellow + total + CivColor.LightGreen), CivSettings.CURRENCY_NAME, townCount));
+        CivMessage.sendCiv(this.getCiv(), ChatColor.GREEN + CivSettings.localize.localizedString("var_colosseum_generatedCoins", (String.valueOf(ChatColor.YELLOW) + total + ChatColor.GREEN), CivSettings.CURRENCY_NAME, townCount));
     }
 }

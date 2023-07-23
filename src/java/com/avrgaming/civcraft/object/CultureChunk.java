@@ -26,7 +26,7 @@ import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.util.BiomeCache;
 import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
@@ -85,11 +85,11 @@ public class CultureChunk {
     }
 
     public String getOnLeaveString() {
-        return CivColor.LightPurple + CivSettings.localize.localizedString("var_cultureLeaveMsg", town.getCiv().getName());
+        return ChatColor.LIGHT_PURPLE + CivSettings.localize.localizedString("var_cultureLeaveMsg", town.getCiv().getName());
     }
 
     public String getOnEnterString() {
-        return CivColor.LightPurple + CivSettings.localize.localizedString("var_cultureEnterMsg", town.getCiv().getName());
+        return ChatColor.LIGHT_PURPLE + CivSettings.localize.localizedString("var_cultureEnterMsg", town.getCiv().getName());
     }
 
     public double getPower() {
@@ -188,21 +188,21 @@ public class CultureChunk {
         //	CivLog.debug("showing info.");
 
         if (cc == null) {
-            CivMessage.send(player, CivColor.LightPurple + biome.name() +
-                    CivColor.Green + " " + CivSettings.localize.localizedString("Coins") + " " + CivColor.LightGreen + info.coins +
-                    CivColor.Green + " " + CivSettings.localize.localizedString("Happiness") + " " + CivColor.LightGreen + info.happiness +
-                    CivColor.Green + " " + CivSettings.localize.localizedString("Hammers") + " " + CivColor.LightGreen + info.hammers +
-                    CivColor.Green + " " + CivSettings.localize.localizedString("Growth") + " " + CivColor.LightGreen + info.growth +
-                    CivColor.Green + " " + CivSettings.localize.localizedString("Beakers") + " " + CivColor.LightGreen + info.beakers +
-                    CivColor.LightGray + " " + CivSettings.localize.localizedString("Faith") + " " + CivColor.LightBlue + info.faith);
+            CivMessage.send(player, ChatColor.LIGHT_PURPLE + biome.name() +
+                    ChatColor.DARK_GREEN + " " + CivSettings.localize.localizedString("Coins") + " " + ChatColor.GREEN + info.coins +
+                    ChatColor.DARK_GREEN + " " + CivSettings.localize.localizedString("Happiness") + " " + ChatColor.GREEN + info.happiness +
+                    ChatColor.DARK_GREEN + " " + CivSettings.localize.localizedString("Hammers") + " " + ChatColor.GREEN + info.hammers +
+                    ChatColor.DARK_GREEN + " " + CivSettings.localize.localizedString("Growth") + " " + ChatColor.GREEN + info.growth +
+                    ChatColor.DARK_GREEN + " " + CivSettings.localize.localizedString("Beakers") + " " + ChatColor.GREEN + info.beakers +
+                    ChatColor.GRAY + " " + CivSettings.localize.localizedString("Faith") + " " + ChatColor.AQUA + info.faith);
         } else {
-            CivMessage.send(player, CivColor.LightPurple + biome.name() +
-                    CivColor.Green + " " + CivSettings.localize.localizedString("Coins") + " " + CivColor.LightGreen + cc.getCoins() +
-                    CivColor.Green + " " + CivSettings.localize.localizedString("Happiness") + " " + CivColor.LightGreen + info.happiness +
-                    CivColor.Green + " " + CivSettings.localize.localizedString("Hammers") + " " + CivColor.LightGreen + info.hammers +
-                    CivColor.Green + " " + CivSettings.localize.localizedString("Growth") + " " + CivColor.LightGreen + info.growth +
-                    CivColor.Green + " " + CivSettings.localize.localizedString("Beakers") + " " + CivColor.LightGreen + info.beakers +
-                    CivColor.LightGray + " " + CivSettings.localize.localizedString("Faith") + " " + CivColor.LightBlue + info.faith);
+            CivMessage.send(player, ChatColor.LIGHT_PURPLE + biome.name() +
+                    ChatColor.DARK_GREEN + " " + CivSettings.localize.localizedString("Coins") + " " + ChatColor.GREEN + cc.getCoins() +
+                    ChatColor.DARK_GREEN + " " + CivSettings.localize.localizedString("Happiness") + " " + ChatColor.GREEN + info.happiness +
+                    ChatColor.DARK_GREEN + " " + CivSettings.localize.localizedString("Hammers") + " " + ChatColor.GREEN + info.hammers +
+                    ChatColor.DARK_GREEN + " " + CivSettings.localize.localizedString("Growth") + " " + ChatColor.GREEN + info.growth +
+                    ChatColor.DARK_GREEN + " " + CivSettings.localize.localizedString("Beakers") + " " + ChatColor.GREEN + info.beakers +
+                    ChatColor.GRAY + " " + CivSettings.localize.localizedString("Faith") + " " + ChatColor.AQUA + info.faith);
         }
 
     }

@@ -28,7 +28,7 @@ import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.structure.*;
 import com.avrgaming.civcraft.threading.CivAsyncTask;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 
 import java.text.DecimalFormat;
 import java.util.Iterator;
@@ -121,7 +121,7 @@ public class EffectEventTimer extends CivAsyncTask {
             // highjack this loop to display town hall warning.
             TownHall townhall = town.getTownHall();
             if (townhall == null) {
-                CivMessage.sendTown(town, CivColor.Yellow + CivSettings.localize.localizedString("effectEvent_noTownHall"));
+                CivMessage.sendTown(town, ChatColor.YELLOW + CivSettings.localize.localizedString("effectEvent_noTownHall"));
                 continue;
             }
 
@@ -144,9 +144,9 @@ public class EffectEventTimer extends CivAsyncTask {
                     unusedBeakers = Math.round(unusedBeakers);
 
                     if (cultureFromBeakers > 0) {
-                        CivMessage.sendTown(town, CivColor.LightGreen + CivSettings.localize.localizedString("var_effectEvent_convertBeakers", (CivColor.LightPurple +
-                                df.format(unusedBeakers) + CivColor.LightGreen), (CivColor.LightPurple +
-                                df.format(cultureFromBeakers) + CivColor.LightGreen)));
+                        CivMessage.sendTown(town, ChatColor.GREEN + CivSettings.localize.localizedString("var_effectEvent_convertBeakers", (ChatColor.LIGHT_PURPLE +
+                                df.format(unusedBeakers) + ChatColor.GREEN), (ChatColor.LIGHT_PURPLE +
+                                df.format(cultureFromBeakers) + ChatColor.GREEN)));
                         cultureGenerated += cultureFromBeakers;
                         town.addAccumulatedCulture(cultureFromBeakers);
                         town.setUnusedBeakers(0);
@@ -158,7 +158,7 @@ public class EffectEventTimer extends CivAsyncTask {
             }
 
             cultureGenerated = Math.round(cultureGenerated);
-            CivMessage.sendTown(town, CivColor.LightGreen + CivSettings.localize.localizedString("var_effectEvent_generatedCulture", (CivColor.LightPurple + cultureGenerated + CivColor.LightGreen)));
+            CivMessage.sendTown(town, ChatColor.GREEN + CivSettings.localize.localizedString("var_effectEvent_generatedCulture", (String.valueOf(ChatColor.LIGHT_PURPLE) + cultureGenerated + ChatColor.GREEN)));
         }
 
         /* Checking for expired vassal states. */

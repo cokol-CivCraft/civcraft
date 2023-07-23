@@ -10,7 +10,6 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.util.CallbackInterface;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.war.War;
 import gpl.AttributeUtil;
 import org.bukkit.ChatColor;
@@ -34,8 +33,8 @@ public class FoundWarCamp extends ItemComponent implements CallbackInterface {
 
     @Override
     public void onPrepareCreate(AttributeUtil attrUtil) {
-        attrUtil.addLore(ChatColor.RESET + CivColor.Gold + CivSettings.localize.localizedString("buildWarCamp_lore1"));
-        attrUtil.addLore(ChatColor.RESET + CivColor.Rose + CivSettings.localize.localizedString("itemLore_RightClickToUse"));
+        attrUtil.addLore(ChatColor.RESET + String.valueOf(ChatColor.GOLD) + CivSettings.localize.localizedString("buildWarCamp_lore1"));
+        attrUtil.addLore(ChatColor.RESET + String.valueOf(ChatColor.RED) + CivSettings.localize.localizedString("itemLore_RightClickToUse"));
     }
 
     public void foundCamp(Player player) throws CivException {
@@ -57,7 +56,7 @@ public class FoundWarCamp extends ItemComponent implements CallbackInterface {
         /*
          * Build a preview for the Capitol structure.
          */
-        CivMessage.send(player, CivColor.LightGreen + CivColor.BOLD + CivSettings.localize.localizedString("build_checking_position"));
+        CivMessage.send(player, String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("build_checking_position"));
 
 
         Buildable.buildVerifyStatic(player, info, player.getLocation(), this);
@@ -95,12 +94,12 @@ public class FoundWarCamp extends ItemComponent implements CallbackInterface {
         }
 
         CivMessage.sendHeading(player, CivSettings.localize.localizedString("buildWarCamp_heading"));
-        CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("buildWarCamp_prompt1"));
-        CivMessage.send(player, CivColor.LightGreen + "   -" + CivSettings.localize.localizedString("buildWarCamp_prompt2"));
-        CivMessage.send(player, CivColor.LightGreen + "   -" + CivSettings.localize.localizedString("var_buildWarCamp_prompt3", warTimeout));
+        CivMessage.send(player, ChatColor.GREEN + CivSettings.localize.localizedString("buildWarCamp_prompt1"));
+        CivMessage.send(player, ChatColor.GREEN + "   -" + CivSettings.localize.localizedString("buildWarCamp_prompt2"));
+        CivMessage.send(player, ChatColor.GREEN + "   -" + CivSettings.localize.localizedString("var_buildWarCamp_prompt3", warTimeout));
         CivMessage.send(player, " ");
-        CivMessage.send(player, CivColor.LightGreen + ChatColor.BOLD + CivSettings.localize.localizedString("buildWarCamp_prompt5"));
-        CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("buildWarCamp_prompt6"));
+        CivMessage.send(player, String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("buildWarCamp_prompt5"));
+        CivMessage.send(player, ChatColor.GRAY + CivSettings.localize.localizedString("buildWarCamp_prompt6"));
 
         resident.setInteractiveMode(new InteractiveWarCampFound(info));
     }

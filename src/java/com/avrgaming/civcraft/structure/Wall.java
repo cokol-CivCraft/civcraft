@@ -29,9 +29,9 @@ import com.avrgaming.civcraft.permission.PlotPermissions;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.SimpleBlock;
 import com.avrgaming.civcraft.war.War;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -71,7 +71,7 @@ public class Wall extends Structure {
      *  This is used to chain together the wall chunks built by the last operation.
      * this allows us to undo all of the walls built in a single pass.
      */
-    private Wall nextWallBuilt = null;
+    private final Wall nextWallBuilt = null;
 
 //	private int verticalsegments = 0;
 
@@ -126,7 +126,7 @@ public class Wall extends Structure {
         refund /= HEIGHT;
         refund = Math.round(refund);
         this.getTown().getTreasury().deposit(refund);
-        CivMessage.sendTown(this.getTown(), CivColor.Yellow + CivSettings.localize.localizedString("wall_undoRefund") + " " + refund + " " + CivSettings.CURRENCY_NAME);
+        CivMessage.sendTown(this.getTown(), ChatColor.YELLOW + CivSettings.localize.localizedString("wall_undoRefund") + " " + refund + " " + CivSettings.CURRENCY_NAME);
         try {
             this.delete();
         } catch (SQLException e) {
@@ -271,7 +271,7 @@ public class Wall extends Structure {
         }
 
         if (locs.size() <= 1) {
-            CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("wall_firstLocation"));
+            CivMessage.send(player, ChatColor.GRAY + CivSettings.localize.localizedString("wall_firstLocation"));
             return;
         }
 
@@ -314,7 +314,7 @@ public class Wall extends Structure {
 
         this.getTown().getTreasury().withdraw(cost);
 
-        CivMessage.sendTown(this.getTown(), CivColor.Yellow + CivSettings.localize.localizedString("var_wall_buildSuccess", cost, CivSettings.CURRENCY_NAME, verticalSegments));
+        CivMessage.sendTown(this.getTown(), ChatColor.YELLOW + CivSettings.localize.localizedString("var_wall_buildSuccess", cost, CivSettings.CURRENCY_NAME, verticalSegments));
 
         // build the blocks
         for (SimpleBlock sb : simpleBlocks.values()) {
@@ -562,7 +562,7 @@ public class Wall extends Structure {
 
         save();
         getTown().getTreasury().withdraw(cost);
-        CivMessage.sendTown(getTown(), CivColor.Yellow + CivSettings.localize.localizedString("var_wall_repair_success", getDisplayName(), getCorner().toString()));
+        CivMessage.sendTown(getTown(), ChatColor.YELLOW + CivSettings.localize.localizedString("var_wall_repair_success", getDisplayName(), getCorner().toString()));
     }
 
     @Override

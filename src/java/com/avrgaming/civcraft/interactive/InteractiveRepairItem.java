@@ -7,7 +7,7 @@ import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.structure.Barracks;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class InteractiveRepairItem implements InteractiveResponse {
@@ -31,9 +31,9 @@ public class InteractiveRepairItem implements InteractiveResponse {
         }
 
         CivMessage.sendHeading(player, CivSettings.localize.localizedString("interactive_repair_heading"));
-        CivMessage.send(player, CivColor.LightGreen + CivColor.BOLD + CivSettings.localize.localizedString("var_interactive_repair_prompt1", craftMat.getName()));
-        CivMessage.send(player, CivColor.LightGreen + CivColor.BOLD + CivSettings.localize.localizedString("var_interactive_repair_prompt2", CivColor.Yellow + CivColor.BOLD + cost + CivColor.LightGreen, CivColor.Yellow + CivColor.BOLD + CivSettings.CURRENCY_NAME + CivColor.LightGreen));
-        CivMessage.send(player, CivColor.LightGreen + CivColor.BOLD + CivSettings.localize.localizedString("interactive_repair_prompt3"));
+        CivMessage.send(player, String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("var_interactive_repair_prompt1", craftMat.getName()));
+        CivMessage.send(player, String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("var_interactive_repair_prompt2", String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + cost + ChatColor.GREEN, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.CURRENCY_NAME + ChatColor.GREEN));
+        CivMessage.send(player, String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("interactive_repair_prompt3"));
 
     }
 
@@ -43,7 +43,7 @@ public class InteractiveRepairItem implements InteractiveResponse {
         resident.clearInteractiveMode();
 
         if (!message.equalsIgnoreCase("yes")) {
-            CivMessage.send(resident, CivColor.LightGray + CivSettings.localize.localizedString("interactive_repair_canceled"));
+            CivMessage.send(resident, ChatColor.GRAY + CivSettings.localize.localizedString("interactive_repair_canceled"));
             return;
         }
 

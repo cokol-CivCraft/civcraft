@@ -23,8 +23,8 @@ import com.avrgaming.civcraft.config.ConfigTownUpgrade;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Town;
-import com.avrgaming.civcraft.util.CivColor;
 import org.apache.commons.lang.WordUtils;
+import org.bukkit.ChatColor;
 
 public class TownUpgradeCommand extends CommandBase {
 
@@ -61,7 +61,7 @@ public class TownUpgradeCommand extends CommandBase {
         for (ConfigTownUpgrade upgrade : CivSettings.townUpgrades.values()) {
             if (category.equalsIgnoreCase("all") || upgrade.category.equalsIgnoreCase(category)) {
                 if (upgrade.isAvailable(town)) {
-                    CivMessage.send(sender, upgrade.name + " " + CivColor.LightGray + CivSettings.localize.localizedString("Cost") + " " + CivColor.Yellow + upgrade.cost);
+                    CivMessage.send(sender, upgrade.name + " " + ChatColor.GRAY + CivSettings.localize.localizedString("Cost") + " " + ChatColor.YELLOW + upgrade.cost);
                 }
             }
         }
@@ -74,11 +74,11 @@ public class TownUpgradeCommand extends CommandBase {
         CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_town_upgrade_listHeading"));
 
         if (args.length < 2) {
-            CivMessage.send(sender, "- " + CivColor.Gold + CivSettings.localize.localizedString("cmd_town_upgrade_listAllHeading") + " " +
-                    CivColor.LightBlue + "(" + ConfigTownUpgrade.getAvailableCategoryCount("all", town) + ")");
+            CivMessage.send(sender, "- " + ChatColor.GOLD + CivSettings.localize.localizedString("cmd_town_upgrade_listAllHeading") + " " +
+                    ChatColor.AQUA + "(" + ConfigTownUpgrade.getAvailableCategoryCount("all", town) + ")");
             for (String category : ConfigTownUpgrade.categories.keySet()) {
-                CivMessage.send(sender, "- " + CivColor.Gold + WordUtils.capitalize(category) +
-                        CivColor.LightBlue + " (" + ConfigTownUpgrade.getAvailableCategoryCount(category, town) + ")");
+                CivMessage.send(sender, "- " + ChatColor.GOLD + WordUtils.capitalize(category) +
+                        ChatColor.AQUA + " (" + ConfigTownUpgrade.getAvailableCategoryCount(category, town) + ")");
             }
             return;
         }

@@ -6,7 +6,7 @@ import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.StructureSign;
 import com.avrgaming.civcraft.object.Town;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -65,7 +65,7 @@ public class University extends Structure {
 
     @Override
     public void processSignAction(Player player, StructureSign sign, PlayerInteractEvent event) {
-        CivMessage.send(player, CivColor.Green + CivSettings.localize.localizedString("university_sign") + " " + this.getTown().getName());
+        CivMessage.send(player, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("university_sign") + " " + this.getTown().getName());
     }
 
 

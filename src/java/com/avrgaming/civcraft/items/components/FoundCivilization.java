@@ -28,7 +28,6 @@ import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.CallbackInterface;
-import com.avrgaming.civcraft.util.CivColor;
 import gpl.AttributeUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -39,10 +38,10 @@ public class FoundCivilization extends ItemComponent implements CallbackInterfac
 
     @Override
     public void onPrepareCreate(AttributeUtil attrUtil) {
-        attrUtil.addLore(ChatColor.RESET + CivColor.Gold + CivSettings.localize.localizedString("foundCiv_lore1"));
-        attrUtil.addLore(ChatColor.RESET + CivColor.Rose + CivSettings.localize.localizedString("itemLore_RightClickToUse"));
+        attrUtil.addLore(ChatColor.RESET + String.valueOf(ChatColor.GOLD) + CivSettings.localize.localizedString("foundCiv_lore1"));
+        attrUtil.addLore(ChatColor.RESET + String.valueOf(ChatColor.RED) + CivSettings.localize.localizedString("itemLore_RightClickToUse"));
         attrUtil.addEnhancement("LoreEnhancementSoulBound", null, null);
-        attrUtil.addLore(CivColor.Gold + CivSettings.localize.localizedString("Soulbound"));
+        attrUtil.addLore(ChatColor.GOLD + CivSettings.localize.localizedString("Soulbound"));
     }
 
     public void foundCiv(Player player) throws CivException {
@@ -55,7 +54,7 @@ public class FoundCivilization extends ItemComponent implements CallbackInterfac
         /*
          * Build a preview for the Capitol structure.
          */
-        CivMessage.send(player, CivColor.LightGreen + CivColor.BOLD + CivSettings.localize.localizedString("build_checking_position"));
+        CivMessage.send(player, String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("build_checking_position"));
         ConfigBuildableInfo info = CivSettings.structures.get("s_capitol");
         Buildable.buildVerifyStatic(player, info, player.getLocation(), this);
     }
@@ -96,13 +95,13 @@ public class FoundCivilization extends ItemComponent implements CallbackInterfac
         /* Save the location so we dont have to re-validate the structure position. */
         resident.desiredTownLocation = player.getLocation();
         CivMessage.sendHeading(player, CivSettings.localize.localizedString("foundCiv_Heading"));
-        CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("foundCiv_Prompt1"));
-        CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("foundCiv_Prompt2"));
-        CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("foundCiv_Prompt3"));
-        CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("foundCiv_Prompt4"));
+        CivMessage.send(player, ChatColor.GREEN + CivSettings.localize.localizedString("foundCiv_Prompt1"));
+        CivMessage.send(player, ChatColor.GREEN + CivSettings.localize.localizedString("foundCiv_Prompt2"));
+        CivMessage.send(player, ChatColor.GREEN + CivSettings.localize.localizedString("foundCiv_Prompt3"));
+        CivMessage.send(player, ChatColor.GREEN + CivSettings.localize.localizedString("foundCiv_Prompt4"));
         CivMessage.send(player, " ");
-        CivMessage.send(player, CivColor.LightGreen + ChatColor.BOLD + CivSettings.localize.localizedString("foundCiv_Prompt5"));
-        CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("build_cancel_prompt"));
+        CivMessage.send(player, String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("foundCiv_Prompt5"));
+        CivMessage.send(player, ChatColor.GRAY + CivSettings.localize.localizedString("build_cancel_prompt"));
 
         resident.setInteractiveMode(new InteractiveCivName());
     }

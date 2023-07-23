@@ -28,8 +28,8 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.StructureChest;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.threading.CivAsyncTask;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.MultiInventory;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.inventory.Inventory;
 
@@ -125,25 +125,25 @@ public class Temple extends Structure {
         Result result = this.consume(task);
         switch (result) {
             case STARVE:
-                CivMessage.sendTown(getTown(), CivColor.Rose + CivSettings.localize.localizedString("var_temple_productionFell", getConsumeComponent().getLevel(), getConsumeComponent().getCountString()));
+                CivMessage.sendTown(getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_temple_productionFell", getConsumeComponent().getLevel(), getConsumeComponent().getCountString()));
                 return;
             case LEVELDOWN:
-                CivMessage.sendTown(getTown(), CivColor.Rose + CivSettings.localize.localizedString("var_temple_lostalvl", getConsumeComponent().getLevel()));
+                CivMessage.sendTown(getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_temple_lostalvl", getConsumeComponent().getLevel()));
                 return;
             case STAGNATE:
-                CivMessage.sendTown(getTown(), CivColor.Rose + CivSettings.localize.localizedString("var_temple_stagnated", getConsumeComponent().getLevel(), getConsumeComponent().getCountString()));
+                CivMessage.sendTown(getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_temple_stagnated", getConsumeComponent().getLevel(), getConsumeComponent().getCountString()));
                 return;
             case GROW:
-                CivMessage.sendTown(getTown(), CivColor.LightGreen + CivSettings.localize.localizedString("var_temple_productionGrew", getConsumeComponent().getLevel(), getConsumeComponent().getCountString()));
+                CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_temple_productionGrew", getConsumeComponent().getLevel(), getConsumeComponent().getCountString()));
                 break;
             case LEVELUP:
-                CivMessage.sendTown(getTown(), CivColor.LightGreen + CivSettings.localize.localizedString("var_temple_lvlUp", getConsumeComponent().getLevel()));
+                CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_temple_lvlUp", getConsumeComponent().getLevel()));
                 break;
             case MAXED:
-                CivMessage.sendTown(getTown(), CivColor.LightGreen + CivSettings.localize.localizedString("var_temple_maxed", getConsumeComponent().getLevel(), getConsumeComponent().getCountString()));
+                CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_temple_maxed", getConsumeComponent().getLevel(), getConsumeComponent().getCountString()));
                 break;
             case UNKNOWN:
-                CivMessage.sendTown(getTown(), CivColor.DarkPurple + CivSettings.localize.localizedString("temple_unknown"));
+                CivMessage.sendTown(getTown(), ChatColor.BLUE + CivSettings.localize.localizedString("temple_unknown"));
                 return;
             default:
                 break;
@@ -163,7 +163,7 @@ public class Temple extends Structure {
         this.getTown().addAccumulatedCulture(total_culture);
         this.getTown().save();
 
-        CivMessage.sendTown(getTown(), CivColor.LightGreen + CivSettings.localize.localizedString("var_temple_cultureGenerated", (CivColor.LightPurple + total_culture + CivColor.LightGreen)));
+        CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_temple_cultureGenerated", (String.valueOf(ChatColor.LIGHT_PURPLE) + total_culture + ChatColor.GREEN)));
 
     }
 

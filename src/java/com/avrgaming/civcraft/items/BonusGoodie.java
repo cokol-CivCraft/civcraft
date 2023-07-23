@@ -166,13 +166,13 @@ public class BonusGoodie extends LoreItem {
 
         String[] split = getBonusDisplayString().split(";");
         for (String str : split) {
-            lore.add(CivColor.Yellow + str);
+            lore.add(ChatColor.YELLOW + str);
         }
 
         if (isStackable()) {
-            lore.add(CivColor.LightBlue + "Stackable");
+            lore.add(ChatColor.AQUA + "Stackable");
         } else {
-            lore.add(CivColor.LightGray + "Not Stackable");
+            lore.add(ChatColor.GRAY + "Not Stackable");
         }
 
         this.setLore(stack, lore);
@@ -701,7 +701,7 @@ public class BonusGoodie extends LoreItem {
         for (ConfigBuff cBuff : this.config.buffs.values()) {
             out.append(ChatColor.UNDERLINE).append(cBuff.name);
             out.append(";");
-            out.append(CivColor.White);
+            out.append(ChatColor.WHITE);
             out.append(ChatColor.ITALIC);
             out.append(cBuff.description);
             out.append(";");

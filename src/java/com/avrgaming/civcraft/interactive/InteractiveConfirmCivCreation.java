@@ -24,7 +24,7 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.FoundCivSync;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class InteractiveConfirmCivCreation implements InteractiveResponse {
@@ -47,7 +47,7 @@ public class InteractiveConfirmCivCreation implements InteractiveResponse {
         }
 
         if (resident.desiredCapitolName == null || resident.desiredCivName == null) {
-            CivMessage.send(player, CivColor.Rose + CivSettings.localize.localizedString("interactive_civ_createError"));
+            CivMessage.send(player, ChatColor.RED + CivSettings.localize.localizedString("interactive_civ_createError"));
             return;
         }
 

@@ -23,7 +23,7 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.CultureChunk;
 import com.avrgaming.civcraft.object.TownChunk;
 import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -41,20 +41,19 @@ public class HereCommand implements CommandExecutor {
 
             CultureChunk cc = CivGlobal.getCultureChunk(coord);
             if (cc != null) {
-                CivMessage.send(sender, CivColor.LightPurple + CivSettings.localize.localizedString("var_cmd_here_inCivAndTown",
-                        CivColor.Yellow + cc.getCiv().getName() + CivColor.LightPurple, CivColor.Yellow + cc.getTown().getName()));
+                CivMessage.send(sender, ChatColor.LIGHT_PURPLE + CivSettings.localize.localizedString("var_cmd_here_inCivAndTown", ChatColor.YELLOW + cc.getCiv().getName() + ChatColor.LIGHT_PURPLE, ChatColor.YELLOW + cc.getTown().getName()));
             }
 
             TownChunk tc = CivGlobal.getTownChunk(coord);
             if (tc != null) {
-                CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("var_cmd_here_inTown", CivColor.LightGreen + tc.getTown().getName()));
+                CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("var_cmd_here_inTown", ChatColor.GREEN + tc.getTown().getName()));
                 if (tc.isOutpost()) {
-                    CivMessage.send(sender, CivColor.Yellow + CivSettings.localize.localizedString("cmd_here_outPost"));
+                    CivMessage.send(sender, ChatColor.YELLOW + CivSettings.localize.localizedString("cmd_here_outPost"));
                 }
             }
 
             if (cc == null && tc == null) {
-                CivMessage.send(sender, CivColor.Yellow + CivSettings.localize.localizedString("cmd_here_wilderness"));
+                CivMessage.send(sender, ChatColor.YELLOW + CivSettings.localize.localizedString("cmd_here_wilderness"));
             }
 
         }

@@ -34,10 +34,10 @@ import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.tutorial.CivTutorial;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.SimpleBlock;
 import com.avrgaming.civcraft.war.War;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -80,7 +80,7 @@ public class FortifiedWall extends Wall {
      *  This is used to chain together the wall chunks built by the last operation.
      * this allows us to undo all of the walls built in a single pass.
      */
-    private FortifiedWall nextWallBuilt = null;
+    private final FortifiedWall nextWallBuilt = null;
 
 //	private int verticalsegments = 0;
 
@@ -121,7 +121,7 @@ public class FortifiedWall extends Wall {
         refund /= HEIGHT;
         refund = Math.round(refund);
         this.getTown().getTreasury().deposit(refund);
-        CivMessage.sendTown(this.getTown(), CivColor.Yellow + CivSettings.localize.localizedString("wall_undoRefund") + " " + refund + " " + CivSettings.CURRENCY_NAME);
+        CivMessage.sendTown(this.getTown(), ChatColor.YELLOW + CivSettings.localize.localizedString("wall_undoRefund") + " " + refund + " " + CivSettings.CURRENCY_NAME);
         try {
             this.delete();
         } catch (SQLException e) {
@@ -203,7 +203,7 @@ public class FortifiedWall extends Wall {
             Inventory inv = Bukkit.getServer().createInventory(player, CivTutorial.MAX_CHEST_SIZE * 9);
             ItemStack infoRec = LoreGuiItem.build("Default " + this.getDisplayName(),
                     Material.WRITTEN_BOOK,
-                    0, CivColor.Gold + "<Click To Build>");
+                    0, ChatColor.GOLD + "<Click To Build>");
             infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithTemplate);
             inv.addItem(infoRec);
 
@@ -212,7 +212,7 @@ public class FortifiedWall extends Wall {
                         perk.display_name,
                         perk.type_id,
                         perk.data,
-                        CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild")
+                        ChatColor.GOLD + CivSettings.localize.localizedString("loreGui_template_clickToBuild")
                 );
                 infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithTemplate);
                 infoRec = LoreGuiItem.setActionData(infoRec, "theme", perk.theme);
@@ -284,7 +284,7 @@ public class FortifiedWall extends Wall {
         }
 
         if (locs.size() <= 1) {
-            CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("wall_firstLocation"));
+            CivMessage.send(player, ChatColor.GRAY + CivSettings.localize.localizedString("wall_firstLocation"));
             return;
         }
 
@@ -332,7 +332,7 @@ public class FortifiedWall extends Wall {
 
         this.getTown().getTreasury().withdraw(cost);
 
-        CivMessage.sendTown(this.getTown(), CivColor.Yellow + CivSettings.localize.localizedString("var_wall_buildSuccess", cost, CivSettings.CURRENCY_NAME, verticalSegments));
+        CivMessage.sendTown(this.getTown(), ChatColor.YELLOW + CivSettings.localize.localizedString("var_wall_buildSuccess", cost, CivSettings.CURRENCY_NAME, verticalSegments));
 
         // build the blocks
         for (SimpleBlock sb : simpleBlocks.values()) {
@@ -690,7 +690,7 @@ public class FortifiedWall extends Wall {
 
         save();
         getTown().getTreasury().withdraw(cost);
-        CivMessage.sendTown(getTown(), CivColor.Yellow + CivSettings.localize.localizedString("var_wall_repair_success", getDisplayName(), getCorner().toString()));
+        CivMessage.sendTown(getTown(), ChatColor.YELLOW + CivSettings.localize.localizedString("var_wall_repair_success", getDisplayName(), getCorner().toString()));
     }
 
     public String getTEMPLATE() {

@@ -1,8 +1,8 @@
 package com.avrgaming.civcraft.loreenhancements;
 
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.util.CivColor;
 import gpl.AttributeUtil;
+import org.bukkit.ChatColor;
 import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -10,7 +10,7 @@ public class LoreEnhancementUnbreaking extends LoreEnhancement {
 
     public AttributeUtil add(AttributeUtil attrs) {
         attrs.addEnhancement("LoreEnhancementUnbreaking", null, null);
-        attrs.addLore(CivColor.Gold + getDisplayName());
+        attrs.addLore(ChatColor.GOLD + getDisplayName());
         return attrs;
     }
 

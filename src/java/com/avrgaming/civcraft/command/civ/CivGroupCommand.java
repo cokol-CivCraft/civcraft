@@ -25,7 +25,7 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.permission.PermissionGroup;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class CivGroupCommand extends CommandBase {
@@ -74,7 +74,7 @@ public class CivGroupCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_civ_group_removeSuccess", oldMember.getName(), groupName));
         try {
             Player newPlayer = CivGlobal.getPlayer(oldMember);
-            CivMessage.send(newPlayer, CivColor.Rose + CivSettings.localize.localizedString("var_cmd_civ_group_removeNotify1", groupName, civ.getName()));
+            CivMessage.send(newPlayer, ChatColor.RED + CivSettings.localize.localizedString("var_cmd_civ_group_removeNotify1", groupName, civ.getName()));
         } catch (CivException e) {
             /* player not online. forget the exception*/
         }
@@ -143,10 +143,10 @@ public class CivGroupCommand extends CommandBase {
             CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_civ_group_listHeading"));
 
             PermissionGroup grp = civ.getLeaderGroup();
-            CivMessage.send(sender, CivSettings.localize.localizedString("var_cmd_civ_group_listGroup", grp.getName() + CivColor.LightGray, grp.getMemberCount()));
+            CivMessage.send(sender, CivSettings.localize.localizedString("var_cmd_civ_group_listGroup", grp.getName() + ChatColor.GRAY, grp.getMemberCount()));
 
             grp = civ.getAdviserGroup();
-            CivMessage.send(sender, CivSettings.localize.localizedString("var_cmd_civ_group_listGroup", grp.getName() + CivColor.LightGray, grp.getMemberCount()));
+            CivMessage.send(sender, CivSettings.localize.localizedString("var_cmd_civ_group_listGroup", grp.getName() + ChatColor.GRAY, grp.getMemberCount()));
         }
     }
 

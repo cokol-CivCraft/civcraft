@@ -37,11 +37,11 @@ import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.threading.TaskMaster;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.ItemManager;
 import gpl.AttributeUtil;
 import gpl.HorseModifier;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
@@ -894,7 +894,7 @@ public class CustomItemManager implements Listener {
             inv.remove(stack);
             CivLog.info("Removed vanilla item:" + stack + " from " + player.getName());
             if (!sentMessage) {
-                CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("customItem_restrictedItemsRemoved"));
+                CivMessage.send(player, ChatColor.GRAY + CivSettings.localize.localizedString("customItem_restrictedItemsRemoved"));
                 sentMessage = true;
             }
         }
@@ -924,7 +924,7 @@ public class CustomItemManager implements Listener {
             contents[i] = new ItemStack(Material.AIR);
             foundBad = true;
             if (!sentMessage) {
-                CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("customItem_restrictedItemsRemoved"));
+                CivMessage.send(player, ChatColor.GRAY + CivSettings.localize.localizedString("customItem_restrictedItemsRemoved"));
                 sentMessage = true;
             }
         }

@@ -6,7 +6,7 @@ import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,7 +71,7 @@ public abstract class EndGameCondition {
     public void onFailure(Civilization civ) {
         for (SessionEntry entry : CivGlobal.getSessionDB().lookup(getSessionKey())) {
             if (civ == EndGameCondition.getCivFromSessionData(entry.value)) {
-                CivMessage.global(CivSettings.localize.localizedString("var_end_warLoss", CivColor.LightBlue + CivColor.BOLD + civ.getName() + CivColor.White, CivColor.LightPurple + CivColor.BOLD + this.victoryName + CivColor.White));
+                CivMessage.global(CivSettings.localize.localizedString("var_end_warLoss", String.valueOf(ChatColor.AQUA) + ChatColor.BOLD + civ.getName() + ChatColor.WHITE, String.valueOf(ChatColor.LIGHT_PURPLE) + ChatColor.BOLD + this.victoryName + ChatColor.WHITE));
                 CivGlobal.getSessionDB().delete(entry.request_id, entry.key);
                 onVictoryReset(civ);
                 return;

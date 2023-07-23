@@ -27,7 +27,6 @@ import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.TownAddOutlawTask;
-import com.avrgaming.civcraft.util.CivColor;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -57,7 +56,7 @@ public class TownOutlawCommand extends CommandBase {
 
             try {
                 Player player = CivGlobal.getPlayer(args[1]);
-                CivMessage.send(player, CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_town_outlaw_addAllAlert1", town.getName()));
+                CivMessage.send(player, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_town_outlaw_addAllAlert1", town.getName()));
             } catch (CivException ignored) {
             }
             TaskMaster.asyncTask(new TownAddOutlawTask(resident.getName(), town), 1000);
@@ -84,7 +83,7 @@ public class TownOutlawCommand extends CommandBase {
 
                 try {
                     Player player = CivGlobal.getPlayer(args[1]);
-                    CivMessage.send(player, CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_town_outlaw_addAllAlert1", town.getName()));
+                    CivMessage.send(player, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_town_outlaw_addAllAlert1", town.getName()));
                 } catch (CivException ignored) {
                 }
                 TaskMaster.asyncTask(new TownAddOutlawTask(resident.getName(), town), 1000);
@@ -119,7 +118,7 @@ public class TownOutlawCommand extends CommandBase {
 
         try {
             Player player = CivGlobal.getPlayer(args[1]);
-            CivMessage.send(player, CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_town_outlaw_addAllAlert1", town.getName()));
+            CivMessage.send(player, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_town_outlaw_addAllAlert1", town.getName()));
         } catch (CivException ignored) {
         }
 

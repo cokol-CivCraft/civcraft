@@ -23,7 +23,7 @@ import com.avrgaming.civcraft.config.ConfigGovernment;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Civilization;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
 
@@ -69,9 +69,9 @@ public class CivGovCommand extends CommandBase {
 
         for (ConfigGovernment gov : govs) {
             if (gov == civ.getGovernment()) {
-                CivMessage.send(sender, CivColor.Gold + gov.displayName + " " + "(" + CivSettings.localize.localizedString("currentGovernment") + ")");
+                CivMessage.send(sender, ChatColor.GOLD + gov.displayName + " " + "(" + CivSettings.localize.localizedString("currentGovernment") + ")");
             } else {
-                CivMessage.send(sender, CivColor.Green + gov.displayName);
+                CivMessage.send(sender, ChatColor.DARK_GREEN + gov.displayName);
             }
         }
 
@@ -82,14 +82,14 @@ public class CivGovCommand extends CommandBase {
         Civilization civ = getSenderCiv();
 
         CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_civ_gov_infoHading") + " " + civ.getGovernment().displayName);
-        CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_civ_gov_infoTrade") + " " + CivColor.LightGreen + civ.getGovernment().trade_rate +
-                CivColor.Green + " " + CivSettings.localize.localizedString("cmd_civ_gov_infoCottage") + " " + CivColor.LightGreen + civ.getGovernment().cottage_rate);
-        CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_civ_gov_infoUpkeep") + " " + CivColor.LightGreen + civ.getGovernment().upkeep_rate +
-                CivColor.Green + " " + CivSettings.localize.localizedString("cmd_civ_gov_infoGrowth") + " " + CivColor.LightGreen + civ.getGovernment().growth_rate);
-        CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_civ_gov_infoHammer") + " " + CivColor.LightGreen + civ.getGovernment().hammer_rate +
-                CivColor.Green + " " + CivSettings.localize.localizedString("cmd_civ_gov_infoBeaker") + " " + CivColor.LightGreen + civ.getGovernment().beaker_rate);
-        CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_civ_gov_infoCulture") + " " + CivColor.LightGreen + civ.getGovernment().culture_rate +
-                CivColor.Green + " " + CivSettings.localize.localizedString("cmd_civ_gov_infoMaxTax") + " " + CivColor.LightGreen + civ.getGovernment().maximum_tax_rate);
+        CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("cmd_civ_gov_infoTrade") + " " + ChatColor.GREEN + civ.getGovernment().trade_rate +
+                ChatColor.DARK_GREEN + " " + CivSettings.localize.localizedString("cmd_civ_gov_infoCottage") + " " + ChatColor.GREEN + civ.getGovernment().cottage_rate);
+        CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("cmd_civ_gov_infoUpkeep") + " " + ChatColor.GREEN + civ.getGovernment().upkeep_rate +
+                ChatColor.DARK_GREEN + " " + CivSettings.localize.localizedString("cmd_civ_gov_infoGrowth") + " " + ChatColor.GREEN + civ.getGovernment().growth_rate);
+        CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("cmd_civ_gov_infoHammer") + " " + ChatColor.GREEN + civ.getGovernment().hammer_rate +
+                ChatColor.DARK_GREEN + " " + CivSettings.localize.localizedString("cmd_civ_gov_infoBeaker") + " " + ChatColor.GREEN + civ.getGovernment().beaker_rate);
+        CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("cmd_civ_gov_infoCulture") + " " + ChatColor.GREEN + civ.getGovernment().culture_rate +
+                ChatColor.DARK_GREEN + " " + CivSettings.localize.localizedString("cmd_civ_gov_infoMaxTax") + " " + ChatColor.GREEN + civ.getGovernment().maximum_tax_rate);
 
     }
 

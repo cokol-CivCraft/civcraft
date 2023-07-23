@@ -5,7 +5,7 @@ import com.avrgaming.civcraft.config.ConfigFishing;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -47,7 +47,7 @@ public class FishingListener implements Listener {
             for (ItemStack is : player.getInventory().addItem(new ItemStack(Material.RAW_FISH, 1, (short) 0)).values()) {
                 player.getWorld().dropItem(player.getLocation(), is);
             }
-            CivMessage.send(event.getPlayer(), CivColor.LightGreen + CivSettings.localize.localizedString("var_fishing_success", CivColor.LightPurple + CivSettings.localize.localizedString("fishing_rawFish")));
+            CivMessage.send(event.getPlayer(), ChatColor.GREEN + CivSettings.localize.localizedString("var_fishing_success", ChatColor.LIGHT_PURPLE + CivSettings.localize.localizedString("fishing_rawFish")));
             return;
         }
         dropped.forEach(d -> drop(event, player, d));
@@ -58,12 +58,12 @@ public class FishingListener implements Listener {
         ItemStack stack;
         if (d.craftMatId == null) {
             stack = new ItemStack(d.type_id, 1, (short) 0);
-            CivMessage.send(event.getPlayer(), CivColor.LightGreen + CivSettings.localize.localizedString("var_fishing_success", CivColor.LightPurple + stack.getType().name().replace("_", " ").toLowerCase()));
+            CivMessage.send(event.getPlayer(), ChatColor.GREEN + CivSettings.localize.localizedString("var_fishing_success", ChatColor.LIGHT_PURPLE + stack.getType().name().replace("_", " ").toLowerCase()));
         } else {
             LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterialFromId(d.craftMatId);
             if (craftMat != null) {
                 stack = LoreCraftableMaterial.spawn(craftMat);
-                CivMessage.send(event.getPlayer(), CivColor.LightGreen + CivSettings.localize.localizedString("var_fishing_success", CivColor.LightPurple + craftMat.getName()));
+                CivMessage.send(event.getPlayer(), ChatColor.GREEN + CivSettings.localize.localizedString("var_fishing_success", ChatColor.LIGHT_PURPLE + craftMat.getName()));
             } else {
                 stack = null;
                 return;

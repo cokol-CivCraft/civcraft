@@ -22,7 +22,7 @@ import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.object.TradeGood;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 
 import java.text.DecimalFormat;
 
@@ -43,10 +43,10 @@ public class SyncTradeTimer implements Runnable {
 
             double taxesPaid = payment * town.getDepositCiv().getIncomeTaxRate();
             if (taxesPaid > 0) {
-                CivMessage.sendTown(town, CivColor.LightGreen + CivSettings.localize.localizedString("var_syncTrade_payout", (CivColor.Yellow + df.format(payment) + CivColor.LightGreen + " " + CivSettings.CURRENCY_NAME),
+                CivMessage.sendTown(town, ChatColor.GREEN + CivSettings.localize.localizedString("var_syncTrade_payout", (ChatColor.YELLOW + df.format(payment) + ChatColor.GREEN + " " + CivSettings.CURRENCY_NAME),
                         CivSettings.localize.localizedString("var_cottage_grew_taxes", (df.format(Math.floor(taxesPaid)) + " " + CivSettings.CURRENCY_NAME), town.getDepositCiv().getName())));
             } else {
-                CivMessage.sendTown(town, CivColor.LightGreen + CivSettings.localize.localizedString("var_syncTrade_payout", (CivColor.Yellow + df.format(payment) + CivColor.LightGreen + " " + CivSettings.CURRENCY_NAME), ""));
+                CivMessage.sendTown(town, ChatColor.GREEN + CivSettings.localize.localizedString("var_syncTrade_payout", (ChatColor.YELLOW + df.format(payment) + ChatColor.GREEN + " " + CivSettings.CURRENCY_NAME), ""));
             }
 
             town.getTreasury().deposit(payment - taxesPaid);

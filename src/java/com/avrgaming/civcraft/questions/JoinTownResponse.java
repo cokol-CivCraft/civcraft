@@ -22,7 +22,7 @@ import com.avrgaming.civcraft.exception.AlreadyRegisteredException;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class JoinTownResponse implements QuestionResponseInterface {
@@ -34,7 +34,7 @@ public class JoinTownResponse implements QuestionResponseInterface {
     @Override
     public void processResponse(String param) {
         if (param.equalsIgnoreCase("accept")) {
-            CivMessage.send(sender, CivColor.LightGray + CivSettings.localize.localizedString("var_joinTown_accepted", resident.getName()));
+            CivMessage.send(sender, ChatColor.GRAY + CivSettings.localize.localizedString("var_joinTown_accepted", resident.getName()));
 
             try {
                 town.addResident(resident);
@@ -46,7 +46,7 @@ public class JoinTownResponse implements QuestionResponseInterface {
             CivMessage.sendTown(town, CivSettings.localize.localizedString("var_joinTown_alert", resident.getName()));
             resident.save();
         } else {
-            CivMessage.send(sender, CivColor.LightGray + CivSettings.localize.localizedString("var_joinTown_Declined", resident.getName()));
+            CivMessage.send(sender, ChatColor.GRAY + CivSettings.localize.localizedString("var_joinTown_Declined", resident.getName()));
         }
     }
 

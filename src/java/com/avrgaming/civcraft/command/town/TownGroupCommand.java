@@ -26,7 +26,7 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.permission.PermissionGroup;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
@@ -121,7 +121,7 @@ public class TownGroupCommand extends CommandBase {
 
         try {
             Player newPlayer = CivGlobal.getPlayer(oldMember);
-            CivMessage.send(newPlayer, CivColor.Rose + CivSettings.localize.localizedString("var_cmd_town_group_removeAlert", grp.getName(), grp.getTown().getName()));
+            CivMessage.send(newPlayer, ChatColor.RED + CivSettings.localize.localizedString("var_cmd_town_group_removeAlert", grp.getName(), grp.getTown().getName()));
         } catch (CivException e) {
             /* player not online. forget the exception*/
         }
@@ -191,7 +191,7 @@ public class TownGroupCommand extends CommandBase {
             CivMessage.sendHeading(sender, town.getName() + " " + CivSettings.localize.localizedString("cmd_town_group_infoHeading2"));
 
             for (PermissionGroup grp : town.getGroups()) {
-                CivMessage.send(sender, CivSettings.localize.localizedString("var_cmd_civ_group_listGroup", grp.getName() + CivColor.LightGray, grp.getMemberCount()));
+                CivMessage.send(sender, CivSettings.localize.localizedString("var_cmd_civ_group_listGroup", grp.getName() + ChatColor.GRAY, grp.getMemberCount()));
             }
         }
     }
