@@ -29,7 +29,10 @@ import com.avrgaming.civcraft.object.TradeGood;
 import com.avrgaming.civcraft.structure.Structure;
 import com.avrgaming.civcraft.structure.TradeOutpost;
 import com.avrgaming.civcraft.threading.TaskMaster;
-import com.avrgaming.civcraft.util.*;
+import com.avrgaming.civcraft.util.BlockCoord;
+import com.avrgaming.civcraft.util.EntityUtil;
+import com.avrgaming.civcraft.util.InventoryHolderStorage;
+import com.avrgaming.civcraft.util.ItemFrameStorage;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -196,7 +199,7 @@ public class BonusGoodie extends LoreItem {
             }
             for (ConfigTradeGood good : CivSettings.goods.values()) {
                 for (Entry<Integer, ? extends ItemStack> itemEntry : holder.getInventory().all(good.material).entrySet()) {
-                    if (ItemManager.getData(itemEntry.getValue()) != good.material_data) {
+                    if (itemEntry.getValue().getDurability() != good.material_data) {
                         continue;
                     }
                     ItemStack stack = itemEntry.getValue();
@@ -517,12 +520,11 @@ public class BonusGoodie extends LoreItem {
 
                 for (ConfigTradeGood good : CivSettings.goods.values()) {
                     for (Entry<Integer, ? extends ItemStack> itemEntry : inv.all(good.material).entrySet()) {
-                        if (ItemManager.getData(itemEntry.getValue()) != good.material_data) {
+                        if (itemEntry.getValue().getDurability() != good.material_data) {
                             continue;
                         }
-                        ItemStack stack = itemEntry.getValue();
 
-                        if (this.isItemStackOurs(stack)) {
+                        if (this.isItemStackOurs(itemEntry.getValue())) {
                             // Found ya!
                             holderStore = new InventoryHolderStorage(inv.getHolder(), b.getLocation());
                             this.frameStore = null;

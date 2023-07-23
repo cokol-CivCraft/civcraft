@@ -27,7 +27,6 @@ import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.StructureSign;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.SimpleBlock;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -203,7 +202,7 @@ public class Market extends Structure {
             structSign = new StructureSign(absCoord, this);
         }
 
-        structSign.setDirection(ItemManager.getData(b.getState()));
+        structSign.setDirection(b.getState().getRawData());
         structSign.setType(String.valueOf(id));
         structSign.setAction(action);
 

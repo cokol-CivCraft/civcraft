@@ -29,7 +29,6 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ItemFrameStorage;
-import com.avrgaming.civcraft.util.ItemManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Chest;
@@ -398,7 +397,7 @@ public class BonusGoodieManager implements Listener {
 
         for (ConfigTradeGood good : CivSettings.goods.values()) {
             for (Entry<Integer, ? extends ItemStack> itemEntry : inv.all(good.material).entrySet()) {
-                if (good.material_data != ItemManager.getData(itemEntry.getValue())) {
+                if (good.material_data != itemEntry.getValue().getDurability()) {
                     continue;
                 }
 

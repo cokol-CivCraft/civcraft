@@ -26,7 +26,6 @@ import com.avrgaming.civcraft.structure.*;
 import com.avrgaming.civcraft.structure.wonders.GrandShipIngermanland;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.SimpleBlock;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -177,7 +176,7 @@ public class PostBuildSyncTask implements Runnable {
                     block.setType(sb.getType());
                     block.setData((byte) sb.getData());
 
-                    structSign.setDirection(ItemManager.getData(block.getState()));
+                    structSign.setDirection(block.getState().getRawData());
                     for (String key : sb.keyvalues.keySet()) {
                         structSign.setType(key);
                         structSign.setAction(sb.keyvalues.get(key));
@@ -373,7 +372,7 @@ public class PostBuildSyncTask implements Runnable {
                     block.setType(sb.getType());
                     block.setData((byte) sb.getData());
 
-                    structSign.setDirection(ItemManager.getData(block.getState()));
+                    structSign.setDirection(block.getState().getRawData());
                     for (String key : sb.keyvalues.keySet()) {
                         structSign.setType(key);
                         structSign.setAction(sb.keyvalues.get(key));

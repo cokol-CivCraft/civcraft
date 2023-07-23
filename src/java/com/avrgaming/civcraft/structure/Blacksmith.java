@@ -34,7 +34,6 @@ import com.avrgaming.civcraft.sessiondb.SessionEntry;
 import com.avrgaming.civcraft.threading.tasks.NotificationTask;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.BukkitObjects;
-import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.TimeTools;
 import gpl.AttributeUtil;
 import org.bukkit.ChatColor;
@@ -175,7 +174,7 @@ public class Blacksmith extends Structure {
         StringBuilder value = new StringBuilder(item.getTypeId() + ":");
 
         for (Enchantment e : item.getEnchantments().keySet()) {
-            value.append(ItemManager.getId(e)).append(",").append(item.getEnchantmentLevel(e));
+            value.append(e.getId()).append(",").append(item.getEnchantmentLevel(e));
             value.append(":");
         }
 
