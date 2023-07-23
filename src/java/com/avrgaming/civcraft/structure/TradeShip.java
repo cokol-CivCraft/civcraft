@@ -9,7 +9,6 @@ import com.avrgaming.civcraft.config.ConfigMineLevel;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.CivTaskAbortException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Buff;
@@ -28,6 +27,8 @@ import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.Chest;
+import org.bukkit.material.MaterialData;
 
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -93,22 +94,17 @@ public class TradeShip extends WaterStructure {
         for (BlockCoord relativeCoord : tpl.commandBlockRelativeLocations) {
             SimpleBlock sb = tpl.blocks[relativeCoord.getX()][relativeCoord.getY()][relativeCoord.getZ()];
             BlockCoord absCoord = new BlockCoord(corner.getBlock().getRelative(relativeCoord.getX(), relativeCoord.getY(), relativeCoord.getZ()));
-
+            if (!(sb.getMaterialData() instanceof org.bukkit.material.Sign)) {
+                continue;
+            }
             switch (sb.command) {
                 case "/incoming": {
                     int ID = Integer.parseInt(sb.keyvalues.get("id"));
                     if (this.getUpgradeLvl() >= ID + 1) {
                         this.goodsWithdrawPoints.add(absCoord);
-                        Block block = absCoord.getBlock();
-                        block.setType(Material.CHEST);
-                        byte data3 = CivData.convertSignDataToChestData((byte) sb.getData());
-                        Block block1 = absCoord.getBlock();
-                        block1.setData((byte) (int) data3);
+                        absCoord.getBlock().getState().setData(new Chest(((org.bukkit.material.Sign) sb.getMaterialData()).getFacing()));
                     } else {
-                        Block block = absCoord.getBlock();
-                        block.setType(Material.AIR);
-                        Block block1 = absCoord.getBlock();
-                        block1.setData((byte) sb.getData());
+                        absCoord.getBlock().getState().setData(new MaterialData(Material.AIR));
                     }
                     this.addStructureBlock(absCoord, false);
                     break;
@@ -116,24 +112,16 @@ public class TradeShip extends WaterStructure {
                 case "/inSign": {
                     int ID = Integer.parseInt(sb.keyvalues.get("id"));
                     if (this.getUpgradeLvl() >= ID + 1) {
-                        Block block = absCoord.getBlock();
-                        block.setType(Material.WALL_SIGN);
-                        Block block1 = absCoord.getBlock();
-                        block1.setData((byte) sb.getData());
-
                         Sign sign = (Sign) absCoord.getBlock().getState();
+                        sign.setData(sb.getMaterialData());
                         sign.setLine(0, CivSettings.localize.localizedString("tradeship_sign_input_line0"));
                         sign.setLine(1, String.valueOf(ID + 1));
                         sign.setLine(2, "");
                         sign.setLine(3, "");
                         sign.update();
                     } else {
-                        Block block = absCoord.getBlock();
-                        block.setType(Material.WALL_SIGN);
-                        Block block1 = absCoord.getBlock();
-                        block1.setData((byte) sb.getData());
-
                         Sign sign = (Sign) absCoord.getBlock().getState();
+                        sign.setData(sb.getMaterialData());
                         sign.setLine(0, CivSettings.localize.localizedString("tradeship_sign_input_line0"));
                         sign.setLine(1, CivSettings.localize.localizedString("tradeship_sign_input_notupgraded_line1"));
                         sign.setLine(2, (CivSettings.localize.localizedString("tradeship_sign_input_notupgraded_line2")));
@@ -148,17 +136,10 @@ public class TradeShip extends WaterStructure {
 
                     if (this.getLevel() >= (ID * 2) + 1) {
                         this.goodsDepositPoints.add(absCoord);
-                        Block block = absCoord.getBlock();
-                        block.setType(Material.CHEST);
-                        byte data3 = CivData.convertSignDataToChestData((byte) sb.getData());
-                        Block block1 = absCoord.getBlock();
-                        block1.setData((byte) (int) data3);
+                        absCoord.getBlock().getState().setData(new Chest(((org.bukkit.material.Sign) sb.getMaterialData()).getFacing()));
                         this.addStructureBlock(absCoord, false);
                     } else {
-                        Block block = absCoord.getBlock();
-                        block.setType(Material.AIR);
-                        Block block1 = absCoord.getBlock();
-                        block1.setData((byte) sb.getData());
+                        absCoord.getBlock().getState().setData(new MaterialData(Material.AIR));
                     }
                     break;
                 }
