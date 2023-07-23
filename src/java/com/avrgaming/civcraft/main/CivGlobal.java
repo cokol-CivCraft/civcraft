@@ -42,7 +42,6 @@ import com.avrgaming.civcraft.sessiondb.SessionEntry;
 import com.avrgaming.civcraft.structure.*;
 import com.avrgaming.civcraft.structure.farm.FarmChunk;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
-import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.*;
 import com.avrgaming.civcraft.util.BlockCoord;
@@ -177,7 +176,6 @@ public class CivGlobal {
         EventTimer.loadGlobalEvents();
         EndGameCondition.init();
         War.init();
-        Template.init();
 
         CivLog.heading("--- Done <3 ---");
 

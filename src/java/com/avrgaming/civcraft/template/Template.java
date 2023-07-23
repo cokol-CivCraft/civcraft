@@ -41,7 +41,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
-import org.bukkit.material.Chest;
 import org.bukkit.material.MaterialData;
 
 import java.io.*;
@@ -73,9 +72,6 @@ public class Template {
 
     public static HashMap<String, Template> templateCache = new HashMap<>();
 
-    public static void init() {
-    }
-
     public static void initAttachableTypes() {
         attachableTypes.add(Material.SAPLING);
         attachableTypes.add(Material.BED);
@@ -91,8 +87,6 @@ public class Template {
         attachableTypes.add(Material.TORCH);
         attachableTypes.add(Material.REDSTONE_WIRE);
         attachableTypes.add(Material.WHEAT);
-//		attachableTypes.add(ItemManager.getId(Material.SIGN_POST));
-//		attachableTypes.add(ItemManager.getId(Material.WALL_SIGN));
         attachableTypes.add(Material.LADDER);
         attachableTypes.add(Material.RAILS);
         attachableTypes.add(Material.LEVER);
@@ -103,13 +97,13 @@ public class Template {
         attachableTypes.add(Material.STONE_BUTTON);
         attachableTypes.add(Material.CACTUS);
         attachableTypes.add(Material.SUGAR_CANE);
-        attachableTypes.add(Material.DIODE_BLOCK_OFF); //redstone repeater off
-        attachableTypes.add(Material.DIODE_BLOCK_ON); //redstone repeater on
+        attachableTypes.add(Material.DIODE_BLOCK_OFF);
+        attachableTypes.add(Material.DIODE_BLOCK_ON);
         attachableTypes.add(Material.TRAP_DOOR);
         attachableTypes.add(Material.PUMPKIN_STEM);
         attachableTypes.add(Material.MELON_STEM);
         attachableTypes.add(Material.VINE);
-        attachableTypes.add(Material.WATER_LILY); //lily pad
+        attachableTypes.add(Material.WATER_LILY);
         attachableTypes.add(Material.BREWING_STAND);
         attachableTypes.add(Material.COCOA);
         attachableTypes.add(Material.TRIPWIRE);
@@ -166,12 +160,6 @@ public class Template {
         return ("templates/wonders/" + template_file + "/" + ".def").toLowerCase();
     }
 
-    @SuppressWarnings("unused")
-    public void buildConstructionScaffolding(Location center, Player player) {
-        //this.buildScaffolding(center);
-        center.getBlock().getState().setData(new Chest(Material.CHEST));
-    }
-
     public static final MaterialData SCAFFOLDING_BLOCK = new MaterialData(Material.BEDROCK);
 
 
@@ -183,41 +171,41 @@ public class Template {
         for (int y = 0; y < this.size_y; y++) {
             Block b = center.getBlock().getRelative(0, y, 0);
             ItemManager.sendBlockChange(player, b.getLocation(), SCAFFOLDING_BLOCK);
-            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), b.getData()));
+            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b));
 
             b = center.getBlock().getRelative(this.size_x - 1, y, this.size_z - 1);
             ItemManager.sendBlockChange(player, b.getLocation(), SCAFFOLDING_BLOCK);
-            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), b.getData()));
+            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b));
 
             b = center.getBlock().getRelative(this.size_x - 1, y, 0);
             ItemManager.sendBlockChange(player, b.getLocation(), SCAFFOLDING_BLOCK);
-            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), b.getData()));
+            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b));
 
             b = center.getBlock().getRelative(0, y, this.size_z - 1);
             ItemManager.sendBlockChange(player, b.getLocation(), SCAFFOLDING_BLOCK);
-            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), b.getData()));
+            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b));
 
         }
 
         for (int x = 0; x < this.size_x; x++) {
             Block b = center.getBlock().getRelative(x, this.size_y - 1, 0);
             ItemManager.sendBlockChange(player, b.getLocation(), SCAFFOLDING_BLOCK);
-            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), b.getData()));
+            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b));
 
             b = center.getBlock().getRelative(x, this.size_y - 1, this.size_z - 1);
             ItemManager.sendBlockChange(player, b.getLocation(), SCAFFOLDING_BLOCK);
-            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), b.getData()));
+            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b));
 
         }
 
         for (int z = 0; z < this.size_z; z++) {
             Block b = center.getBlock().getRelative(0, this.size_y - 1, z);
             ItemManager.sendBlockChange(player, b.getLocation(), SCAFFOLDING_BLOCK);
-            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), b.getData()));
+            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b));
 
             b = center.getBlock().getRelative(this.size_x - 1, this.size_y - 1, z);
             ItemManager.sendBlockChange(player, b.getLocation(), SCAFFOLDING_BLOCK);
-            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), b.getData()));
+            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b));
         }
 
 //        for (int z = 0; z < this.size_z; z++) {
@@ -324,34 +312,26 @@ public class Template {
 
     }
 
+    @SuppressWarnings("deprecation")
     public void saveUndoTemplate(String string, String subdir, Location center) throws IOException {
 
         String filepath = "templates/undo/" + subdir;
         File undo_tpl_file = new File(filepath);
-        undo_tpl_file.mkdirs();
+        if (undo_tpl_file.mkdirs()) {
+            CivLog.debug("Created " + filepath);
+        }
 
         FileWriter writer = new FileWriter(undo_tpl_file.getAbsolutePath() + "/" + string);
-
-        //TODO Extend this to save paintings?
         writer.write(this.size_x + ";" + this.size_y + ";" + this.size_z + "\n");
         for (int x = 0; x < this.size_x; x++) {
             for (int y = 0; y < this.size_y; y++) {
                 for (int z = 0; z < this.size_z; z++) {
                     Block b = center.getBlock().getRelative(x, y, z);
-
-                    if (b.getType() == Material.WALL_SIGN || b.getType() == Material.SIGN_POST) {
-                        if (b.getState() instanceof Sign) {
-                            Sign sign = (Sign) b.getState();
-
-                            StringBuilder signText = new StringBuilder();
-                            for (String line : sign.getLines()) {
-                                signText.append(line).append(",");
-                            }
-                            writer.write(x + ":" + y + ":" + z + "," + b.getTypeId() + ":" + b.getData() + "," + signText + "\n");
-                        }
-                    } else {
-                        writer.write(x + ":" + y + ":" + z + "," + b.getTypeId() + ":" + b.getData() + "\n");
+                    writer.write(x + ":" + y + ":" + z + "," + b.getTypeId() + ":" + b.getData());
+                    if (b.getState() instanceof Sign) {
+                        writer.write("," + String.join(",", ((Sign) b.getState()).getLines()));
                     }
+                    writer.write("\n");
 
 
                 }
@@ -374,7 +354,6 @@ public class Template {
 
         BufferedReader reader = new BufferedReader(new FileReader(filepath));
 
-        // Read first line and get size.
         String line = reader.readLine();
         if (line == null) {
             reader.close();
@@ -491,6 +470,7 @@ public class Template {
         reader.close();
     }
 
+    @SuppressWarnings("deprecation")
     private void getTemplateBlocks(BufferedReader reader, int regionX, int regionY, int regionZ) throws NumberFormatException, IOException {
 
         SimpleBlock[][][] blocks = new SimpleBlock[regionX][regionY][regionZ];
@@ -532,69 +512,43 @@ public class Template {
             }
 
             // look for signs.
-            if (block.getType().getData() == Material.WALL_SIGN.getData()) {
+            if (block.getType().getData() == Material.WALL_SIGN.getData() && locTypeSplit.length > 2) {
 
-                if (locTypeSplit.length > 2) {
+                // The first character on special signs needs to be a /.
+                if (locTypeSplit[2] != null && !locTypeSplit[2].equals("") && locTypeSplit[2].charAt(0) == '/') {
+                    block.specialType = SimpleBlock.Type.COMMAND;
 
-                    // The first character on special signs needs to be a /.
-                    if (locTypeSplit[2] != null && !locTypeSplit[2].equals("") && locTypeSplit[2].charAt(0) == '/') {
-                        block.specialType = SimpleBlock.Type.COMMAND;
+                    // Got a command, save it.
+                    block.command = locTypeSplit[2];
 
-                        // Got a command, save it.
-                        block.command = locTypeSplit[2];
-
-                        // Save any key values we find.
-                        if (locTypeSplit.length > 3) {
-                            for (int i = 3; i < locTypeSplit.length; i++) {
-                                if (locTypeSplit[i] == null || locTypeSplit[i].equals("")) {
-                                    continue;
-                                }
-
-                                String[] keyvalue = locTypeSplit[i].split(":");
-                                if (keyvalue.length < 2) {
-                                    CivLog.warning("Invalid keyvalue:" + locTypeSplit[i] + " in template:" + this.filepath);
-                                    continue;
-                                }
-                                block.keyvalues.put(keyvalue[0].trim(), keyvalue[1].trim());
+                    // Save any key values we find.
+                    if (locTypeSplit.length > 3) {
+                        for (int i = 3; i < locTypeSplit.length; i++) {
+                            if (locTypeSplit[i] == null || locTypeSplit[i].equals("")) {
+                                continue;
                             }
+
+                            String[] keyvalue = locTypeSplit[i].split(":");
+                            if (keyvalue.length < 2) {
+                                CivLog.warning("Invalid keyvalue:" + locTypeSplit[i] + " in template:" + this.filepath);
+                                continue;
+                            }
+                            block.keyvalues.put(keyvalue[0].trim(), keyvalue[1].trim());
                         }
+                    }
 
-                        /* This block coord does not point to a location in a world, just a template. */
-                        this.commandBlockRelativeLocations.add(new BlockCoord("", blockX, blockY, blockZ));
+                    /* This block coord does not point to a location in a world, just a template. */
+                    this.commandBlockRelativeLocations.add(new BlockCoord("", blockX, blockY, blockZ));
 
-                    } else {
-                        block.specialType = SimpleBlock.Type.LITERAL;
+                } else {
+                    block.specialType = SimpleBlock.Type.LITERAL;
 
-                        // Literal sign, copy the sign into the simple block
-                       /* for (int i = 0 ; i < 4 ; i++) {
-                            try {
-                                block.message[i] = locTypeSplit[i+2];
-                            } catch (ArrayIndexOutOfBoundsException e) {
-                                block.message[i] = "";
-                            } maybe change to this? TODO
-                        } */
+                    // Literal sign, copy the sign into the simple block
+                    for (int i = 0; i < 4; i++) {
                         try {
-                            block.message[0] = locTypeSplit[2];
+                            block.message[i] = locTypeSplit[i + 2];
                         } catch (ArrayIndexOutOfBoundsException e) {
-                            block.message[0] = "";
-                        }
-                        try {
-                            block.message[1] = locTypeSplit[3];
-                        } catch (ArrayIndexOutOfBoundsException e) {
-                            block.message[1] = "";
-                        }
-
-                        try {
-                            block.message[2] = locTypeSplit[4];
-
-                        } catch (ArrayIndexOutOfBoundsException e) {
-                            block.message[2] = "";
-                        }
-
-                        try {
-                            block.message[3] = locTypeSplit[5];
-                        } catch (ArrayIndexOutOfBoundsException e) {
-                            block.message[3] = "";
+                            block.message[i] = "";
                         }
                     }
                 }
@@ -627,14 +581,16 @@ public class Template {
 
     public void deleteUndoTemplate(String string, String subdir) {
         String filepath = "templates/undo/" + subdir + "/" + string;
-        File templateFile = new File(filepath);
-        templateFile.delete();
+        if (new File(filepath).delete()) {
+            CivLog.debug("Deleted " + filepath);
+        }
     }
 
     public void deleteInProgessTemplate(String string, Town town) {
         String filepath = "templates/inprogress/" + town.getName() + "/" + string;
-        File templateFile = new File(filepath);
-        templateFile.delete();
+        if (new File(filepath).delete()) {
+            CivLog.debug("Deleted " + filepath);
+        }
     }
 
     public String getFilepath() {
@@ -656,7 +612,6 @@ public class Template {
                     if (CivSettings.restrictedUndoBlocks.contains(sb.getType())) {
                         continue;
                     }
-                    // Convert relative x,y,z to real x,y,z in world.
                     sb.x = x + centerBlock.getX();
                     sb.y = y + centerBlock.getY();
                     sb.z = z + centerBlock.getZ();
@@ -665,16 +620,7 @@ public class Template {
 
                     sbs.add(sb);
 
-//						ItemManager.setTypeIdAndData(b, tpl.blocks[x][y][z].getType(), (byte)tpl.blocks[x][y][z].getData(), false);
-//						try {
-//							nms.setBlockFast(b.getWorld(), b.getX(), b.getY(), b.getZ(), tpl.blocks[x][y][z].getType(), 
-//								(byte)tpl.blocks[x][y][z].getData());
-//						} catch (Exception e) {
-//							e.printStackTrace();
-//							//throw new CivException("Couldn't build undo template unknown error:"+e.getMessage());
-//						}
-
-                    if (b.getType() == Material.WALL_SIGN || b.getType() == Material.SIGN_POST) {
+                    if (b.getState() instanceof Sign) {
                         Sign s2 = (Sign) b.getState();
                         s2.setLine(0, tpl.blocks[x][y][z].message[0]);
                         s2.setLine(1, tpl.blocks[x][y][z].message[1]);
