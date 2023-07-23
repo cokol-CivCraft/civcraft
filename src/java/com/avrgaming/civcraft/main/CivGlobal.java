@@ -69,12 +69,6 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class CivGlobal {
-
-    public static final double MIN_FRAME_DISTANCE = 3.0;
-
-    public static double LIGHTHOUSE_WATER_PLAYER_SPEED = 1.5;
-    public static double LIGHTHOUSE_WATER_BOAT_SPEED = 1.1;
-
     private static boolean useEconomy;
     public static Economy econ;
 
@@ -127,13 +121,6 @@ public class CivGlobal {
     public static HashMap<String, Date> playerFirstLoginMap = new HashMap<>();
     public static HashSet<String> banWords = new HashSet<>();
 
-    //public static Scoreboard globalBoard;
-
-    public static Integer maxPlayers = -1;
-    public static HashSet<String> betaPlayers = new HashSet<>();
-    public static String fullMessage = "";
-    public static Boolean betaOnly = false;
-
     //TODO convert this to completely static?
     private static SessionDatabase sdb;
 
@@ -157,7 +144,6 @@ public class CivGlobal {
 
     public static boolean checkForBooks = true;
     public static boolean debugDateBypass = false;
-    public static boolean installMode = false;
 
     public static int highestCivEra = 0;
 
