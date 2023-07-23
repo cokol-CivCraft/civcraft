@@ -37,43 +37,6 @@ public class CivColor {
         return output;
     }
 
-    public static String valueOf(String color) {
-        switch (color.toLowerCase()) {
-            case "black":
-                return String.valueOf(ChatColor.BLACK);
-            case "navy":
-                return String.valueOf(ChatColor.DARK_BLUE);
-            case "green":
-                return String.valueOf(ChatColor.DARK_GREEN);
-            case "blue":
-                return String.valueOf(ChatColor.DARK_AQUA);
-            case "red":
-                return String.valueOf(ChatColor.DARK_RED);
-            case "purple":
-                return String.valueOf(ChatColor.DARK_PURPLE);
-            case "gold":
-                return String.valueOf(ChatColor.GOLD);
-            case "lightgray":
-                return String.valueOf(ChatColor.GRAY);
-            case "gray":
-                return String.valueOf(ChatColor.DARK_GRAY);
-            case "darkpurple":
-                return String.valueOf(ChatColor.BLUE);
-            case "lightgreen":
-                return String.valueOf(ChatColor.GREEN);
-            case "lightblue":
-                return String.valueOf(ChatColor.AQUA);
-            case "rose":
-                return String.valueOf(ChatColor.RED);
-            case "lightpurple":
-                return String.valueOf(ChatColor.LIGHT_PURPLE);
-            case "yellow":
-                return String.valueOf(ChatColor.YELLOW);
-            default:
-                return String.valueOf(ChatColor.WHITE);
-        }
-    }
-
     public static String stripTags(String input) {
         String output = input;
 

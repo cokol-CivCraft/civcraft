@@ -1,6 +1,7 @@
 package com.avrgaming.civcraft.config;
 
 import com.avrgaming.civcraft.main.CivLog;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.Map;
 public class ConfigHappinessState {
     public int level;
     public String name;
-    public String color;
+    public ChatColor color;
     public double amount;
     public double beaker_rate;
     public double coin_rate;
@@ -24,7 +25,7 @@ public class ConfigHappinessState {
             ConfigHappinessState happy_level = new ConfigHappinessState();
             happy_level.level = (Integer) cl.get("level");
             happy_level.name = (String) cl.get("name");
-            happy_level.color = (String) cl.get("color");
+            happy_level.color = ChatColor.valueOf((String) cl.get("color"));
             happy_level.amount = (Double) cl.get("amount");
             happy_level.beaker_rate = (Double) cl.get("beaker_rate");
             happy_level.coin_rate = (Double) cl.get("coin_rate");

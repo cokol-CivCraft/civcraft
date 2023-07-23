@@ -77,7 +77,7 @@ happiness:
     states:
         - level: 0
           name: 'Revolt'
-          color: 'Red'
+          color: DARK_RED
           amount: 0.05
           beaker_rate: 0.25
           coin_rate: 0.25
@@ -86,7 +86,7 @@ happiness:
 
         - level: 1
           name: 'Unrest'
-          color: 'Rose'
+          color: RED
           amount: 0.2
           beaker_rate: 0.5
           coin_rate: 0.5
@@ -95,7 +95,7 @@ happiness:
 
         - level: 2
           name: 'Unhappy'
-          color: 'Gold'
+          color: GOLD
           amount: 0.4
           beaker_rate: 0.75
           coin_rate: 0.75
@@ -104,7 +104,7 @@ happiness:
 
         - level: 3
           name:  'Content'
-          color: 'White'
+          color: WHITE
           amount: 0.5
           beaker_rate: 1.0
           coin_rate: 1.0
@@ -113,7 +113,7 @@ happiness:
 
         - level: 4
           name:  'Happy'
-          color: 'LightGreen'
+          color: GREEN
           amount: 0.7
           beaker_rate: 1.15
           coin_rate: 1.15
@@ -122,7 +122,7 @@ happiness:
 
         - level: 5
           name:  'Elated'
-          color: 'LightBlue'
+          color: AQUA
           amount: 0.85
           beaker_rate: 1.30
           coin_rate: 1.30
@@ -131,7 +131,7 @@ happiness:
 
         - level: 6
           name:  'Ecstatic'
-          color: 'LightPurple'
+          color: LIGHT_PURPLE
           amount: 0.92
           beaker_rate: 1.5
           coin_rate: 1.5
