@@ -22,26 +22,19 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.material.MaterialData;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class SimpleBlock {
-
-    //public static final int SIGN = 1;
-    //public static final int CHEST = 2;
-    //public static final int SIGN_LITERAL = 3;
-
     public enum Type {
         NORMAL,
         COMMAND,
         LITERAL,
     }
 
-    private Material material;
-    private byte data;
-    //public int special = 0;
-//	public int special_id = -1;
+    private final MaterialData material_data;
     public int x;
     public int y;
     public int z;
@@ -53,16 +46,12 @@ public class SimpleBlock {
     public Buildable buildable;
     public Map<String, String> keyvalues = new HashMap<>();
 
-    /**
-     * Construct the block with its type.
-     */
     public SimpleBlock(Block block) {
         this.x = block.getX();
         this.y = block.getY();
         this.z = block.getZ();
         this.worldname = block.getWorld().getName();
-        this.material = block.getType();
-        this.data = block.getData();
+        this.material_data = block.getState().getData();
         this.specialType = Type.NORMAL;
     }
 
@@ -72,8 +61,7 @@ public class SimpleBlock {
         this.x = Integer.parseInt(split[1]);
         this.y = Integer.parseInt(split[2]);
         this.z = Integer.parseInt(split[3]);
-        this.material = material;
-        this.data = data;
+        this.material_data = material.getNewData(data);
         this.specialType = Type.NORMAL;
     }
 
@@ -85,54 +73,30 @@ public class SimpleBlock {
         return coord.getWorldname() + "," + coord.getX() + "," + coord.getY() + "," + coord.getZ();
     }
 
-    /**
-     * Construct the block with its type and data.
-     */
     public SimpleBlock(Material material, int data) {
-        this.material = material;
-        this.data = (byte) data;
+        this(material.getNewData((byte) data));
+    }
+
+    public SimpleBlock(MaterialData material_data) {
+        this.material_data = material_data;
         this.specialType = Type.NORMAL;
 
     }
 
     public Material getType() {
-        return material;
+        return material_data.getItemType();
     }
 
-    /**
-     * @param material the type to set
-     */
-    public void setType(Material material) {
-        this.material = material;
-    }
-
-    @SuppressWarnings("unused")
-    public void setTypeAndData(Material type, int data) {
-        this.material = type;
-        this.data = (byte) data;
-    }
-
-    /**
-     * @return the data
-     */
     public int getData() {
-        return data;
+        return material_data.getData();
     }
 
-    /**
-     * @param data the data to set
-     */
-    public void setData(int data) {
-        this.data = (byte) data;
+    public MaterialData getMaterialData() {
+        return material_data;
     }
 
-    /**
-     * Returns true if it's air.
-     *
-     * @return if air
-     */
     public boolean isAir() {
-        return material == Material.AIR;
+        return getType() == Material.AIR;
     }
 
     public String getKeyValueString() {

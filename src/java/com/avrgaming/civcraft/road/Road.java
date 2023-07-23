@@ -96,8 +96,7 @@ public class Road extends Structure {
                 continue;
             }
 
-            bcoord.getBlock().setType(sb.getType());
-            bcoord.getBlock().setData((byte) sb.getData());
+            bcoord.getBlock().getState().setData(sb.getMaterialData());
         }
 
         for (RoadBlock rb : new LinkedList<>(roadBlocks.values())) {
@@ -270,9 +269,7 @@ public class Road extends Structure {
             addRoadBlock(bcoord);
 
             /* Set new block data. */
-            bcoord.getBlock().setType(sb.getType());
-            Block block1 = bcoord.getBlock();
-            block1.setData((byte) sb.getData());
+            bcoord.getBlock().getState().setData(sb.getMaterialData());
 
             /* Set air blocks above road. */
             for (int i = 1; i < Road.HEIGHT; i++) {

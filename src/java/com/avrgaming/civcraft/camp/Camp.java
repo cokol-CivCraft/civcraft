@@ -53,6 +53,7 @@ import org.bukkit.block.Furnace;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.Door;
 
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -418,15 +419,14 @@ public class Camp extends Buildable {
         for (BlockCoord relativeCoord : tpl.commandBlockRelativeLocations) {
             SimpleBlock sb = tpl.blocks[relativeCoord.getX()][relativeCoord.getY()][relativeCoord.getZ()];
             BlockCoord absCoord = new BlockCoord(corner.getBlock().getRelative(relativeCoord.getX(), relativeCoord.getY(), relativeCoord.getZ()));
-
+            if (!(sb.getMaterialData() instanceof org.bukkit.material.Sign)) {
+                continue;
+            }
             switch (sb.command) {
                 case "/gardensign":
                     if (!this.gardenEnabled) {
-                        absCoord.getBlock().setType(Material.SIGN_POST);
-                        Block block = absCoord.getBlock();
-                        block.setData((byte) sb.getData());
-
                         Sign sign = (Sign) absCoord.getBlock().getState();
+                        sign.setData(sb.getMaterialData());
                         sign.setLine(0, "Garden Disabled");
                         sign.setLine(1, "Upgrade using");
                         sign.setLine(2, "/camp upgrade");
@@ -460,16 +460,11 @@ public class Camp extends Buildable {
                     this.addCampBlock(absCoord);
                     break;
                 case "/fire":
-                    Block block2 = absCoord.getBlock();
-                    block2.setType(Material.FIRE);
+                    absCoord.getBlock().setType(Material.FIRE);
                     break;
                 case "/firefurnace":
                     this.fireFurnaceBlocks.add(absCoord);
-                    byte data = CivData.convertSignDataToChestData((byte) sb.getData());
-                    Block block1 = absCoord.getBlock();
-                    block1.setType(Material.FURNACE);
-                    Block block4 = absCoord.getBlock();
-                    block4.setData((byte) (int) data);
+                    absCoord.getBlock().getState().setData(new org.bukkit.material.Furnace(((org.bukkit.material.Sign) sb.getMaterialData()).getFacing()));
                     this.addCampBlock(absCoord);
 
                     break;
@@ -488,19 +483,11 @@ public class Camp extends Buildable {
                     }
 
                     if (this.sifterEnabled) {
-                        Block block = absCoord.getBlock();
-                        block.setType(Material.CHEST);
-                        byte data2 = CivData.convertSignDataToChestData((byte) sb.getData());
-                        Block block3 = absCoord.getBlock();
-                        block3.setData((byte) (int) data2);
+                        absCoord.getBlock().getState().setData(new org.bukkit.material.Chest(((org.bukkit.material.Sign) sb.getMaterialData()).getFacing()));
                     } else {
                         try {
-                            Block block = absCoord.getBlock();
-                            block.setType(Material.SIGN_POST);
-                            Block block3 = absCoord.getBlock();
-                            block3.setData((byte) sb.getData());
-
                             Sign sign = (Sign) absCoord.getBlock().getState();
+                            sign.setData(sb.getMaterialData());
                             sign.setLine(0, CivSettings.localize.localizedString("camp_sifterUpgradeSign1"));
                             sign.setLine(1, CivSettings.localize.localizedString("upgradeUsing_SignText"));
                             sign.setLine(2, "/camp upgrade");
@@ -515,18 +502,10 @@ public class Camp extends Buildable {
                 case "/foodinput":
                     if (this.longhouseEnabled) {
                         this.foodDepositPoints.add(absCoord);
-                        Block block = absCoord.getBlock();
-                        block.setType(Material.CHEST);
-                        byte data3 = CivData.convertSignDataToChestData((byte) sb.getData());
-                        Block block3 = absCoord.getBlock();
-                        block3.setData((byte) (int) data3);
+                        absCoord.getBlock().getState().setData(new org.bukkit.material.Chest(((org.bukkit.material.Sign) sb.getMaterialData()).getFacing()));
                     } else {
-                        Block block = absCoord.getBlock();
-                        block.setType(Material.SIGN_POST);
-                        Block block3 = absCoord.getBlock();
-                        block3.setData((byte) sb.getData());
-
                         Sign sign = (Sign) absCoord.getBlock().getState();
+                        sign.setData(sb.getMaterialData());
                         sign.setLine(0, CivSettings.localize.localizedString("camp_longhouseSign1"));
                         sign.setLine(1, CivSettings.localize.localizedString("camp_longhouseSign2"));
                         sign.setLine(2, CivSettings.localize.localizedString("upgradeUsing_SignText"));
@@ -541,10 +520,8 @@ public class Camp extends Buildable {
                     Block doorBlock2 = absCoord.getBlock().getRelative(0, 1, 0);
 
 
-                    doorBlock.setType(Material.WOODEN_DOOR);
-                    doorBlock.setData(CivData.convertSignDataToDoorDirectionData((byte) sb.getData()));
-                    doorBlock2.setType(Material.WOODEN_DOOR);
-                    doorBlock.setData((byte) 0x8);
+                    doorBlock.getState().setData(new Door(Material.WOODEN_DOOR, ((org.bukkit.material.Sign) sb.getMaterialData()).getFacing()));
+                    doorBlock2.getState().setData(new Door(Material.WOODEN_DOOR, false));
 
                     this.addCampBlock(new BlockCoord(doorBlock));
                     this.addCampBlock(new BlockCoord(doorBlock2));
@@ -554,12 +531,8 @@ public class Camp extends Buildable {
                     break;
                 case "/literal":
                     /* Unrecognized command... treat as a literal sign. */
-                    Block block = absCoord.getBlock();
-                    block.setType(Material.WALL_SIGN);
-                    Block block3 = absCoord.getBlock();
-                    block3.setData((byte) sb.getData());
-
                     Sign sign = (Sign) absCoord.getBlock().getState();
+                    sign.setData(sb.getMaterialData());
                     sign.setLine(0, sb.message[0]);
                     sign.setLine(1, sb.message[1]);
                     sign.setLine(2, sb.message[2]);
@@ -594,13 +567,7 @@ public class Camp extends Buildable {
                     continue;
                 }
 
-                if (i < litFires) {
-                    Block block = next.getBlock();
-                    block.setType(Material.FIRE);
-                } else {
-                    Block block = next.getBlock();
-                    block.setType(Material.AIR);
-                }
+                next.getBlock().setType(i < litFires ? Material.FIRE : Material.AIR);
             }
         } catch (InvalidConfiguration e) {
             e.printStackTrace();
@@ -750,9 +717,7 @@ public class Camp extends Buildable {
 
                     try {
                         if (nextBlock.getType() != tpl.blocks[x][y][z].getType()) {
-                            nextBlock.setType(tpl.blocks[x][y][z].getType());
-                            nextBlock.setData((byte) tpl.blocks[x][y][z].getData());
-
+                            nextBlock.getState().setData(tpl.blocks[x][y][z].getMaterialData());
                         }
 
                         if (nextBlock.getType() != Material.AIR) {
@@ -1067,15 +1032,13 @@ public class Camp extends Buildable {
         Location centerLoc = absCoord.getLocation();
 
         /* Build the bedrock tower. */
-        Block b = centerLoc.getBlock();
-        b.setType(Material.FENCE);
-        b.setData((byte) 0);
+        centerLoc.getBlock().setType(Material.FENCE);
 
-        StructureBlock sb = new StructureBlock(new BlockCoord(b), this);
+        StructureBlock sb = new StructureBlock(new BlockCoord(centerLoc.getBlock()), this);
         this.addCampBlock(sb.getCoord());
 
         /* Build the control block. */
-        b = centerLoc.getBlock().getRelative(0, 1, 0);
+        Block b = centerLoc.getBlock().getRelative(0, 1, 0);
         b.setType(Material.OBSIDIAN);
         this.addCampBlock(new StructureBlock(new BlockCoord(b), this).getCoord());
 

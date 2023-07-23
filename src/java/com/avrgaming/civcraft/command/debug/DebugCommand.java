@@ -411,10 +411,8 @@ public class DebugCommand extends CommandBase {
 
                                 } else if (sb.specialType.equals(SimpleBlock.Type.LITERAL)) {
                                     try {
-                                        next.getBlock().setType(sb.getType());
-                                        next.getBlock().setData((byte) sb.getData());
-
                                         Sign s = (Sign) next.getBlock().getState();
+                                        s.setData(sb.getMaterialData());
                                         for (int j = 0; j < 4; j++) {
                                             s.setLine(j, sb.message[j]);
                                         }
@@ -425,9 +423,7 @@ public class DebugCommand extends CommandBase {
                                     }
                                 } else {
                                     try {
-                                        Block block = next.getBlock();
-                                        block.setType(sb.getType());
-                                        block.setData((byte) sb.getData());
+                                        next.getBlock().getState().setData(sb.getMaterialData());
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }

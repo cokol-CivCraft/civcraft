@@ -305,8 +305,7 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
                         if (nextBlock.getType() != tpl.blocks[x][y][z].getType()) {
                             /* XXX Save it as a war block so it's automatically removed when war time ends. */
                             WarRegen.saveBlock(nextBlock, WarCamp.RESTORE_NAME, false);
-                            nextBlock.setType(tpl.blocks[x][y][z].getType());
-                            nextBlock.setData((byte) tpl.blocks[x][y][z].getData());
+                            nextBlock.getState().setData(tpl.blocks[x][y][z].getMaterialData());
                         }
 
                         if (nextBlock.getType() != Material.AIR) {
