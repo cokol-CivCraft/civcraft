@@ -21,6 +21,7 @@ import com.avrgaming.civcraft.war.War;
 import com.avrgaming.civcraft.war.WarRegen;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
@@ -452,23 +453,26 @@ public class Cannon extends Buildable {
     }
 
     @Override
-    protected Location repositionCenter(Location center, String dir, double x_size, double z_size) {
+    protected Location repositionCenter(Location center, BlockFace dir, double x_size, double z_size) {
         Location loc = center.clone();
 
-        if (dir.equalsIgnoreCase("east")) {
-            loc.setZ(loc.getZ() - (z_size / 2));
-            loc.setX(loc.getX() + SHIFT_OUT);
-        } else if (dir.equalsIgnoreCase("west")) {
-            loc.setZ(loc.getZ() - (z_size / 2));
-            loc.setX(loc.getX() - (SHIFT_OUT + x_size));
-
-        } else if (dir.equalsIgnoreCase("north")) {
-            loc.setX(loc.getX() - (x_size / 2));
-            loc.setZ(loc.getZ() - (SHIFT_OUT + z_size));
-        } else if (dir.equalsIgnoreCase("south")) {
-            loc.setX(loc.getX() - (x_size / 2));
-            loc.setZ(loc.getZ() + SHIFT_OUT);
-
+        switch (dir) {
+            case EAST:
+                loc.setZ(loc.getZ() - (z_size / 2));
+                loc.setX(loc.getX() + SHIFT_OUT);
+                break;
+            case WEST:
+                loc.setZ(loc.getZ() - (z_size / 2));
+                loc.setX(loc.getX() - (SHIFT_OUT + x_size));
+                break;
+            case NORTH:
+                loc.setX(loc.getX() - (x_size / 2));
+                loc.setZ(loc.getZ() - (SHIFT_OUT + z_size));
+                break;
+            case SOUTH:
+                loc.setX(loc.getX() - (x_size / 2));
+                loc.setZ(loc.getZ() + SHIFT_OUT);
+                break;
         }
 
         return loc;

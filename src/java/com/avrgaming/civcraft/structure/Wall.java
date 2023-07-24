@@ -35,6 +35,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -140,7 +141,7 @@ public class Wall extends Structure {
     }
 
     @Override
-    protected Location repositionCenter(Location center, String dir, double x_size, double z_size) {
+    protected Location repositionCenter(Location center, BlockFace dir, double x_size, double z_size) {
         return center;
     }
 

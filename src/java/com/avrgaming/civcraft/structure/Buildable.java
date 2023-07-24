@@ -51,6 +51,7 @@ import com.wimbli.WorldBorder.Config;
 import org.bukkit.*;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -524,7 +525,7 @@ public abstract class Buildable extends SQLObject {
      * XXX this is called only on structures which do not have towns yet.
      * For Example Capitols, Camps and Town Halls.
      */
-    public static Location repositionCenterStatic(Location center, ConfigBuildableInfo info, String dir, double x_size, double z_size) throws CivException {
+    public static Location repositionCenterStatic(Location center, ConfigBuildableInfo info, BlockFace dir, double x_size, double z_size) throws CivException {
         Location loc = new Location(center.getWorld(),
                 center.getX(), center.getY(), center.getZ(),
                 center.getYaw(), center.getPitch());
@@ -535,22 +536,27 @@ public abstract class Buildable extends SQLObject {
             // just put the center at 0,0 of this chunk?
             loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
         } else {
-            if (dir.equalsIgnoreCase("east")) {
-                loc.setZ(loc.getZ() - (z_size / 2));
-                loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
-                loc.setX(loc.getX() + SHIFT_OUT);
-            } else if (dir.equalsIgnoreCase("west")) {
-                loc.setZ(loc.getZ() - (z_size / 2));
-                loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
-                loc.setX(loc.getX() - (SHIFT_OUT + x_size));
-            } else if (dir.equalsIgnoreCase("north")) {
-                loc.setX(loc.getX() - (x_size / 2));
-                loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
-                loc.setZ(loc.getZ() - (SHIFT_OUT + z_size));
-            } else if (dir.equalsIgnoreCase("south")) {
-                loc.setX(loc.getX() - (x_size / 2));
-                loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
-                loc.setZ(loc.getZ() + SHIFT_OUT);
+            switch (dir) {
+                case EAST:
+                    loc.setZ(loc.getZ() - (z_size / 2));
+                    loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
+                    loc.setX(loc.getX() + SHIFT_OUT);
+                    break;
+                case WEST:
+                    loc.setZ(loc.getZ() - (z_size / 2));
+                    loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
+                    loc.setX(loc.getX() - (SHIFT_OUT + x_size));
+                    break;
+                case NORTH:
+                    loc.setX(loc.getX() - (x_size / 2));
+                    loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
+                    loc.setZ(loc.getZ() - (SHIFT_OUT + z_size));
+                    break;
+                case SOUTH:
+                    loc.setX(loc.getX() - (x_size / 2));
+                    loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
+                    loc.setZ(loc.getZ() + SHIFT_OUT);
+                    break;
             }
         }
         if (info.templateYShift != 0) {
@@ -565,7 +571,7 @@ public abstract class Buildable extends SQLObject {
         return loc;
     }
 
-    protected Location repositionCenter(Location center, String dir, double x_size, double z_size) throws CivException {
+    protected Location repositionCenter(Location center, BlockFace dir, double x_size, double z_size) throws CivException {
         Location loc = new Location(center.getWorld(),
                 center.getX(), center.getY(), center.getZ(),
                 center.getYaw(), center.getPitch());
@@ -576,22 +582,27 @@ public abstract class Buildable extends SQLObject {
             // just put the center at 0,0 of this chunk?
             loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
         } else {
-            if (dir.equalsIgnoreCase("east")) {
-                loc.setZ(loc.getZ() - (z_size / 2));
-                loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
-                loc.setX(loc.getX() + SHIFT_OUT);
-            } else if (dir.equalsIgnoreCase("west")) {
-                loc.setZ(loc.getZ() - (z_size / 2));
-                loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
-                loc.setX(loc.getX() - (SHIFT_OUT + x_size));
-            } else if (dir.equalsIgnoreCase("north")) {
-                loc.setX(loc.getX() - (x_size / 2));
-                loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
-                loc.setZ(loc.getZ() - (SHIFT_OUT + z_size));
-            } else if (dir.equalsIgnoreCase("south")) {
-                loc.setX(loc.getX() - (x_size / 2));
-                loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
-                loc.setZ(loc.getZ() + SHIFT_OUT);
+            switch (dir) {
+                case EAST:
+                    loc.setZ(loc.getZ() - (z_size / 2));
+                    loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
+                    loc.setX(loc.getX() + SHIFT_OUT);
+                    break;
+                case WEST:
+                    loc.setZ(loc.getZ() - (z_size / 2));
+                    loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
+                    loc.setX(loc.getX() - (SHIFT_OUT + x_size));
+                    break;
+                case NORTH:
+                    loc.setX(loc.getX() - (x_size / 2));
+                    loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
+                    loc.setZ(loc.getZ() - (SHIFT_OUT + z_size));
+                    break;
+                case SOUTH:
+                    loc.setX(loc.getX() - (x_size / 2));
+                    loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
+                    loc.setZ(loc.getZ() + SHIFT_OUT);
+                    break;
             }
         }
         if (this.getTemplateYShift() != 0) {

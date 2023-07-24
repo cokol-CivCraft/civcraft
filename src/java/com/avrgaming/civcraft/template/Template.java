@@ -60,7 +60,7 @@ public class Template {
     public int size_y;
     public int size_z;
     private String strTheme;
-    private String dir;
+    private BlockFace dir;
     private String filepath;
     private final Queue<SimpleBlock> sbs; //Blocks to add to main sync task queue;
 
@@ -369,11 +369,11 @@ public class Template {
     }
 
     public void setDirection(Location center) {
-        dir = parseDirection(center).getOppositeFace().toString().toLowerCase();
+        dir = getDirection(center);
     }
 
-    public static String getDirection(Location center) {
-        return parseDirection(center).getOppositeFace().toString().toLowerCase();
+    public static BlockFace getDirection(Location center) {
+        return parseDirection(center).getOppositeFace();
     }
 
     public void resumeTemplate(String templatePath, Buildable buildable) throws IOException, CivException {
@@ -398,7 +398,7 @@ public class Template {
              * Certain structures are built procedurally such as walls and roads.
              * They do not have a direction and do not have a template.
              */
-            dir = "";
+            dir = BlockFace.SOUTH;
         }
 
 
@@ -434,15 +434,12 @@ public class Template {
     }
 
     private EnumBlockRotation getRotation() {
-        if (dir == null) {
-            return EnumBlockRotation.NONE;
-        }
         switch (dir) {
-            case "east":
+            case EAST:
                 return EnumBlockRotation.COUNTERCLOCKWISE_90;
-            case "north":
+            case NORTH:
                 return EnumBlockRotation.CLOCKWISE_180;
-            case "west":
+            case WEST:
                 return EnumBlockRotation.CLOCKWISE_90;
             default:
                 return EnumBlockRotation.NONE;
@@ -634,7 +631,7 @@ public class Template {
         updateBlocksQueue(sbs);
     }
 
-    public String dir() {
+    public BlockFace dir() {
         return dir;
     }
 
