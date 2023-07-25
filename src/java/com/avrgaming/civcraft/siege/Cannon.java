@@ -211,9 +211,9 @@ public class Cannon extends Buildable {
                     yTotal += b.getWorld().getHighestBlockYAt(centerBlock.getX() + x, centerBlock.getZ() + z);
                     yCount++;
 
-                    if (CivGlobal.getRoadBlock(coord) != null) {
-                        throw new CivException(CivSettings.localize.localizedString("cannon_build_onRoad"));
-                    }
+//                    if (CivGlobal.getRoadBlock(coord) != null) {
+//                        throw new CivException(CivSettings.localize.localizedString("cannon_build_onRoad"));
+//                    }
                 }
             }
         }

@@ -39,7 +39,6 @@ import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.permission.PermissionGroup;
-import com.avrgaming.civcraft.road.RoadBlock;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
 import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.structure.TownHall;
@@ -955,7 +954,7 @@ public class Resident extends SQLObject {
         /* Test the block beneath us for a road, if so, set the road flag. */
         BlockCoord feet = new BlockCoord(coord);
         feet.setY(feet.getY() - 1);
-        RoadBlock rb = CivGlobal.getRoadBlock(feet);
+//        RoadBlock rb = CivGlobal.getRoadBlock(feet);
 
         //			if (player.hasPotionEffect(PotionEffectType.SPEED)) {
         //				player.removePotionEffect(PotionEffectType.SPEED);
@@ -964,7 +963,8 @@ public class Resident extends SQLObject {
         //				CivLog.debug("setting effect.");
         //				player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 5, 5));
         //			}
-        onRoad = rb != null;
+//        onRoad = rb != null;
+        onRoad = false;
     }
 
     public boolean isOnRoad() {

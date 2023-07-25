@@ -36,7 +36,6 @@ import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.permission.PermissionGroup;
 import com.avrgaming.civcraft.randomevents.RandomEvent;
-import com.avrgaming.civcraft.road.Road;
 import com.avrgaming.civcraft.structure.*;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.template.Template;
@@ -1678,15 +1677,15 @@ public class Town extends SQLObject {
             throw new CivException(CivSettings.localize.localizedString("town_undo_cannotFind"));
         }
 
-        if (!(this.lastBuildableBuilt instanceof Wall) &&
-                !(this.lastBuildableBuilt instanceof Road)) {
-            throw new CivException(CivSettings.localize.localizedString("town_undo_notRoadOrWall"));
-        }
-
-        this.lastBuildableBuilt.processUndo();
-        this.structures.remove(this.lastBuildableBuilt.getCorner());
-        removeBuildTask(lastBuildableBuilt);
-        this.lastBuildableBuilt = null;
+//        if (!(this.lastBuildableBuilt instanceof Wall) &&
+//                !(this.lastBuildableBuilt instanceof Road)) {
+        throw new CivException(CivSettings.localize.localizedString("town_undo_notRoadOrWall"));
+//        }
+//
+//        this.lastBuildableBuilt.processUndo();
+//        this.structures.remove(this.lastBuildableBuilt.getCorner());
+//        removeBuildTask(lastBuildableBuilt);
+//        this.lastBuildableBuilt = null;
     }
 
     private void removeBuildTask(Buildable lastBuildableBuilt) {

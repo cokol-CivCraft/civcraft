@@ -28,7 +28,6 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.StructureSign;
 import com.avrgaming.civcraft.object.Town;
-import com.avrgaming.civcraft.road.Road;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.util.BlockCoord;
 import org.bukkit.ChatColor;
@@ -181,15 +180,15 @@ public class Structure extends Buildable {
             case "s_shipyard":
                 struct = rs == null ? new Shipyard(center, id, town) : new Shipyard(rs);
                 break;
-            case "ti_wall":
-                struct = rs == null ? new Wall(center, id, town) : new Wall(rs);
-                break;
-            case "ti_fortifiedwall":
-                struct = rs == null ? new FortifiedWall(center, id, town) : new FortifiedWall(rs);
-                break;
-            case "ti_road":
-                struct = rs == null ? new Road(center, id, town) : new Road(rs);
-                break;
+//            case "ti_wall":
+//                struct = rs == null ? new Wall(center, id, town) : new Wall(rs);
+//                break;
+//            case "ti_fortifiedwall":
+//                struct = rs == null ? new FortifiedWall(center, id, town) : new FortifiedWall(rs);
+//                break;
+//            case "ti_road":
+//                struct = rs == null ? new Road(center, id, town) : new Road(rs);
+//                break;
             case "s_barracks":
                 struct = rs == null ? new Barracks(center, id, town) : new Barracks(rs);
                 break;
@@ -366,7 +365,7 @@ public class Structure extends Buildable {
                 }
             }
 
-            if (!(this instanceof Wall || this instanceof Road)) {
+//            if (!(this instanceof Wall || this instanceof Road)) {
                 CivLog.debug("Delete with Undo! " + this.getDisplayName());
                 /* Remove StructureSigns */
                 for (StructureSign sign : this.getSigns()) {
@@ -378,26 +377,26 @@ public class Structure extends Buildable {
                     e1.printStackTrace();
                     this.fancyDestroyStructureBlocks();
                 }
-                CivGlobal.removeStructure(this);
-                this.getTown().removeStructure(this);
-                this.unbindStructureBlocks();
-                if (this instanceof Farm) {
-                    Farm farm = (Farm) this;
-                    farm.removeFarmChunk();
-                }
-            } else {
-                CivLog.debug("Delete skip Undo! " + this.getDisplayName());
-                CivGlobal.removeStructure(this);
-                this.getTown().removeStructure(this);
-                this.unbindStructureBlocks();
-                if (this instanceof Road) {
-                    Road road = (Road) this;
-                    road.deleteOnDisband();
-                } else {
-                    Wall wall = (Wall) this;
-                    wall.deleteOnDisband();
-                }
+            CivGlobal.removeStructure(this);
+            this.getTown().removeStructure(this);
+            this.unbindStructureBlocks();
+            if (this instanceof Farm) {
+                Farm farm = (Farm) this;
+                farm.removeFarmChunk();
             }
+//            } else {
+//                CivLog.debug("Delete skip Undo! " + this.getDisplayName());
+//                CivGlobal.removeStructure(this);
+//                this.getTown().removeStructure(this);
+//                this.unbindStructureBlocks();
+//                if (this instanceof Road) {
+//                    Road road = (Road) this;
+//                    road.deleteOnDisband();
+//                } else {
+//                    Wall wall = (Wall) this;
+//                    wall.deleteOnDisband();
+//                }
+//            }
 
 
         }

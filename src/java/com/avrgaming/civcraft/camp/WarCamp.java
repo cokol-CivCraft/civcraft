@@ -257,9 +257,9 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
                         throw new CivException(CivSettings.localize.localizedString("cannotBuild_farmInWay"));
                     }
 
-                    if (CivGlobal.getWallChunk(chunkCoord) != null) {
-                        throw new CivException(CivSettings.localize.localizedString("cannotBuild_wallInWay"));
-                    }
+//                    if (CivGlobal.getWallChunk(chunkCoord) != null) {
+//                        throw new CivException(CivSettings.localize.localizedString("cannotBuild_wallInWay"));
+//                    }
 
                     if (CivGlobal.getCampBlock(coord) != null) {
                         throw new CivException(CivSettings.localize.localizedString("cannotBuild_campinWay"));
@@ -268,9 +268,9 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
                     yTotal += b.getWorld().getHighestBlockYAt(centerBlock.getX() + x, centerBlock.getZ() + z);
                     yCount++;
 
-                    if (CivGlobal.getRoadBlock(coord) != null) {
-                        throw new CivException(CivSettings.localize.localizedString("warcamp_cannotBuildOnRoad"));
-                    }
+//                    if (CivGlobal.getRoadBlock(coord) != null) {
+//                        throw new CivException(CivSettings.localize.localizedString("warcamp_cannotBuildOnRoad"));
+//                    }
                 }
             }
         }

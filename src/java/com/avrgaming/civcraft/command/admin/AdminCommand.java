@@ -72,7 +72,6 @@ public class AdminCommand extends CommandBase {
         register_sub("items", this::items_cmd, CivSettings.localize.localizedString("adcmd_itemsDesc"));
         register_sub("item", this::item_cmd, CivSettings.localize.localizedString("adcmd_itemDesc"));
         register_sub("timer", this::timer_cmd, CivSettings.localize.localizedString("adcmd_timerDesc"));
-        register_sub("road", this::road_cmd, CivSettings.localize.localizedString("adcmd_roadDesc"));
         register_sub("clearendgame", this::clearendgame_cmd, CivSettings.localize.localizedString("adcmd_clearEndGameDesc"));
         register_sub("arena", this::arena_cmd, CivSettings.localize.localizedString("adcmd_arenaDesc"));
         register_sub("reloadgov", this::reloadgov_cmd, CivSettings.localize.localizedString("adcmd_reloadgovDesc"));
@@ -187,13 +186,6 @@ public class AdminCommand extends CommandBase {
         AdminArenaCommand cmd = new AdminArenaCommand();
         cmd.onCommand(sender, null, "arena", this.stripArgs(args, 1));
     }
-
-
-    public void road_cmd() {
-        AdminRoadCommand cmd = new AdminRoadCommand();
-        cmd.onCommand(sender, null, "camp", this.stripArgs(args, 1));
-    }
-
 
     public void item_cmd() {
         AdminItemCommand cmd = new AdminItemCommand();

@@ -30,8 +30,6 @@ import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.randomevents.ConfigRandomEvent;
-import com.avrgaming.civcraft.structure.FortifiedWall;
-import com.avrgaming.civcraft.structure.Wall;
 import com.avrgaming.civcraft.template.Template;
 import localize.Localize;
 import org.apache.commons.io.FileUtils;
@@ -444,8 +442,8 @@ public class CivSettings {
 
         ConfigRemovedRecipes.removeRecipes(materialsConfig, removedRecipies);
         CivGlobal.tradeGoodPreGenerator.preGenerate();
-        Wall.init_settings();
-        FortifiedWall.init_settings();
+//        Wall.init_settings();
+//        FortifiedWall.init_settings();
     }
 
     private static void initRestrictedSpawns() {

@@ -37,7 +37,6 @@ import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.*;
 import com.avrgaming.civcraft.permission.PlotPermissions;
-import com.avrgaming.civcraft.road.RoadBlock;
 import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.template.Template.TemplateType;
@@ -826,8 +825,8 @@ public class Camp extends Buildable {
         int yTotal = 0;
         int yCount = 0;
 
-        RoadBlock rb;
-        LinkedList<RoadBlock> deletedRoadBlocks = new LinkedList<>();
+//        RoadBlock rb;
+//        LinkedList<RoadBlock> deletedRoadBlocks = new LinkedList<>();
         for (int x = 0; x < regionX; x++) {
             for (int y = 0; y < regionY; y++) {
                 for (int z = 0; z < regionZ; z++) {
@@ -858,9 +857,9 @@ public class Camp extends Buildable {
                         throw new CivException(CivSettings.localize.localizedString("cannotBuild_farmInWay"));
                     }
 
-                    if (CivGlobal.getWallChunk(chunkCoord) != null) {
-                        throw new CivException(CivSettings.localize.localizedString("cannotBuild_wallInWay"));
-                    }
+//                    if (CivGlobal.getWallChunk(chunkCoord) != null) {
+//                        throw new CivException(CivSettings.localize.localizedString("cannotBuild_wallInWay"));
+//                    }
 
                     if (CivGlobal.getCampBlock(coord) != null) {
                         throw new CivException(CivSettings.localize.localizedString("cannotBuild_campinWay"));
@@ -869,23 +868,23 @@ public class Camp extends Buildable {
                     yTotal += b.getWorld().getHighestBlockYAt(centerBlock.getX() + x, centerBlock.getZ() + z);
                     yCount++;
 
-                    rb = CivGlobal.getRoadBlock(coord);
-                    if (CivGlobal.getRoadBlock(coord) != null) {
-                        /*
-                         * XXX Special case. Since road blocks can be built in wilderness
-                         * we don't want people griefing with them. Building a structure over
-                         * a road block should always succeed.
-                         */
-                        deletedRoadBlocks.add(rb);
-                    }
+//                    rb = CivGlobal.getRoadBlock(coord);
+//                    if (CivGlobal.getRoadBlock(coord) != null) {
+//                        /*
+//                         * XXX Special case. Since road blocks can be built in wilderness
+//                         * we don't want people griefing with them. Building a structure over
+//                         * a road block should always succeed.
+//                         */
+//                        deletedRoadBlocks.add(rb);
+//                    }
                 }
             }
         }
 
         /* Delete any roads that we're building over. */
-        for (RoadBlock roadBlock : deletedRoadBlocks) {
-            roadBlock.getRoad().deleteRoadBlock(roadBlock);
-        }
+//        for (RoadBlock roadBlock : deletedRoadBlocks) {
+//            roadBlock.getRoad().deleteRoadBlock(roadBlock);
+//        }
 
         double highestAverageBlock = (double) yTotal / (double) yCount;
 

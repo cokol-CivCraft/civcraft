@@ -29,7 +29,6 @@ import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.*;
 import com.avrgaming.civcraft.permission.PermissionGroup;
 import com.avrgaming.civcraft.randomevents.RandomEvent;
-import com.avrgaming.civcraft.road.RoadBlock;
 import com.avrgaming.civcraft.sessiondb.SessionDatabase;
 import com.avrgaming.civcraft.structure.Structure;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
@@ -95,8 +94,8 @@ public class SQL {
         TownChunk.init();
         Structure.init();
         Wonder.init();
-        WallBlock.init();
-        RoadBlock.init();
+//        WallBlock.init();
+//        RoadBlock.init();
         PermissionGroup.init();
         TradeGood.init();
         ProtectedBlock.init();

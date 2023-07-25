@@ -29,7 +29,6 @@ import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.CultureChunk;
 import com.avrgaming.civcraft.object.Resident;
-import com.avrgaming.civcraft.road.Road;
 import com.avrgaming.civcraft.structure.Capitol;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.PlayerChunkNotifyAsyncTask;
@@ -43,7 +42,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Chest;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.ThrownPotion;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -59,7 +61,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -162,19 +163,19 @@ public class PlayerListener implements Listener {
         Resident resident = CivGlobal.getResident(player);
         if (resident != null) {
             speed = resident.getWalkingModifier();
-            if (resident.isOnRoad()) {
-                if (player.getVehicle() != null && player.getVehicle().getType().equals(EntityType.HORSE)) {
-                    Vector vec = player.getVehicle().getVelocity();
-                    double yComp = vec.getY();
-
-                    vec.multiply(Road.ROAD_HORSE_SPEED);
-                    vec.setY(yComp); /* Do not multiply y velocity. */
-
-                    player.getVehicle().setVelocity(vec);
-                } else {
-                    speed *= Road.ROAD_PLAYER_SPEED;
-                }
-            }
+//            if (resident.isOnRoad()) {
+//                if (player.getVehicle() != null && player.getVehicle().getType().equals(EntityType.HORSE)) {
+//                    Vector vec = player.getVehicle().getVelocity();
+//                    double yComp = vec.getY();
+//
+//                    vec.multiply(Road.ROAD_HORSE_SPEED);
+//                    vec.setY(yComp); /* Do not multiply y velocity. */
+//
+//                    player.getVehicle().setVelocity(vec);
+//                } else {
+//                    speed *= Road.ROAD_PLAYER_SPEED;
+//                }
+//            }
         } else {
             speed = CivSettings.normal_speed;
         }

@@ -36,7 +36,6 @@ import com.avrgaming.civcraft.populators.TradeGoodPreGenerate;
 import com.avrgaming.civcraft.questions.QuestionBaseTask;
 import com.avrgaming.civcraft.questions.QuestionResponseInterface;
 import com.avrgaming.civcraft.randomevents.RandomEvent;
-import com.avrgaming.civcraft.road.RoadBlock;
 import com.avrgaming.civcraft.sessiondb.SessionDatabase;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
 import com.avrgaming.civcraft.structure.*;
@@ -98,8 +97,8 @@ public class CivGlobal {
     private static Queue<FarmChunk> farmGrowQueue = new LinkedList<>();
     private static final Map<UUID, ItemFrameStorage> protectedItemFrames = new ConcurrentHashMap<>();
     private static final Map<BlockCoord, BonusGoodie> bonusGoodies = new ConcurrentHashMap<>();
-    private static final Map<ChunkCoord, HashSet<Wall>> wallChunks = new ConcurrentHashMap<>();
-    private static final Map<BlockCoord, RoadBlock> roadBlocks = new ConcurrentHashMap<>();
+    //    private static final Map<ChunkCoord, HashSet<Wall>> wallChunks = new ConcurrentHashMap<>();
+//    private static final Map<BlockCoord, RoadBlock> roadBlocks = new ConcurrentHashMap<>();
     private static final Map<BlockCoord, CustomMapMarker> customMapMarkers = new ConcurrentHashMap<>();
     private static final Map<String, Camp> camps = new ConcurrentHashMap<>();
     private static final Map<ChunkCoord, Camp> campChunks = new ConcurrentHashMap<>();
@@ -166,8 +165,8 @@ public class CivGlobal {
         loadTownChunks();
         loadWonders();
         loadStructures();
-        loadWallBlocks();
-        loadRoadBlocks();
+//        loadWallBlocks();
+//        loadRoadBlocks();
         loadTradeGoods();
         loadTradeGoodies();
         loadRandomEvents();
@@ -599,59 +598,59 @@ public class CivGlobal {
         }
     }
 
-    private static void loadWallBlocks() throws SQLException {
-        Connection context = null;
-        ResultSet rs = null;
-        PreparedStatement ps = null;
+//    private static void loadWallBlocks() throws SQLException {
+//        Connection context = null;
+//        ResultSet rs = null;
+//        PreparedStatement ps = null;
+//
+//        try {
+//            context = SQL.getGameConnection();
+//            ps = context.prepareStatement("SELECT * FROM " + SQL.tb_prefix + WallBlock.TABLE_NAME);
+//            rs = ps.executeQuery();
+//
+//            int count = 0;
+//            while (rs.next()) {
+//                try {
+//                    new WallBlock(rs);
+//                    count++;
+//                } catch (Exception e) {
+//                    CivLog.warning(e.getMessage());
+//                    //e.printStackTrace();
+//                }
+//            }
+//
+//            CivLog.info("Loaded " + count + " Wall Block");
+//        } finally {
+//            SQL.close(rs, ps, context);
+//        }
+//    }
 
-        try {
-            context = SQL.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQL.tb_prefix + WallBlock.TABLE_NAME);
-            rs = ps.executeQuery();
-
-            int count = 0;
-            while (rs.next()) {
-                try {
-                    new WallBlock(rs);
-                    count++;
-                } catch (Exception e) {
-                    CivLog.warning(e.getMessage());
-                    //e.printStackTrace();
-                }
-            }
-
-            CivLog.info("Loaded " + count + " Wall Block");
-        } finally {
-            SQL.close(rs, ps, context);
-        }
-    }
-
-    private static void loadRoadBlocks() throws SQLException {
-        Connection context = null;
-        ResultSet rs = null;
-        PreparedStatement ps = null;
-
-        try {
-            context = SQL.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQL.tb_prefix + RoadBlock.TABLE_NAME);
-            rs = ps.executeQuery();
-
-            int count = 0;
-            while (rs.next()) {
-                try {
-                    new RoadBlock(rs);
-                    count++;
-                } catch (Exception e) {
-                    CivLog.warning(e.getMessage());
-                    e.printStackTrace();
-                }
-            }
-
-            CivLog.info("Loaded " + count + " Road Block");
-        } finally {
-            SQL.close(rs, ps, context);
-        }
-    }
+//    private static void loadRoadBlocks() throws SQLException {
+//        Connection context = null;
+//        ResultSet rs = null;
+//        PreparedStatement ps = null;
+//
+//        try {
+//            context = SQL.getGameConnection();
+//            ps = context.prepareStatement("SELECT * FROM " + SQL.tb_prefix + RoadBlock.TABLE_NAME);
+//            rs = ps.executeQuery();
+//
+//            int count = 0;
+//            while (rs.next()) {
+//                try {
+//                    new RoadBlock(rs);
+//                    count++;
+//                } catch (Exception e) {
+//                    CivLog.warning(e.getMessage());
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            CivLog.info("Loaded " + count + " Road Block");
+//        } finally {
+//            SQL.close(rs, ps, context);
+//        }
+//    }
 
     public static void loadRandomEvents() throws SQLException {
         Connection context = null;
@@ -1662,36 +1661,36 @@ public class CivGlobal {
         return false;
     }
 
-    public static HashSet<Wall> getWallChunk(ChunkCoord coord) {
-        HashSet<Wall> walls = wallChunks.get(coord);
-        if (walls != null && walls.size() > 0) {
-            return walls;
-        } else {
-            return null;
-        }
-    }
-
-    public static void addWallChunk(Wall wall, ChunkCoord coord) {
-        HashSet<Wall> walls = wallChunks.get(coord);
-
-        if (walls == null) {
-            walls = new HashSet<>();
-        }
-
-        walls.add(wall);
-        wallChunks.put(coord, walls);
-        wall.wallChunks.add(coord);
-    }
-
-    public static void removeWallChunk(Wall wall, ChunkCoord coord) {
-        HashSet<Wall> walls = wallChunks.get(coord);
-
-        if (walls == null) {
-            walls = new HashSet<>();
-        }
-        walls.remove(wall);
-        wallChunks.put(coord, walls);
-    }
+//    public static HashSet<Wall> getWallChunk(ChunkCoord coord) {
+//        HashSet<Wall> walls = wallChunks.get(coord);
+//        if (walls != null && walls.size() > 0) {
+//            return walls;
+//        } else {
+//            return null;
+//        }
+//    }
+//
+//    public static void addWallChunk(Wall wall, ChunkCoord coord) {
+//        HashSet<Wall> walls = wallChunks.get(coord);
+//
+//        if (walls == null) {
+//            walls = new HashSet<>();
+//        }
+//
+//        walls.add(wall);
+//        wallChunks.put(coord, walls);
+//        wall.wallChunks.add(coord);
+//    }
+//
+//    public static void removeWallChunk(Wall wall, ChunkCoord coord) {
+//        HashSet<Wall> walls = wallChunks.get(coord);
+//
+//        if (walls == null) {
+//            walls = new HashSet<>();
+//        }
+//        walls.remove(wall);
+//        wallChunks.put(coord, walls);
+//    }
 
     public static void addWonder(Wonder wonder) {
         wonders.put(wonder.getCorner(), wonder);
@@ -1990,17 +1989,17 @@ public class CivGlobal {
         CivGlobal.farmGrowQueue = farmGrowQueue;
     }
 
-    public static void addRoadBlock(RoadBlock rb) {
-        roadBlocks.put(rb.getCoord(), rb);
-    }
-
-    public static void removeRoadBlock(RoadBlock rb) {
-        roadBlocks.remove(rb.getCoord());
-    }
-
-    public static RoadBlock getRoadBlock(BlockCoord coord) {
-        return roadBlocks.get(coord);
-    }
+//    public static void addRoadBlock(RoadBlock rb) {
+//        roadBlocks.put(rb.getCoord(), rb);
+//    }
+//
+//    public static void removeRoadBlock(RoadBlock rb) {
+//        roadBlocks.remove(rb.getCoord());
+//    }
+//
+//    public static RoadBlock getRoadBlock(BlockCoord coord) {
+//        return roadBlocks.get(coord);
+//    }
 
     public static Collection<Civilization> getAdminCivs() {
         return adminCivs.values();
