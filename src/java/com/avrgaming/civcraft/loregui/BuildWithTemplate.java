@@ -6,6 +6,9 @@ import com.avrgaming.civcraft.lorestorage.LoreGuiItem;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
+import com.avrgaming.civcraft.structure.Buildable;
+import com.avrgaming.civcraft.structure.Structure;
+import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.template.Template;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -24,13 +27,19 @@ public class BuildWithTemplate extends GuiAction {
         Resident resident = CivGlobal.getResident(player);
 
         String theme = LoreGuiItem.getActionData(stack, "theme");
-
         try {
+            Buildable struct;
+            if (resident.pendingBuildable.info.isWonder) {
+                struct = Wonder.newWonder(player.getLocation(), resident.pendingBuildable.info.id, resident.pendingBuildable.town);
+            } else {
+                struct = Structure.newStructure(player.getLocation(), resident.pendingBuildable.info.id, resident.pendingBuildable.town);
+            }
             if (theme == null) {
                 /* Use the default template. */
                 Template tpl = new Template();
+
                 try {
-                    tpl.initTemplate(player.getLocation(), resident.pendingBuildable);
+                    tpl.initTemplate(struct);
                 } catch (IOException e) {
                     CivMessage.sendError(player, CivSettings.localize.localizedString("internalIOException"));
                     e.printStackTrace();
@@ -38,7 +47,7 @@ public class BuildWithTemplate extends GuiAction {
                     e.printStackTrace();
                 }
 
-                resident.pendingBuildable.buildPlayerPreview(player, player.getLocation(), tpl);
+                struct.buildPlayerPreview(player, tpl);
                 player.closeInventory();
                 return;
             }
@@ -46,7 +55,7 @@ public class BuildWithTemplate extends GuiAction {
             /* Use a template defined by a perk. */
             Template tpl = new Template();
             try {
-                tpl.initTemplate(player.getLocation(), resident.pendingBuildable, theme);
+                tpl.initTemplate(struct, theme);
             } catch (IOException e) {
                 CivMessage.sendError(player, CivSettings.localize.localizedString("internalIOException"));
                 e.printStackTrace();
@@ -54,7 +63,7 @@ public class BuildWithTemplate extends GuiAction {
                 e.printStackTrace();
             }
 
-            resident.pendingBuildable.buildPlayerPreview(player, player.getLocation(), tpl);
+            struct.buildPlayerPreview(player, tpl);
             player.closeInventory();
 
 

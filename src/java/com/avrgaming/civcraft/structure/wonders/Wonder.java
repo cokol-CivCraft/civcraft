@@ -36,6 +36,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
 import java.sql.ResultSet;
@@ -48,6 +49,7 @@ public abstract class Wonder extends Buildable {
     private ConfigWonderBuff wonderBuffs = null;
 
     public Wonder(ResultSet rs) throws SQLException, CivException {
+        super(BlockFace.SOUTH);
         this.load(rs);
 
         if (this.hitpoints == 0) {
@@ -57,6 +59,7 @@ public abstract class Wonder extends Buildable {
 
     public Wonder(Location center, String id, Town town) throws CivException {
 
+        super(BlockFace.SOUTH);
         this.info = CivSettings.wonders.get(id);
         this.setTown(town);
         this.setCorner(new BlockCoord(center));

@@ -53,29 +53,28 @@ public class ConfigBuildableInfo {
     public boolean water_structure = false;
     public boolean ignore_floating = false;
     public List<HashMap<String, String>> components = new LinkedList<>();
-    public boolean has_template = true;
 
     public boolean isAvailable(Town town) {
-        if (town.hasTechnology(require_tech)) {
-            if (town.hasUpgrade(require_upgrade)) {
-                if (town.hasStructure(require_structure)) {
-                    if (limit == 0 || town.getStructureTypeCount(id) < limit) {
-                        boolean capitol = town.isCapitol();
+        if (
+                town.hasTechnology(require_tech) &&
+                        town.hasUpgrade(require_upgrade) &&
+                        town.hasStructure(require_structure)
+        ) {
+            if (limit == 0 || town.getStructureTypeCount(id) < limit) {
+                boolean capitol = town.isCapitol();
 
-                        if (id.equals("s_townhall") && capitol) {
-                            return false;
-                        }
-
-                        if (id.equals("s_capitol") && !capitol) {
-                            return false;
-                        }
-                        if (id.equals("w_colosseum")) {
-                            return capitol && town.getStructureTypeCount(id) <= 0;
-                        }
-
-                        return true;
-                    }
+                if (id.equals("s_townhall") && capitol) {
+                    return false;
                 }
+
+                if (id.equals("s_capitol") && !capitol) {
+                    return false;
+                }
+                if (id.equals("w_colosseum")) {
+                    return capitol && town.getStructureTypeCount(id) <= 0;
+                }
+
+                return true;
             }
         }
         return false;
@@ -144,11 +143,6 @@ public class ConfigBuildableInfo {
             Boolean ignore_floating = (Boolean) obj.get("ignore_floating");
             if (ignore_floating != null) {
                 sinfo.ignore_floating = ignore_floating;
-            }
-
-            Boolean has_template = (Boolean) obj.get("has_template");
-            if (has_template != null) {
-                sinfo.has_template = has_template;
             }
 
 

@@ -1576,7 +1576,7 @@ public class Town extends SQLObject {
              */
             if (tpl == null) {
                 tpl = new Template();
-                tpl.initTemplate(center, struct);
+                tpl.initTemplate(struct);
             }
 
             struct.build(player, center, tpl);

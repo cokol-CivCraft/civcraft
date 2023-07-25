@@ -56,6 +56,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
 
 import java.io.File;
 import java.io.IOException;
@@ -67,6 +68,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public abstract class Buildable extends SQLObject {
     private Town town;
     protected BlockCoord corner;
+    public final BlockFace dir;
     public ConfigBuildableInfo info = new ConfigBuildableInfo(); //Blank buildable info for buildables which do not have configs.
     protected int hitpoints;
 
@@ -108,6 +110,10 @@ public abstract class Buildable extends SQLObject {
     public static final double DEFAULT_HAMMERRATE = 1.0;
     public AABB templateBoundingBox = null;
     public String invalidLayerMessage = "";
+
+    protected Buildable(BlockFace dir) {
+        this.dir = dir;
+    }
 
     public Town getTown() {
         return town;
@@ -371,30 +377,36 @@ public abstract class Buildable extends SQLObject {
         this.save();
     }
 
-    public void buildPlayerPreview(Player player, Location centerLoc) throws CivException, IOException {
+    public static void buildPlayerPreview(Player player, ConfigBuildableInfo info, Town town) throws CivException, IOException {
 
         /* Look for any custom template perks and ask the player if they want to use them. */
         Resident resident = CivGlobal.getResident(player);
-        ArrayList<ConfigTemplate> perkList = this.info.getTemplates();
+        ArrayList<ConfigTemplate> perkList = info.getTemplates();
         if (perkList == null) {
             Template tpl = new Template();
+            Buildable struct;
+            if (info.isWonder) {
+                struct = Wonder.newWonder(player.getLocation(), info.id, town);
+            } else {
+                struct = Structure.newStructure(player.getLocation(), info.id, town);
+            }
             try {
-                tpl.initTemplate(centerLoc, this);
+                tpl.initTemplate(struct);
             } catch (CivException | IOException e) {
                 e.printStackTrace();
                 throw e;
             }
 
-            buildPlayerPreview(player, centerLoc, tpl);
+            struct.buildPlayerPreview(player, tpl);
             return;
         }
         /* Store the pending buildable. */
-        resident.pendingBuildable = this;
+        resident.pendingBuildable = new BuildTaskInstance(info, town);
 
         /* Build an inventory full of templates to select. */
         Inventory inv = Bukkit.getServer().createInventory(player, CivTutorial.MAX_CHEST_SIZE * 9);
         ItemStack infoRec = LoreGuiItem.build(
-                CivSettings.localize.localizedString("buildable_lore_default") + " " + this.getDisplayName(),
+                CivSettings.localize.localizedString("buildable_lore_default") + " " + info.displayName,
                 Material.WRITTEN_BOOK,
                 0,
                 ChatColor.GOLD + CivSettings.localize.localizedString("loreGui_template_clickToBuild"));
@@ -420,8 +432,8 @@ public abstract class Buildable extends SQLObject {
     }
 
 
-    public void buildPlayerPreview(Player player, Location centerLoc, Template tpl) throws CivException {
-        centerLoc = repositionCenter(centerLoc, tpl.dir(), tpl.size_x, tpl.size_z);
+    public void buildPlayerPreview(Player player, Template tpl) throws CivException {
+        Location centerLoc = repositionCenter(player.getLocation(), tpl.dir(), tpl.size_x, tpl.size_z);
         tpl.buildPreviewScaffolding(centerLoc, player);
 
         this.setCorner(new BlockCoord(centerLoc));
@@ -903,14 +915,11 @@ public abstract class Buildable extends SQLObject {
             for (int y = 0; y < tpl.size_y; y++) {
                 for (int z = 0; z < tpl.size_z; z++) {
                     Block b = centerBlock.getRelative(x, y, z);
-                    //b.setTypeIdAndData(tpl.blocks[x][y][z].getType(), (byte)tpl.blocks[x][y][z].getData(), false);
+
                     if (tpl.blocks[x][y][z].specialType == Type.COMMAND) {
-                        b.setType(Material.AIR);
-                        b.setData((byte) 0);
+                        b.getState().setData(new MaterialData(Material.AIR));
                     } else {
-                        int data = (byte) tpl.blocks[x][y][z].getData();
-                        b.setType(tpl.blocks[x][y][z].getType());
-                        b.setData((byte) data);
+                        b.getState().setData(tpl.blocks[x][y][z].getMaterialData());
                     }
 
                     if (b.getType() == Material.WALL_SIGN || b.getType() == Material.SIGN_POST) {
@@ -1499,10 +1508,6 @@ public abstract class Buildable extends SQLObject {
             default:
                 return 1;
         }
-    }
-
-    public boolean hasTemplate() {
-        return info.has_template;
     }
 
     public boolean canRestoreFromTemplate() {

@@ -45,12 +45,8 @@ public class onLoadTask implements Runnable {
             try {
                 Template tpl;
                 try {
-                    if (struct.getSavedTemplatePath() == null && struct.hasTemplate()) {
+                    if (struct.getSavedTemplatePath() == null) {
                         CivLog.warning("structure:" + struct.getDisplayName() + " did not have a template name set but says it needs one!");
-                        continue;
-                    }
-
-                    if (!struct.hasTemplate()) {
                         continue;
                     }
 

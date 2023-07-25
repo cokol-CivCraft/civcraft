@@ -40,6 +40,7 @@ import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.permission.PermissionGroup;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
+import com.avrgaming.civcraft.structure.BuildTaskInstance;
 import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.structure.TownHall;
 import com.avrgaming.civcraft.template.Template;
@@ -130,7 +131,7 @@ public class Resident extends SQLObject {
      * but there isn't a good way to do this ATM. If we had a way to send arbitary objects it would
      * be better. Could we store it here on the resident object?
      */
-    public Buildable pendingBuildable;
+    public BuildTaskInstance pendingBuildable;
     public ConfigBuildableInfo pendingBuildableInfo;
     public CallbackInterface pendingCallback;
 

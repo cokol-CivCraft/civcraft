@@ -274,32 +274,13 @@ public class BuildCommand extends CommandBase {
         }
 
         Town town = getSelectedTown();
-
-        if (sinfo.isWonder) {
-            Wonder wonder = Wonder.newWonder(getPlayer().getLocation(), sinfo.id, town);
-            try {
-                wonder.buildPlayerPreview(getPlayer(), getPlayer().getLocation());
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new CivException(CivSettings.localize.localizedString("internalIOException"));
-            }
-        } else {
-            Structure struct = Structure.newStructure(getPlayer().getLocation(), sinfo.id, town);
-            try {
-                struct.buildPlayerPreview(getPlayer(), getPlayer().getLocation());
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new CivException(CivSettings.localize.localizedString("internalIOException"));
-            }
+        try {
+            Buildable.buildPlayerPreview(getPlayer(), sinfo, town);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new CivException(CivSettings.localize.localizedString("internalIOException"));
         }
         getPlayer().playSound(getPlayer().getLocation(), Sound.ITEM_ARMOR_EQUIP_IRON, 0.9f, 0.9f);
-
-//		if (sinfo.isWonder) {
-//			town.buildWonder(getPlayer(), sinfo.id, getPlayer().getLocation());
-//		} else {
-//			town.buildStructure(getPlayer(), sinfo.id, getPlayer().getLocation());
-//		}
-//		CivMessage.sendSuccess(sender, "Started building "+sinfo.displayName);
     }
 
     @Override

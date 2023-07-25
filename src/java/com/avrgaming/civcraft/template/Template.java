@@ -388,18 +388,9 @@ public class Template {
         load_template(templatePath);
     }
 
-    public void initTemplate(Location center, Buildable buildable, String theme) throws IOException, CivException {
+    public void initTemplate(Buildable buildable, String theme) throws IOException, CivException {
 
-        this.setDirection(center);
-
-        if (!buildable.hasTemplate()) {
-            /*
-             * Certain structures are built procedurally such as walls and roads.
-             * They do not have a direction and do not have a template.
-             */
-            dir = BlockFace.SOUTH;
-        }
-
+        dir = buildable.dir;
 
         // Find the template file.
         this.setTheme(theme);
@@ -409,8 +400,8 @@ public class Template {
         buildable.setTotalBlockCount(size_x * size_y * size_z);
     }
 
-    public void initTemplate(Location center, Buildable buildable) throws CivException, IOException {
-        initTemplate(center, buildable, "default");
+    public void initTemplate(Buildable buildable) throws CivException, IOException {
+        initTemplate(buildable, "default");
     }
 
     public static Template getTemplate(String filepath, Location dirLoc) throws IOException, CivException {

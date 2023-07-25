@@ -33,6 +33,7 @@ import com.avrgaming.civcraft.util.BlockCoord;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
@@ -47,7 +48,7 @@ public class Structure extends Buildable {
     public static String TABLE_NAME = "STRUCTURES";
 
     public Structure(Location center, String id, Town town) throws CivException {
-
+        super(Template.getDirection(center));
         this.info = CivSettings.structures.get(id);
         this.setTown(town);
         this.setCorner(new BlockCoord(center));
@@ -61,6 +62,7 @@ public class Structure extends Buildable {
     }
 
     public Structure(ResultSet rs) throws SQLException, CivException {
+        super(BlockFace.SOUTH);
         this.load(rs);
     }
 
