@@ -3,7 +3,6 @@ package com.avrgaming.civcraft.loregui;
 import java.util.function.Function;
 
 public enum GuiActions {
-    BuildChooseTemplate(BuildChooseTemplate::new),
     BuildWithDefaultPersonalTemplate(BuildWithDefaultPersonalTemplate::new),
     BuildWithPersonalTemplate(BuildWithPersonalTemplate::new),
     BuildWithTemplate(BuildWithTemplate::new),

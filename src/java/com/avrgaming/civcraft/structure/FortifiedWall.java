@@ -195,47 +195,45 @@ public class FortifiedWall extends Wall {
         /* Look for any custom template perks and ask the player if they want to use them. */
         Resident resident = CivGlobal.getResident(player);
         ArrayList<ConfigTemplate> perkList = this.info.getTemplates();
-        if (perkList.size() != 0) {
-            /* Store the pending buildable. */
-            resident.pendingBuildable = this;
+        if (perkList.size() == 0) {
 
-            /* Build an inventory full of templates to select. */
-            Inventory inv = Bukkit.getServer().createInventory(player, CivTutorial.MAX_CHEST_SIZE * 9);
-            ItemStack infoRec = LoreGuiItem.build("Default " + this.getDisplayName(),
-                    Material.WRITTEN_BOOK,
-                    0, ChatColor.GOLD + "<Click To Build>");
-            infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithTemplate);
-            inv.addItem(infoRec);
-
-            for (ConfigTemplate perk : perkList) {
-                infoRec = LoreGuiItem.build(
-                        perk.display_name,
-                        perk.type_id,
-                        perk.data,
-                        ChatColor.GOLD + CivSettings.localize.localizedString("loreGui_template_clickToBuild")
-                );
-                infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithTemplate);
-                infoRec = LoreGuiItem.setActionData(infoRec, "theme", perk.theme);
-                inv.addItem(infoRec);
+            Template tpl = new Template();
+            try {
+                tpl.initTemplate(centerLoc, this);
+            } catch (CivException | IOException e) {
+                e.printStackTrace();
+                throw e;
             }
 
-            /* We will resume by calling buildPlayerPreview with the template when a gui item is clicked. */
-            player.openInventory(inv);
+            buildPlayerPreview(player, centerLoc, tpl);
             return;
         }
+        /* Store the pending buildable. */
+        resident.pendingBuildable = this;
 
+        /* Build an inventory full of templates to select. */
+        Inventory inv = Bukkit.getServer().createInventory(player, CivTutorial.MAX_CHEST_SIZE * 9);
+        ItemStack infoRec = LoreGuiItem.build(
+                "Default " + this.getDisplayName(),
+                Material.WRITTEN_BOOK,
+                0, ChatColor.GOLD + "<Click To Build>");
+        infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithTemplate);
+        inv.addItem(infoRec);
 
-        Template tpl;
-
-        tpl = new Template();
-        try {
-            tpl.initTemplate(centerLoc, this);
-        } catch (CivException | IOException e) {
-            e.printStackTrace();
-            throw e;
+        for (ConfigTemplate perk : perkList) {
+            infoRec = LoreGuiItem.build(
+                    perk.display_name,
+                    perk.type_id,
+                    perk.data,
+                    ChatColor.GOLD + CivSettings.localize.localizedString("loreGui_template_clickToBuild")
+            );
+            infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithTemplate);
+            infoRec = LoreGuiItem.setActionData(infoRec, "theme", perk.theme);
+            inv.addItem(infoRec);
         }
 
-        buildPlayerPreview(player, centerLoc, tpl);
+        /* We will resume by calling buildPlayerPreview with the template when a gui item is clicked. */
+        player.openInventory(inv);
     }
 
     @Override
@@ -336,11 +334,7 @@ public class FortifiedWall extends Wall {
 
         // build the blocks
         for (SimpleBlock sb : simpleBlocks.values()) {
-            BlockCoord bcoord = new BlockCoord(sb);
-            bcoord.getBlock().setType(sb.getType());
-            Block block = bcoord.getBlock();
-            block.setData((byte) sb.getData());
-
+            new BlockCoord(sb).getBlock().getState().setData(sb.getMaterialData());
         }
 
         // Add wall to town and global tables
@@ -352,7 +346,7 @@ public class FortifiedWall extends Wall {
     private void validateBlockLocation(Player player, Location loc) throws CivException {
         Block b = loc.getBlock();
 
-        if (b.getTypeId() == Material.CHEST.getId()) {
+        if (b.getType() == Material.CHEST) {
             throw new CivException(CivSettings.localize.localizedString("cannotBuild_chestInWay"));
         }
 

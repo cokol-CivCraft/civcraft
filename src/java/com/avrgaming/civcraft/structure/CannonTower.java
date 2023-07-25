@@ -33,8 +33,7 @@ public class CannonTower extends Structure {
 
     ProjectileCannonComponent cannonComponent;
 
-    protected CannonTower(Location center, String id, Town town)
-            throws CivException {
+    protected CannonTower(Location center, String id, Town town) throws CivException {
         super(center, id, town);
         this.hitpoints = this.getMaxHitPoints();
     }

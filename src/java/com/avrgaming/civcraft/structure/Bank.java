@@ -41,6 +41,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 
+import static java.lang.Math.max;
+
 public class Bank extends Structure {
 
     private int level = 1;
@@ -73,7 +75,7 @@ public class Bank extends Structure {
     }
 
     public double getBankExchangeRate() {
-        double exchange_rate = 0.0;
+        double exchange_rate;
         switch (level) {
             case 1:
                 exchange_rate = 0.40;
@@ -105,15 +107,12 @@ public class Bank extends Structure {
             case 10:
                 exchange_rate = 2;
                 break;
+            default:
+                exchange_rate = 0.0;
         }
 
-        double rate = 1;
-        double addtional = rate * this.getTown().getBuffManager().getEffectiveDouble(Buff.BARTER);
-        rate += addtional;
-        if (rate > 1) {
-            exchange_rate *= rate;
-        }
-        return exchange_rate;
+        double rate = 1 + this.getTown().getBuffManager().getEffectiveDouble(Buff.BARTER);
+        return exchange_rate * max(rate, 1);
     }
 
     @Override

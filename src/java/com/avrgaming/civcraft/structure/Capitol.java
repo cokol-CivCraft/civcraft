@@ -65,28 +65,28 @@ public class Capitol extends TownHall {
     private void changeIndex(int newIndex) {
         ArrayList<RespawnLocationHolder> respawnables = this.getTown().getCiv().getAvailableRespawnables();
 
-        if (this.respawnSign != null) {
-            try {
-                this.respawnSign.setText(CivSettings.localize.localizedString("capitol_sign_respawnAt") + "\n" + ChatColor.DARK_GREEN + ChatColor.BOLD + respawnables.get(newIndex).getRespawnName());
-                index = newIndex;
-            } catch (IndexOutOfBoundsException e) {
-                if (respawnables.size() > 0) {
-                    this.respawnSign.setText(CivSettings.localize.localizedString("capitol_sign_respawnAt") + "\n" + ChatColor.DARK_GREEN + ChatColor.BOLD + respawnables.get(0).getRespawnName());
-                    index = 0;
-                }
-                //this.unitNameSign.setText(getUnitSignText(index));
-            }
-            this.respawnSign.update();
-        } else {
+        if (this.respawnSign == null) {
             CivLog.warning("Could not find civ spawn sign:" + this.getId() + " at " + this.getCorner());
+            return;
         }
+        try {
+            this.respawnSign.setText(CivSettings.localize.localizedString("capitol_sign_respawnAt") + "\n" + ChatColor.DARK_GREEN + ChatColor.BOLD + respawnables.get(newIndex).getRespawnName());
+            index = newIndex;
+        } catch (IndexOutOfBoundsException e) {
+            if (respawnables.size() > 0) {
+                this.respawnSign.setText(CivSettings.localize.localizedString("capitol_sign_respawnAt") + "\n" + ChatColor.DARK_GREEN + ChatColor.BOLD + respawnables.get(0).getRespawnName());
+                index = 0;
+            }
+            //this.unitNameSign.setText(getUnitSignText(index));
+        }
+        this.respawnSign.update();
+
     }
 
     @Override
     public void processSignAction(Player player, StructureSign sign, PlayerInteractEvent event) {
         //int special_id = Integer.valueOf(sign.getAction());
         Resident resident = CivGlobal.getResident(player);
-
         if (resident == null) {
             return;
         }
@@ -266,8 +266,7 @@ public class Capitol extends TownHall {
          * we need to punish by increasing respawn times.
          */
         for (Town town : this.getCiv().getTowns()) {
-            TownHall townhall = town.getTownHall();
-            if (townhall == null) {
+            if (town.getTownHall() == null) {
                 return false;
             }
         }

@@ -92,12 +92,7 @@ public class ConfigBuildableInfo {
             ConfigBuildableInfo sinfo = new ConfigBuildableInfo();
 
             sinfo.id = (String) obj.get("id");
-            String templateName = (String) obj.get("template");
-            if (templateName.contains("capital")) {
-                CivLog.debug("loadConfig - Replacing Capital occurence");
-                templateName = templateName.replace("capital", "capitol");
-            }
-            sinfo.template_base_name = templateName;
+            sinfo.template_base_name = (String) obj.get("template");
             sinfo.templateYShift = (Integer) obj.get("template_y_shift");
             sinfo.displayName = (String) obj.get("displayName");
             sinfo.require_tech = (String) obj.get("require_tech");

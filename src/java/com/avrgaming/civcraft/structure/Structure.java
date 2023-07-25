@@ -76,330 +76,143 @@ public class Structure extends Buildable {
 
         switch (id) {
             case "s_bank":
-                if (rs == null) {
-                    struct = new Bank(center, id, town);
-                } else {
-                    struct = new Bank(rs);
-                }
+                struct = rs == null ? new Bank(center, id, town) : new Bank(rs);
                 break;
-
             case "s_trommel":
-                if (rs == null) {
-                    struct = new Trommel(center, id, town);
-                } else {
-                    struct = new Trommel(rs);
-                }
+                struct = rs == null ? new Trommel(center, id, town) : new Trommel(rs);
                 break;
-
             case "ti_fish_hatchery":
-                if (rs == null) {
-                    struct = new FishHatchery(center, id, town);
-                } else {
-                    struct = new FishHatchery(rs);
-                }
+                struct = rs == null ? new FishHatchery(center, id, town) : new FishHatchery(rs);
                 break;
-
             case "ti_trade_ship":
-                if (rs == null) {
-                    struct = new TradeShip(center, id, town);
-                } else {
-                    struct = new TradeShip(rs);
-                }
+                struct = rs == null ? new TradeShip(center, id, town) : new TradeShip(rs);
                 break;
-
             case "ti_quarry":
-                if (rs == null) {
-                    struct = new Quarry(center, id, town);
-                } else {
-                    struct = new Quarry(rs);
-                }
+                struct = rs == null ? new Quarry(center, id, town) : new Quarry(rs);
                 break;
-
             case "s_mob_grinder":
-                if (rs == null) {
-                    struct = new MobGrinder(center, id, town);
-                } else {
-                    struct = new MobGrinder(rs);
-                }
+                struct = rs == null ? new MobGrinder(center, id, town) : new MobGrinder(rs);
                 break;
-
             case "s_store":
-                if (rs == null) {
-                    struct = new Store(center, id, town);
-                } else {
-                    struct = new Store(rs);
-                }
+                struct = rs == null ? new Store(center, id, town) : new Store(rs);
                 break;
-
             case "s_stadium":
-                if (rs == null) {
-                    struct = new Stadium(center, id, town);
-                } else {
-                    struct = new Stadium(rs);
-                }
+                struct = rs == null ? new Stadium(center, id, town) : new Stadium(rs);
                 break;
-
             case "ti_hospital":
-                if (rs == null) {
-                    struct = new Hospital(center, id, town);
-                } else {
-                    struct = new Hospital(rs);
-                }
+                struct = rs == null ? new Hospital(center, id, town) : new Hospital(rs);
                 break;
-
             case "s_grocer":
-                if (rs == null) {
-                    struct = new Grocer(center, id, town);
-                } else {
-                    struct = new Grocer(rs);
-                }
+                struct = rs == null ? new Grocer(center, id, town) : new Grocer(rs);
                 break;
-
             case "s_broadcast_tower":
-                if (rs == null) {
-                    struct = new BroadcastTower(center, id, town);
-                } else {
-                    struct = new BroadcastTower(rs);
-                }
+                struct = rs == null ? new BroadcastTower(center, id, town) : new BroadcastTower(rs);
                 break;
             case "s_library":
-                if (rs == null) {
-                    struct = new Library(center, id, town);
-                } else {
-                    struct = new Library(rs);
-                }
+                struct = rs == null ? new Library(center, id, town) : new Library(rs);
                 break;
 
             case "s_university":
-                if (rs == null) {
-                    struct = new University(center, id, town);
-                } else {
-                    struct = new University(rs);
-                }
+                struct = rs == null ? new University(center, id, town) : new University(rs);
                 break;
 
             case "s_school":
-                if (rs == null) {
-                    struct = new School(center, id, town);
-                } else {
-                    struct = new School(rs);
-                }
+                struct = rs == null ? new School(center, id, town) : new School(rs);
                 break;
 
             case "s_research_lab":
-                if (rs == null) {
-                    struct = new ResearchLab(center, id, town);
-                } else {
-                    struct = new ResearchLab(rs);
-                }
+                struct = rs == null ? new ResearchLab(center, id, town) : new ResearchLab(rs);
                 break;
 
             case "s_blacksmith":
-                if (rs == null) {
-                    struct = new Blacksmith(center, id, town);
-                } else {
-                    struct = new Blacksmith(rs);
-                }
+                struct = rs == null ? new Blacksmith(center, id, town) : new Blacksmith(rs);
                 break;
 
             case "s_granary":
-                if (rs == null) {
-                    struct = new Granary(center, id, town);
-                } else {
-                    struct = new Granary(rs);
-                }
+                struct = rs == null ? new Granary(center, id, town) : new Granary(rs);
                 break;
 
             case "ti_cottage":
-                if (rs == null) {
-                    struct = new Cottage(center, id, town);
-                } else {
-                    struct = new Cottage(rs);
-                }
+                struct = rs == null ? new Cottage(center, id, town) : new Cottage(rs);
                 break;
             case "s_monument":
-                if (rs == null) {
-                    struct = new Monument(center, id, town);
-                } else {
-                    struct = new Monument(rs);
-                }
+                struct = rs == null ? new Monument(center, id, town) : new Monument(rs);
                 break;
             case "s_temple":
-                if (rs == null) {
-                    struct = new Temple(center, id, town);
-                } else {
-                    struct = new Temple(rs);
-                }
+                struct = rs == null ? new Temple(center, id, town) : new Temple(rs);
                 break;
             case "ti_mine":
-                if (rs == null) {
-                    struct = new Mine(center, id, town);
-                } else {
-                    struct = new Mine(rs);
-                }
+                struct = rs == null ? new Mine(center, id, town) : new Mine(rs);
                 break;
             case "ti_farm":
-                if (rs == null) {
-                    struct = new Farm(center, id, town);
-                } else {
-                    struct = new Farm(rs);
-                }
+                struct = rs == null ? new Farm(center, id, town) : new Farm(rs);
                 break;
             case "ti_trade_outpost":
-                if (rs == null) {
-                    struct = new TradeOutpost(center, id, town);
-                } else {
-                    struct = new TradeOutpost(rs);
-                }
+                struct = rs == null ? new TradeOutpost(center, id, town) : new TradeOutpost(rs);
                 break;
             case "ti_fishing_boat":
-                if (rs == null) {
-                    struct = new FishingBoat(center, id, town);
-                } else {
-                    struct = new FishingBoat(rs);
-                }
+                struct = rs == null ? new FishingBoat(center, id, town) : new FishingBoat(rs);
                 break;
             case "s_townhall":
-                if (rs == null) {
-                    struct = new TownHall(center, id, town);
-                } else {
-                    struct = new TownHall(rs);
-                }
+                struct = rs == null ? new TownHall(center, id, town) : new TownHall(rs);
                 break;
             // Just for backwards compatibility with old typos on existing servers:
-            case "s_capital":
             case "s_capitol":
-                if (rs == null) {
-                    struct = new Capitol(center, id, town);
-                } else {
-                    struct = new Capitol(rs);
-                }
+                struct = rs == null ? new Capitol(center, id, town) : new Capitol(rs);
                 break;
             case "s_arrowship":
-                if (rs == null) {
-                    struct = new ArrowShip(center, id, town);
-                } else {
-                    struct = new ArrowShip(rs);
-                }
+                struct = rs == null ? new ArrowShip(center, id, town) : new ArrowShip(rs);
                 break;
             case "s_arrowtower":
-                if (rs == null) {
-                    struct = new ArrowTower(center, id, town);
-                } else {
-                    struct = new ArrowTower(rs);
-                }
+                struct = rs == null ? new ArrowTower(center, id, town) : new ArrowTower(rs);
                 break;
             case "s_cannonship":
-                if (rs == null) {
-                    struct = new CannonShip(center, id, town);
-                } else {
-                    struct = new CannonShip(rs);
-                }
+                struct = rs == null ? new CannonShip(center, id, town) : new CannonShip(rs);
                 break;
             case "s_cannontower":
-                if (rs == null) {
-                    struct = new CannonTower(center, id, town);
-                } else {
-                    struct = new CannonTower(rs);
-                }
+                struct = rs == null ? new CannonTower(center, id, town) : new CannonTower(rs);
                 break;
             case "s_scoutship":
-                if (rs == null) {
-                    struct = new ScoutShip(center, id, town);
-                } else {
-                    struct = new ScoutShip(rs);
-                }
+                struct = rs == null ? new ScoutShip(center, id, town) : new ScoutShip(rs);
                 break;
             case "s_scouttower":
-                if (rs == null) {
-                    struct = new ScoutTower(center, id, town);
-                } else {
-                    struct = new ScoutTower(rs);
-                }
+                struct = rs == null ? new ScoutTower(center, id, town) : new ScoutTower(rs);
                 break;
             case "s_shipyard":
-                if (rs == null) {
-                    struct = new Shipyard(center, id, town);
-                } else {
-                    struct = new Shipyard(rs);
-                }
+                struct = rs == null ? new Shipyard(center, id, town) : new Shipyard(rs);
                 break;
             case "ti_wall":
-                if (rs == null) {
-                    struct = new Wall(center, id, town);
-                } else {
-                    struct = new Wall(rs);
-                }
+                struct = rs == null ? new Wall(center, id, town) : new Wall(rs);
                 break;
             case "ti_fortifiedwall":
-                if (rs == null) {
-                    struct = new FortifiedWall(center, id, town);
-                } else {
-                    struct = new FortifiedWall(rs);
-                }
+                struct = rs == null ? new FortifiedWall(center, id, town) : new FortifiedWall(rs);
                 break;
             case "ti_road":
-                if (rs == null) {
-                    struct = new Road(center, id, town);
-                } else {
-                    struct = new Road(rs);
-                }
+                struct = rs == null ? new Road(center, id, town) : new Road(rs);
                 break;
             case "s_barracks":
-                if (rs == null) {
-                    struct = new Barracks(center, id, town);
-                } else {
-                    struct = new Barracks(rs);
-                }
+                struct = rs == null ? new Barracks(center, id, town) : new Barracks(rs);
                 break;
             case "ti_windmill":
-                if (rs == null) {
-                    struct = new Windmill(center, id, town);
-                } else {
-                    struct = new Windmill(rs);
-                }
+                struct = rs == null ? new Windmill(center, id, town) : new Windmill(rs);
                 break;
             case "s_museum":
-                if (rs == null) {
-                    struct = new Museum(center, id, town);
-                } else {
-                    struct = new Museum(rs);
-                }
+                struct = rs == null ? new Museum(center, id, town) : new Museum(rs);
                 break;
             case "s_market":
-                if (rs == null) {
-                    struct = new Market(center, id, town);
-                } else {
-                    struct = new Market(rs);
-                }
+                struct = rs == null ? new Market(center, id, town) : new Market(rs);
                 break;
             case "s_stable":
-                if (rs == null) {
-                    struct = new Stable(center, id, town);
-                } else {
-                    struct = new Stable(rs);
-                }
+                struct = rs == null ? new Stable(center, id, town) : new Stable(rs);
                 break;
             case "ti_pasture":
-                if (rs == null) {
-                    struct = new Pasture(center, id, town);
-                } else {
-                    struct = new Pasture(rs);
-                }
+                struct = rs == null ? new Pasture(center, id, town) : new Pasture(rs);
                 break;
             case "ti_lighthouse":
-                if (rs == null) {
-                    struct = new Lighthouse(center, id, town);
-                } else {
-                    struct = new Lighthouse(rs);
-                }
+                struct = rs == null ? new Lighthouse(center, id, town) : new Lighthouse(rs);
                 break;
             case "s_teslatower":
-                if (rs == null) {
-                    struct = new TeslaTower(center, id, town);
-                } else {
-                    struct = new TeslaTower(rs);
-                }
+                struct = rs == null ? new TeslaTower(center, id, town) : new TeslaTower(rs);
                 break;
             default:
                 // This structure is generic, just create a structure type.

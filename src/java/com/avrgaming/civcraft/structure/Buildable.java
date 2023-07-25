@@ -618,11 +618,10 @@ public abstract class Buildable extends SQLObject {
     }
 
     public void resumeBuildFromTemplate() throws Exception {
-        Template tpl;
 
         Location corner = getCorner().getLocation();
 
-        tpl = new Template();
+        Template tpl = new Template();
         tpl.resumeTemplate(this.getSavedTemplatePath(), this);
 
         this.totalBlockCount = tpl.size_x * tpl.size_y * tpl.size_z;
@@ -1048,12 +1047,6 @@ public abstract class Buildable extends SQLObject {
     }
 
     public String getSavedTemplatePath() {
-        if (templateName == null)
-            return null;
-        if (templateName.contains("capital")) {
-            CivLog.debug("getSavedTemplatePath - Replacing Capital occurence");
-            templateName = templateName.replace("capital", "capitol");
-        }
         return templateName;
     }
 

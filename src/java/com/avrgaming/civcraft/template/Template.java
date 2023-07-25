@@ -44,7 +44,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import static java.lang.Math.abs;
 
@@ -69,8 +72,6 @@ public class Template {
     public LinkedList<BlockCoord> doorRelativeLocations = new LinkedList<>();
     public LinkedList<BlockCoord> attachableLocations = new LinkedList<>();
     public static HashSet<Material> attachableTypes = new HashSet<>();
-
-    public static HashMap<String, Template> templateCache = new HashMap<>();
 
     public static void initAttachableTypes() {
         attachableTypes.add(Material.SAPLING);
@@ -151,13 +152,11 @@ public class Template {
     }
 
     public static String getStructureFilePath(String template_file, String theme) {
-        template_file = template_file.replaceAll(" ", "_");
-        return ("templates/themes/" + theme + "/" + template_file + ".def").toLowerCase();
+        return ("templates/themes/" + theme + "/" + template_file.replaceAll(" ", "_") + ".def").toLowerCase();
     }
 
     public static String getWonderFilePath(String template_file) {
-        template_file = template_file.replaceAll(" ", "_");
-        return ("templates/wonders/" + template_file + "/" + ".def").toLowerCase();
+        return ("templates/wonders/" + template_file.replaceAll(" ", "_") + "/" + ".def").toLowerCase();
     }
 
     public static final MaterialData SCAFFOLDING_BLOCK = new MaterialData(Material.BEDROCK);
@@ -415,20 +414,13 @@ public class Template {
     }
 
     public static Template getTemplate(String filepath, Location dirLoc) throws IOException, CivException {
-        /* Attempt to get template statically. */
-        if (filepath.contains("capital")) {
-            CivLog.debug("Template getTemplate - Replacing Capital occurence");
-            filepath = filepath.replace("capital", "capitol");
-        }
-        Template tpl = templateCache.get(filepath);
-        if (tpl == null) {
-            /* No template found in cache. Load it. */
-            tpl = new Template();
-            tpl.load_template(filepath);
-        }
+        Template tpl = new Template();
+        tpl.load_template(filepath);
 
         if (dirLoc != null) {
             tpl.setDirection(dirLoc);
+        } else {
+            tpl.dir = BlockFace.SOUTH;
         }
         return tpl;
     }
