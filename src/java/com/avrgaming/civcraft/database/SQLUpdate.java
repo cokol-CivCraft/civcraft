@@ -55,7 +55,7 @@ public class SQLUpdate implements Runnable {
             }
         }
     }
-
+    @SuppressWarnings("BusyWait")
     @Override
     public void run() {
         while (true) {

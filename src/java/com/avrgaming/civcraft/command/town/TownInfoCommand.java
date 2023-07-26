@@ -33,7 +33,6 @@ import com.avrgaming.civcraft.structure.*;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.util.CivColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -570,15 +569,8 @@ public class TownInfoCommand extends CommandBase {
     public static void show(CommandSender sender, Resident resident, Town town, Civilization civ, CommandBase parent) throws CivException {
 
         DecimalFormat df = new DecimalFormat();
-        boolean isAdmin = false;
 
-        if (resident != null) {
-            Player player = CivGlobal.getPlayer(resident);
-            isAdmin = player.hasPermission(CivSettings.MINI_ADMIN);
-        } else {
-            /* We're the console! */
-            isAdmin = true;
-        }
+        boolean isAdmin = resident == null;
 
         CivMessage.sendHeading(sender, town.getName() + " " + CivSettings.localize.localizedString("cmd_town_info_showHeading"));
         ConfigTownLevel level = CivSettings.townLevels.get(town.getLevel());
@@ -599,7 +591,7 @@ public class TownInfoCommand extends CommandBase {
             CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("Assitants") + " " + CivColor.LightGreen + town.getAssistantGroup().getMembersString());
         }
 
-        if (resident == null || civ.hasResident(resident) || isAdmin) {
+        if (resident == null || civ.hasResident(resident)) {
 
             String color = CivColor.LightGreen;
             int maxTileImprovements = level.tile_improvements;
@@ -621,9 +613,7 @@ public class TownInfoCommand extends CommandBase {
                     CivColor.Green + CivSettings.localize.localizedString("Beakers") + " " + CivColor.LightGreen + df.format(town.getBeakers().total));
 
 
-            CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("Members") + " " + CivColor.LightGreen + town.getResidentCount() + " " +
-                    CivColor.Green + CivSettings.localize.localizedString("TaxRate") + " " + CivColor.LightGreen + town.getTaxRateString() + " " +
-                    CivColor.Green + CivSettings.localize.localizedString("FlatTax") + " " + CivColor.LightGreen + town.getFlatTax() + " " + CivSettings.CURRENCY_NAME);
+            CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("Members") + " " + CivColor.LightGreen + town.getResidentCount() + " " + CivSettings.CURRENCY_NAME);
 
             HashMap<String, String> info = new HashMap<>();
 //			info.put("Happiness", CivColor.White+"("+CivColor.LightGreen+"H"+CivColor.Yellow+town.getHappinessTotal()
@@ -649,8 +639,7 @@ public class TownInfoCommand extends CommandBase {
             CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("Goodies") + " " + CivColor.LightGreen + goodies);
         }
 
-        if (resident == null || town.isInGroup("mayors", resident) || town.isInGroup("assistants", resident) ||
-                civ.getLeaderGroup().hasMember(resident) || civ.getAdviserGroup().hasMember(resident) || isAdmin) {
+        if (resident == null || town.isInGroup("mayors", resident) || town.isInGroup("assistants", resident) || civ.getLeaderGroup().hasMember(resident) || civ.getAdviserGroup().hasMember(resident)) {
             try {
                 CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("Treasury") + " " + CivColor.LightGreen + town.getBalance() + CivColor.Green + " " + CivSettings.CURRENCY_NAME + " " + CivSettings.localize.localizedString("cmd_town_info_structuresUpkeep") + " " + CivColor.LightGreen + town.getTotalUpkeep() * town.getGovernment().upkeep_rate);
                 Structure bank = town.getStructureByType("s_bank");

@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 
 public class TradeCommand extends CommandBase {
 
-    public static int TRADE_TIMEOUT = 30000;
+    public static final int TRADE_TIMEOUT = 30000;
 
     @Override
     public void init() {

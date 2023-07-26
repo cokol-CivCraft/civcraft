@@ -7,6 +7,8 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
+import static jdk.nashorn.internal.objects.NativeMath.max;
+
 public class VaultEconObject extends EconObject {
 
     private final UUID uuid;
@@ -53,11 +55,13 @@ public class VaultEconObject extends EconObject {
             return;
         }
 
-        amount = amount < 0 ? 0 : Math.floor(amount);
+        amount = max(0, Math.floor(amount));
 
         double current = econ.getBalance(player);
-        if (amount > current) econ.depositPlayer(player, amount - current);
-        else econ.withdrawPlayer(player, current - amount);
+        if (amount > current)
+            econ.depositPlayer(player, amount - current);
+        else
+            econ.withdrawPlayer(player, current - amount);
 
         if (save) {
             holder.save();
@@ -162,22 +166,5 @@ public class VaultEconObject extends EconObject {
             objToPay.deposit(amount);
             return true;
         }
-    }
-
-    public double payToCreditor(EconObject objToPay, double amount) {
-        double total = 0;
-
-        if (this.hasEnough(amount)) {
-            this.withdraw(amount);
-            objToPay.deposit(amount);
-            return amount;
-        }
-
-        /* Do not have enough to pay, pay what we can and put the rest into debt. */
-        this.debt += amount - this.getBalance();
-        objToPay.deposit(this.getBalance());
-        this.withdraw(this.getBalance());
-
-        return total;
     }
 }

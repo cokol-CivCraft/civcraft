@@ -200,11 +200,6 @@ public class CampCommand extends CommandBase {
     }
 
 
-    public void new_cmd() {
-
-    }
-
-
     public void disband_cmd() throws CivException {
         Resident resident = getResident();
         this.validCampOwner();

@@ -18,13 +18,11 @@
  */
 package com.avrgaming.civcraft.lorestorage;
 
-import com.avrgaming.civcraft.loregui.*;
+import com.avrgaming.civcraft.loregui.GuiActions;
 import gpl.AttributeUtil;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.HashMap;
 
 public class LoreGuiItem {
 
@@ -46,14 +44,14 @@ public class LoreGuiItem {
         return title != null;
     }
 
-    public static ItemStack setAction(ItemStack stack, String action) {
+    public static ItemStack setAction(ItemStack stack, GuiActions action) {
         AttributeUtil attrs = new AttributeUtil(stack);
-        attrs.setCivCraftProperty("GUI_ACTION", action);
+        attrs.setCivCraftProperty("GUI_ACTION", action.name());
         return attrs.getStack();
     }
 
-    public static String getAction(ItemStack stack) {
-        return new AttributeUtil(stack).getCivCraftProperty("GUI_ACTION");
+    public static GuiActions getAction(ItemStack stack) {
+        return GuiActions.valueOf(new AttributeUtil(stack).getCivCraftProperty("GUI_ACTION"));
     }
 
     public static ItemStack setActionData(ItemStack stack, String key, String value) {
@@ -76,27 +74,11 @@ public class LoreGuiItem {
         return attrs.getStack();
     }
 
-    public static final HashMap<String, Class<? extends GuiAction>> gui_classes = new HashMap<>();
-
-    static {
-        gui_classes.put("ActivatePerk", ActivatePerk.class);
-        gui_classes.put("BuildChooseTemplate", BuildChooseTemplate.class);
-        gui_classes.put("BuildStructureList", BuildStructureList.class);
-        gui_classes.put("BuildWithDefaultPersonalTemplate", BuildWithDefaultPersonalTemplate.class);
-        gui_classes.put("BuildWithPersonalTemplate", BuildWithPersonalTemplate.class);
-        gui_classes.put("BuildWithTemplate", BuildWithTemplate.class);
-        gui_classes.put("OpenInventory", OpenInventory.class);
-        gui_classes.put("ShowPerkPage", ShowPerkPage.class);
-        gui_classes.put("ShowRecipe", ShowRecipe.class);
-        gui_classes.put("ShowTemplateType", ShowTemplateType.class);
-        gui_classes.put("SpawnItem", SpawnItem.class);
-    }
-
-    public static void processAction(String action, ItemStack stack, InventoryClickEvent event) {
+    public static void processAction(GuiActions action, ItemStack stack, InventoryClickEvent event) {
 
         /* Get class name from reflection and perform assigned action */
         try {
-            gui_classes.get(action).newInstance().performAction(event, stack);
+            action.getNew().performAction(event, stack);
         } catch (Exception e) {
             e.printStackTrace();
         }

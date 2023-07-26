@@ -46,7 +46,6 @@ public class DebugFarmCommand extends CommandBase {
 
     }
 
-    @SuppressWarnings("unused")
     public void unloadchunk_cmd() throws CivException {
 
         int x = getNamedInteger(1);
@@ -56,7 +55,6 @@ public class DebugFarmCommand extends CommandBase {
         CivMessage.sendSuccess(sender, "Chunk " + x + "," + z + " unloaded");
     }
 
-    @SuppressWarnings("unused")
     public void showgrowth_cmd() throws CivException {
         Player player = getPlayer();
 
@@ -74,7 +72,6 @@ public class DebugFarmCommand extends CommandBase {
     }
 
 
-    @SuppressWarnings("unused")
     public void cropcache_cmd() throws CivException {
         Player player = getPlayer();
 
@@ -90,7 +87,6 @@ public class DebugFarmCommand extends CommandBase {
         CivMessage.sendSuccess(player, "Flashed cached crops.");
     }
 
-    @SuppressWarnings("unused")
     public void grow_cmd() throws CivException {
 
         int count = getNamedInteger(1);
@@ -100,7 +96,6 @@ public class DebugFarmCommand extends CommandBase {
         CivMessage.sendSuccess(sender, "Grew all farms.");
     }
 
-    @SuppressWarnings("unused")
     public void cache_cmd() {
         TaskMaster.syncTask(new FarmPreCachePopulateTimer());
     }

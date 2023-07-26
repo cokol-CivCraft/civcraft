@@ -28,7 +28,10 @@ import org.bukkit.inventory.ItemStack;
 
 import java.io.IOException;
 import java.sql.ResultSet;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Random;
 
 public class WarCamp extends Buildable implements RespawnLocationHolder {
 
@@ -38,67 +41,51 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
 
     public static void newCamp(Resident resident, ConfigBuildableInfo info) {
 
-        class SyncBuildWarCampTask implements Runnable {
-            final Resident resident;
-            final ConfigBuildableInfo info;
-
-            public SyncBuildWarCampTask(Resident resident, ConfigBuildableInfo info) {
-                this.resident = resident;
-                this.info = info;
+        TaskMaster.syncTask(() -> {
+            Player player;
+            try {
+                player = CivGlobal.getPlayer(resident);
+            } catch (CivException e) {
+                return;
             }
 
-            @Override
-            public void run() {
-                Player player;
+            try {
+                if (!resident.hasTown()) {
+                    throw new CivException(CivSettings.localize.localizedString("warcamp_notInCiv"));
+                }
+
+                if (!resident.getCiv().getLeaderGroup().hasMember(resident) && !resident.getCiv().getAdviserGroup().hasMember(resident)) {
+                    throw new CivException(CivSettings.localize.localizedString("warcamp_mustHaveRank"));
+                }
+
+                int warCampMax;
                 try {
-                    player = CivGlobal.getPlayer(resident);
-                } catch (CivException e) {
+                    warCampMax = CivSettings.getInteger(CivSettings.warConfig, "warcamp.max");
+                } catch (InvalidConfiguration e) {
+                    e.printStackTrace();
                     return;
                 }
 
-                try {
-                    if (!resident.hasTown()) {
-                        throw new CivException(CivSettings.localize.localizedString("warcamp_notInCiv"));
-                    }
-
-                    if (!resident.getCiv().getLeaderGroup().hasMember(resident) &&
-                            !resident.getCiv().getAdviserGroup().hasMember(resident)) {
-                        throw new CivException(CivSettings.localize.localizedString("warcamp_mustHaveRank"));
-                    }
-
-                    int warCampMax;
-                    try {
-                        warCampMax = CivSettings.getInteger(CivSettings.warConfig, "warcamp.max");
-                    } catch (InvalidConfiguration e) {
-                        e.printStackTrace();
-                        return;
-                    }
-
-                    if (resident.getCiv().getWarCamps().size() >= warCampMax) {
-                        throw new CivException(CivSettings.localize.localizedString("var_warcamp_maxReached", warCampMax));
-                    }
-
-                    ItemStack stack = player.getInventory().getItemInMainHand();
-                    LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(stack);
-                    if (craftMat == null || !craftMat.hasComponent("FoundWarCamp")) {
-                        throw new CivException(CivSettings.localize.localizedString("warcamp_missingItem"));
-                    }
-
-                    WarCamp camp = new WarCamp(resident, player.getLocation(), info);
-                    camp.buildCamp(player, player.getLocation());
-                    resident.getCiv().addWarCamp(camp);
-
-                    CivMessage.sendSuccess(player, CivSettings.localize.localizedString("warcamp_createSuccess"));
-                    camp.setWarCampBuilt();
-                    ItemStack newStack = new ItemStack(Material.AIR);
-                    player.getInventory().setItemInMainHand(newStack);
-                } catch (CivException e) {
-                    CivMessage.sendError(player, e.getMessage());
+                if (resident.getCiv().getWarCamps().size() >= warCampMax) {
+                    throw new CivException(CivSettings.localize.localizedString("var_warcamp_maxReached", warCampMax));
                 }
-            }
-        }
 
-        TaskMaster.syncTask(new SyncBuildWarCampTask(resident, info));
+                LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(player.getInventory().getItemInMainHand());
+                if (craftMat == null || !craftMat.hasComponent("FoundWarCamp")) {
+                    throw new CivException(CivSettings.localize.localizedString("warcamp_missingItem"));
+                }
+
+                WarCamp camp = new WarCamp(resident, player.getLocation(), info);
+                camp.buildCamp(player, player.getLocation());
+                resident.getCiv().addWarCamp(camp);
+
+                CivMessage.sendSuccess(player, CivSettings.localize.localizedString("warcamp_createSuccess"));
+                camp.setWarCampBuilt();
+                player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+            } catch (CivException e) {
+                CivMessage.sendError(player, e.getMessage());
+            }
+        });
     }
 
     public String getSessionKey() {
@@ -514,11 +501,6 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
     @Override
     public String getRespawnName() {
         return "WarCamp\n(" + this.corner.getX() + "," + this.corner.getY() + "," + this.corner.getZ() + ")";
-    }
-
-    @Override
-    public List<BlockCoord> getRespawnPoints() {
-        return this.getRespawnPoints();
     }
 
     @Override

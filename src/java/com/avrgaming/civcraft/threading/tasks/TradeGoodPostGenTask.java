@@ -83,7 +83,7 @@ public class TradeGoodPostGenTask implements Runnable {
         }
 
     }
-
+    @SuppressWarnings("BusyWait")
     @Override
     public void run() {
         CivLog.info("Generating/Clearing Trade goods...");

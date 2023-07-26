@@ -23,34 +23,18 @@
  */
 package gpl;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.UUID;
-
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
+import com.avrgaming.civcraft.util.NBTStaticHelper;
+import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftInventoryPlayer;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.Vector;
 
-import com.avrgaming.civcraft.util.NBTStaticHelper;
-
-import net.minecraft.server.v1_12_R1.AttributeMapBase;
-import net.minecraft.server.v1_12_R1.AttributeMapServer;
-import net.minecraft.server.v1_12_R1.GenericAttributes;
-import net.minecraft.server.v1_12_R1.NBTCompressedStreamTools;
-import net.minecraft.server.v1_12_R1.NBTTagCompound;
-import net.minecraft.server.v1_12_R1.NBTTagDouble;
-import net.minecraft.server.v1_12_R1.NBTTagFloat;
-import net.minecraft.server.v1_12_R1.NBTTagList;
-import net.minecraft.server.v1_12_R1.PlayerAbilities;
-import net.minecraft.server.v1_12_R1.PlayerInventory;
+import java.io.File;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * @version 1.6.0

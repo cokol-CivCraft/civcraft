@@ -34,7 +34,6 @@ import com.avrgaming.civcraft.road.Road;
 import com.avrgaming.civcraft.road.RoadBlock;
 import com.avrgaming.civcraft.structure.*;
 import com.avrgaming.civcraft.structure.farm.FarmChunk;
-import com.avrgaming.civcraft.structure.wonders.Battledome;
 import com.avrgaming.civcraft.structure.wonders.GrandShipIngermanland;
 import com.avrgaming.civcraft.threading.CivAsyncTask;
 import com.avrgaming.civcraft.threading.TaskMaster;
@@ -387,11 +386,6 @@ public class BlockListener implements Listener {
             return;
         }
         if (event.getSpawnReason().equals(SpawnReason.CUSTOM)) {
-            return;
-        }
-        Battledome battledome = Battledome.battledomeChunks.get(new ChunkCoord(event.getEntity().getLocation()));
-
-        if (battledome != null) {
             return;
         }
 
@@ -1404,11 +1398,6 @@ public class BlockListener implements Listener {
         Pasture pasture = Pasture.pastureEntities.get(event.getEntity().getUniqueId());
         if (pasture != null) {
             pasture.onEntityDeath(event.getEntity());
-        }
-
-        Battledome battledome = Battledome.battledomeEntities.get(event.getEntity().getUniqueId());
-        if (battledome != null) {
-            battledome.onEntityDeath(event.getEntity());
         }
     }
 

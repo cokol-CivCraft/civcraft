@@ -82,7 +82,7 @@ public abstract class CommandBase implements TabExecutor {
     public String command = "FIXME";
     protected String displayName = "FIXME";
     protected boolean sendUnknownToDefault = false;
-    protected DecimalFormat df = new DecimalFormat();
+    protected final DecimalFormat df = new DecimalFormat();
 
     public Town senderTownOverride = null;
     public Civilization senderCivOverride = null;

@@ -24,7 +24,6 @@ public class AdminRoadCommand extends CommandBase {
         register_sub("setraidtime", this::setraidtime_cmd, CivSettings.localize.localizedString("adcmd_road_setRaidTimeDesc"));
     }
 
-    @SuppressWarnings("unused")
     public void setraidtime_cmd() throws CivException {
         Town town = getNamedTown(1);
         Player player = getPlayer();

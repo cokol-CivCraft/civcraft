@@ -29,7 +29,6 @@ import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.exception.InvalidNameException;
-import com.avrgaming.civcraft.exception.InvalidObjectException;
 import com.avrgaming.civcraft.items.components.Tagged;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.main.CivData;
@@ -111,49 +110,31 @@ public class Camp extends Buildable {
 
     public static void newCamp(Resident resident, Player player, String name) {
 
-        class SyncTask implements Runnable {
-
-            final Resident resident;
-            final String name;
-            final Player player;
-
-            public SyncTask(Resident resident, String name, Player player) {
-                this.resident = resident;
-                this.name = name;
-                this.player = player;
-            }
-
-            @Override
-            public void run() {
-                try {
-                    Camp existCamp = CivGlobal.getCamp(name);
-                    if (existCamp != null) {
-                        throw new CivException("(" + name + ") " + CivSettings.localize.localizedString("camp_nameTaken"));
-                    }
-
-                    ItemStack stack = player.getInventory().getItemInMainHand();
-                    LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(stack);
-                    if (craftMat == null || !craftMat.hasComponent("FoundCamp")) {
-                        throw new CivException(CivSettings.localize.localizedString("camp_missingItem"));
-                    }
-
-                    Camp camp = new Camp(resident, name, player.getLocation());
-                    camp.buildCamp(player, player.getLocation());
-                    camp.setUndoable(true);
-                    CivGlobal.addCamp(camp);
-                    camp.save();
-
-                    CivMessage.sendSuccess(player, CivSettings.localize.localizedString("camp_createSuccess"));
-                    ItemStack newStack = new ItemStack(Material.AIR);
-                    player.getInventory().setItemInMainHand(newStack);
-                    resident.clearInteractiveMode();
-                } catch (CivException e) {
-                    CivMessage.sendError(player, e.getMessage());
+        TaskMaster.syncTask(() -> {
+            try {
+                Camp existCamp = CivGlobal.getCamp(name);
+                if (existCamp != null) {
+                    throw new CivException("(" + name + ") " + CivSettings.localize.localizedString("camp_nameTaken"));
                 }
-            }
-        }
 
-        TaskMaster.syncTask(new SyncTask(resident, name, player));
+                LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(player.getInventory().getItemInMainHand());
+                if (craftMat == null || !craftMat.hasComponent("FoundCamp")) {
+                    throw new CivException(CivSettings.localize.localizedString("camp_missingItem"));
+                }
+
+                Camp camp = new Camp(resident, name, player.getLocation());
+                camp.buildCamp(player, player.getLocation());
+                camp.setUndoable(true);
+                CivGlobal.addCamp(camp);
+                camp.save();
+
+                CivMessage.sendSuccess(player, CivSettings.localize.localizedString("camp_createSuccess"));
+                player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+                resident.clearInteractiveMode();
+            } catch (CivException e) {
+                CivMessage.sendError(player, e.getMessage());
+            }
+        });
     }
 
     public Camp(Resident owner, String name, Location corner) throws CivException {
@@ -177,7 +158,7 @@ public class Camp extends Buildable {
         loadSettings();
     }
 
-    public Camp(ResultSet rs) throws SQLException, InvalidNameException, InvalidObjectException, CivException {
+    public Camp(ResultSet rs) throws SQLException, InvalidNameException {
         this.load(rs);
         loadSettings();
     }

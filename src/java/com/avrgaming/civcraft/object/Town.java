@@ -46,8 +46,6 @@ import com.avrgaming.civcraft.threading.tasks.BuildAsyncTask;
 import com.avrgaming.civcraft.threading.tasks.BuildUndoTask;
 import com.avrgaming.civcraft.util.*;
 import com.avrgaming.civcraft.war.War;
-import com.avrgaming.global.perks.Perk;
-import com.avrgaming.global.perks.components.CustomTemplate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -61,24 +59,24 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static java.lang.Math.max;
+
 public class Town extends SQLObject {
 
-    private final ConcurrentHashMap<String, Resident> residents = new ConcurrentHashMap<>();
-    private final ConcurrentHashMap<String, Resident> fakeResidents = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, Resident> residents = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, Resident> fakeResidents = new ConcurrentHashMap<>();
 
-    private final ConcurrentHashMap<ChunkCoord, TownChunk> townChunks = new ConcurrentHashMap<>();
-    private final ConcurrentHashMap<ChunkCoord, TownChunk> outposts = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<ChunkCoord, TownChunk> townChunks = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<ChunkCoord, TownChunk> outposts = new ConcurrentHashMap<>();
     private ConcurrentHashMap<ChunkCoord, CultureChunk> cultureChunks = new ConcurrentHashMap<>();
 
-    private final ConcurrentHashMap<BlockCoord, Wonder> wonders = new ConcurrentHashMap<>();
-    private final ConcurrentHashMap<BlockCoord, Structure> structures = new ConcurrentHashMap<>();
-    private final ConcurrentHashMap<BlockCoord, Buildable> disabledBuildables = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<BlockCoord, Wonder> wonders = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<BlockCoord, Structure> structures = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<BlockCoord, Buildable> disabledBuildables = new ConcurrentHashMap<>();
 
     private final ArrayList<Granary> granaryAL = new ArrayList<Granary>();
 
     private int level;
-    private double taxRate;
-    private double flatTax;
     private Civilization civ;
     private Civilization motherCiv;
     private int daysInDebt;
@@ -187,8 +185,6 @@ public class Town extends SQLObject {
                     "`granaryResources` mediumtext DEFAULT NULL," +
                     "`coins` double DEFAULT 0," +
                     "`daysInDebt` int(11) DEFAULT 0," +
-                    "`flat_tax` double NOT NULL DEFAULT '0'," +
-                    "`tax_rate` double DEFAULT 0," +
                     "`extra_hammers` double DEFAULT 0," +
                     "`culture` int(11) DEFAULT 0," +
                     "`created_date` long," +
@@ -219,7 +215,7 @@ public class Town extends SQLObject {
         this.granaryResources = rs.getString("granaryResources");
         this.setCiv(CivGlobal.getCivFromId(rs.getInt("civ_id")));
 
-        Integer motherCivId = rs.getInt("mother_civ_id");
+        int motherCivId = rs.getInt("mother_civ_id");
         if (motherCivId != 0) {
             Civilization mother = CivGlobal.getConqueredCivFromId(motherCivId);
             if (mother == null) {
@@ -240,8 +236,6 @@ public class Town extends SQLObject {
             throw new CivException("Failed to load town, bad data.");
         }
         this.setDaysInDebt(rs.getInt("daysInDebt"));
-        this.setFlatTax(rs.getDouble("flat_tax"));
-        this.setTaxRate(rs.getDouble("tax_rate"));
         this.setUpgradesFromString(rs.getString("upgrades"));
 
         //this.setHomeChunk(rs.getInt("homechunk_id"));
@@ -263,7 +257,7 @@ public class Town extends SQLObject {
             this.outlaws.addAll(Arrays.asList(outlaws));
         }
 
-        Long ctime = rs.getLong("created_date");
+        long ctime = rs.getLong("created_date");
         if (ctime == 0) {
             this.setCreated(new Date(0)); //Forever in the past.
         } else {
@@ -297,8 +291,6 @@ public class Town extends SQLObject {
         hashmap.put("level", this.getLevel());
         hashmap.put("debt", this.getTreasury().getDebt());
         hashmap.put("daysInDebt", this.getDaysInDebt());
-        hashmap.put("flat_tax", this.getFlatTax());
-        hashmap.put("tax_rate", this.getTaxRate());
         hashmap.put("extra_hammers", this.getExtraHammers());
         hashmap.put("culture", this.getAccumulatedCulture());
         hashmap.put("upgrades", this.getUpgradesString());
@@ -385,8 +377,6 @@ public class Town extends SQLObject {
     public Town(String name, Resident mayor, Civilization civ) throws InvalidNameException {
         this.setName(name);
         this.setLevel(1);
-        this.setTaxRate(0.0);
-        this.setFlatTax(0.0);
         this.setCiv(civ);
 
         this.setDaysInDebt(0);
@@ -528,27 +518,6 @@ public class Town extends SQLObject {
 //		}
 
         this.level = level;
-    }
-
-    public double getTaxRate() {
-        return taxRate;
-    }
-
-    public void setTaxRate(double taxRate) {
-        this.taxRate = taxRate;
-    }
-
-    public String getTaxRateString() {
-        long rounded = Math.round(this.taxRate * 100);
-        return rounded + "%";
-    }
-
-    public double getFlatTax() {
-        return flatTax;
-    }
-
-    public void setFlatTax(double flatTax) {
-        this.flatTax = flatTax;
     }
 
     public Civilization getCiv() {
@@ -1255,53 +1224,6 @@ public class Town extends SQLObject {
         resident.save();
         this.save();
         Player player = Bukkit.getPlayer(resident.getUUID());
-    }
-
-    public double collectPlotTax() {
-        double total = 0;
-        for (Resident resident : this.residents.values()) {
-            if (!resident.hasTown()) {
-                CivLog.warning("Resident in town list but doesnt have a town! Resident:" + resident.getName() + " town:" + this.getName());
-                continue;
-            }
-
-            if (resident.isTaxExempt()) {
-                continue;
-            }
-            double tax = resident.getPropertyTaxOwed();
-            boolean wasInDebt = resident.getTreasury().inDebt();
-
-            total += resident.getTreasury().payToCreditor(this.getTreasury(), tax);
-
-            if (resident.getTreasury().inDebt() && !wasInDebt) {
-                resident.onEnterDebt();
-            }
-        }
-
-        return total;
-    }
-
-    public double collectFlatTax() {
-        double total = 0;
-        for (Resident resident : this.residents.values()) {
-            if (!resident.hasTown()) {
-                CivLog.warning("Resident in town list but doesnt have a town! Resident:" + resident.getName() + " town:" + this.getName());
-                continue;
-            }
-
-            if (resident.isTaxExempt()) {
-                continue;
-            }
-            boolean wasInDebt = resident.getTreasury().inDebt();
-
-            total += resident.getTreasury().payToCreditor(this.getTreasury(), this.getFlatTax());
-
-            if (resident.getTreasury().inDebt() && !wasInDebt) {
-                resident.onEnterDebt();
-            }
-        }
-
-        return total;
     }
 
     public Collection<TownChunk> getTownChunks() {
@@ -2442,7 +2364,7 @@ public class Town extends SQLObject {
 
     public void validateResidentSelect(Resident resident) throws CivException {
         if (this.getMayorGroup() == null || this.getAssistantGroup() == null || this.getDefaultGroup() == null ||
-                this.getCiv().getLeaderGroup() == null || this.getAssistantGroup() == null) {
+                this.getCiv().getLeaderGroup() == null) {
             throw new CivException(CivSettings.localize.localizedString("town_validateSelect_error1"));
         }
 
@@ -2482,8 +2404,7 @@ public class Town extends SQLObject {
                 continue;
             }
 
-            boolean touches = t.touchesCapitolCulture(closedSet);
-            if (touches) {
+            if (t.touchesCapitolCulture(closedSet)) {
                 return true;
             }
         }
@@ -2610,54 +2531,50 @@ public class Town extends SQLObject {
     }
 
     public AttrSource getFaith() {
-        double faith = 0;
-        HashMap<String, Double> sources = new HashMap<String, Double>();
+        HashMap<String, Double> sources = new HashMap<>();
 
         /* Grab beakers generated from culture. */
-        double fromCulture = 0;
+        double fromCulture;
         if (this.cultureChunks != null) {
-            for (CultureChunk cc : this.cultureChunks.values()) {
-                fromCulture += cc.getFaith();
-            }
+            fromCulture = this.cultureChunks.values().stream().mapToDouble(CultureChunk::getFaith).sum();
+        } else {
+            fromCulture = 0;
         }
         sources.put("Culture Biomes", fromCulture);
-        faith += fromCulture;
 
         /* Grab beakers generated from structures with components. */
         double fromStructures = 0;
         for (Structure struct : this.structures.values()) {
             for (Component comp : struct.attachedComponents) {
-                if (comp instanceof AttributeBase) {
-                    AttributeBase as = (AttributeBase) comp;
-                    if (as.getString("attribute").equalsIgnoreCase("FAITH")) {
-                        fromStructures += as.getGenerated();
-                    }
+                if (!(comp instanceof AttributeBase)) {
+                    continue;
+                }
+                AttributeBase as = (AttributeBase) comp;
+                if (as.getString("attribute").equalsIgnoreCase("FAITH")) {
+                    fromStructures += as.getGenerated();
                 }
             }
         }
         for (Wonder w : this.wonders.values()) {
             for (Component comp : w.attachedComponents) {
-                if (comp instanceof AttributeBase) {
-                    AttributeBase as = (AttributeBase) comp;
-                    if (as.getString("attribute").equalsIgnoreCase("FAITH")) {
-                        fromStructures += as.getGenerated();
-                    }
+                if (!(comp instanceof AttributeBase)) {
+                    continue;
+                }
+                AttributeBase as = (AttributeBase) comp;
+                if (as.getString("attribute").equalsIgnoreCase("FAITH")) {
+                    fromStructures += as.getGenerated();
                 }
             }
         }
 
-        faith += fromStructures;
         sources.put("Structures", fromStructures);
-        faith = Math.max(faith, 0);
-        AttrSource rates = getFaithRate();
-        faith = faith * rates.total;
-        if (faith < 0) {
-            faith = 0;
-        }
-        return new AttrSource(sources, faith, null);
+        return new AttrSource(sources, max((fromCulture + fromStructures) * getFaithRate().total, 0), null);
     }
 
     public AttrSource getFaithRate() {
+        double rate = 0.0;
+        HashMap<String, Double> rates = new HashMap<>();
+
         ConfigHappinessState state = this.getHappinessState();
         double rate = state.culture_rate;
         HashMap<String, Double> rates = new HashMap<String, Double>();
@@ -2824,7 +2741,7 @@ public class Town extends SQLObject {
         sources.put("Education", educationBeakers); */
 
         /* Make sure we never give out negative beakers. */
-        beakers = Math.max(beakers, 0);
+        beakers = max(beakers, 0);
         AttrSource rates = getBeakerRate();
 
 
@@ -3014,11 +2931,12 @@ public class Town extends SQLObject {
         double structures = 0;
         for (Structure struct : this.structures.values()) {
             for (Component comp : struct.attachedComponents) {
-                if (comp instanceof AttributeBase) {
-                    AttributeBase as = (AttributeBase) comp;
-                    if (as.getString("attribute").equalsIgnoreCase("UNHAPPINESS")) {
-                        structures += as.getGenerated();
-                    }
+                if (!(comp instanceof AttributeBase)) {
+                    continue;
+                }
+                AttributeBase as = (AttributeBase) comp;
+                if (as.getString("attribute").equalsIgnoreCase("UNHAPPINESS")) {
+                    structures += as.getGenerated();
                 }
             }
         }
@@ -3055,11 +2973,7 @@ public class Town extends SQLObject {
     }
 
     public double getHappinessPercentage() {
-        double total_happiness = getHappiness().total;
-        double total_unhappiness = getUnhappiness().total;
-
-        double total = total_happiness + total_unhappiness;
-        return total_happiness / total;
+        return getHappiness().total / (getHappiness().total + getUnhappiness().total);
     }
 
     public ConfigHappinessState getHappinessState() {
@@ -3107,7 +3021,6 @@ public class Town extends SQLObject {
     public boolean processSpyExposure(Resident resident) {
         double exposure = resident.getSpyExposure();
         double percent = exposure / Resident.MAX_SPY_EXPOSURE;
-        boolean failed = false;
 
         Player player;
         try {
@@ -3121,7 +3034,6 @@ public class Town extends SQLObject {
         try {
 
             if (percent >= CivSettings.getDouble(CivSettings.espionageConfig, "espionage.town_exposure_failure")) {
-                failed = true;
                 CivMessage.sendTown(this, CivColor.Yellow + CivColor.BOLD + CivSettings.localize.localizedString("town_spy_thwarted"));
                 return true;
             }
@@ -3149,15 +3061,6 @@ public class Town extends SQLObject {
         }
 
         return false;
-    }
-
-    public ArrayList<Perk> getTemplatePerks(Buildable buildable, Resident resident, ConfigBuildableInfo info) {
-        ArrayList<Perk> perks = CustomTemplate.getTemplatePerksForBuildable(this, buildable.getTemplateBaseName());
-
-        perks.addAll(resident.getPersonalTemplatePerks(info));
-        perks.addAll(resident.getUnboundTemplatePerks(perks, info));
-
-        return perks;
     }
 
     public RandomEvent getActiveEvent() {
@@ -3190,7 +3093,6 @@ public class Town extends SQLObject {
         }
 
         if (this.lastBuildableRefresh != null) {
-            Date now = new Date();
             int buildable_refresh_cooldown;
             try {
                 buildable_refresh_cooldown = CivSettings.getInteger(CivSettings.townConfig, "town.buildable_refresh_cooldown");
@@ -3199,13 +3101,12 @@ public class Town extends SQLObject {
                 throw new CivException(CivSettings.localize.localizedString("internalCommandException"));
             }
 
-            if (now.getTime() < this.lastBuildableRefresh.getTime() + ((long) buildable_refresh_cooldown * 60 * 1000)) {
+            if (new Date().getTime() < this.lastBuildableRefresh.getTime() + ((long) buildable_refresh_cooldown * 60 * 1000)) {
                 throw new CivException(CivSettings.localize.localizedString("var_town_refresh_wait1", buildable_refresh_cooldown));
             }
         }
 
-        Player player = CivGlobal.getPlayer(resident);
-        Buildable buildable = CivGlobal.getNearestBuildable(player.getLocation());
+        Buildable buildable = CivGlobal.getNearestBuildable(CivGlobal.getPlayer(resident).getLocation());
         if (buildable == null) {
             throw new CivException(CivSettings.localize.localizedString("town_refresh_couldNotFind"));
         }
@@ -3226,10 +3127,8 @@ public class Town extends SQLObject {
     }
 
     public boolean areMayorsInactive() {
-
-        int mayor_inactive_days;
         try {
-            mayor_inactive_days = CivSettings.getInteger(CivSettings.townConfig, "town.mayor_inactive_days");
+            int mayor_inactive_days = CivSettings.getInteger(CivSettings.townConfig, "town.mayor_inactive_days");
             for (Resident resident : this.getMayorGroup().getMemberList()) {
                 if (!resident.isInactiveForDays(mayor_inactive_days)) {
                     return false;
@@ -3245,9 +3144,7 @@ public class Town extends SQLObject {
     }
 
     public void rename(String name) throws CivException, InvalidNameException {
-
-        Town other = CivGlobal.getTown(name);
-        if (other != null) {
+        if (CivGlobal.getTown(name) != null) {
             throw new CivException(CivSettings.localize.localizedString("town_rename_errorExists"));
         }
 
@@ -3278,25 +3175,19 @@ public class Town extends SQLObject {
         }
 
         for (ChunkCoord coord : removedKeys) {
-            CultureChunk cc = CivGlobal.getCultureChunk(coord);
-            CivGlobal.removeCultureChunk(cc);
+            CivGlobal.removeCultureChunk(CivGlobal.getCultureChunk(coord));
             this.cultureChunks.remove(coord);
         }
     }
 
     public ChunkCoord getTownCultureOrigin() {
         /* Culture now only eminates from the town hall. */
-        TownHall townhall = this.getTownHall();
-        ChunkCoord coord;
-        if (townhall == null) {
+        if (this.getTownHall() == null) {
             /* if no town hall, pick a 'random' town chunk' */
-            coord = this.getTownChunks().iterator().next().getChunkCoord();
-        } else {
-            /* Grab town chunk from town hall location. */
-            coord = new ChunkCoord(townhall.getCenterLocation());
+            return this.getTownChunks().iterator().next().getChunkCoord();
         }
-
-        return coord;
+        /* Grab town chunk from town hall location. */
+        return new ChunkCoord(this.getTownHall().getCenterLocation());
     }
 
     public Date getCreated() {
@@ -3320,15 +3211,12 @@ public class Town extends SQLObject {
     }
 
     public int getGiftCost() {
-        int gift_cost;
         try {
-            gift_cost = CivSettings.getInteger(CivSettings.civConfig, "civ.gift_cost_per_town");
+            return CivSettings.getInteger(CivSettings.civConfig, "civ.gift_cost_per_town");
         } catch (InvalidConfiguration e) {
             e.printStackTrace();
             return 0;
         }
-
-        return gift_cost;
     }
 
     public void clearBonusGoods() {
@@ -3336,7 +3224,6 @@ public class Town extends SQLObject {
     }
 
     public void processStructureFlipping(HashMap<ChunkCoord, Structure> centerCoords) {
-
         for (CultureChunk cc : this.cultureChunks.values()) {
             Structure struct = centerCoords.get(cc.getChunkCoord());
             if (struct == null) {
@@ -3364,14 +3251,14 @@ public class Town extends SQLObject {
 
     public ArrayList<Player> getOnlinePlayers() {
         ArrayList<Player> online = new ArrayList<>();
-        Player p = null;
         for (Resident r : this.getResidents()) {
+            Player p;
             try {
                 p = CivGlobal.getPlayer(r);
             } catch (CivException e) {
                 e.printStackTrace();
+                throw new RuntimeException(e);
             }
-            assert p != null;
             if (p.isOnline()) {
                 online.add(p);
             }

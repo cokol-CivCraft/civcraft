@@ -27,7 +27,6 @@ public class DebugWorldCommand extends CommandBase {
         register_sub("createarena", this::createarena_cmd, "[name] - creates and arena with the given name");
     }
 
-    @SuppressWarnings("unused")
     public void createarena_cmd() throws CivException {
         String name = getNamedString(1, "enter a arena name.");
 
@@ -36,7 +35,6 @@ public class DebugWorldCommand extends CommandBase {
         CivMessage.sendSuccess(sender, "Created arena:" + arena.name);
     }
 
-    @SuppressWarnings("unused")
     public void list_cmd() {
         CivMessage.sendHeading(sender, "Worlds");
         for (World world : Bukkit.getWorlds()) {
@@ -44,7 +42,6 @@ public class DebugWorldCommand extends CommandBase {
         }
     }
 
-    @SuppressWarnings("unused")
     public void create_cmd() throws CivException {
         String name = getNamedString(1, "enter a world name");
 
@@ -61,7 +58,6 @@ public class DebugWorldCommand extends CommandBase {
 
     }
 
-    @SuppressWarnings("unused")
     public void tp_cmd() throws CivException {
         String name = getNamedString(1, "enter a world name");
         Player player = getPlayer();

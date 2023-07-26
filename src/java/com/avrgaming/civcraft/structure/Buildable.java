@@ -20,10 +20,12 @@ package com.avrgaming.civcraft.structure;
 import com.avrgaming.civcraft.components.Component;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigBuildableInfo;
+import com.avrgaming.civcraft.config.ConfigTemplate;
 import com.avrgaming.civcraft.config.ConfigTownLevel;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.interactive.InteractiveBuildCommand;
+import com.avrgaming.civcraft.loregui.GuiActions;
 import com.avrgaming.civcraft.lorestorage.LoreGuiItem;
 import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
@@ -44,7 +46,6 @@ import com.avrgaming.civcraft.tutorial.CivTutorial;
 import com.avrgaming.civcraft.util.*;
 import com.avrgaming.civcraft.util.SimpleBlock.Type;
 import com.avrgaming.civcraft.war.War;
-import com.avrgaming.global.perks.Perk;
 import com.wimbli.WorldBorder.BorderData;
 import com.wimbli.WorldBorder.Config;
 import org.bukkit.*;
@@ -64,9 +65,6 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class Buildable extends SQLObject {
-
-    protected BlockCoord mobSpawnerCoord;
-    protected MobSpawner mobSpawner = null;
     private Town town;
     protected BlockCoord corner;
     public ConfigBuildableInfo info = new ConfigBuildableInfo(); //Blank buildable info for buildables which do not have configs.
@@ -111,80 +109,6 @@ public abstract class Buildable extends SQLObject {
     public AABB templateBoundingBox = null;
     public String invalidLayerMessage = "";
 
-    public MobSpawner getMobSpawner() {
-        try {
-            Template tpl = new Template();
-            Block centerBlock = this.getCorner().getBlock();
-            tpl.initTemplate(this.getCenterLocation().getLocation(), this);
-            for (int x = 0; x < tpl.size_x; x++) {
-                for (int y = 0; y < tpl.size_y; y++) {
-                    for (int z = 0; z < tpl.size_z; z++) {
-                        Block b = centerBlock.getRelative(x, y, z);
-                        BlockCoord coord = new BlockCoord(b);
-                        ProtectedBlock pb = CivGlobal.getProtectedBlock(coord);
-                        if (pb != null && pb.getType() == ProtectedBlock.Type.MOB_SPAWNER_MARKER) {
-                            MobSpawner spawner = CivGlobal.getMobSpawner(coord);
-                            if (spawner != null) {
-                                return spawner;
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            return null;
-        }
-        return null;
-    }
-
-    public BlockCoord getMobSpawnerCoord() {
-
-
-        return mobSpawnerCoord;
-    }
-
-    public void setMobSpawnerCoord(BlockCoord mobSpawnerCoord) {
-        this.mobSpawnerCoord = mobSpawnerCoord;
-    }
-
-    public void disableMobSpawner() {
-        /* Disable Mob Spawner When structure is built. */
-        MobSpawner spawner = getMobSpawner();
-        if (spawner == null) {
-            return;
-        }
-        spawner.setActive(false);
-        spawner.setBuildable(this.getId());
-        spawner.setCiv(this.getTown().getCiv());
-
-        /* Save the spawner *afterwards* so the structure id is properly set. */
-        try {
-            spawner.saveNow();
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    public void enableMobSpawner() {
-        /* Enable Mob Spawner When structure is removed. */
-        MobSpawner spawner = getMobSpawner();
-        if (spawner == null) {
-            return;
-        }
-        spawner.setActive(true);
-        spawner.setBuildable(0);
-        spawner.setCiv(null);
-        /* Save the spawner *afterwards* so the structure id is properly set. */
-        try {
-            spawner.saveNow();
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    /* True when the corner has been repositioned during the build process. */
     public Town getTown() {
         return town;
     }
@@ -444,7 +368,6 @@ public abstract class Buildable extends SQLObject {
             }
         }
 
-        this.disableMobSpawner();
         this.save();
     }
 
@@ -452,60 +375,48 @@ public abstract class Buildable extends SQLObject {
 
         /* Look for any custom template perks and ask the player if they want to use them. */
         Resident resident = CivGlobal.getResident(player);
-        ArrayList<Perk> perkList = this.getTown().getTemplatePerks(this, resident, this.info);
-        ArrayList<Perk> personalUnboundPerks = resident.getUnboundTemplatePerks(perkList, this.info);
-        if (perkList.size() != 0 || personalUnboundPerks.size() != 0) {
-            /* Store the pending buildable. */
-            resident.pendingBuildable = this;
-
-            /* Build an inventory full of templates to select. */
-            Inventory inv = Bukkit.getServer().createInventory(player, CivTutorial.MAX_CHEST_SIZE * 9);
-            ItemStack infoRec = LoreGuiItem.build(
-                    CivSettings.localize.localizedString("buildable_lore_default") + " " + this.getDisplayName(),
-                    Material.WRITTEN_BOOK,
-                    0,
-                    CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"));
-            infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
-            inv.addItem(infoRec);
-
-            for (Perk perk : perkList) {
-                infoRec = LoreGuiItem.build(perk.getDisplayName(),
-                        perk.configPerk.type_id,
-                        perk.configPerk.data, CivColor.Gold + "<Click To Build>",
-                        CivColor.Gray + "Provided by: " + CivColor.LightBlue + perk.provider);
-                infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
-                infoRec = LoreGuiItem.setActionData(infoRec, "perk", perk.getIdent());
-                inv.addItem(infoRec);
+        ArrayList<ConfigTemplate> perkList = Structure.getTemplates(this.info);
+        if (perkList.size() == 0) {
+            Template tpl = new Template();
+            try {
+                tpl.initTemplate(centerLoc, this);
+            } catch (CivException | IOException e) {
+                e.printStackTrace();
+                throw e;
             }
 
-            for (Perk perk : personalUnboundPerks) {
-                infoRec = LoreGuiItem.build(perk.getDisplayName(),
-                        Material.BEDROCK,
-                        perk.configPerk.data, CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"),
-                        CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_unbound"),
-                        CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_unbound2"),
-                        CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_unbound3"),
-                        CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_unbound4"),
-                        CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_unbound5"));
-                infoRec = LoreGuiItem.setAction(infoRec, "ActivatePerk");
-                infoRec = LoreGuiItem.setActionData(infoRec, "perk", perk.getIdent());
-
-            }
-
-            /* We will resume by calling buildPlayerPreview with the template when a gui item is clicked. */
-            player.openInventory(inv);
+            buildPlayerPreview(player, centerLoc, tpl);
             return;
         }
+        /* Store the pending buildable. */
+        resident.pendingBuildable = this;
 
-        Template tpl = new Template();
-        try {
-            tpl.initTemplate(centerLoc, this);
-        } catch (CivException | IOException e) {
-            e.printStackTrace();
-            throw e;
+        /* Build an inventory full of templates to select. */
+        Inventory inv = Bukkit.getServer().createInventory(player, CivTutorial.MAX_CHEST_SIZE * 9);
+        ItemStack infoRec = LoreGuiItem.build(
+                CivSettings.localize.localizedString("buildable_lore_default") + " " + this.getDisplayName(),
+                Material.WRITTEN_BOOK,
+                0,
+                CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"));
+        infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithTemplate);
+        inv.addItem(infoRec);
+
+        for (ConfigTemplate perk : perkList) {
+            infoRec = LoreGuiItem.build(
+                    perk.display_name,
+                    perk.type_id,
+                    perk.data,
+                    CivColor.Gold + "<Click To Build>"
+            );
+            infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithTemplate);
+            infoRec = LoreGuiItem.setActionData(infoRec, "theme", perk.theme);
+            inv.addItem(infoRec);
         }
 
-        buildPlayerPreview(player, centerLoc, tpl);
+        /* We will resume by calling buildPlayerPreview with the template when a gui item is clicked. */
+        player.openInventory(inv);
+
+
     }
 
 
@@ -540,49 +451,51 @@ public abstract class Buildable extends SQLObject {
 
         Resident resident = CivGlobal.getResident(player);
         /* Look for any custom template perks and ask the player if they want to use them. */
-        LinkedList<Perk> perkList = resident.getPersonalTemplatePerks(info);
-        if (perkList.size() != 0) {
+        ArrayList<ConfigTemplate> perkList = Structure.getTemplates(info);
+        if (perkList.size() == 0) {
+            String path = Template.getTemplateFilePath(info.template_base_name,
+                    Template.getDirection(player.getLocation()), TemplateType.STRUCTURE, "default");
 
-            /* Store the pending buildable. */
-            resident.pendingBuildableInfo = info;
-            resident.pendingCallback = callback;
-
-            /* Build an inventory full of templates to select. */
-            Inventory inv = Bukkit.getServer().createInventory(player, CivTutorial.MAX_CHEST_SIZE * 9);
-            ItemStack infoRec = LoreGuiItem.build("Default " + info.displayName,
-                    Material.WRITTEN_BOOK,
-                    0, CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"));
-            infoRec = LoreGuiItem.setAction(infoRec, "BuildWithDefaultPersonalTemplate");
-            inv.addItem(infoRec);
-
-            for (Perk perk : perkList) {
-                infoRec = LoreGuiItem.build(perk.getDisplayName(),
-                        perk.configPerk.type_id,
-                        perk.configPerk.data, CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"),
-                        CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_providedBy") + " " + CivColor.LightBlue + CivSettings.localize.localizedString("loreGui_template_Yourself"));
-                infoRec = LoreGuiItem.setAction(infoRec, "BuildWithPersonalTemplate");
-                infoRec = LoreGuiItem.setActionData(infoRec, "perk", perk.getIdent());
-                inv.addItem(infoRec);
-                player.openInventory(inv);
+            Template tpl;
+            try {
+                tpl = Template.getTemplate(path, player.getLocation());
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
             }
-            /* We will resume by calling buildPlayerPreview with the template when a gui item is clicked. */
+
+            centerLoc = repositionCenterStatic(centerLoc, info, tpl.dir(), tpl.size_x, tpl.size_z);
+            //validate(player, null, tpl, centerLoc, callback);
+            TaskMaster.asyncTask(new StructureValidator(player, tpl.getFilepath(), centerLoc, callback), 0);
             return;
         }
 
-        String path = Template.getTemplateFilePath(info.template_base_name,
-                Template.getDirection(player.getLocation()), TemplateType.STRUCTURE, "default");
+        /* Store the pending buildable. */
+        resident.pendingBuildableInfo = info;
+        resident.pendingCallback = callback;
 
-        Template tpl;
-        try {
-            tpl = Template.getTemplate(path, player.getLocation());
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
+        /* Build an inventory full of templates to select. */
+        Inventory inv = Bukkit.getServer().createInventory(player, CivTutorial.MAX_CHEST_SIZE * 9);
+        ItemStack infoRec = LoreGuiItem.build("Default " + info.displayName,
+                Material.WRITTEN_BOOK,
+                0, CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"));
+        infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithDefaultPersonalTemplate);
+        inv.addItem(infoRec);
+
+        for (ConfigTemplate perk : perkList) {
+            infoRec = LoreGuiItem.build(perk.display_name,
+                    perk.type_id,
+                    perk.data,
+                    CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild")
+            );
+            infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithPersonalTemplate);
+            infoRec = LoreGuiItem.setActionData(infoRec, "theme", perk.theme);
+            inv.addItem(infoRec);
+            player.openInventory(inv);
         }
+        /* We will resume by calling buildPlayerPreview with the template when a gui item is clicked. */
 
-        centerLoc = repositionCenterStatic(centerLoc, info, tpl.dir(), tpl.size_x, tpl.size_z);
-        //validate(player, null, tpl, centerLoc, callback);
-        TaskMaster.asyncTask(new StructureValidator(player, tpl.getFilepath(), centerLoc, callback), 0);
+
     }
 
     public void undoFromTemplate() throws CivException {
@@ -606,8 +519,6 @@ public abstract class Buildable extends SQLObject {
         for (BlockCoord coord : this.structureBlocks.keySet()) {
             CivGlobal.removeStructureBlock(coord);
         }
-
-        this.enableMobSpawner();
     }
 
     /*
@@ -904,24 +815,8 @@ public abstract class Buildable extends SQLObject {
                         //not building a trade outpost, prevent protected blocks from being destroyed.
                         ProtectedBlock pb = CivGlobal.getProtectedBlock(coord);
                         if (pb != null) {
-                            if (pb.getType() == ProtectedBlock.Type.MOB_SPAWNER_MARKER) {
-
-
-//							MOB_SPAWNER_MARKER\
-                                MobSpawner spawner = CivGlobal.getMobSpawner(coord);
-                                if (spawner != null) {
-                                    this.setMobSpawnerCoord(coord);
-                                    spawner.setActive(false);
-                                    spawner.setBuildable(this.getId());
-                                    spawner.setCiv(this.getTown().getCiv());
-
-                                    /* Save the spawner *afterwards* so the structure id is properly set. */
-                                    spawner.save();
-                                }
-                            } else {
-                                CivLog.debug("Type: " + pb.getType());
-                                throw new CivException(CivSettings.localize.localizedString("cannotBuild_protectedInWay"));
-                            }
+                            CivLog.debug("Type: " + pb.getType());
+                            throw new CivException(CivSettings.localize.localizedString("cannotBuild_protectedInWay"));
                         }
                     } else {
                         if (CivGlobal.getTradeGood(coord) != null) {
@@ -1042,9 +937,8 @@ public abstract class Buildable extends SQLObject {
         boolean hour = false;
         double millisecondsPerBlock;
         try {
-            hour = CivSettings.getBoolean(CivSettings.civConfig, "structurespeed");
+            hour = CivSettings.getBoolean(CivSettings.civConfig, "global.structurespeed");
         } catch (InvalidConfiguration e) {
-
             e.printStackTrace();
         }
         // We should return the number of milliseconds to wait between each block placement.

@@ -33,8 +33,6 @@ public class TownSetCommand extends CommandBase {
         command = "/town set";
         displayName = CivSettings.localize.localizedString("cmd_town_set_name");
 
-        register_sub("taxrate", this::taxrate_cmd, CivSettings.localize.localizedString("cmd_town_set_taxrateDesc"));
-        register_sub("flattax", this::flattax_cmd, CivSettings.localize.localizedString("cmd_town_set_flattaxDesc"));
         register_sub("bankfee", this::bankfee_cmd, CivSettings.localize.localizedString("cmd_town_set_bankfeeDesc"));
         register_sub("storefee", this::storefee_cmd, CivSettings.localize.localizedString("cmd_town_set_storefeeDesc"));
         register_sub("grocerfee", this::grocerfee_cmd, CivSettings.localize.localizedString("cmd_town_set_grocerfeeDesc"));
@@ -180,39 +178,6 @@ public class TownSetCommand extends CommandBase {
 
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_set_feeSuccess", feeInt));
 
-    }
-
-    public void taxrate_cmd() throws CivException {
-        Town town = getSelectedTown();
-
-        if (args.length < 2) {
-            throw new CivException(CivSettings.localize.localizedString("cmd_town_set_taxratePrompt"));
-        }
-
-        try {
-            town.setTaxRate(Double.parseDouble(args[1]) / 100);
-        } catch (NumberFormatException e) {
-            throw new CivException(args[1] + " " + CivSettings.localize.localizedString("cmd_enterNumerError"));
-        }
-
-        town.quicksave();
-        CivMessage.sendTown(town, CivSettings.localize.localizedString("var_cmd_town_set_taxrateSuccess", args[1]));
-    }
-
-    public void flattax_cmd() throws CivException {
-        Town town = getSelectedTown();
-        if (args.length < 2) {
-            throw new CivException(CivSettings.localize.localizedString("cmd_town_set_taxratePrompt"));
-        }
-
-        try {
-            town.setFlatTax(Integer.parseInt(args[1]));
-        } catch (NumberFormatException e) {
-            throw new CivException(args[1] + " " + CivSettings.localize.localizedString("cmd_enterNumerError"));
-        }
-
-        town.quicksave();
-        CivMessage.send(town, CivSettings.localize.localizedString("var_cmd_town_set_flattaxSuccess", args[1]));
     }
 
     @Override

@@ -45,7 +45,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Random;
 
 public class TownHall extends Structure implements RespawnLocationHolder {
@@ -101,8 +100,6 @@ public class TownHall extends Structure implements RespawnLocationHolder {
         out += "<b>" + CivSettings.localize.localizedString("var_townHall_dynmap_heading", this.getTown().getName()) + "</b>";
         ConfigCultureLevel culturelevel = CivSettings.cultureLevels.get(this.getTown().getCultureLevel());
         out += "<br/>" + CivSettings.localize.localizedString("townHall_dynmap_cultureLevel") + " " + culturelevel.level + " (" + this.getTown().getAccumulatedCulture() + "/" + culturelevel.amount + ")";
-        out += "<br/>" + CivSettings.localize.localizedString("townHall_dynmap_flatTax") + " " + this.getTown().getFlatTax() * 100 + "%";
-        out += "<br/>" + CivSettings.localize.localizedString("townHall_dynmap_propertyTax") + " " + this.getTown().getTaxRate() * 100 + "%";
         return out;
     }
 
@@ -529,11 +526,6 @@ public class TownHall extends Structure implements RespawnLocationHolder {
         }
 
         CivMessage.sendTown(this.getTown(), CivColor.Rose + CivColor.BOLD + CivSettings.localize.localizedString("var_townHall_invalidPunish", invalid_respawn_penalty));
-    }
-
-    @Override
-    public List<BlockCoord> getRespawnPoints() {
-        return this.revivePoints;
     }
 
     @Override

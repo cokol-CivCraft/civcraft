@@ -28,7 +28,6 @@ import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.CultureChunk;
-import com.avrgaming.civcraft.object.Relation;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.road.Road;
 import com.avrgaming.civcraft.structure.Capitol;
@@ -104,59 +103,50 @@ public class PlayerListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerTeleportEvent(PlayerTeleportEvent event) {
         //Handle Teleportation Things here!
-        if (event.getCause().equals(TeleportCause.COMMAND) ||
-                event.getCause().equals(TeleportCause.PLUGIN)) {
-            CivLog.info("[TELEPORT]" + " " + event.getPlayer().getName() + " " + "to:" + event.getTo().getBlockX() + "," + event.getTo().getBlockY() + "," + event.getTo().getBlockZ() +
-                    " " + "from:" + event.getFrom().getBlockX() + "," + event.getFrom().getBlockY() + "," + event.getFrom().getBlockZ());
-            Player player = event.getPlayer();
-            if (!player.isOp() && !(player.hasPermission("civ.admin") || player.hasPermission(CivSettings.TPALL))) {
-                CultureChunk cc = CivGlobal.getCultureChunk(new ChunkCoord(event.getTo()));
-                Camp toCamp = CivGlobal.getCampFromChunk(new ChunkCoord(event.getTo()));
-                Resident resident = CivGlobal.getResident(player);
-                if (cc != null && cc.getCiv() != resident.getCiv() && !cc.getCiv().isAdminCiv()) {
-                    Relation.Status status = cc.getCiv().getDiplomacyManager().getRelationStatus(player);
-                    if (!(status.equals(Relation.Status.ALLY) && player.hasPermission(CivSettings.TPALLY))
-                            && !(status.equals(Relation.Status.NEUTRAL) && player.hasPermission(CivSettings.TPNEUTRAL))
-                            && !(status.equals(Relation.Status.HOSTILE) && player.hasPermission(CivSettings.TPHOSTILE))
-                            && !(status.equals(Relation.Status.PEACE) && player.hasPermission(CivSettings.TPWAR))
-                            && !(status.equals(Relation.Status.WAR) && player.hasPermission(CivSettings.TPWAR))
-                            && !player.hasPermission(CivSettings.TPALL)
-                    ) {
-                        /*
-                         * Deny telportation into Civ if not allied.
-                         */
-                        event.setTo(event.getFrom());
-                        if (!event.isCancelled()) {
-                            CivLog.debug("Cancelled Event " + event.getEventName() + " with cause: " + event.getCause());
-                            event.setCancelled(true);
-                            CivMessage.send(resident, CivColor.Red + CivSettings.localize.localizedString("teleportDeniedPrefix") + " " + CivColor.White + CivSettings.localize.localizedString("var_teleportDeniedCiv", CivColor.Green + cc.getCiv().getName() + CivColor.White));
-                            return;
-                        }
-                    }
-                }
+        if (!event.getCause().equals(TeleportCause.COMMAND) && !event.getCause().equals(TeleportCause.PLUGIN)) {
+            return;
+        }
+        CivLog.info("[TELEPORT]" + " " + event.getPlayer().getName() + " " + "to:" + event.getTo().getBlockX() + "," + event.getTo().getBlockY() + "," + event.getTo().getBlockZ() +
+                " " + "from:" + event.getFrom().getBlockX() + "," + event.getFrom().getBlockY() + "," + event.getFrom().getBlockZ());
+        Player player = event.getPlayer();
+        if (player.isOp()) {
+            return;
+        }
+        CultureChunk cc = CivGlobal.getCultureChunk(new ChunkCoord(event.getTo()));
+        Camp toCamp = CivGlobal.getCampFromChunk(new ChunkCoord(event.getTo()));
+        Resident resident = CivGlobal.getResident(player);
+        if (cc != null && cc.getCiv() != resident.getCiv() && !cc.getCiv().isAdminCiv()) {
+            event.setTo(event.getFrom());
+            if (!event.isCancelled()) {
+                CivLog.debug("Cancelled Event " + event.getEventName() + " with cause: " + event.getCause());
+                event.setCancelled(true);
+                CivMessage.send(resident, CivColor.Red + CivSettings.localize.localizedString("teleportDeniedPrefix") + " " + CivColor.White + CivSettings.localize.localizedString("var_teleportDeniedCiv", CivColor.Green + cc.getCiv().getName() + CivColor.White));
+                return;
+            }
+        }
 
-                if (toCamp != null && toCamp != resident.getCamp() && !player.hasPermission(CivSettings.TPCAMP)) {
-                    /*
-                     * Deny telportation into Civ if not allied.
-                     */
-                    event.setTo(event.getFrom());
-                    if (!event.isCancelled()) {
-                        CivLog.debug("Cancelled Event " + event.getEventName() + " with cause: " + event.getCause());
-                        event.setCancelled(true);
-                        CivMessage.send(resident, CivColor.Red + CivSettings.localize.localizedString("teleportDeniedPrefix") + " " + CivColor.White + CivSettings.localize.localizedString("var_teleportDeniedCamp", CivColor.Green + toCamp.getName() + CivColor.White));
-                    }
+        if (toCamp != null && toCamp != resident.getCamp()) {
+            /*
+             * Deny telportation into Civ if not allied.
+             */
+            event.setTo(event.getFrom());
+            if (!event.isCancelled()) {
+                CivLog.debug("Cancelled Event " + event.getEventName() + " with cause: " + event.getCause());
+                event.setCancelled(true);
+                CivMessage.send(resident, CivColor.Red + CivSettings.localize.localizedString("teleportDeniedPrefix") + " " + CivColor.White + CivSettings.localize.localizedString("var_teleportDeniedCamp", CivColor.Green + toCamp.getName() + CivColor.White));
+            }
 
-                }
+        }
 
 //				if (War.isWarTime()) {
-//					
+//
 //					if (toCamp != null && toCamp == resident.getCamp()) {
 //						return;
 //					}
 //					if (cc != null && (cc.getCiv() == resident.getCiv() || cc.getCiv().isAdminCiv())) {
 //						return;
 //					}
-//					
+//
 //					event.setTo(event.getFrom());
 //					if (!event.isCancelled())
 //					{
@@ -164,8 +154,6 @@ public class PlayerListener implements Listener {
 //						CivMessage.send(resident, CivColor.Red+"[Denied] "+CivColor.White+"You're not allowed to Teleport during War unless you are teleporting to your own Civ or Camp");
 //					}
 //				}
-            }
-        }
     }
 
     private void setModifiedMovementSpeed(Player player) {
@@ -568,17 +556,6 @@ public class PlayerListener implements Listener {
                     CivMessage.send(attacker, CivColor.LightGray + "   " + CivSettings.localize.localizedString("playerListen_combatHeading") + " " + CivSettings.localize.localizedString("var_playerListen_attack", CivColor.LightPurple + entityName + CivColor.LightGray, CivColor.LightGreen + damage + CivColor.LightGray));
                 }
             }
-        }
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void RestrictModDrops(PlayerDropItemEvent event) {
-        if (event.isCancelled()) {
-            return;
-        }
-        Player player = event.getPlayer();
-        if (player.hasPermission(CivSettings.MODERATOR) && !player.hasPermission(CivSettings.MINI_ADMIN)) {
-            event.setCancelled(true);
         }
     }
 }

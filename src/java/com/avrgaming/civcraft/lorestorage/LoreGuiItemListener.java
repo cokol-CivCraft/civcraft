@@ -17,6 +17,7 @@
  */
 package com.avrgaming.civcraft.lorestorage;
 
+import com.avrgaming.civcraft.loregui.GuiActions;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -42,7 +43,7 @@ public class LoreGuiItemListener implements Listener {
             event.setCancelled(true);
 
             if (event.getCurrentItem() != null) {
-                String action = LoreGuiItem.getAction(event.getCurrentItem());
+                GuiActions action = LoreGuiItem.getAction(event.getCurrentItem());
                 if (action != null) {
                     LoreGuiItem.processAction(action, event.getCurrentItem(), event);
                 }
@@ -50,7 +51,7 @@ public class LoreGuiItemListener implements Listener {
             }
 
             if (event.getCursor() != null) {
-                String action = LoreGuiItem.getAction(event.getCursor());
+                GuiActions action = LoreGuiItem.getAction(event.getCursor());
                 if (action != null) {
                     LoreGuiItem.processAction(action, event.getCursor(), event);
                 }

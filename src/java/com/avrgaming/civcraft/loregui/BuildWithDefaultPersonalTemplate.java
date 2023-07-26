@@ -17,7 +17,10 @@ import org.bukkit.inventory.ItemStack;
 
 import java.io.IOException;
 
-public class BuildWithDefaultPersonalTemplate implements GuiAction {
+public class BuildWithDefaultPersonalTemplate extends GuiAction {
+    public BuildWithDefaultPersonalTemplate(GuiActions key) {
+        super(key);
+    }
 
     @Override
     public void performAction(InventoryClickEvent event, ItemStack stack) {

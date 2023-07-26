@@ -65,7 +65,6 @@ public class AdminCivCommand extends CommandBase {
         register_sub("rename", this::rename_cmd, CivSettings.localize.localizedString("adcmd_civ_renameDesc"));
     }
 
-    @SuppressWarnings("unused")
     public void liberate_cmd() throws CivException {
         Civilization motherCiv = getNamedCiv(1);
 
@@ -85,7 +84,6 @@ public class AdminCivCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_liberateSuccess") + " " + motherCiv.getName());
     }
 
-    @SuppressWarnings("unused")
     public void rename_cmd() throws CivException {
         Civilization civ = getNamedCiv(1);
         String name = getNamedString(2, CivSettings.localize.localizedString("adcmd_civ_newNamePrompt"));
@@ -103,7 +101,6 @@ public class AdminCivCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_renameCivSuccess"));
     }
 
-    @SuppressWarnings("unused")
     public void setvotes_cmd() throws CivException {
         Civilization civ = getNamedCiv(1);
         Integer votes = getNamedInteger(2);
@@ -111,7 +108,6 @@ public class AdminCivCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_setVotesSuccess", civ.getName(), votes));
     }
 
-    @SuppressWarnings("unused")
     public void conquered_cmd() throws CivException {
         Civilization civ = getNamedCiv(1);
         civ.setConquered(true);
@@ -122,7 +118,6 @@ public class AdminCivCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_conqueredSuccess"));
     }
 
-    @SuppressWarnings("unused")
     public void unconquer_cmd() throws CivException {
         String conquerCiv = this.getNamedString(1, "conquered civ");
 
@@ -144,7 +139,6 @@ public class AdminCivCommand extends CommandBase {
     }
 
 
-    @SuppressWarnings("unused")
     public void bankrupt_cmd() throws CivException {
         Civilization civ = getNamedCiv(1);
 
@@ -169,7 +163,6 @@ public class AdminCivCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_bankruptSuccess", civ.getName()));
     }
 
-    @SuppressWarnings("unused")
     public void setgov_cmd() throws CivException {
         Civilization civ = getNamedCiv(1);
 
@@ -191,7 +184,6 @@ public class AdminCivCommand extends CommandBase {
 
     }
 
-    @SuppressWarnings("unused")
     public void merge_cmd() throws CivException {
         Civilization oldciv = getNamedCiv(1);
         Civilization newciv = getNamedCiv(2);
@@ -204,7 +196,6 @@ public class AdminCivCommand extends CommandBase {
         CivMessage.global(CivSettings.localize.localizedString("var_adcmd_civ_mergeSuccess", oldciv.getName(), newciv.getName()));
     }
 
-    @SuppressWarnings("unused")
     public void info_cmd() throws CivException {
         Civilization civ = getNamedCiv(1);
 
@@ -226,12 +217,7 @@ public class AdminCivCommand extends CommandBase {
 //		
 //	}
 
-    @SuppressWarnings("unused")
-    public void setmaster_cmd() {
 
-    }
-
-    @SuppressWarnings("unused")
     public void setrelation_cmd() throws CivException {
         if (args.length < 4) {
             throw new CivException(CivSettings.localize.localizedString("Usage") + " [civ] [otherCiv] [NEUTRAL|HOSTILE|WAR|PEACE|ALLY]");
@@ -251,7 +237,6 @@ public class AdminCivCommand extends CommandBase {
 
     }
 
-    @SuppressWarnings("unused")
     public void alltech_cmd() throws CivException {
 
         Civilization civ = getNamedCiv(1);
@@ -265,7 +250,6 @@ public class AdminCivCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_alltechSuccess"));
     }
 
-    @SuppressWarnings("unused")
     public void toggleadminciv_cmd() throws CivException {
         Civilization civ = getNamedCiv(1);
 
@@ -274,7 +258,6 @@ public class AdminCivCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_toggleAdminCivSuccess", civ.getName(), civ.isAdminCiv()));
     }
 
-    @SuppressWarnings("unused")
     public void beakerrate_cmd() throws CivException {
         Civilization civ = getNamedCiv(1);
         Double amount = getNamedDouble(2);
@@ -285,7 +268,6 @@ public class AdminCivCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_beakerRateSuccess", civ.getName(), amount));
     }
 
-    @SuppressWarnings("unused")
     public void givetech_cmd() throws CivException {
         Civilization civ = getNamedCiv(1);
 
@@ -309,7 +291,6 @@ public class AdminCivCommand extends CommandBase {
 
     }
 
-    @SuppressWarnings("unused")
     public void rmadviser_cmd() throws CivException {
         Civilization civ = getNamedCiv(1);
         Resident resident = getNamedResident(2);
@@ -323,7 +304,6 @@ public class AdminCivCommand extends CommandBase {
         }
     }
 
-    @SuppressWarnings("unused")
     public void rmleader_cmd() throws CivException {
         Civilization civ = getNamedCiv(1);
         Resident resident = getNamedResident(2);
@@ -337,7 +317,6 @@ public class AdminCivCommand extends CommandBase {
         }
     }
 
-    @SuppressWarnings("unused")
     public void addadviser_cmd() throws CivException {
         Civilization civ = getNamedCiv(1);
         Resident resident = getNamedResident(2);
@@ -349,7 +328,6 @@ public class AdminCivCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_addAdvisorSuccess", resident.getName(), civ.getName()));
     }
 
-    @SuppressWarnings("unused")
     public void addleader_cmd() throws CivException {
         Civilization civ = getNamedCiv(1);
         Resident resident = getNamedResident(2);
@@ -361,7 +339,6 @@ public class AdminCivCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_addLeaderSuccess", resident.getName(), civ.getName()));
     }
 
-    @SuppressWarnings("unused")
     public void disband_cmd() throws CivException {
         Civilization civ = getNamedCiv(1);
 

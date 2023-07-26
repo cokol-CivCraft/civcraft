@@ -19,7 +19,6 @@ package com.avrgaming.civcraft.object;
 
 import com.avrgaming.civcraft.database.SQL;
 import com.avrgaming.civcraft.database.SQLUpdate;
-import com.avrgaming.civcraft.exception.InvalidNameException;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.util.BlockCoord;
 
@@ -38,7 +37,7 @@ public class ProtectedBlock extends SQLObject {
         this.type = type;
     }
 
-    public ProtectedBlock(ResultSet rs) throws SQLException, InvalidNameException {
+    public ProtectedBlock(ResultSet rs) throws SQLException {
         //	this.coord = new BlockCoord(rs.getString("coord"));
         //	this.type = Type.TRADE_MARKER;
         //this.owner = rs.getInt(getId());

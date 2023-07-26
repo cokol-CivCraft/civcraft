@@ -7,7 +7,10 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 
-public class SpawnItem implements GuiAction {
+public class SpawnItem extends GuiAction {
+    public SpawnItem(GuiActions key) {
+        super(key);
+    }
 
     @SuppressWarnings("deprecation")
     @Override

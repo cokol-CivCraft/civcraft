@@ -93,15 +93,11 @@ public class Road extends Structure {
                 continue;
             }
 
-            Block block = bcoord.getBlock();
-            block.setType(sb.getType());
-            block.setData((byte) sb.getData());
+            bcoord.getBlock().setType(sb.getType());
+            bcoord.getBlock().setData((byte) sb.getData());
         }
 
-        LinkedList<RoadBlock> removed = new LinkedList<>();
-        removed.addAll(roadBlocks.values());
-
-        for (RoadBlock rb : removed) {
+        for (RoadBlock rb : new LinkedList<>(roadBlocks.values())) {
             try {
                 rb.delete();
             } catch (SQLException e) {

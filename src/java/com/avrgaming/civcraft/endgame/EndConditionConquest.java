@@ -69,11 +69,9 @@ public class EndConditionConquest extends EndGameCondition {
             }
 
             for (Wonder wonder : town.getWonders()) {
-                if (wonder.isActive()) {
-                    if (wonder.getConfigId().equals("w_chichen_itza")) {
-                        hasChichenItza = true;
-                        break;
-                    }
+                if (wonder.isActive() && wonder.getConfigId().equals("w_chichen_itza")) {
+                    hasChichenItza = true;
+                    break;
                 }
             }
 

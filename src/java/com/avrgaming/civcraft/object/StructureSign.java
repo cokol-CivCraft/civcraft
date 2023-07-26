@@ -181,26 +181,24 @@ public class StructureSign extends SQLObject {
     }
 
     public void setText(String[] message) {
-        this.text = "";
-        for (String str : message) {
-            text += str + "\n";
-        }
+        this.text = String.join("\n", message);
     }
 
     public void update() {
-        if (coord.getBlock().getState() instanceof Sign) {
-            Sign sign = (Sign) coord.getBlock().getState();
-            String[] lines = this.text.split("\\n");
-
-            for (int i = 0; i < 4; i++) {
-                if (i < lines.length) {
-                    sign.setLine(i, lines[i]);
-                } else {
-                    sign.setLine(i, "");
-                }
-            }
-            sign.update();
+        if (!(coord.getBlock().getState() instanceof Sign)) {
+            return;
         }
+        Sign sign = (Sign) coord.getBlock().getState();
+        String[] lines = this.text.split("\\n");
+
+        for (int i = 0; i < 4; i++) {
+            if (i < lines.length) {
+                sign.setLine(i, lines[i]);
+            } else {
+                sign.setLine(i, "");
+            }
+        }
+        sign.update();
     }
 
     public boolean isAllowRightClick() {

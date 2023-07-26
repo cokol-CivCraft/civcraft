@@ -25,13 +25,11 @@ public class AdminArenaCommand extends CommandBase {
         register_sub("disable", this::disable_cmd, CivSettings.localize.localizedString("adcmd_arena_disableDesc"));
     }
 
-    @SuppressWarnings("unused")
     public void enable_cmd() {
         ArenaManager.enabled = true;
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_arena_Enabled"));
     }
 
-    @SuppressWarnings("unused")
     public void disable_cmd() {
         ArenaManager.enabled = false;
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_arena_disabled"));
@@ -49,7 +47,6 @@ public class AdminArenaCommand extends CommandBase {
         }
     }
 
-    @SuppressWarnings("unused")
     public void messageall_cmd() {
         String message = this.combineArgs(this.stripArgs(args, 1));
         for (Arena arena : ArenaManager.activeArenas.values()) {
@@ -58,7 +55,6 @@ public class AdminArenaCommand extends CommandBase {
         CivMessage.send(sender, CivColor.Rose + CivSettings.localize.localizedString("adcmd_arena_adminMessage") + CivColor.RESET + message);
     }
 
-    @SuppressWarnings("unused")
     public void message_cmd() throws CivException {
         String id = getNamedString(1, CivSettings.localize.localizedString("adcmd_arena_enterInstanceName"));
         String message = this.combineArgs(this.stripArgs(args, 2));
@@ -73,7 +69,6 @@ public class AdminArenaCommand extends CommandBase {
 
     }
 
-    @SuppressWarnings("unused")
     public void end_cmd() throws CivException {
         String id = getNamedString(1, CivSettings.localize.localizedString("adcmd_arena_enterInstanceName"));
 

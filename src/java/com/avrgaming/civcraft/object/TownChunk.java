@@ -45,13 +45,6 @@ public class TownChunk extends SQLObject {
 
     private ChunkCoord chunkLocation;
     private Town town;
-    private boolean forSale;
-    /*
-     * Price vs value, price is what the owner is currently selling it for,
-     * value is the amount that it was last purchased at, used for taxes.
-     */
-    private double value;
-    private double price;
     private boolean outpost;
     private boolean canUnclaim = true;
 
@@ -87,9 +80,6 @@ public class TownChunk extends SQLObject {
                     "`owner_id` int(11) unsigned DEFAULT NULL," +
                     "`cc_groups` mediumtext DEFAULT NULL," +
                     "`permissions` mediumtext NOT NULL," +
-                    "`for_sale` bool NOT NULL DEFAULT '0'," +
-                    "`cc_value` float NOT NULL DEFAULT '0'," +
-                    "`price` float NOT NULL DEFAULT '0'," +
                     "`canunclaim` bool DEFAULT '1'," +
                     "`outpost` bool DEFAULT '0'," +
                     //	 "FOREIGN KEY (owner_id) REFERENCES "+SQL.tb_prefix+Resident.TABLE_NAME+"(id),"+
@@ -119,11 +109,7 @@ public class TownChunk extends SQLObject {
         ChunkCoord cord = new ChunkCoord(rs.getString("world"), rs.getInt("x"), rs.getInt("z"));
         this.setChunkCord(cord);
 
-        try {
-            this.perms.loadFromSaveString(town, rs.getString("permissions"));
-        } catch (CivException e) {
-            e.printStackTrace();
-        }
+        this.perms.loadFromSaveString(town, rs.getString("permissions"));
 
         this.perms.setOwner(CivGlobal.getResidentFromId(rs.getInt("owner_id")));
         //this.perms.setGroup(CivGlobal.getPermissionGroup(this.getTown(), rs.getInt("groups")));
@@ -135,9 +121,6 @@ public class TownChunk extends SQLObject {
             }
         }
 
-        this.forSale = rs.getBoolean("for_sale");
-        this.value = rs.getDouble("cc_value");
-        this.price = rs.getDouble("price");
         this.outpost = rs.getBoolean("outpost");
         this.setCanUnclaim(rs.getBoolean("canunclaim"));
 
@@ -172,9 +155,6 @@ public class TownChunk extends SQLObject {
         hashmap.put("x", this.getChunkCoord().getX());
         hashmap.put("z", this.getChunkCoord().getZ());
         hashmap.put("permissions", perms.getSaveString());
-        hashmap.put("for_sale", this.isForSale());
-        hashmap.put("cc_value", this.getValue());
-        hashmap.put("price", this.getPrice());
         hashmap.put("outpost", this.outpost);
 
         if (this.perms.getOwner() != null) {
@@ -435,18 +415,6 @@ public class TownChunk extends SQLObject {
         CivGlobal.removeTownChunk(this);
     }
 
-    public boolean isForSale() {
-        return forSale;
-    }
-
-    public void setForSale(boolean forSale) {
-        this.forSale = forSale;
-    }
-
-    public double getValue() {
-        return value;
-    }
-
     /* Called when a player enters this plot. */
     public String getOnEnterString(Player player, TownChunk fromTc) {
         String out = "";
@@ -459,40 +427,7 @@ public class TownChunk extends SQLObject {
             out += CivColor.LightGray + "[" + CivSettings.localize.localizedString("town_chunk_status_unowned") + "]";
         }
 
-        if (this.isForSale()) {
-            out += CivColor.Yellow + "[" + CivSettings.localize.localizedString("town_chunk_status_forSale") + " " + this.price + " " + CivSettings.CURRENCY_NAME + "]";
-        }
-
         return out;
-    }
-
-    public void purchase(Resident resident) throws CivException {
-
-        if (!resident.getTreasury().hasEnough(this.price)) {
-            throw new CivException(CivSettings.localize.localizedString("var_town_chunk_purchase_tooPoor", this.price, CivSettings.CURRENCY_NAME));
-        }
-
-        if (this.perms.getOwner() == null) {
-            resident.getTreasury().payTo(this.getTown().getTreasury(), this.price);
-        } else {
-            resident.getTreasury().payTo(this.perms.getOwner().getTreasury(), this.price);
-        }
-
-        this.value = this.price;
-        this.price = 0;
-        this.forSale = false;
-        this.perms.setOwner(resident);
-        this.perms.clearGroups();
-
-        this.save();
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
     }
 
     public String getCenterString() {

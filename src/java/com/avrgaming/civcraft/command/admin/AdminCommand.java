@@ -18,11 +18,10 @@
 package com.avrgaming.civcraft.command.admin;
 
 import com.avrgaming.civcraft.command.CommandBase;
-import com.avrgaming.civcraft.command.ReportChestsTask;
-import com.avrgaming.civcraft.command.ReportPlayerInventoryTask;
 import com.avrgaming.civcraft.config.*;
 import com.avrgaming.civcraft.endgame.EndGameCondition;
 import com.avrgaming.civcraft.exception.CivException;
+import com.avrgaming.civcraft.loregui.GuiActions;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.lorestorage.LoreGuiItem;
 import com.avrgaming.civcraft.lorestorage.LoreGuiItemListener;
@@ -34,12 +33,9 @@ import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
-import com.avrgaming.civcraft.threading.TaskMaster;
-import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.CivColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -49,8 +45,6 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
 
 public class AdminCommand extends CommandBase {
 
@@ -67,9 +61,6 @@ public class AdminCommand extends CommandBase {
         register_sub("server", this::server_cmd, CivSettings.localize.localizedString("adcmd_serverDesc"));
         register_sub("spawnunit", this::spawnunit_cmd, CivSettings.localize.localizedString("adcmd_spawnUnitDesc"));
 
-        register_sub("chestreport", this::chestreport_cmd, CivSettings.localize.localizedString("adcmd_chestReportDesc"));
-        register_sub("playerreport", this::playerreport_cmd, CivSettings.localize.localizedString("adcmd_playerreportDesc"));
-
         register_sub("civ", this::civ_cmd, CivSettings.localize.localizedString("adcmd_civDesc"));
         register_sub("town", this::town_cmd, CivSettings.localize.localizedString("adcmd_townDesc"));
         register_sub("war", this::war_cmd, CivSettings.localize.localizedString("adcmd_warDesc"));
@@ -83,9 +74,7 @@ public class AdminCommand extends CommandBase {
         register_sub("timer", this::timer_cmd, CivSettings.localize.localizedString("adcmd_timerDesc"));
         register_sub("road", this::road_cmd, CivSettings.localize.localizedString("adcmd_roadDesc"));
         register_sub("clearendgame", this::clearendgame_cmd, CivSettings.localize.localizedString("adcmd_clearEndGameDesc"));
-        register_sub("endworld", this::endworld_cmd, CivSettings.localize.localizedString("adcmd_endworldDesc"));
         register_sub("arena", this::arena_cmd, CivSettings.localize.localizedString("adcmd_arenaDesc"));
-        register_sub("perk", this::perk_cmd, CivSettings.localize.localizedString("adcmd_perkDesc"));
         register_sub("reloadgov", this::reloadgov_cmd, CivSettings.localize.localizedString("adcmd_reloadgovDesc"));
         register_sub("reloadac", this::reloadac_cmd, CivSettings.localize.localizedString("adcmd_reloadacDesc"));
     }
@@ -110,22 +99,6 @@ public class AdminCommand extends CommandBase {
     public void reloadac_cmd() {
 
         CivMessage.send(sender, CivColor.Gold + CivSettings.localize.localizedString("adcmd_reloadacSuccess"));
-    }
-
-
-    public void perk_cmd() {
-        AdminPerkCommand cmd = new AdminPerkCommand();
-        cmd.onCommand(sender, null, "perk", this.stripArgs(args, 1));
-    }
-
-
-    public void endworld_cmd() {
-        CivGlobal.endWorld = !CivGlobal.endWorld;
-        if (CivGlobal.endWorld) {
-            CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_endworldOn"));
-        } else {
-            CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_endworldOff"));
-        }
     }
 
 
@@ -186,7 +159,7 @@ public class AdminCommand extends CommandBase {
                         0,
                         CivColor.LightBlue + cat.materials.size() + " Items",
                         CivColor.Gold + "<Click To Open>");
-                infoRec = LoreGuiItem.setAction(infoRec, "OpenInventory");
+                infoRec = LoreGuiItem.setAction(infoRec, GuiActions.OpenInventory);
                 infoRec = LoreGuiItem.setActionData(infoRec, "invType", "showGuiInv");
                 infoRec = LoreGuiItem.setActionData(infoRec, "invName", cat.name + " Spawn");
                 spawnInventory.addItem(infoRec);
@@ -197,7 +170,7 @@ public class AdminCommand extends CommandBase {
                     LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterialFromId(mat.id);
                     ItemStack stack = LoreMaterial.spawn(craftMat);
                     stack = LoreGuiItem.asGuiItem(stack);
-                    stack = LoreGuiItem.setAction(stack, "SpawnItem");
+                    stack = LoreGuiItem.setAction(stack, GuiActions.SpawnItem);
                     inv.addItem(stack);
                     LoreGuiItemListener.guiInventories.put(inv.getName(), inv);
                 }
@@ -227,51 +200,16 @@ public class AdminCommand extends CommandBase {
         cmd.onCommand(sender, null, "camp", this.stripArgs(args, 1));
     }
 
-    @SuppressWarnings("unused")
     public void timer_cmd() {
         AdminTimerCommand cmd = new AdminTimerCommand();
         cmd.onCommand(sender, null, "camp", this.stripArgs(args, 1));
     }
 
-    @SuppressWarnings("unused")
     public void camp_cmd() {
         AdminCampCommand cmd = new AdminCampCommand();
         cmd.onCommand(sender, null, "camp", this.stripArgs(args, 1));
     }
 
-    @SuppressWarnings("unused")
-    public void playerreport_cmd() {
-
-        LinkedList<OfflinePlayer> offplayers = new LinkedList<>();
-        Collections.addAll(offplayers, Bukkit.getOfflinePlayers());
-
-        CivMessage.sendHeading(sender, CivSettings.localize.localizedString("adcmd_playerreportHeader"));
-        CivMessage.send(sender, CivSettings.localize.localizedString("adcmd_ReportStarted"));
-        TaskMaster.syncTask(new ReportPlayerInventoryTask(sender, offplayers), 0);
-    }
-
-    @SuppressWarnings("unused")
-    public void chestreport_cmd() throws CivException {
-        Integer radius = getNamedInteger(1);
-        Player player = getPlayer();
-
-        LinkedList<ChunkCoord> coords = new LinkedList<>();
-        for (int x = -radius; x < radius; x++) {
-            for (int z = -radius; z < radius; z++) {
-                ChunkCoord coord = new ChunkCoord(player.getLocation());
-                coord.setX(coord.getX() + x);
-                coord.setZ(coord.getZ() + z);
-
-                coords.add(coord);
-            }
-        }
-
-        CivMessage.sendHeading(sender, CivSettings.localize.localizedString("adcmd_chestReportHeader"));
-        CivMessage.send(sender, CivSettings.localize.localizedString("adcmd_ReportStarted"));
-        TaskMaster.syncTask(new ReportChestsTask(sender, coords), 0);
-    }
-
-    @SuppressWarnings("unused")
     public void spawnunit_cmd() throws CivException {
         if (args.length < 2) {
             throw new CivException(CivSettings.localize.localizedString("adcmd_spawnUnitPrompt"));
@@ -309,75 +247,50 @@ public class AdminCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_spawnUnitSuccess", unit.name));
     }
 
-    @SuppressWarnings("unused")
     public void server_cmd() {
         CivMessage.send(sender, Bukkit.getServerName());
     }
 
-    @SuppressWarnings("unused")
     public void recover_cmd() {
         AdminRecoverCommand cmd = new AdminRecoverCommand();
         cmd.onCommand(sender, null, "recover", this.stripArgs(args, 1));
     }
 
-    @SuppressWarnings("unused")
     public void town_cmd() {
         AdminTownCommand cmd = new AdminTownCommand();
         cmd.onCommand(sender, null, "town", this.stripArgs(args, 1));
     }
 
-    @SuppressWarnings("unused")
     public void civ_cmd() {
         AdminCivCommand cmd = new AdminCivCommand();
         cmd.onCommand(sender, null, "civ", this.stripArgs(args, 1));
     }
 
-    @SuppressWarnings("unused")
-    public void setfullmessage_cmd() {
-        if (args.length < 2) {
-            CivMessage.send(sender, CivSettings.localize.localizedString("Current") + CivGlobal.fullMessage);
-            return;
-        }
-
-        synchronized (CivGlobal.maxPlayers) {
-            CivGlobal.fullMessage = args[1];
-        }
-
-        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("SetTo") + args[1]);
-
-    }
-
-    @SuppressWarnings("unused")
     public void res_cmd() {
         AdminResCommand cmd = new AdminResCommand();
         cmd.onCommand(sender, null, "war", this.stripArgs(args, 1));
     }
 
-    @SuppressWarnings("unused")
     public void chat_cmd() {
         AdminChatCommand cmd = new AdminChatCommand();
         cmd.onCommand(sender, null, "war", this.stripArgs(args, 1));
     }
 
-    @SuppressWarnings("unused")
     public void war_cmd() {
         AdminWarCommand cmd = new AdminWarCommand();
         cmd.onCommand(sender, null, "war", this.stripArgs(args, 1));
     }
 
-    @SuppressWarnings("unused")
     public void lag_cmd() {
         AdminLagCommand cmd = new AdminLagCommand();
         cmd.onCommand(sender, null, "war", this.stripArgs(args, 1));
     }
 
-    @SuppressWarnings("unused")
     public void build_cmd() {
         AdminBuildCommand cmd = new AdminBuildCommand();
         cmd.onCommand(sender, null, "war", this.stripArgs(args, 1));
     }
 
-    @SuppressWarnings("unused")
     public void perm_cmd() throws CivException {
         Resident resident = getResident();
 
@@ -392,7 +305,6 @@ public class AdminCommand extends CommandBase {
 
     }
 
-    @SuppressWarnings("unused")
     public void sbperm_cmd() throws CivException {
         Resident resident = getResident();
         if (resident.isSBPermOverride()) {
@@ -418,13 +330,6 @@ public class AdminCommand extends CommandBase {
 
     @Override
     public void permissionCheck() throws CivException {
-
-        if (sender instanceof Player && sender.hasPermission(CivSettings.MINI_ADMIN)) {
-            return;
-
-        }
-
-
         if (!sender.isOp()) {
             throw new CivException(CivSettings.localize.localizedString("adcmd_NotAdmin"));
         }

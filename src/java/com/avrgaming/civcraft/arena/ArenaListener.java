@@ -25,7 +25,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.inventory.Inventory;
 
 import java.util.Date;
 
@@ -51,52 +50,27 @@ public class ArenaListener implements Listener {
 
                 CivMessage.sendArena(resident.getCurrentArena(), CivSettings.localize.localizedString("var_arena_playerJoined", event.getPlayer().getName()));
 
-                class SyncTask implements Runnable {
-                    final String name;
-
-                    public SyncTask(String name) {
-                        this.name = name;
+                TaskMaster.syncTask(() -> {
+                    try {
+                        Resident resident1 = CivGlobal.getResident(event.getPlayer().getName());
+                        CivGlobal.getPlayer(resident1).setScoreboard(resident1.getCurrentArena().getScoreboard(resident1.getTeam().getName()));
+                    } catch (CivException ignored) {
                     }
-
-                    @Override
-                    public void run() {
-                        Player player;
-                        try {
-                            Resident resident = CivGlobal.getResident(name);
-                            player = CivGlobal.getPlayer(resident);
-                            player.setScoreboard(resident.getCurrentArena().getScoreboard(resident.getTeam().getName()));
-                        } catch (CivException ignored) {
-                        }
-                    }
-                }
-
-                TaskMaster.syncTask(new SyncTask(event.getPlayer().getName()));
+                });
             } else {
 
-                class SyncTask implements Runnable {
-                    final String name;
-
-                    public SyncTask(String name) {
-                        this.name = name;
-                    }
-
-                    @Override
-                    public void run() {
-                        Resident resident = CivGlobal.getResident(name);
-
-                        /* Player is rejoining but the arena is no longer active. Return home. */
-                        resident.teleportHome();
-                        resident.restoreInventory();
-                        resident.setInsideArena(false);
-                        resident.save();
-
-
-                        CivMessage.send(resident, CivColor.LightGray + CivSettings.localize.localizedString("arena_destroyedTeleport"));
-                    }
-                }
-
                 event.getPlayer().getInventory().clear();
-                TaskMaster.syncTask(new SyncTask(event.getPlayer().getName()), 10);
+                TaskMaster.syncTask(() -> {
+                    Resident resident12 = CivGlobal.getResident(event.getPlayer().getName());
+
+                    /* Player is rejoining but the arena is no longer active. Return home. */
+                    resident12.teleportHome();
+                    resident12.restoreInventory();
+                    resident12.setInsideArena(false);
+                    resident12.save();
+
+                    CivMessage.send(resident12, CivColor.LightGray + CivSettings.localize.localizedString("arena_destroyedTeleport"));
+                }, 10);
             }
         }
     }
@@ -203,30 +177,13 @@ public class ArenaListener implements Listener {
                 } catch (CivException ignored) {
                 }
 
-                class SyncTask implements Runnable {
-                    final Arena arena;
-                    final Resident resident;
-
-                    public SyncTask(Arena arena, Resident resident) {
-                        this.arena = arena;
-                        this.resident = resident;
+                TaskMaster.syncTask(() -> {
+                    try {
+                        CivGlobal.getPlayer(resident).openInventory(arena.getInventory(resident));
+                    } catch (CivException ignored) {
                     }
 
-                    @Override
-                    public void run() {
-                        Player player;
-                        try {
-                            player = CivGlobal.getPlayer(resident);
-                            Inventory inv = arena.getInventory(resident);
-                            player.openInventory(inv);
-                        } catch (CivException ignored) {
-                        }
-
-                    }
-
-                }
-
-                TaskMaster.syncTask(new SyncTask(arena, resident), 0);
+                }, 0);
                 event.setCancelled(true);
                 return;
             }

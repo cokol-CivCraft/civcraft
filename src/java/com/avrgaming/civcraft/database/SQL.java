@@ -59,7 +59,7 @@ public class SQL {
     //	public static Connection context = null;
     public static ConnectionPool gameDatabase;
 
-    public static void initialize() throws InvalidConfiguration, SQLException {
+    public static void initialize() throws InvalidConfiguration {
         CivLog.heading("Initializing SQL");
 
         SQL.hostname = CivSettings.getStringBase("mysql.hostname");
@@ -99,7 +99,6 @@ public class SQL {
         RoadBlock.init();
         PermissionGroup.init();
         TradeGood.init();
-        MobSpawner.init();
         ProtectedBlock.init();
         BonusGoodie.init();
         MissionLogger.init();

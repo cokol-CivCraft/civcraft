@@ -20,7 +20,10 @@ package com.avrgaming.civcraft.command.debug;
 
 import com.avrgaming.civcraft.command.CommandBase;
 import com.avrgaming.civcraft.command.admin.AdminTownCommand;
-import com.avrgaming.civcraft.config.*;
+import com.avrgaming.civcraft.config.CivSettings;
+import com.avrgaming.civcraft.config.ConfigBuff;
+import com.avrgaming.civcraft.config.ConfigBuildableInfo;
+import com.avrgaming.civcraft.config.ConfigTradeGood;
 import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.event.EventTimer;
 import com.avrgaming.civcraft.event.GoodieRepoEvent;
@@ -37,7 +40,6 @@ import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.*;
 import com.avrgaming.civcraft.permission.PermissionGroup;
-import com.avrgaming.civcraft.populators.MobSpawnerPopulator;
 import com.avrgaming.civcraft.populators.TradeGoodPopulator;
 import com.avrgaming.civcraft.road.Road;
 import com.avrgaming.civcraft.siege.Cannon;
@@ -52,7 +54,6 @@ import com.avrgaming.civcraft.threading.tasks.*;
 import com.avrgaming.civcraft.threading.timers.DailyTimer;
 import com.avrgaming.civcraft.tutorial.CivTutorial;
 import com.avrgaming.civcraft.util.*;
-import com.avrgaming.global.perks.Perk;
 import gpl.AttributeUtil;
 import org.bukkit.*;
 import org.bukkit.FireworkEffect.Type;
@@ -61,12 +62,12 @@ import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.MaterialData;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -109,13 +110,10 @@ public class DebugCommand extends CommandBase {
         register_sub("unloadchunk", this::unloadchunk_cmd, "[x] [z] - unloads this chunk.");
         register_sub("setspeed", this::setspeed_cmd, "[speed] - set your speed to this");
         register_sub("tradegenerate", this::tradegenerate_cmd, "generates trade goods at picked locations");
-        register_sub("mobspawnergenerate", this::mobspawnergenerate_cmd, "generates mob spawners at picked locations");
         register_sub("createtradegood", this::createtradegood_cmd, "[good_id] - creates a trade goodie here.");
-        register_sub("createmobspawner", this::createmobspawner_cmd, "[spawner_id] - creates a mob spawner here.");
         register_sub("cleartradesigns", this::cleartradesigns_cmd, "clears extra trade signs above trade outpots");
         register_sub("restoresigns", this::restoresigns_cmd, "restores all structure signs");
         register_sub("regentradegoodchunk", this::regentradegoodchunk_cmd, "regens every chunk that has a trade good in it");
-        register_sub("regenmobspawnerchunk", this::regenmobspawnerchunk_cmd, "regens every chunk that has a Mob Spawner in it");
         register_sub("quickcodereload", this::quickcodereload_cmd, "Reloads the quick code plugin");
         register_sub("loadbans", null, "Loads bans from ban list into global table"); // TODO Сокол, не понятно. Удалять?
         register_sub("setallculture", this::setallculture_cmd, "[amount] - sets all towns culture in the world to this amount.");
@@ -153,9 +151,7 @@ public class DebugCommand extends CommandBase {
         register_sub("togglebookcheck", this::togglebookcheck_cmd, "Toggles checking for enchanted books on and off.");
         register_sub("setexposure", this::setexposure_cmd, "[int] sets your exposure to this ammount.");
         register_sub("circle", this::circle_cmd, "[int] - draws a circle at your location, with this radius.");
-        register_sub("loadperks", null, "loads perks for yourself");
         register_sub("colorme", this::colorme_cmd, "[hex] adds nbt color value to item held.");
-        register_sub("preview", this::preview_cmd, "show a single block preview at your feet.");
         register_sub("sql", this::sql_cmd, "Show SQL health info.");
         register_sub("templatetest", this::templatetest_cmd, "tests out some new template stream code.");
         register_sub("buildspawn", this::buildspawn_cmd, "[civname] [capitolname] Builds spawn from spawn template.");
@@ -165,7 +161,6 @@ public class DebugCommand extends CommandBase {
         register_sub("spawn", null, "remote entities test");
         register_sub("heal", this::heal_cmd, "heals you....");
         register_sub("skull", this::skull_cmd, "[player] [title]");
-        register_sub("giveperk", this::giveperk_cmd, "<id> gives yourself this perk id.");
         register_sub("packet", this::packet_cmd, "sends custom auth packet.");
         register_sub("disablemap", this::disablemap_cmd, "disables zan's minimap");
         register_sub("world", this::world_cmd, "Show world debug options");
@@ -233,23 +228,6 @@ public class DebugCommand extends CommandBase {
         CivMessage.sendSuccess(player, "Sent test message");
     }
 
-    public void giveperk_cmd() throws CivException {
-        Resident resident = getResident();
-        String perkId = getNamedString(1, "Enter a perk ID");
-        ConfigPerk configPerk = CivSettings.perks.get(perkId);
-
-        Perk p2 = resident.perks.get(configPerk.id);
-        if (p2 != null) {
-            p2.count++;
-            resident.perks.put(p2.getIdent(), p2);
-        } else {
-            Perk p = new Perk(configPerk);
-            resident.perks.put(p.getIdent(), p);
-            p2 = p;
-        }
-
-        CivMessage.sendSuccess(resident, "Added perk:" + p2.getDisplayName());
-    }
 
     public void skull_cmd() throws CivException {
         Player player = getPlayer();
@@ -350,149 +328,124 @@ public class DebugCommand extends CommandBase {
                 return;
             }
 
-            class BuildSpawnTask implements Runnable {
-                final CommandSender sender;
-                final int start_x;
-                final int start_y;
-                final int start_z;
-                final Town spawnCapitol;
+            TaskMaster.syncTask(() -> {
+                try {
 
-                public BuildSpawnTask(CommandSender sender, int x, int y, int z, Town capitol) {
-                    this.sender = sender;
-                    this.start_x = x;
-                    this.start_y = y;
-                    this.start_z = z;
-                    this.spawnCapitol = capitol;
-                }
-
-                @Override
-                public void run() {
+                    /* Initialize the spawn template */
+                    Template tpl = new Template();
                     try {
+                        tpl.load_template("templates/spawn.def");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        throw new CivException("IO Error.");
+                    }
 
-                        /* Initialize the spawn template */
-                        Template tpl = new Template();
-                        try {
-                            tpl.load_template("templates/spawn.def");
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            throw new CivException("IO Error.");
-                        }
+                    ConfigBuildableInfo info = new ConfigBuildableInfo();
+                    info.tile_improvement = false;
+                    info.templateYShift = 0;
+                    Location center = Buildable.repositionCenterStatic(getPlayer().getLocation(), info,
+                            Template.getDirection(getPlayer().getLocation()), tpl.size_x, tpl.size_z);
 
-                        Player player = (Player) sender;
-                        ConfigBuildableInfo info = new ConfigBuildableInfo();
-                        info.tile_improvement = false;
-                        info.templateYShift = 0;
-                        Location center = Buildable.repositionCenterStatic(player.getLocation(), info,
-                                Template.getDirection(player.getLocation()), tpl.size_x, tpl.size_z);
+                    CivMessage.send(sender, "Building from " + 0 + "," + 0 + "," + 0);
+                    for (int y = 0; y < tpl.size_y; y++) {
+                        for (int x = 0; x < tpl.size_x; x++) {
+                            for (int z = 0; z < tpl.size_z; z++) {
+                                BlockCoord next = new BlockCoord(center);
+                                next.setX(next.getX() + x);
+                                next.setY(next.getY() + y);
+                                next.setZ(next.getZ() + z);
 
-                        CivMessage.send(sender, "Building from " + start_x + "," + start_y + "," + start_z);
-                        for (int y = start_y; y < tpl.size_y; y++) {
-                            for (int x = start_x; x < tpl.size_x; x++) {
-                                for (int z = start_z; z < tpl.size_z; z++) {
-                                    BlockCoord next = new BlockCoord(center);
-                                    next.setX(next.getX() + x);
-                                    next.setY(next.getY() + y);
-                                    next.setZ(next.getZ() + z);
+                                SimpleBlock sb = tpl.blocks[x][y][z];
 
-                                    SimpleBlock sb = tpl.blocks[x][y][z];
-
-                                    if (sb.specialType.equals(SimpleBlock.Type.COMMAND)) {
-                                        String buildableName = sb.command.replace("/", "");
+                                if (sb.specialType.equals(SimpleBlock.Type.COMMAND)) {
+                                    String buildableName = sb.command.replace("/", "");
 
 
-                                        info = null;
-                                        for (ConfigBuildableInfo buildInfo : CivSettings.structures.values()) {
-                                            if (buildInfo.displayName.equalsIgnoreCase(buildableName)) {
-                                                info = buildInfo;
-                                                break;
-                                            }
+                                    info = null;
+                                    for (ConfigBuildableInfo buildInfo : CivSettings.structures.values()) {
+                                        if (buildInfo.displayName.equalsIgnoreCase(buildableName)) {
+                                            info = buildInfo;
+                                            break;
                                         }
-                                        if (info == null) {
-                                            try {
-                                                Block block = next.getBlock();
-                                                block.setType(Material.AIR);
-                                                block.setData((byte) 0);
-                                                continue;
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                                continue;
-                                            }
-                                        }
-
-                                        CivMessage.send(sender, "Setting up " + buildableName);
-                                        int yShift = 0;
-                                        String[] lines = sb.getKeyValueString().split(",");
-                                        String[] split = lines[0].split(":");
-                                        String dir = split[0];
-                                        yShift = Integer.parseInt(split[1]);
-
-                                        Location loc = next.getLocation();
-                                        loc.setY(loc.getY() + yShift);
-
-                                        Structure struct = Structure.newStructure(loc, info.id, spawnCapitol);
-                                        if (struct instanceof Capitol) {
-                                            AdminTownCommand.claimradius(spawnCapitol, center, 15);
-                                        }
-                                        struct.setTemplateName("templates/themes/default/" + info.template_base_name + "/" + info.template_base_name + "_" + dir + ".def");
-                                        struct.bindStructureBlocks();
-                                        struct.setComplete(true);
-                                        struct.setHitpoints(info.max_hitpoints);
-                                        CivGlobal.addStructure(struct);
-                                        spawnCapitol.addStructure(struct);
-
-                                        Template tplStruct;
+                                    }
+                                    if (info == null) {
                                         try {
-                                            tplStruct = Template.getTemplate(struct.getSavedTemplatePath(), null);
-                                            TaskMaster.syncTask(new PostBuildSyncTask(tplStruct, struct));
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                            throw new CivException("IO Exception.");
-                                        }
-
-                                        struct.save();
-                                        spawnCapitol.save();
-
-                                    } else if (sb.specialType.equals(SimpleBlock.Type.LITERAL)) {
-                                        try {
-                                            Block block = next.getBlock();
-                                            block.setType(sb.getType());
-                                            block.setData((byte) sb.getData());
-
-                                            Sign s = (Sign) block.getState();
-                                            for (int j = 0; j < 4; j++) {
-                                                s.setLine(j, sb.message[j]);
-                                            }
-
-                                            s.update();
+                                            next.getBlock().getState().setData(new MaterialData(Material.AIR));
+                                            continue;
                                         } catch (Exception e) {
                                             e.printStackTrace();
+                                            continue;
                                         }
-                                    } else {
-                                        try {
-                                            Block block = next.getBlock();
-                                            block.setType(sb.getType());
-                                            block.setData((byte) sb.getData());
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
+                                    }
+
+                                    CivMessage.send(sender, "Setting up " + buildableName);
+                                    String[] split = sb.getKeyValueString().split(",")[0].split(":");
+                                    String dir = split[0];
+                                    int yShift = Integer.parseInt(split[1]);
+
+                                    Location loc = next.getLocation();
+                                    loc.setY(loc.getY() + yShift);
+
+                                    Structure struct = Structure.newStructure(loc, info.id, spawnCapitol);
+                                    if (struct instanceof Capitol) {
+                                        AdminTownCommand.claimradius(spawnCapitol, center, 15);
+                                    }
+                                    struct.setTemplateName("templates/themes/default/" + info.template_base_name + "/" + info.template_base_name + "_" + dir + ".def");
+                                    struct.bindStructureBlocks();
+                                    struct.setComplete(true);
+                                    struct.setHitpoints(info.max_hitpoints);
+                                    CivGlobal.addStructure(struct);
+                                    spawnCapitol.addStructure(struct);
+
+                                    Template tplStruct;
+                                    try {
+                                        tplStruct = Template.getTemplate(struct.getSavedTemplatePath(), null);
+                                        TaskMaster.syncTask(new PostBuildSyncTask(tplStruct, struct));
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                        throw new CivException("IO Exception.");
+                                    }
+
+                                    struct.save();
+                                    spawnCapitol.save();
+
+                                } else if (sb.specialType.equals(SimpleBlock.Type.LITERAL)) {
+                                    try {
+                                        next.getBlock().setType(sb.getType());
+                                        next.getBlock().setData((byte) sb.getData());
+
+                                        Sign s = (Sign) next.getBlock().getState();
+                                        for (int j = 0; j < 4; j++) {
+                                            s.setLine(j, sb.message[j]);
                                         }
+
+                                        s.update();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                } else {
+                                    try {
+                                        Block block = next.getBlock();
+                                        block.setType(sb.getType());
+                                        block.setData((byte) sb.getData());
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
                                     }
                                 }
                             }
                         }
-
-                        CivMessage.send(sender, "Finished building.");
-
-                        spawnCapitol.addAccumulatedCulture(60000000);
-                        spawnCapitol.save();
-
-                    } catch (CivException e) {
-                        e.printStackTrace();
-                        CivMessage.send(sender, e.getMessage());
                     }
-                }
-            }
 
-            TaskMaster.syncTask(new BuildSpawnTask(sender, 0, 0, 0, spawnCapitol));
+                    CivMessage.send(sender, "Finished building.");
+
+                    spawnCapitol.addAccumulatedCulture(60000000);
+                    spawnCapitol.save();
+
+                } catch (CivException e) {
+                    e.printStackTrace();
+                    CivMessage.send(sender, e.getMessage());
+                }
+            });
         } catch (InvalidNameException e) {
             throw new CivException(e.getMessage());
         } catch (SQLException e) {
@@ -547,25 +500,6 @@ public class DebugCommand extends CommandBase {
         }
 
         CivMessage.send(sender, makeInfoString(stats, CivColor.Green, CivColor.LightGreen));
-    }
-
-    public void preview_cmd() {
-//		Player player = getPlayer();
-//		PlayerBlockChangeUtil util = new PlayerBlockChangeUtil();
-//		
-//		ProtocolManager manager = ProtocolLibrary.getProtocolManager();
-//		PacketContainer mapChunk =  manager.createPacket(Packets.Server.MAP_CHUNK);
-//		
-//		mapChunk.getBytes().write(arg0, arg1)
-//		//Packet3CExplosion expo = new Packet3CExplosion();
-//		//Packet51MapChunk c = new Packet51MapChunk();
-//		c.
-//		//mapChunk.set
-//		
-//		
-//		//util.addUpdateBlock(player.getName(), new BlockCoord(player.getLocation().add(0, -1, 0)), CivData.WOOD, 3);
-//		//util.sendUpdate(player.getName());
-//		//CivMessage.sendSuccess(player, "Changed block");
     }
 
     public void colorme_cmd() throws CivException {
@@ -1025,18 +959,6 @@ public class DebugCommand extends CommandBase {
         }
     }
 
-    public void regenmobspawnerchunk_cmd() {
-
-        World world = Bukkit.getWorld("world");
-
-        for (ChunkCoord coord : CivGlobal.mobSpawnerPreGenerator.spawnerPicks.keySet()) {
-
-            world.regenerateChunk(coord.getX(), coord.getZ());
-            CivMessage.send(sender, "Regened:" + coord);
-
-        }
-    }
-
     public void restoresigns_cmd() {
 
         CivMessage.send(sender, "restoring....");
@@ -1044,7 +966,7 @@ public class DebugCommand extends CommandBase {
 
             BlockCoord bcoord = sign.getCoord();
             Block block = bcoord.getBlock();
-            block.setType(Material.WALL_SIGN);
+            block.getState().setData(new org.bukkit.material.Sign(Material.WALL_SIGN));
             block.setData((byte) sign.getDirection());
 
             Sign s = (Sign) block.getState();
@@ -1090,23 +1012,6 @@ public class DebugCommand extends CommandBase {
 
     }
 
-    public void mobspawnergenerate_cmd() {
-        if (CivSettings.hasCustomMobs) {
-            String playerName;
-
-            if (sender instanceof Player) {
-                playerName = sender.getName();
-            } else {
-                playerName = null;
-            }
-
-            CivMessage.send(sender, "Starting Mob Spawner Generation task...");
-            TaskMaster.asyncTask(new MobSpawnerPostGenTask(playerName, 0), 0);
-        } else {
-            CivMessage.send(sender, "Unable to generate CustomMob spawners, CustomMobs is not enabled.");
-        }
-    }
-
     public void tradegenerate_cmd() {
         String playerName;
 
@@ -1133,25 +1038,6 @@ public class DebugCommand extends CommandBase {
         BlockCoord coord = new BlockCoord(getPlayer().getLocation());
         TradeGoodPopulator.buildTradeGoodie(good, coord, getPlayer().getLocation().getWorld(), false);
         CivMessage.sendSuccess(sender, "Created a " + good.name + " here.");
-    }
-
-    public void createmobspawner_cmd() throws CivException {
-        if (CivSettings.hasCustomMobs) {
-            if (args.length < 2) {
-                throw new CivException("Enter mob spawner id");
-            }
-
-            ConfigMobSpawner spawner = CivSettings.spawners.get(args[1]);
-            if (spawner == null) {
-                throw new CivException("Unknown mob spawner id:" + args[1]);
-            }
-
-            BlockCoord coord = new BlockCoord(getPlayer().getLocation());
-            MobSpawnerPopulator.buildMobSpawner(spawner, coord, getPlayer().getLocation().getWorld(), false);
-            CivMessage.sendSuccess(sender, "Created a " + spawner.name + " Mob Spawner here.");
-        } else {
-            CivMessage.send(sender, "Unable to generate CustomMob spawners, CustomMobs is not enabled.");
-        }
     }
 
     public void generate_cmd() throws CivException {
@@ -1207,13 +1093,6 @@ public class DebugCommand extends CommandBase {
 
         getSelectedTown().getBuffManager().addBuff(buff.id, buff.id, "Debug");
         CivMessage.sendSuccess(sender, "Gave buff " + buff.name + " to town");
-    }
-
-    public void addteam_cmd() throws IllegalStateException, IllegalArgumentException {
-//		Team team = CivGlobal.globalBoard.getTeam("everybody");
-//		team.addPlayer(CivGlobal.getFakeOfflinePlayer("FAKENAME"));
-//		getPlayer().setScoreboard(CivGlobal.globalBoard);
-//		CivMessage.sendSuccess(sender, "Added to scoreboard");
     }
 
     public void processculture_cmd() {

@@ -174,26 +174,9 @@ public class BuildCommand extends CommandBase {
         }
     }
 
-
-    public void d_cmd() {
-        try {
-            demolish_cmd();
-        } catch (CivException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void undo_cmd() throws CivException {
         Town town = getSelectedTown();
         town.processUndo();
-    }
-
-    public void u_cmd() {
-        try {
-            undo_cmd();
-        } catch (CivException e) {
-            e.printStackTrace();
-        }
     }
 
     public void progress_cmd() throws CivException {
@@ -213,14 +196,6 @@ public class BuildCommand extends CommandBase {
             //	b.builtBlockCount+" / "+b.getTotalBlockCount()+")");
         }
 
-    }
-
-    public void p_cmd() {
-        try {
-            progress_cmd();
-        } catch (CivException e) {
-            e.printStackTrace();
-        }
     }
 
     public void list_available_structures() throws CivException {
@@ -277,14 +252,6 @@ public class BuildCommand extends CommandBase {
         this.list_available_wonders();
     }
 
-    public void l_cmd() {
-        try {
-            list_cmd();
-        } catch (CivException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public void doDefaultAction() throws CivException {
         if (args.length == 0) {
@@ -296,36 +263,6 @@ public class BuildCommand extends CommandBase {
             fullArgs.append(arg).append(" ");
         }
         buildByName(fullArgs.toString().trim());
-    }
-
-
-    public void preview_cmd() throws CivException {
-        String fullArgs = this.combineArgs(this.stripArgs(args, 1));
-
-        ConfigBuildableInfo sinfo = CivSettings.getBuildableInfoByName(fullArgs);
-        if (sinfo == null) {
-            throw new CivException(CivSettings.localize.localizedString("cmd_build_defaultUnknownStruct") + " " + fullArgs);
-        }
-
-        Town town = getSelectedTown();
-        if (sinfo.isWonder) {
-            Wonder wonder = Wonder.newWonder(getPlayer().getLocation(), sinfo.id, town);
-            try {
-                wonder.buildPlayerPreview(getPlayer(), getPlayer().getLocation());
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new CivException(CivSettings.localize.localizedString("internalIOException"));
-            }
-        } else {
-            Structure struct = Structure.newStructure(getPlayer().getLocation(), sinfo.id, town);
-            try {
-                struct.buildPlayerPreview(getPlayer(), getPlayer().getLocation());
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new CivException(CivSettings.localize.localizedString("internalIOException"));
-            }
-        }
-        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_build_showPreviewSuccess"));
     }
 
 

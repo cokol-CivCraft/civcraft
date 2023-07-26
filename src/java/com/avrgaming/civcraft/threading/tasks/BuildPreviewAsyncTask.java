@@ -69,7 +69,7 @@ public class BuildPreviewAsyncTask extends CivAsyncTask {
         }
         return player;
     }
-
+    @SuppressWarnings("BusyWait")
     @Override
     public void run() {
 

@@ -41,14 +41,12 @@ public class DebugTestCommand extends CommandBase {
         register_sub("setlag", this::setlag_cmd, "[tps] - tries to set the tps to this amount to simulate lag.");
     }
 
-    @SuppressWarnings("unused")
     public void setlag_cmd() throws CivException {
         Integer tps = getNamedInteger(1);
         TaskMaster.syncTimer("lagtimer", new LagSimulationTimer(tps), 0);
         CivMessage.sendSuccess(sender, "Let the lagging begin.");
     }
 
-    @SuppressWarnings("unused")
     public void getsyncchesttest_cmd() throws CivException {
         Integer count = getNamedInteger(1);
 

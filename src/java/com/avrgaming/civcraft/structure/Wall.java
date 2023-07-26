@@ -71,7 +71,7 @@ public class Wall extends Structure {
      *  This is used to chain together the wall chunks built by the last operation.
      * this allows us to undo all of the walls built in a single pass.
      */
-    private final Wall nextWallBuilt = null;
+    private Wall nextWallBuilt = null;
 
 //	private int verticalsegments = 0;
 
@@ -516,7 +516,7 @@ public class Wall extends Structure {
     }
 
     @Override
-    public void repairFromTemplate() throws CivException {
+    public void repairFromTemplate() {
         this.repairStructureForFree();
     }
 

@@ -18,9 +18,11 @@
 package com.avrgaming.civcraft.structure;
 
 import com.avrgaming.civcraft.config.CivSettings;
+import com.avrgaming.civcraft.config.ConfigTemplate;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.listener.MarkerPlacementManager;
+import com.avrgaming.civcraft.loregui.GuiActions;
 import com.avrgaming.civcraft.lorestorage.LoreGuiItem;
 import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
@@ -35,7 +37,6 @@ import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.SimpleBlock;
 import com.avrgaming.civcraft.war.War;
-import com.avrgaming.global.perks.Perk;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -79,7 +80,7 @@ public class FortifiedWall extends Wall {
      *  This is used to chain together the wall chunks built by the last operation.
      * this allows us to undo all of the walls built in a single pass.
      */
-    private final FortifiedWall nextWallBuilt = null;
+    private FortifiedWall nextWallBuilt = null;
 
 //	private int verticalsegments = 0;
 
@@ -172,8 +173,7 @@ public class FortifiedWall extends Wall {
                 WallBlock wb = wallBlocks.get(coord);
                 Block block = coord.getBlock();
                 block.setType(wb.getOldId());
-                Block block1 = coord.getBlock();
-                block1.setData((byte) (int) wb.getOldData());
+                coord.getBlock().setData(wb.getOldData());
                 try {
                     wb.delete();
                 } catch (SQLException e) {
@@ -194,9 +194,8 @@ public class FortifiedWall extends Wall {
 
         /* Look for any custom template perks and ask the player if they want to use them. */
         Resident resident = CivGlobal.getResident(player);
-        ArrayList<Perk> perkList = this.getTown().getTemplatePerks(this, resident, this.info);
-        ArrayList<Perk> personalUnboundPerks = resident.getUnboundTemplatePerks(perkList, this.info);
-        if (perkList.size() != 0 || personalUnboundPerks.size() != 0) {
+        ArrayList<ConfigTemplate> perkList = getTemplates(this.info);
+        if (perkList.size() != 0) {
             /* Store the pending buildable. */
             resident.pendingBuildable = this;
 
@@ -205,31 +204,19 @@ public class FortifiedWall extends Wall {
             ItemStack infoRec = LoreGuiItem.build("Default " + this.getDisplayName(),
                     Material.WRITTEN_BOOK,
                     0, CivColor.Gold + "<Click To Build>");
-            infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
+            infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithTemplate);
             inv.addItem(infoRec);
 
-            for (Perk perk : perkList) {
-                infoRec = LoreGuiItem.build(perk.getDisplayName(),
-                        perk.configPerk.type_id,
-                        perk.configPerk.data, CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"),
-                        CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_providedBy") + " " + CivColor.LightBlue + perk.provider);
-                infoRec = LoreGuiItem.setAction(infoRec, "BuildWithTemplate");
-                infoRec = LoreGuiItem.setActionData(infoRec, "perk", perk.getIdent());
+            for (ConfigTemplate perk : perkList) {
+                infoRec = LoreGuiItem.build(
+                        perk.display_name,
+                        perk.type_id,
+                        perk.data,
+                        CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild")
+                );
+                infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithTemplate);
+                infoRec = LoreGuiItem.setActionData(infoRec, "theme", perk.theme);
                 inv.addItem(infoRec);
-            }
-
-            for (Perk perk : personalUnboundPerks) {
-                infoRec = LoreGuiItem.build(perk.getDisplayName(),
-                        Material.BEDROCK,
-                        perk.configPerk.data, CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBind"),
-                        CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_unbound"),
-                        CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_unbound2"),
-                        CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_unbound3"),
-                        CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_unbound4"),
-                        CivColor.Gray + CivSettings.localize.localizedString("loreGui_template_unbound5"));
-                infoRec = LoreGuiItem.setAction(infoRec, "ActivatePerk");
-                infoRec = LoreGuiItem.setActionData(infoRec, "perk", perk.getIdent());
-
             }
 
             /* We will resume by calling buildPlayerPreview with the template when a gui item is clicked. */
@@ -658,7 +645,7 @@ public class FortifiedWall extends Wall {
     }
 
     @Override
-    public void repairFromTemplate() throws CivException {
+    public void repairFromTemplate() {
         this.repairStructureForFree();
     }
 

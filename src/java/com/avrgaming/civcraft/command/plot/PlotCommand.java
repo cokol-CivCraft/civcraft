@@ -43,9 +43,6 @@ public class PlotCommand extends CommandBase {
         register_sub("info", this::info_cmd, CivSettings.localize.localizedString("cmd_plot_infoDesc"));
         register_sub("toggle", this::toggle_cmd, CivSettings.localize.localizedString("cmd_plot_toggleDesc"));
         register_sub("perm", this::perm_cmd, CivSettings.localize.localizedString("cmd_plot_permDesc"));
-        register_sub("fs", this::fs_cmd, CivSettings.localize.localizedString("cmd_plot_fsDesc"));
-        register_sub("nfs", this::nfs_cmd, CivSettings.localize.localizedString("cmd_plot_nfsDesc"));
-        register_sub("buy", this::buy_cmd, CivSettings.localize.localizedString("cmd_plot_buyDesc"));
         register_sub("addgroup", this::addgroup_cmd, CivSettings.localize.localizedString("cmd_plot_addgroupDesc"));
         register_sub("setowner", this::setowner_cmd, CivSettings.localize.localizedString("cmd_plot_setowner"));
         register_sub("farminfo", this::farminfo_cmd, CivSettings.localize.localizedString("cmd_plot_farminfoDesc"));
@@ -186,68 +183,6 @@ public class PlotCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_plot_addgroupSuccess", grp.getName()));
     }
 
-
-    public void buy_cmd() throws CivException {
-        TownChunk tc = this.getStandingTownChunk();
-        Resident resident = getResident();
-
-        if (tc.isOutpost()) {
-            throw new CivException(CivSettings.localize.localizedString("cmd_plot_buyOutpost"));
-        }
-
-        if (resident.getTown() != tc.getTown()) {
-            throw new CivException(CivSettings.localize.localizedString("cmd_plot_buyNotInTown"));
-        }
-
-        if (!tc.isForSale()) {
-            throw new CivException(CivSettings.localize.localizedString("cmd_plot_buyNotForSale"));
-        }
-
-        tc.purchase(resident);
-        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_plot_buySuccess", tc.getChunkCoord(), tc.getValue(), CivSettings.CURRENCY_NAME));
-    }
-
-
-    public void fs_cmd() throws CivException {
-        TownChunk tc = this.getStandingTownChunk();
-        this.validPlotOwner();
-
-        if (tc.isOutpost()) {
-            throw new CivException(CivSettings.localize.localizedString("cmd_plot_sellOutpost"));
-        }
-
-        if (args.length < 2) {
-            throw new CivException(CivSettings.localize.localizedString("cmd_plot_sellNeedPrice"));
-        }
-
-        try {
-            double price = Double.parseDouble(args[1]);
-            tc.setForSale(true);
-            tc.setPrice(price);
-            tc.save();
-        } catch (NumberFormatException e) {
-            throw new CivException(args[1] + " " + CivSettings.localize.localizedString("cmd_enterNumerError2"));
-        }
-
-        CivMessage.sendTown(tc.getTown(), CivSettings.localize.localizedString("var_cmd_plot_sellSuccess1", tc.getCenterString(), args[1], CivSettings.CURRENCY_NAME));
-    }
-
-
-    public void nfs_cmd() throws CivException {
-        TownChunk tc = this.getStandingTownChunk();
-        this.validPlotOwner();
-
-        try {
-            tc.setForSale(false);
-            tc.save();
-        } catch (NumberFormatException e) {
-            throw new CivException(args[1] + " " + CivSettings.localize.localizedString("cmd_enterNumerError2"));
-        }
-
-        CivMessage.sendTown(tc.getTown(), CivSettings.localize.localizedString("cmd_plot_nfsSuccess") + " " + tc.getCenterString());
-    }
-
-
     public void toggle_cmd() throws CivException {
         TownChunk tc = this.getStandingTownChunk();
         this.validPlotOwner();
@@ -320,7 +255,6 @@ public class PlotCommand extends CommandBase {
             showPermOwnership(tc);
             showCurrentPermissions(tc);
             showToggles(tc);
-            showPriceInfo(tc);
 
         }
     }
@@ -328,14 +262,6 @@ public class PlotCommand extends CommandBase {
     private void showToggles(TownChunk tc) {
         CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_plot_showMobs") + " " + CivColor.LightGreen + tc.perms.isMobs() + " " +
                 CivColor.Green + CivSettings.localize.localizedString("cmd_plot_showFire") + " " + CivColor.LightGreen + tc.perms.isFire());
-    }
-
-    private void showPriceInfo(TownChunk tc) {
-        String out = "";
-        if (tc.isForSale()) {
-            out += CivColor.Yellow + CivSettings.localize.localizedString("var_cmd_plot_showPrice", tc.getPrice(), CivSettings.CURRENCY_NAME);
-        }
-        CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("Value") + " " + CivColor.LightGreen + tc.getValue() + out);
     }
 
     @Override

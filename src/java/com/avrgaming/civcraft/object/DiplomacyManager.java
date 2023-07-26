@@ -94,11 +94,7 @@ public class DiplomacyManager {
     }
 
     public void deleteAllRelations() {
-        LinkedList<Relation> removeUs = new LinkedList<>();
-
-        removeUs.addAll(relations.values());
-
-        for (Relation relation : removeUs) {
+        for (Relation relation : new LinkedList<>(relations.values())) {
             this.deleteRelation(relation);
         }
 

@@ -84,7 +84,7 @@ public class BuildAsyncTask extends CivAsyncTask {
         }
     }
 
-
+    @SuppressWarnings("BusyWait")
     private boolean start() {
         lastSave = new Date();
 

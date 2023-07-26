@@ -18,9 +18,14 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
-public class ShowRecipe implements GuiAction {
+public class ShowRecipe extends GuiAction {
 
     public static final int START_OFFSET = LoreGuiItem.INV_ROW_COUNT + 3;
+
+    public ShowRecipe(GuiActions key) {
+        super(key);
+    }
+
 
     public ItemStack getIngredItem(ConfigIngredient ingred, Inventory recInv) {
         String name;
@@ -38,7 +43,7 @@ public class ShowRecipe implements GuiAction {
             entryStack = LoreGuiItem.asGuiItem(entryStack);
             if (cmat.isCraftable()) {
                 message = CivSettings.localize.localizedString("loreGui_recipes_clickForRecipe");
-                entryStack = LoreGuiItem.setAction(entryStack, "ShowRecipe");
+                entryStack = LoreGuiItem.setAction(entryStack, GuiActions.ShowRecipe);
                 entryStack = LoreGuiItem.setActionData(entryStack, "backInventory", recInv.getName());
             } else {
                 message = CivSettings.localize.localizedString("loreGui_recipes_notCraftable");
@@ -153,7 +158,7 @@ public class ShowRecipe implements GuiAction {
         if (backInventory != null) {
             Inventory inv = LoreGuiItemListener.guiInventories.get(backInventory);
             ItemStack backButton = LoreGuiItem.build(CivSettings.localize.localizedString("loreGui_recipes_back"), Material.MAP, 0, CivSettings.localize.localizedString("loreGui_recipes_back"));
-            backButton = LoreGuiItem.setAction(backButton, "OpenInventory");
+            backButton = LoreGuiItem.setAction(backButton, GuiActions.OpenInventory);
             backButton = LoreGuiItem.setActionData(backButton, "invType", "showGuiInv");
             backButton = LoreGuiItem.setActionData(backButton, "invName", inv.getName());
             recInv.setItem(LoreGuiItem.MAX_INV_SIZE - 1, backButton);
@@ -161,7 +166,7 @@ public class ShowRecipe implements GuiAction {
             ConfigMaterialCategory cat = ConfigMaterialCategory.getCategory(craftMat.getConfigMaterial().categoryCivColortripped);
             if (cat != null) {
                 ItemStack backButton = LoreGuiItem.build(CivSettings.localize.localizedString("loreGui_recipes_back"), Material.MAP, 0, CivSettings.localize.localizedString("loreGui_recipes_backMsg") + " " + cat.name);
-                backButton = LoreGuiItem.setAction(backButton, "OpenInventory");
+                backButton = LoreGuiItem.setAction(backButton, GuiActions.OpenInventory);
                 backButton = LoreGuiItem.setActionData(backButton, "invType", "showGuiInv");
                 backButton = LoreGuiItem.setActionData(backButton, "invName", cat.name + " Recipes");
                 recInv.setItem(LoreGuiItem.MAX_INV_SIZE - 1, backButton);

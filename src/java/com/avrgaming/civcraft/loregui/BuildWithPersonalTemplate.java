@@ -1,5 +1,6 @@
 package com.avrgaming.civcraft.loregui;
 
+import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigBuildableInfo;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.lorestorage.LoreGuiItem;
@@ -10,14 +11,17 @@ import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.structurevalidation.StructureValidator;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.threading.TaskMaster;
-import com.avrgaming.global.perks.Perk;
-import com.avrgaming.global.perks.components.CustomPersonalTemplate;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class BuildWithPersonalTemplate implements GuiAction {
+import java.io.IOException;
+
+public class BuildWithPersonalTemplate extends GuiAction {
+    public BuildWithPersonalTemplate(GuiActions key) {
+        super(key);
+    }
 
     @Override
     public void performAction(InventoryClickEvent event, ItemStack stack) {
@@ -27,16 +31,23 @@ public class BuildWithPersonalTemplate implements GuiAction {
         ConfigBuildableInfo info = resident.pendingBuildableInfo;
         try {
             /* get the template name from the perk's CustomTemplate component. */
-            String perk_id = LoreGuiItem.getActionData(stack, "perk");
-            Perk perk = Perk.staticPerks.get(perk_id);
-            CustomPersonalTemplate customTemplate = (CustomPersonalTemplate) perk.getComponent("CustomPersonalTemplate");
-            Template tpl = customTemplate.getTemplate(player, resident.pendingBuildableInfo);
+            String theme = LoreGuiItem.getActionData(stack, "theme");
+            Template tpl = new Template();
+            try {
+                tpl.initTemplate(player.getLocation(), info, theme);
+            } catch (IOException e) {
+                CivMessage.sendError(player, CivSettings.localize.localizedString("internalIOException"));
+                e.printStackTrace();
+            } catch (CivException e) {
+                e.printStackTrace();
+            }
             Location centerLoc = Buildable.repositionCenterStatic(player.getLocation(), info, Template.getDirection(player.getLocation()), tpl.size_x, tpl.size_z);
             TaskMaster.asyncTask(new StructureValidator(player, tpl.getFilepath(), centerLoc, resident.pendingCallback), 0);
             resident.desiredTemplate = tpl;
             player.closeInventory();
         } catch (CivException e) {
             CivMessage.sendError(player, e.getMessage());
+            e.printStackTrace();
         }
     }
 

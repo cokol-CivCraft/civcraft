@@ -44,7 +44,6 @@ public class AdminWarCommand extends CommandBase {
         register_sub("onlywarriors", this::onlywarriors_cmd, CivSettings.localize.localizedString("adcmd_war_onlywarriorsDesc"));
     }
 
-    @SuppressWarnings("unused")
     public void onlywarriors_cmd() {
 
         War.setOnlyWarriors(!War.isOnlyWarriors());
@@ -54,7 +53,7 @@ public class AdminWarCommand extends CommandBase {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 Resident resident = CivGlobal.getResident(player);
 
-                if (player.isOp() || player.hasPermission(CivSettings.MINI_ADMIN)) {
+                if (player.isOp()) {
                     CivMessage.send(sender, CivSettings.localize.localizedString("var_adcmd_war_onlywarriorsSkippedAdmin", player.getName()));
                     continue;
                 }
@@ -92,14 +91,12 @@ public class AdminWarCommand extends CommandBase {
 //		
 //	}
 
-    @SuppressWarnings("unused")
     public void start_cmd() {
 
         War.setWarTime(true);
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_war_startSuccess"));
     }
 
-    @SuppressWarnings("unused")
     public void stop_cmd() {
 
         War.setWarTime(false);

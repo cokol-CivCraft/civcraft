@@ -44,7 +44,6 @@ cannotBuild_outsideBorder: "Cannot build here. Part of the structure would sit b
 requiredToPurchase: "to purchase this upgrade."
 
 TradeGoodSign_Heading: "Trade Resource"
-MobSpawnerSign_Heading: "Mob Spawner"
 
 Finished: "Finished."
 Repaired: "Repaired."
@@ -2742,9 +2741,6 @@ weather_isSunny: "Weather is already sunny!"
 weather_heading: "Changing the Weather to Sunny"
 weather_confirmPrompt: "Are you sure you want the weather to be sunny?"
 weather_confirmPrompt2: "If so type 'yes', type anything else to cancel."
-
-#---- RenameCivOrTown ----
-RenameCivOrTown_NotResident: "You must be part of a civilization or town in order to rename it."
 
 # =========================== War Messages =========================
 var_war_overlordAnnounce: "Welcome our new overlords, the civilization of [%0]!"

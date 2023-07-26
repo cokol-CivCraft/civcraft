@@ -241,25 +241,6 @@ wonders:
     regen_rate: 2
     onwater: true
 
-  - id: w_battledome
-    template: battledome
-    template_y_shift: -1
-    displayName: Battledome
-    require_tech: 'tech_battledome'
-    require_upgrade:
-    check_event:
-    effect_event:
-    update_event:
-    onBuild_event:
-    limit: 1
-    cost: 100000.0
-    upkeep: 5000.0
-    hammer_cost: 80000.0
-    points: 100000
-    max_hitpoints: 1000
-    regen_rate: 1
-    national_wonder: true
-
 # Wonder Buffs
 #
 # To de-complicate the structure/wonder relationship the buffs for wonders

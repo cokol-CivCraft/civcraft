@@ -33,7 +33,6 @@ import com.avrgaming.civcraft.randomevents.ConfigRandomEvent;
 import com.avrgaming.civcraft.structure.FortifiedWall;
 import com.avrgaming.civcraft.structure.Wall;
 import com.avrgaming.civcraft.template.Template;
-import com.avrgaming.global.perks.Perk;
 import localize.Localize;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Material;
@@ -110,10 +109,7 @@ public class CivSettings {
     public static Map<Material, ConfigTechItem> techItems = new HashMap<>();
     public static Map<String, ConfigTechPotion> techPotions = new HashMap<>();
 
-    public static FileConfiguration spawnersConfig; /* spawners.yml */
-    public static Map<String, ConfigMobSpawner> spawners = new HashMap<>();
-    public static Map<String, ConfigMobSpawner> landSpawners = new HashMap<>();
-    public static Map<String, ConfigMobSpawner> waterSpawners = new HashMap<>();
+    public static FileConfiguration spawnersConfig;
 
     public static FileConfiguration goodsConfig; /* goods.yml */
     public static Map<String, ConfigTradeGood> goods = new HashMap<>();
@@ -145,8 +141,7 @@ public class CivSettings {
     public static FileConfiguration scoreConfig; /* score.yml */
 
     public static FileConfiguration perkConfig; /* perks.yml */
-    public static Map<String, ConfigPerk> perks = new HashMap<>();
-    public static Map<String, ConfigPerk> templates = new HashMap<>();
+    public static ArrayList<ConfigTemplate> templates = new ArrayList<>();
 
     public static FileConfiguration enchantConfig; /* enchantments.yml */
     public static Map<String, ConfigEnchant> enchants = new HashMap<>();
@@ -192,19 +187,6 @@ public class CivSettings {
     public static HashMap<Material, ConfigRemovedRecipes> removedRecipies = new HashMap<>();
     public static HashSet<Material> restrictedUndoBlocks = new HashSet<>();
     public static boolean hasVanishNoPacket = false;
-
-    public static final String MINI_ADMIN = "civ.admin";
-    public static final String HACKER = "civ.hacker";
-    public static final String MODERATOR = "civ.moderator";
-    public static final String FREE_PERKS = "civ.freeperks";
-    public static final String ECON = "civ.econ";
-    public static final String TPALLY = "civ.tp.ally";
-    public static final String TPNEUTRAL = "civ.tp.neutral";
-    public static final String TPHOSTILE = "civ.tp.hostile";
-    public static final String TPWAR = "civ.tp.war";
-    public static final String TPPEACE = "civ.tp.peace";
-    public static final String TPCAMP = "civ.tp.camp";
-    public static final String TPALL = "civ.tp.*";
     public static final int MARKET_COIN_STEP = 5;
     public static final int MARKET_BUYSELL_COIN_DIFF = 30;
     public static final int MARKET_STEP_THRESHOLD = 2;
@@ -227,7 +209,6 @@ public class CivSettings {
 
         CivLog.debug(localize.localizedString("welcome_string", "test", 1337, 100.50));
         CURRENCY_NAME = localize.localizedString("civ_currencyName");
-        CivGlobal.fullMessage = CivSettings.localize.localizedString("civGlobal_serverFullMsg");
 
         // Check for required data folder, if it's not there export it.
         CivSettings.validateFiles();
@@ -242,7 +223,6 @@ public class CivSettings {
         loadConfigFiles();
         loadConfigObjects();
 
-        Perk.init();
         Unit.init();
 
         //CivSettings.leather_speed = (float)CivSettings.getDouble(CivSettings.unitConfig, "base.leather_speed");
@@ -309,13 +289,6 @@ public class CivSettings {
             CivLog.info("TitleAPI hooks enabled");
         } else {
             CivLog.warning("TitleAPI not found, not registering TitleAPI hooks. This is fine if you're not using TitleAPI.");
-        }
-
-        if (CivSettings.plugin.hasPlugin("CustomMobs") && CivSettings.getBoolean(spawnersConfig, "enable")) {
-            hasCustomMobs = true;
-            CivLog.info("CustomMobs hooks enabled");
-        } else {
-            CivLog.warning("CustomMobs not found or disabled, not registering CustomMob hooks. This is fine if you're not using Custom Mobs.");
         }
 
         try {
@@ -403,6 +376,7 @@ public class CivSettings {
         File dest = new File(plugin.getDataFolder().getPath() + filepath);
         if (inputUrl == null) {
             CivLog.error("Destination is null: " + filepath);
+            return;
         }
         FileUtils.copyURLToFile(inputUrl, dest);
     }
@@ -436,7 +410,6 @@ public class CivSettings {
         techsConfig = loadCivConfig("techs.yml");
         religionConfig = loadCivConfig("religion.yml");
         goodsConfig = loadCivConfig("goods.yml");
-        spawnersConfig = loadCivConfig("spawners.yml");
         buffConfig = loadCivConfig("buffs.yml");
         governmentConfig = loadCivConfig("governments.yml");
         warConfig = loadCivConfig("war.yml");
@@ -457,8 +430,7 @@ public class CivSettings {
 
     public static void reloadPerks() throws IOException, InvalidConfigurationException {
         perkConfig = loadCivConfig("perks.yml");
-        ConfigPerk.loadConfig(perkConfig, perks);
-        ConfigPerk.loadTemplates(perkConfig, templates);
+        ConfigTemplate.loadConfig(perkConfig, templates);
     }
 
     private static void loadConfigObjects() throws InvalidConfiguration {
@@ -474,7 +446,6 @@ public class CivSettings {
         ConfigHemisphere.loadConfig(goodsConfig, hemispheres);
         ConfigBuff.loadConfig(buffConfig, buffs);
         ConfigWonderBuff.loadConfig(wonderConfig, wonderBuffs);
-        ConfigMobSpawner.loadConfig(spawnersConfig, spawners, landSpawners, waterSpawners);
         ConfigTradeGood.loadConfig(goodsConfig, goods, landGoods, waterGoods);
         ConfigGrocerLevel.loadConfig(structureConfig, grocerLevels);
         ConfigCottageLevel.loadConfig(structureConfig, cottageLevels);
@@ -484,8 +455,7 @@ public class CivSettings {
         ConfigEnchant.loadConfig(enchantConfig, enchants);
         ConfigUnit.loadConfig(unitConfig, units);
         ConfigMission.loadConfig(espionageConfig, missions);
-        ConfigPerk.loadConfig(perkConfig, perks);
-        ConfigPerk.loadTemplates(perkConfig, templates);
+        ConfigTemplate.loadConfig(perkConfig, templates);
         ConfigCampLonghouseLevel.loadConfig(campConfig, longhouseLevels);
         ConfigCampUpgrade.loadConfig(campConfig, campUpgrades);
         ConfigMarketItem.loadConfig(marketConfig, marketItems);
@@ -503,7 +473,6 @@ public class CivSettings {
 
         ConfigRemovedRecipes.removeRecipes(materialsConfig, removedRecipies);
         CivGlobal.tradeGoodPreGenerator.preGenerate();
-        CivGlobal.mobSpawnerPreGenerator.preGenerate();
         Wall.init_settings();
         FortifiedWall.init_settings();
     }

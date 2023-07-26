@@ -204,7 +204,7 @@ public class Civilization extends SQLObject {
         this.loadResearchedTechs(rs.getString("researched"));
         this.adminCiv = rs.getBoolean("adminCiv");
         this.conquered = rs.getBoolean("conquered");
-        Long ctime = rs.getLong("conquered_date");
+        long ctime = rs.getLong("conquered_date");
         this.incomeTaxRate = loadIncomeTaxRate();
         if (ctime == 0) {
             this.conquer_date = null;
@@ -1283,9 +1283,7 @@ public class Civilization extends SQLObject {
         }
 
         /* Remove any old relationships this civ may have had. */
-        LinkedList<Relation> deletedRelations = new LinkedList<>();
-        deletedRelations.addAll(this.getDiplomacyManager().getRelations());
-        for (Relation relation : deletedRelations) {
+        for (Relation relation : new LinkedList<>(this.getDiplomacyManager().getRelations())) {
             try {
                 if (relation.getStatus() == Relation.Status.WAR) {
                     relation.setStatus(Relation.Status.NEUTRAL);
