@@ -29,25 +29,25 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class DebugListener implements Listener {
 
-	@EventHandler(priority = EventPriority.MONITOR)
-	public void onPlayerInteractEntityEvent(PlayerInteractEntityEvent event) {
-	}
-	
-	@EventHandler(priority = EventPriority.MONITOR)
-	public void onPlayerInteractEvent(PlayerInteractEvent event) {
-	}
-	
-	@EventHandler(priority = EventPriority.MONITOR)
-	public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
-	}
-	
-	@EventHandler(priority = EventPriority.MONITOR)
-	public void onEntityDamageEvent(EntityDamageEvent event) {
-	}
-	
-	@EventHandler(priority = EventPriority.MONITOR)
-	public void onEntityInteractEvent(EntityInteractEvent event) {
-	}
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPlayerInteractEntityEvent(PlayerInteractEntityEvent event) {
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPlayerInteractEvent(PlayerInteractEvent event) {
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onEntityDamageEvent(EntityDamageEvent event) {
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onEntityInteractEvent(EntityInteractEvent event) {
+    }
 
 //	@EventHandler(priority = EventPriority.NORMAL)
 //	public void OnBlockBreakEvent(BlockBreakEvent event) {
@@ -73,8 +73,6 @@ public class DebugListener implements Listener {
 //			nextBlock = nextBlock.getRelative(BlockFace.UP);
 //		}
 //	}
-	
 
-	
-	
+
 }

@@ -5,8 +5,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class BuildStructureList implements GuiAction {
 
-	@Override
-	public void performAction(InventoryClickEvent event, ItemStack stack) {
+    @Override
+    public void performAction(InventoryClickEvent event, ItemStack stack) {
 //		Player player = (Player)event.getWhoClicked();
 //		Resident resident = CivGlobal.getResident(player);
 //		Inventory guiInventory = Bukkit.getServer().createInventory(player, LoreGuiItem.MAX_INV_SIZE, "Pick Structure To Build");
@@ -37,8 +37,7 @@ public class BuildStructureList implements GuiAction {
 //		
 //		LoreGuiItemListener.guiInventories.put(guiInventory.getName(), guiInventory);		
 //		TaskMaster.syncTask(new OpenInventoryTask(player, guiInventory));
-	}
-
+    }
 
 
 }

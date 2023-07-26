@@ -5,5 +5,5 @@ import org.bukkit.inventory.ItemStack;
 
 
 public interface GuiAction {
-	void performAction(InventoryClickEvent event, ItemStack stack);
+    void performAction(InventoryClickEvent event, ItemStack stack);
 }

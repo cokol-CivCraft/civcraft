@@ -60,24 +60,24 @@ public class Civilization extends SQLObject {
 
     private final Map<String, ConfigTech> techs = new ConcurrentHashMap<>();
 
-	private int color;
-	private int daysInDebt = 0;
-	private int currentEra = 0;
-	private double incomeTaxRate;
-	private double sciencePercentage;
-	private ConfigTech researchTech = null;
-	private double researchProgress = 0.0;
+    private int color;
+    private int daysInDebt = 0;
+    private int currentEra = 0;
+    private double incomeTaxRate;
+    private double sciencePercentage;
+    private ConfigTech researchTech = null;
+    private double researchProgress = 0.0;
 
-	private EconObject treasury;
-	private PermissionGroup leaderGroup;
-	private PermissionGroup adviserGroup;
+    private EconObject treasury;
+    private PermissionGroup leaderGroup;
+    private PermissionGroup adviserGroup;
 
-	/* Strings used for reverse lookups. */
-	private String leaderName;
-	private String leaderGroupName;
-	private String advisersGroupName;
-	private String capitolName;
-private ConfigReligion civReligion;
+    /* Strings used for reverse lookups. */
+    private String leaderName;
+    private String leaderGroupName;
+    private String advisersGroupName;
+    private String capitolName;
+    private ConfigReligion civReligion;
     private final ConcurrentHashMap<String, Town> towns = new ConcurrentHashMap<>();
     private ConfigGovernment government;
 
@@ -185,9 +185,8 @@ private ConfigReligion civReligion;
     public void load(ResultSet rs) throws SQLException, InvalidNameException {
         this.setId(rs.getInt("id"));
         this.setName(rs.getString("name"));
-        String resUUID = rs.getString("leaderName");
-//		Resident res = CivGlobal.getResidentViaUUID(UUID.fromString(resUUID));
-        leaderName = resUUID;
+        //		Resident res = CivGlobal.getResidentViaUUID(UUID.fromString(resUUID));
+        leaderName = rs.getString("leaderName");
 
 
         capitolName = rs.getString("capitolName");
@@ -238,13 +237,13 @@ private ConfigReligion civReligion;
         }
     }
 
-	@Override
-	public void save() {
-		SQLUpdate.add(this);
-	}
-	
-	@Override
-	public void saveNow() throws SQLException {
+    @Override
+    public void save() {
+        SQLUpdate.add(this);
+    }
+
+    @Override
+    public void saveNow() throws SQLException {
         HashMap<String, Object> hashmap = new HashMap<>();
         hashmap.put("name", this.getName());
         hashmap.put("leaderName", this.getLeader().getUUIDString());
@@ -259,56 +258,56 @@ private ConfigReligion civReligion;
         hashmap.put("color", this.getColor());
         hashmap.put("religion_id", this.getReligion().id);
         //hashmap.put("taxrate", this.getIncomeTaxRate());
-		if (this.getResearchTech() != null) {
-			hashmap.put("researchTech", this.getResearchTech().id);
-		} else {
-			hashmap.put("researchTech", null);
-		}
-		hashmap.put("researchProgress", this.getResearchProgress());
-		hashmap.put("government_id", this.getGovernment().id);
-		hashmap.put("lastUpkeepTick", this.saveKeyValueString(this.lastUpkeepPaidMap));
-		hashmap.put("lastTaxesTick", this.saveKeyValueString(this.lastTaxesPaidMap));
-		hashmap.put("researched", this.saveResearchedTechs());
-		hashmap.put("adminCiv", this.adminCiv);
-		hashmap.put("conquered", this.conquered);
-		if (this.conquer_date != null) {
-			hashmap.put("conquered_date", this.conquer_date.getTime());
-		} else {
-			hashmap.put("conquered_date", null);
-		}
+        if (this.getResearchTech() != null) {
+            hashmap.put("researchTech", this.getResearchTech().id);
+        } else {
+            hashmap.put("researchTech", null);
+        }
+        hashmap.put("researchProgress", this.getResearchProgress());
+        hashmap.put("government_id", this.getGovernment().id);
+        hashmap.put("lastUpkeepTick", this.saveKeyValueString(this.lastUpkeepPaidMap));
+        hashmap.put("lastTaxesTick", this.saveKeyValueString(this.lastTaxesPaidMap));
+        hashmap.put("researched", this.saveResearchedTechs());
+        hashmap.put("adminCiv", this.adminCiv);
+        hashmap.put("conquered", this.conquered);
+        if (this.conquer_date != null) {
+            hashmap.put("conquered_date", this.conquer_date.getTime());
+        } else {
+            hashmap.put("conquered_date", null);
+        }
 
-		if (this.messageOfTheDay != null) {
-			hashmap.put("motd", this.messageOfTheDay);
-		} else {
-			hashmap.put("motd", null);
-		}
+        if (this.messageOfTheDay != null) {
+            hashmap.put("motd", this.messageOfTheDay);
+        } else {
+            hashmap.put("motd", null);
+        }
 
-		if (this.created_date != null) {
-			hashmap.put("created_date", this.created_date.getTime());
-		} else {
-			hashmap.put("created_date", null);
-		}
+        if (this.created_date != null) {
+            hashmap.put("created_date", this.created_date.getTime());
+        } else {
+            hashmap.put("created_date", null);
+        }
 
-		SQL.updateNamedObject(this, hashmap, TABLE_NAME);
-	}
+        SQL.updateNamedObject(this, hashmap, TABLE_NAME);
+    }
 
-	private void loadResearchedTechs(String techstring) {
-		if (techstring == null || techstring.equals("")) {
-			return;
-		}
+    private void loadResearchedTechs(String techstring) {
+        if (techstring == null || techstring.equals("")) {
+            return;
+        }
 
-		String[] techs = techstring.split(",");
+        String[] techs = techstring.split(",");
 
-		for (String tech : techs) {
-			ConfigTech t = CivSettings.techs.get(tech);
-			if (t != null) {
-				CivGlobal.researchedTechs.add(t.id.toLowerCase());
-				this.techs.put(tech, t);
-			}
-		}
-	}
+        for (String tech : techs) {
+            ConfigTech t = CivSettings.techs.get(tech);
+            if (t != null) {
+                CivGlobal.researchedTechs.add(t.id.toLowerCase());
+                this.techs.put(tech, t);
+            }
+        }
+    }
 
-	private Object saveResearchedTechs() {
+    private Object saveResearchedTechs() {
         StringBuilder out = new StringBuilder();
 
         for (ConfigTech tech : this.techs.values()) {
@@ -333,19 +332,19 @@ private ConfigReligion civReligion;
 
                 map.put(key, Double.valueOf(value));
             } catch (ArrayIndexOutOfBoundsException e) {
-				// forget it then.
-			}
-		}
+                // forget it then.
+            }
+        }
 
-	}
+    }
 
-	private String saveKeyValueString(HashMap<String, Double> map) {
+    private String saveKeyValueString(HashMap<String, Double> map) {
         StringBuilder out = new StringBuilder();
 
-		for (String key : map.keySet()) {
-			double value = map.get(key);
-            out.append(key).append(":").append( value ).append( ";");
-		}
+        for (String key : map.keySet()) {
+            double value = map.get(key);
+            out.append(key).append(":").append(value).append(";");
+        }
         return out.toString();
     }
 
@@ -883,36 +882,36 @@ private ConfigReligion civReligion;
         return daysInDebt;
     }
 
-	public void setDaysInDebt(int daysInDebt) {
-		this.daysInDebt = daysInDebt;
-	}
-	
-	public void warnDebt() {
-		CivMessage.global(CivSettings.localize.localizedString("var_civ_debtAnnounce",this.getName(),this.getTreasury().getDebt(),CivSettings.CURRENCY_NAME));
-	}
-	
-	
-	public void incrementDaysInDebt() {
-		daysInDebt++;
-		
-		if (daysInDebt >= CivSettings.CIV_DEBT_GRACE_DAYS) {
-			if (daysInDebt >= CivSettings.CIV_DEBT_SELL_DAYS) {
-				if (daysInDebt >= CivSettings.CIV_DEBT_TOWN_SELL_DAYS) {
-					CivMessage.global(CivSettings.localize.localizedString("var_civ_fellIntoRuin",this.getName()));
-					try {
-						this.delete();
-						return;
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-		
-		// warn sell..
-		CivMessage.global(CivSettings.localize.localizedString("var_civ_debtGlobalAnnounce",this.getName())+" "+getDaysLeftWarning());
-		this.save();
-	}
+    public void setDaysInDebt(int daysInDebt) {
+        this.daysInDebt = daysInDebt;
+    }
+
+    public void warnDebt() {
+        CivMessage.global(CivSettings.localize.localizedString("var_civ_debtAnnounce", this.getName(), this.getTreasury().getDebt(), CivSettings.CURRENCY_NAME));
+    }
+
+
+    public void incrementDaysInDebt() {
+        daysInDebt++;
+
+        if (daysInDebt >= CivSettings.CIV_DEBT_GRACE_DAYS) {
+            if (daysInDebt >= CivSettings.CIV_DEBT_SELL_DAYS) {
+                if (daysInDebt >= CivSettings.CIV_DEBT_TOWN_SELL_DAYS) {
+                    CivMessage.global(CivSettings.localize.localizedString("var_civ_fellIntoRuin", this.getName()));
+                    try {
+                        this.delete();
+                        return;
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
+        // warn sell..
+        CivMessage.global(CivSettings.localize.localizedString("var_civ_debtGlobalAnnounce", this.getName()) + " " + getDaysLeftWarning());
+        this.save();
+    }
 
     public String getDaysLeftWarning() {
 
@@ -1188,21 +1187,20 @@ private ConfigReligion civReligion;
             return;
         }
 
-		if (this.researchTech != null) {	
-			this.addBeakers(totalBeakers);
-		} else {
-			EndGameCondition scienceVictory = EndGameCondition.getEndCondition("end_science");
-			if (scienceVictory == null) {
-				CivLog.error("Couldn't find science victory, not configured?");
-			} else {
-				if (scienceVictory.isActive(this)) {
-					/* 
-					 * We've got an active science victory, lets add these beakers
-					 * to the total stored on "the enlightenment"
-					 */
-					double beakerTotal = totalBeakers;
-					((EndConditionScience)scienceVictory).addExtraBeakersToCiv(this, beakerTotal);
-				}else {
+        if (this.researchTech != null) {
+            this.addBeakers(totalBeakers);
+        } else {
+            EndGameCondition scienceVictory = EndGameCondition.getEndCondition("end_science");
+            if (scienceVictory == null) {
+                CivLog.error("Couldn't find science victory, not configured?");
+            } else {
+                if (scienceVictory.isActive(this)) {
+                    /*
+                     * We've got an active science victory, lets add these beakers
+                     * to the total stored on "the enlightenment"
+                     */
+                    ((EndConditionScience) scienceVictory).addExtraBeakersToCiv(this, totalBeakers);
+                } else {
                     this.getTreasury().deposit(totalBeakers);
                     this.save();
                 }
@@ -1384,15 +1382,15 @@ private ConfigReligion civReligion;
 
     public boolean isTownsForSale() {
         return daysInDebt >= CivSettings.CIV_DEBT_SELL_DAYS;
-	}
+    }
 
-	public boolean isForSale() {
-		if (this.getTownCount() == 0) {
-			return false;
-		}
+    public boolean isForSale() {
+        if (this.getTownCount() == 0) {
+            return false;
+        }
 
-		return daysInDebt >= CivSettings.CIV_DEBT_GRACE_DAYS;
-	}
+        return daysInDebt >= CivSettings.CIV_DEBT_GRACE_DAYS;
+    }
 
     public double getForSalePriceFromCivOnly() {
         int effectivePoints = 0;
@@ -1603,31 +1601,31 @@ private ConfigReligion civReligion;
             total += happy_captured_town;
             sources.put("Captured Towns", happy_captured_town);
 
-			/* Get unhappiness from wars. */
-			double war_happy = this.getWarUnhappiness();
-			total += war_happy;
-			sources.put("War", war_happy);
-			
-		} catch (InvalidConfiguration e) {
-			e.printStackTrace();
-		}
-		
-		return total;
-	}
-	
-	/*
-	 * Gets distance happiness for a town.
-	 */
-	 public double getDistanceHappiness(Town town) {
-		 Structure capitolTownHall = this.getCapitolStructure();
-		 Structure townHall = town.getTownHall();		
-		 if (capitolTownHall != null && townHall != null) {
-			 Location loc_cap = capitolTownHall.getCorner().getLocation();
-			 Location loc_town = townHall.getCorner().getLocation();
-			 double distanceHappy;
-			 if (town.getMotherCiv() == null || town.getMotherCiv() == this) {
-				 try {
-                     distanceHappy = this.getDistanceHappiness(loc_cap, loc_town, town.touchesCapitolCulture(new HashSet<>()));
+            /* Get unhappiness from wars. */
+            double war_happy = this.getWarUnhappiness();
+            total += war_happy;
+            sources.put("War", war_happy);
+
+        } catch (InvalidConfiguration e) {
+            e.printStackTrace();
+        }
+
+        return total;
+    }
+
+    /*
+     * Gets distance happiness for a town.
+     */
+    public double getDistanceHappiness(Town town) {
+        Structure capitolTownHall = this.getCapitolStructure();
+        Structure townHall = town.getTownHall();
+        if (capitolTownHall != null && townHall != null) {
+            Location loc_cap = capitolTownHall.getCorner().getLocation();
+            Location loc_town = townHall.getCorner().getLocation();
+            double distanceHappy;
+            if (town.getMotherCiv() == null || town.getMotherCiv() == this) {
+                try {
+                    distanceHappy = this.getDistanceHappiness(loc_cap, loc_town, town.touchesCapitolCulture(new HashSet<>()));
                 } catch (InvalidConfiguration e) {
                     e.printStackTrace();
                     return 0.0;
@@ -1668,8 +1666,7 @@ private ConfigReligion civReligion;
             }
         }
 
-        double percent = (double) conqueredCivs / (double) totalCivs;
-        return percent;
+        return (double) conqueredCivs / (double) totalCivs;
     }
 
     public void processUnusedBeakers() {
@@ -1868,8 +1865,7 @@ private ConfigReligion civReligion;
             leader = resident.getName();
         }
 
-        ItemStack stack = ItemManager.spawnPlayerHead(leader, message + " (" + leader + ")");
-        return stack;
+        return ItemManager.spawnPlayerHead(leader, message + " (" + leader + ")");
     }
 
     public int getCurrentEra() {

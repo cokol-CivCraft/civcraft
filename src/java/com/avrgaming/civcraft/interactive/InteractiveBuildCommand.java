@@ -17,10 +17,6 @@
  */
 package com.avrgaming.civcraft.interactive;
 
-import org.bukkit.Location;
-import org.bukkit.Sound;
-import org.bukkit.entity.Player;
-
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivGlobal;
@@ -31,81 +27,84 @@ import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.threading.TaskMaster;
+import org.bukkit.Location;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 
 public class InteractiveBuildCommand implements InteractiveResponse {
 
-	Town town;
-	Buildable buildable;
-	Location center;
-	Template tpl;
-	
-	public InteractiveBuildCommand(Town town, Buildable buildable, Location center, Template tpl) {
-		this.town = town;
-		this.buildable = buildable;
-		this.center = center.clone();
-		this.tpl = tpl;
-	}
-	
-	@Override
-	public void respond(String message, Resident resident) {
-		Player player;
-		try {
-			player = CivGlobal.getPlayer(resident);
-		} catch (CivException e) {
-			return;
-		}
-		
-		if (!message.equalsIgnoreCase("yes")) {
-			CivMessage.sendError(player, CivSettings.localize.localizedString("interactive_build_cancel"));
-			resident.clearInteractiveMode();
-			resident.undoPreview();
-			return;
-		}
-		
-		
-		if (!buildable.validated) {
-			CivMessage.sendError(player, CivSettings.localize.localizedString("interactive_build_invalid"));
-			return;
-		}
-		
-		if (!buildable.isValid() && !player.isOp()) {
-			CivMessage.sendError(player, CivSettings.localize.localizedString("interactive_build_invalidNotOP"));
-			return;
-		}
-		
-		class SyncTask implements Runnable {
-			Resident resident;
-			
-			public SyncTask(Resident resident) {
-				this.resident = resident;
-			}
-			
-			@Override
-			public void run() {
-				Player player;
-				try {
-					player = CivGlobal.getPlayer(resident);
-				} catch (CivException e) {
-					return;
-				}
-				
-				try {
-					if (buildable instanceof Wonder) {
-						town.buildWonder(player, buildable.getConfigId(), center, tpl);
-						player.playSound(player.getLocation(), Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 0.9f, 0.9f);
-					} else {
-						town.buildStructure(player, buildable.getConfigId(), center, tpl);
-						player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.9f, 0.9f);
-					}
-					resident.clearInteractiveMode();
-				} catch (CivException e) {
-					CivMessage.sendError(player, e.getMessage());
-				}
-			}
-		}
-		
-		TaskMaster.syncTask(new SyncTask(resident));
+    Town town;
+    Buildable buildable;
+    Location center;
+    Template tpl;
 
-	}
+    public InteractiveBuildCommand(Town town, Buildable buildable, Location center, Template tpl) {
+        this.town = town;
+        this.buildable = buildable;
+        this.center = center.clone();
+        this.tpl = tpl;
+    }
+
+    @Override
+    public void respond(String message, Resident resident) {
+        Player player;
+        try {
+            player = CivGlobal.getPlayer(resident);
+        } catch (CivException e) {
+            return;
+        }
+
+        if (!message.equalsIgnoreCase("yes")) {
+            CivMessage.sendError(player, CivSettings.localize.localizedString("interactive_build_cancel"));
+            resident.clearInteractiveMode();
+            resident.undoPreview();
+            return;
+        }
+
+
+        if (!buildable.validated) {
+            CivMessage.sendError(player, CivSettings.localize.localizedString("interactive_build_invalid"));
+            return;
+        }
+
+        if (!buildable.isValid() && !player.isOp()) {
+            CivMessage.sendError(player, CivSettings.localize.localizedString("interactive_build_invalidNotOP"));
+            return;
+        }
+
+        class SyncTask implements Runnable {
+            final Resident resident;
+
+            public SyncTask(Resident resident) {
+                this.resident = resident;
+            }
+
+            @Override
+            public void run() {
+                Player player;
+                try {
+                    player = CivGlobal.getPlayer(resident);
+                } catch (CivException e) {
+                    return;
+                }
+
+                try {
+                    if (buildable instanceof Wonder) {
+                        town.buildWonder(player, buildable.getConfigId(), center, tpl);
+                        player.playSound(player.getLocation(), Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 0.9f, 0.9f);
+                    } else {
+                        town.buildStructure(player, buildable.getConfigId(), center, tpl);
+                        player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.9f, 0.9f);
+                    }
+                    resident.clearInteractiveMode();
+                } catch (CivException e) {
+                    CivMessage.sendError(player, e.getMessage());
+                }
+            }
+        }
+
+        TaskMaster.syncTask(new SyncTask(resident));
+
+    }
 
 }

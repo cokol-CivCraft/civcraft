@@ -1,16 +1,6 @@
 package com.avrgaming.civcraft.randomevents;
 
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
-
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.database.SQL;
 import com.avrgaming.civcraft.database.SQLUpdate;
@@ -28,6 +18,11 @@ import com.avrgaming.civcraft.randomevents.components.Unhappiness;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
 import com.avrgaming.civcraft.util.CivColor;
 import com.mysql.jdbc.StringUtils;
+import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
 
 public class RandomEvent extends SQLObject {
 
@@ -58,16 +53,16 @@ public class RandomEvent extends SQLObject {
                     "`town_id` int(11)," +
                     "`start_date` long NOT NULL," +
                     "`active` boolean DEFAULT false," +
-					"`component_vars` mediumtext," + 
-					"`saved_messages` mediumtext," + 
-					"PRIMARY KEY (`id`)" + ")";
-			
-			SQL.makeTable(table_create);
-			CivLog.info("Created "+TABLE_NAME+" table");
-		} else {
-			SQL.makeCol("active", "boolean", TABLE_NAME);
-		}
-	}
+                    "`component_vars` mediumtext," +
+                    "`saved_messages` mediumtext," +
+                    "PRIMARY KEY (`id`)" + ")";
+
+            SQL.makeTable(table_create);
+            CivLog.info("Created " + TABLE_NAME + " table");
+        } else {
+            SQL.makeCol("active", "boolean", TABLE_NAME);
+        }
+    }
 
     @Override
     public void load(ResultSet rs) throws SQLException,
@@ -82,143 +77,143 @@ public class RandomEvent extends SQLObject {
 
         this.town = CivGlobal.getTownFromId(rs.getInt("town_id"));
         if (this.town == null) {
-			this.delete();
-			throw new CivException("Couldn't find town id:"+rs.getInt("town_id")+" while loading random event.");
-		}
-		
-		this.startDate = new Date(rs.getLong("start_date"));
-		this.active = rs.getBoolean("active");
-		
-		loadComponentVars(rs.getString("component_vars"));
-		loadSavedMessages(rs.getString("saved_messages"));
-		
-		/* Re-run the on start to re-enable any listeners. */
-		/* Loop through all components for onStart() */
-		buildComponents();
-		for (RandomEventComponent comp : this.actions.values()) {
-			comp.onStart();
-		}
-		for (RandomEventComponent comp : this.requirements.values()) {
-			comp.onStart();
-		}
-		for (RandomEventComponent comp : this.success.values()) {
-			comp.onStart();
-		}
-		for (RandomEventComponent comp : this.failure.values()) {
-			comp.onStart();
-		}
-		
-		RandomEventSweeper.register(this);	
-	}
+            this.delete();
+            throw new CivException("Couldn't find town id:" + rs.getInt("town_id") + " while loading random event.");
+        }
 
-	private void loadComponentVars(String input) {
-		if (input == null || input.equals("")) {
-			return;
-		}
-		String[] keyValues = input.split(",");
-		
-		for (String kvs : keyValues) {
-			String[] split = kvs.split(":");
-			String keyEncoded = split[0];
-			String valueEncoded = split[1];
-			
-			String key = StringUtils.toAsciiString(Base64Coder.decode(keyEncoded));
-			String value = StringUtils.toAsciiString(Base64Coder.decode(valueEncoded));
-		
-			this.componentVars.put(key, value);
-		}
-	}
-	
-	private void loadSavedMessages(String input) {
-		String[] messages = input.split(",");
-		
-		for (String encodedMessage : messages) {
-			String message = StringUtils.toAsciiString(Base64Coder.decode(encodedMessage));
-			this.savedMessages.add(message);
-		}
-	}
+        this.startDate = new Date(rs.getLong("start_date"));
+        this.active = rs.getBoolean("active");
 
-	@Override
-	public void save() {
-		SQLUpdate.add(this);
-	}
+        loadComponentVars(rs.getString("component_vars"));
+        loadSavedMessages(rs.getString("saved_messages"));
+
+        /* Re-run the on start to re-enable any listeners. */
+        /* Loop through all components for onStart() */
+        buildComponents();
+        for (RandomEventComponent comp : this.actions.values()) {
+            comp.onStart();
+        }
+        for (RandomEventComponent comp : this.requirements.values()) {
+            comp.onStart();
+        }
+        for (RandomEventComponent comp : this.success.values()) {
+            comp.onStart();
+        }
+        for (RandomEventComponent comp : this.failure.values()) {
+            comp.onStart();
+        }
+
+        RandomEventSweeper.register(this);
+    }
+
+    private void loadComponentVars(String input) {
+        if (input == null || input.equals("")) {
+            return;
+        }
+        String[] keyValues = input.split(",");
+
+        for (String kvs : keyValues) {
+            String[] split = kvs.split(":");
+            String keyEncoded = split[0];
+            String valueEncoded = split[1];
+
+            String key = StringUtils.toAsciiString(Base64Coder.decode(keyEncoded));
+            String value = StringUtils.toAsciiString(Base64Coder.decode(valueEncoded));
+
+            this.componentVars.put(key, value);
+        }
+    }
+
+    private void loadSavedMessages(String input) {
+        String[] messages = input.split(",");
+
+        for (String encodedMessage : messages) {
+            String message = StringUtils.toAsciiString(Base64Coder.decode(encodedMessage));
+            this.savedMessages.add(message);
+        }
+    }
+
+    @Override
+    public void save() {
+        SQLUpdate.add(this);
+    }
 
 
-	@Override
-	public void saveNow() throws SQLException {
+    @Override
+    public void saveNow() throws SQLException {
         HashMap<String, Object> hashmap = new HashMap<>();
-		
-		hashmap.put("config_id", this.configRandomEvent.id);
-		hashmap.put("town_id", this.getTown().getId());	
-		hashmap.put("start_date", this.startDate.getTime());
-		hashmap.put("component_vars", this.getComponentVarsSaveString());
-		hashmap.put("saved_messages", this.getSavedMessagesSaveString());
-		hashmap.put("active", this.active);
-		
-		SQL.updateNamedObject(this, hashmap, TABLE_NAME);
-	}
-	
-	private String getComponentVarsSaveString() {
+
+        hashmap.put("config_id", this.configRandomEvent.id);
+        hashmap.put("town_id", this.getTown().getId());
+        hashmap.put("start_date", this.startDate.getTime());
+        hashmap.put("component_vars", this.getComponentVarsSaveString());
+        hashmap.put("saved_messages", this.getSavedMessagesSaveString());
+        hashmap.put("active", this.active);
+
+        SQL.updateNamedObject(this, hashmap, TABLE_NAME);
+    }
+
+    private String getComponentVarsSaveString() {
         StringBuilder out = new StringBuilder();
-		
-		for (String key : this.componentVars.keySet()) {
-			String value = this.componentVars.get(key);
-			
-			String keyEncoded = new String(Base64Coder.encode(key.getBytes()));
-			String valueEncoded = new String(Base64Coder.encode(value.getBytes()));
+
+        for (String key : this.componentVars.keySet()) {
+            String value = this.componentVars.get(key);
+
+            String keyEncoded = new String(Base64Coder.encode(key.getBytes()));
+            String valueEncoded = new String(Base64Coder.encode(value.getBytes()));
 
             out.append(keyEncoded).append(":").append(valueEncoded).append(",");
-			
-		}
+
+        }
 
         return out.toString();
-	}
-	
-	private String getSavedMessagesSaveString() {
+    }
+
+    private String getSavedMessagesSaveString() {
         StringBuilder out = new StringBuilder();
-		
-		for (String message : this.savedMessages) {
-			
-			String msgEncoded = new String(Base64Coder.encode(message.getBytes()));
+
+        for (String message : this.savedMessages) {
+
+            String msgEncoded = new String(Base64Coder.encode(message.getBytes()));
             out.append(msgEncoded).append(",");
-		}
+        }
 
         return out.toString();
-	}
+    }
 
 
-	@Override
-	public void delete() throws SQLException {
-		SQL.deleteNamedObject(this, TABLE_NAME);		
-	}
-	
-	public RandomEvent(ConfigRandomEvent config) {
-		this.configRandomEvent = config;
-		buildComponents();
-	}
-	
-	public RandomEvent(ResultSet rs) throws SQLException, InvalidNameException, InvalidObjectException, CivException {
-		this.load(rs);
-		
-		/* Place ourselves back in the town we just loaded. */
-		this.town.setActiveEvent(this);
-	}
-	
-	public void buildComponents() {
-		buildComponents("com.avrgaming.civcraft.randomevents.components.", configRandomEvent.actions, actions);
-		buildComponents("com.avrgaming.civcraft.randomevents.components.", configRandomEvent.requirements, requirements);		
-		buildComponents("com.avrgaming.civcraft.randomevents.components.", configRandomEvent.success, success);		
-		buildComponents("com.avrgaming.civcraft.randomevents.components.", configRandomEvent.failure, failure);		
-	}
-	
-	public void buildComponents(String classPath, List<HashMap<String,String>> compInfoList, HashMap<String, RandomEventComponent> components) {	
-		if (compInfoList != null) {
-			for (HashMap<String, String> compInfo : compInfoList) {
-				String className = classPath+compInfo.get("name");
-				Class<?> someClass;
-				
-				try {
-					someClass = Class.forName(className);
+    @Override
+    public void delete() throws SQLException {
+        SQL.deleteNamedObject(this, TABLE_NAME);
+    }
+
+    public RandomEvent(ConfigRandomEvent config) {
+        this.configRandomEvent = config;
+        buildComponents();
+    }
+
+    public RandomEvent(ResultSet rs) throws SQLException, InvalidNameException, InvalidObjectException, CivException {
+        this.load(rs);
+
+        /* Place ourselves back in the town we just loaded. */
+        this.town.setActiveEvent(this);
+    }
+
+    public void buildComponents() {
+        buildComponents("com.avrgaming.civcraft.randomevents.components.", configRandomEvent.actions, actions);
+        buildComponents("com.avrgaming.civcraft.randomevents.components.", configRandomEvent.requirements, requirements);
+        buildComponents("com.avrgaming.civcraft.randomevents.components.", configRandomEvent.success, success);
+        buildComponents("com.avrgaming.civcraft.randomevents.components.", configRandomEvent.failure, failure);
+    }
+
+    public void buildComponents(String classPath, List<HashMap<String, String>> compInfoList, HashMap<String, RandomEventComponent> components) {
+        if (compInfoList != null) {
+            for (HashMap<String, String> compInfo : compInfoList) {
+                String className = classPath + compInfo.get("name");
+                Class<?> someClass;
+
+                try {
+                    someClass = Class.forName(className);
                     RandomEventComponent perkCompClass;
                     perkCompClass = (RandomEventComponent) someClass.newInstance();
                     perkCompClass.setName(compInfo.get("name"));
@@ -232,119 +227,119 @@ public class RandomEvent extends SQLObject {
                 } catch (InstantiationException | ClassNotFoundException | IllegalAccessException e) {
                     e.printStackTrace();
                 }
-			}
-		}
-	}
+            }
+        }
+    }
 
-	/*
-	 * Private for now, since we only allow random events on towns atm.
-	 */
-	private void start() {
-		
-		/* Loop through all components for onStart() */
-		for (RandomEventComponent comp : this.actions.values()) {
-			comp.onStart();
-		}
-		for (RandomEventComponent comp : this.requirements.values()) {
-			comp.onStart();
-		}
-		for (RandomEventComponent comp : this.success.values()) {
-			comp.onStart();
-		}
-		for (RandomEventComponent comp : this.failure.values()) {
-			comp.onStart();
-		}
-				
-		/* Start by processing all of the action components. */
-		boolean requireActivation = false;
-		for (RandomEventComponent comp : this.actions.values()) {
-			if (!comp.requiresActivation()) {
-				comp.process();
-			} else {
-				requireActivation = true;
-				CivMessage.sendTown(this.town, CivColor.Yellow+CivSettings.localize.localizedString("re_activationRequired"));
-			}
-		}
-		
-		if (!requireActivation) {
-			this.active = true;
-		}
-		
-		/* Register this random event with the sweeper until complete. */
-		RandomEventSweeper.register(this);
-		
-		/* Setup start date. */
-		this.startDate = new Date();
-		
-		this.save();
-	}
+    /*
+     * Private for now, since we only allow random events on towns atm.
+     */
+    private void start() {
 
-	public Town getTown() {
-		return town;
-	}
+        /* Loop through all components for onStart() */
+        for (RandomEventComponent comp : this.actions.values()) {
+            comp.onStart();
+        }
+        for (RandomEventComponent comp : this.requirements.values()) {
+            comp.onStart();
+        }
+        for (RandomEventComponent comp : this.success.values()) {
+            comp.onStart();
+        }
+        for (RandomEventComponent comp : this.failure.values()) {
+            comp.onStart();
+        }
 
-	public void setTown(Town town) {
-		this.town = town;
-	}
+        /* Start by processing all of the action components. */
+        boolean requireActivation = false;
+        for (RandomEventComponent comp : this.actions.values()) {
+            if (!comp.requiresActivation()) {
+                comp.process();
+            } else {
+                requireActivation = true;
+                CivMessage.sendTown(this.town, CivColor.Yellow + CivSettings.localize.localizedString("re_activationRequired"));
+            }
+        }
 
-	public void cleanup() {
-		/* Loop through all components for cleanup */
-		for (RandomEventComponent comp : this.actions.values()) {
-			comp.onCleanup();
-		}
-		for (RandomEventComponent comp : this.requirements.values()) {
-			comp.onCleanup();
-		}
-		for (RandomEventComponent comp : this.success.values()) {
-			comp.onCleanup();
-		}
-		for (RandomEventComponent comp : this.failure.values()) {
-			comp.onCleanup();
-		}
-		
-		town.setActiveEvent(null);
-		try {
-			this.delete();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+        if (!requireActivation) {
+            this.active = true;
+        }
 
-	public Date getStartDate() {
-		return startDate;
-	}
+        /* Register this random event with the sweeper until complete. */
+        RandomEventSweeper.register(this);
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
+        /* Setup start date. */
+        this.startDate = new Date();
 
-	public int getLength() {
-		return this.configRandomEvent.length;
-	}
+        this.save();
+    }
 
-	public void start(Town town) {
-		this.town = town;
-		
-		/* Show message to town */
-		CivMessage.sendTownHeading(town, "Event: "+this.configRandomEvent.name);
-		for (String str : this.configRandomEvent.message) {
-			CivMessage.sendTown(town, str);
-			savedMessages.add(str);		
-		}
-		
-		
-		town.setActiveEvent(this);
-		this.start();
-	}
+    public Town getTown() {
+        return town;
+    }
 
-	public static double getUnhappiness(Town town) {
-	//	CivGlobal.getSessionDB().add("randomevent:unhappiness", unhappiness+":"+duration, this.getParentTown().getCiv().getId(), this.getParentTown().getId(), 0);	
+    public void setTown(Town town) {
+        this.town = town;
+    }
 
-		ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(Unhappiness.getKey(town));
-		double unhappy = 0.0;
+    public void cleanup() {
+        /* Loop through all components for cleanup */
+        for (RandomEventComponent comp : this.actions.values()) {
+            comp.onCleanup();
+        }
+        for (RandomEventComponent comp : this.requirements.values()) {
+            comp.onCleanup();
+        }
+        for (RandomEventComponent comp : this.success.values()) {
+            comp.onCleanup();
+        }
+        for (RandomEventComponent comp : this.failure.values()) {
+            comp.onCleanup();
+        }
+
+        town.setActiveEvent(null);
+        try {
+            this.delete();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public int getLength() {
+        return this.configRandomEvent.length;
+    }
+
+    public void start(Town town) {
+        this.town = town;
+
+        /* Show message to town */
+        CivMessage.sendTownHeading(town, "Event: " + this.configRandomEvent.name);
+        for (String str : this.configRandomEvent.message) {
+            CivMessage.sendTown(town, str);
+            savedMessages.add(str);
+        }
+
+
+        town.setActiveEvent(this);
+        this.start();
+    }
+
+    public static double getUnhappiness(Town town) {
+        //	CivGlobal.getSessionDB().add("randomevent:unhappiness", unhappiness+":"+duration, this.getParentTown().getCiv().getId(), this.getParentTown().getId(), 0);
+
+        ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(Unhappiness.getKey(town));
+        double unhappy = 0.0;
 
         ArrayList<SessionEntry> removed = new ArrayList<>();
-		for (SessionEntry entry : entries) {
+        for (SessionEntry entry : entries) {
             String[] split = entry.value.split(":");
             int unhappiness = Integer.parseInt(split[0]);
             int duration = Integer.parseInt(split[1]);
@@ -358,24 +353,24 @@ public class RandomEvent extends SQLObject {
                 removed.add(entry);
                 continue;
             }
-			
-			unhappy += unhappiness;
-		}
-		
-		/* Remove any expired entries */
-		for (SessionEntry entry : removed) {
-			CivGlobal.getSessionDB().delete(entry.request_id, entry.key);
-		}
-		
-		return unhappy;
-	}
 
-	public static double getHappiness(Town town) {
-		ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(Happiness.getKey(town));
-		double happy = 0.0;
+            unhappy += unhappiness;
+        }
+
+        /* Remove any expired entries */
+        for (SessionEntry entry : removed) {
+            CivGlobal.getSessionDB().delete(entry.request_id, entry.key);
+        }
+
+        return unhappy;
+    }
+
+    public static double getHappiness(Town town) {
+        ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(Happiness.getKey(town));
+        double happy = 0.0;
 
         ArrayList<SessionEntry> removed = new ArrayList<>();
-		for (SessionEntry entry : entries) {
+        for (SessionEntry entry : entries) {
             String[] split = entry.value.split(":");
             int happiness = Integer.parseInt(split[0]);
             int duration = Integer.parseInt(split[1]);
@@ -389,24 +384,24 @@ public class RandomEvent extends SQLObject {
                 removed.add(entry);
                 continue;
             }
-			
-			happy += happiness;
-		}
-		
-		/* Remove any expired entries */
-		for (SessionEntry entry : removed) {
-			CivGlobal.getSessionDB().delete(entry.request_id, entry.key);
-		}
-		
-		return happy;
-	}
 
-	public static double getHammerRate(Town town) {
-		ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(HammerRate.getKey(town));
-		double hammerrate = 1.0;
+            happy += happiness;
+        }
+
+        /* Remove any expired entries */
+        for (SessionEntry entry : removed) {
+            CivGlobal.getSessionDB().delete(entry.request_id, entry.key);
+        }
+
+        return happy;
+    }
+
+    public static double getHammerRate(Town town) {
+        ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(HammerRate.getKey(town));
+        double hammerrate = 1.0;
 
         ArrayList<SessionEntry> removed = new ArrayList<>();
-		for (SessionEntry entry : entries) {
+        for (SessionEntry entry : entries) {
             String[] split = entry.value.split(":");
             double rate = Double.parseDouble(split[0]);
             int duration = Integer.parseInt(split[1]);
@@ -420,46 +415,45 @@ public class RandomEvent extends SQLObject {
                 removed.add(entry);
                 continue;
             }
-			
-			hammerrate *= rate;
-		}
-		
-		/* Remove any expired entries */
-		for (SessionEntry entry : removed) {
-			CivGlobal.getSessionDB().delete(entry.request_id, entry.key);
-		}
-		
-		return hammerrate;	
-	}
 
-	public List<String> getMessages() {
-		return savedMessages;
-	}
+            hammerrate *= rate;
+        }
 
-	public Date getEndDate() {
-        Date end = new Date(this.startDate.getTime() + ((long) this.configRandomEvent.length * RandomEventSweeper.MILLISECONDS_PER_HOUR));
-		return end;
-	}
+        /* Remove any expired entries */
+        for (SessionEntry entry : removed) {
+            CivGlobal.getSessionDB().delete(entry.request_id, entry.key);
+        }
 
-	public boolean isActive() {
-		return active;
-	}
+        return hammerrate;
+    }
 
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-	
-	public void activate() throws CivException {
-		if (this.active) {
-			throw new CivException(CivSettings.localize.localizedString("re_alreadyActive"));
-		}
-		
-		this.active = true;
-		/* Start by processing all of the action components. */
-		for (RandomEventComponent comp : this.actions.values()) {
-			comp.process();
-		}
-		
-		this.save();
-	}
+    public List<String> getMessages() {
+        return savedMessages;
+    }
+
+    public Date getEndDate() {
+        return new Date(this.startDate.getTime() + ((long) this.configRandomEvent.length * RandomEventSweeper.MILLISECONDS_PER_HOUR));
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public void activate() throws CivException {
+        if (this.active) {
+            throw new CivException(CivSettings.localize.localizedString("re_alreadyActive"));
+        }
+
+        this.active = true;
+        /* Start by processing all of the action components. */
+        for (RandomEventComponent comp : this.actions.values()) {
+            comp.process();
+        }
+
+        this.save();
+    }
 }

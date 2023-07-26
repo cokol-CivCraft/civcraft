@@ -40,109 +40,109 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Queue;
 
 public class ReportChestsTask implements Runnable {
-	public Queue<ChunkCoord> coords;
-	CommandSender sender;
-	
-	public ReportChestsTask(CommandSender sender, Queue<ChunkCoord> coords) {
-		this.coords = coords;
-		this.sender = sender;
-	}
+    public Queue<ChunkCoord> coords;
+    CommandSender sender;
 
-	private int countItem(Inventory inv, Material id) {
-		int total = 0;
-		for (ItemStack stack : inv.all(id).values()) {
-			total += stack.getAmount();
-		}
+    public ReportChestsTask(CommandSender sender, Queue<ChunkCoord> coords) {
+        this.coords = coords;
+        this.sender = sender;
+    }
 
-		return total;
-	}
-	
-	@Override
-	public void run() {
-		ChunkCoord coord = coords.poll();
-		if (coord == null) {
-			CivMessage.send(sender, "Done.");
-			return;
-		}
-		Chunk chunk = coord.getChunk();
-		
-		for (int x = 0; x < 16; x++) {
-			for (int y = 0; y < 256; y++) {
-				for (int z = 0; z < 16; z++) {
-					Block block = chunk.getBlock(x, y, z);
-					Inventory inv = null;
-					if (block.getState() instanceof Chest) {
-						inv = ((Chest)block.getState()).getBlockInventory();
-					} else if (block.getState() instanceof Furnace) {
-						inv = ((Furnace)block.getState()).getInventory();
-					} else if (block.getState() instanceof Hopper) {
-						inv = ((Hopper)block.getState()).getInventory();
-					}
-					
-					if (inv != null) {
-						BlockCoord bcoord = new BlockCoord(coord.getWorldname(), (coord.getX() << 4) + x,
-								y, (coord.getZ() << 4) + z);
+    private int countItem(Inventory inv, Material id) {
+        int total = 0;
+        for (ItemStack stack : inv.all(id).values()) {
+            total += stack.getAmount();
+        }
 
-						int diamondBlocks = countItem(inv, Material.DIAMOND_BLOCK);
-						int diamonds = countItem(inv, Material.DIAMOND);
-						int goldBlocks = countItem(inv, Material.GOLD_BLOCK);
-						int gold = countItem(inv, Material.GOLD_INGOT);
-						int emeraldBlocks = countItem(inv, Material.EMERALD_BLOCK);
-						int emeralds = countItem(inv, Material.EMERALD);
-						int diamondOre = countItem(inv, Material.DIAMOND_ORE);
-						int goldOre = countItem(inv, Material.GOLD_ORE);
-						int emeraldOre = countItem(inv, Material.EMERALD_ORE);
+        return total;
+    }
 
-						String out = block.getType().name() + ": " + CivColor.LightPurple + bcoord + CivColor.White + " DB:" + diamondBlocks + " EB:" + emeraldBlocks + " GB:" + goldBlocks + " D:" +
-								diamonds + " E:" + emeralds + " G:" + gold + " DO:" + diamondOre + " EO:" + emeraldOre + " GO:" + goldOre;
-						if (diamondBlocks != 0 || diamonds != 0 || goldBlocks != 0 || gold != 0 || emeraldBlocks != 0
-								|| emeralds != 0 || diamondOre != 0 || goldOre != 0 || emeraldOre != 0) {
-							CivMessage.send(sender, out);
-							CivLog.info("REPORT: " + out);
-						}
-						inv = null;
-					}
-				}
-			}
-		}
-		
-		for (Entity e : chunk.getEntities()) {
-			Inventory inv = null;
+    @Override
+    public void run() {
+        ChunkCoord coord = coords.poll();
+        if (coord == null) {
+            CivMessage.send(sender, "Done.");
+            return;
+        }
+        Chunk chunk = coord.getChunk();
 
-			if (e.getType() == EntityType.MINECART_CHEST) {
-				StorageMinecart chest = (StorageMinecart) e;
-				inv = chest.getInventory();
-			}
+        for (int x = 0; x < 16; x++) {
+            for (int y = 0; y < 256; y++) {
+                for (int z = 0; z < 16; z++) {
+                    Block block = chunk.getBlock(x, y, z);
+                    Inventory inv = null;
+                    if (block.getState() instanceof Chest) {
+                        inv = ((Chest) block.getState()).getBlockInventory();
+                    } else if (block.getState() instanceof Furnace) {
+                        inv = ((Furnace) block.getState()).getInventory();
+                    } else if (block.getState() instanceof Hopper) {
+                        inv = ((Hopper) block.getState()).getInventory();
+                    }
 
-			if (e.getType() == EntityType.MINECART_HOPPER) {
-				HopperMinecart chest = (HopperMinecart) e;
-				inv = chest.getInventory();
-			}
+                    if (inv != null) {
+                        BlockCoord bcoord = new BlockCoord(coord.getWorldname(), (coord.getX() << 4) + x,
+                                y, (coord.getZ() << 4) + z);
 
-			if (inv == null) {
-				continue;
-			}
-			BlockCoord bcoord = new BlockCoord(e.getLocation());
+                        int diamondBlocks = countItem(inv, Material.DIAMOND_BLOCK);
+                        int diamonds = countItem(inv, Material.DIAMOND);
+                        int goldBlocks = countItem(inv, Material.GOLD_BLOCK);
+                        int gold = countItem(inv, Material.GOLD_INGOT);
+                        int emeraldBlocks = countItem(inv, Material.EMERALD_BLOCK);
+                        int emeralds = countItem(inv, Material.EMERALD);
+                        int diamondOre = countItem(inv, Material.DIAMOND_ORE);
+                        int goldOre = countItem(inv, Material.GOLD_ORE);
+                        int emeraldOre = countItem(inv, Material.EMERALD_ORE);
 
-			int diamondBlocks = countItem(inv, Material.DIAMOND_BLOCK);
-			int diamonds = countItem(inv, Material.DIAMOND);
-			int goldBlocks = countItem(inv, Material.GOLD_BLOCK);
-			int gold = countItem(inv, Material.GOLD_INGOT);
-			int emeraldBlocks = countItem(inv, Material.EMERALD_BLOCK);
-			int emeralds = countItem(inv, Material.EMERALD);
-			int diamondOre = countItem(inv, Material.DIAMOND_ORE);
-			int goldOre = countItem(inv, Material.GOLD_ORE);
-			int emeraldOre = countItem(inv, Material.EMERALD_ORE);
+                        String out = block.getType().name() + ": " + CivColor.LightPurple + bcoord + CivColor.White + " DB:" + diamondBlocks + " EB:" + emeraldBlocks + " GB:" + goldBlocks + " D:" +
+                                diamonds + " E:" + emeralds + " G:" + gold + " DO:" + diamondOre + " EO:" + emeraldOre + " GO:" + goldOre;
+                        if (diamondBlocks != 0 || diamonds != 0 || goldBlocks != 0 || gold != 0 || emeraldBlocks != 0
+                                || emeralds != 0 || diamondOre != 0 || goldOre != 0 || emeraldOre != 0) {
+                            CivMessage.send(sender, out);
+                            CivLog.info("REPORT: " + out);
+                        }
+                        inv = null;
+                    }
+                }
+            }
+        }
 
-			String out = e.getType().name() + ": " + CivColor.LightPurple + bcoord + CivColor.White + " DB:" + diamondBlocks + " EB:" + emeraldBlocks + " GB:" + goldBlocks + " D:" +
-					diamonds + " E:" + emeralds + " G:" + gold + " DO:" + diamondOre + " EO:" + emeraldOre + " GO:" + goldOre;
-			if (diamondBlocks != 0 || diamonds != 0 || goldBlocks != 0 || gold != 0 || emeraldBlocks != 0
-					|| emeralds != 0 || diamondOre != 0 || goldOre != 0 || emeraldOre != 0) {
-				CivMessage.send(sender, out);
-				CivLog.info("REPORT: " + out);
-			}
-		}
-		
-		TaskMaster.syncTask(new ReportChestsTask(sender, coords), 5);
-	}
+        for (Entity e : chunk.getEntities()) {
+            Inventory inv = null;
+
+            if (e.getType() == EntityType.MINECART_CHEST) {
+                StorageMinecart chest = (StorageMinecart) e;
+                inv = chest.getInventory();
+            }
+
+            if (e.getType() == EntityType.MINECART_HOPPER) {
+                HopperMinecart chest = (HopperMinecart) e;
+                inv = chest.getInventory();
+            }
+
+            if (inv == null) {
+                continue;
+            }
+            BlockCoord bcoord = new BlockCoord(e.getLocation());
+
+            int diamondBlocks = countItem(inv, Material.DIAMOND_BLOCK);
+            int diamonds = countItem(inv, Material.DIAMOND);
+            int goldBlocks = countItem(inv, Material.GOLD_BLOCK);
+            int gold = countItem(inv, Material.GOLD_INGOT);
+            int emeraldBlocks = countItem(inv, Material.EMERALD_BLOCK);
+            int emeralds = countItem(inv, Material.EMERALD);
+            int diamondOre = countItem(inv, Material.DIAMOND_ORE);
+            int goldOre = countItem(inv, Material.GOLD_ORE);
+            int emeraldOre = countItem(inv, Material.EMERALD_ORE);
+
+            String out = e.getType().name() + ": " + CivColor.LightPurple + bcoord + CivColor.White + " DB:" + diamondBlocks + " EB:" + emeraldBlocks + " GB:" + goldBlocks + " D:" +
+                    diamonds + " E:" + emeralds + " G:" + gold + " DO:" + diamondOre + " EO:" + emeraldOre + " GO:" + goldOre;
+            if (diamondBlocks != 0 || diamonds != 0 || goldBlocks != 0 || gold != 0 || emeraldBlocks != 0
+                    || emeralds != 0 || diamondOre != 0 || goldOre != 0 || emeraldOre != 0) {
+                CivMessage.send(sender, out);
+                CivLog.info("REPORT: " + out);
+            }
+        }
+
+        TaskMaster.syncTask(new ReportChestsTask(sender, coords), 5);
+    }
 }

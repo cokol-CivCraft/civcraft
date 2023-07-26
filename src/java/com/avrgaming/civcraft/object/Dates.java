@@ -21,7 +21,7 @@ import java.util.Date;
 
 public class Dates {
 
-	public static Date lastSpawnRegenDate = null;
-	
-	
+    public static Date lastSpawnRegenDate = null;
+
+
 }

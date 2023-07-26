@@ -19,8 +19,8 @@ package com.avrgaming.civcraft.threading.sync;
 
 public class SyncBonusGoodieUpdateTimer implements Runnable {
 
-	@Override
-	public void run() {
+    @Override
+    public void run() {
 
 //		for (Town t : CivGlobal.getTowns()) {
 //			try {
@@ -29,9 +29,7 @@ public class SyncBonusGoodieUpdateTimer implements Runnable {
 //				e.printStackTrace();
 //			}
 //		}
-	}
+    }
 
-	
-	
-	
+
 }

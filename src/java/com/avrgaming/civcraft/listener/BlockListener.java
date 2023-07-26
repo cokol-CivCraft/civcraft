@@ -355,31 +355,21 @@ public class BlockListener implements Listener {
             }
         }
 
-        class SyncTask implements Runnable {
-            final LivingEntity entity;
-
-            public SyncTask(LivingEntity entity) {
-                this.entity = entity;
-            }
-
-            @Override
-            public void run() {
-                if (entity != null) {
-                    if (!HorseModifier.isCivCraftHorse(entity)) {
-                        CivLog.warning("Removing a normally spawned horse.");
-                        entity.remove();
-                    }
-                }
-            }
-        }
-
         if (event.getEntityType() == EntityType.HORSE) {
             if (Stable.stableChunks.get(new ChunkCoord(event.getEntity().getLocation())) != null) {
                 return;
             }
 
             if (event.getSpawnReason().equals(SpawnReason.DEFAULT)) {
-                TaskMaster.syncTask(new SyncTask(event.getEntity()));
+                LivingEntity entity = event.getEntity();
+                TaskMaster.syncTask(() -> {
+                    if (entity != null) {
+                        if (!HorseModifier.isCivCraftHorse(entity)) {
+                            CivLog.warning("Removing a normally spawned horse.");
+                            entity.remove();
+                        }
+                    }
+                });
                 return;
             }
 
@@ -724,6 +714,8 @@ public class BlockListener implements Listener {
         }
         b.setType(m);
     }
+
+
 
     @EventHandler(priority = EventPriority.HIGH)
     public void OnBlockBreakEvent(BlockBreakEvent event) {
@@ -1709,11 +1701,10 @@ public class BlockListener implements Listener {
                         double x = loc.getX() + 0.5;
                         double y = loc.getY() + 0.5;
                         double z = loc.getZ() + 0.5;
-                        double r = radius;
 
                         CraftWorld craftWorld = (CraftWorld) attacker.getWorld();
 
-                        AxisAlignedBB bb = AxisAlignedBB(x - r, y - r, z - r, x + r, y + r, z + r);
+                        AxisAlignedBB bb = AxisAlignedBB(x - (double) radius, y - (double) radius, z - (double) radius, x + (double) radius, y + (double) radius, z + (double) radius);
 
                         List<net.minecraft.server.v1_12_R1.Entity> entities = craftWorld.getHandle().getEntities(((CraftEntity) attacker).getHandle(), bb);
 
@@ -1771,9 +1762,8 @@ public class BlockListener implements Listener {
                 }
 
                 SyncFollow follow = new SyncFollow();
-                RuffianProjectile proj = new RuffianProjectile(shooter.getLocation(),
+                follow.proj = new RuffianProjectile(shooter.getLocation(),
                         witch.getTarget().getLocation(), (org.bukkit.entity.Entity) potion.getShooter(), damage);
-                follow.proj = proj;
                 TaskMaster.syncTask(follow);
 
 

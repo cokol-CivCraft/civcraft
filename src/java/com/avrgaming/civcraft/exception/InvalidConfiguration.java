@@ -19,9 +19,9 @@ package com.avrgaming.civcraft.exception;
 
 public class InvalidConfiguration extends Exception {
 
-	private static final long serialVersionUID = 6603010451357647626L;
-	
-	public InvalidConfiguration(String message) {
-		super(message);
-	}
+    private static final long serialVersionUID = 6603010451357647626L;
+
+    public InvalidConfiguration(String message) {
+        super(message);
+    }
 }

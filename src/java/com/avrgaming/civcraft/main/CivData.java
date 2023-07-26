@@ -100,7 +100,9 @@ public class CivData {
             default:
                 return false;
         }
-    }public static String getStringForBar(TaskType type, double HP, int maxHP) {
+    }
+
+    public static String getStringForBar(TaskType type, double HP, int maxHP) {
         String s;
         String open = "<";
         String close = ">";
@@ -249,8 +251,8 @@ public class CivData {
 //	}
 
     public static boolean canCocoaGrow(BlockSnapshot bs) {
-		return (byte) (bs.getData() & 0xC) != 0x8;
-	}
+        return (byte) (bs.getData() & 0xC) != 0x8;
+    }
 
     public static byte getNextCocoaValue(BlockSnapshot bs) {
         byte bits = (byte) (bs.getData() & 0xC);

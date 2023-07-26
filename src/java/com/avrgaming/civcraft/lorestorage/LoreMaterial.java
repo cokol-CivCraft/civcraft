@@ -18,11 +18,10 @@
  */
 package com.avrgaming.civcraft.lorestorage;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-
+import com.avrgaming.civcraft.loreenhancements.LoreEnhancement;
+import com.avrgaming.civcraft.object.BuildableDamageBlock;
+import com.avrgaming.civcraft.util.CivColor;
+import gpl.AttributeUtil;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -46,11 +45,10 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.avrgaming.civcraft.loreenhancements.LoreEnhancement;
-import com.avrgaming.civcraft.object.BuildableDamageBlock;
-import com.avrgaming.civcraft.util.CivColor;
-
-import gpl.AttributeUtil;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 
 public abstract class LoreMaterial {
 
@@ -58,7 +56,7 @@ public abstract class LoreMaterial {
     private Material material;
     private short damage;
 
-    private LinkedList<String> lore = new LinkedList<>();
+    private final LinkedList<String> lore = new LinkedList<>();
     private String name;
 
     public static Map<String, LoreMaterial> materialMap = new HashMap<>();
@@ -269,6 +267,7 @@ public abstract class LoreMaterial {
          * Can optionally be overriden by classes.
          */
     }
+
     @SuppressWarnings("unused")
     /* Events for this Material */
     public abstract void onHit(EntityDamageByEntityEvent event); /* Called when this is the item in-hand */
@@ -278,14 +277,18 @@ public abstract class LoreMaterial {
     public abstract void onInteractEntity(PlayerInteractEntityEvent event);
 
     public abstract void onBlockPlaced(BlockPlaceEvent event);
+
     @SuppressWarnings("unused")
     public abstract void onBlockBreak(BlockBreakEvent event);
+
     @SuppressWarnings("unused")
     public abstract void onBlockDamage(BlockDamageEvent event);
+
     @SuppressWarnings("unused")
     public abstract void onBlockInteract(PlayerInteractEvent event);
 
     public abstract void onHold(PlayerItemHeldEvent event);
+
     @SuppressWarnings("unused")
     public abstract void onDrop(PlayerDropItemEvent event);
 

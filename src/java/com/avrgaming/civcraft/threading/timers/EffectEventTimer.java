@@ -36,37 +36,37 @@ import java.util.Map.Entry;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class EffectEventTimer extends CivAsyncTask {
-	
-	//public static Boolean running = false;
-	
-	public static ReentrantLock runningLock = new ReentrantLock();
-	
-	public EffectEventTimer() {
-	}
 
-	private void processTick() {
-		/* Clear the last taxes so they don't accumulate. */
-		for (Civilization civ : CivGlobal.getCivs()) {
-			civ.lastTaxesPaidMap.clear();
-		}
-		
-		//HashMap<Town, Integer> cultureGenerated = new HashMap<Town, Integer>();
-		
-		// Loop through each structure, if it has an update function call it in another async process
-		Iterator<Entry<BlockCoord, Structure>> iter = CivGlobal.getStructureIterator();
-		
-		while(iter.hasNext()) {
-			Structure struct = iter.next().getValue();
-			TownHall townhall = struct.getTown().getTownHall();
+    //public static Boolean running = false;
 
-			if (townhall == null) {
-				continue;
-			}
+    public static ReentrantLock runningLock = new ReentrantLock();
 
-			if (!struct.isActive())
-				continue;
+    public EffectEventTimer() {
+    }
 
-			struct.onEffectEvent();
+    private void processTick() {
+        /* Clear the last taxes so they don't accumulate. */
+        for (Civilization civ : CivGlobal.getCivs()) {
+            civ.lastTaxesPaidMap.clear();
+        }
+
+        //HashMap<Town, Integer> cultureGenerated = new HashMap<Town, Integer>();
+
+        // Loop through each structure, if it has an update function call it in another async process
+        Iterator<Entry<BlockCoord, Structure>> iter = CivGlobal.getStructureIterator();
+
+        while (iter.hasNext()) {
+            Structure struct = iter.next().getValue();
+            TownHall townhall = struct.getTown().getTownHall();
+
+            if (townhall == null) {
+                continue;
+            }
+
+            if (!struct.isActive())
+                continue;
+
+            struct.onEffectEvent();
 
 			if (struct.getEffectEvent() == null || struct.getEffectEvent().equals(""))
 				continue;

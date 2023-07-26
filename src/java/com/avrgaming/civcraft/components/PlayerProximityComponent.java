@@ -27,18 +27,18 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class PlayerProximityComponent extends Component {
 
-	/*
-	 * This component maintains a list of nearby players using the player location 
-	 * cache. It is populated asynchronously so that it can be accessed in as little
-	 * time as possible from a synchronous thread.
-	 */
-	
-	private HashSet<PlayerLocationCache> nearbyPlayers;
-	
-	public ReentrantLock lock;
-	
-	/* Center location from which we check */
-	private BlockCoord center;
+    /*
+     * This component maintains a list of nearby players using the player location
+     * cache. It is populated asynchronously so that it can be accessed in as little
+     * time as possible from a synchronous thread.
+     */
+
+    private HashSet<PlayerLocationCache> nearbyPlayers;
+
+    public ReentrantLock lock;
+
+    /* Center location from which we check */
+    private BlockCoord center;
 
     /* Max distance from which we check. */
     private double radiusSquared;
@@ -61,68 +61,68 @@ public class PlayerProximityComponent extends Component {
          * Tries to grab a list of nearby players.
          * Sends back nothing if the lock is currently in use.
          */
-		if (retry) {
-			this.lock.lock();
-		} else {
-			if (!this.lock.tryLock()) {
+        if (retry) {
+            this.lock.lock();
+        } else {
+            if (!this.lock.tryLock()) {
                 return new HashSet<>();
-			}
-		}
-	
-		try {	
-			if (nearbyPlayers == null) {
+            }
+        }
+
+        try {
+            if (nearbyPlayers == null) {
                 return new HashSet<>();
-			}	
-			return (HashSet<PlayerLocationCache>) this.nearbyPlayers.clone();
-				
-		} finally {
-			this.lock.unlock();
-		}
-	}
+            }
+            return (HashSet<PlayerLocationCache>) this.nearbyPlayers.clone();
 
-	@SuppressWarnings("unchecked")
-	public HashSet<PlayerLocationCache> waitGetNearbyPlayers() {	
-		/* 
-		 * Tries to grab a list of nearby players. 
-		 * Sends back nothing if the lock is currently in use.
-		 */
-		this.lock.lock();
-		try {
-			if (nearbyPlayers == null) {
+        } finally {
+            this.lock.unlock();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public HashSet<PlayerLocationCache> waitGetNearbyPlayers() {
+        /*
+         * Tries to grab a list of nearby players.
+         * Sends back nothing if the lock is currently in use.
+         */
+        this.lock.lock();
+        try {
+            if (nearbyPlayers == null) {
                 return new HashSet<>();
-			}
-			
-			return (HashSet<PlayerLocationCache>) this.nearbyPlayers.clone();
-			
-		} finally {
-			this.lock.unlock();
-		}
-	}
-	
+            }
 
-	public BlockCoord getCenter() {
-		return center;
-	}
+            return (HashSet<PlayerLocationCache>) this.nearbyPlayers.clone();
+
+        } finally {
+            this.lock.unlock();
+        }
+    }
 
 
-	public void setCenter(BlockCoord center) {
-		this.center = center;
-	}
+    public BlockCoord getCenter() {
+        return center;
+    }
 
 
-	public double getRadiusSquared() {
-		return radiusSquared;
-	}
+    public void setCenter(BlockCoord center) {
+        this.center = center;
+    }
 
 
-	public void setRadius(double radius) {
-		this.radiusSquared = Math.pow(radius, 2);
-	}
-	
-	public void buildNearbyPlayers(Collection<PlayerLocationCache> collection) {
+    public double getRadiusSquared() {
+        return radiusSquared;
+    }
+
+
+    public void setRadius(double radius) {
+        this.radiusSquared = Math.pow(radius, 2);
+    }
+
+    public void buildNearbyPlayers(Collection<PlayerLocationCache> collection) {
         HashSet<PlayerLocationCache> newSet = new HashSet<>();
-		
-		for (PlayerLocationCache pc : collection) {
+
+        for (PlayerLocationCache pc : collection) {
             if (pc.isVanished()) {
                 continue;
             }
@@ -137,15 +137,14 @@ public class PlayerProximityComponent extends Component {
     }
 
 
-	public Buildable getBuildable() {
-		return buildable;
-	}
+    public Buildable getBuildable() {
+        return buildable;
+    }
 
 
-	public void setBuildable(Buildable buildable) {
-		this.buildable = buildable;
-	}
+    public void setBuildable(Buildable buildable) {
+        this.buildable = buildable;
+    }
 
-	
 
 }

@@ -61,7 +61,6 @@ public class BuildCommand extends CommandBase {
     }
 
 
-
     public void validatenearest_cmd() throws CivException {
         Player player = getPlayer();
         Resident resident = getResident();

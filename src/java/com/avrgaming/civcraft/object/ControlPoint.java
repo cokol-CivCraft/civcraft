@@ -22,89 +22,89 @@ import com.avrgaming.civcraft.util.BlockCoord;
 
 public class ControlPoint {
 
-	/* Location of the control block. */
-	private BlockCoord coord;
-	
-	/* Hitpoints for this control block. */
-	private int hitpoints;
-	
-	/* Max hitpoints for this control block. */
-	private int maxHitpoints;
-	
-	/* TownHall this control point belongs to. */
-	private Buildable buildable;
+    /* Location of the control block. */
+    private BlockCoord coord;
 
-	public ControlPoint (BlockCoord coord, Buildable buildable, int hitpoints) {
-		this.coord = coord;
-		this.setBuildable(buildable);
-		this.maxHitpoints = hitpoints;
-		this.hitpoints = this.maxHitpoints;
-	}
-	
-	/**
-	 * @return the coord
-	 */
-	public BlockCoord getCoord() {
-		return coord;
-	}
+    /* Hitpoints for this control block. */
+    private int hitpoints;
 
-	/**
-	 * @param coord the coord to set
-	 */
-	public void setCoord(BlockCoord coord) {
-		this.coord = coord;
-	}
+    /* Max hitpoints for this control block. */
+    private int maxHitpoints;
 
-	/**
-	 * @return the hitpoints
-	 */
-	public int getHitpoints() {
-		return hitpoints;
-	}
+    /* TownHall this control point belongs to. */
+    private Buildable buildable;
 
-	/**
-	 * @param hitpoints the hitpoints to set
-	 */
-	public void setHitpoints(int hitpoints) {
-		this.hitpoints = hitpoints;
-	}
+    public ControlPoint(BlockCoord coord, Buildable buildable, int hitpoints) {
+        this.coord = coord;
+        this.setBuildable(buildable);
+        this.maxHitpoints = hitpoints;
+        this.hitpoints = this.maxHitpoints;
+    }
 
-	/**
-	 * @return the maxHitpoints
-	 */
-	public int getMaxHitpoints() {
-		return maxHitpoints;
-	}
+    /**
+     * @return the coord
+     */
+    public BlockCoord getCoord() {
+        return coord;
+    }
 
-	/**
-	 * @param maxHitpoints the maxHitpoints to set
-	 */
-	public void setMaxHitpoints(int maxHitpoints) {
-		this.maxHitpoints = maxHitpoints;
-	}
+    /**
+     * @param coord the coord to set
+     */
+    public void setCoord(BlockCoord coord) {
+        this.coord = coord;
+    }
 
-	public void damage(int amount) {
-		if (this.hitpoints <= 0) {
-			return;
-		}
-		
-		this.hitpoints -= amount;
-		
-		if (this.hitpoints <= 0) {
-			this.hitpoints = 0;
-		}
-		
-	}
-	
-	public boolean isDestroyed() {
-		return this.hitpoints <= 0;
-	}
+    /**
+     * @return the hitpoints
+     */
+    public int getHitpoints() {
+        return hitpoints;
+    }
 
-	public Buildable getBuildable() {
-		return buildable;
-	}
+    /**
+     * @param hitpoints the hitpoints to set
+     */
+    public void setHitpoints(int hitpoints) {
+        this.hitpoints = hitpoints;
+    }
 
-	public void setBuildable(Buildable buildable) {
-		this.buildable = buildable;
-	}
+    /**
+     * @return the maxHitpoints
+     */
+    public int getMaxHitpoints() {
+        return maxHitpoints;
+    }
+
+    /**
+     * @param maxHitpoints the maxHitpoints to set
+     */
+    public void setMaxHitpoints(int maxHitpoints) {
+        this.maxHitpoints = maxHitpoints;
+    }
+
+    public void damage(int amount) {
+        if (this.hitpoints <= 0) {
+            return;
+        }
+
+        this.hitpoints -= amount;
+
+        if (this.hitpoints <= 0) {
+            this.hitpoints = 0;
+        }
+
+    }
+
+    public boolean isDestroyed() {
+        return this.hitpoints <= 0;
+    }
+
+    public Buildable getBuildable() {
+        return buildable;
+    }
+
+    public void setBuildable(Buildable buildable) {
+        this.buildable = buildable;
+    }
 }

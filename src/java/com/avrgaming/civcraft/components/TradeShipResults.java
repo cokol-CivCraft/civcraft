@@ -13,57 +13,57 @@ public class TradeShipResults {
     private int culture;
     private int consumed;
 
-	private List<ItemStack> returnCargo = new LinkedList<>();
-    
+    private List<ItemStack> returnCargo = new LinkedList<>();
+
     public TradeShipResults() {
-		this.money = 0;
-		this.culture = 0;
-		this.consumed = 0;
-		this.result = Result.UNKNOWN;
-	}
-    
+        this.money = 0;
+        this.culture = 0;
+        this.consumed = 0;
+        this.result = Result.UNKNOWN;
+    }
+
     public double getMoney() {
         return money;
     }
-    
+
     public void setMoney(Double val) {
         this.money = val;
     }
-    
+
     public int getCulture() {
         return culture;
     }
-    
+
     public void setCulture(Integer val) {
         this.culture = val;
     }
 
-	public Result getResult() {
-		return result;
-	}
+    public Result getResult() {
+        return result;
+    }
 
-	public void setResult(Result result) {
-		this.result = result;
-	}
+    public void setResult(Result result) {
+        this.result = result;
+    }
 
-	public int getConsumed() {
-		return consumed;
-	}
+    public int getConsumed() {
+        return consumed;
+    }
 
-	public void setConsumed(int consumed) {
-		this.consumed = consumed;
-	}
-	
-	public void addReturnCargo(ItemStack cargo) {
-		this.returnCargo.add(cargo);
-	}
+    public void setConsumed(int consumed) {
+        this.consumed = consumed;
+    }
 
-	public List<ItemStack> getReturnCargo() {
-		return returnCargo;
-	}
+    public void addReturnCargo(ItemStack cargo) {
+        this.returnCargo.add(cargo);
+    }
 
-	public void setReturnCargo(List<ItemStack> returnCargo) {
-		this.returnCargo = returnCargo;
-	}
+    public List<ItemStack> getReturnCargo() {
+        return returnCargo;
+    }
+
+    public void setReturnCargo(List<ItemStack> returnCargo) {
+        this.returnCargo = returnCargo;
+    }
 
 }

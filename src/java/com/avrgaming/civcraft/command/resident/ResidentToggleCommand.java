@@ -25,9 +25,9 @@ import com.avrgaming.civcraft.object.Resident;
 
 public class ResidentToggleCommand extends CommandBase {
 
-	@SuppressWarnings("unused")
-	@Override
-	public void init() {
+    @SuppressWarnings("unused")
+    @Override
+    public void init() {
         command = "/resident toggle";
         displayName = CivSettings.localize.localizedString("cmd_res_toggle_name");
 
@@ -42,105 +42,105 @@ public class ResidentToggleCommand extends CommandBase {
 
     }
 
-	@SuppressWarnings("unused")
-	public void itemdrops_cmd() throws CivException {
-		toggle();
-	}
+    @SuppressWarnings("unused")
+    public void itemdrops_cmd() throws CivException {
+        toggle();
+    }
 
-	@SuppressWarnings("unused")
-	public void map_cmd() throws CivException {
-		toggle();
-	}
+    @SuppressWarnings("unused")
+    public void map_cmd() throws CivException {
+        toggle();
+    }
 
-	@SuppressWarnings("unused")
-	public void showtown_cmd() throws CivException {
-		toggle();
-	}
+    @SuppressWarnings("unused")
+    public void showtown_cmd() throws CivException {
+        toggle();
+    }
 
-	@SuppressWarnings("unused")
-	public void showciv_cmd() throws CivException  {
-		toggle();
-	}
+    @SuppressWarnings("unused")
+    public void showciv_cmd() throws CivException {
+        toggle();
+    }
 
-	@SuppressWarnings("unused")
-	public void showscout_cmd() throws CivException  {
-		toggle();
-	}
+    @SuppressWarnings("unused")
+    public void showscout_cmd() throws CivException {
+        toggle();
+    }
 
-	@SuppressWarnings("unused")
-	public void info_cmd() throws CivException {
-		toggle();
-	}
+    @SuppressWarnings("unused")
+    public void info_cmd() throws CivException {
+        toggle();
+    }
 
-	@SuppressWarnings("unused")
-	public void combatinfo_cmd() throws CivException {
-		toggle();
-	}
+    @SuppressWarnings("unused")
+    public void combatinfo_cmd() throws CivException {
+        toggle();
+    }
 
-	@SuppressWarnings("unused")
-	public void titles_cmd() throws CivException {
-		toggle();
-	}
-	
-	private void toggle() throws CivException {
-		Resident resident = getResident();
-	
-		boolean result;
-		switch(args[0].toLowerCase()) {
-		case "map":
-			resident.setShowMap(!resident.isShowMap());
-			result = resident.isShowMap();
-			break;
-		case "showtown":
-			resident.setShowTown(!resident.isShowTown());
-			result = resident.isShowTown();
-			break;
-		case "showciv":
-			resident.setShowCiv(!resident.isShowCiv());
-			result = resident.isShowCiv();
-			break;
-		case "showscout":
-			resident.setShowScout(!resident.isShowScout());
-			result = resident.isShowScout();
-			break;
-		case "info":
-			resident.setShowInfo(!resident.isShowInfo());
-			result = resident.isShowInfo();
-			break;
-		case "combatinfo":
-			resident.setCombatInfo(!resident.isCombatInfo());
-			result = resident.isCombatInfo();
-			break;
-		case "titles":
-			resident.setTitleAPI(!resident.isTitleAPI());
-			result = resident.isTitleAPI();
-			break;
-		case "itemdrops":
-			resident.toggleItemMode();
-			return;
-		default:
-			throw new CivException(CivSettings.localize.localizedString("cmd_unkownFlag")+" "+args[0]);
-		}
-		
-		resident.save();
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_toggled")+" "+args[0]+" -> "+result);
-	}
+    @SuppressWarnings("unused")
+    public void titles_cmd() throws CivException {
+        toggle();
+    }
 
-	@SuppressWarnings("unused")
-	@Override
-	public void doDefaultAction() {
-		showHelp();
-	}
+    private void toggle() throws CivException {
+        Resident resident = getResident();
 
-	@Override
-	public void showHelp() {
-		showBasicHelp();
-	}
+        boolean result;
+        switch (args[0].toLowerCase()) {
+            case "map":
+                resident.setShowMap(!resident.isShowMap());
+                result = resident.isShowMap();
+                break;
+            case "showtown":
+                resident.setShowTown(!resident.isShowTown());
+                result = resident.isShowTown();
+                break;
+            case "showciv":
+                resident.setShowCiv(!resident.isShowCiv());
+                result = resident.isShowCiv();
+                break;
+            case "showscout":
+                resident.setShowScout(!resident.isShowScout());
+                result = resident.isShowScout();
+                break;
+            case "info":
+                resident.setShowInfo(!resident.isShowInfo());
+                result = resident.isShowInfo();
+                break;
+            case "combatinfo":
+                resident.setCombatInfo(!resident.isCombatInfo());
+                result = resident.isCombatInfo();
+                break;
+            case "titles":
+                resident.setTitleAPI(!resident.isTitleAPI());
+                result = resident.isTitleAPI();
+                break;
+            case "itemdrops":
+                resident.toggleItemMode();
+                return;
+            default:
+                throw new CivException(CivSettings.localize.localizedString("cmd_unkownFlag") + " " + args[0]);
+        }
 
-	@SuppressWarnings("unused")
-	@Override
-	public void permissionCheck() {
+        resident.save();
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_toggled") + " " + args[0] + " -> " + result);
+    }
 
-	}
+    @SuppressWarnings("unused")
+    @Override
+    public void doDefaultAction() {
+        showHelp();
+    }
+
+    @Override
+    public void showHelp() {
+        showBasicHelp();
+    }
+
+    @SuppressWarnings("unused")
+    @Override
+    public void permissionCheck() {
+
+    }
 
 }

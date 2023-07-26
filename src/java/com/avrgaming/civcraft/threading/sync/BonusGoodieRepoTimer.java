@@ -19,10 +19,10 @@ package com.avrgaming.civcraft.threading.sync;
 
 public class BonusGoodieRepoTimer implements Runnable {
 
-	@Override
-	public void run() {
-		//UNUSED now using event interface.
-	}
+    @Override
+    public void run() {
+        //UNUSED now using event interface.
+    }
 
 //	private String getKey() {
 //		return "global:goodieRepoTimer";
@@ -76,6 +76,5 @@ public class BonusGoodieRepoTimer implements Runnable {
 //		}
 //	}
 
-	
-	
+
 }

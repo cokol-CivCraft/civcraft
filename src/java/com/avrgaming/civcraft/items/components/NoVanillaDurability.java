@@ -17,23 +17,22 @@
  */
 package com.avrgaming.civcraft.items.components;
 
-import org.bukkit.event.player.PlayerItemDamageEvent;
-
 import gpl.AttributeUtil;
+import org.bukkit.event.player.PlayerItemDamageEvent;
 
 public class NoVanillaDurability extends ItemComponent {
 
-	@Override
-	public void onPrepareCreate(AttributeUtil attrUtil) {
-	}
-	
-	
-	//private ConcurrentHashMap<String, String> playersToUpdateInventory = new ConcurrentHashMap<String, String>();
-	
-	@Override
-	public void onDurabilityChange(PlayerItemDamageEvent event) {
-		event.setDamage(0);
-		
+    @Override
+    public void onPrepareCreate(AttributeUtil attrUtil) {
+    }
+
+
+    //private ConcurrentHashMap<String, String> playersToUpdateInventory = new ConcurrentHashMap<String, String>();
+
+    @Override
+    public void onDurabilityChange(PlayerItemDamageEvent event) {
+        event.setDamage(0);
+
 //		LinkedList<ItemDurabilityEntry> entries = CustomItemManager.itemDuraMap.get(player.getName());
 //		
 //		if (entries == null) {
@@ -50,9 +49,7 @@ public class NoVanillaDurability extends ItemComponent {
 //		if (!CustomItemManager.duraTaskScheduled) {
 //			TaskMaster.syncTask(new ItemDuraSyncTask());
 //		}
-	}
-
-
+    }
 
 
 //	@SuppressWarnings("deprecation")
@@ -68,6 +65,6 @@ public class NoVanillaDurability extends ItemComponent {
 //		}
 //		
 //	}
-	
+
 
 }

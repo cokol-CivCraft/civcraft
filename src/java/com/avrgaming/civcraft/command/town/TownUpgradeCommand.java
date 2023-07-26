@@ -29,8 +29,8 @@ import org.apache.commons.lang.WordUtils;
 public class TownUpgradeCommand extends CommandBase {
 
 
-	@Override
-	public void init() {
+    @Override
+    public void init() {
         command = "/town upgrade";
         displayName = CivSettings.localize.localizedString("cmd_town_upgrade_name");
 
@@ -41,98 +41,98 @@ public class TownUpgradeCommand extends CommandBase {
     }
 
 
-	public void purchased_cmd() throws CivException {
-		Town town = this.getSelectedTown();
-		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_town_upgrade_purchasedHeading"));
+    public void purchased_cmd() throws CivException {
+        Town town = this.getSelectedTown();
+        CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_town_upgrade_purchasedHeading"));
 
-		StringBuilder out = new StringBuilder();
-		for (ConfigTownUpgrade upgrade : town.getUpgrades().values()) {
-			out.append(upgrade.name).append(", ");
-		}
+        StringBuilder out = new StringBuilder();
+        for (ConfigTownUpgrade upgrade : town.getUpgrades().values()) {
+            out.append(upgrade.name).append(", ");
+        }
 
-		CivMessage.send(sender, out.toString());
-	}
-	
-	private void list_upgrades(String category, Town town) throws CivException {
-		if (!ConfigTownUpgrade.categories.containsKey(category.toLowerCase()) && !category.equalsIgnoreCase("all")) {
-			throw new CivException(CivSettings.localize.localizedString("var_cmd_town_upgrade_listnoCat",category));
-		}
-				
-		for (ConfigTownUpgrade upgrade : CivSettings.townUpgrades.values()) {
-			if (category.equalsIgnoreCase("all") || upgrade.category.equalsIgnoreCase(category)) {	
-				if (upgrade.isAvailable(town)) {
-					CivMessage.send(sender, upgrade.name+" "+CivColor.LightGray+CivSettings.localize.localizedString("Cost")+" "+CivColor.Yellow+upgrade.cost);
-				}
-			}
-		}
-	}
+        CivMessage.send(sender, out.toString());
+    }
 
+    private void list_upgrades(String category, Town town) throws CivException {
+        if (!ConfigTownUpgrade.categories.containsKey(category.toLowerCase()) && !category.equalsIgnoreCase("all")) {
+            throw new CivException(CivSettings.localize.localizedString("var_cmd_town_upgrade_listnoCat", category));
+        }
 
-	public void list_cmd() throws CivException {
-		Town town = this.getSelectedTown();
-
-		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_town_upgrade_listHeading"));
-
-		if (args.length < 2) {
-			CivMessage.send(sender, "- "+CivColor.Gold+CivSettings.localize.localizedString("cmd_town_upgrade_listAllHeading")+" "+
-					CivColor.LightBlue+"("+ConfigTownUpgrade.getAvailableCategoryCount("all", town)+")");
-			for (String category : ConfigTownUpgrade.categories.keySet()) {
-				CivMessage.send(sender, "- "+CivColor.Gold+WordUtils.capitalize(category)+
-						CivColor.LightBlue+" ("+ConfigTownUpgrade.getAvailableCategoryCount(category, town)+")");
-			}
-			return;
-		}
-
-		list_upgrades(args[1], town);
-
-	}
+        for (ConfigTownUpgrade upgrade : CivSettings.townUpgrades.values()) {
+            if (category.equalsIgnoreCase("all") || upgrade.category.equalsIgnoreCase(category)) {
+                if (upgrade.isAvailable(town)) {
+                    CivMessage.send(sender, upgrade.name + " " + CivColor.LightGray + CivSettings.localize.localizedString("Cost") + " " + CivColor.Yellow + upgrade.cost);
+                }
+            }
+        }
+    }
 
 
-	public void buy_cmd() throws CivException {
-		if (args.length < 2) {
-			list_upgrades("all", getSelectedTown());
-			CivMessage.send(sender, CivSettings.localize.localizedString("cmd_town_upgrade_buyHeading"));
-			return;
-		}
+    public void list_cmd() throws CivException {
+        Town town = this.getSelectedTown();
 
-		Town town = this.getSelectedTown();
+        CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_town_upgrade_listHeading"));
 
-		StringBuilder combinedArgs = new StringBuilder();
-		args = this.stripArgs(args, 1);
-		for (String arg : args) {
-			combinedArgs.append(arg).append(" ");
-		}
-		combinedArgs = new StringBuilder(combinedArgs.toString().trim());
+        if (args.length < 2) {
+            CivMessage.send(sender, "- " + CivColor.Gold + CivSettings.localize.localizedString("cmd_town_upgrade_listAllHeading") + " " +
+                    CivColor.LightBlue + "(" + ConfigTownUpgrade.getAvailableCategoryCount("all", town) + ")");
+            for (String category : ConfigTownUpgrade.categories.keySet()) {
+                CivMessage.send(sender, "- " + CivColor.Gold + WordUtils.capitalize(category) +
+                        CivColor.LightBlue + " (" + ConfigTownUpgrade.getAvailableCategoryCount(category, town) + ")");
+            }
+            return;
+        }
 
-		ConfigTownUpgrade upgrade = CivSettings.getUpgradeByNameRegex(town, combinedArgs.toString());
-		if (upgrade == null) {
-			throw new CivException(CivSettings.localize.localizedString("cmd_town_upgrade_buyInvalid")+" "+combinedArgs);
-		}
+        list_upgrades(args[1], town);
 
-		if (town.hasUpgrade(upgrade.id)) {
-			throw new CivException(CivSettings.localize.localizedString("cmd_town_upgrade_buyOwned"));
-		}
-
-		//TODO make upgrades take time by using hammers.
-		town.purchaseUpgrade(upgrade);
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_upgrade_buySuccess", upgrade.name));
-	}
+    }
 
 
-	@Override
-	public void doDefaultAction() {
-		showHelp();
-	}
+    public void buy_cmd() throws CivException {
+        if (args.length < 2) {
+            list_upgrades("all", getSelectedTown());
+            CivMessage.send(sender, CivSettings.localize.localizedString("cmd_town_upgrade_buyHeading"));
+            return;
+        }
 
-	@Override
-	public void showHelp() {
-		showBasicHelp();
-	}
+        Town town = this.getSelectedTown();
+
+        StringBuilder combinedArgs = new StringBuilder();
+        args = this.stripArgs(args, 1);
+        for (String arg : args) {
+            combinedArgs.append(arg).append(" ");
+        }
+        combinedArgs = new StringBuilder(combinedArgs.toString().trim());
+
+        ConfigTownUpgrade upgrade = CivSettings.getUpgradeByNameRegex(town, combinedArgs.toString());
+        if (upgrade == null) {
+            throw new CivException(CivSettings.localize.localizedString("cmd_town_upgrade_buyInvalid") + " " + combinedArgs);
+        }
+
+        if (town.hasUpgrade(upgrade.id)) {
+            throw new CivException(CivSettings.localize.localizedString("cmd_town_upgrade_buyOwned"));
+        }
+
+        //TODO make upgrades take time by using hammers.
+        town.purchaseUpgrade(upgrade);
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_upgrade_buySuccess", upgrade.name));
+    }
 
 
-	@Override
-	public void permissionCheck() throws CivException {
-		this.validMayorAssistantLeader();
-	}
+    @Override
+    public void doDefaultAction() {
+        showHelp();
+    }
+
+    @Override
+    public void showHelp() {
+        showBasicHelp();
+    }
+
+
+    @Override
+    public void permissionCheck() throws CivException {
+        this.validMayorAssistantLeader();
+    }
 
 }

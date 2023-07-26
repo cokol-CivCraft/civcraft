@@ -7,8 +7,8 @@ import com.avrgaming.civcraft.randomevents.RandomEventComponent;
 
 public class Happiness extends RandomEventComponent {
 
-	@Override
-	public void process() {
+    @Override
+    public void process() {
         int happiness = Integer.parseInt(this.getString("value"));
         int duration = Integer.parseInt(this.getString("duration"));
 
@@ -16,8 +16,8 @@ public class Happiness extends RandomEventComponent {
         sendMessage(CivSettings.localize.localizedString("var_re_happiness1", happiness, duration));
     }
 
-	public static String getKey(Town town) {
-		return "randomevent:happiness:"+town.getId();
-	}
+    public static String getKey(Town town) {
+        return "randomevent:happiness:" + town.getId();
+    }
 
 }

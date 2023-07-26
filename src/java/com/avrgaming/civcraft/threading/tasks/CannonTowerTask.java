@@ -20,13 +20,13 @@ package com.avrgaming.civcraft.threading.tasks;
 import com.avrgaming.civcraft.main.CivGlobal;
 
 public class CannonTowerTask implements Runnable {
-	@Override
-	public void run() {
-		
-		try {
-			if (!CivGlobal.towersEnabled) {
+    @Override
+    public void run() {
+
+        try {
+            if (!CivGlobal.towersEnabled) {
             }
-			
+
 //			Iterator<Entry<BlockCoord, Structure>> iter = CivGlobal.getStructureIterator();
 //			while(iter.hasNext()) {
 //				Structure struct = iter.next().getValue();
@@ -35,10 +35,10 @@ public class CannonTowerTask implements Runnable {
 //				}
 //				
 //			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-	}
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 }

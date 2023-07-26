@@ -22,29 +22,29 @@ import com.avrgaming.civcraft.config.CivSettings;
 
 public class MarketCommand extends CommandBase {
 
-	@Override
-	public void init() {
-		command = "/market";
-		displayName = CivSettings.localize.localizedString("cmd_market_Name");	
-				
-		register_sub("buy", this::buy_cmd, CivSettings.localize.localizedString("cmd_market_buyDesc"));
+    @Override
+    public void init() {
+        command = "/market";
+        displayName = CivSettings.localize.localizedString("cmd_market_Name");
 
-	}
+        register_sub("buy", this::buy_cmd, CivSettings.localize.localizedString("cmd_market_buyDesc"));
 
-	public void buy_cmd() {
-		MarketBuyCommand cmd = new MarketBuyCommand();	
-		cmd.onCommand(sender, null, "buy", this.stripArgs(args, 1));
-	}
-	
-	@Override
+    }
+
+    public void buy_cmd() {
+        MarketBuyCommand cmd = new MarketBuyCommand();
+        cmd.onCommand(sender, null, "buy", this.stripArgs(args, 1));
+    }
+
+    @Override
     public void doDefaultAction() {
         showHelp();
     }
 
-	@Override
-	public void showHelp() {
-		showBasicHelp();
-	}
+    @Override
+    public void showHelp() {
+        showBasicHelp();
+    }
 
     @Override
     public void permissionCheck() {

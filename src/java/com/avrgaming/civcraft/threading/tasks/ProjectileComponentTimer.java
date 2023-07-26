@@ -17,41 +17,41 @@
  */
 package com.avrgaming.civcraft.threading.tasks;
 
-import java.util.ArrayList;
-
 import com.avrgaming.civcraft.components.Component;
 import com.avrgaming.civcraft.components.ProjectileComponent;
 import com.avrgaming.civcraft.main.CivGlobal;
 
+import java.util.ArrayList;
+
 public class ProjectileComponentTimer implements Runnable {
-	
-	@Override
-	public void run() {
-		
-		try {
-			if (!CivGlobal.towersEnabled) {
-				return;
-			}
-			
-			Component.componentsLock.lock();
-			try {
-				ArrayList<Component> projectileComponents = Component.componentsByType.get(ProjectileComponent.class.getName());
-				
-				if (projectileComponents == null) {
-					return;
-				}
-				
-				for (Component c : projectileComponents) {
-					ProjectileComponent projectileComponent = (ProjectileComponent)c;
-					projectileComponent.process();
-				}
-			} finally {
-				Component.componentsLock.unlock();
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-	}
+
+    @Override
+    public void run() {
+
+        try {
+            if (!CivGlobal.towersEnabled) {
+                return;
+            }
+
+            Component.componentsLock.lock();
+            try {
+                ArrayList<Component> projectileComponents = Component.componentsByType.get(ProjectileComponent.class.getName());
+
+                if (projectileComponents == null) {
+                    return;
+                }
+
+                for (Component c : projectileComponents) {
+                    ProjectileComponent projectileComponent = (ProjectileComponent) c;
+                    projectileComponent.process();
+                }
+            } finally {
+                Component.componentsLock.unlock();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 }

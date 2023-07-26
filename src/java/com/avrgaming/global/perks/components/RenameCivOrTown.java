@@ -8,15 +8,15 @@ import com.avrgaming.civcraft.object.Resident;
 
 public class RenameCivOrTown extends PerkComponent {
 
-	@Override
-	public void onActivate(Resident resident) {
-		
-		if (!resident.hasTown()) {
-			CivMessage.sendError(resident, CivSettings.localize.localizedString("RenameCivOrTown_NotResident"));
-			return;
-		}
-		
-		resident.setInteractiveMode(new InteractiveRenameCivOrTown(resident, this));
-	}
-	
+    @Override
+    public void onActivate(Resident resident) {
+
+        if (!resident.hasTown()) {
+            CivMessage.sendError(resident, CivSettings.localize.localizedString("RenameCivOrTown_NotResident"));
+            return;
+        }
+
+        resident.setInteractiveMode(new InteractiveRenameCivOrTown(resident, this));
+    }
+
 }

@@ -36,136 +36,125 @@ import java.util.HashMap;
 
 public class WallBlock extends SQLObject {
 
-	private BlockCoord coord;
-	private Wall struct;
-	Material old_id;
-	int old_data;
-	Material type_id;
-	int data;
-	
-	public WallBlock(BlockCoord coord, Structure struct, Material old_id, int old_data, Material type, int data) {
-		this.coord = coord;
-		this.struct = (Wall) struct;
-		this.old_data = old_data;
-		this.old_id = old_id;
-		this.type_id = type;
-		this.data = data;
-	}
-	
-	public WallBlock(ResultSet rs) throws SQLException, InvalidNameException, InvalidObjectException, CivException {
-		this.load(rs);
-	}
-	
-	public BlockCoord getCoord() {
-		return coord;
-	}
+    private BlockCoord coord;
+    private Wall struct;
+    Material old_id;
+    int old_data;
+    Material type_id;
+    int data;
 
-	public void setCoord(BlockCoord coord) {
-		this.coord = coord;
-	}
-	
-	public static final String TABLE_NAME = "WALLBLOCKS";
-	public static void init() throws SQLException {
-		if (!SQL.hasTable(TABLE_NAME)) {
-			String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME + " (" +
-					"`id` int(11) unsigned NOT NULL auto_increment," +
-					"`struct_id` int(11) NOT NULL DEFAULT 0," +
-					"`coord` mediumtext DEFAULT NULL," +
-					"`type_id` mediumtext," +
-					"`data` int(11) DEFAULT 0," +
-					"`old_id` mediumtext," +
-					"`old_data` int(11) DEFAULT 0," +
-					"PRIMARY KEY (`id`)" + ")";
-			
-			SQL.makeTable(table_create);
-			CivLog.info("Created "+TABLE_NAME+" table");
-		} else {
-			CivLog.info(TABLE_NAME+" table OK!");
-			
-			if (!SQL.hasColumn(TABLE_NAME, "type_id")) {
-				CivLog.info("\tCouldn't find type_id column for wallblock.");
-				SQL.addColumn(TABLE_NAME, "`type_id` int(11) default 0");				
-			}
-			
-			if (!SQL.hasColumn(TABLE_NAME, "data")) {
-				CivLog.info("\tCouldn't find data column for wallblock.");
-				SQL.addColumn(TABLE_NAME, "`data` int(11) default 0");				
-			}
-		}
-	}
+    public WallBlock(BlockCoord coord, Structure struct, Material old_id, int old_data, Material type, int data) {
+        this.coord = coord;
+        this.struct = (Wall) struct;
+        this.old_data = old_data;
+        this.old_id = old_id;
+        this.type_id = type;
+        this.data = data;
+    }
 
-	@Override
-	public void load(ResultSet rs) throws SQLException,
-			CivException {
-		this.setId(rs.getInt("id"));
-		this.setStruct(CivGlobal.getStructureById(rs.getInt("struct_id")));
-		if (this.struct == null) {
-			int id = rs.getInt("struct_id");
-			this.delete();
-			throw new CivException("Could not load WallBlock, could not find structure:" + id);
-		}
+    public WallBlock(ResultSet rs) throws SQLException, InvalidNameException, InvalidObjectException, CivException {
+        this.load(rs);
+    }
 
-		this.setCoord(new BlockCoord(rs.getString("coord")));
-		
-		CivGlobal.addWallChunk(this.struct, new ChunkCoord(getCoord().getLocation()));
-		this.struct.addStructureBlock(this.getCoord(), true);
-		this.struct.wallBlocks.put(this.getCoord(), this);
-		this.old_id = Material.getMaterial(rs.getString("old_id"));
-		this.old_data = rs.getInt("old_data");
-		this.type_id = Material.getMaterial(rs.getString("type_id"));
-		this.data = rs.getInt("data");
-		
-	}
+    public BlockCoord getCoord() {
+        return coord;
+    }
 
-	@Override
-	public void save() {
-		SQLUpdate.add(this);
-	}
-	
-	@Override
-	public void saveNow() throws SQLException {
-		HashMap<String, Object> hashmap = new HashMap<>();
-		
-		hashmap.put("struct_id", this.getStruct().getId());
-		hashmap.put("coord", this.getCoord().toString());
-		hashmap.put("old_id", this.old_id.toString());
-		hashmap.put("old_data", this.old_data);
-		hashmap.put("type_id", this.type_id.toString());
-		hashmap.put("data", this.data);
+    public void setCoord(BlockCoord coord) {
+        this.coord = coord;
+    }
 
-		SQL.updateNamedObject(this, hashmap, TABLE_NAME);
-	}
+    public static final String TABLE_NAME = "WALLBLOCKS";
 
-	@Override
-	public void delete() throws SQLException {
-		if (this.coord != null) {
-			CivGlobal.removeStructureBlock(this.coord);
-		}
-		SQL.deleteNamedObject(this, TABLE_NAME);
-	}
+    public static void init() throws SQLException {
+        if (!SQL.hasTable(TABLE_NAME)) {
+            String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME + " (" +
+                    "`id` int(11) unsigned NOT NULL auto_increment," +
+                    "`struct_id` int(11) NOT NULL DEFAULT 0," +
+                    "`coord` mediumtext DEFAULT NULL," +
+                    "`type_id` mediumtext," +
+                    "`data` int(11) DEFAULT 0," +
+                    "`old_id` mediumtext," +
+                    "`old_data` int(11) DEFAULT 0," +
+                    "PRIMARY KEY (`id`)" + ")";
 
-	public Structure getStruct() {
-		return struct;
-	}
+            SQL.makeTable(table_create);
+            CivLog.info("Created " + TABLE_NAME + " table");
+        }
+    }
 
-	public void setStruct(Structure struct) {
-		this.struct = (Wall) struct;
-	}
+    @Override
+    public void load(ResultSet rs) throws SQLException,
+            CivException {
+        this.setId(rs.getInt("id"));
+        this.setStruct(CivGlobal.getStructureById(rs.getInt("struct_id")));
+        if (this.struct == null) {
+            int id = rs.getInt("struct_id");
+            this.delete();
+            throw new CivException("Could not load WallBlock, could not find structure:" + id);
+        }
 
-	public Material getOldId() {
-		return this.old_id;
-	}
-	
-	public byte getOldData() {
-		return (byte)this.old_data;
-	}
+        this.setCoord(new BlockCoord(rs.getString("coord")));
 
-	public Material getTypeId() {
-		return this.type_id;
-	}
-	
-	public int getData() {
-		return this.data;
-	}
-	
+        CivGlobal.addWallChunk(this.struct, new ChunkCoord(getCoord().getLocation()));
+        this.struct.addStructureBlock(this.getCoord(), true);
+        this.struct.wallBlocks.put(this.getCoord(), this);
+        this.old_id = Material.getMaterial(rs.getString("old_id"));
+        this.old_data = rs.getInt("old_data");
+        this.type_id = Material.getMaterial(rs.getString("type_id"));
+        this.data = rs.getInt("data");
+
+    }
+
+    @Override
+    public void save() {
+        SQLUpdate.add(this);
+    }
+
+    @Override
+    public void saveNow() throws SQLException {
+        HashMap<String, Object> hashmap = new HashMap<>();
+
+        hashmap.put("struct_id", this.getStruct().getId());
+        hashmap.put("coord", this.getCoord().toString());
+        hashmap.put("old_id", this.old_id.toString());
+        hashmap.put("old_data", this.old_data);
+        hashmap.put("type_id", this.type_id.toString());
+        hashmap.put("data", this.data);
+
+        SQL.updateNamedObject(this, hashmap, TABLE_NAME);
+    }
+
+    @Override
+    public void delete() throws SQLException {
+        if (this.coord != null) {
+            CivGlobal.removeStructureBlock(this.coord);
+        }
+        SQL.deleteNamedObject(this, TABLE_NAME);
+    }
+
+    public Structure getStruct() {
+        return struct;
+    }
+
+    public void setStruct(Structure struct) {
+        this.struct = (Wall) struct;
+    }
+
+    public Material getOldId() {
+        return this.old_id;
+    }
+
+    public byte getOldData() {
+        return (byte) this.old_data;
+    }
+
+    public Material getTypeId() {
+        return this.type_id;
+    }
+
+    public int getData() {
+        return this.data;
+    }
+
 }

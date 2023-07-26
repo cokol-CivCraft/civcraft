@@ -17,8 +17,12 @@
  */
 package com.avrgaming.civcraft.items.units;
 
-import java.util.List;
-
+import com.avrgaming.civcraft.config.CivSettings;
+import com.avrgaming.civcraft.exception.CivException;
+import com.avrgaming.civcraft.lorestorage.LoreMaterial;
+import com.avrgaming.civcraft.main.CivGlobal;
+import com.avrgaming.civcraft.main.CivMessage;
+import com.avrgaming.civcraft.util.CivColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -38,153 +42,149 @@ import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.lorestorage.LoreMaterial;
-import com.avrgaming.civcraft.main.CivGlobal;
-import com.avrgaming.civcraft.main.CivMessage;
-import com.avrgaming.civcraft.util.CivColor;
+import java.util.List;
 
 
 public class UnitItemMaterial extends LoreMaterial {
 
-	private UnitMaterial parent = null;	
-	private int socketSlot = 0;
+    private UnitMaterial parent = null;
+    private int socketSlot = 0;
 
-	public UnitItemMaterial(String id, Material minecraftId, short damage) {
-		super(id, minecraftId, damage);
-	}
-	
-	@Override
-	public void onBlockBreak(BlockBreakEvent arg0) {		
-	}
+    public UnitItemMaterial(String id, Material minecraftId, short damage) {
+        super(id, minecraftId, damage);
+    }
 
-	@Override
-	public void onBlockDamage(BlockDamageEvent arg0) {		
-	}
+    @Override
+    public void onBlockBreak(BlockBreakEvent arg0) {
+    }
 
-	@Override
-	public void onBlockInteract(PlayerInteractEvent arg0) {		
-	}
+    @Override
+    public void onBlockDamage(BlockDamageEvent arg0) {
+    }
 
-	@Override
-	public void onBlockPlaced(BlockPlaceEvent arg0) {
-	}
+    @Override
+    public void onBlockInteract(PlayerInteractEvent arg0) {
+    }
 
-	@Override
-	public void onHit(EntityDamageByEntityEvent arg0) {
-		
-	}
+    @Override
+    public void onBlockPlaced(BlockPlaceEvent arg0) {
+    }
 
-	@Override
-	public void onHold(PlayerItemHeldEvent event) {
-	}
+    @Override
+    public void onHit(EntityDamageByEntityEvent arg0) {
 
-	@Override
-	public void onInteract(PlayerInteractEvent arg0) {
-	}
+    }
 
-	@Override
-	public void onInteractEntity(PlayerInteractEntityEvent arg0) {
-		
-	}
+    @Override
+    public void onHold(PlayerItemHeldEvent event) {
+    }
 
-	@Override
-	public void onItemDrop(PlayerDropItemEvent event) {
-		CivMessage.sendError(event.getPlayer(), CivSettings.localize.localizedString("unitItem_cannotDrop"));
-		event.setCancelled(true);
-	}
+    @Override
+    public void onInteract(PlayerInteractEvent arg0) {
+    }
 
-	@Override
-	public void onItemCraft(CraftItemEvent event) {
-		try {
-			CivMessage.sendError(CivGlobal.getPlayer(event.getWhoClicked().getName()), CivSettings.localize.localizedString("unitItem_cannotCraft"));
-		} catch (CivException e) {
-			//player offline?
-		}
-		event.setCancelled(true);		
-	}
+    @Override
+    public void onInteractEntity(PlayerInteractEntityEvent arg0) {
 
-	@Override
-	public void onItemPickup(EntityPickupItemEvent event) {
-		// Should never be able to pick up these items.
-		if (event.getEntity() instanceof Player) {
-			event.setCancelled(true);
-			event.getItem().remove();
-		}
-	}
+    }
 
-	@Override
-	public void onInvItemPickup(InventoryClickEvent event, Inventory fromInv,
-			ItemStack stack) {		
-	}
+    @Override
+    public void onItemDrop(PlayerDropItemEvent event) {
+        CivMessage.sendError(event.getPlayer(), CivSettings.localize.localizedString("unitItem_cannotDrop"));
+        event.setCancelled(true);
+    }
 
-	@Override
-	public void onInvItemDrop(InventoryClickEvent event, Inventory toInv,
-			ItemStack stack) {
-			
-	}
+    @Override
+    public void onItemCraft(CraftItemEvent event) {
+        try {
+            CivMessage.sendError(CivGlobal.getPlayer(event.getWhoClicked().getName()), CivSettings.localize.localizedString("unitItem_cannotCraft"));
+        } catch (CivException e) {
+            //player offline?
+        }
+        event.setCancelled(true);
+    }
 
-	@Override
-	public void onInvShiftClick(InventoryClickEvent event, Inventory fromInv,
-			Inventory toInv, ItemStack stack) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void onItemPickup(EntityPickupItemEvent event) {
+        // Should never be able to pick up these items.
+        if (event.getEntity() instanceof Player) {
+            event.setCancelled(true);
+            event.getItem().remove();
+        }
+    }
 
-	@Override
-	public void onInvItemSwap(InventoryClickEvent event, Inventory toInv,
-			ItemStack droppedStack, ItemStack pickedStack) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void onInvItemPickup(InventoryClickEvent event, Inventory fromInv,
+                                ItemStack stack) {
+    }
 
-	public UnitMaterial getParent() {
-		return parent;
-	}
+    @Override
+    public void onInvItemDrop(InventoryClickEvent event, Inventory toInv,
+                              ItemStack stack) {
 
-	public void setParent(UnitMaterial parent) {
-		this.parent = parent;
-	}
+    }
 
-	@Override
-	public void onItemSpawn(ItemSpawnEvent event) {
-		// Never let these spawn as items.
-		event.setCancelled(true);
-		
-	}
-	
-	public void setLoreArray(List<String> lore) {
-		super.setLore("");
-		for (String str : lore) {
-			this.addLore(str);
-		}
-		
-		this.addLore(CivColor.Gold+CivSettings.localize.localizedString("Soulbound"));
-	}
+    @Override
+    public void onInvShiftClick(InventoryClickEvent event, Inventory fromInv,
+                                Inventory toInv, ItemStack stack) {
+        // TODO Auto-generated method stub
 
-	public int getSocketSlot() {
-		return socketSlot;
-	}
+    }
 
-	public void setSocketSlot(int socketSlot) {
-		this.socketSlot = socketSlot;
-	}
+    @Override
+    public void onInvItemSwap(InventoryClickEvent event, Inventory toInv,
+                              ItemStack droppedStack, ItemStack pickedStack) {
+        // TODO Auto-generated method stub
 
-	@Override
-	public boolean onAttack(EntityDamageByEntityEvent event, ItemStack stack) {
-		return false;
-	}
+    }
 
-	@Override
-	public void onPlayerDeath(EntityDeathEvent event, ItemStack stack) {		
-	}
+    public UnitMaterial getParent() {
+        return parent;
+    }
 
-	@Override
-	public void onDrop(PlayerDropItemEvent event) {
-		
-	}
-	@Override
-	public void onInventoryClose(InventoryCloseEvent event) {
-	}
+    public void setParent(UnitMaterial parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public void onItemSpawn(ItemSpawnEvent event) {
+        // Never let these spawn as items.
+        event.setCancelled(true);
+
+    }
+
+    public void setLoreArray(List<String> lore) {
+        super.setLore("");
+        for (String str : lore) {
+            this.addLore(str);
+        }
+
+        this.addLore(CivColor.Gold + CivSettings.localize.localizedString("Soulbound"));
+    }
+
+    public int getSocketSlot() {
+        return socketSlot;
+    }
+
+    public void setSocketSlot(int socketSlot) {
+        this.socketSlot = socketSlot;
+    }
+
+    @Override
+    public boolean onAttack(EntityDamageByEntityEvent event, ItemStack stack) {
+        return false;
+    }
+
+    @Override
+    public void onPlayerDeath(EntityDeathEvent event, ItemStack stack) {
+    }
+
+    @Override
+    public void onDrop(PlayerDropItemEvent event) {
+
+    }
+
+    @Override
+    public void onInventoryClose(InventoryCloseEvent event) {
+    }
 }

@@ -51,7 +51,7 @@ public class FishingListener implements Listener {
             return;
         }
         dropped.forEach(d -> drop(event, player, d));
-        
+
     }
 
     private static void drop(PlayerFishEvent event, Player player, ConfigFishing d) {

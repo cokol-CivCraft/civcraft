@@ -17,16 +17,15 @@
  */
 package com.avrgaming.civcraft.items.components;
 
-import gpl.AttributeUtil;
-
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.util.CivColor;
+import gpl.AttributeUtil;
 
 public class Soulbound extends ItemComponent {
 
-	@Override
-	public void onPrepareCreate(AttributeUtil attrs) {
-		attrs.addLore(CivColor.Gold+CivSettings.localize.localizedString("Soulbound"));
-	}
+    @Override
+    public void onPrepareCreate(AttributeUtil attrs) {
+        attrs.addLore(CivColor.Gold + CivSettings.localize.localizedString("Soulbound"));
+    }
 
 }

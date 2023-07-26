@@ -17,23 +17,22 @@
  */
 package com.avrgaming.civcraft.threading.timers;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
-import org.bukkit.GameMode;
-import org.bukkit.entity.Player;
-
 import com.avrgaming.civcraft.cache.PlayerLocationCache;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivGlobal;
+import org.bukkit.GameMode;
+import org.bukkit.entity.Player;
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class PlayerLocationCacheUpdate implements Runnable {
 
-	public static int UPDATE_LIMIT = 20;
+    public static int UPDATE_LIMIT = 20;
     public static Queue<String> playerQueue = new LinkedList<>();
-	
-	@Override
-	public void run() {
+
+    @Override
+    public void run() {
 
         //	if (PlayerLocationCache.lock.tryLock()) {
         for (int i = 0; i < UPDATE_LIMIT; i++) {

@@ -31,36 +31,36 @@ import org.bukkit.entity.Player;
 
 public class HereCommand implements CommandExecutor {
 
-	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 
-		if (sender instanceof Player) {
-			Player player = (Player)sender;
-			
-			ChunkCoord coord = new ChunkCoord(player.getLocation());
-			
-			CultureChunk cc = CivGlobal.getCultureChunk(coord);
-			if (cc != null) {
-				CivMessage.send(sender, CivColor.LightPurple+CivSettings.localize.localizedString("var_cmd_here_inCivAndTown",
-						CivColor.Yellow+cc.getCiv().getName()+CivColor.LightPurple,CivColor.Yellow+cc.getTown().getName()));
-			}
-			
-			TownChunk tc = CivGlobal.getTownChunk(coord);
-			if (tc != null) {
-				CivMessage.send(sender, CivColor.Green+CivSettings.localize.localizedString("var_cmd_here_inTown",CivColor.LightGreen+tc.getTown().getName()));
-				if (tc.isOutpost()) {
-					CivMessage.send(sender, CivColor.Yellow+CivSettings.localize.localizedString("cmd_here_outPost"));
-				}
-			}
-			
-			if (cc == null && tc == null) {
-				CivMessage.send(sender, CivColor.Yellow+CivSettings.localize.localizedString("cmd_here_wilderness"));
-			}
-			
-		}
-		
-		
-		return false;
-	}
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+
+            ChunkCoord coord = new ChunkCoord(player.getLocation());
+
+            CultureChunk cc = CivGlobal.getCultureChunk(coord);
+            if (cc != null) {
+                CivMessage.send(sender, CivColor.LightPurple + CivSettings.localize.localizedString("var_cmd_here_inCivAndTown",
+                        CivColor.Yellow + cc.getCiv().getName() + CivColor.LightPurple, CivColor.Yellow + cc.getTown().getName()));
+            }
+
+            TownChunk tc = CivGlobal.getTownChunk(coord);
+            if (tc != null) {
+                CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("var_cmd_here_inTown", CivColor.LightGreen + tc.getTown().getName()));
+                if (tc.isOutpost()) {
+                    CivMessage.send(sender, CivColor.Yellow + CivSettings.localize.localizedString("cmd_here_outPost"));
+                }
+            }
+
+            if (cc == null && tc == null) {
+                CivMessage.send(sender, CivColor.Yellow + CivSettings.localize.localizedString("cmd_here_wilderness"));
+            }
+
+        }
+
+
+        return false;
+    }
 
 }

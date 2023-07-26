@@ -39,8 +39,8 @@ import java.sql.SQLException;
 
 public class AdminCivCommand extends CommandBase {
 
-	@Override
-	public void init() {
+    @Override
+    public void init() {
         command = "/ad civ";
         displayName = CivSettings.localize.localizedString("adcmd_civ_name");
 
@@ -65,25 +65,25 @@ public class AdminCivCommand extends CommandBase {
         register_sub("rename", this::rename_cmd, CivSettings.localize.localizedString("adcmd_civ_renameDesc"));
     }
 
-	@SuppressWarnings("unused")
-	public void liberate_cmd() throws CivException {
-		Civilization motherCiv = getNamedCiv(1);
+    @SuppressWarnings("unused")
+    public void liberate_cmd() throws CivException {
+        Civilization motherCiv = getNamedCiv(1);
 
-		/* Liberate the civ. */
-		for (Town t : CivGlobal.getTowns()) {
-			if (t.getMotherCiv() == motherCiv) {
-				t.changeCiv(motherCiv);
-				t.setMotherCiv(null);
-				t.save();
-			}
-		}
+        /* Liberate the civ. */
+        for (Town t : CivGlobal.getTowns()) {
+            if (t.getMotherCiv() == motherCiv) {
+                t.changeCiv(motherCiv);
+                t.setMotherCiv(null);
+                t.save();
+            }
+        }
 
-		motherCiv.setConquered(false);
-		CivGlobal.removeConqueredCiv(motherCiv);
-		CivGlobal.addCiv(motherCiv);
-		motherCiv.save();
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_liberateSuccess")+" "+motherCiv.getName());
-	}
+        motherCiv.setConquered(false);
+        CivGlobal.removeConqueredCiv(motherCiv);
+        CivGlobal.addCiv(motherCiv);
+        motherCiv.save();
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_liberateSuccess") + " " + motherCiv.getName());
+    }
 
     @SuppressWarnings("unused")
     public void rename_cmd() throws CivException {
@@ -103,116 +103,116 @@ public class AdminCivCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_renameCivSuccess"));
     }
 
-	@SuppressWarnings("unused")
-	public void setvotes_cmd() throws CivException {
-		Civilization civ = getNamedCiv(1);
-		Integer votes = getNamedInteger(2);
-		EndConditionDiplomacy.setVotes(civ, votes);
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_setVotesSuccess",civ.getName(),votes));
-	}
+    @SuppressWarnings("unused")
+    public void setvotes_cmd() throws CivException {
+        Civilization civ = getNamedCiv(1);
+        Integer votes = getNamedInteger(2);
+        EndConditionDiplomacy.setVotes(civ, votes);
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_setVotesSuccess", civ.getName(), votes));
+    }
 
-	@SuppressWarnings("unused")
-	public void conquered_cmd() throws CivException {
-		Civilization civ = getNamedCiv(1);
-		civ.setConquered(true);
-		CivGlobal.removeCiv(civ);
-		CivGlobal.addConqueredCiv(civ);
-		civ.save();
+    @SuppressWarnings("unused")
+    public void conquered_cmd() throws CivException {
+        Civilization civ = getNamedCiv(1);
+        civ.setConquered(true);
+        CivGlobal.removeCiv(civ);
+        CivGlobal.addConqueredCiv(civ);
+        civ.save();
 
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_conqueredSuccess"));
-	}
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_conqueredSuccess"));
+    }
 
-	@SuppressWarnings("unused")
-	public void unconquer_cmd() throws CivException {
-		String conquerCiv = this.getNamedString(1, "conquered civ");
+    @SuppressWarnings("unused")
+    public void unconquer_cmd() throws CivException {
+        String conquerCiv = this.getNamedString(1, "conquered civ");
 
-		Civilization civ = CivGlobal.getConqueredCiv(conquerCiv);
-		if (civ == null) {
-			civ = CivGlobal.getCiv(conquerCiv);
-		}
+        Civilization civ = CivGlobal.getConqueredCiv(conquerCiv);
+        if (civ == null) {
+            civ = CivGlobal.getCiv(conquerCiv);
+        }
 
-		if (civ == null) {
-			throw new CivException (CivSettings.localize.localizedString("var_adcmd_civ_NoCivByThatNane",conquerCiv));
-		}
+        if (civ == null) {
+            throw new CivException(CivSettings.localize.localizedString("var_adcmd_civ_NoCivByThatNane", conquerCiv));
+        }
 
-		civ.setConquered(false);
-		CivGlobal.removeConqueredCiv(civ);
-		CivGlobal.addCiv(civ);
-		civ.save();
+        civ.setConquered(false);
+        CivGlobal.removeConqueredCiv(civ);
+        CivGlobal.addCiv(civ);
+        civ.save();
 
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_unconquerSuccess"));
-	}
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_unconquerSuccess"));
+    }
 
 
-	@SuppressWarnings("unused")
-	public void bankrupt_cmd() throws CivException {
-		Civilization civ = getNamedCiv(1);
+    @SuppressWarnings("unused")
+    public void bankrupt_cmd() throws CivException {
+        Civilization civ = getNamedCiv(1);
 
-		if (args.length < 3) {
-			CivMessage.send(sender, CivColor.Yellow+ChatColor.BOLD+CivSettings.localize.localizedString("adcmd_civ_bankruptConfirmPrompt"));
-			CivMessage.send(sender, CivSettings.localize.localizedString("adcmd_civ_bankruptConfirmCmd"));
-		}
+        if (args.length < 3) {
+            CivMessage.send(sender, CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("adcmd_civ_bankruptConfirmPrompt"));
+            CivMessage.send(sender, CivSettings.localize.localizedString("adcmd_civ_bankruptConfirmCmd"));
+        }
 
-		civ.getTreasury().setBalance(0);
+        civ.getTreasury().setBalance(0);
 
-		for (Town town : civ.getTowns()) {
-			town.getTreasury().setBalance(0);
-			town.save();
+        for (Town town : civ.getTowns()) {
+            town.getTreasury().setBalance(0);
+            town.save();
 
-			for (Resident resident : town.getResidents()) {
-				resident.getTreasury().setBalance(0);
-				resident.save();
-			}
-		}
+            for (Resident resident : town.getResidents()) {
+                resident.getTreasury().setBalance(0);
+                resident.save();
+            }
+        }
 
-		civ.save();
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_bankruptSuccess",civ.getName()));
-	}
+        civ.save();
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_bankruptSuccess", civ.getName()));
+    }
 
-	@SuppressWarnings("unused")
-	public void setgov_cmd() throws CivException {
-		Civilization civ = getNamedCiv(1);
+    @SuppressWarnings("unused")
+    public void setgov_cmd() throws CivException {
+        Civilization civ = getNamedCiv(1);
 
-		if (args.length < 3) {
-			throw new CivException(CivSettings.localize.localizedString("adcmd_civ_setgovPrompt"));
-		}
+        if (args.length < 3) {
+            throw new CivException(CivSettings.localize.localizedString("adcmd_civ_setgovPrompt"));
+        }
 
-		ConfigGovernment gov = CivSettings.governments.get(args[2]);
-		if (gov == null) {
-			throw new CivException(CivSettings.localize.localizedString("adcmd_civ_setGovInvalidGov")+" gov_monarchy, gov_depostism... etc");
-		}
-		// Remove any anarchy timers
-		String key = "changegov_"+civ.getId();
-		CivGlobal.getSessionDB().delete_all(key);
+        ConfigGovernment gov = CivSettings.governments.get(args[2]);
+        if (gov == null) {
+            throw new CivException(CivSettings.localize.localizedString("adcmd_civ_setGovInvalidGov") + " gov_monarchy, gov_depostism... etc");
+        }
+        // Remove any anarchy timers
+        String key = "changegov_" + civ.getId();
+        CivGlobal.getSessionDB().delete_all(key);
 
-		civ.setGovernment(gov.id);
-		CivMessage.global(CivSettings.localize.localizedString("var_adcmd_civ_setGovSuccessBroadcast",civ.getName(),CivSettings.governments.get(gov.id).displayName));
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_setGovSuccess"));
+        civ.setGovernment(gov.id);
+        CivMessage.global(CivSettings.localize.localizedString("var_adcmd_civ_setGovSuccessBroadcast", civ.getName(), CivSettings.governments.get(gov.id).displayName));
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_setGovSuccess"));
 
-	}
+    }
 
-	@SuppressWarnings("unused")
-	public void merge_cmd() throws CivException {
-		Civilization oldciv = getNamedCiv(1);
-		Civilization newciv = getNamedCiv(2);
+    @SuppressWarnings("unused")
+    public void merge_cmd() throws CivException {
+        Civilization oldciv = getNamedCiv(1);
+        Civilization newciv = getNamedCiv(2);
 
-		if (oldciv == newciv) {
-			throw new CivException(CivSettings.localize.localizedString("adcmd_civ_mergeSameError"));
-		}
+        if (oldciv == newciv) {
+            throw new CivException(CivSettings.localize.localizedString("adcmd_civ_mergeSameError"));
+        }
 
-		newciv.mergeInCiv(oldciv);
-		CivMessage.global(CivSettings.localize.localizedString("var_adcmd_civ_mergeSuccess",oldciv.getName(),newciv.getName()));
-	}
+        newciv.mergeInCiv(oldciv);
+        CivMessage.global(CivSettings.localize.localizedString("var_adcmd_civ_mergeSuccess", oldciv.getName(), newciv.getName()));
+    }
 
-	@SuppressWarnings("unused")
-	public void info_cmd() throws CivException {
-		Civilization civ = getNamedCiv(1);
+    @SuppressWarnings("unused")
+    public void info_cmd() throws CivException {
+        Civilization civ = getNamedCiv(1);
 
-		CivInfoCommand cmd = new CivInfoCommand();
-		cmd.senderCivOverride = civ;
-		cmd.onCommand(sender, null, "info", this.stripArgs(args, 2));
-	}
-	
+        CivInfoCommand cmd = new CivInfoCommand();
+        cmd.senderCivOverride = civ;
+        cmd.onCommand(sender, null, "info", this.stripArgs(args, 2));
+    }
+
 //	public void setmaster_cmd() throws CivException {
 //		Civilization vassal = getNamedCiv(1);
 //		Civilization master = getNamedCiv(2);
@@ -226,164 +226,164 @@ public class AdminCivCommand extends CommandBase {
 //		
 //	}
 
-	@SuppressWarnings("unused")
-	public void setmaster_cmd() {
+    @SuppressWarnings("unused")
+    public void setmaster_cmd() {
 
-	}
+    }
 
-	@SuppressWarnings("unused")
-	public void setrelation_cmd() throws CivException {
-		if (args.length < 4) {
-			throw new CivException(CivSettings.localize.localizedString("Usage") +" [civ] [otherCiv] [NEUTRAL|HOSTILE|WAR|PEACE|ALLY]");
-		}
+    @SuppressWarnings("unused")
+    public void setrelation_cmd() throws CivException {
+        if (args.length < 4) {
+            throw new CivException(CivSettings.localize.localizedString("Usage") + " [civ] [otherCiv] [NEUTRAL|HOSTILE|WAR|PEACE|ALLY]");
+        }
 
-		Civilization civ = getNamedCiv(1);
-		Civilization otherCiv = getNamedCiv(2);
+        Civilization civ = getNamedCiv(1);
+        Civilization otherCiv = getNamedCiv(2);
 
-		Relation.Status status = Relation.Status.valueOf(args[3].toUpperCase());
+        Relation.Status status = Relation.Status.valueOf(args[3].toUpperCase());
 
-		CivGlobal.setRelation(civ, otherCiv, status);
-		if (status.equals(Status.WAR)) {
-			CivGlobal.setAggressor(civ, otherCiv, civ);
-			CivGlobal.setAggressor(otherCiv, civ, civ);
-		}
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_setrelationSuccess",civ.getName(),otherCiv.getName(),status.name()));
+        CivGlobal.setRelation(civ, otherCiv, status);
+        if (status.equals(Status.WAR)) {
+            CivGlobal.setAggressor(civ, otherCiv, civ);
+            CivGlobal.setAggressor(otherCiv, civ, civ);
+        }
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_setrelationSuccess", civ.getName(), otherCiv.getName(), status.name()));
 
-	}
+    }
 
-	@SuppressWarnings("unused")
-	public void alltech_cmd() throws CivException {
+    @SuppressWarnings("unused")
+    public void alltech_cmd() throws CivException {
 
-		Civilization civ = getNamedCiv(1);
+        Civilization civ = getNamedCiv(1);
 
-		for (ConfigTech tech : CivSettings.techs.values()) {
-			civ.addTech(tech);
-		}
+        for (ConfigTech tech : CivSettings.techs.values()) {
+            civ.addTech(tech);
+        }
 
-		civ.save();
+        civ.save();
 
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_alltechSuccess"));
-	}
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_alltechSuccess"));
+    }
 
-	@SuppressWarnings("unused")
-	public void toggleadminciv_cmd() throws CivException {
-		Civilization civ = getNamedCiv(1);
+    @SuppressWarnings("unused")
+    public void toggleadminciv_cmd() throws CivException {
+        Civilization civ = getNamedCiv(1);
 
-		civ.setAdminCiv(!civ.isAdminCiv());
-		civ.save();
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_toggleAdminCivSuccess",civ.getName(),civ.isAdminCiv()));
-	}
+        civ.setAdminCiv(!civ.isAdminCiv());
+        civ.save();
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_toggleAdminCivSuccess", civ.getName(), civ.isAdminCiv()));
+    }
 
-	@SuppressWarnings("unused")
-	public void beakerrate_cmd() throws CivException {
-		Civilization civ = getNamedCiv(1);
-		Double amount = getNamedDouble(2);
+    @SuppressWarnings("unused")
+    public void beakerrate_cmd() throws CivException {
+        Civilization civ = getNamedCiv(1);
+        Double amount = getNamedDouble(2);
 
-		civ.setBaseBeakers(amount);
-		civ.save();
+        civ.setBaseBeakers(amount);
+        civ.save();
 
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_beakerRateSuccess",civ.getName(),amount));
-	}
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_beakerRateSuccess", civ.getName(), amount));
+    }
 
-	@SuppressWarnings("unused")
-	public void givetech_cmd() throws CivException {
-		Civilization civ = getNamedCiv(1);
+    @SuppressWarnings("unused")
+    public void givetech_cmd() throws CivException {
+        Civilization civ = getNamedCiv(1);
 
-		if (args.length < 3) {
-			throw new CivException(CivSettings.localize.localizedString("adcmd_civ_giveTechPrompt"));
-		}
+        if (args.length < 3) {
+            throw new CivException(CivSettings.localize.localizedString("adcmd_civ_giveTechPrompt"));
+        }
 
-		ConfigTech tech = CivSettings.techs.get(args[2]);
-		if (tech == null) {
-			throw new CivException(CivSettings.localize.localizedString("adcmd_civ_giveTechInvalid")+args[2]);
-		}
+        ConfigTech tech = CivSettings.techs.get(args[2]);
+        if (tech == null) {
+            throw new CivException(CivSettings.localize.localizedString("adcmd_civ_giveTechInvalid") + args[2]);
+        }
 
-		if (civ.hasTechnology(tech.id)) {
-			throw new CivException(CivSettings.localize.localizedString("var_adcmd_civ_giveTechAlreadyhas",civ.getName(),tech.id));
-		}
+        if (civ.hasTechnology(tech.id)) {
+            throw new CivException(CivSettings.localize.localizedString("var_adcmd_civ_giveTechAlreadyhas", civ.getName(), tech.id));
+        }
 
-		civ.addTech(tech);
-		civ.save();
+        civ.addTech(tech);
+        civ.save();
 
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_giveTechSuccess",tech.name,civ.getName()));
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_giveTechSuccess", tech.name, civ.getName()));
 
-	}
+    }
 
-	@SuppressWarnings("unused")
-	public void rmadviser_cmd() throws CivException {
-		Civilization civ = getNamedCiv(1);
-		Resident resident = getNamedResident(2);
+    @SuppressWarnings("unused")
+    public void rmadviser_cmd() throws CivException {
+        Civilization civ = getNamedCiv(1);
+        Resident resident = getNamedResident(2);
 
-		if (civ.getAdviserGroup().hasMember(resident)) {
-			civ.getAdviserGroup().removeMember(resident);
-			civ.save();
-			CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_rmAdvisorSuccess",resident.getName(),civ.getName()));
-		} else {
-			CivMessage.sendError(sender, CivSettings.localize.localizedString("var_adcmd_civ_rmAdvisorNotInGroup",resident.getName(),civ.getName()));
-		}
-	}
+        if (civ.getAdviserGroup().hasMember(resident)) {
+            civ.getAdviserGroup().removeMember(resident);
+            civ.save();
+            CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_rmAdvisorSuccess", resident.getName(), civ.getName()));
+        } else {
+            CivMessage.sendError(sender, CivSettings.localize.localizedString("var_adcmd_civ_rmAdvisorNotInGroup", resident.getName(), civ.getName()));
+        }
+    }
 
-	@SuppressWarnings("unused")
-	public void rmleader_cmd() throws CivException {
-		Civilization civ = getNamedCiv(1);
-		Resident resident = getNamedResident(2);
+    @SuppressWarnings("unused")
+    public void rmleader_cmd() throws CivException {
+        Civilization civ = getNamedCiv(1);
+        Resident resident = getNamedResident(2);
 
-		if (civ.getLeaderGroup().hasMember(resident)) {
-			civ.getLeaderGroup().removeMember(resident);
-			civ.save();
-			CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_rmLeaderSuccess",resident.getName(),civ.getName()));
-		} else {
-			CivMessage.sendError(sender, CivSettings.localize.localizedString("var_adcmd_civ_rmLeaderNotInGroup",resident.getName(),civ.getName()));
-		}
-	}
+        if (civ.getLeaderGroup().hasMember(resident)) {
+            civ.getLeaderGroup().removeMember(resident);
+            civ.save();
+            CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_rmLeaderSuccess", resident.getName(), civ.getName()));
+        } else {
+            CivMessage.sendError(sender, CivSettings.localize.localizedString("var_adcmd_civ_rmLeaderNotInGroup", resident.getName(), civ.getName()));
+        }
+    }
 
-	@SuppressWarnings("unused")
-	public void addadviser_cmd() throws CivException {
-		Civilization civ = getNamedCiv(1);
-		Resident resident = getNamedResident(2);
+    @SuppressWarnings("unused")
+    public void addadviser_cmd() throws CivException {
+        Civilization civ = getNamedCiv(1);
+        Resident resident = getNamedResident(2);
 
-		civ.getAdviserGroup().addMember(resident);
-		civ.getAdviserGroup().save();
-		civ.save();
+        civ.getAdviserGroup().addMember(resident);
+        civ.getAdviserGroup().save();
+        civ.save();
 
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_addAdvisorSuccess",resident.getName(),civ.getName()));
-	}
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_addAdvisorSuccess", resident.getName(), civ.getName()));
+    }
 
-	@SuppressWarnings("unused")
-	public void addleader_cmd() throws CivException {
-		Civilization civ = getNamedCiv(1);
-		Resident resident = getNamedResident(2);
+    @SuppressWarnings("unused")
+    public void addleader_cmd() throws CivException {
+        Civilization civ = getNamedCiv(1);
+        Resident resident = getNamedResident(2);
 
-		civ.getLeaderGroup().addMember(resident);
-		civ.getLeaderGroup().save();
-		civ.save();
+        civ.getLeaderGroup().addMember(resident);
+        civ.getLeaderGroup().save();
+        civ.save();
 
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_addLeaderSuccess",resident.getName(),civ.getName()));
-	}
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_addLeaderSuccess", resident.getName(), civ.getName()));
+    }
 
-	@SuppressWarnings("unused")
-	public void disband_cmd() throws CivException {
-		Civilization civ = getNamedCiv(1);
+    @SuppressWarnings("unused")
+    public void disband_cmd() throws CivException {
+        Civilization civ = getNamedCiv(1);
 
-		CivMessage.sendCiv(civ, CivSettings.localize.localizedString("adcmd_civ_disbandAlert"));
-		try {
-			civ.delete();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+        CivMessage.sendCiv(civ, CivSettings.localize.localizedString("adcmd_civ_disbandAlert"));
+        try {
+            civ.delete();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_disbandSuccess"));
-	}
-	
-	@Override
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_disbandSuccess"));
+    }
+
+    @Override
     public void doDefaultAction() {
         showHelp();
     }
 
-	@Override
-	public void showHelp() {
-		showBasicHelp();
-	}
+    @Override
+    public void showHelp() {
+        showBasicHelp();
+    }
 
     @Override
     public void permissionCheck() {

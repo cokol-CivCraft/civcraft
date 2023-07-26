@@ -88,6 +88,6 @@ public class StructureBlockHitEvent implements Runnable {
 		} else {
             CivMessage.sendErrorNoRepeat(player,
                     CivSettings.localize.localizedString("var_StructureBlockHitEvent_Invulnerable", dmgBlock.getOwner().getDisplayName(), dmgBlock.getTown().getName()));
-		}
-	}
+        }
+    }
 }

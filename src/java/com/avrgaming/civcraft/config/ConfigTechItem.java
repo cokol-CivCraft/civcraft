@@ -28,7 +28,7 @@ public class ConfigTechItem {
 
     public Material id;
     public String name;
-	public String require_tech;
+    public String require_tech;
 
     public static void loadConfig(FileConfiguration cfg, Map<Material, ConfigTechItem> tech_maps) {
         tech_maps.clear();
@@ -41,7 +41,7 @@ public class ConfigTechItem {
             tech.require_tech = (String) confTech.get("require_tech");
             tech_maps.put(tech.id, tech);
         }
-		CivLog.info("Loaded "+tech_maps.size()+" technologies.");		
-	}
-	
+        CivLog.info("Loaded " + tech_maps.size() + " technologies.");
+    }
+
 }

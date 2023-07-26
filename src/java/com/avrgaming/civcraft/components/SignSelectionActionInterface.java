@@ -20,5 +20,5 @@ package com.avrgaming.civcraft.components;
 import org.bukkit.entity.Player;
 
 public interface SignSelectionActionInterface {
-	void process(Player player);
+    void process(Player player);
 }

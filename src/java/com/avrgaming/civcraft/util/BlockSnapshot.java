@@ -17,33 +17,32 @@
  */
 package com.avrgaming.civcraft.util;
 
-import org.bukkit.ChunkSnapshot;
-
 import com.avrgaming.civcraft.exception.InvalidBlockLocation;
+import org.bukkit.ChunkSnapshot;
 import org.bukkit.Material;
 
 public class BlockSnapshot {
 
-	private int x;
-	private int y;
-	private int z;
+    private int x;
+    private int y;
+    private int z;
     private Material type;
     private int data;
-	private ChunkSnapshot snapshot;
-	
-	public BlockSnapshot(int x, int y, int z, ChunkSnapshot snapshot) {
-		this.setFromSnapshotLocation(x, y, z, snapshot);
-	}
+    private ChunkSnapshot snapshot;
 
-	
-	public BlockSnapshot() {
-		//Used when caching.
-	}
+    public BlockSnapshot(int x, int y, int z, ChunkSnapshot snapshot) {
+        this.setFromSnapshotLocation(x, y, z, snapshot);
+    }
 
-	public void setFromSnapshotLocation(int x, int y, int z, ChunkSnapshot snapshot) {
-		/* Modulo in Java doesn't handle negative numbers the way we want it to, compensate here. */
-		if (x < 0) {
-			x += 16;
+
+    public BlockSnapshot() {
+        //Used when caching.
+    }
+
+    public void setFromSnapshotLocation(int x, int y, int z, ChunkSnapshot snapshot) {
+        /* Modulo in Java doesn't handle negative numbers the way we want it to, compensate here. */
+        if (x < 0) {
+            x += 16;
         }
 
         if (z < 0) {
@@ -58,30 +57,30 @@ public class BlockSnapshot {
         this.setData(snapshot.getBlockData(this.x, this.y, this.z));
     }
 
-	public BlockSnapshot getRelative(int xOff, int yOff, int zOff) throws InvalidBlockLocation {
-		int nX = this.getX() + xOff;
-		if (nX < 0 || nX > 15) {
-			throw new InvalidBlockLocation();
-		}
+    public BlockSnapshot getRelative(int xOff, int yOff, int zOff) throws InvalidBlockLocation {
+        int nX = this.getX() + xOff;
+        if (nX < 0 || nX > 15) {
+            throw new InvalidBlockLocation();
+        }
 
         return new BlockSnapshot(this.getX() + xOff, this.getY() + yOff, this.getZ() + zOff, snapshot);
-	}
-	
-	
-	public int getX() {
-		return x;
-	}
+    }
 
-	public void setX(int x) {
-		this.x = x;
-	}
 
-	public int getY() {
-		return y;
-	}
+    public int getX() {
+        return x;
+    }
 
-	public void setY(int y) {
-		this.y = y;
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 
     public int getZ() {

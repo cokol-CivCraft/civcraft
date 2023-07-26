@@ -40,49 +40,49 @@ import java.util.List;
 import java.util.Map;
 
 public class ConfigMarketItem {
-	public int id;
-	public String name;
-	public Material type_id;
-	public String custom_id;
-	public int data;
-	public int inital_value;
-	
-	private int buy_value;
-	private int buy_bulk;
-	private int sell_value;
-	private int sell_bulk;
-	
-	private int bought;
-	private int sold;
-	private int buysell_count = 0;
-	private boolean stackable = true;
-	private int step;
-	
-	public static int BASE_ITEM_AMOUNT = 1;
-	public static int STEP = 1;
-	public static int STEP_COUNT = 256;
-	public static double RATE = 0.15;
-	
-	public enum LastAction {
-		NEUTRAL,
-		BUY,
-		SELL
-	}
-	
-	public LastAction lastaction = LastAction.NEUTRAL;
-	
-	public static void loadConfig(FileConfiguration cfg, Map<Integer, ConfigMarketItem> items) {
-		items.clear();
-		List<Map<?, ?>> culture_levels = cfg.getMapList("items");
-		
-		try {
-			STEP = CivSettings.getInteger(CivSettings.marketConfig, "step");
-			STEP_COUNT = CivSettings.getInteger(CivSettings.marketConfig, "step_count");
-			RATE = CivSettings.getDouble(CivSettings.marketConfig, "rate");
-		} catch (InvalidConfiguration e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    public int id;
+    public String name;
+    public Material type_id;
+    public String custom_id;
+    public int data;
+    public int inital_value;
+
+    private int buy_value;
+    private int buy_bulk;
+    private int sell_value;
+    private int sell_bulk;
+
+    private int bought;
+    private int sold;
+    private int buysell_count = 0;
+    private boolean stackable = true;
+    private int step;
+
+    public static int BASE_ITEM_AMOUNT = 1;
+    public static int STEP = 1;
+    public static int STEP_COUNT = 256;
+    public static double RATE = 0.15;
+
+    public enum LastAction {
+        NEUTRAL,
+        BUY,
+        SELL
+    }
+
+    public LastAction lastaction = LastAction.NEUTRAL;
+
+    public static void loadConfig(FileConfiguration cfg, Map<Integer, ConfigMarketItem> items) {
+        items.clear();
+        List<Map<?, ?>> culture_levels = cfg.getMapList("items");
+
+        try {
+            STEP = CivSettings.getInteger(CivSettings.marketConfig, "step");
+            STEP_COUNT = CivSettings.getInteger(CivSettings.marketConfig, "step_count");
+            RATE = CivSettings.getDouble(CivSettings.marketConfig, "rate");
+        } catch (InvalidConfiguration e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
 		
 		for (Map<?, ?> level : culture_levels) {
@@ -231,138 +231,138 @@ public class ConfigMarketItem {
 		}
 	}
 
-	public void save() {
-		class SyncTask implements Runnable {
+    public void save() {
+        class SyncTask implements Runnable {
 
-			@Override
-			public void run() {
-				try {
-					saveItemNow();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		TaskMaster.syncTask(new SyncTask());
-	}
-	
-	public int getCoinsCostForAmount(int amount, int value, int dir) {
-		int sum = 0;
-		int current = value;
-		int buysell = 0;
-		
-		for (int i = 0; i < amount; i++) {
-			sum += current;
-			buysell += dir;
-			
-			if ((dir*buysell) % (dir*STEP_COUNT) == 0) {
-				current += dir*this.step;
-				if (current < this.step) {
-					current = this.step;
-				}			
-			}
-		}		
-		return sum;		
-	}
-	
-	public int getBuyCostForAmount(int amount) {
-		return getCoinsCostForAmount(amount, buy_value, 1) * 2;
-	}
-	
-	public int getSellCostForAmount(int amount) {
-		return getCoinsCostForAmount(amount, sell_value, -1);
-	}
-	
-	public void buy(Resident resident, Player player, int amount) throws CivException {
-		int total_items = 0;
-		
-		double coins = resident.getTreasury().getBalance();
-		double cost = getBuyCostForAmount(amount);
-		
-		if (coins < cost) {
-			throw new CivException(CivSettings.localize.localizedString("var_config_marketItem_notEnoughCurrency",(cost+" "+CivSettings.CURRENCY_NAME)));
-		}
-				
-		for (int i = 0; i < amount; i++) {
-			coins -= buy_value;
-			total_items += BASE_ITEM_AMOUNT;
-			increment();
-		}
-		
-		/* We've now got the cost and items we've bought. Give to player. */
-		resident.getTreasury().withdraw(cost);
-		
-		ItemStack newStack;
-		if (this.custom_id == null) {
-			newStack = new ItemStack(this.type_id, amount, (short)this.data);
-		} else {
-			newStack = LoreMaterial.spawn(LoreMaterial.materialMap.get(this.custom_id));
-			newStack.setAmount(amount);
-		}
+            @Override
+            public void run() {
+                try {
+                    saveItemNow();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        TaskMaster.syncTask(new SyncTask());
+    }
 
-		HashMap<Integer, ItemStack> leftovers = player.getInventory().addItem(newStack);
-		for (ItemStack stack : leftovers.values()) {
-			player.getWorld().dropItem(player.getLocation(), stack);
-		}
-		
-		CivMessage.sendSuccess(player, CivSettings.localize.localizedString("var_market_buy",total_items,this.name,cost,CivSettings.CURRENCY_NAME));
-		player.updateInventory();
-	}
-	
-	public void sell(Resident resident, Player player, int amount) throws CivException {
-		int total_coins = 0;
-		int total_items = 0;
-		
-		MultiInventory inv = new MultiInventory();
-		inv.addInventory(player.getInventory());
-		
-		if (!inv.contains(custom_id, this.type_id, (short)this.data, amount)) {
-			throw new CivException(CivSettings.localize.localizedString("var_market_sell_notEnough",amount,this.name));
-		}
-				
-		for (int i = 0; i < amount; i++) {			
-			total_coins += sell_value;
-			total_items += BASE_ITEM_AMOUNT;
-			
-			decrement();
-		}
-		
-		if (!inv.removeItem(this.custom_id, this.type_id, (short)this.data, amount, true)) {
-			throw new CivException(CivSettings.localize.localizedString("var_market_sell_notEnough",amount,this.name));
-		}
-		
-		resident.getTreasury().deposit(total_coins);	
-		CivMessage.sendSuccess(player, CivSettings.localize.localizedString("var_market_sell",total_items,this.name,total_coins,CivSettings.CURRENCY_NAME));
-	}
-	
-	
-	public void increment() {
-		buysell_count++;
-		if (((buysell_count % STEP_COUNT) == 0) || (!stackable)) {
-			sell_value += this.step;
-			buy_value = sell_value + (int) ((double) sell_value * RATE);
+    public int getCoinsCostForAmount(int amount, int value, int dir) {
+        int sum = 0;
+        int current = value;
+        int buysell = 0;
 
-			if (buy_value == sell_value) {
-				buy_value++;
-			}
-			//buy_value += STEP;
-			//sell_value = buy_value - (PRICE_DIFF*2);
-			buysell_count = 0;
-			this.lastaction = LastAction.BUY;
-		}
-		this.save();
-	}
-	
-	public void decrement() {
-		buysell_count--;
+        for (int i = 0; i < amount; i++) {
+            sum += current;
+            buysell += dir;
 
-		if ((((-buysell_count) % -STEP_COUNT) == 0) || (!stackable)) {
-			sell_value -= this.step;
-			buy_value = sell_value + (int) ((double) sell_value * RATE);
+            if ((dir * buysell) % (dir * STEP_COUNT) == 0) {
+                current += dir * this.step;
+                if (current < this.step) {
+                    current = this.step;
+                }
+            }
+        }
+        return sum;
+    }
 
-			if (buy_value == sell_value) {
-				buy_value++;
-			}
+    public int getBuyCostForAmount(int amount) {
+        return getCoinsCostForAmount(amount, buy_value, 1) * 2;
+    }
+
+    public int getSellCostForAmount(int amount) {
+        return getCoinsCostForAmount(amount, sell_value, -1);
+    }
+
+    public void buy(Resident resident, Player player, int amount) throws CivException {
+        int total_items = 0;
+
+        double coins = resident.getTreasury().getBalance();
+        double cost = getBuyCostForAmount(amount);
+
+        if (coins < cost) {
+            throw new CivException(CivSettings.localize.localizedString("var_config_marketItem_notEnoughCurrency", (cost + " " + CivSettings.CURRENCY_NAME)));
+        }
+
+        for (int i = 0; i < amount; i++) {
+            coins -= buy_value;
+            total_items += BASE_ITEM_AMOUNT;
+            increment();
+        }
+
+        /* We've now got the cost and items we've bought. Give to player. */
+        resident.getTreasury().withdraw(cost);
+
+        ItemStack newStack;
+        if (this.custom_id == null) {
+            newStack = new ItemStack(this.type_id, amount, (short) this.data);
+        } else {
+            newStack = LoreMaterial.spawn(LoreMaterial.materialMap.get(this.custom_id));
+            newStack.setAmount(amount);
+        }
+
+        HashMap<Integer, ItemStack> leftovers = player.getInventory().addItem(newStack);
+        for (ItemStack stack : leftovers.values()) {
+            player.getWorld().dropItem(player.getLocation(), stack);
+        }
+
+        CivMessage.sendSuccess(player, CivSettings.localize.localizedString("var_market_buy", total_items, this.name, cost, CivSettings.CURRENCY_NAME));
+        player.updateInventory();
+    }
+
+    public void sell(Resident resident, Player player, int amount) throws CivException {
+        int total_coins = 0;
+        int total_items = 0;
+
+        MultiInventory inv = new MultiInventory();
+        inv.addInventory(player.getInventory());
+
+        if (!inv.contains(custom_id, this.type_id, (short) this.data, amount)) {
+            throw new CivException(CivSettings.localize.localizedString("var_market_sell_notEnough", amount, this.name));
+        }
+
+        for (int i = 0; i < amount; i++) {
+            total_coins += sell_value;
+            total_items += BASE_ITEM_AMOUNT;
+
+            decrement();
+        }
+
+        if (!inv.removeItem(this.custom_id, this.type_id, (short) this.data, amount, true)) {
+            throw new CivException(CivSettings.localize.localizedString("var_market_sell_notEnough", amount, this.name));
+        }
+
+        resident.getTreasury().deposit(total_coins);
+        CivMessage.sendSuccess(player, CivSettings.localize.localizedString("var_market_sell", total_items, this.name, total_coins, CivSettings.CURRENCY_NAME));
+    }
+
+
+    public void increment() {
+        buysell_count++;
+        if (((buysell_count % STEP_COUNT) == 0) || (!stackable)) {
+            sell_value += this.step;
+            buy_value = sell_value + (int) ((double) sell_value * RATE);
+
+            if (buy_value == sell_value) {
+                buy_value++;
+            }
+            //buy_value += STEP;
+            //sell_value = buy_value - (PRICE_DIFF*2);
+            buysell_count = 0;
+            this.lastaction = LastAction.BUY;
+        }
+        this.save();
+    }
+
+    public void decrement() {
+        buysell_count--;
+
+        if ((((-buysell_count) % -STEP_COUNT) == 0) || (!stackable)) {
+            sell_value -= this.step;
+            buy_value = sell_value + (int) ((double) sell_value * RATE);
+
+            if (buy_value == sell_value) {
+                buy_value++;
+            }
 
 			//buy_value -= STEP;
 			//sell_value = buy_value - (PRICE_DIFF*2);
@@ -381,8 +381,8 @@ public class ConfigMarketItem {
 		this.save();
 	}
 
-	public boolean isStackable() {
-		return this.stackable;
-	}
+    public boolean isStackable() {
+        return this.stackable;
+    }
 
 }

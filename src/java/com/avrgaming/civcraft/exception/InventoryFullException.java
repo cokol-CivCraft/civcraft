@@ -19,9 +19,9 @@ package com.avrgaming.civcraft.exception;
 
 public class InventoryFullException extends Exception {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7319210530660943548L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -7319210530660943548L;
 
 }

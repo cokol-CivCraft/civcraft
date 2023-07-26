@@ -32,47 +32,47 @@ import org.bukkit.entity.Player;
 
 public class AdminWarCommand extends CommandBase {
 
-	@Override
-	public void init() {
-		command = "/ad war";
-		displayName = CivSettings.localize.localizedString("adcmd_war_name");
+    @Override
+    public void init() {
+        command = "/ad war";
+        displayName = CivSettings.localize.localizedString("adcmd_war_name");
 
-		register_sub("start", this::start_cmd, CivSettings.localize.localizedString("adcmd_war_startDesc"));
-		register_sub("stop", this::stop_cmd, CivSettings.localize.localizedString("adcmd_war_stopDesc"));
-		register_sub("resetstart", null, CivSettings.localize.localizedString("adcmd_war_resetstartDesc"));
-		//commands.put("setlastwar", "takes a date of the form: DAY:MONTH:YEAR:HOUR:MIN (24 hour time)");
-		register_sub("onlywarriors", this::onlywarriors_cmd, CivSettings.localize.localizedString("adcmd_war_onlywarriorsDesc"));
-	}
+        register_sub("start", this::start_cmd, CivSettings.localize.localizedString("adcmd_war_startDesc"));
+        register_sub("stop", this::stop_cmd, CivSettings.localize.localizedString("adcmd_war_stopDesc"));
+        register_sub("resetstart", null, CivSettings.localize.localizedString("adcmd_war_resetstartDesc"));
+        //commands.put("setlastwar", "takes a date of the form: DAY:MONTH:YEAR:HOUR:MIN (24 hour time)");
+        register_sub("onlywarriors", this::onlywarriors_cmd, CivSettings.localize.localizedString("adcmd_war_onlywarriorsDesc"));
+    }
 
-	@SuppressWarnings("unused")
-	public void onlywarriors_cmd() {
+    @SuppressWarnings("unused")
+    public void onlywarriors_cmd() {
 
-		War.setOnlyWarriors(!War.isOnlyWarriors());
+        War.setOnlyWarriors(!War.isOnlyWarriors());
 
-		if (War.isOnlyWarriors()) {
+        if (War.isOnlyWarriors()) {
 
-			for (Player player : Bukkit.getOnlinePlayers()) {
-				Resident resident = CivGlobal.getResident(player);
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                Resident resident = CivGlobal.getResident(player);
 
-				if (player.isOp() || player.hasPermission(CivSettings.MINI_ADMIN)) {
-					CivMessage.send(sender, CivSettings.localize.localizedString("var_adcmd_war_onlywarriorsSkippedAdmin",player.getName()));
-					continue;
-				}
+                if (player.isOp() || player.hasPermission(CivSettings.MINI_ADMIN)) {
+                    CivMessage.send(sender, CivSettings.localize.localizedString("var_adcmd_war_onlywarriorsSkippedAdmin", player.getName()));
+                    continue;
+                }
 
-				if (resident == null || !resident.hasTown() ||
-						!resident.getTown().getCiv().getDiplomacyManager().isAtWar()) {
+                if (resident == null || !resident.hasTown() ||
+                        !resident.getTown().getCiv().getDiplomacyManager().isAtWar()) {
 
-					TaskMaster.syncTask(new PlayerKickBan(player.getName(), true, false, CivSettings.localize.localizedString("adcmd_war_onlywarriorsKickMessage")));
-				}
-			}
+                    TaskMaster.syncTask(new PlayerKickBan(player.getName(), true, false, CivSettings.localize.localizedString("adcmd_war_onlywarriorsKickMessage")));
+                }
+            }
 
-			CivMessage.global(CivSettings.localize.localizedString("adcmd_war_onlywarriorsStart"));
-		} else {
-			CivMessage.global(CivSettings.localize.localizedString("adcmd_war_onlywarriorsEnd"));
-		}
-	}
-	
-	
+            CivMessage.global(CivSettings.localize.localizedString("adcmd_war_onlywarriorsStart"));
+        } else {
+            CivMessage.global(CivSettings.localize.localizedString("adcmd_war_onlywarriorsEnd"));
+        }
+    }
+
+
 //	public void setlastwar_cmd() throws CivException {
 //		if (args.length < 2) {
 //			throw new CivException("Enter a date like DAY:MONTH:YEAR:HOUR:MIN");
@@ -92,35 +92,35 @@ public class AdminWarCommand extends CommandBase {
 //		
 //	}
 
-	@SuppressWarnings("unused")
-	public void start_cmd() {
+    @SuppressWarnings("unused")
+    public void start_cmd() {
 
-		War.setWarTime(true);
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_war_startSuccess"));
-	}
+        War.setWarTime(true);
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_war_startSuccess"));
+    }
 
-	@SuppressWarnings("unused")
-	public void stop_cmd() {
+    @SuppressWarnings("unused")
+    public void stop_cmd() {
 
-		War.setWarTime(false);
-		CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_war_stopSuccess"));
-	}
+        War.setWarTime(false);
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_war_stopSuccess"));
+    }
 
-	@Override
+    @Override
     public void doDefaultAction() {
         showHelp();
     }
 
-	@Override
-	public void showHelp() {
-		showBasicHelp();
-	}
+    @Override
+    public void showHelp() {
+        showBasicHelp();
+    }
 
-	@Override
-	public void permissionCheck() throws CivException {
+    @Override
+    public void permissionCheck() throws CivException {
         if (!sender.isOp()) {
             throw new CivException(CivSettings.localize.localizedString("adcmd_NotAdmin"));
         }
-	}
+    }
 
 }
