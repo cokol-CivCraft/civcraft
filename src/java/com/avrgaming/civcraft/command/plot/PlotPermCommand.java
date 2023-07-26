@@ -24,7 +24,7 @@ import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.TownChunk;
 import com.avrgaming.civcraft.permission.PermissionNode;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class PlotPermCommand extends CommandBase {
@@ -104,9 +104,9 @@ public class PlotPermCommand extends CommandBase {
     }
 
     private void showPermCmdHelp() {
-        CivMessage.send(sender, CivColor.LightGray + CivSettings.localize.localizedString("cmd_plot_perm_help1"));
-        CivMessage.send(sender, CivColor.LightGray + "    " + CivSettings.localize.localizedString("cmd_plot_perm_help2"));
-        CivMessage.send(sender, CivColor.LightGray + "    " + CivSettings.localize.localizedString("cmd_plot_perm_help3"));
+        CivMessage.send(sender, ChatColor.GRAY + CivSettings.localize.localizedString("cmd_plot_perm_help1"));
+        CivMessage.send(sender, ChatColor.GRAY + "    " + CivSettings.localize.localizedString("cmd_plot_perm_help2"));
+        CivMessage.send(sender, ChatColor.GRAY + "    " + CivSettings.localize.localizedString("cmd_plot_perm_help3"));
     }
 
     @Override

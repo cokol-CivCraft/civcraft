@@ -41,7 +41,6 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.*;
 import com.avrgaming.civcraft.permission.PermissionGroup;
 import com.avrgaming.civcraft.populators.TradeGoodPopulator;
-import com.avrgaming.civcraft.road.Road;
 import com.avrgaming.civcraft.siege.Cannon;
 import com.avrgaming.civcraft.structure.*;
 import com.avrgaming.civcraft.structure.wonders.GrandShipIngermanland;
@@ -104,7 +103,6 @@ public class DebugCommand extends CommandBase {
         register_sub("firework", this::firework_cmd, "fires off a firework here.");
         register_sub("sound", this::sound_cmd, "[name] [pitch]");
         register_sub("arrow", this::arrow_cmd, "[power] change arrow's power.");
-        register_sub("wall", this::wall_cmd, "wall Info about the chunk you're on.");
         register_sub("processculture", this::processculture_cmd, "forces a culture reprocess");
         register_sub("givebuff", this::givebuff_cmd, "[id] gives this id buff to a town.");
         register_sub("unloadchunk", this::unloadchunk_cmd, "[x] [z] - unloads this chunk.");
@@ -150,9 +148,8 @@ public class DebugCommand extends CommandBase {
         register_sub("setdura", this::setdura_cmd, "sets the durability of an item");
         register_sub("togglebookcheck", this::togglebookcheck_cmd, "Toggles checking for enchanted books on and off.");
         register_sub("setexposure", this::setexposure_cmd, "[int] sets your exposure to this ammount.");
-        register_sub("circle", this::circle_cmd, "[int] - draws a circle at your location, with this radius.");
         register_sub("colorme", this::colorme_cmd, "[hex] adds nbt color value to item held.");
-        register_sub("sql", this::sql_cmd, "Show SQL health info.");
+        register_sub("sql", this::sql_cmd, "Show SQLController health info.");
         register_sub("templatetest", this::templatetest_cmd, "tests out some new template stream code.");
         register_sub("buildspawn", this::buildspawn_cmd, "[civname] [capitolname] Builds spawn from spawn template.");
         register_sub("matmap", this::matmap_cmd, "prints the material map.");
@@ -390,10 +387,10 @@ public class DebugCommand extends CommandBase {
                                     if (struct instanceof Capitol) {
                                         AdminTownCommand.claimradius(spawnCapitol, center, 15);
                                     }
-                                    struct.setTemplateName("templates/themes/default/" + info.template_base_name + "/" + info.template_base_name + "_" + dir + ".def");
+                                    struct.setTemplateName("templates/themes/default/" + info.template_base_name + ".def");
                                     struct.bindStructureBlocks();
                                     struct.setComplete(true);
-                                    struct.setHitpoints(info.max_hitpoints);
+                                    struct.setHitpoints(info.max_hp);
                                     CivGlobal.addStructure(struct);
                                     spawnCapitol.addStructure(struct);
 
@@ -411,10 +408,8 @@ public class DebugCommand extends CommandBase {
 
                                 } else if (sb.specialType.equals(SimpleBlock.Type.LITERAL)) {
                                     try {
-                                        next.getBlock().setType(sb.getType());
-                                        next.getBlock().setData((byte) sb.getData());
-
                                         Sign s = (Sign) next.getBlock().getState();
+                                        s.setData(sb.getMaterialData());
                                         for (int j = 0; j < 4; j++) {
                                             s.setLine(j, sb.message[j]);
                                         }
@@ -425,9 +420,7 @@ public class DebugCommand extends CommandBase {
                                     }
                                 } else {
                                     try {
-                                        Block block = next.getBlock();
-                                        block.setType(sb.getType());
-                                        block.setData((byte) sb.getData());
+                                        next.getBlock().getState().setData(sb.getMaterialData());
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
@@ -499,7 +492,7 @@ public class DebugCommand extends CommandBase {
             CivMessage.send(sender, key + " requested:" + requests + " completed:" + completes);
         }
 
-        CivMessage.send(sender, makeInfoString(stats, CivColor.Green, CivColor.LightGreen));
+        CivMessage.send(sender, makeInfoString(stats, ChatColor.DARK_GREEN, ChatColor.GREEN));
     }
 
     public void colorme_cmd() throws CivException {
@@ -516,25 +509,6 @@ public class DebugCommand extends CommandBase {
         attrs.setColor(value);
         player.getInventory().setItemInMainHand(attrs.getStack());
         CivMessage.sendSuccess(player, "Set color.");
-    }
-
-    public void circle_cmd() throws CivException {
-        Player player = getPlayer();
-        int radius = getNamedInteger(1);
-
-        HashMap<String, SimpleBlock> simpleBlocks = new HashMap<>();
-        Road.getCircle(player.getLocation().getBlockX(),
-                player.getLocation().getBlockY() - 1,
-                player.getLocation().getBlockZ(),
-                player.getLocation().getWorld().getName(),
-                radius, simpleBlocks);
-
-        for (SimpleBlock sb : simpleBlocks.values()) {
-            Block block = player.getWorld().getBlockAt(sb.x, sb.y, sb.z);
-            block.setType(sb.getType());
-        }
-
-        CivMessage.sendSuccess(player, "Built a circle at your feet.");
     }
 
     public void setexposure_cmd() throws CivException {
@@ -787,9 +761,9 @@ public class DebugCommand extends CommandBase {
         }
 
         if (town.touchesCapitolCulture(new HashSet<>())) {
-            CivMessage.send(sender, CivColor.LightGreen + "Touches capitol.");
+            CivMessage.send(sender, ChatColor.GREEN + "Touches capitol.");
         } else {
-            CivMessage.send(sender, CivColor.Rose + "Does NOT touch capitol.");
+            CivMessage.send(sender, ChatColor.RED + "Does NOT touch capitol.");
         }
 
         CivMessage.send(sender, out.toString());
@@ -1098,20 +1072,6 @@ public class DebugCommand extends CommandBase {
     public void processculture_cmd() {
         CivGlobal.processCulture();
         CivMessage.sendSuccess(sender, "Forced process of culture");
-    }
-
-    public void wall_cmd() throws CivException {
-        Player player = getPlayer();
-
-        HashSet<Wall> walls = CivGlobal.getWallChunk(new ChunkCoord(player.getLocation()));
-        if (walls == null) {
-            CivMessage.sendError(player, "Sorry, this is not a wall chunk.");
-            return;
-        }
-
-        for (Wall wall : walls) {
-            CivMessage.send(player, "Wall:" + wall.getId() + " town:" + wall.getTown() + " chunk:" + new ChunkCoord(player.getLocation()));
-        }
     }
 
     public void arrow_cmd() throws CivException {

@@ -27,9 +27,9 @@ import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.threading.CivAsyncTask;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.SimpleBlock;
 import com.avrgaming.civcraft.util.SimpleBlock.Type;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -169,7 +169,7 @@ public class BuildAsyncTask extends CivAsyncTask {
                         }
                     } else {
                         CivMessage.sendTown(buildable.getTown(),
-                                CivColor.Yellow + CivSettings.localize.localizedString("var_buildAsync_progressOther", buildable.getDisplayName(), nextPercentComplete));
+                                ChatColor.YELLOW + CivSettings.localize.localizedString("var_buildAsync_progressOther", buildable.getDisplayName(), nextPercentComplete));
                         for (Player p : buildable.getTown().getOnlinePlayers()) {
                             CivMessage.sendActionBar(p, CivData.getStringForBar(CivData.TaskType.STRUCTUREBUILD, this.percent_complete, 100));
                             p.playSound(p.getLocation(), Sound.ITEM_SHIELD_BLOCK, 1.0f, 1.0f);
@@ -307,13 +307,13 @@ public class BuildAsyncTask extends CivAsyncTask {
     }
 
     private void processWonderAbort() {
-        CivMessage.sendTown(buildable.getTown(), CivColor.Rose + CivSettings.localize.localizedString("var_buildAsync_wonderFarAway", buildable.getDisplayName()));
+        CivMessage.sendTown(buildable.getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_buildAsync_wonderFarAway", buildable.getDisplayName()));
 
         //Refund the town half the cost of the wonder.
         double refund = (int) (buildable.getCost() / 2);
         buildable.getTown().depositDirect(refund);
 
-        CivMessage.sendTown(buildable.getTown(), CivColor.Yellow + CivSettings.localize.localizedString("var_buildAsync_wonderRefund", refund, CivSettings.CURRENCY_NAME));
+        CivMessage.sendTown(buildable.getTown(), ChatColor.YELLOW + CivSettings.localize.localizedString("var_buildAsync_wonderRefund", refund, CivSettings.CURRENCY_NAME));
         abortWonder();
     }
 

@@ -28,9 +28,8 @@ import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.ItemFrameStorage;
-import com.avrgaming.civcraft.util.ItemManager;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Chest;
 import org.bukkit.block.DoubleChest;
@@ -72,7 +71,7 @@ public class BonusGoodieManager implements Listener {
             return;
         }
 
-        CivMessage.send(event.getPlayer(), CivColor.Purple + CivSettings.localize.localizedString("bonusGoodie_heading") + " " + CivColor.Yellow + goodie.getDisplayName());
+        CivMessage.send(event.getPlayer(), ChatColor.DARK_PURPLE + CivSettings.localize.localizedString("bonusGoodie_heading") + " " + ChatColor.YELLOW + goodie.getDisplayName());
 
     }
 
@@ -398,7 +397,7 @@ public class BonusGoodieManager implements Listener {
 
         for (ConfigTradeGood good : CivSettings.goods.values()) {
             for (Entry<Integer, ? extends ItemStack> itemEntry : inv.all(good.material).entrySet()) {
-                if (good.material_data != ItemManager.getData(itemEntry.getValue())) {
+                if (good.material_data != itemEntry.getValue().getDurability()) {
                     continue;
                 }
 
@@ -447,12 +446,12 @@ public class BonusGoodieManager implements Listener {
 
             player.getWorld().dropItemNaturally(frame.getLocation(), stack);
             frame.setItem(new ItemStack(Material.AIR, 1, (short) 0));
-            CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("bonusGoodie_unsocket"));
+            CivMessage.send(player, ChatColor.GRAY + CivSettings.localize.localizedString("bonusGoodie_unsocket"));
         } else if (goodie != null) {
             //Item frame was empty, add goodie to it.
             frame.setItem(player.getInventory().getItemInMainHand());
             player.getInventory().remove(player.getInventory().getItemInMainHand());
-            CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("bonusGoodie_socket"));
+            CivMessage.send(player, ChatColor.GRAY + CivSettings.localize.localizedString("bonusGoodie_socket"));
             clickedFrame.getTown().onGoodiePlaceIntoFrame(clickedFrame, goodie);
 
             try {

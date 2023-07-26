@@ -5,7 +5,7 @@ import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class JoinTeamResponse implements QuestionResponseInterface {
@@ -17,7 +17,7 @@ public class JoinTeamResponse implements QuestionResponseInterface {
     @Override
     public void processResponse(String param) {
         if (param.equalsIgnoreCase("accept")) {
-            CivMessage.send(sender, CivColor.LightGray + CivSettings.localize.localizedString("var_joinTeam_accepted", resident.getName()));
+            CivMessage.send(sender, ChatColor.GRAY + CivSettings.localize.localizedString("var_joinTeam_accepted", resident.getName()));
 
             try {
                 ArenaTeam.addMember(team.getName(), resident);
@@ -28,7 +28,7 @@ public class JoinTeamResponse implements QuestionResponseInterface {
 
             CivMessage.sendTeam(team, CivSettings.localize.localizedString("var_joinTeam_Alert", resident.getName()));
         } else {
-            CivMessage.send(sender, CivColor.LightGray + CivSettings.localize.localizedString("var_joinTeam_Declined", resident.getName()));
+            CivMessage.send(sender, ChatColor.GRAY + CivSettings.localize.localizedString("var_joinTeam_Declined", resident.getName()));
         }
     }
 

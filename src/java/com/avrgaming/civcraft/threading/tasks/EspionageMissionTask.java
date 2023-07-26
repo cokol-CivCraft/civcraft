@@ -34,7 +34,7 @@ import com.avrgaming.civcraft.structure.Structure;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -76,7 +76,7 @@ public class EspionageMissionTask implements Runnable {
             return;
         }
         Resident resident = CivGlobal.getResident(player);
-        CivMessage.send(player, CivColor.LightGreen + CivColor.BOLD + CivSettings.localize.localizedString("espionage_missionStarted"));
+        CivMessage.send(player, String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("espionage_missionStarted"));
 
         while (secondsLeft > 0) {
 
@@ -120,17 +120,17 @@ public class EspionageMissionTask implements Runnable {
 
             /* Process exposure penalities */
             if (target.processSpyExposure(resident)) {
-                CivMessage.global(CivColor.Yellow + CivSettings.localize.localizedString("var_espionage_missionFailedAlert", (CivColor.White + player.getName()), mission.name, target.getName()));
-                CivMessage.send(player, CivColor.Rose + CivSettings.localize.localizedString("espionage_missionFailed"));
+                CivMessage.global(ChatColor.YELLOW + CivSettings.localize.localizedString("var_espionage_missionFailedAlert", (ChatColor.WHITE + player.getName()), mission.name, target.getName()));
+                CivMessage.send(player, ChatColor.RED + CivSettings.localize.localizedString("espionage_missionFailed"));
                 Unit.removeUnit(player);
                 resident.setPerformingMission(false);
                 return;
             }
 
             if ((secondsLeft % 15) == 0) {
-                CivMessage.send(player, CivColor.Yellow + CivColor.BOLD + CivSettings.localize.localizedString("var_espionage_secondsRemain", secondsLeft));
+                CivMessage.send(player, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("var_espionage_secondsRemain", secondsLeft));
             } else if (secondsLeft < 15) {
-                CivMessage.send(player, CivColor.Yellow + CivColor.BOLD + CivSettings.localize.localizedString("var_espionage_secondsRemain", secondsLeft));
+                CivMessage.send(player, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("var_espionage_secondsRemain", secondsLeft));
             }
 
             ChunkCoord coord = new ChunkCoord(player.getLocation());

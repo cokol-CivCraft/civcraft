@@ -30,8 +30,6 @@ import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.randomevents.ConfigRandomEvent;
-import com.avrgaming.civcraft.structure.FortifiedWall;
-import com.avrgaming.civcraft.structure.Wall;
 import com.avrgaming.civcraft.template.Template;
 import localize.Localize;
 import org.apache.commons.io.FileUtils;
@@ -51,7 +49,6 @@ import java.util.*;
 public class CivSettings {
 
     public static CivCraft plugin;
-    public static final long MOB_REMOVE_INTERVAL = 5000;
     /* Number of days that you can remain in debt before an action occurs. */
 
     //TODO make this configurable.
@@ -62,7 +59,6 @@ public class CivSettings {
     public static final int CIV_DEBT_TOWN_SELL_DAYS = 21;
     public static final int TOWN_DEBT_GRACE_DAYS = 7;
     public static final int TOWN_DEBT_SELL_DAYS = 14;
-    private boolean usingAC;
 
 
     /* cached for faster access. */
@@ -77,7 +73,6 @@ public class CivSettings {
     public static float T3_metal_speed;
     public static float T4_metal_speed;
     public static float normal_speed;
-    public static double highjump;
 
     public static FileConfiguration townConfig; /* town.yml */
     public static Map<Integer, ConfigTownLevel> townLevels = new HashMap<>();
@@ -108,9 +103,6 @@ public class CivSettings {
     public static Map<String, ConfigTech> techs = new HashMap<>();
     public static Map<Material, ConfigTechItem> techItems = new HashMap<>();
     public static Map<String, ConfigTechPotion> techPotions = new HashMap<>();
-
-    public static FileConfiguration spawnersConfig;
-
     public static FileConfiguration goodsConfig; /* goods.yml */
     public static Map<String, ConfigTradeGood> goods = new HashMap<>();
     public static Map<String, ConfigTradeGood> landGoods = new HashMap<>();
@@ -141,14 +133,10 @@ public class CivSettings {
     public static FileConfiguration scoreConfig; /* score.yml */
 
     public static FileConfiguration perkConfig; /* perks.yml */
-    public static ArrayList<ConfigTemplate> templates = new ArrayList<>();
+    public static HashMap<String, ArrayList<ConfigTemplate>> templates = new HashMap<>();
 
     public static FileConfiguration enchantConfig; /* enchantments.yml */
     public static Map<String, ConfigEnchant> enchants = new HashMap<>();
-    public static float speedtoe_speed;
-    public static double speedtoe_consume;
-    public static int thorhammerchance;
-    public static int punchoutchance;
 
     public static FileConfiguration campConfig; /* camp.yml */
     public static Map<Integer, ConfigCampLonghouseLevel> longhouseLevels = new HashMap<>();
@@ -186,17 +174,11 @@ public class CivSettings {
     public static ArrayList<String> kitItems = new ArrayList<>();
     public static HashMap<Material, ConfigRemovedRecipes> removedRecipies = new HashMap<>();
     public static HashSet<Material> restrictedUndoBlocks = new HashSet<>();
-    public static boolean hasVanishNoPacket = false;
-    public static final int MARKET_COIN_STEP = 5;
-    public static final int MARKET_BUYSELL_COIN_DIFF = 30;
-    public static final int MARKET_STEP_THRESHOLD = 2;
     public static String CURRENCY_NAME;
 
     public static Localize localize;
 
     public static boolean hasTitleAPI = false;
-
-    public static boolean hasCustomMobs = false;
 
     public static Material previewMaterial = Material.GLASS;
     public static Boolean showPreview = true;
@@ -277,13 +259,6 @@ public class CivSettings {
         LoreCraftableMaterial.buildRecipes();
         Template.initAttachableTypes();
 
-        if (CivSettings.plugin.hasPlugin("VanishNoPacket")) {
-            hasVanishNoPacket = true;
-            CivLog.info("VanishNoPacket hooks enabled");
-        } else {
-            CivLog.warning("VanishNoPacket not found, not registering VanishNoPacket hooks. This is fine if you're not using VanishNoPacket.");
-        }
-
         if (CivSettings.plugin.hasPlugin("TitleAPI")) {
             hasTitleAPI = true;
             CivLog.info("TitleAPI hooks enabled");
@@ -292,8 +267,7 @@ public class CivSettings {
         }
 
         try {
-            String materialName = CivSettings.getString(structureConfig, "previewBlock");
-            previewMaterial = Material.getMaterial(materialName);
+            previewMaterial = Material.getMaterial(CivSettings.getString(structureConfig, "global.previewBlock"));
         } catch (InvalidConfiguration e) {
             CivLog.warning("Unable to change Preview Block. Defaulting to Glass.");
         }
@@ -428,11 +402,6 @@ public class CivSettings {
         fishingConfig = loadCivConfig("fishing.yml");
     }
 
-    public static void reloadPerks() throws IOException, InvalidConfigurationException {
-        perkConfig = loadCivConfig("perks.yml");
-        ConfigTemplate.loadConfig(perkConfig, templates);
-    }
-
     private static void loadConfigObjects() throws InvalidConfiguration {
         ConfigTownLevel.loadConfig(townConfig, townLevels);
         ConfigTownUpgrade.loadConfig(townConfig, townUpgrades);
@@ -473,8 +442,8 @@ public class CivSettings {
 
         ConfigRemovedRecipes.removeRecipes(materialsConfig, removedRecipies);
         CivGlobal.tradeGoodPreGenerator.preGenerate();
-        Wall.init_settings();
-        FortifiedWall.init_settings();
+//        Wall.init_settings();
+//        FortifiedWall.init_settings();
     }
 
     private static void initRestrictedSpawns() {

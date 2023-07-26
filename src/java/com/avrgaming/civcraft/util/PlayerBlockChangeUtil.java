@@ -3,8 +3,8 @@ package com.avrgaming.civcraft.util;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivGlobal;
 import net.minecraft.server.v1_12_R1.PacketPlayOutMultiBlockChange;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.material.MaterialData;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -32,7 +32,7 @@ public class PlayerBlockChangeUtil {
     //private static ReentrantLock taskLock = new ReentrantLock();
 
 
-    public void addUpdateBlock(String playerName, BlockCoord bcoord, Material type_id, int data) {
+    public void addUpdateBlock(String playerName, BlockCoord bcoord, MaterialData material_data) {
 //		HashMap<BlockCoord, SimpleBlock> blocks = blocksToUpdate.get(playerName);
 //		if (blocks == null) {
 //			blocks = new HashMap<BlockCoord, SimpleBlock>();
@@ -47,7 +47,7 @@ public class PlayerBlockChangeUtil {
 
         /* Add to chunk table. */
         ChunkCoord coord = new ChunkCoord(bcoord);
-        SimpleBlock sb2 = new SimpleBlock(type_id, data);
+        SimpleBlock sb2 = new SimpleBlock(material_data);
         sb2.worldname = bcoord.getWorldname();
         sb2.x = bcoord.getX();
         sb2.y = bcoord.getY();
@@ -118,7 +118,7 @@ public class PlayerBlockChangeUtil {
 
             for (SimpleBlock sb : blocks) {
                 //	count++;
-                ItemManager.sendBlockChange(player, sb.getLocation(), sb.getType(), sb.getData());
+                ItemManager.sendBlockChange(player, sb.getLocation(), sb.getMaterialData());
             }
         }
     }

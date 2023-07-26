@@ -18,11 +18,11 @@
 package com.avrgaming.civcraft.object;
 
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.database.SQL;
+import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -73,8 +73,8 @@ public class Relation extends SQLObject {
     }
 
     public static void init() throws SQLException {
-        if (!SQL.hasTable(TABLE_NAME)) {
-            String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME + " (" +
+        if (!SQLController.hasTable(TABLE_NAME)) {
+            String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`civ_id` int(11) NOT NULL DEFAULT 0," +
                     "`other_civ_id` int(11) NOT NULL DEFAULT 0," +
@@ -84,7 +84,7 @@ public class Relation extends SQLObject {
                     "`expires` long," +
                     "PRIMARY KEY (`id`)" + ")";
 
-            SQL.makeTable(table_create);
+            SQLController.makeTable(table_create);
             CivLog.info("Created " + TABLE_NAME + " table");
         } else {
             CivLog.info(TABLE_NAME + " table OK!");
@@ -161,12 +161,12 @@ public class Relation extends SQLObject {
             hashmap.put("expires", 0);
         }
 
-        SQL.updateNamedObject(this, hashmap, TABLE_NAME);
+        SQLController.updateNamedObject(this, hashmap, TABLE_NAME);
     }
 
     @Override
     public void delete() throws SQLException {
-        SQL.deleteNamedObject(this, TABLE_NAME);
+        SQLController.deleteNamedObject(this, TABLE_NAME);
     }
 
     public Status getStatus() {
@@ -185,22 +185,22 @@ public class Relation extends SQLObject {
     @Override
     public String toString() {
         String color;
-        String out = relation.name() + CivColor.White + " " + CivSettings.localize.localizedString("relation_with") + " " + this.other_civ.getName();
+        String out = relation.name() + ChatColor.WHITE + " " + CivSettings.localize.localizedString("relation_with") + " " + this.other_civ.getName();
         switch (relation) {
             case NEUTRAL:
-                color = CivColor.White;
+                color = String.valueOf(ChatColor.WHITE);
                 break;
             case HOSTILE:
-                color = CivColor.Yellow;
+                color = String.valueOf(ChatColor.YELLOW);
                 break;
             case WAR:
-                color = CivColor.Rose;
+                color = String.valueOf(ChatColor.RED);
                 break;
             case PEACE:
-                color = CivColor.LightBlue;
+                color = String.valueOf(ChatColor.AQUA);
                 break;
             case ALLY:
-                color = CivColor.Green;
+                color = String.valueOf(ChatColor.DARK_GREEN);
                 break;
 //		case MASTER:
 //			color = CivColor.Gold;
@@ -211,13 +211,13 @@ public class Relation extends SQLObject {
 //			out = "VASSAL"+CivColor.White+" to "+this.other_civ.getName();
 //			break;
             default:
-                color = CivColor.White;
+                color = String.valueOf(ChatColor.WHITE);
         }
 
         String expireString;
         if (this.expires != null) {
             SimpleDateFormat sdf = new SimpleDateFormat("M/d/y k:m:s z");
-            expireString = CivColor.LightGray + " (" + CivSettings.localize.localizedString("relation_expires") + " " + sdf.format(expires) + ")";
+            expireString = ChatColor.GRAY + " (" + CivSettings.localize.localizedString("relation_expires") + " " + sdf.format(expires) + ")";
         } else {
             expireString = "";
         }
@@ -230,21 +230,21 @@ public class Relation extends SQLObject {
     public static String getRelationColor(Status status) {
         switch (status) {
             case NEUTRAL:
-                return CivColor.White;
+                return String.valueOf(ChatColor.WHITE);
             case HOSTILE:
-                return CivColor.Yellow;
+                return String.valueOf(ChatColor.YELLOW);
             case WAR:
-                return CivColor.Rose;
+                return String.valueOf(ChatColor.RED);
             case PEACE:
-                return CivColor.LightBlue;
+                return String.valueOf(ChatColor.AQUA);
             case ALLY:
-                return CivColor.Green;
+                return String.valueOf(ChatColor.DARK_GREEN);
 //		case MASTER:
 //			return CivColor.Gold;
 //		case VASSAL:
 //			return CivColor.LightPurple;
             default:
-                return CivColor.White;
+                return String.valueOf(ChatColor.WHITE);
         }
     }
 

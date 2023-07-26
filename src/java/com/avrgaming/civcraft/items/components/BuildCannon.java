@@ -6,7 +6,6 @@ import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.siege.Cannon;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.war.War;
 import gpl.AttributeUtil;
 import org.bukkit.ChatColor;
@@ -41,8 +40,8 @@ public class BuildCannon extends ItemComponent {
 
     @Override
     public void onPrepareCreate(AttributeUtil attrUtil) {
-        attrUtil.addLore(ChatColor.RESET + CivColor.Gold + CivSettings.localize.localizedString("buildCannon_Lore1"));
-        attrUtil.addLore(ChatColor.RESET + CivColor.Rose + CivSettings.localize.localizedString("itemLore_RightClickToUse"));
+        attrUtil.addLore(ChatColor.RESET + String.valueOf(ChatColor.GOLD) + CivSettings.localize.localizedString("buildCannon_Lore1"));
+        attrUtil.addLore(ChatColor.RESET + String.valueOf(ChatColor.RED) + CivSettings.localize.localizedString("itemLore_RightClickToUse"));
     }
 
 }

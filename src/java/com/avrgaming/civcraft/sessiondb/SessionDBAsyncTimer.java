@@ -1,6 +1,6 @@
 package com.avrgaming.civcraft.sessiondb;
 
-import com.avrgaming.civcraft.database.SQL;
+import com.avrgaming.civcraft.database.SQLController;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -33,13 +33,13 @@ public class SessionDBAsyncTimer implements Runnable {
                     switch (request.database) {
                         case GAME:
                             if (gameConnection == null || gameConnection.isClosed()) {
-                                gameConnection = SQL.getGameConnection();
+                                gameConnection = SQLController.getGameConnection();
                             }
                             cntx = gameConnection;
                             break;
                         case GLOBAL:
                             if (globalConnection == null || globalConnection.isClosed()) {
-                                globalConnection = SQL.getGameConnection();
+                                globalConnection = SQLController.getGameConnection();
                             }
                             cntx = globalConnection;
                             break;
@@ -106,7 +106,7 @@ public class SessionDBAsyncTimer implements Runnable {
 
         int rs = s.executeUpdate();
         if (rs == 0) {
-            throw new Exception("Could not execute SQL code:" + code);
+            throw new Exception("Could not execute SQLController code:" + code);
         }
 
         ResultSet res = s.getGeneratedKeys();
@@ -129,7 +129,7 @@ public class SessionDBAsyncTimer implements Runnable {
         int rs = s.executeUpdate();
         s.close();
         if (rs == 0) {
-            throw new Exception("Could not execute SQL code:" + code + " value=" + request.entry.value + " reqid=" + request.entry.request_id);
+            throw new Exception("Could not execute SQLController code:" + code + " value=" + request.entry.value + " reqid=" + request.entry.request_id);
         }
 
     }
@@ -144,7 +144,7 @@ public class SessionDBAsyncTimer implements Runnable {
         int rs = s.executeUpdate();
         s.close();
         if (rs == 0) {
-            throw new Exception("Could not execute SQL code:" + code);
+            throw new Exception("Could not execute SQLController code:" + code);
         }
 
     }
@@ -169,7 +169,7 @@ public class SessionDBAsyncTimer implements Runnable {
         int rs = s.executeUpdate();
         s.close();
         if (rs == 0) {
-            throw new Exception("Could not execute SQL code:" + code + " where entry id:" + request.entry.request_id);
+            throw new Exception("Could not execute SQLController code:" + code + " where entry id:" + request.entry.request_id);
         }
 
     }

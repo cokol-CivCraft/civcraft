@@ -20,7 +20,7 @@ package com.avrgaming.civcraft.object;
 import com.avrgaming.civcraft.camp.Camp;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigTownLevel;
-import com.avrgaming.civcraft.database.SQL;
+import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.exception.AlreadyRegisteredException;
 import com.avrgaming.civcraft.exception.CivException;
@@ -31,7 +31,6 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.permission.PermissionGroup;
 import com.avrgaming.civcraft.permission.PlotPermissions;
 import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.CivColor;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -70,8 +69,8 @@ public class TownChunk extends SQLObject {
     }
 
     public static void init() throws SQLException {
-        if (!SQL.hasTable(TABLE_NAME)) {
-            String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME + " (" +
+        if (!SQLController.hasTable(TABLE_NAME)) {
+            String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`town_id` int(11) unsigned NOT NULL," +
                     "`world` VARCHAR(32) NOT NULL," +
@@ -82,11 +81,11 @@ public class TownChunk extends SQLObject {
                     "`permissions` mediumtext NOT NULL," +
                     "`canunclaim` bool DEFAULT '1'," +
                     "`outpost` bool DEFAULT '0'," +
-                    //	 "FOREIGN KEY (owner_id) REFERENCES "+SQL.tb_prefix+Resident.TABLE_NAME+"(id),"+
-                    //	 "FOREIGN KEY (town_id) REFERENCES "+SQL.tb_prefix+Town.TABLE_NAME+"(id),"+
+                    //	 "FOREIGN KEY (owner_id) REFERENCES "+SQLController.tb_prefix+Resident.TABLE_NAME+"(id),"+
+                    //	 "FOREIGN KEY (town_id) REFERENCES "+SQLController.tb_prefix+Town.TABLE_NAME+"(id),"+
                     "PRIMARY KEY (`id`)" + ")";
 
-            SQL.makeTable(table_create);
+            SQLController.makeTable(table_create);
             CivLog.info("Created " + TABLE_NAME + " table");
         } else {
             CivLog.info(TABLE_NAME + " table OK!");
@@ -173,7 +172,7 @@ public class TownChunk extends SQLObject {
             hashmap.put("cc_groups", null);
         }
 
-        SQL.updateNamedObject(this, hashmap, TABLE_NAME);
+        SQLController.updateNamedObject(this, hashmap, TABLE_NAME);
     }
 
     public Town getTown() {
@@ -289,7 +288,7 @@ public class TownChunk extends SQLObject {
 
         Camp camp = CivGlobal.getCampFromChunk(coord);
         if (camp != null) {
-            CivMessage.sendCamp(camp, CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("var_town_chunk_dibandCamp", town.getName()));
+            CivMessage.sendCamp(camp, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("var_town_chunk_dibandCamp", town.getName()));
             camp.disband();
         }
 
@@ -305,7 +304,7 @@ public class TownChunk extends SQLObject {
     public static TownChunk claim(Town town, Player player, boolean outpost) throws CivException {
         double cost = getNextPlotCost(town);
         TownChunk tc = claim(town, new ChunkCoord(player.getLocation()), outpost);
-        CivMessage.sendSuccess(player, CivSettings.localize.localizedString("var_town_chunk_success", tc.getChunkCoord(), CivColor.Yellow + cost + CivColor.LightGreen, CivSettings.CURRENCY_NAME));
+        CivMessage.sendSuccess(player, CivSettings.localize.localizedString("var_town_chunk_success", tc.getChunkCoord(), String.valueOf(ChatColor.YELLOW) + cost + ChatColor.GREEN, CivSettings.CURRENCY_NAME));
         return tc;
     }
 
@@ -359,7 +358,7 @@ public class TownChunk extends SQLObject {
 
     /*
      * XXX This claim is only called when a town hall is building and needs to be claimed.
-     * We do not save here since its going to be saved in-order using the SQL save in order
+     * We do not save here since its going to be saved in-order using the SQLController save in order
      * task. Also certain types of validation and cost cacluation are skipped.
      */
     public static TownChunk townHallClaim(Town town, ChunkCoord coord) throws CivException {
@@ -383,7 +382,7 @@ public class TownChunk extends SQLObject {
 
         Camp camp = CivGlobal.getCampFromChunk(coord);
         if (camp != null) {
-            CivMessage.sendCamp(camp, CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("var_town_chunk_dibandCamp", town.getName()));
+            CivMessage.sendCamp(camp, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("var_town_chunk_dibandCamp", town.getName()));
             camp.disband();
         }
 
@@ -411,7 +410,7 @@ public class TownChunk extends SQLObject {
 
     @Override
     public void delete() throws SQLException {
-        SQL.deleteNamedObject(this, TABLE_NAME);
+        SQLController.deleteNamedObject(this, TABLE_NAME);
         CivGlobal.removeTownChunk(this);
     }
 
@@ -420,11 +419,11 @@ public class TownChunk extends SQLObject {
         String out = "";
 
         if (this.perms.getOwner() != null) {
-            out += CivColor.LightGray + "[" + CivSettings.localize.localizedString("town_chunk_status_owned") + " " + CivColor.LightGreen + this.perms.getOwner().getName() + CivColor.LightGray + "]";
+            out += ChatColor.GRAY + "[" + CivSettings.localize.localizedString("town_chunk_status_owned") + " " + ChatColor.GREEN + this.perms.getOwner().getName() + ChatColor.GRAY + "]";
         }
 
         if (this.perms.getOwner() == null && fromTc != null && fromTc.perms.getOwner() != null) {
-            out += CivColor.LightGray + "[" + CivSettings.localize.localizedString("town_chunk_status_unowned") + "]";
+            out += ChatColor.GRAY + "[" + CivSettings.localize.localizedString("town_chunk_status_unowned") + "]";
         }
 
         return out;

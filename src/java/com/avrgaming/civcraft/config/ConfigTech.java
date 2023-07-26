@@ -25,31 +25,39 @@ import com.avrgaming.civcraft.object.Town;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class ConfigTech {
-    public String id;
-    public String name;
-    public double beaker_cost;
-    public double cost;
-    public String require_techs;
-    public int era;
-    public Integer points;
+    public final String id;
+    public final String name;
+    public final double beaker_cost;
+    public final double cost;
+    public final String require_techs;
+    public final int era;
+    public final Integer points;
+
+    public ConfigTech(String id, String name, double beakerCost, double cost, String requireTechs, int era, Integer points) {
+        this.id = id;
+        this.name = name;
+        beaker_cost = beakerCost;
+        this.cost = cost;
+        require_techs = requireTechs;
+        this.era = era;
+        this.points = points;
+    }
 
     public static void loadConfig(FileConfiguration cfg, Map<String, ConfigTech> tech_maps) {
         tech_maps.clear();
-        List<Map<?, ?>> techs = cfg.getMapList("techs");
-        for (Map<?, ?> confTech : techs) {
-            ConfigTech tech = new ConfigTech();
-
-            tech.id = (String) confTech.get("id");
-            tech.name = (String) confTech.get("name");
-            tech.beaker_cost = (Double) confTech.get("beaker_cost");
-            tech.cost = (Double) confTech.get("cost");
-            tech.era = (Integer) confTech.get("era");
-            tech.require_techs = (String) confTech.get("require_techs");
-            tech.points = (Integer) confTech.get("points");
+        for (Map<?, ?> confTech : cfg.getMapList("techs")) {
+            ConfigTech tech = new ConfigTech(
+                    (String) confTech.get("id"),
+                    (String) confTech.get("name"),
+                    (Double) confTech.get("beaker_cost"),
+                    (Double) confTech.get("cost"),
+                    (String) confTech.get("require_techs"),
+                    (Integer) confTech.get("era"),
+                    (Integer) confTech.get("points")
+            );
 
             tech_maps.put(tech.id, tech);
         }
@@ -57,18 +65,12 @@ public class ConfigTech {
     }
 
     public static double eraRate(Civilization civ) {
-        double rate = 0.0;
         double era = (CivGlobal.highestCivEra - 1) - civ.getCurrentEra();
-        if (era > 0) {
-            rate = (era / 10);
-        }
-        return rate;
+        return era > 0 ? (era / 10) : 0.0;
     }
 
     public double getAdjustedBeakerCost(Civilization civ) {
-        double rate = 1.0;
-        rate -= eraRate(civ);
-        return Math.floor(this.beaker_cost * Math.max(rate, .01));
+        return Math.floor(this.beaker_cost * Math.max(1.0 - eraRate(civ), .01));
     }
 
     public double getAdjustedTechCost(Civilization civ) {
@@ -88,31 +90,9 @@ public class ConfigTech {
 
     public static ArrayList<ConfigTech> getAvailableTechs(Civilization civ) {
         ArrayList<ConfigTech> returnTechs = new ArrayList<>();
-
         for (ConfigTech tech : CivSettings.techs.values()) {
-            if (!civ.hasTechnology(tech.id)) {
-                if (tech.isAvailable(civ)) {
-                    returnTechs.add(tech);
-                }
-				
-				
-				/*if (tech.require_techs == null || tech.require_techs.equals("")) {
-					returnTechs.add(tech);
-				} else {
-					String[] requireTechs = tech.require_techs.split(":");
-					// Search for the prereq techs.
-					boolean hasRequirements = true;
-					for (String reqTech : requireTechs) {
-						if (!civ.hasTech(reqTech)) {
-							hasRequirements = false;
-							break;
-						}
-					}
-					if (hasRequirements) {
-						// If we're here, then we have all the required techs.
-						returnTechs.add(tech);
-					}
-				}*/
+            if (!civ.hasTechnology(tech.id) && tech.isAvailable(civ)) {
+                returnTechs.add(tech);
             }
         }
         return returnTechs;
@@ -128,9 +108,7 @@ public class ConfigTech {
             return true;
         }
 
-        String[] requireTechs = require_techs.split(":");
-
-        for (String reqTech : requireTechs) {
+        for (String reqTech : require_techs.split(":")) {
             if (!civ.hasTechnology(reqTech)) {
                 return false;
             }

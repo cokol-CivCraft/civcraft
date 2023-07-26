@@ -2,8 +2,6 @@ package com.avrgaming.civcraft.util;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.BlockState;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -21,29 +19,13 @@ import org.bukkit.material.MaterialData;
  */
 
 public class ItemManager {
-
-    @SuppressWarnings("deprecation")
-    public static int getId(Enchantment e) {
-        return e.getId();
-    }
-
     public static short getData(ItemStack stack) {
         return stack.getDurability();
     }
 
     @SuppressWarnings("deprecation")
-    public static byte getData(BlockState state) {
-        return state.getRawData();
-    }
-
-    @SuppressWarnings("deprecation")
-    public static void sendBlockChange(Player player, Location loc, Material type, int data) {
-        player.sendBlockChange(loc, type, (byte) data);
-    }
-
-    @SuppressWarnings("deprecation")
-    public static void setData(MaterialData data, byte chestData) {
-        data.setData(chestData);
+    public static void sendBlockChange(Player player, Location loc, MaterialData materialData) {
+        player.sendBlockChange(loc, materialData.getItemType(), materialData.getData());
     }
 
     @SuppressWarnings("deprecation")

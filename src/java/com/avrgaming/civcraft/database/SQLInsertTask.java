@@ -32,7 +32,7 @@ public class SQLInsertTask implements Runnable {
     @Override
     public void run() {
         try {
-            SQL.insertNow(hashmap, tablename);
+            SQLController.insertNow(hashmap, tablename);
         } catch (SQLException e) {
             e.printStackTrace();
         }

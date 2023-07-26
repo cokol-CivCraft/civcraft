@@ -32,7 +32,6 @@ import com.avrgaming.civcraft.structure.*;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.util.BookUtil;
 import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.war.War;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -100,8 +99,8 @@ public class MissionBook extends UnitItemMaterial {
         for (String str : mission.description) {
             this.addLore(str);
         }
-        this.addLore(CivColor.Yellow + mission.cost + " " + CivSettings.CURRENCY_NAME);
-        this.addLore(CivColor.Gold + CivSettings.localize.localizedString("Soulbound"));
+        this.addLore(String.valueOf(ChatColor.YELLOW) + mission.cost + " " + CivSettings.CURRENCY_NAME);
+        this.addLore(ChatColor.GOLD + CivSettings.localize.localizedString("Soulbound"));
     }
 
     @Override
@@ -241,7 +240,7 @@ public class MissionBook extends UnitItemMaterial {
         }
 
         if (!resident.getTown().getTreasury().hasEnough(mission.cost)) {
-            CivMessage.send(player, CivColor.Rose + CivSettings.localize.localizedString("missionBook_errorTownBroke"));
+            CivMessage.send(player, ChatColor.RED + CivSettings.localize.localizedString("missionBook_errorTownBroke"));
             return false;
         }
 
@@ -255,15 +254,15 @@ public class MissionBook extends UnitItemMaterial {
             result += "Failed";
 
             if (next < compromise_rate) {
-                CivMessage.global(CivColor.Yellow + CivSettings.localize.localizedString("missionBook_caughtHeading") + CivColor.White + " " +
+                CivMessage.global(ChatColor.YELLOW + CivSettings.localize.localizedString("missionBook_caughtHeading") + ChatColor.WHITE + " " +
                         CivSettings.localize.localizedString("var_missionBook_caughtmsg1", player.getName(), mission.name, target.getName()));
-                CivMessage.send(player, CivColor.Rose + CivSettings.localize.localizedString("missionBook_caughtAlert1") + " (" + CivSettings.localize.localizedString("missionBook_caughtRolled") + " " + next + " vs " + compromise_rate + ") " + CivSettings.localize.localizedString("missionBook_spyDestroyed"));
+                CivMessage.send(player, ChatColor.RED + CivSettings.localize.localizedString("missionBook_caughtAlert1") + " (" + CivSettings.localize.localizedString("missionBook_caughtRolled") + " " + next + " vs " + compromise_rate + ") " + CivSettings.localize.localizedString("missionBook_spyDestroyed"));
                 Unit.removeUnit(player);
                 result += ", " + CivSettings.localize.localizedString("missionBook_spyCompromised");
             }
 
             MissionLogger.logMission(resident.getTown(), target, resident, mission.name, result);
-            CivMessage.send(player, CivColor.Rose + CivSettings.localize.localizedString("missionBook_missionFailed") + " (" + CivSettings.localize.localizedString("missionBook_caughtRolled") + " " + failnext + " vs " + fail_rate + ")");
+            CivMessage.send(player, ChatColor.RED + CivSettings.localize.localizedString("missionBook_missionFailed") + " (" + CivSettings.localize.localizedString("missionBook_caughtRolled") + " " + failnext + " vs " + fail_rate + ")");
             return false;
         }
 
@@ -316,11 +315,11 @@ public class MissionBook extends UnitItemMaterial {
         double failMod = 1.0;
         if (resident.getTown().getBuffManager().hasBuff("buff_sabotage")) {
             failMod = resident.getTown().getBuffManager().getEffectiveDouble("buff_sabotage");
-            CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("missionBook_sabatoge_buffGoodie"));
+            CivMessage.send(player, ChatColor.GRAY + CivSettings.localize.localizedString("missionBook_sabatoge_buffGoodie"));
         }
 
         if (processMissionResult(player, cc.getTown(), mission, failMod, 1.0)) {
-            CivMessage.global(CivColor.Yellow + CivSettings.localize.localizedString("missionBook_sabatoge_alert1") + CivColor.White + " " + CivSettings.localize.localizedString("missionBook_sabatoge_alert2", buildable.getDisplayName(), cc.getTown().getName()));
+            CivMessage.global(ChatColor.YELLOW + CivSettings.localize.localizedString("missionBook_sabatoge_alert1") + ChatColor.WHITE + " " + CivSettings.localize.localizedString("missionBook_sabatoge_alert2", buildable.getDisplayName(), cc.getTown().getName()));
             buildable.setHitpoints(0);
             buildable.fancyDestroyStructureBlocks();
             buildable.save();
@@ -379,7 +378,7 @@ public class MissionBook extends UnitItemMaterial {
             player.getWorld().dropItem(player.getLocation(), stack);
 
             CivMessage.sendSuccess(player, CivSettings.localize.localizedString("missionBook_pirate_success"));
-            CivMessage.sendTown(cc.getTown(), CivColor.Rose + CivSettings.localize.localizedString("missionBook_pirate_alert") + " " + outpost.getGood().getInfo().name + " @ " + outpost.getCorner());
+            CivMessage.sendTown(cc.getTown(), ChatColor.RED + CivSettings.localize.localizedString("missionBook_pirate_alert") + " " + outpost.getGood().getInfo().name + " @ " + outpost.getCorner());
         }
     }
 
@@ -416,7 +415,7 @@ public class MissionBook extends UnitItemMaterial {
         double failMod = 1.0;
         if (resident.getTown().getBuffManager().hasBuff("buff_espionage")) {
             failMod = resident.getTown().getBuffManager().getEffectiveDouble("buff_espionage");
-            CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("missionBook_poison_goodie"));
+            CivMessage.send(player, ChatColor.GRAY + CivSettings.localize.localizedString("missionBook_poison_goodie"));
         }
 
         if (processMissionResult(player, tc.getTown(), mission, failMod, 1.0)) {
@@ -433,105 +432,105 @@ public class MissionBook extends UnitItemMaterial {
             Random rand = new Random();
             int posion_ticks = rand.nextInt((max - min)) + min;
             String value = String.valueOf(posion_ticks);
-			
+
 			CivGlobal.getSessionDB().add("posiongranary:"+tc.getTown().getName(), value, tc.getTown().getId(), tc.getTown().getId(), granary.getId());
-			
+
 			try {
 				double famine_chance = CivSettings.getDouble(CivSettings.espionageConfig, "espionage.poison_granary_famine_chance");
-				
+
 				if (rand.nextInt(100) < (int)(famine_chance*100)) {
-					
+
 					for (Structure struct : tc.getTown().getStructures()) {
 						if (struct instanceof Cottage) {
 							((Cottage)struct).delevel();
 						}
 					}
                     CivMessage.sendSuccess(resident, CivSettings.localize.localizedString("var_mission_poisoned"));
-                    CivMessage.global(CivColor.Yellow + CivSettings.localize.localizedString("missionBook_sabatoge_alert1") + CivColor.White + " " + CivSettings.localize.localizedString("var_missionBook_poison_alert1", tc.getTown().getName()));
+                    CivMessage.global(ChatColor.YELLOW + CivSettings.localize.localizedString("missionBook_sabatoge_alert1") + ChatColor.WHITE + " " + CivSettings.localize.localizedString("var_missionBook_poison_alert1", tc.getTown().getName()));
 				}
 			} catch (InvalidConfiguration e) {
 				e.printStackTrace();
 				throw new CivException(CivSettings.localize.localizedString("internalException"));
 			}
-			
+
 			CivMessage.sendSuccess(player, CivSettings.localize.localizedString("var_missionBook_poison_success1",posion_ticks));
 		}
 	}
-	
+
 	private static void performStealTreasury(Player player, ConfigMission mission) throws CivException {
-		
+
 		Resident resident = CivGlobal.getResident(player);
 		if (resident == null || !resident.hasTown()) {
 			throw new CivException(CivSettings.localize.localizedString("missionBook_errorNotResident"));
 		}
-		
+
 		// Must be within enemy town borders.
 		ChunkCoord coord = new ChunkCoord(player.getLocation());
 		TownChunk tc = CivGlobal.getTownChunk(coord);
-		
+
 		if (tc == null || tc.getTown().getCiv() == resident.getTown().getCiv()) {
 			throw new CivException(CivSettings.localize.localizedString("missionBook_errorBorder"));
 		}
-		
+
 		// Check that the player is within range of the town hall.
 		TownHall townhall = tc.getTown().getTownHall();
 		if (townhall == null) {
 			throw new CivException(CivSettings.localize.localizedString("missionBook_steal_errorNoTownHall"));
 		}
-		
+
 		double distance = player.getLocation().distance(townhall.getCorner().getLocation());
 		if (distance > mission.range) {
 			throw new CivException(CivSettings.localize.localizedString("missionBook_steal_errorTooFar"));
 		}
-		
+
 		double failMod = 1.0;
 		if (resident.getTown().getBuffManager().hasBuff("buff_dirty_money")) {
 			failMod = resident.getTown().getBuffManager().getEffectiveDouble("buff_dirty_money");
-			CivMessage.send(player, CivColor.LightGray+CivSettings.localize.localizedString("missionBook_steal_goodie"));
+			CivMessage.send(player, ChatColor.GRAY+CivSettings.localize.localizedString("missionBook_steal_goodie"));
 		}
-		
+
 		if(processMissionResult(player, tc.getTown(), mission, failMod, 1.0)) {
-			
+
 			double amount = (int)(tc.getTown().getTreasury().getBalance()*0.2);
 			if (amount > 0) {
 				tc.getTown().getTreasury().withdraw(amount);
 				resident.getTown().getTreasury().deposit(amount);
 			}
-			
+
 			CivMessage.sendSuccess(player, CivSettings.localize.localizedString("missionBook_steal_success")+" "+amount+" "+CivSettings.CURRENCY_NAME+" -> "+tc.getTown().getName());
 		}
 	}
-	
+
 	private static void performInvestigateTown(Player player, ConfigMission mission) throws CivException {
-		
+
 		Resident resident = CivGlobal.getResident(player);
 		if (resident == null || !resident.hasTown()) {
 			throw new CivException(CivSettings.localize.localizedString("missionBook_errorNotResident"));
 		}
-		
+
 		// Must be within enemy town borders.
 		ChunkCoord coord = new ChunkCoord(player.getLocation());
 		TownChunk tc = CivGlobal.getTownChunk(coord);
-		
+
 		if (tc == null || tc.getTown().getCiv() == resident.getTown().getCiv()) {
 			throw new CivException(CivSettings.localize.localizedString("missionBook_errorBorder"));
 		}
-		
+
 		if(processMissionResult(player, tc.getTown(), mission)) {
 			ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
             BookMeta meta = (BookMeta) book.getItemMeta();
             ArrayList<String> lore = new ArrayList<>();
 			lore.add(CivSettings.localize.localizedString("missionBook_investigate_addLore"));
-			
+
 			meta.setAuthor(CivSettings.localize.localizedString("missionBook_investigate_setAuthor"));
 			meta.setTitle(CivSettings.localize.localizedString("missionBook_investigate_setTitle"));
-			
+
 		//	ArrayList<String> out = new ArrayList<String>();
 			String out = "";
-			
+
 			out += ChatColor.UNDERLINE+CivSettings.localize.localizedString("Town")+tc.getTown().getName()+"\n"+ChatColor.RESET;
 			out += ChatColor.UNDERLINE+CivSettings.localize.localizedString("Civilization")+tc.getTown().getCiv().getName()+"\n\n"+ChatColor.RESET;
-			
+
 			SimpleDateFormat sdf = new SimpleDateFormat("M/dd h:mm:ss a z");
 			out += CivSettings.localize.localizedString("Time")+" "+sdf.format(new Date())+"\n";
             out += (CivSettings.localize.localizedString("Treasury") + " " + tc.getTown().getTreasury().getBalance() + "\n");
@@ -545,9 +544,9 @@ public class MissionBook extends UnitItemMaterial {
 			} else {
 				out += (CivSettings.localize.localizedString("ResearchingNothing")+"\n");
 			}
-			
+
 			BookUtil.paginate(meta, out);
-			
+
 			out = ChatColor.UNDERLINE+CivSettings.localize.localizedString("cmd_civ_info_upkeepHeading")+"\n\n"+ChatColor.RESET;
 			try {
 				out += CivSettings.localize.localizedString("cmd_town_info_spreadUpkeep")+" "+tc.getTown().getSpreadUpkeep()+"\n";
@@ -558,67 +557,67 @@ public class MissionBook extends UnitItemMaterial {
 				e.printStackTrace();
 				throw new CivException(CivSettings.localize.localizedString("internalException"));
 			}
-			
-			
+
+
 			meta.setLore(lore);
 			book.setItemMeta(meta);
-			
+
 			HashMap<Integer, ItemStack> leftovers = player.getInventory().addItem(book);
 			for (ItemStack stack : leftovers.values()) {
 				player.getWorld().dropItem(player.getLocation(), stack);
 			}
-			
+
 			CivMessage.sendSuccess(player, CivSettings.localize.localizedString("missionBook_investigate_success"));
 		}
 	}
-	
-	private static void performSubertGov(Player player, ConfigMission mission) throws CivException {		
+
+	private static void performSubertGov(Player player, ConfigMission mission) throws CivException {
 		Resident resident = CivGlobal.getResident(player);
 		if (resident == null || !resident.hasTown()) {
 			throw new CivException(CivSettings.localize.localizedString("missionBook_errorNotResident"));
 		}
-		
+
 		// Must be within enemy town borders.
 		ChunkCoord coord = new ChunkCoord(player.getLocation());
 		TownChunk tc = CivGlobal.getTownChunk(coord);
-		
+
 		if (tc == null || tc.getTown().getCiv() == resident.getTown().getCiv()) {
 			throw new CivException(CivSettings.localize.localizedString("missionBook_errorBorder"));
 		}
-		
+
 		Town town = tc.getTown();
 		Civilization civ = town.getCiv();
-		
+
 		if (town.getBuffManager().hasBuff("buff_noanarchy")) {
 			throw new CivException(CivSettings.localize.localizedString("var_missionBook_subvert_errorNotreDame",civ.getName()));
 		}
-				
+
 		// Check that the player is within range of the town hall.
 		Structure capitol = town.getNearestStrucutre(player.getLocation());
 		if (!(capitol instanceof Capitol)) {
 			throw new CivException(CivSettings.localize.localizedString("var_missionBook_subvert_errorNotCapitol",capitol.getDisplayName(),civ.getName()));
 		}
-		
+
 		double distance = player.getLocation().distance(capitol.getCorner().getLocation());
 		if (distance > mission.range) {
 			throw new CivException(CivSettings.localize.localizedString("var_missionBook_subvert_errorTooFar", mission.range));
 		}
-		
+
 		if (civ.getGovernment().id == "gov_anarchy") {
 			throw new CivException(CivSettings.localize.localizedString("var_missionBook_subvert_errorInAnarchy",civ.getName()));
 		} else if (civ.getGovernment().id == "gov_tribalism") {
 			throw new CivException(CivSettings.localize.localizedString("var_missionBook_subvert_errorInTribalism",civ.getName()));
 		}
-		
+
 		if (processMissionResult(player, tc.getTown(), mission)) {
 			civ.changeGovernment(civ, civ.getGovernment(), true);
-			CivMessage.global(CivColor.Yellow+CivSettings.localize.localizedString("missionBook_sabatoge_alert1")+CivColor.White+" "+CivSettings.localize.localizedString("var_missionBook_subvert_alert1",civ.getName()));
-			
+			CivMessage.global(ChatColor.YELLOW+CivSettings.localize.localizedString("missionBook_sabatoge_alert1")+ChatColor.WHITE+" "+CivSettings.localize.localizedString("var_missionBook_subvert_alert1",civ.getName()));
+
 			CivMessage.sendSuccess(player, CivSettings.localize.localizedString("var_missionBook_subvert_success1",civ.getName()));
 		}
-		
+
 	}
-	
+
 	private static void performInciteRiots(Player player, ConfigMission mission) throws CivException {
 		throw new CivException(CivSettings.localize.localizedString("missionBook_Invalid"));
 	}

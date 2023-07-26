@@ -26,8 +26,8 @@ import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.BuildableDamageBlock;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.CivColor;
 import gpl.AttributeUtil;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -37,23 +37,23 @@ public class StructureBlockHitEvent implements Runnable {
 	/*
 	 * Called when a structure block is hit, this async task quickly determines
 	 * if the block hit should take damage during war.
-	 * 
+	 *
 	 */
 	String playerName;
 	BlockCoord coord;
 	BuildableDamageBlock dmgBlock;
 	World world;
-	
+
 	public StructureBlockHitEvent(String player, BlockCoord coord, BuildableDamageBlock dmgBlock, World world) {
 		this.playerName = player;
 		this.coord = coord;
 		this.dmgBlock = dmgBlock;
 		this.world = world;
 	}
-	
+
 	@Override
 	public void run() {
-		
+
 		if (playerName == null) {
 			return;
 		}
@@ -71,23 +71,23 @@ public class StructureBlockHitEvent implements Runnable {
 			if (material != null) {
 				damage = material.onStructureBlockBreak(dmgBlock, damage);
 			}
-			
+
 			if (player.getInventory().getItemInMainHand() != null && !player.getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
 				AttributeUtil attrs = new AttributeUtil(player.getInventory().getItemInMainHand());
 				for (LoreEnhancement enhance : attrs.getEnhancements()) {
 					damage = enhance.onStructureBlockBreak(dmgBlock, damage);
 				}
 			}
-			
+
 			if (damage > 1) {
-				CivMessage.send(player, CivColor.LightGray+CivSettings.localize.localizedString("var_StructureBlockHitEvent_punchoutDmg",(damage-1)));
+				CivMessage.send(player, ChatColor.GRAY + CivSettings.localize.localizedString("var_StructureBlockHitEvent_punchoutDmg", (damage - 1)));
 			}
 
-            dmgBlock.getOwner().onDamage(damage, world, player, dmgBlock.getCoord(), dmgBlock);
-            BlockListener.updateBlockUnderAttack(dmgBlock.getCoord().getBlock());
+			dmgBlock.getOwner().onDamage(damage, world, player, dmgBlock.getCoord(), dmgBlock);
+			BlockListener.updateBlockUnderAttack(dmgBlock.getCoord().getBlock());
 		} else {
-            CivMessage.sendErrorNoRepeat(player,
-                    CivSettings.localize.localizedString("var_StructureBlockHitEvent_Invulnerable", dmgBlock.getOwner().getDisplayName(), dmgBlock.getTown().getName()));
-        }
-    }
+			CivMessage.sendErrorNoRepeat(player,
+					CivSettings.localize.localizedString("var_StructureBlockHitEvent_Invulnerable", dmgBlock.getOwner().getDisplayName(), dmgBlock.getTown().getName()));
+		}
+	}
 }

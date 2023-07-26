@@ -10,8 +10,8 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
 import com.avrgaming.civcraft.threading.TaskMaster;
-import com.avrgaming.civcraft.util.CivColor;
 import gpl.AttributeUtil;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -293,7 +293,7 @@ public class LoreCraftableMaterialListener implements Listener {
                 Tagged tagged = (Tagged) craftMat.getComponent("Tagged");
                 ItemStack stack = tagged.addTag(event.getInventory().getResult(), tag);
                 AttributeUtil attrs = new AttributeUtil(stack);
-                attrs.addLore(CivColor.LightGray + tag);
+                attrs.addLore(ChatColor.GRAY + tag);
                 stack = attrs.getStack();
                 event.getInventory().setResult(stack);
             }

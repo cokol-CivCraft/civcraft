@@ -4,7 +4,7 @@ import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 
 public class CapitulateRequest implements QuestionResponseInterface {
 
@@ -19,7 +19,7 @@ public class CapitulateRequest implements QuestionResponseInterface {
             capitulator.capitulate();
             CivMessage.global(CivSettings.localize.localizedString("var_capitulateAccept", from, to));
         } else {
-            CivMessage.send(playerName, CivColor.LightGray + CivSettings.localize.localizedString("var_RequestDecline", to));
+            CivMessage.send(playerName, ChatColor.GRAY + CivSettings.localize.localizedString("var_RequestDecline", to));
         }
     }
 

@@ -22,7 +22,7 @@ import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.lorestorage.LoreMaterial;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -159,7 +159,7 @@ public class UnitItemMaterial extends LoreMaterial {
             this.addLore(str);
         }
 
-        this.addLore(CivColor.Gold + CivSettings.localize.localizedString("Soulbound"));
+        this.addLore(ChatColor.GOLD + CivSettings.localize.localizedString("Soulbound"));
     }
 
     public int getSocketSlot() {

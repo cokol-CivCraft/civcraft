@@ -21,6 +21,7 @@ import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.TownChunk;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 
 import java.util.ArrayList;
@@ -51,29 +52,29 @@ public class AsciiMap {
         for (int x = 0; x < width; x++) {
             StringBuilder outRow = new StringBuilder("         ");
             for (int z = 0; z < height; z++) {
-                String color = CivColor.White;
+                String color = String.valueOf(ChatColor.WHITE);
 
                 currentChunk = new ChunkCoord(center.getWorld().getName(),
                         startX + x, startZ + z);
 
                 if (currentChunk.equals(centerChunk)) {
-                    color = CivColor.Yellow;
+                    color = String.valueOf(ChatColor.YELLOW);
                 }
 
                 /* Try to see if there is a town chunk here.. */
                 TownChunk tc = CivGlobal.getTownChunk(currentChunk);
                 if (tc != null) {
 
-                    if (color.equals(CivColor.White)) {
+                    if (color.equals(String.valueOf(ChatColor.WHITE))) {
                         if (tc.perms.getOwner() != null) {
-                            color = CivColor.LightGreen;
+                            color = String.valueOf(ChatColor.GREEN);
                         } else {
-                            color = CivColor.Rose;
+                            color = String.valueOf(ChatColor.RED);
                         }
                     }
 
                     if (tc.isOutpost()) {
-                        outRow.append(CivColor.Yellow + "O");
+                        outRow.append(ChatColor.YELLOW + "O");
                     } else {
                         outRow.append(color).append("T");
                     }

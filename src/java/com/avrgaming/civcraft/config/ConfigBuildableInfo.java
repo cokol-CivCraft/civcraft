@@ -40,7 +40,7 @@ public class ConfigBuildableInfo {
     public double cost = 0;
     public double upkeep = 0;
     public double hammer_cost = 0;
-    public int max_hitpoints = 0;
+    public int max_hp = 0;
     public Boolean destroyable = false;
     public Boolean allow_outside_town = false;
     public Boolean isWonder = false;
@@ -50,35 +50,38 @@ public class ConfigBuildableInfo {
     public Integer points = 0;
     public boolean allow_demolish = false;
     public boolean strategic = false;
-    public boolean waterstructure = false;
+    public boolean water_structure = false;
     public boolean ignore_floating = false;
     public List<HashMap<String, String>> components = new LinkedList<>();
-    public boolean has_template = true;
 
     public boolean isAvailable(Town town) {
-        if (town.hasTechnology(require_tech)) {
-            if (town.hasUpgrade(require_upgrade)) {
-                if (town.hasStructure(require_structure)) {
-                    if (limit == 0 || town.getStructureTypeCount(id) < limit) {
-                        boolean capitol = town.isCapitol();
+        if (
+                town.hasTechnology(require_tech) &&
+                        town.hasUpgrade(require_upgrade) &&
+                        town.hasStructure(require_structure)
+        ) {
+            if (limit == 0 || town.getStructureTypeCount(id) < limit) {
+                boolean capitol = town.isCapitol();
 
-                        if (id.equals("s_townhall") && capitol) {
-                            return false;
-                        }
-
-                        if (id.equals("s_capitol") && !capitol) {
-                            return false;
-                        }
-                        if (id.equals("w_colosseum")) {
-                            return capitol && town.getStructureTypeCount(id) <= 0;
-                        }
-
-                        return true;
-                    }
+                if (id.equals("s_townhall") && capitol) {
+                    return false;
                 }
+
+                if (id.equals("s_capitol") && !capitol) {
+                    return false;
+                }
+                if (id.equals("w_colosseum")) {
+                    return capitol && town.getStructureTypeCount(id) <= 0;
+                }
+
+                return true;
             }
         }
         return false;
+    }
+
+    public ArrayList<ConfigTemplate> getTemplates() {
+        return CivSettings.templates.get(this.template_base_name);
     }
 
     public static void loadConfig(FileConfiguration cfg, String path, Map<String, ConfigBuildableInfo> structureMap, boolean isWonder) {
@@ -88,12 +91,7 @@ public class ConfigBuildableInfo {
             ConfigBuildableInfo sinfo = new ConfigBuildableInfo();
 
             sinfo.id = (String) obj.get("id");
-            String templateName = (String) obj.get("template");
-            if (templateName.contains("capital")) {
-                CivLog.debug("loadConfig - Replacing Capital occurence");
-                templateName = templateName.replace("capital", "capitol");
-            }
-            sinfo.template_base_name = templateName;
+            sinfo.template_base_name = (String) obj.get("template");
             sinfo.templateYShift = (Integer) obj.get("template_y_shift");
             sinfo.displayName = (String) obj.get("displayName");
             sinfo.require_tech = (String) obj.get("require_tech");
@@ -108,13 +106,13 @@ public class ConfigBuildableInfo {
             sinfo.cost = (Double) obj.get("cost");
             sinfo.upkeep = (Double) obj.get("upkeep");
             sinfo.hammer_cost = (Double) obj.get("hammer_cost");
-            sinfo.max_hitpoints = (Integer) obj.get("max_hitpoints");
+            sinfo.max_hp = (Integer) obj.get("max_hitpoints");
             sinfo.destroyable = (Boolean) obj.get("destroyable");
             sinfo.allow_outside_town = (Boolean) obj.get("allow_outside_town");
             sinfo.regenRate = (Integer) obj.get("regen_rate");
             sinfo.isWonder = isWonder;
             sinfo.points = (Integer) obj.get("points");
-            sinfo.waterstructure = Optional.ofNullable((Boolean) obj.get("onwater")).orElse(false);
+            sinfo.water_structure = Optional.ofNullable((Boolean) obj.get("onwater")).orElse(false);
             if (isWonder) {
                 sinfo.nationalWonder = (Boolean) obj.get("national_wonder");
             }
@@ -147,11 +145,6 @@ public class ConfigBuildableInfo {
                 sinfo.ignore_floating = ignore_floating;
             }
 
-            Boolean has_template = (Boolean) obj.get("has_template");
-            if (has_template != null) {
-                sinfo.has_template = has_template;
-            }
-
 
             if (isWonder) {
                 sinfo.strategic = true;
@@ -161,5 +154,4 @@ public class ConfigBuildableInfo {
         }
         CivLog.info("Loaded " + structureMap.size() + " structures.");
     }
-
 }

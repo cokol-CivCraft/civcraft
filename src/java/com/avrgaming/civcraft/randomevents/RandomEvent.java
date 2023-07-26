@@ -2,7 +2,7 @@ package com.avrgaming.civcraft.randomevents;
 
 
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.database.SQL;
+import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivGlobal;
@@ -14,8 +14,8 @@ import com.avrgaming.civcraft.randomevents.components.HammerRate;
 import com.avrgaming.civcraft.randomevents.components.Happiness;
 import com.avrgaming.civcraft.randomevents.components.Unhappiness;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
-import com.avrgaming.civcraft.util.CivColor;
 import com.mysql.jdbc.StringUtils;
+import org.bukkit.ChatColor;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import java.sql.ResultSet;
@@ -44,8 +44,8 @@ public class RandomEvent extends SQLObject {
     public static final String TABLE_NAME = "RANDOMEVENTS";
 
     public static void init() throws SQLException {
-        if (!SQL.hasTable(TABLE_NAME)) {
-            String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME + " (" +
+        if (!SQLController.hasTable(TABLE_NAME)) {
+            String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`config_id` mediumtext," +
                     "`town_id` int(11)," +
@@ -55,10 +55,10 @@ public class RandomEvent extends SQLObject {
                     "`saved_messages` mediumtext," +
                     "PRIMARY KEY (`id`)" + ")";
 
-            SQL.makeTable(table_create);
+            SQLController.makeTable(table_create);
             CivLog.info("Created " + TABLE_NAME + " table");
         } else {
-            SQL.makeCol("active", "boolean", TABLE_NAME);
+            SQLController.makeCol("active", "boolean", TABLE_NAME);
         }
     }
 
@@ -148,7 +148,7 @@ public class RandomEvent extends SQLObject {
         hashmap.put("saved_messages", this.getSavedMessagesSaveString());
         hashmap.put("active", this.active);
 
-        SQL.updateNamedObject(this, hashmap, TABLE_NAME);
+        SQLController.updateNamedObject(this, hashmap, TABLE_NAME);
     }
 
     private String getComponentVarsSaveString() {
@@ -182,7 +182,7 @@ public class RandomEvent extends SQLObject {
 
     @Override
     public void delete() throws SQLException {
-        SQL.deleteNamedObject(this, TABLE_NAME);
+        SQLController.deleteNamedObject(this, TABLE_NAME);
     }
 
     public RandomEvent(ConfigRandomEvent config) {
@@ -255,7 +255,7 @@ public class RandomEvent extends SQLObject {
                 comp.process();
             } else {
                 requireActivation = true;
-                CivMessage.sendTown(this.town, CivColor.Yellow + CivSettings.localize.localizedString("re_activationRequired"));
+                CivMessage.sendTown(this.town, ChatColor.YELLOW + CivSettings.localize.localizedString("re_activationRequired"));
             }
         }
 

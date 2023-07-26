@@ -23,7 +23,6 @@ import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.CultureProcessAsyncTask;
-import com.avrgaming.civcraft.threading.timers.EffectEventTimer;
 import com.avrgaming.civcraft.threading.timers.SyncTradeTimer;
 
 import java.text.SimpleDateFormat;

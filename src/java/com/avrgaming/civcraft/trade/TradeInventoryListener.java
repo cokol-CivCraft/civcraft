@@ -9,9 +9,9 @@ import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.threading.TaskMaster;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.ItemManager;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -196,11 +196,11 @@ public class TradeInventoryListener implements Listener {
         if (pair.coins == 0) {
             guiStack = LoreGuiItem.build(CivSettings.CURRENCY_NAME + " " + CivSettings.localize.localizedString("resident_tradeOffered"),
                     Material.NETHER_BRICK_ITEM, 0,
-                    CivColor.Yellow + "0 " + CivSettings.CURRENCY_NAME);
+                    ChatColor.YELLOW + "0 " + CivSettings.CURRENCY_NAME);
         } else {
             guiStack = LoreGuiItem.build(CivSettings.CURRENCY_NAME + " " + CivSettings.localize.localizedString("resident_tradeOffered"),
                     Material.GOLD_INGOT, 0,
-                    CivColor.Yellow + pair.coins + " " + CivSettings.CURRENCY_NAME);
+                    String.valueOf(ChatColor.YELLOW) + pair.coins + " " + CivSettings.CURRENCY_NAME);
         }
         pair.inv.setItem(MY_COIN_OFFER, guiStack);
 
@@ -214,12 +214,12 @@ public class TradeInventoryListener implements Listener {
         pair.valid = true;
         ItemStack guiStack = LoreGuiItem.build(CivSettings.localize.localizedString("resident_tradeYourConfirm"),
                 Material.WOOL, CivData.DATA_WOOL_GREEN,
-                CivColor.Gold + CivSettings.localize.localizedString("resident_tradeClicktoUnConfirm"));
+                ChatColor.GOLD + CivSettings.localize.localizedString("resident_tradeClicktoUnConfirm"));
         pair.inv.setItem(MY_SLOT_BUTTON, guiStack);
 
         guiStack = LoreGuiItem.build("Your Confirm",
                 Material.WOOL, CivData.DATA_WOOL_GREEN,
-                CivSettings.localize.localizedString("var_resident_hasConfirmedTrade", (CivColor.LightBlue + pair.otherResident.getName() + CivColor.LightGreen)));
+                CivSettings.localize.localizedString("var_resident_hasConfirmedTrade", (ChatColor.AQUA + pair.otherResident.getName() + ChatColor.GREEN)));
         pair.otherInv.setItem(OTHER_SLOT_BUTTON, guiStack);
 
     }
@@ -228,14 +228,14 @@ public class TradeInventoryListener implements Listener {
         pair.valid = false;
         ItemStack guiStack = LoreGuiItem.build(CivSettings.localize.localizedString("resident_tradeYourConfirm"),
                 Material.WOOL, CivData.DATA_WOOL_RED,
-                CivColor.Gold + CivSettings.localize.localizedString("resident_tradeClicktoConfirm"));
+                ChatColor.GOLD + CivSettings.localize.localizedString("resident_tradeClicktoConfirm"));
 
         pair.inv.setItem(MY_SLOT_BUTTON, guiStack);
 
         ItemStack guiStack2 = LoreGuiItem.build(pair.otherResident.getName() + " " + CivSettings.localize.localizedString("resident_tradeNotconfirmed"),
                 Material.WOOL, CivData.DATA_WOOL_RED,
-                CivColor.LightGreen + CivSettings.localize.localizedString("var_resident_hasNotConfirmedTrade1", CivColor.LightBlue + pair.otherResident.getName()),
-                CivColor.LightGray + CivSettings.localize.localizedString("resident_hasNotConfirmedTrade1"));
+                ChatColor.GREEN + CivSettings.localize.localizedString("var_resident_hasNotConfirmedTrade1", ChatColor.AQUA + pair.otherResident.getName()),
+                ChatColor.GRAY + CivSettings.localize.localizedString("resident_hasNotConfirmedTrade1"));
         pair.otherInv.setItem(OTHER_SLOT_BUTTON, guiStack2);
     }
 
@@ -438,16 +438,16 @@ public class TradeInventoryListener implements Listener {
             if (pair.coins != 0) {
                 pair.resident.getTreasury().withdraw(pair.coins);
                 pair.otherResident.getTreasury().deposit(pair.coins);
-                CivMessage.sendSuccess(pair.resident, CivSettings.localize.localizedString("var_resident_trade_gave", (CivColor.Rose + pair.coins + " " + CivSettings.CURRENCY_NAME), pair.otherResident.getName()));
-                CivMessage.sendSuccess(pair.otherResident, CivSettings.localize.localizedString("var_resident_trade_Receive", (CivColor.Yellow + pair.coins + " " + CivSettings.CURRENCY_NAME), pair.resident.getName()));
+                CivMessage.sendSuccess(pair.resident, CivSettings.localize.localizedString("var_resident_trade_gave", (String.valueOf(ChatColor.RED) + pair.coins + " " + CivSettings.CURRENCY_NAME), pair.otherResident.getName()));
+                CivMessage.sendSuccess(pair.otherResident, CivSettings.localize.localizedString("var_resident_trade_Receive", (String.valueOf(ChatColor.YELLOW) + pair.coins + " " + CivSettings.CURRENCY_NAME), pair.resident.getName()));
             }
 
             if (pair.otherCoins != 0) {
                 pair.otherResident.getTreasury().withdraw(pair.otherCoins);
                 pair.resident.getTreasury().deposit(pair.otherCoins);
 
-                CivMessage.sendSuccess(pair.resident, CivSettings.localize.localizedString("var_resident_trade_Receive", (CivColor.Yellow + pair.coins + " " + CivSettings.CURRENCY_NAME), pair.otherResident.getName()));
-                CivMessage.sendSuccess(pair.otherResident, CivSettings.localize.localizedString("var_resident_trade_gave", (CivColor.Rose + pair.coins + " " + CivSettings.CURRENCY_NAME), pair.resident.getName()));
+                CivMessage.sendSuccess(pair.resident, CivSettings.localize.localizedString("var_resident_trade_Receive", (String.valueOf(ChatColor.YELLOW) + pair.coins + " " + CivSettings.CURRENCY_NAME), pair.otherResident.getName()));
+                CivMessage.sendSuccess(pair.otherResident, CivSettings.localize.localizedString("var_resident_trade_gave", (String.valueOf(ChatColor.RED) + pair.coins + " " + CivSettings.CURRENCY_NAME), pair.resident.getName()));
             }
 
             /* Finally, give their stuff to me. And my stuff to them. */
@@ -551,7 +551,7 @@ public class TradeInventoryListener implements Listener {
         if (otherPair != null) {
             ItemStack guiStack = LoreGuiItem.build(pair.otherResident.getName() + " " + CivSettings.localize.localizedString("resident_tradeNotconfirmed"),
                     Material.BEDROCK, 0,
-                    CivColor.LightGray + CivSettings.localize.localizedString("var_resident_trade_cancelled", player.getName()));
+                    ChatColor.GRAY + CivSettings.localize.localizedString("var_resident_trade_cancelled", player.getName()));
             for (int i = OTHERS_SLOTS_START; i < OTHERS_SLOTS_END; i++) {
                 otherPair.inv.setItem(i, guiStack);
             }

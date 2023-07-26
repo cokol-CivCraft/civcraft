@@ -1,6 +1,6 @@
 package com.avrgaming.civcraft.util;
 
-import com.avrgaming.civcraft.database.SQL;
+import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.CultureChunk;
 import com.avrgaming.civcraft.threading.TaskMaster;
@@ -28,13 +28,13 @@ public class BiomeCache {
 
     public static void init() throws SQLException {
         System.out.println("================= BiomeCache INIT ======================");
-        if (!SQL.hasTable(TABLE_NAME)) {
-            String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME + " (" +
+        if (!SQLController.hasTable(TABLE_NAME)) {
+            String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`key` varchar(64) NOT NULL," +
                     "`value` mediumtext," +
                     "PRIMARY KEY (`key`)" + ")";
 
-            SQL.makeTable(table_create);
+            SQLController.makeTable(table_create);
             CivLog.info("Created " + TABLE_NAME + " table");
         } else {
             CivLog.info(TABLE_NAME + " table OK!");
@@ -46,8 +46,8 @@ public class BiomeCache {
 
         try {
             int count = 0;
-            context = SQL.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQL.tb_prefix + TABLE_NAME);
+            context = SQLController.getGameConnection();
+            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + TABLE_NAME);
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -59,7 +59,7 @@ public class BiomeCache {
 
             CivLog.info("Loaded " + count + " Biome Cache Entries");
         } finally {
-            SQL.close(rs, ps, context);
+            SQLController.close(rs, ps, context);
         }
 
         System.out.println("==================================================");
@@ -70,8 +70,8 @@ public class BiomeCache {
             Connection context = null;
 
             try {
-                context = SQL.getGameConnection();
-                PreparedStatement ps = context.prepareStatement("INSERT INTO `" + SQL.tb_prefix + TABLE_NAME + "` (`key`, `value`) VALUES (?, ?)" +
+                context = SQLController.getGameConnection();
+                PreparedStatement ps = context.prepareStatement("INSERT INTO `" + SQLController.tb_prefix + TABLE_NAME + "` (`key`, `value`) VALUES (?, ?)" +
                         " ON DUPLICATE KEY UPDATE `value` = ?");
                 ps.setString(1, cc.getChunkCoord().toString());
                 ps.setString(2, cc.getBiome().name());

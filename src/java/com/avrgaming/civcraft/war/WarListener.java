@@ -13,12 +13,8 @@ import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.FireWorkTask;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.CivColor;
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
+import org.bukkit.*;
 import org.bukkit.FireworkEffect.Type;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
@@ -256,7 +252,7 @@ public class WarListener implements Listener {
                                             }
                                         } else {
                                             sb.getOwner().onDamage(structureDamage, b.getWorld(), null, sb.getCoord(), sb);
-                                            CivMessage.sendCiv(sb.getCiv(), CivColor.Yellow + CivSettings.localize.localizedString("var_war_tntMsg", sb.getOwner().getDisplayName(), (
+                                            CivMessage.sendCiv(sb.getCiv(), ChatColor.YELLOW + CivSettings.localize.localizedString("var_war_tntMsg", sb.getOwner().getDisplayName(), (
                                                             sb.getOwner().getCenterLocation().getX() + "," +
                                                                     sb.getOwner().getCenterLocation().getY() + "," +
                                                                     sb.getOwner().getCenterLocation().getZ() + ")"),

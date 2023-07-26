@@ -22,7 +22,7 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -94,7 +94,7 @@ public class ReportChestsTask implements Runnable {
                     int goldOre = countItem(inv, Material.GOLD_ORE);
                     int emeraldOre = countItem(inv, Material.EMERALD_ORE);
 
-                    String out = block.getType().name() + ": " + CivColor.LightPurple + bcoord + CivColor.White + " DB:" + diamondBlocks + " EB:" + emeraldBlocks + " GB:" + goldBlocks + " D:" +
+                    String out = block.getType().name() + ": " + ChatColor.LIGHT_PURPLE + bcoord + ChatColor.WHITE + " DB:" + diamondBlocks + " EB:" + emeraldBlocks + " GB:" + goldBlocks + " D:" +
                             diamonds + " E:" + emeralds + " G:" + gold + " DO:" + diamondOre + " EO:" + emeraldOre + " GO:" + goldOre;
                     if (diamondBlocks != 0 || diamonds != 0 || goldBlocks != 0 || gold != 0 || emeraldBlocks != 0
                             || emeralds != 0 || diamondOre != 0 || goldOre != 0 || emeraldOre != 0) {
@@ -133,7 +133,7 @@ public class ReportChestsTask implements Runnable {
             int goldOre = countItem(inv, Material.GOLD_ORE);
             int emeraldOre = countItem(inv, Material.EMERALD_ORE);
 
-            String out = e.getType().name() + ": " + CivColor.LightPurple + bcoord + CivColor.White + " DB:" + diamondBlocks + " EB:" + emeraldBlocks + " GB:" + goldBlocks + " D:" +
+            String out = e.getType().name() + ": " + ChatColor.LIGHT_PURPLE + bcoord + ChatColor.WHITE + " DB:" + diamondBlocks + " EB:" + emeraldBlocks + " GB:" + goldBlocks + " D:" +
                     diamonds + " E:" + emeralds + " G:" + gold + " DO:" + diamondOre + " EO:" + emeraldOre + " GO:" + goldOre;
             if (diamondBlocks != 0 || diamonds != 0 || goldBlocks != 0 || gold != 0 || emeraldBlocks != 0
                     || emeralds != 0 || diamondOre != 0 || goldOre != 0 || emeraldOre != 0) {

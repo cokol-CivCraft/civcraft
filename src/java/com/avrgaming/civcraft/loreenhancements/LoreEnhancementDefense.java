@@ -2,8 +2,8 @@ package com.avrgaming.civcraft.loreenhancements;
 
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
-import com.avrgaming.civcraft.util.CivColor;
 import gpl.AttributeUtil;
+import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 
 public class LoreEnhancementDefense extends LoreEnhancement {
@@ -13,7 +13,7 @@ public class LoreEnhancementDefense extends LoreEnhancement {
     }
 
     public String getLoreString(double baseLevel) {
-        return CivColor.Blue + "+" + baseLevel + " " + CivSettings.localize.localizedString("newItemLore_Defense");
+        return ChatColor.DARK_AQUA + "+" + baseLevel + " " + CivSettings.localize.localizedString("newItemLore_Defense");
     }
 
     @Override
@@ -50,7 +50,7 @@ public class LoreEnhancementDefense extends LoreEnhancement {
         } else {
             attrs.addEnhancement("LoreEnhancementDefense", "level", String.valueOf(baseLevel));
             attrs.addLore(getLoreString(baseLevel));
-            attrs.setName(attrs.getName() + CivColor.LightBlue + "(+" + amount + ")");
+            attrs.setName(attrs.getName() + ChatColor.AQUA + "(+" + amount + ")");
         }
 
         return attrs;
@@ -92,7 +92,7 @@ public class LoreEnhancementDefense extends LoreEnhancement {
     public ItemStack deserialize(ItemStack stack, String data) {
         AttributeUtil attrs = new AttributeUtil(stack);
         attrs.setEnhancementData("LoreEnhancementDefense", "level", data);
-        attrs.setName(attrs.getName() + CivColor.LightBlue + "(+" + Double.valueOf(data) + ")");
+        attrs.setName(attrs.getName() + ChatColor.AQUA + "(+" + Double.valueOf(data) + ")");
         return attrs.getStack();
     }
 }

@@ -17,7 +17,7 @@
  */
 package com.avrgaming.civcraft.permission;
 
-import com.avrgaming.civcraft.database.SQL;
+import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.exception.InvalidNameException;
 import com.avrgaming.civcraft.main.CivGlobal;
@@ -78,18 +78,18 @@ public class PermissionGroup extends SQLObject {
     public static final String TABLE_NAME = "GROUPS";
 
     public static void init() throws SQLException {
-        if (!SQL.hasTable(TABLE_NAME)) {
-            String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME + " (" +
+        if (!SQLController.hasTable(TABLE_NAME)) {
+            String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`name` VARCHAR(64) NOT NULL," +
                     "`town_id` int(11)," +
                     "`civ_id` int(11)," +
                     "`members` mediumtext," +
-                    //"FOREIGN KEY (town_id) REFERENCES "+SQL.tb_prefix+"TOWN(id),"+
-                    //"FOREIGN KEY (civ_id) REFERENCES "+SQL.tb_prefix+"CIVILIZATIONS(id),"+
+                    //"FOREIGN KEY (town_id) REFERENCES "+SQLController.tb_prefix+"TOWN(id),"+
+                    //"FOREIGN KEY (civ_id) REFERENCES "+SQLController.tb_prefix+"CIVILIZATIONS(id),"+
                     "PRIMARY KEY (`id`)" + ")";
 
-            SQL.makeTable(table_create);
+            SQLController.makeTable(table_create);
             CivLog.info("Created " + TABLE_NAME + " table");
         } else {
             CivLog.info(TABLE_NAME + " table OK!");
@@ -135,12 +135,12 @@ public class PermissionGroup extends SQLObject {
         hashmap.put("town_id", this.getTownId());
         hashmap.put("civ_id", this.getCivId());
 
-        SQL.updateNamedObject(this, hashmap, TABLE_NAME);
+        SQLController.updateNamedObject(this, hashmap, TABLE_NAME);
     }
 
     @Override
     public void delete() throws SQLException {
-        SQL.deleteNamedObject(this, TABLE_NAME);
+        SQLController.deleteNamedObject(this, TABLE_NAME);
     }
 
     private String getMembersSaveString() {

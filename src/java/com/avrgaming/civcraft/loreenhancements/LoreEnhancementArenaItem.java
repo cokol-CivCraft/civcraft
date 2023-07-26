@@ -6,8 +6,8 @@ import com.avrgaming.civcraft.lorestorage.LoreGuiItemListener;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
-import com.avrgaming.civcraft.util.CivColor;
 import gpl.AttributeUtil;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -24,7 +24,7 @@ public class LoreEnhancementArenaItem extends LoreEnhancement implements Listene
 
     public AttributeUtil add(AttributeUtil attrs) {
         attrs.addEnhancement("LoreEnhancementArenaItem", null, null);
-        attrs.addLore(CivColor.LightBlue + getDisplayName());
+        attrs.addLore(ChatColor.AQUA + getDisplayName());
         return attrs;
     }
 
@@ -71,7 +71,7 @@ public class LoreEnhancementArenaItem extends LoreEnhancement implements Listene
             if (LoreCraftableMaterial.hasEnhancement(stack, "LoreEnhancementArenaItem")) {
                 if (!resident.isInsideArena()) {
                     event.getInventory().remove(stack);
-                    removedReason = CivColor.LightGray + CivSettings.localize.localizedString("loreEnhancement_arenaRemoved");
+                    removedReason = ChatColor.GRAY + CivSettings.localize.localizedString("loreEnhancement_arenaRemoved");
                 }
 
                 /* Arena items are OK after this point. */
@@ -84,7 +84,7 @@ public class LoreEnhancementArenaItem extends LoreEnhancement implements Listene
                 } else {
                     if (!resident.isInsideArena()) {
                         event.getInventory().remove(stack);
-                        removedReason = CivColor.LightGray + CivSettings.localize.localizedString("loreEnhancement_arenaIllegal");
+                        removedReason = ChatColor.GRAY + CivSettings.localize.localizedString("loreEnhancement_arenaIllegal");
                     }
                 }
             }
@@ -119,7 +119,7 @@ public class LoreEnhancementArenaItem extends LoreEnhancement implements Listene
             if (LoreCraftableMaterial.hasEnhancement(stack, "LoreEnhancementArenaItem")) {
                 if (!resident.isInsideArena()) {
                     event.getPlayer().getInventory().remove(stack);
-                    removedReason = CivColor.LightGray + CivSettings.localize.localizedString("loreEnhancement_arenaRemoved");
+                    removedReason = ChatColor.GRAY + CivSettings.localize.localizedString("loreEnhancement_arenaRemoved");
                 }
 
                 /* Arena items are OK after this point. */
@@ -132,7 +132,7 @@ public class LoreEnhancementArenaItem extends LoreEnhancement implements Listene
                 } else {
                     if (!resident.isInsideArena()) {
                         event.getPlayer().getInventory().remove(stack);
-                        removedReason = CivColor.LightGray + CivSettings.localize.localizedString("loreEnhancement_arenaIllegal");
+                        removedReason = ChatColor.GRAY + CivSettings.localize.localizedString("loreEnhancement_arenaIllegal");
                     }
                 }
             }
@@ -154,14 +154,14 @@ public class LoreEnhancementArenaItem extends LoreEnhancement implements Listene
                     if (!resident.isInsideArena()) {
                         continue; /* dont re-add */
                     }
-                    removedReason = CivColor.LightGray + CivSettings.localize.localizedString("loreEnhancement_arenaRemoved");
+                    removedReason = ChatColor.GRAY + CivSettings.localize.localizedString("loreEnhancement_arenaRemoved");
                 } else {
                     if (isIllegalStack(stack)) {
                         if (event.getPlayer().isOp()) {
                             //CivMessage.send(event.getPlayer(), CivColor.LightGray+"You're allowed to keep an illegal item because you are op.");
                         } else {
                             if (!resident.isInsideArena()) {
-                                removedReason = CivColor.LightGray + CivSettings.localize.localizedString("loreEnhancement_arenaIllegal");
+                                removedReason = ChatColor.GRAY + CivSettings.localize.localizedString("loreEnhancement_arenaIllegal");
                                 continue; /* don't re-add */
                             }
                         }

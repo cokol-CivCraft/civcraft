@@ -24,7 +24,7 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.questions.QuestionResponseInterface;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class CivQuestionTask implements Runnable {
@@ -50,13 +50,13 @@ public class CivQuestionTask implements Runnable {
     }
 
     public void askPlayer(Player player) {
-        CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("civleaderQtast_prompt1") + " " + CivColor.LightBlue + questionCiv.getName());
+        CivMessage.send(player, ChatColor.GRAY + CivSettings.localize.localizedString("civleaderQtast_prompt1") + " " + ChatColor.AQUA + questionCiv.getName());
         CivMessage.send(player, question);
-        CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("civQtast_prompt2"));
+        CivMessage.send(player, ChatColor.GRAY + CivSettings.localize.localizedString("civQtast_prompt2"));
     }
 
     public void notifyExpired(Player player) {
-        CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("var_civQtast_offerExpired", questionCiv.getName()));
+        CivMessage.send(player, ChatColor.GRAY + CivSettings.localize.localizedString("var_civQtast_offerExpired", questionCiv.getName()));
     }
 
 
@@ -105,7 +105,7 @@ public class CivQuestionTask implements Runnable {
             }
         }
 
-        CivMessage.sendCiv(questionCiv, CivColor.LightGray + CivSettings.localize.localizedString("var_civQtast_NoResponse", askedCiv.getName()));
+        CivMessage.sendCiv(questionCiv, ChatColor.GRAY + CivSettings.localize.localizedString("var_civQtast_NoResponse", askedCiv.getName()));
         cleanup();
     }
 

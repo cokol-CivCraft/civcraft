@@ -5,7 +5,7 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.trade.TradeInventoryListener;
 import com.avrgaming.civcraft.trade.TradeInventoryPair;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 
 public class TradeRequest implements QuestionResponseInterface {
 
@@ -37,7 +37,7 @@ public class TradeRequest implements QuestionResponseInterface {
             otherPair.otherResident = pair.resident;
             TradeInventoryListener.tradeInventories.put(TradeInventoryListener.getTradeInventoryKey(resident), otherPair);
         } else {
-            CivMessage.send(trader, CivColor.LightGray + CivSettings.localize.localizedString("var_trade_declined", resident.getName()));
+            CivMessage.send(trader, ChatColor.GRAY + CivSettings.localize.localizedString("var_trade_declined", resident.getName()));
         }
     }
 

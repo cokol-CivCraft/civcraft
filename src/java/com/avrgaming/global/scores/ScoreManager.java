@@ -17,7 +17,7 @@
  */
 package com.avrgaming.global.scores;
 
-import com.avrgaming.civcraft.database.SQL;
+import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.Town;
@@ -35,7 +35,7 @@ public class ScoreManager {
         System.out.println("================= SCORE_TOWN INIT ======================");
 
         // Check/Build SessionDB tables
-        if (!SQL.hasGlobalTable(TOWN_TABLE_NAME)) {
+        if (!SQLController.hasGlobalTable(TOWN_TABLE_NAME)) {
             String table_create = "CREATE TABLE " + TOWN_TABLE_NAME + " (" +
                     "`local_id` int(11)," +
                     "`local_name` mediumtext," +
@@ -43,7 +43,7 @@ public class ScoreManager {
                     "`points` int(11)," +
                     "PRIMARY KEY (`local_id`)" + ")";
 
-            SQL.makeGlobalTable(table_create);
+            SQLController.makeGlobalTable(table_create);
             CivLog.info("Created " + TOWN_TABLE_NAME + " table");
         } else {
             CivLog.info(TOWN_TABLE_NAME + " table OK!");
@@ -54,7 +54,7 @@ public class ScoreManager {
         System.out.println("================= SCORE_CIV INIT ======================");
 
         // Check/Build SessionDB tables
-        if (!SQL.hasGlobalTable(CIV_TABLE_NAME)) {
+        if (!SQLController.hasGlobalTable(CIV_TABLE_NAME)) {
             String table_create = "CREATE TABLE " + CIV_TABLE_NAME + " (" +
                     "`local_id` int(11)," +
                     "`local_name` mediumtext," +
@@ -62,7 +62,7 @@ public class ScoreManager {
                     "`points` int(11)," +
                     "PRIMARY KEY (`local_id`)" + ")";
 
-            SQL.makeGlobalTable(table_create);
+            SQLController.makeGlobalTable(table_create);
             CivLog.info("Created " + CIV_TABLE_NAME + " table");
         }
 
@@ -74,7 +74,7 @@ public class ScoreManager {
         PreparedStatement s = null;
 
         try {
-            global_context = SQL.getGameConnection();
+            global_context = SQLController.getGameConnection();
             String query = "INSERT INTO `" + CIV_TABLE_NAME + "` (`local_id`, `local_name`, `local_capitol_name`, `points`) " +
                     "VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE `local_name`=?, `local_capitol_name`=?, `points`=?";
             s = global_context.prepareStatement(query);
@@ -89,11 +89,11 @@ public class ScoreManager {
             s.setInt(7, points);
 
             if (s.executeUpdate() == 0) {
-                throw new SQLException("Could not execute SQL code:" + query);
+                throw new SQLException("Could not execute SQLController code:" + query);
             }
 
         } finally {
-            SQL.close(null, s, global_context);
+            SQLController.close(null, s, global_context);
         }
     }
 
@@ -102,7 +102,7 @@ public class ScoreManager {
         PreparedStatement s = null;
 
         try {
-            global_context = SQL.getGameConnection();
+            global_context = SQLController.getGameConnection();
             String query = "INSERT INTO `" + TOWN_TABLE_NAME + "` (`local_id`, `local_name`, `local_civ_name`, `points`) " +
                     "VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE `local_name`=?, `local_civ_name`=?, `points`=?";
             s = global_context.prepareStatement(query);
@@ -117,11 +117,11 @@ public class ScoreManager {
             s.setInt(7, points);
 
             if (s.executeUpdate() == 0) {
-                throw new SQLException("Could not execute SQL code:" + query);
+                throw new SQLException("Could not execute SQLController code:" + query);
             }
 
         } finally {
-            SQL.close(null, s, global_context);
+            SQLController.close(null, s, global_context);
         }
     }
 }

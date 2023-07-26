@@ -29,7 +29,7 @@ public class BuildWithDefaultPersonalTemplate extends GuiAction {
         ConfigBuildableInfo info = resident.pendingBuildableInfo;
 
         try {
-            String path = Template.getTemplateFilePath(info.template_base_name, Template.getDirection(player.getLocation()), TemplateType.STRUCTURE, "default");
+            String path = Template.getTemplateFilePath(info.template_base_name, TemplateType.STRUCTURE, "default");
             Template tpl;
             try {
                 //tpl.load_template(path);

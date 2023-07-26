@@ -20,7 +20,7 @@ package com.avrgaming.civcraft.structure.wonders;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigBuff;
 import com.avrgaming.civcraft.config.ConfigWonderBuff;
-import com.avrgaming.civcraft.database.SQL;
+import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.items.BonusGoodie;
@@ -33,12 +33,13 @@ import com.avrgaming.civcraft.object.TradeGood;
 import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.ItemFrameStorage;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
 import java.sql.ResultSet;
@@ -56,6 +57,7 @@ public abstract class Wonder extends Buildable {
     protected BonusGoodie goodie = null;
 
     public Wonder(ResultSet rs) throws SQLException, CivException {
+        super(BlockFace.SOUTH);
         this.load(rs);
 
         if (this.hitpoints == 0) {
@@ -65,10 +67,11 @@ public abstract class Wonder extends Buildable {
 
     public Wonder(Location center, String id, Town town) throws CivException {
 
+        super(BlockFace.SOUTH);
         this.info = CivSettings.wonders.get(id);
         this.setTown(town);
         this.setCorner(new BlockCoord(center));
-        this.hitpoints = info.max_hitpoints;
+        this.hitpoints = info.max_hp;
 
         // Disallow duplicate structures with the same hash.
         Wonder wonder = CivGlobal.getWonder(this.getCorner());
@@ -86,8 +89,8 @@ public abstract class Wonder extends Buildable {
     }
 
     public static void init() throws SQLException {
-        if (!SQL.hasTable(TABLE_NAME)) {
-            String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME + " (" +
+        if (!SQLController.hasTable(TABLE_NAME)) {
+            String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`type_id` mediumtext NOT NULL," +
                     "`town_id` int(11) DEFAULT NULL," +
@@ -101,7 +104,7 @@ public abstract class Wonder extends Buildable {
                     "`hitpoints` int(11) DEFAULT '100'," +
                     "PRIMARY KEY (`id`)" + ")";
 
-            SQL.makeTable(table_create);
+            SQLController.makeTable(table_create);
             CivLog.info("Created " + TABLE_NAME + " table");
         } else {
             CivLog.info(TABLE_NAME + " table OK!");
@@ -159,7 +162,7 @@ public abstract class Wonder extends Buildable {
         hashmap.put("template_x", this.getTemplateX());
         hashmap.put("template_y", this.getTemplateY());
         hashmap.put("template_z", this.getTemplateZ());
-        SQL.updateNamedObject(this, hashmap, TABLE_NAME);
+        SQLController.updateNamedObject(this, hashmap, TABLE_NAME);
     }
 
 
@@ -173,7 +176,7 @@ public abstract class Wonder extends Buildable {
             }
         }
 
-        SQL.deleteNamedObject(this, TABLE_NAME);
+        SQLController.deleteNamedObject(this, TABLE_NAME);
         CivGlobal.removeWonder(this);
     }
 
@@ -186,7 +189,7 @@ public abstract class Wonder extends Buildable {
             struct_hm.put("complete", this.isComplete());
             struct_hm.put("builtBlockCount", this.savedBlockCount);
 
-            SQL.updateNamedObjectAsync(this, struct_hm, TABLE_NAME);
+            SQLController.updateNamedObjectAsync(this, struct_hm, TABLE_NAME);
         }
     }
 
@@ -214,7 +217,7 @@ public abstract class Wonder extends Buildable {
     public void processUndo() throws CivException {
         this.undoFromTemplate();
 
-        CivMessage.global(CivSettings.localize.localizedString("var_wonder_undo_broadcast", (CivColor.LightGreen + this.getDisplayName() + CivColor.White), this.getTown().getName(), this.getTown().getCiv().getName()));
+        CivMessage.global(CivSettings.localize.localizedString("var_wonder_undo_broadcast", (ChatColor.GREEN + this.getDisplayName() + ChatColor.WHITE), this.getTown().getName(), this.getTown().getCiv().getName()));
 
         double refund = this.getCost();
         this.getTown().depositDirect(refund);
@@ -494,7 +497,7 @@ public abstract class Wonder extends Buildable {
         double total = coinsPerCulture * cultureCount;
         this.getCiv().getTreasury().deposit(total);
 
-        CivMessage.sendCiv(this.getCiv(), CivColor.LightGreen + CivSettings.localize.localizedString("var_colossus_generatedCoins", (CivColor.Yellow + total + CivColor.LightGreen), CivSettings.CURRENCY_NAME, cultureCount));
+        CivMessage.sendCiv(this.getCiv(), ChatColor.GREEN + CivSettings.localize.localizedString("var_colossus_generatedCoins", (String.valueOf(ChatColor.YELLOW) + total + ChatColor.GREEN), CivSettings.CURRENCY_NAME, cultureCount));
     }
 
     public void processCoinsFromColosseum() {
@@ -507,6 +510,6 @@ public abstract class Wonder extends Buildable {
         double total = coinsPerTown * townCount;
         this.getCiv().getTreasury().deposit(total);
 
-        CivMessage.sendCiv(this.getCiv(), CivColor.LightGreen + CivSettings.localize.localizedString("var_colosseum_generatedCoins", (CivColor.Yellow + total + CivColor.LightGreen), CivSettings.CURRENCY_NAME, townCount));
+        CivMessage.sendCiv(this.getCiv(), ChatColor.GREEN + CivSettings.localize.localizedString("var_colosseum_generatedCoins", (String.valueOf(ChatColor.YELLOW) + total + ChatColor.GREEN), CivSettings.CURRENCY_NAME, townCount));
     }
 }

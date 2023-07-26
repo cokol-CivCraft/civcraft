@@ -17,7 +17,7 @@
  */
 package com.avrgaming.civcraft.event;
 
-import com.avrgaming.civcraft.database.SQL;
+import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.randomevents.RandomEventTimer;
@@ -43,14 +43,14 @@ public class EventTimer {
     public static String TABLE_NAME = "TIMERS";
 
     public static void init() throws SQLException {
-        if (!SQL.hasTable(TABLE_NAME)) {
-            String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME + " (" +
+        if (!SQLController.hasTable(TABLE_NAME)) {
+            String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`name` VARCHAR(64) NOT NULL," +
                     "`nextEvent` long," +
                     "`lastEvent` long," +
                     "PRIMARY KEY (`name`)" + ")";
 
-            SQL.makeTable(table_create);
+            SQLController.makeTable(table_create);
             CivLog.info("Created " + TABLE_NAME + " table");
         } else {
             CivLog.info(TABLE_NAME + " table OK!");
@@ -132,8 +132,8 @@ public class EventTimer {
         PreparedStatement ps = null;
 
         try {
-            String query = "SELECT * FROM `" + SQL.tb_prefix + TABLE_NAME + "` WHERE `name` = ?";
-            context = SQL.getGameConnection();
+            String query = "SELECT * FROM `" + SQLController.tb_prefix + TABLE_NAME + "` WHERE `name` = ?";
+            context = SQLController.getGameConnection();
             ps = context.prepareStatement(query);
             ps.setString(1, timerName);
             rs = ps.executeQuery();
@@ -156,7 +156,7 @@ public class EventTimer {
             }
             register();
         } finally {
-            SQL.close(rs, ps, context);
+            SQLController.close(rs, ps, context);
         }
     }
 
@@ -188,9 +188,9 @@ public class EventTimer {
         PreparedStatement ps = null;
 
         try {
-            String query = "INSERT INTO `" + SQL.tb_prefix + TABLE_NAME + "` (`name`, `nextEvent`, `lastEvent`) " +
+            String query = "INSERT INTO `" + SQLController.tb_prefix + TABLE_NAME + "` (`name`, `nextEvent`, `lastEvent`) " +
                     "VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `nextEvent`=?, `lastEvent`=?";
-            context = SQL.getGameConnection();
+            context = SQLController.getGameConnection();
             ps = context.prepareStatement(query);
 
             ps.setString(1, this.name);
@@ -201,10 +201,10 @@ public class EventTimer {
 
             int rs = ps.executeUpdate();
             if (rs == 0) {
-                throw new SQLException("Could not execute SQL code:" + query);
+                throw new SQLException("Could not execute SQLController code:" + query);
             }
         } finally {
-            SQL.close(null, ps, context);
+            SQLController.close(null, ps, context);
         }
 
     }

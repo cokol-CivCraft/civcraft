@@ -31,7 +31,6 @@ import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
 import com.avrgaming.civcraft.structure.TownHall;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.war.War;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -85,9 +84,9 @@ public class CivCommand extends CommandBase {
                 String name = town.getName();
                 TownHall townhall = town.getTownHall();
                 if (townhall == null) {
-                    CivMessage.send(sender, CivColor.Rose + CivColor.BOLD + name + CivColor.RESET + CivColor.Gray + CivSettings.localize.localizedString("cmd_civ_locationMissingTownHall"));
+                    CivMessage.send(sender, String.valueOf(ChatColor.RED) + ChatColor.BOLD + name + ChatColor.RESET + ChatColor.DARK_GRAY + CivSettings.localize.localizedString("cmd_civ_locationMissingTownHall"));
                 } else {
-                    CivMessage.send(sender, CivColor.Rose + CivColor.BOLD + name + CivColor.LightPurple + " - " + CivSettings.localize.localizedString("cmd_civ_locationSuccess") + " " + townhall.getCorner());
+                    CivMessage.send(sender, String.valueOf(ChatColor.RED) + ChatColor.BOLD + name + ChatColor.LIGHT_PURPLE + " - " + CivSettings.localize.localizedString("cmd_civ_locationSuccess") + " " + townhall.getCorner());
                 }
             }
         }
@@ -121,9 +120,9 @@ public class CivCommand extends CommandBase {
         for (Civilization civ : CivGlobal.getCivs()) {
             Integer votes = EndConditionDiplomacy.getVotesFor(civ);
             if (votes != 0) {
-                CivMessage.send(sender, CivColor.LightBlue +
-                        CivColor.BOLD + civ.getName() + CivColor.White + ": " +
-                        CivColor.LightPurple + CivColor.BOLD + votes + CivColor.White + " " + CivSettings.localize.localizedString("cmd_civ_votes"));
+                CivMessage.send(sender, String.valueOf(ChatColor.AQUA) +
+                        ChatColor.BOLD + civ.getName() + ChatColor.WHITE + ": " +
+                        ChatColor.LIGHT_PURPLE + ChatColor.BOLD + votes + ChatColor.WHITE + " " + CivSettings.localize.localizedString("cmd_civ_votes"));
             }
         }
     }
@@ -149,13 +148,13 @@ public class CivCommand extends CommandBase {
             for (SessionEntry entry : entries) {
                 Civilization civ = EndGameCondition.getCivFromSessionData(entry.value);
                 int daysLeft = endCond.getDaysToHold() - endCond.getDaysHeldFromSessionData(entry.value);
-                CivMessage.send(r, CivColor.LightBlue + CivColor.BOLD + civ.getName() + CivColor.White + ": " +
-                        CivSettings.localize.localizedString("var_cmd_civ_victoryDays", (CivColor.Yellow + CivColor.BOLD + daysLeft + CivColor.White), (CivColor.LightPurple + CivColor.BOLD + endCond.getVictoryName() + CivColor.White)));
+                CivMessage.send(r, String.valueOf(ChatColor.AQUA) + ChatColor.BOLD + civ.getName() + ChatColor.WHITE + ": " +
+                        CivSettings.localize.localizedString("var_cmd_civ_victoryDays", (String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + daysLeft + ChatColor.WHITE), (String.valueOf(ChatColor.LIGHT_PURPLE) + ChatColor.BOLD + endCond.getVictoryName() + ChatColor.WHITE)));
             }
         }
 
         if (!anybody) {
-            CivMessage.send(r, CivColor.LightGray + CivSettings.localize.localizedString("cmd_civ_victoryNoOne"));
+            CivMessage.send(r, ChatColor.GRAY + CivSettings.localize.localizedString("cmd_civ_victoryNoOne"));
         }
 
     }
@@ -206,10 +205,10 @@ public class CivCommand extends CommandBase {
         double revolutionFee = motherCiv.getRevolutionFee();
 
         if (args.length < 2 || !args[1].equalsIgnoreCase("yes")) {
-            CivMessage.send(sender, CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_civ_revolutionConfirm1", revolutionFee, CivSettings.CURRENCY_NAME));
-            CivMessage.send(sender, CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("cmd_civ_revolutionConfirm2"));
-            CivMessage.send(sender, CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("cmd_civ_revolutionConfirm3"));
-            CivMessage.send(sender, CivColor.LightGreen + CivSettings.localize.localizedString("cmd_civ_revolutionConfirm4"));
+            CivMessage.send(sender, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_civ_revolutionConfirm1", revolutionFee, CivSettings.CURRENCY_NAME));
+            CivMessage.send(sender, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("cmd_civ_revolutionConfirm2"));
+            CivMessage.send(sender, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("cmd_civ_revolutionConfirm3"));
+            CivMessage.send(sender, ChatColor.GREEN + CivSettings.localize.localizedString("cmd_civ_revolutionConfirm4"));
             return;
         }
 
@@ -244,7 +243,7 @@ public class CivCommand extends CommandBase {
 
 
         town.getTreasury().withdraw(revolutionFee);
-        CivMessage.global(CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_civ_revolutionSuccess1", motherCiv.getName()));
+        CivMessage.global(String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_civ_revolutionSuccess1", motherCiv.getName()));
 
     }
 
@@ -270,7 +269,7 @@ public class CivCommand extends CommandBase {
             town.disband();
         }
 
-        CivMessage.send(sender, CivColor.Yellow + CivSettings.localize.localizedString("cmd_civ_disbandtownPrompt"));
+        CivMessage.send(sender, ChatColor.YELLOW + CivSettings.localize.localizedString("cmd_civ_disbandtownPrompt"));
     }
 
 
@@ -288,7 +287,7 @@ public class CivCommand extends CommandBase {
         synchronized (CivGlobal.civilizationScores) {
             int i = 1;
             for (Integer score : CivGlobal.civilizationScores.descendingKeySet()) {
-                CivMessage.send(sender, i + ") " + CivColor.Gold + CivGlobal.civilizationScores.get(score).getName() + CivColor.White + " - " + score);
+                CivMessage.send(sender, i + ") " + ChatColor.GOLD + CivGlobal.civilizationScores.get(score).getName() + ChatColor.WHITE + " - " + score);
                 i++;
                 if (i > 5) {
                     break;
@@ -325,27 +324,27 @@ public class CivCommand extends CommandBase {
         sdf.setTimeZone(cal.getTimeZone());
 
 
-        out.add(CivColor.Green + CivSettings.localize.localizedString("cmd_civ_timeServer") + " " + CivColor.LightGreen + sdf.format(cal.getTime()));
+        out.add(ChatColor.DARK_GREEN + CivSettings.localize.localizedString("cmd_civ_timeServer") + " " + ChatColor.GREEN + sdf.format(cal.getTime()));
 
         cal.setTime(CivGlobal.getNextUpkeepDate());
-        out.add(CivColor.Green + CivSettings.localize.localizedString("cmd_civ_timeUpkeep") + " " + CivColor.LightGreen + sdf.format(cal.getTime()));
+        out.add(ChatColor.DARK_GREEN + CivSettings.localize.localizedString("cmd_civ_timeUpkeep") + " " + ChatColor.GREEN + sdf.format(cal.getTime()));
 
         cal.setTime(CivGlobal.getNextHourlyTickDate());
-        out.add(CivColor.Green + CivSettings.localize.localizedString("cmd_civ_timeHourly") + " " + CivColor.LightGreen + sdf.format(cal.getTime()));
+        out.add(ChatColor.DARK_GREEN + CivSettings.localize.localizedString("cmd_civ_timeHourly") + " " + ChatColor.GREEN + sdf.format(cal.getTime()));
 
         cal.setTime(CivGlobal.getNextRepoTime());
-        out.add(CivColor.Green + CivSettings.localize.localizedString("cmd_civ_timeRepo") + " " + CivColor.LightGreen + sdf.format(cal.getTime()));
+        out.add(ChatColor.DARK_GREEN + CivSettings.localize.localizedString("cmd_civ_timeRepo") + " " + ChatColor.GREEN + sdf.format(cal.getTime()));
 
         if (War.isWarTime()) {
-            out.add(CivColor.Yellow + CivSettings.localize.localizedString("cmd_civ_timeWarNow"));
+            out.add(ChatColor.YELLOW + CivSettings.localize.localizedString("cmd_civ_timeWarNow"));
             cal.setTime(War.getStart());
-            out.add(CivColor.Yellow + CivSettings.localize.localizedString("cmd_civ_timeWarStarted") + " " + CivColor.LightGreen + sdf.format(cal.getTime()));
+            out.add(ChatColor.YELLOW + CivSettings.localize.localizedString("cmd_civ_timeWarStarted") + " " + ChatColor.GREEN + sdf.format(cal.getTime()));
 
             cal.setTime(War.getEnd());
-            out.add(CivColor.Yellow + CivSettings.localize.localizedString("cmd_civ_timeWarEnds") + " " + CivColor.LightGreen + sdf.format(cal.getTime()));
+            out.add(ChatColor.YELLOW + CivSettings.localize.localizedString("cmd_civ_timeWarEnds") + " " + ChatColor.GREEN + sdf.format(cal.getTime()));
         } else {
             cal.setTime(War.getNextWarTime());
-            out.add(CivColor.Green + CivSettings.localize.localizedString("cmd_civ_timeWarNext") + " " + CivColor.LightGreen + sdf.format(cal.getTime()));
+            out.add(ChatColor.DARK_GREEN + CivSettings.localize.localizedString("cmd_civ_timeWarNext") + " " + ChatColor.GREEN + sdf.format(cal.getTime()));
         }
 
         Player player = null;
@@ -356,10 +355,10 @@ public class CivCommand extends CommandBase {
 
         if (player == null || player.isOp()) {
             cal.setTime(CivGlobal.getTodaysSpawnRegenDate());
-            out.add(CivColor.LightPurple + CivSettings.localize.localizedString("cmd_civ_timeSpawnRegen") + " " + CivColor.LightGreen + sdf.format(cal.getTime()));
+            out.add(ChatColor.LIGHT_PURPLE + CivSettings.localize.localizedString("cmd_civ_timeSpawnRegen") + " " + ChatColor.GREEN + sdf.format(cal.getTime()));
 
             cal.setTime(CivGlobal.getNextRandomEventTime());
-            out.add(CivColor.LightPurple + CivSettings.localize.localizedString("cmd_civ_timeRandomEvent") + " " + CivColor.LightGreen + sdf.format(cal.getTime()));
+            out.add(ChatColor.LIGHT_PURPLE + CivSettings.localize.localizedString("cmd_civ_timeRandomEvent") + " " + ChatColor.GREEN + sdf.format(cal.getTime()));
         }
 
         CivMessage.send(sender, out);

@@ -30,8 +30,6 @@ import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.*;
 import com.avrgaming.civcraft.permission.PlotPermissions;
-import com.avrgaming.civcraft.road.Road;
-import com.avrgaming.civcraft.road.RoadBlock;
 import com.avrgaming.civcraft.structure.*;
 import com.avrgaming.civcraft.structure.farm.FarmChunk;
 import com.avrgaming.civcraft.structure.wonders.GrandShipIngermanland;
@@ -41,7 +39,6 @@ import com.avrgaming.civcraft.threading.tasks.FireWorkTask;
 import com.avrgaming.civcraft.threading.tasks.StructureBlockHitEvent;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.ItemFrameStorage;
 import com.avrgaming.civcraft.war.War;
 import com.avrgaming.civcraft.war.WarRegen;
@@ -128,11 +125,11 @@ public class BlockListener implements Listener {
                         return;
                     }
 
-                    RoadBlock rb = CivGlobal.getRoadBlock(bcoord);
-                    if (rb != null) {
-                        event.setCancelled(true);
-                        return;
-                    }
+//                    RoadBlock rb = CivGlobal.getRoadBlock(bcoord);
+//                    if (rb != null) {
+//                        event.setCancelled(true);
+//                        return;
+//                    }
 
                     CampBlock cb = CivGlobal.getCampBlock(bcoord);
                     if (cb != null) {
@@ -178,10 +175,10 @@ public class BlockListener implements Listener {
             return;
         }
 
-        if (CivGlobal.getRoadBlock(bcoord) != null) {
-            event.setCancelled(true);
-            return;
-        }
+//        if (CivGlobal.getRoadBlock(bcoord) != null) {
+//            event.setCancelled(true);
+//            return;
+//        }
 
         if (CivGlobal.getCampBlock(bcoord) != null) {
             event.setCancelled(true);
@@ -198,10 +195,10 @@ public class BlockListener implements Listener {
             return;
         }
 
-        if (CivGlobal.getRoadBlock(bcoord) != null) {
-            event.setCancelled(true);
-            return;
-        }
+//        if (CivGlobal.getRoadBlock(bcoord) != null) {
+//            event.setCancelled(true);
+//            return;
+//        }
 
         if (CivGlobal.getCampBlock(bcoord) != null) {
             event.setCancelled(true);
@@ -415,10 +412,10 @@ public class BlockListener implements Listener {
                 return;
             }
 
-            if (CivGlobal.getRoadBlock(bcoord) != null) {
-                event.setCancelled(true);
-                return;
-            }
+//            if (CivGlobal.getRoadBlock(bcoord) != null) {
+//                event.setCancelled(true);
+//                return;
+//            }
 
             if (CivGlobal.getCampBlock(bcoord) != null) {
                 event.setCancelled(true);
@@ -437,15 +434,15 @@ public class BlockListener implements Listener {
 
             coord.setFromLocation(block.getLocation());
 
-            HashSet<Wall> walls = CivGlobal.getWallChunk(coord);
-            if (walls != null) {
-                for (Wall wall : walls) {
-                    if (wall.isProtectedLocation(block.getLocation())) {
-                        event.setCancelled(true);
-                        return;
-                    }
-                }
-            }
+//            HashSet<Wall> walls = CivGlobal.getWallChunk(coord);
+//            if (walls != null) {
+//                for (Wall wall : walls) {
+//                    if (wall.isProtectedLocation(block.getLocation())) {
+//                        event.setCancelled(true);
+//                        return;
+//                    }
+//                }
+//            }
 
             if (CivGlobal.getTownChunk(coord) == null) {
                 continue;
@@ -581,17 +578,17 @@ public class BlockListener implements Listener {
             return;
         }
 
-        RoadBlock rb = CivGlobal.getRoadBlock(bcoord);
-        if (rb != null) {
-            if (rb.isAboveRoadBlock()) {
-                if (resident.getCiv() != rb.getRoad().getCiv()) {
-                    event.setCancelled(true);
-                    CivMessage.sendError(event.getPlayer(),
-                            CivSettings.localize.localizedString("blockPlace_errorRoad1") + " " + (Road.HEIGHT - 1) + " " + CivSettings.localize.localizedString("blockPlace_errorRoad2"));
-                }
-            }
-            return;
-        }
+//        RoadBlock rb = CivGlobal.getRoadBlock(bcoord);
+//        if (rb != null) {
+//            if (rb.isAboveRoadBlock()) {
+//                if (resident.getCiv() != rb.getRoad().getCiv()) {
+//                    event.setCancelled(true);
+//                    CivMessage.sendError(event.getPlayer(),
+//                            CivSettings.localize.localizedString("blockPlace_errorRoad1") + " " + (Road.HEIGHT - 1) + " " + CivSettings.localize.localizedString("blockPlace_errorRoad2"));
+//                }
+//            }
+//            return;
+//        }
 
         CampBlock cb = CivGlobal.getCampBlock(bcoord);
         if (cb != null && !cb.canBreak(event.getPlayer().getName())) {
@@ -735,18 +732,18 @@ public class BlockListener implements Listener {
             return;
         }
 
-        RoadBlock rb = CivGlobal.getRoadBlock(bcoord);
-        if (rb != null && !rb.isAboveRoadBlock()) {
-            if (War.isWarTime()) {
-                /* Allow blocks to be 'destroyed' during wartime. */
-                WarRegen.destroyThisBlock(event.getBlock(), rb.getTown());
-                event.setCancelled(true);
-            } else {
-                event.setCancelled(true);
-                rb.onHit(event.getPlayer());
-            }
-            return;
-        }
+//        RoadBlock rb = CivGlobal.getRoadBlock(bcoord);
+//        if (rb != null && !rb.isAboveRoadBlock()) {
+//            if (War.isWarTime()) {
+//                /* Allow blocks to be 'destroyed' during wartime. */
+//                WarRegen.destroyThisBlock(event.getBlock(), rb.getTown());
+//                event.setCancelled(true);
+//            } else {
+//                event.setCancelled(true);
+//                rb.onHit(event.getPlayer());
+//            }
+//            return;
+//        }
 
         if (CivGlobal.getProtectedBlock(bcoord) != null) {
             event.setCancelled(true);
@@ -781,27 +778,27 @@ public class BlockListener implements Listener {
         }
 
         coord.setFromLocation(event.getBlock().getLocation());
-        HashSet<Wall> walls = CivGlobal.getWallChunk(coord);
-
-        if (walls != null) {
-            for (Wall wall : walls) {
-                if (wall.isProtectedLocation(event.getBlock().getLocation())) {
-                    if (!resident.hasTown() || resident.getTown().getCiv() != wall.getTown().getCiv() && !resident.isSBPermOverride()) {
-
-                        StructureBlock tmpStructureBlock = new StructureBlock(bcoord, wall);
-                        tmpStructureBlock.setAlwaysDamage(true);
-                        TaskMaster.syncTask(new StructureBlockHitEvent(event.getPlayer().getName(), bcoord, tmpStructureBlock, event.getBlock().getWorld()), 0);
-                        //CivMessage.sendError(event.getPlayer(), "Cannot destroy this block, protected by a wall, destroy it first.");
-                        event.setCancelled(true);
-                        return;
-                    } else {
-                        CivMessage.send(event.getPlayer(), CivColor.LightGray + CivSettings.localize.localizedString("blockBreak_wallAlert") + " " +
-                                resident.getTown().getCiv().getName());
-                        break;
-                    }
-                }
-            }
-        }
+//        HashSet<Wall> walls = CivGlobal.getWallChunk(coord);
+//
+//        if (walls != null) {
+//            for (Wall wall : walls) {
+//                if (wall.isProtectedLocation(event.getBlock().getLocation())) {
+//                    if (!resident.hasTown() || resident.getTown().getCiv() != wall.getTown().getCiv() && !resident.isSBPermOverride()) {
+//
+//                        StructureBlock tmpStructureBlock = new StructureBlock(bcoord, wall);
+//                        tmpStructureBlock.setAlwaysDamage(true);
+//                        TaskMaster.syncTask(new StructureBlockHitEvent(event.getPlayer().getName(), bcoord, tmpStructureBlock, event.getBlock().getWorld()), 0);
+//                        //CivMessage.sendError(event.getPlayer(), "Cannot destroy this block, protected by a wall, destroy it first.");
+//                        event.setCancelled(true);
+//                        return;
+//                    } else {
+//                        CivMessage.send(event.getPlayer(), ChatColor.GRAY + CivSettings.localize.localizedString("blockBreak_wallAlert") + " " +
+//                                resident.getTown().getCiv().getName());
+//                        break;
+//                    }
+//                }
+//            }
+//        }
 
         TownChunk tc = CivGlobal.getTownChunk(coord);
         if (tc != null) {
@@ -998,9 +995,9 @@ public class BlockListener implements Listener {
 
                 try {
                     MarkerPlacementManager.setMarker(event.getPlayer(), block.getLocation());
-                    CivMessage.send(event.getPlayer(), CivColor.LightGreen + CivSettings.localize.localizedString("itemUse_marked"));
+                    CivMessage.send(event.getPlayer(), ChatColor.GREEN + CivSettings.localize.localizedString("itemUse_marked"));
                 } catch (CivException e) {
-                    CivMessage.send(event.getPlayer(), CivColor.Rose + e.getMessage());
+                    CivMessage.send(event.getPlayer(), ChatColor.RED + e.getMessage());
                 }
 
                 event.setCancelled(true);
@@ -1018,7 +1015,7 @@ public class BlockListener implements Listener {
                             sign.getOwner().processSignAction(event.getPlayer(), sign, event);
                             event.setCancelled(true);
                         } catch (CivException e) {
-                            CivMessage.send(event.getPlayer(), CivColor.Rose + e.getMessage());
+                            CivMessage.send(event.getPlayer(), ChatColor.RED + e.getMessage());
                             event.setCancelled(true);
                             return;
                         }
@@ -1485,10 +1482,10 @@ public class BlockListener implements Listener {
             return false;
         }
 
-        RoadBlock rb = CivGlobal.getRoadBlock(bcoord);
-        if (rb != null) {
-            return false;
-        }
+//        RoadBlock rb = CivGlobal.getRoadBlock(bcoord);
+//        if (rb != null) {
+//            return false;
+//        }
 
         CampBlock cb = CivGlobal.getCampBlock(bcoord);
         if (cb != null) {
@@ -1523,15 +1520,15 @@ public class BlockListener implements Listener {
         }
 
         coord.setFromLocation(loc);
-        HashSet<Wall> walls = CivGlobal.getWallChunk(coord);
-
-        if (walls != null) {
-            for (Wall wall : walls) {
-                if (wall.isProtectedLocation(loc)) {
-                    return false;
-                }
-            }
-        }
+//        HashSet<Wall> walls = CivGlobal.getWallChunk(coord);
+//
+//        if (walls != null) {
+//            for (Wall wall : walls) {
+//                if (wall.isProtectedLocation(loc)) {
+//                    return false;
+//                }
+//            }
+//        }
 
         return true;
     }
@@ -1811,15 +1808,15 @@ public class BlockListener implements Listener {
                     case ALLOWED:
                         continue;
                     case NOT_AT_WAR:
-                        CivMessage.send(attacker, CivColor.Rose + CivSettings.localize.localizedString("var_itemUse_potionError1", defender.getName()));
+                        CivMessage.send(attacker, ChatColor.RED + CivSettings.localize.localizedString("var_itemUse_potionError1", defender.getName()));
                         event.setCancelled(true);
                         return;
                     case NEUTRAL_IN_WARZONE:
-                        CivMessage.send(attacker, CivColor.Rose + CivSettings.localize.localizedString("var_itemUse_potionError2", defender.getName()));
+                        CivMessage.send(attacker, ChatColor.RED + CivSettings.localize.localizedString("var_itemUse_potionError2", defender.getName()));
                         event.setCancelled(true);
                         return;
                     case NON_PVP_ZONE:
-                        CivMessage.send(attacker, CivColor.Rose + CivSettings.localize.localizedString("var_itemUse_potionError3", defender.getName()));
+                        CivMessage.send(attacker, ChatColor.RED + CivSettings.localize.localizedString("var_itemUse_potionError3", defender.getName()));
                         event.setCancelled(true);
                         return;
                 }

@@ -38,9 +38,9 @@ public class SQLUpdateNamedObjectTask implements Runnable {
     public void run() {
         try {
             if (obj.getId() == 0) {
-                obj.setId(SQL.insertNow(hashmap, tablename));
+                obj.setId(SQLController.insertNow(hashmap, tablename));
             } else {
-                SQL.update(obj.getId(), hashmap, tablename);
+                SQLController.update(obj.getId(), hashmap, tablename);
             }
         } catch (SQLException e) {
             e.printStackTrace();

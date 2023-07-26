@@ -33,8 +33,8 @@ import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
-import com.avrgaming.civcraft.util.CivColor;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
@@ -72,7 +72,6 @@ public class AdminCommand extends CommandBase {
         register_sub("items", this::items_cmd, CivSettings.localize.localizedString("adcmd_itemsDesc"));
         register_sub("item", this::item_cmd, CivSettings.localize.localizedString("adcmd_itemDesc"));
         register_sub("timer", this::timer_cmd, CivSettings.localize.localizedString("adcmd_timerDesc"));
-        register_sub("road", this::road_cmd, CivSettings.localize.localizedString("adcmd_roadDesc"));
         register_sub("clearendgame", this::clearendgame_cmd, CivSettings.localize.localizedString("adcmd_clearEndGameDesc"));
         register_sub("arena", this::arena_cmd, CivSettings.localize.localizedString("adcmd_arenaDesc"));
         register_sub("reloadgov", this::reloadgov_cmd, CivSettings.localize.localizedString("adcmd_reloadgovDesc"));
@@ -92,13 +91,13 @@ public class AdminCommand extends CommandBase {
 
             civ.setGovernment(gov.id);
         }
-        CivMessage.send(sender, CivColor.Gold + CivSettings.localize.localizedString("adcmd_reloadgovSuccess"));
+        CivMessage.send(sender, ChatColor.GOLD + CivSettings.localize.localizedString("adcmd_reloadgovSuccess"));
     }
 
 
     public void reloadac_cmd() {
 
-        CivMessage.send(sender, CivColor.Gold + CivSettings.localize.localizedString("adcmd_reloadacSuccess"));
+        CivMessage.send(sender, ChatColor.GOLD + CivSettings.localize.localizedString("adcmd_reloadacSuccess"));
     }
 
 
@@ -157,8 +156,8 @@ public class AdminCommand extends CommandBase {
                 ItemStack infoRec = LoreGuiItem.build(cat.name,
                         identifier,
                         0,
-                        CivColor.LightBlue + cat.materials.size() + " Items",
-                        CivColor.Gold + "<Click To Open>");
+                        String.valueOf(ChatColor.AQUA) + cat.materials.size() + " Items",
+                        ChatColor.GOLD + "<Click To Open>");
                 infoRec = LoreGuiItem.setAction(infoRec, GuiActions.OpenInventory);
                 infoRec = LoreGuiItem.setActionData(infoRec, "invType", "showGuiInv");
                 infoRec = LoreGuiItem.setActionData(infoRec, "invName", cat.name + " Spawn");
@@ -187,13 +186,6 @@ public class AdminCommand extends CommandBase {
         AdminArenaCommand cmd = new AdminArenaCommand();
         cmd.onCommand(sender, null, "arena", this.stripArgs(args, 1));
     }
-
-
-    public void road_cmd() {
-        AdminRoadCommand cmd = new AdminRoadCommand();
-        cmd.onCommand(sender, null, "camp", this.stripArgs(args, 1));
-    }
-
 
     public void item_cmd() {
         AdminItemCommand cmd = new AdminItemCommand();

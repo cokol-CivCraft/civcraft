@@ -25,7 +25,6 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.*;
 import com.avrgaming.civcraft.util.AsciiMap;
 import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.CivColor;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -50,34 +49,34 @@ public class PlayerChunkNotifyAsyncTask implements Runnable {
 
     public static String getNotifyColor(CultureChunk toCc, Relation.Status status, Player player) {
 
-        String color = CivColor.White;
+        String color = String.valueOf(ChatColor.WHITE);
         switch (status) {
             case NEUTRAL:
                 if (toCc.getTown().isOutlaw(player.getName())) {
-                    color = CivColor.Yellow;
+                    color = String.valueOf(ChatColor.YELLOW);
                 }
 
                 break;
             case HOSTILE:
-                color = CivColor.Yellow;
+                color = String.valueOf(ChatColor.YELLOW);
                 break;
             case WAR:
-                color = CivColor.Rose;
+                color = String.valueOf(ChatColor.RED);
 
                 break;
             case PEACE:
-                color = CivColor.LightBlue;
+                color = String.valueOf(ChatColor.AQUA);
 
                 break;
             case ALLY:
-                color = CivColor.Green;
+                color = String.valueOf(ChatColor.DARK_GREEN);
         }
 
         return color;
     }
 
     private String getToWildMessage() {
-        return CivColor.LightGray + CivSettings.localize.localizedString("playerChunkNotify_enterWilderness") + " " + CivColor.Rose + "[PvP]";
+        return ChatColor.GRAY + CivSettings.localize.localizedString("playerChunkNotify_enterWilderness") + " " + ChatColor.RED + "[PvP]";
     }
 
     private String getToTownMessage(Town town, TownChunk tc) {
@@ -91,14 +90,14 @@ public class PlayerChunkNotifyAsyncTask implements Runnable {
         if (town.getBuffManager().hasBuff("buff_hanging_gardens_regen")) {
             Resident resident = CivGlobal.getResident(player);
             if (resident != null && resident.getTown() == town) {
-                CivMessage.send(player, CivColor.Green + ChatColor.ITALIC + "You feel invigorated by the glorious hanging gardens.");
+                CivMessage.send(player, String.valueOf(ChatColor.DARK_GREEN) + ChatColor.ITALIC + "You feel invigorated by the glorious hanging gardens.");
             }
         }
 
         if (!tc.isOutpost()) {
-            return CivColor.LightGray + CivSettings.localize.localizedString("var_playerChunkNotify_EnterTown", CivColor.White + town.getName(), town.getPvpString());
+            return ChatColor.GRAY + CivSettings.localize.localizedString("var_playerChunkNotify_EnterTown", ChatColor.WHITE + town.getName(), town.getPvpString());
         } else {
-            return CivColor.LightGray + CivSettings.localize.localizedString("var_playerChunkNotify_EnterOutpost", CivColor.White + town.getName(), town.getPvpString());
+            return ChatColor.GRAY + CivSettings.localize.localizedString("var_playerChunkNotify_EnterOutpost", ChatColor.WHITE + town.getName(), town.getPvpString());
         }
     }
 
@@ -127,7 +126,7 @@ public class PlayerChunkNotifyAsyncTask implements Runnable {
 
         //We've entered a camp.
         if (toCamp != null && toCamp != fromCamp) {
-            title += CivColor.Gold + CivSettings.localize.localizedString("var_playerChunkNotify_enterCamp", toCamp.getName()) + " " + CivColor.Rose + "[PvP]";
+            title += ChatColor.GOLD + CivSettings.localize.localizedString("var_playerChunkNotify_enterCamp", toCamp.getName()) + " " + ChatColor.RED + "[PvP]";
         } else if (toCamp == null && fromCamp != null) {
             title += getToWildMessage();
         } else if (fromTc != null && toTc == null) {
@@ -142,7 +141,7 @@ public class PlayerChunkNotifyAsyncTask implements Runnable {
                 subTitle += CivSettings.localize.localizedString("var_civ_border_welcomeHome", player.getName());
             } else {
                 if (t.isOutlaw(resident)) {
-                    subTitle += CivColor.Red + CivSettings.localize.localizedString("town_border_outlaw");
+                    subTitle += ChatColor.DARK_RED + CivSettings.localize.localizedString("town_border_outlaw");
                 }
             }
 

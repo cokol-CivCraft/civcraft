@@ -15,11 +15,7 @@ import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.CivColor;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -96,16 +92,16 @@ public class Arena {
         team.setScoreboardTeam(getScoreboard(team.getName()).registerNewTeam(team.getName()));
         team.getScoreboardTeam().setAllowFriendlyFire(false);
         if (teamCount == 0) {
-            team.setTeamColor(CivColor.Blue);
+            team.setTeamColor(String.valueOf(ChatColor.DARK_AQUA));
         } else {
-            team.setTeamColor(CivColor.Gold);
+            team.setTeamColor(String.valueOf(ChatColor.GOLD));
         }
         for (Resident r : team.teamMembers) {
             Player p = CivGlobal.getPlayer(r);
             p.setHealth(p.getMaxHealth());
             p.setFoodLevel(20);
             p.setGameMode(GameMode.SURVIVAL);
-            p.setDisplayName(team.getTeamColor() + CivColor.BOLD + p.getDisplayName());
+            p.setDisplayName(team.getTeamColor() + ChatColor.BOLD + p.getDisplayName());
         }
 
         for (Resident resident : team.teamMembers) {
@@ -240,7 +236,7 @@ public class Arena {
                         r.restoreInventory();
                         r.teleportHome();
                         r.save();
-                        CivMessage.send(r, CivColor.LightGray + CivSettings.localize.localizedString("arena_endedTeleport"));
+                        CivMessage.send(r, ChatColor.GRAY + CivSettings.localize.localizedString("arena_endedTeleport"));
                     } catch (CivException e) {
                         /* player not online, inside arena is set true */
                     }

@@ -7,7 +7,7 @@ import com.avrgaming.civcraft.command.CommandBase;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivMessage;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 
 public class AdminArenaCommand extends CommandBase {
 
@@ -50,9 +50,9 @@ public class AdminArenaCommand extends CommandBase {
     public void messageall_cmd() {
         String message = this.combineArgs(this.stripArgs(args, 1));
         for (Arena arena : ArenaManager.activeArenas.values()) {
-            CivMessage.sendArena(arena, CivColor.Rose + CivSettings.localize.localizedString("adcmd_arena_adminMessage") + CivColor.RESET + message);
+            CivMessage.sendArena(arena, ChatColor.RED + CivSettings.localize.localizedString("adcmd_arena_adminMessage") + ChatColor.RESET + message);
         }
-        CivMessage.send(sender, CivColor.Rose + CivSettings.localize.localizedString("adcmd_arena_adminMessage") + CivColor.RESET + message);
+        CivMessage.send(sender, ChatColor.RED + CivSettings.localize.localizedString("adcmd_arena_adminMessage") + ChatColor.RESET + message);
     }
 
     public void message_cmd() throws CivException {
@@ -64,8 +64,8 @@ public class AdminArenaCommand extends CommandBase {
             throw new CivException(CivSettings.localize.localizedString("adcmd_arena_arenaIDNotFound"));
         }
 
-        CivMessage.sendArena(arena, CivColor.Rose + "ADMIN:" + CivColor.RESET + message);
-        CivMessage.send(sender, CivColor.Rose + "ADMIN:" + CivColor.RESET + message);
+        CivMessage.sendArena(arena, ChatColor.RED + "ADMIN:" + ChatColor.RESET + message);
+        CivMessage.send(sender, ChatColor.RED + "ADMIN:" + ChatColor.RESET + message);
 
     }
 
@@ -77,7 +77,7 @@ public class AdminArenaCommand extends CommandBase {
             throw new CivException(CivSettings.localize.localizedString("adcmd_arena_arenaIDNotFound"));
         }
 
-        CivMessage.sendArena(arena, CivColor.Rose + CivSettings.localize.localizedString("adcmd_arena_endDraw"));
+        CivMessage.sendArena(arena, ChatColor.RED + CivSettings.localize.localizedString("adcmd_arena_endDraw"));
         ArenaManager.declareDraw(arena);
 
     }

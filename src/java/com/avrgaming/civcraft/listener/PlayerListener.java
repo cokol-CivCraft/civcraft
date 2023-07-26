@@ -29,7 +29,6 @@ import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.CultureChunk;
 import com.avrgaming.civcraft.object.Resident;
-import com.avrgaming.civcraft.road.Road;
 import com.avrgaming.civcraft.structure.Capitol;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.PlayerChunkNotifyAsyncTask;
@@ -37,13 +36,16 @@ import com.avrgaming.civcraft.threading.tasks.PlayerLoginAsyncTask;
 import com.avrgaming.civcraft.threading.timers.PlayerLocationCacheUpdate;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.war.War;
 import com.avrgaming.civcraft.war.WarStats;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Chest;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.ThrownPotion;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -59,7 +61,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -82,9 +83,9 @@ public class PlayerListener implements Listener {
 
             Resident resident = CivGlobal.getResident(player);
             if (resident.getItemMode().equals("all")) {
-                CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("var_customItem_Pickup", CivColor.LightPurple + event.getItem().getItemStack().getAmount(), name), item);
+                CivMessage.send(player, ChatColor.GREEN + CivSettings.localize.localizedString("var_customItem_Pickup", String.valueOf(ChatColor.LIGHT_PURPLE) + event.getItem().getItemStack().getAmount(), name), item);
             } else if (resident.getItemMode().equals("rare") && rare) {
-                CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("var_customItem_Pickup", CivColor.LightPurple + event.getItem().getItemStack().getAmount(), name), item);
+                CivMessage.send(player, ChatColor.GREEN + CivSettings.localize.localizedString("var_customItem_Pickup", String.valueOf(ChatColor.LIGHT_PURPLE) + event.getItem().getItemStack().getAmount(), name), item);
             }
         }
     }
@@ -120,7 +121,7 @@ public class PlayerListener implements Listener {
             if (!event.isCancelled()) {
                 CivLog.debug("Cancelled Event " + event.getEventName() + " with cause: " + event.getCause());
                 event.setCancelled(true);
-                CivMessage.send(resident, CivColor.Red + CivSettings.localize.localizedString("teleportDeniedPrefix") + " " + CivColor.White + CivSettings.localize.localizedString("var_teleportDeniedCiv", CivColor.Green + cc.getCiv().getName() + CivColor.White));
+                CivMessage.send(resident, ChatColor.DARK_RED + CivSettings.localize.localizedString("teleportDeniedPrefix") + " " + ChatColor.WHITE + CivSettings.localize.localizedString("var_teleportDeniedCiv", ChatColor.DARK_GREEN + cc.getCiv().getName() + ChatColor.WHITE));
                 return;
             }
         }
@@ -133,7 +134,7 @@ public class PlayerListener implements Listener {
             if (!event.isCancelled()) {
                 CivLog.debug("Cancelled Event " + event.getEventName() + " with cause: " + event.getCause());
                 event.setCancelled(true);
-                CivMessage.send(resident, CivColor.Red + CivSettings.localize.localizedString("teleportDeniedPrefix") + " " + CivColor.White + CivSettings.localize.localizedString("var_teleportDeniedCamp", CivColor.Green + toCamp.getName() + CivColor.White));
+                CivMessage.send(resident, ChatColor.DARK_RED + CivSettings.localize.localizedString("teleportDeniedPrefix") + " " + ChatColor.WHITE + CivSettings.localize.localizedString("var_teleportDeniedCamp", ChatColor.DARK_GREEN + toCamp.getName() + ChatColor.WHITE));
             }
 
         }
@@ -162,19 +163,19 @@ public class PlayerListener implements Listener {
         Resident resident = CivGlobal.getResident(player);
         if (resident != null) {
             speed = resident.getWalkingModifier();
-            if (resident.isOnRoad()) {
-                if (player.getVehicle() != null && player.getVehicle().getType().equals(EntityType.HORSE)) {
-                    Vector vec = player.getVehicle().getVelocity();
-                    double yComp = vec.getY();
-
-                    vec.multiply(Road.ROAD_HORSE_SPEED);
-                    vec.setY(yComp); /* Do not multiply y velocity. */
-
-                    player.getVehicle().setVelocity(vec);
-                } else {
-                    speed *= Road.ROAD_PLAYER_SPEED;
-                }
-            }
+//            if (resident.isOnRoad()) {
+//                if (player.getVehicle() != null && player.getVehicle().getType().equals(EntityType.HORSE)) {
+//                    Vector vec = player.getVehicle().getVelocity();
+//                    double yComp = vec.getY();
+//
+//                    vec.multiply(Road.ROAD_HORSE_SPEED);
+//                    vec.setY(yComp); /* Do not multiply y velocity. */
+//
+//                    player.getVehicle().setVelocity(vec);
+//                } else {
+//                    speed *= Road.ROAD_PLAYER_SPEED;
+//                }
+//            }
         } else {
             speed = CivSettings.normal_speed;
         }
@@ -232,7 +233,7 @@ public class PlayerListener implements Listener {
                         //PlayerReviveTask reviveTask = new PlayerReviveTask(player, townhall.getRespawnTime(), townhall, event.getRespawnLocation());
                         resident.setLastKilledTime(new Date());
                         event.setRespawnLocation(respawn.getCenteredLocation());
-                        CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("playerListen_repawnInWarRoom"));
+                        CivMessage.send(player, ChatColor.GRAY + CivSettings.localize.localizedString("playerListen_repawnInWarRoom"));
 
                         //TaskMaster.asyncTask("", reviveTask, 0);
                     }
@@ -519,7 +520,7 @@ public class PlayerListener implements Listener {
             Resident defenderResident = CivGlobal.getResident(defender);
             if (defenderResident.isCombatInfo()) {
                 if (attacker != null) {
-                    CivMessage.send(defender, CivColor.LightGray + "   " + CivSettings.localize.localizedString("playerListen_combatHeading") + " " + CivSettings.localize.localizedString("var_playerListen_combatDefend", CivColor.Rose + attacker.getName() + CivColor.LightGray, CivColor.Rose + damage + CivColor.LightGray));
+                    CivMessage.send(defender, ChatColor.GRAY + "   " + CivSettings.localize.localizedString("playerListen_combatHeading") + " " + CivSettings.localize.localizedString("var_playerListen_combatDefend", ChatColor.RED + attacker.getName() + ChatColor.GRAY, ChatColor.RED + damage + ChatColor.GRAY));
                 } else {
                     String entityName = null;
 
@@ -531,7 +532,7 @@ public class PlayerListener implements Listener {
                         entityName = event.getDamager().getType().toString();
                     }
 
-                    CivMessage.send(defender, CivColor.LightGray + "   " + CivSettings.localize.localizedString("playerListen_combatHeading") + " " + CivSettings.localize.localizedString("var_playerListen_combatDefend", CivColor.LightPurple + entityName + CivColor.LightGray, CivColor.Rose + damage + CivColor.LightGray));
+                    CivMessage.send(defender, ChatColor.GRAY + "   " + CivSettings.localize.localizedString("playerListen_combatHeading") + " " + CivSettings.localize.localizedString("var_playerListen_combatDefend", ChatColor.LIGHT_PURPLE + entityName + ChatColor.GRAY, ChatColor.RED + damage + ChatColor.GRAY));
                 }
             }
         }
@@ -540,7 +541,7 @@ public class PlayerListener implements Listener {
             Resident attackerResident = CivGlobal.getResident(attacker);
             if (attackerResident.isCombatInfo()) {
                 if (defender != null) {
-                    CivMessage.send(attacker, CivColor.LightGray + "   " + CivSettings.localize.localizedString("playerListen_combatHeading") + " " + CivSettings.localize.localizedString("var_playerListen_attack", CivColor.Rose + defender.getName() + CivColor.LightGray, CivColor.LightGreen + damage + CivColor.LightGray));
+                    CivMessage.send(attacker, ChatColor.GRAY + "   " + CivSettings.localize.localizedString("playerListen_combatHeading") + " " + CivSettings.localize.localizedString("var_playerListen_attack", ChatColor.RED + defender.getName() + ChatColor.GRAY, ChatColor.GREEN + damage + ChatColor.GRAY));
                     CivMessage.sendActionBar(attacker, CivData.getStringForBar(CivData.TaskType.PLAYER, defender.getHealth(), (int) defender.getMaxHealth()));
                 } else {
                     String entityName = null;
@@ -553,7 +554,7 @@ public class PlayerListener implements Listener {
                         entityName = event.getEntity().getType().toString();
                     }
 
-                    CivMessage.send(attacker, CivColor.LightGray + "   " + CivSettings.localize.localizedString("playerListen_combatHeading") + " " + CivSettings.localize.localizedString("var_playerListen_attack", CivColor.LightPurple + entityName + CivColor.LightGray, CivColor.LightGreen + damage + CivColor.LightGray));
+                    CivMessage.send(attacker, ChatColor.GRAY + "   " + CivSettings.localize.localizedString("playerListen_combatHeading") + " " + CivSettings.localize.localizedString("var_playerListen_attack", ChatColor.LIGHT_PURPLE + entityName + ChatColor.GRAY, ChatColor.GREEN + damage + ChatColor.GRAY));
                 }
             }
         }

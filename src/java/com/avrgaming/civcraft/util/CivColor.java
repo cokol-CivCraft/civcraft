@@ -3,31 +3,6 @@ package com.avrgaming.civcraft.util;
 import org.bukkit.ChatColor;
 
 public class CivColor {
-
-    public static final String Black = "§0";
-    public static final String Navy = "§1";
-    public static final String Green = "§2";
-    public static final String Blue = "§3";
-    public static final String Red = "§4";
-    public static final String Purple = "§5";
-    public static final String Gold = "§6";
-    public static final String LightGray = "§7";
-    public static final String Gray = "§8";
-    public static final String DarkPurple = "§9";
-    public static final String LightGreen = "§a";
-    public static final String LightBlue = "§b";
-    public static final String Rose = "§c";
-    public static final String LightPurple = "§d";
-    public static final String Yellow = "§e";
-    public static final String White = "§f";
-    public static final String BOLD = String.valueOf(ChatColor.BOLD);
-    public static final String ITALIC = String.valueOf(ChatColor.ITALIC);
-    public static final String MAGIC = String.valueOf(ChatColor.MAGIC);
-    public static final String STRIKETHROUGH = String.valueOf(ChatColor.STRIKETHROUGH);
-    public static final String RESET = String.valueOf(ChatColor.RESET);
-    public static final String UNDERLINE = String.valueOf(ChatColor.UNDERLINE);
-
-
     /*
      * Takes an input from a yaml and converts 'Essentials' style color codes into
      * in game color codes.
@@ -36,22 +11,22 @@ public class CivColor {
     public static String colorize(String input) {
         String output = input;
 
-        output = output.replaceAll("<red>", Red);
-        output = output.replaceAll("<rose>", Rose);
-        output = output.replaceAll("<gold>", Gold);
-        output = output.replaceAll("<yellow>", Yellow);
-        output = output.replaceAll("<green>", Green);
-        output = output.replaceAll("<lightgreen>", LightGreen);
-        output = output.replaceAll("<lightblue>", LightBlue);
-        output = output.replaceAll("<blue>", Blue);
-        output = output.replaceAll("<navy>", Navy);
-        output = output.replaceAll("<darkpurple>", DarkPurple);
-        output = output.replaceAll("<lightpurple>", LightPurple);
-        output = output.replaceAll("<purple>", Purple);
-        output = output.replaceAll("<white>", White);
-        output = output.replaceAll("<lightgray>", LightGray);
-        output = output.replaceAll("<gray>", Gray);
-        output = output.replaceAll("<black>", Black);
+        output = output.replaceAll("<red>", String.valueOf(ChatColor.DARK_RED));
+        output = output.replaceAll("<rose>", String.valueOf(ChatColor.RED));
+        output = output.replaceAll("<gold>", String.valueOf(ChatColor.GOLD));
+        output = output.replaceAll("<yellow>", String.valueOf(ChatColor.YELLOW));
+        output = output.replaceAll("<green>", String.valueOf(ChatColor.DARK_GREEN));
+        output = output.replaceAll("<lightgreen>", String.valueOf(ChatColor.GREEN));
+        output = output.replaceAll("<lightblue>", String.valueOf(ChatColor.AQUA));
+        output = output.replaceAll("<blue>", String.valueOf(ChatColor.DARK_AQUA));
+        output = output.replaceAll("<navy>", String.valueOf(ChatColor.DARK_BLUE));
+        output = output.replaceAll("<darkpurple>", String.valueOf(ChatColor.BLUE));
+        output = output.replaceAll("<lightpurple>", String.valueOf(ChatColor.LIGHT_PURPLE));
+        output = output.replaceAll("<purple>", String.valueOf(ChatColor.DARK_PURPLE));
+        output = output.replaceAll("<white>", String.valueOf(ChatColor.WHITE));
+        output = output.replaceAll("<lightgray>", String.valueOf(ChatColor.GRAY));
+        output = output.replaceAll("<gray>", String.valueOf(ChatColor.DARK_GRAY));
+        output = output.replaceAll("<black>", String.valueOf(ChatColor.BLACK));
         output = output.replaceAll("<b>", String.valueOf(ChatColor.BOLD));
         output = output.replaceAll("<u>", String.valueOf(ChatColor.UNDERLINE));
         output = output.replaceAll("<i>", String.valueOf(ChatColor.ITALIC));
@@ -60,52 +35,6 @@ public class CivColor {
         output = output.replaceAll("<r>", String.valueOf(ChatColor.RESET));
 
         return output;
-    }
-
-    public static String strip(String line) {
-
-        for (ChatColor cc : ChatColor.values())
-            line.replaceAll(cc.toString(), "");
-        return line;
-    }
-
-    public static String valueOf(String color) {
-        switch (color.toLowerCase()) {
-            case "black":
-                return Black;
-            case "navy":
-                return Navy;
-            case "green":
-                return Green;
-            case "blue":
-                return Blue;
-            case "red":
-                return Red;
-            case "purple":
-                return Purple;
-            case "gold":
-                return Gold;
-            case "lightgray":
-                return LightGray;
-            case "gray":
-                return Gray;
-            case "darkpurple":
-                return DarkPurple;
-            case "lightgreen":
-                return LightGreen;
-            case "lightblue":
-                return LightBlue;
-            case "rose":
-                return Rose;
-            case "lightpurple":
-                return LightPurple;
-            case "yellow":
-                return Yellow;
-            case "white":
-                return White;
-            default:
-                return White;
-        }
     }
 
     public static String stripTags(String input) {

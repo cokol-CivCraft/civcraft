@@ -20,7 +20,7 @@ package com.avrgaming.civcraft.items;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigBuff;
 import com.avrgaming.civcraft.config.ConfigTradeGood;
-import com.avrgaming.civcraft.database.SQL;
+import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivGlobal;
@@ -29,7 +29,10 @@ import com.avrgaming.civcraft.object.TradeGood;
 import com.avrgaming.civcraft.structure.Structure;
 import com.avrgaming.civcraft.structure.TradeOutpost;
 import com.avrgaming.civcraft.threading.TaskMaster;
-import com.avrgaming.civcraft.util.*;
+import com.avrgaming.civcraft.util.BlockCoord;
+import com.avrgaming.civcraft.util.EntityUtil;
+import com.avrgaming.civcraft.util.InventoryHolderStorage;
+import com.avrgaming.civcraft.util.ItemFrameStorage;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -87,8 +90,8 @@ public class BonusGoodie extends LoreItem {
     public static final String TABLE_NAME = "GOODIE_ITEMS";
 
     public static void init() throws SQLException {
-        if (!SQL.hasTable(TABLE_NAME)) {
-            String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME + " (" +
+        if (!SQLController.hasTable(TABLE_NAME)) {
+            String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`holder_location` mediumtext DEFAULT NULL," +
                     "`player_name` mediumtext DEFAULT NULL," +
@@ -98,7 +101,7 @@ public class BonusGoodie extends LoreItem {
                     "`outpost_location` mediumtext DEFAULT NULL," +
                     "PRIMARY KEY (`id`)" + ")";
 
-            SQL.makeTable(table_create);
+            SQLController.makeTable(table_create);
             CivLog.info("Created " + TABLE_NAME + " table");
         } else {
             CivLog.info(TABLE_NAME + " table OK!");
@@ -120,8 +123,8 @@ public class BonusGoodie extends LoreItem {
             String outpost_location = outpost.getCorner().toString();
             this.config = outpost.getGood().getInfo();
 
-            context = SQL.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQL.tb_prefix + BonusGoodie.TABLE_NAME + " WHERE `outpost_location`  = ?");
+            context = SQLController.getGameConnection();
+            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + BonusGoodie.TABLE_NAME + " WHERE `outpost_location`  = ?");
             ps.setString(1, outpost_location);
             rs = ps.executeQuery();
 
@@ -135,7 +138,7 @@ public class BonusGoodie extends LoreItem {
             }
 
         } finally {
-            SQL.close(rs, ps, context);
+            SQLController.close(rs, ps, context);
         }
     }
 
@@ -166,13 +169,13 @@ public class BonusGoodie extends LoreItem {
 
         String[] split = getBonusDisplayString().split(";");
         for (String str : split) {
-            lore.add(CivColor.Yellow + str);
+            lore.add(ChatColor.YELLOW + str);
         }
 
         if (isStackable()) {
-            lore.add(CivColor.LightBlue + "Stackable");
+            lore.add(ChatColor.AQUA + "Stackable");
         } else {
-            lore.add(CivColor.LightGray + "Not Stackable");
+            lore.add(ChatColor.GRAY + "Not Stackable");
         }
 
         this.setLore(stack, lore);
@@ -196,7 +199,7 @@ public class BonusGoodie extends LoreItem {
             }
             for (ConfigTradeGood good : CivSettings.goods.values()) {
                 for (Entry<Integer, ? extends ItemStack> itemEntry : holder.getInventory().all(good.material).entrySet()) {
-                    if (ItemManager.getData(itemEntry.getValue()) != good.material_data) {
+                    if (itemEntry.getValue().getDurability() != good.material_data) {
                         continue;
                     }
                     ItemStack stack = itemEntry.getValue();
@@ -389,9 +392,9 @@ public class BonusGoodie extends LoreItem {
 
         try {
             if (sync) {
-                SQL.updateNamedObject(this, hashmap, TABLE_NAME);
+                SQLController.updateNamedObject(this, hashmap, TABLE_NAME);
             } else {
-                SQL.updateNamedObjectAsync(this, hashmap, TABLE_NAME);
+                SQLController.updateNamedObjectAsync(this, hashmap, TABLE_NAME);
             }
         } catch (SQLException e) {
             CivLog.error("Internal Database error in update of goodie.");
@@ -517,12 +520,11 @@ public class BonusGoodie extends LoreItem {
 
                 for (ConfigTradeGood good : CivSettings.goods.values()) {
                     for (Entry<Integer, ? extends ItemStack> itemEntry : inv.all(good.material).entrySet()) {
-                        if (ItemManager.getData(itemEntry.getValue()) != good.material_data) {
+                        if (itemEntry.getValue().getDurability() != good.material_data) {
                             continue;
                         }
-                        ItemStack stack = itemEntry.getValue();
 
-                        if (this.isItemStackOurs(stack)) {
+                        if (this.isItemStackOurs(itemEntry.getValue())) {
                             // Found ya!
                             holderStore = new InventoryHolderStorage(inv.getHolder(), b.getLocation());
                             this.frameStore = null;
@@ -668,7 +670,7 @@ public class BonusGoodie extends LoreItem {
             }
         }
 
-        SQL.deleteNamedObject(this, BonusGoodie.TABLE_NAME);
+        SQLController.deleteNamedObject(this, BonusGoodie.TABLE_NAME);
     }
 
     @Override
@@ -701,7 +703,7 @@ public class BonusGoodie extends LoreItem {
         for (ConfigBuff cBuff : this.config.buffs.values()) {
             out.append(ChatColor.UNDERLINE).append(cBuff.name);
             out.append(";");
-            out.append(CivColor.White);
+            out.append(ChatColor.WHITE);
             out.append(ChatColor.ITALIC);
             out.append(cBuff.description);
             out.append(";");

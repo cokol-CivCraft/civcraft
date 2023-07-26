@@ -22,7 +22,7 @@ import com.avrgaming.civcraft.camp.Camp;
 import com.avrgaming.civcraft.camp.CampBlock;
 import com.avrgaming.civcraft.camp.WarCamp;
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.database.SQL;
+import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.endgame.EndGameCondition;
 import com.avrgaming.civcraft.event.EventTimer;
 import com.avrgaming.civcraft.exception.CivException;
@@ -36,16 +36,17 @@ import com.avrgaming.civcraft.populators.TradeGoodPreGenerate;
 import com.avrgaming.civcraft.questions.QuestionBaseTask;
 import com.avrgaming.civcraft.questions.QuestionResponseInterface;
 import com.avrgaming.civcraft.randomevents.RandomEvent;
-import com.avrgaming.civcraft.road.RoadBlock;
 import com.avrgaming.civcraft.sessiondb.SessionDatabase;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
 import com.avrgaming.civcraft.structure.*;
 import com.avrgaming.civcraft.structure.farm.FarmChunk;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
-import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.*;
-import com.avrgaming.civcraft.util.*;
+import com.avrgaming.civcraft.util.BlockCoord;
+import com.avrgaming.civcraft.util.BukkitObjects;
+import com.avrgaming.civcraft.util.ChunkCoord;
+import com.avrgaming.civcraft.util.ItemFrameStorage;
 import com.avrgaming.civcraft.war.War;
 import com.avrgaming.civcraft.war.WarRegen;
 import net.milkbowl.vault.economy.Economy;
@@ -66,12 +67,6 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class CivGlobal {
-
-    public static final double MIN_FRAME_DISTANCE = 3.0;
-
-    public static double LIGHTHOUSE_WATER_PLAYER_SPEED = 1.5;
-    public static double LIGHTHOUSE_WATER_BOAT_SPEED = 1.1;
-
     private static boolean useEconomy;
     public static Economy econ;
 
@@ -102,8 +97,8 @@ public class CivGlobal {
     private static Queue<FarmChunk> farmGrowQueue = new LinkedList<>();
     private static final Map<UUID, ItemFrameStorage> protectedItemFrames = new ConcurrentHashMap<>();
     private static final Map<BlockCoord, BonusGoodie> bonusGoodies = new ConcurrentHashMap<>();
-    private static final Map<ChunkCoord, HashSet<Wall>> wallChunks = new ConcurrentHashMap<>();
-    private static final Map<BlockCoord, RoadBlock> roadBlocks = new ConcurrentHashMap<>();
+    //    private static final Map<ChunkCoord, HashSet<Wall>> wallChunks = new ConcurrentHashMap<>();
+//    private static final Map<BlockCoord, RoadBlock> roadBlocks = new ConcurrentHashMap<>();
     private static final Map<BlockCoord, CustomMapMarker> customMapMarkers = new ConcurrentHashMap<>();
     private static final Map<String, Camp> camps = new ConcurrentHashMap<>();
     private static final Map<ChunkCoord, Camp> campChunks = new ConcurrentHashMap<>();
@@ -123,13 +118,6 @@ public class CivGlobal {
 
     public static HashMap<String, Date> playerFirstLoginMap = new HashMap<>();
     public static HashSet<String> banWords = new HashSet<>();
-
-    //public static Scoreboard globalBoard;
-
-    public static Integer maxPlayers = -1;
-    public static HashSet<String> betaPlayers = new HashSet<>();
-    public static String fullMessage = "";
-    public static Boolean betaOnly = false;
 
     //TODO convert this to completely static?
     private static SessionDatabase sdb;
@@ -154,7 +142,6 @@ public class CivGlobal {
 
     public static boolean checkForBooks = true;
     public static boolean debugDateBypass = false;
-    public static boolean installMode = false;
 
     public static int highestCivEra = 0;
 
@@ -178,8 +165,8 @@ public class CivGlobal {
         loadTownChunks();
         loadWonders();
         loadStructures();
-        loadWallBlocks();
-        loadRoadBlocks();
+//        loadWallBlocks();
+//        loadRoadBlocks();
         loadTradeGoods();
         loadTradeGoodies();
         loadRandomEvents();
@@ -188,7 +175,6 @@ public class CivGlobal {
         EventTimer.loadGlobalEvents();
         EndGameCondition.init();
         War.init();
-        Template.init();
 
         CivLog.heading("--- Done <3 ---");
 
@@ -272,8 +258,8 @@ public class CivGlobal {
         PreparedStatement ps = null;
 
         try {
-            context = SQL.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQL.tb_prefix + ArenaTeam.TABLE_NAME);
+            context = SQLController.getGameConnection();
+            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + ArenaTeam.TABLE_NAME);
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -289,7 +275,7 @@ public class CivGlobal {
 
             CivLog.info("Loaded " + ArenaTeam.arenaTeams.size() + " Arena Teams");
         } finally {
-            SQL.close(rs, ps, context);
+            SQLController.close(rs, ps, context);
         }
     }
 
@@ -299,8 +285,8 @@ public class CivGlobal {
         PreparedStatement ps = null;
 
         try {
-            context = SQL.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQL.tb_prefix + TradeGood.TABLE_NAME);
+            context = SQLController.getGameConnection();
+            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + TradeGood.TABLE_NAME);
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -315,7 +301,7 @@ public class CivGlobal {
 
             CivLog.info("Loaded " + tradeGoods.size() + " Trade Goods");
         } finally {
-            SQL.close(rs, ps, context);
+            SQLController.close(rs, ps, context);
         }
     }
 
@@ -365,7 +351,7 @@ public class CivGlobal {
     public static void setCurrentEra(int era, Civilization civ) {
         if (era > highestCivEra && !civ.isAdminCiv()) {
             highestCivEra = era;
-            CivMessage.globalTitle(CivColor.Green + localizedEraString(highestCivEra), CivColor.LightGreen + CivSettings.localize.localizedString("var_announce_newEraCiv", civ.getName()));
+            CivMessage.globalTitle(ChatColor.DARK_GREEN + localizedEraString(highestCivEra), ChatColor.GREEN + CivSettings.localize.localizedString("var_announce_newEraCiv", civ.getName()));
 
         }
     }
@@ -376,8 +362,8 @@ public class CivGlobal {
         PreparedStatement ps = null;
 
         try {
-            context = SQL.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQL.tb_prefix + Civilization.TABLE_NAME);
+            context = SQLController.getGameConnection();
+            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + Civilization.TABLE_NAME);
             rs = ps.executeQuery();
             int count = 0;
 
@@ -401,7 +387,7 @@ public class CivGlobal {
             }
             CivLog.info("Loaded " + count + " Civs");
         } finally {
-            SQL.close(rs, ps, context);
+            SQLController.close(rs, ps, context);
         }
 
     }
@@ -412,8 +398,8 @@ public class CivGlobal {
         PreparedStatement ps = null;
 
         try {
-            context = SQL.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQL.tb_prefix + Relation.TABLE_NAME);
+            context = SQLController.getGameConnection();
+            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + Relation.TABLE_NAME);
             rs = ps.executeQuery();
             int count = 0;
 
@@ -428,7 +414,7 @@ public class CivGlobal {
 
             CivLog.info("Loaded " + count + " Relations");
         } finally {
-            SQL.close(rs, ps, context);
+            SQLController.close(rs, ps, context);
         }
     }
 
@@ -438,8 +424,8 @@ public class CivGlobal {
         PreparedStatement ps = null;
 
         try {
-            context = SQL.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQL.tb_prefix + PermissionGroup.TABLE_NAME);
+            context = SQLController.getGameConnection();
+            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + PermissionGroup.TABLE_NAME);
             rs = ps.executeQuery();
             int count = 0;
 
@@ -454,7 +440,7 @@ public class CivGlobal {
 
             CivLog.info("Loaded " + count + " PermissionGroups");
         } finally {
-            SQL.close(rs, ps, context);
+            SQLController.close(rs, ps, context);
         }
     }
 
@@ -464,8 +450,8 @@ public class CivGlobal {
         PreparedStatement ps = null;
 
         try {
-            context = SQL.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQL.tb_prefix + Resident.TABLE_NAME);
+            context = SQLController.getGameConnection();
+            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + Resident.TABLE_NAME);
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -480,7 +466,7 @@ public class CivGlobal {
 
             CivLog.info("Loaded " + residents.size() + " Residents");
         } finally {
-            SQL.close(rs, ps, context);
+            SQLController.close(rs, ps, context);
         }
     }
 
@@ -490,8 +476,8 @@ public class CivGlobal {
         PreparedStatement ps = null;
 
         try {
-            context = SQL.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQL.tb_prefix + Town.TABLE_NAME);
+            context = SQLController.getGameConnection();
+            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + Town.TABLE_NAME);
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -507,7 +493,7 @@ public class CivGlobal {
             WarRegen.restoreBlocksFor(WarCamp.RESTORE_NAME);
             CivLog.info("Loaded " + towns.size() + " Towns");
         } finally {
-            SQL.close(rs, ps, context);
+            SQLController.close(rs, ps, context);
         }
     }
 
@@ -517,8 +503,8 @@ public class CivGlobal {
         PreparedStatement ps = null;
 
         try {
-            context = SQL.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQL.tb_prefix + Camp.TABLE_NAME);
+            context = SQLController.getGameConnection();
+            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + Camp.TABLE_NAME);
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -530,7 +516,7 @@ public class CivGlobal {
                 }
             }
         } finally {
-            SQL.close(rs, ps, context);
+            SQLController.close(rs, ps, context);
         }
 
         CivLog.info("Loaded " + camps.size() + " Camps");
@@ -542,8 +528,8 @@ public class CivGlobal {
         PreparedStatement ps = null;
 
         try {
-            context = SQL.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQL.tb_prefix + TownChunk.TABLE_NAME);
+            context = SQLController.getGameConnection();
+            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + TownChunk.TABLE_NAME);
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -558,7 +544,7 @@ public class CivGlobal {
 
             CivLog.info("Loaded " + townChunks.size() + " TownChunks");
         } finally {
-            SQL.close(rs, ps, context);
+            SQLController.close(rs, ps, context);
         }
     }
 
@@ -568,8 +554,8 @@ public class CivGlobal {
         PreparedStatement ps = null;
 
         try {
-            context = SQL.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQL.tb_prefix + Structure.TABLE_NAME);
+            context = SQLController.getGameConnection();
+            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + Structure.TABLE_NAME);
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -583,7 +569,7 @@ public class CivGlobal {
 
             CivLog.info("Loaded " + structures.size() + " Structures");
         } finally {
-            SQL.close(rs, ps, context);
+            SQLController.close(rs, ps, context);
         }
     }
 
@@ -593,8 +579,8 @@ public class CivGlobal {
         PreparedStatement ps = null;
 
         try {
-            context = SQL.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQL.tb_prefix + Wonder.TABLE_NAME);
+            context = SQLController.getGameConnection();
+            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + Wonder.TABLE_NAME);
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -608,63 +594,63 @@ public class CivGlobal {
 
             CivLog.info("Loaded " + wonders.size() + " Wonders");
         } finally {
-            SQL.close(rs, ps, context);
+            SQLController.close(rs, ps, context);
         }
     }
 
-    private static void loadWallBlocks() throws SQLException {
-        Connection context = null;
-        ResultSet rs = null;
-        PreparedStatement ps = null;
+//    private static void loadWallBlocks() throws SQLException {
+//        Connection context = null;
+//        ResultSet rs = null;
+//        PreparedStatement ps = null;
+//
+//        try {
+//            context = SQLController.getGameConnection();
+//            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + WallBlock.TABLE_NAME);
+//            rs = ps.executeQuery();
+//
+//            int count = 0;
+//            while (rs.next()) {
+//                try {
+//                    new WallBlock(rs);
+//                    count++;
+//                } catch (Exception e) {
+//                    CivLog.warning(e.getMessage());
+//                    //e.printStackTrace();
+//                }
+//            }
+//
+//            CivLog.info("Loaded " + count + " Wall Block");
+//        } finally {
+//            SQLController.close(rs, ps, context);
+//        }
+//    }
 
-        try {
-            context = SQL.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQL.tb_prefix + WallBlock.TABLE_NAME);
-            rs = ps.executeQuery();
-
-            int count = 0;
-            while (rs.next()) {
-                try {
-                    new WallBlock(rs);
-                    count++;
-                } catch (Exception e) {
-                    CivLog.warning(e.getMessage());
-                    //e.printStackTrace();
-                }
-            }
-
-            CivLog.info("Loaded " + count + " Wall Block");
-        } finally {
-            SQL.close(rs, ps, context);
-        }
-    }
-
-    private static void loadRoadBlocks() throws SQLException {
-        Connection context = null;
-        ResultSet rs = null;
-        PreparedStatement ps = null;
-
-        try {
-            context = SQL.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQL.tb_prefix + RoadBlock.TABLE_NAME);
-            rs = ps.executeQuery();
-
-            int count = 0;
-            while (rs.next()) {
-                try {
-                    new RoadBlock(rs);
-                    count++;
-                } catch (Exception e) {
-                    CivLog.warning(e.getMessage());
-                    e.printStackTrace();
-                }
-            }
-
-            CivLog.info("Loaded " + count + " Road Block");
-        } finally {
-            SQL.close(rs, ps, context);
-        }
-    }
+//    private static void loadRoadBlocks() throws SQLException {
+//        Connection context = null;
+//        ResultSet rs = null;
+//        PreparedStatement ps = null;
+//
+//        try {
+//            context = SQLController.getGameConnection();
+//            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + RoadBlock.TABLE_NAME);
+//            rs = ps.executeQuery();
+//
+//            int count = 0;
+//            while (rs.next()) {
+//                try {
+//                    new RoadBlock(rs);
+//                    count++;
+//                } catch (Exception e) {
+//                    CivLog.warning(e.getMessage());
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            CivLog.info("Loaded " + count + " Road Block");
+//        } finally {
+//            SQLController.close(rs, ps, context);
+//        }
+//    }
 
     public static void loadRandomEvents() throws SQLException {
         Connection context = null;
@@ -672,8 +658,8 @@ public class CivGlobal {
         PreparedStatement ps = null;
 
         try {
-            context = SQL.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQL.tb_prefix + RandomEvent.TABLE_NAME);
+            context = SQLController.getGameConnection();
+            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + RandomEvent.TABLE_NAME);
             rs = ps.executeQuery();
 
             int count = 0;
@@ -688,7 +674,7 @@ public class CivGlobal {
 
             CivLog.info("Loaded " + count + " Active Random Events");
         } finally {
-            SQL.close(rs, ps, context);
+            SQLController.close(rs, ps, context);
         }
     }
 
@@ -698,8 +684,8 @@ public class CivGlobal {
         PreparedStatement ps = null;
 
         try {
-            context = SQL.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQL.tb_prefix + ProtectedBlock.TABLE_NAME);
+            context = SQLController.getGameConnection();
+            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + ProtectedBlock.TABLE_NAME);
             rs = ps.executeQuery();
 
             int count = 0;
@@ -715,7 +701,7 @@ public class CivGlobal {
 
             CivLog.info("Loaded " + count + " Protected Blocks");
         } finally {
-            SQL.close(rs, ps, context);
+            SQLController.close(rs, ps, context);
         }
     }
     public static Player getPlayer(Resident resident) throws CivException {
@@ -1486,19 +1472,19 @@ public class CivGlobal {
         String out = "";
         switch (status) {
             case NEUTRAL:
-                out += CivColor.LightGray + CivSettings.localize.localizedString("civGlobal_relation_Neutral") + CivColor.White;
+                out += ChatColor.GRAY + CivSettings.localize.localizedString("civGlobal_relation_Neutral") + ChatColor.WHITE;
                 break;
             case HOSTILE:
-                out += CivColor.Yellow + CivSettings.localize.localizedString("civGlobal_relation_Hostile") + CivColor.White;
+                out += ChatColor.YELLOW + CivSettings.localize.localizedString("civGlobal_relation_Hostile") + ChatColor.WHITE;
                 break;
             case WAR:
-                out += CivColor.Rose + CivSettings.localize.localizedString("civGlobal_relation_War") + CivColor.White;
+                out += ChatColor.RED + CivSettings.localize.localizedString("civGlobal_relation_War") + ChatColor.WHITE;
                 break;
             case PEACE:
-                out += CivColor.LightGreen + CivSettings.localize.localizedString("civGlobal_relation_Peace") + CivColor.White;
+                out += ChatColor.GREEN + CivSettings.localize.localizedString("civGlobal_relation_Peace") + ChatColor.WHITE;
                 break;
             case ALLY:
-                out += CivColor.Green + CivSettings.localize.localizedString("civGlobal_relation_Allied") + CivColor.White;
+                out += ChatColor.DARK_GREEN + CivSettings.localize.localizedString("civGlobal_relation_Allied") + ChatColor.WHITE;
                 break;
             default:
                 break;
@@ -1626,7 +1612,7 @@ public class CivGlobal {
         Resident playerRes = CivGlobal.getResident(player);
 
         if (CivGlobal.isMutualOutlaw(namedRes, playerRes)) {
-            return CivColor.Red + namedPlayer.getName();
+            return ChatColor.DARK_RED + namedPlayer.getName();
         }
 
         if (namedRes == null || !namedRes.hasTown()) {
@@ -1639,24 +1625,24 @@ public class CivGlobal {
 
         //ChatColor color = ChatColor.WHITE;
         //ChatColor style = ChatColor.RESET;
-        String color = CivColor.White;
+        String color = String.valueOf(ChatColor.WHITE);
         if (namedRes.getTown().getCiv() == playerRes.getTown().getCiv()) {
-            color = CivColor.LightGreen;
+            color = String.valueOf(ChatColor.GREEN);
         } else {
 
             Relation.Status status = playerRes.getTown().getCiv().getDiplomacyManager().getRelationStatus(namedRes.getTown().getCiv());
             switch (status) {
                 case PEACE:
-                    color = CivColor.LightBlue;
+                    color = String.valueOf(ChatColor.AQUA);
                     break;
                 case ALLY:
-                    color = CivColor.LightGreen;
+                    color = String.valueOf(ChatColor.GREEN);
                     break;
                 case HOSTILE:
-                    color = CivColor.Yellow;
+                    color = String.valueOf(ChatColor.YELLOW);
                     break;
                 case WAR:
-                    color = CivColor.Rose;
+                    color = String.valueOf(ChatColor.RED);
                     break;
                 default:
                     break;
@@ -1678,36 +1664,36 @@ public class CivGlobal {
         return false;
     }
 
-    public static HashSet<Wall> getWallChunk(ChunkCoord coord) {
-        HashSet<Wall> walls = wallChunks.get(coord);
-        if (walls != null && walls.size() > 0) {
-            return walls;
-        } else {
-            return null;
-        }
-    }
-
-    public static void addWallChunk(Wall wall, ChunkCoord coord) {
-        HashSet<Wall> walls = wallChunks.get(coord);
-
-        if (walls == null) {
-            walls = new HashSet<>();
-        }
-
-        walls.add(wall);
-        wallChunks.put(coord, walls);
-        wall.wallChunks.add(coord);
-    }
-
-    public static void removeWallChunk(Wall wall, ChunkCoord coord) {
-        HashSet<Wall> walls = wallChunks.get(coord);
-
-        if (walls == null) {
-            walls = new HashSet<>();
-        }
-        walls.remove(wall);
-        wallChunks.put(coord, walls);
-    }
+//    public static HashSet<Wall> getWallChunk(ChunkCoord coord) {
+//        HashSet<Wall> walls = wallChunks.get(coord);
+//        if (walls != null && walls.size() > 0) {
+//            return walls;
+//        } else {
+//            return null;
+//        }
+//    }
+//
+//    public static void addWallChunk(Wall wall, ChunkCoord coord) {
+//        HashSet<Wall> walls = wallChunks.get(coord);
+//
+//        if (walls == null) {
+//            walls = new HashSet<>();
+//        }
+//
+//        walls.add(wall);
+//        wallChunks.put(coord, walls);
+//        wall.wallChunks.add(coord);
+//    }
+//
+//    public static void removeWallChunk(Wall wall, ChunkCoord coord) {
+//        HashSet<Wall> walls = wallChunks.get(coord);
+//
+//        if (walls == null) {
+//            walls = new HashSet<>();
+//        }
+//        walls.remove(wall);
+//        wallChunks.put(coord, walls);
+//    }
 
     public static void addWonder(Wonder wonder) {
         wonders.put(wonder.getCorner(), wonder);
@@ -2006,17 +1992,17 @@ public class CivGlobal {
         CivGlobal.farmGrowQueue = farmGrowQueue;
     }
 
-    public static void addRoadBlock(RoadBlock rb) {
-        roadBlocks.put(rb.getCoord(), rb);
-    }
-
-    public static void removeRoadBlock(RoadBlock rb) {
-        roadBlocks.remove(rb.getCoord());
-    }
-
-    public static RoadBlock getRoadBlock(BlockCoord coord) {
-        return roadBlocks.get(coord);
-    }
+//    public static void addRoadBlock(RoadBlock rb) {
+//        roadBlocks.put(rb.getCoord(), rb);
+//    }
+//
+//    public static void removeRoadBlock(RoadBlock rb) {
+//        roadBlocks.remove(rb.getCoord());
+//    }
+//
+//    public static RoadBlock getRoadBlock(BlockCoord coord) {
+//        return roadBlocks.get(coord);
+//    }
 
     public static Collection<Civilization> getAdminCivs() {
         return adminCivs.values();

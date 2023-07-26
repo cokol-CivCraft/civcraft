@@ -23,7 +23,7 @@ import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigCampUpgrade;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivMessage;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 
 public class CampUpgradeCommand extends CommandBase {
     @Override
@@ -53,7 +53,7 @@ public class CampUpgradeCommand extends CommandBase {
     private void list_upgrades(Camp camp) {
         for (ConfigCampUpgrade upgrade : CivSettings.campUpgrades.values()) {
             if (upgrade.isAvailable(camp)) {
-                CivMessage.send(sender, upgrade.name + " " + CivColor.LightGray + CivSettings.localize.localizedString("Cost") + " " + CivColor.Yellow + upgrade.cost);
+                CivMessage.send(sender, upgrade.name + " " + ChatColor.GRAY + CivSettings.localize.localizedString("Cost") + " " + ChatColor.YELLOW + upgrade.cost);
             }
         }
     }

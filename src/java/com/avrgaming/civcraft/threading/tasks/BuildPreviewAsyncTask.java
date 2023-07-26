@@ -18,6 +18,7 @@
 package com.avrgaming.civcraft.threading.tasks;
 
 
+import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.object.Resident;
@@ -47,7 +48,7 @@ public class BuildPreviewAsyncTask extends CivAsyncTask {
     public UUID playerUUID;
     public Boolean aborted = false;
     public ReentrantLock lock = new ReentrantLock();
-    private final int blocksPerTick;
+    private final int blocksPerStep;
     private final int speed;
     private final Resident resident;
 
@@ -58,7 +59,7 @@ public class BuildPreviewAsyncTask extends CivAsyncTask {
         resident = CivGlobal.getResidentViaUUID(playerUUID);
         //this.blocksPerTick = getBlocksPerTick();
         //this.speed = getBuildSpeed();
-        this.blocksPerTick = 100;
+        this.blocksPerStep = 100;
         this.speed = 600;
     }
 
@@ -91,23 +92,22 @@ public class BuildPreviewAsyncTask extends CivAsyncTask {
                                 return;
                             }
 
-                            ItemManager.sendBlockChange(getPlayer(), b.getLocation(), b.getType(), b.getData());
-                            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getType(), b.getData()));
+                            ItemManager.sendBlockChange(getPlayer(), b.getLocation(), CivSettings.previewMaterial.getNewData((byte) 5));
+                            resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getState().getData()));
                             count++;
                         } finally {
                             lock.unlock();
                         }
 
 
-                        if (count < blocksPerTick) {
+                        if (count < blocksPerStep) {
                             continue;
                         }
 
                         count = 0;
                         int timeleft = speed;
                         while (timeleft > 0) {
-                            int min = Math.min(10000, timeleft);
-                            Thread.sleep(min);
+                            Thread.sleep(Math.min(10000, timeleft));
                             timeleft -= 10000;
                         }
                     }

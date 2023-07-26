@@ -28,7 +28,6 @@ import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.object.TownChunk;
 import com.avrgaming.civcraft.permission.PermissionGroup;
-import com.avrgaming.civcraft.util.CivColor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -182,12 +181,12 @@ public abstract class CommandBase implements TabExecutor {
             SubCommandRecord info = commands.get(c);
             if (info.getDescription() != null) {
                 String text = info.getDescription().
-                        replace("[", CivColor.Yellow + "[").
-                        replace("]", "]" + CivColor.LightGray).
-                        replace("(", CivColor.Yellow + "(").
-                        replace(")", ")" + CivColor.LightGray);
+                        replace("[", ChatColor.YELLOW + "[").
+                        replace("]", "]" + ChatColor.GRAY).
+                        replace("(", ChatColor.YELLOW + "(").
+                        replace(")", ")" + ChatColor.GRAY);
 
-                CivMessage.send(sender, CivColor.LightPurple + command + " " + c + CivColor.LightGray + " " + text);
+                CivMessage.send(sender, ChatColor.LIGHT_PURPLE + command + " " + c + ChatColor.GRAY + " " + text);
             }
         }
     }
@@ -227,7 +226,7 @@ public abstract class CommandBase implements TabExecutor {
         try {
             res.getSelectedTown().validateResidentSelect(res);
         } catch (CivException e) {
-            CivMessage.send(player, CivColor.Yellow + CivSettings.localize.localizedString("var_cmd_townDeselectedInvalid", res.getSelectedTown().getName(), res.getTown().getName()));
+            CivMessage.send(player, ChatColor.YELLOW + CivSettings.localize.localizedString("var_cmd_townDeselectedInvalid", res.getSelectedTown().getName(), res.getTown().getName()));
             res.setSelectedTown(res.getTown());
             return res.getTown();
         }
@@ -383,14 +382,14 @@ public abstract class CommandBase implements TabExecutor {
         }
 
         if (potentialMatches.size() != 1) {
-            CivMessage.send(sender, CivColor.LightPurple + ChatColor.UNDERLINE + CivSettings.localize.localizedString("cmd_NameMoreThan1"));
+            CivMessage.send(sender, String.valueOf(ChatColor.LIGHT_PURPLE) + ChatColor.UNDERLINE + CivSettings.localize.localizedString("cmd_NameMoreThan1"));
             CivMessage.send(sender, " ");
             StringBuilder out = new StringBuilder();
             for (Resident resident : potentialMatches) {
                 out.append(resident.getName()).append(", ");
             }
 
-            CivMessage.send(sender, CivColor.LightBlue + ChatColor.ITALIC + out);
+            CivMessage.send(sender, String.valueOf(ChatColor.AQUA) + ChatColor.ITALIC + out);
             throw new CivException(CivSettings.localize.localizedString("cmd_NameMoreThan2"));
         }
 
@@ -423,14 +422,14 @@ public abstract class CommandBase implements TabExecutor {
         }
 
         if (potentialMatches.size() != 1) {
-            CivMessage.send(sender, CivColor.LightPurple + ChatColor.UNDERLINE + CivSettings.localize.localizedString("cmd_NameMoreThan1"));
+            CivMessage.send(sender, String.valueOf(ChatColor.LIGHT_PURPLE) + ChatColor.UNDERLINE + CivSettings.localize.localizedString("cmd_NameMoreThan1"));
             CivMessage.send(sender, " ");
             StringBuilder out = new StringBuilder();
             for (Civilization civ : potentialMatches) {
                 out.append(civ.getName()).append(", ");
             }
 
-            CivMessage.send(sender, CivColor.LightBlue + ChatColor.ITALIC + out);
+            CivMessage.send(sender, String.valueOf(ChatColor.AQUA) + ChatColor.ITALIC + out);
             throw new CivException(CivSettings.localize.localizedString("cmd_NameMoreThan2"));
         }
 
@@ -465,14 +464,14 @@ public abstract class CommandBase implements TabExecutor {
         }
 
         if (potentialMatches.size() != 1) {
-            CivMessage.send(sender, CivColor.LightPurple + ChatColor.UNDERLINE + CivSettings.localize.localizedString("cmd_NameMoreThan1"));
+            CivMessage.send(sender, String.valueOf(ChatColor.LIGHT_PURPLE) + ChatColor.UNDERLINE + CivSettings.localize.localizedString("cmd_NameMoreThan1"));
             CivMessage.send(sender, " ");
             StringBuilder out = new StringBuilder();
             for (Civilization civ : potentialMatches) {
                 out.append(civ.getName()).append(", ");
             }
 
-            CivMessage.send(sender, CivColor.LightBlue + ChatColor.ITALIC + out);
+            CivMessage.send(sender, String.valueOf(ChatColor.AQUA) + ChatColor.ITALIC + out);
             throw new CivException(CivSettings.localize.localizedString("cmd_NameMoreThan2"));
         }
 
@@ -519,14 +518,14 @@ public abstract class CommandBase implements TabExecutor {
         }
 
         if (potentialMatches.size() != 1) {
-            CivMessage.send(sender, CivColor.LightPurple + ChatColor.UNDERLINE + CivSettings.localize.localizedString("cmd_NameMoreThan1"));
+            CivMessage.send(sender, String.valueOf(ChatColor.LIGHT_PURPLE) + ChatColor.UNDERLINE + CivSettings.localize.localizedString("cmd_NameMoreThan1"));
             CivMessage.send(sender, " ");
             StringBuilder out = new StringBuilder();
             for (Town town : potentialMatches) {
                 out.append(town.getName()).append(", ");
             }
 
-            CivMessage.send(sender, CivColor.LightBlue + ChatColor.ITALIC + out);
+            CivMessage.send(sender, String.valueOf(ChatColor.AQUA) + ChatColor.ITALIC + out);
             throw new CivException(CivSettings.localize.localizedString("cmd_NameMoreThan2"));
         }
 
@@ -555,7 +554,7 @@ public abstract class CommandBase implements TabExecutor {
         return offplayer;
     }
 
-    public String makeInfoString(HashMap<String, String> kvs, String lowColor, String highColor) {
+    public String makeInfoString(HashMap<String, String> kvs, ChatColor lowColor, ChatColor highColor) {
 
         StringBuilder out = new StringBuilder();
         for (String key : kvs.keySet()) {
@@ -627,14 +626,14 @@ public abstract class CommandBase implements TabExecutor {
 
 
         if (potentialMatches.size() != 1) {
-            CivMessage.send(sender, CivColor.LightPurple + ChatColor.UNDERLINE + CivSettings.localize.localizedString("cmd_NameMoreThan1"));
+            CivMessage.send(sender, String.valueOf(ChatColor.LIGHT_PURPLE) + ChatColor.UNDERLINE + CivSettings.localize.localizedString("cmd_NameMoreThan1"));
             CivMessage.send(sender, " ");
             StringBuilder out = new StringBuilder();
             for (Camp camp : potentialMatches) {
                 out.append(camp.getName()).append(", ");
             }
 
-            CivMessage.send(sender, CivColor.LightBlue + ChatColor.ITALIC + out);
+            CivMessage.send(sender, String.valueOf(ChatColor.AQUA) + ChatColor.ITALIC + out);
             throw new CivException(CivSettings.localize.localizedString("cmd_NameMoreThan2"));
         }
 
@@ -661,14 +660,14 @@ public abstract class CommandBase implements TabExecutor {
         }
 
         if (potentialMatches.size() != 1) {
-            CivMessage.send(sender, CivColor.LightPurple + ChatColor.UNDERLINE + CivSettings.localize.localizedString("cmd_NameMoreThan1"));
+            CivMessage.send(sender, String.valueOf(ChatColor.LIGHT_PURPLE) + ChatColor.UNDERLINE + CivSettings.localize.localizedString("cmd_NameMoreThan1"));
             CivMessage.send(sender, " ");
             StringBuilder out = new StringBuilder();
             for (ArenaTeam team : potentialMatches) {
                 out.append(team.getName()).append(", ");
             }
 
-            CivMessage.send(sender, CivColor.LightBlue + ChatColor.ITALIC + out);
+            CivMessage.send(sender, String.valueOf(ChatColor.AQUA) + ChatColor.ITALIC + out);
             throw new CivException(CivSettings.localize.localizedString("cmd_NameMoreThan2"));
         }
 

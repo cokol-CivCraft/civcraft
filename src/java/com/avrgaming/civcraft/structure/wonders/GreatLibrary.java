@@ -27,7 +27,7 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.StructureSign;
 import com.avrgaming.civcraft.object.Town;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -87,19 +87,19 @@ public class GreatLibrary extends Wonder {
             switch (sign.getAction().toLowerCase()) {
                 case "0":
                     enchant = CivSettings.enchants.get("ench_fire_aspect");
-                    sign.setText(enchant.name + "\n\n" + CivColor.LightGreen + enchant.cost + " " + CivSettings.CURRENCY_NAME);
+                    sign.setText(enchant.name + "\n\n" + ChatColor.GREEN + enchant.cost + " " + CivSettings.CURRENCY_NAME);
                     break;
                 case "1":
                     enchant = CivSettings.enchants.get("ench_fire_protection");
-                    sign.setText(enchant.name + "\n\n" + CivColor.LightGreen + enchant.cost + " " + CivSettings.CURRENCY_NAME);
+                    sign.setText(enchant.name + "\n\n" + ChatColor.GREEN + enchant.cost + " " + CivSettings.CURRENCY_NAME);
                     break;
                 case "2":
                     enchant = CivSettings.enchants.get("ench_flame");
-                    sign.setText(enchant.name + "\n\n" + CivColor.LightGreen + enchant.cost + " " + CivSettings.CURRENCY_NAME);
+                    sign.setText(enchant.name + "\n\n" + ChatColor.GREEN + enchant.cost + " " + CivSettings.CURRENCY_NAME);
                     break;
                 case "3":
                     enchant = CivSettings.enchants.get("ench_punchout");
-                    sign.setText(enchant.name + "\n\n" + CivColor.LightGreen + enchant.cost + " " + CivSettings.CURRENCY_NAME);
+                    sign.setText(enchant.name + "\n\n" + ChatColor.GREEN + enchant.cost + " " + CivSettings.CURRENCY_NAME);
                     break;
             }
 
@@ -133,7 +133,7 @@ public class GreatLibrary extends Wonder {
 
                 configEnchant = CivSettings.enchants.get("ench_fire_aspect");
                 if (!resident.getTreasury().hasEnough(configEnchant.cost)) {
-                    CivMessage.send(player, CivColor.Rose + CivSettings.localize.localizedString("var_library_enchant_cannotAfford", configEnchant.cost, CivSettings.CURRENCY_NAME));
+                    CivMessage.send(player, ChatColor.RED + CivSettings.localize.localizedString("var_library_enchant_cannotAfford", configEnchant.cost, CivSettings.CURRENCY_NAME));
                     return;
                 }
 
@@ -148,7 +148,7 @@ public class GreatLibrary extends Wonder {
 
                 configEnchant = CivSettings.enchants.get("ench_fire_protection");
                 if (!resident.getTreasury().hasEnough(configEnchant.cost)) {
-                    CivMessage.send(player, CivColor.Rose + CivSettings.localize.localizedString("var_library_enchant_cannotAfford", configEnchant.cost, CivSettings.CURRENCY_NAME));
+                    CivMessage.send(player, ChatColor.RED + CivSettings.localize.localizedString("var_library_enchant_cannotAfford", configEnchant.cost, CivSettings.CURRENCY_NAME));
                     return;
                 }
 
@@ -163,7 +163,7 @@ public class GreatLibrary extends Wonder {
 
                 configEnchant = CivSettings.enchants.get("ench_flame");
                 if (!resident.getTreasury().hasEnough(configEnchant.cost)) {
-                    CivMessage.send(player, CivColor.Rose + CivSettings.localize.localizedString("var_library_enchant_cannotAfford", configEnchant.cost, CivSettings.CURRENCY_NAME));
+                    CivMessage.send(player, ChatColor.RED + CivSettings.localize.localizedString("var_library_enchant_cannotAfford", configEnchant.cost, CivSettings.CURRENCY_NAME));
                     return;
                 }
 
@@ -190,7 +190,7 @@ public class GreatLibrary extends Wonder {
                         }
 
                         if (!resident.getTreasury().hasEnough(configEnchant.cost)) {
-                            CivMessage.send(player, CivColor.Rose + CivSettings.localize.localizedString("var_library_enchant_cannotAfford", configEnchant.cost, CivSettings.CURRENCY_NAME));
+                            CivMessage.send(player, ChatColor.RED + CivSettings.localize.localizedString("var_library_enchant_cannotAfford", configEnchant.cost, CivSettings.CURRENCY_NAME));
                             return;
                         }
 

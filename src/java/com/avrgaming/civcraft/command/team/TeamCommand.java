@@ -10,7 +10,7 @@ import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.questions.JoinTeamResponse;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class TeamCommand extends CommandBase {
@@ -117,7 +117,7 @@ public class TeamCommand extends CommandBase {
 
         for (int i = 0; ((i < 5) && (i < ArenaTeam.teamRankings.size())); i++) {
             ArenaTeam team = ArenaTeam.teamRankings.get(i);
-            CivMessage.send(sender, CivColor.Green + team.getName() + ": " + CivColor.LightGreen + team.getLadderPoints());
+            CivMessage.send(sender, ChatColor.DARK_GREEN + team.getName() + ": " + ChatColor.GREEN + team.getLadderPoints());
         }
     }
 
@@ -126,15 +126,15 @@ public class TeamCommand extends CommandBase {
 
         for (int i = 0; ((i < 10) && (i < ArenaTeam.teamRankings.size())); i++) {
             ArenaTeam team = ArenaTeam.teamRankings.get(i);
-            CivMessage.send(sender, CivColor.Green + team.getName() + ": " + CivColor.LightGreen + team.getLadderPoints());
+            CivMessage.send(sender, ChatColor.DARK_GREEN + team.getName() + ": " + ChatColor.GREEN + team.getLadderPoints());
         }
     }
 
     public void printTeamInfo(ArenaTeam team) {
         CivMessage.sendHeading(sender, "Team " + team.getName());
-        CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_team_printPoints") + " " + CivColor.LightGreen + team.getLadderPoints() +
-                CivColor.Green + " " + CivSettings.localize.localizedString("Leader") + " " + CivColor.LightGreen + team.getLeader().getName());
-        CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("Members") + " " + CivColor.LightGreen + team.getMemberListSaveString());
+        CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("cmd_team_printPoints") + " " + ChatColor.GREEN + team.getLadderPoints() +
+                ChatColor.DARK_GREEN + " " + CivSettings.localize.localizedString("Leader") + " " + ChatColor.GREEN + team.getLeader().getName());
+        CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("Members") + " " + ChatColor.GREEN + team.getMemberListSaveString());
     }
 
     public void info_cmd() throws CivException {

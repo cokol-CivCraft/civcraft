@@ -21,7 +21,7 @@ import com.avrgaming.civcraft.camp.Camp;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class JoinCampResponse implements QuestionResponseInterface {
@@ -33,7 +33,7 @@ public class JoinCampResponse implements QuestionResponseInterface {
     @Override
     public void processResponse(String param) {
         if (param.equalsIgnoreCase("accept")) {
-            CivMessage.send(sender, CivColor.LightGray + CivSettings.localize.localizedString("var_joinCamp_accepted", resident.getName()));
+            CivMessage.send(sender, ChatColor.GRAY + CivSettings.localize.localizedString("var_joinCamp_accepted", resident.getName()));
 
             if (!camp.hasMember(resident.getName())) {
                 camp.addMember(resident);
@@ -41,7 +41,7 @@ public class JoinCampResponse implements QuestionResponseInterface {
                 resident.save();
             }
         } else {
-            CivMessage.send(sender, CivColor.LightGray + CivSettings.localize.localizedString("var_joinCamp_Decline", resident.getName()));
+            CivMessage.send(sender, ChatColor.GRAY + CivSettings.localize.localizedString("var_joinCamp_Decline", resident.getName()));
         }
     }
 

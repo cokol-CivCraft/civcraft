@@ -10,7 +10,11 @@ import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.structure.BuildableLayer;
 import com.avrgaming.civcraft.template.TemplateStream;
 import com.avrgaming.civcraft.threading.TaskMaster;
-import com.avrgaming.civcraft.util.*;
+import com.avrgaming.civcraft.util.BlockCoord;
+import com.avrgaming.civcraft.util.CallbackInterface;
+import com.avrgaming.civcraft.util.ChunkCoord;
+import com.avrgaming.civcraft.util.SimpleBlock;
+import org.bukkit.ChatColor;
 import org.bukkit.ChunkSnapshot;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -180,12 +184,12 @@ public class StructureValidator implements Runnable {
         if (player != null) {
             CivMessage.sendError(player, message);
             if (player.isOp()) {
-                CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("structureValidator_isOP"));
+                CivMessage.send(player, ChatColor.GRAY + CivSettings.localize.localizedString("structureValidator_isOP"));
                 valid = true;
             }
 
             if (valid) {
-                CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("structureValidator_isValid"));
+                CivMessage.send(player, ChatColor.GREEN + CivSettings.localize.localizedString("structureValidator_isValid"));
                 buildable.setValid(true);
                 buildable.invalidLayerMessage = "";
             }

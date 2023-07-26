@@ -33,7 +33,6 @@ import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.*;
 import com.avrgaming.civcraft.permission.PlotPermissions;
-import com.avrgaming.civcraft.road.RoadBlock;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.structurevalidation.StructureValidator;
 import com.avrgaming.civcraft.template.Template;
@@ -51,11 +50,13 @@ import com.wimbli.WorldBorder.Config;
 import org.bukkit.*;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
 
 import java.io.File;
 import java.io.IOException;
@@ -67,6 +68,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public abstract class Buildable extends SQLObject {
     private Town town;
     protected BlockCoord corner;
+    public final BlockFace dir;
     public ConfigBuildableInfo info = new ConfigBuildableInfo(); //Blank buildable info for buildables which do not have configs.
     protected int hitpoints;
 
@@ -109,6 +111,10 @@ public abstract class Buildable extends SQLObject {
     public AABB templateBoundingBox = null;
     public String invalidLayerMessage = "";
 
+    protected Buildable(BlockFace dir) {
+        this.dir = dir;
+    }
+
     public Town getTown() {
         return town;
     }
@@ -139,7 +145,7 @@ public abstract class Buildable extends SQLObject {
     }
 
     public boolean isWaterStructure() {
-        return info.waterstructure;
+        return info.water_structure;
     }
 
     public Civilization getCiv() {
@@ -168,7 +174,7 @@ public abstract class Buildable extends SQLObject {
 
 
     public int getMaxHitPoints() {
-        return info.max_hitpoints;
+        return info.max_hp;
     }
 
 
@@ -371,33 +377,39 @@ public abstract class Buildable extends SQLObject {
         this.save();
     }
 
-    public void buildPlayerPreview(Player player, Location centerLoc) throws CivException, IOException {
+    public static void buildPlayerPreview(Player player, ConfigBuildableInfo info, Town town) throws CivException, IOException {
 
         /* Look for any custom template perks and ask the player if they want to use them. */
         Resident resident = CivGlobal.getResident(player);
-        ArrayList<ConfigTemplate> perkList = Structure.getTemplates(this.info);
-        if (perkList.size() == 0) {
+        ArrayList<ConfigTemplate> perkList = info.getTemplates();
+        if (perkList == null) {
             Template tpl = new Template();
+            Buildable struct;
+            if (info.isWonder) {
+                struct = Wonder.newWonder(player.getLocation(), info.id, town);
+            } else {
+                struct = Structure.newStructure(player.getLocation(), info.id, town);
+            }
             try {
-                tpl.initTemplate(centerLoc, this);
+                tpl.initTemplate(struct);
             } catch (CivException | IOException e) {
                 e.printStackTrace();
                 throw e;
             }
 
-            buildPlayerPreview(player, centerLoc, tpl);
+            struct.buildPlayerPreview(player, tpl);
             return;
         }
         /* Store the pending buildable. */
-        resident.pendingBuildable = this;
+        resident.pendingBuildable = new BuildTaskInstance(info, town);
 
         /* Build an inventory full of templates to select. */
         Inventory inv = Bukkit.getServer().createInventory(player, CivTutorial.MAX_CHEST_SIZE * 9);
         ItemStack infoRec = LoreGuiItem.build(
-                CivSettings.localize.localizedString("buildable_lore_default") + " " + this.getDisplayName(),
+                CivSettings.localize.localizedString("buildable_lore_default") + " " + info.displayName,
                 Material.WRITTEN_BOOK,
                 0,
-                CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"));
+                ChatColor.GOLD + CivSettings.localize.localizedString("loreGui_template_clickToBuild"));
         infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithTemplate);
         inv.addItem(infoRec);
 
@@ -406,7 +418,7 @@ public abstract class Buildable extends SQLObject {
                     perk.display_name,
                     perk.type_id,
                     perk.data,
-                    CivColor.Gold + "<Click To Build>"
+                    ChatColor.GOLD + "<Click To Build>"
             );
             infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithTemplate);
             infoRec = LoreGuiItem.setActionData(infoRec, "theme", perk.theme);
@@ -420,15 +432,15 @@ public abstract class Buildable extends SQLObject {
     }
 
 
-    public void buildPlayerPreview(Player player, Location centerLoc, Template tpl) throws CivException {
-        centerLoc = repositionCenter(centerLoc, tpl.dir(), tpl.size_x, tpl.size_z);
+    public void buildPlayerPreview(Player player, Template tpl) throws CivException {
+        Location centerLoc = repositionCenter(player.getLocation(), tpl.dir(), tpl.size_x, tpl.size_z);
         tpl.buildPreviewScaffolding(centerLoc, player);
 
         this.setCorner(new BlockCoord(centerLoc));
 
         CivMessage.sendHeading(player, CivSettings.localize.localizedString("buildable_preview_heading"));
-        CivMessage.send(player, CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("buildable_preview_prompt1"));
-        CivMessage.send(player, CivColor.LightGreen + ChatColor.BOLD + CivSettings.localize.localizedString("buildable_preview_prompt2"));
+        CivMessage.send(player, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("buildable_preview_prompt1"));
+        CivMessage.send(player, String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("buildable_preview_prompt2"));
         Resident resident = CivGlobal.getResident(player);
 
         if (!War.isWarTime() && CivSettings.showPreview) {
@@ -451,10 +463,9 @@ public abstract class Buildable extends SQLObject {
 
         Resident resident = CivGlobal.getResident(player);
         /* Look for any custom template perks and ask the player if they want to use them. */
-        ArrayList<ConfigTemplate> perkList = Structure.getTemplates(info);
+        ArrayList<ConfigTemplate> perkList = info.getTemplates();
         if (perkList.size() == 0) {
-            String path = Template.getTemplateFilePath(info.template_base_name,
-                    Template.getDirection(player.getLocation()), TemplateType.STRUCTURE, "default");
+            String path = Template.getTemplateFilePath(info.template_base_name, TemplateType.STRUCTURE, "default");
 
             Template tpl;
             try {
@@ -478,7 +489,7 @@ public abstract class Buildable extends SQLObject {
         Inventory inv = Bukkit.getServer().createInventory(player, CivTutorial.MAX_CHEST_SIZE * 9);
         ItemStack infoRec = LoreGuiItem.build("Default " + info.displayName,
                 Material.WRITTEN_BOOK,
-                0, CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild"));
+                0, ChatColor.GOLD + CivSettings.localize.localizedString("loreGui_template_clickToBuild"));
         infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithDefaultPersonalTemplate);
         inv.addItem(infoRec);
 
@@ -486,7 +497,7 @@ public abstract class Buildable extends SQLObject {
             infoRec = LoreGuiItem.build(perk.display_name,
                     perk.type_id,
                     perk.data,
-                    CivColor.Gold + CivSettings.localize.localizedString("loreGui_template_clickToBuild")
+                    ChatColor.GOLD + CivSettings.localize.localizedString("loreGui_template_clickToBuild")
             );
             infoRec = LoreGuiItem.setAction(infoRec, GuiActions.BuildWithPersonalTemplate);
             infoRec = LoreGuiItem.setActionData(infoRec, "theme", perk.theme);
@@ -525,7 +536,7 @@ public abstract class Buildable extends SQLObject {
      * XXX this is called only on structures which do not have towns yet.
      * For Example Capitols, Camps and Town Halls.
      */
-    public static Location repositionCenterStatic(Location center, ConfigBuildableInfo info, String dir, double x_size, double z_size) throws CivException {
+    public static Location repositionCenterStatic(Location center, ConfigBuildableInfo info, BlockFace dir, double x_size, double z_size) throws CivException {
         Location loc = new Location(center.getWorld(),
                 center.getX(), center.getY(), center.getZ(),
                 center.getYaw(), center.getPitch());
@@ -536,22 +547,27 @@ public abstract class Buildable extends SQLObject {
             // just put the center at 0,0 of this chunk?
             loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
         } else {
-            if (dir.equalsIgnoreCase("east")) {
-                loc.setZ(loc.getZ() - (z_size / 2));
-                loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
-                loc.setX(loc.getX() + SHIFT_OUT);
-            } else if (dir.equalsIgnoreCase("west")) {
-                loc.setZ(loc.getZ() - (z_size / 2));
-                loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
-                loc.setX(loc.getX() - (SHIFT_OUT + x_size));
-            } else if (dir.equalsIgnoreCase("north")) {
-                loc.setX(loc.getX() - (x_size / 2));
-                loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
-                loc.setZ(loc.getZ() - (SHIFT_OUT + z_size));
-            } else if (dir.equalsIgnoreCase("south")) {
-                loc.setX(loc.getX() - (x_size / 2));
-                loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
-                loc.setZ(loc.getZ() + SHIFT_OUT);
+            switch (dir) {
+                case EAST:
+                    loc.setZ(loc.getZ() - (z_size / 2));
+                    loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
+                    loc.setX(loc.getX() + SHIFT_OUT);
+                    break;
+                case WEST:
+                    loc.setZ(loc.getZ() - (z_size / 2));
+                    loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
+                    loc.setX(loc.getX() - (SHIFT_OUT + x_size));
+                    break;
+                case NORTH:
+                    loc.setX(loc.getX() - (x_size / 2));
+                    loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
+                    loc.setZ(loc.getZ() - (SHIFT_OUT + z_size));
+                    break;
+                case SOUTH:
+                    loc.setX(loc.getX() - (x_size / 2));
+                    loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
+                    loc.setZ(loc.getZ() + SHIFT_OUT);
+                    break;
             }
         }
         if (info.templateYShift != 0) {
@@ -566,7 +582,7 @@ public abstract class Buildable extends SQLObject {
         return loc;
     }
 
-    protected Location repositionCenter(Location center, String dir, double x_size, double z_size) throws CivException {
+    protected Location repositionCenter(Location center, BlockFace dir, double x_size, double z_size) throws CivException {
         Location loc = new Location(center.getWorld(),
                 center.getX(), center.getY(), center.getZ(),
                 center.getYaw(), center.getPitch());
@@ -577,22 +593,27 @@ public abstract class Buildable extends SQLObject {
             // just put the center at 0,0 of this chunk?
             loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
         } else {
-            if (dir.equalsIgnoreCase("east")) {
-                loc.setZ(loc.getZ() - (z_size / 2));
-                loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
-                loc.setX(loc.getX() + SHIFT_OUT);
-            } else if (dir.equalsIgnoreCase("west")) {
-                loc.setZ(loc.getZ() - (z_size / 2));
-                loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
-                loc.setX(loc.getX() - (SHIFT_OUT + x_size));
-            } else if (dir.equalsIgnoreCase("north")) {
-                loc.setX(loc.getX() - (x_size / 2));
-                loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
-                loc.setZ(loc.getZ() - (SHIFT_OUT + z_size));
-            } else if (dir.equalsIgnoreCase("south")) {
-                loc.setX(loc.getX() - (x_size / 2));
-                loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
-                loc.setZ(loc.getZ() + SHIFT_OUT);
+            switch (dir) {
+                case EAST:
+                    loc.setZ(loc.getZ() - (z_size / 2));
+                    loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
+                    loc.setX(loc.getX() + SHIFT_OUT);
+                    break;
+                case WEST:
+                    loc.setZ(loc.getZ() - (z_size / 2));
+                    loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
+                    loc.setX(loc.getX() - (SHIFT_OUT + x_size));
+                    break;
+                case NORTH:
+                    loc.setX(loc.getX() - (x_size / 2));
+                    loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
+                    loc.setZ(loc.getZ() - (SHIFT_OUT + z_size));
+                    break;
+                case SOUTH:
+                    loc.setX(loc.getX() - (x_size / 2));
+                    loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
+                    loc.setZ(loc.getZ() + SHIFT_OUT);
+                    break;
             }
         }
         if (this.getTemplateYShift() != 0) {
@@ -608,11 +629,10 @@ public abstract class Buildable extends SQLObject {
     }
 
     public void resumeBuildFromTemplate() throws Exception {
-        Template tpl;
 
         Location corner = getCorner().getLocation();
 
-        tpl = new Template();
+        Template tpl = new Template();
         tpl.resumeTemplate(this.getSavedTemplatePath(), this);
 
         this.totalBlockCount = tpl.size_x * tpl.size_y * tpl.size_z;
@@ -787,7 +807,7 @@ public abstract class Buildable extends SQLObject {
 
         onCheck();
 
-        LinkedList<RoadBlock> deletedRoadBlocks = new LinkedList<>();
+//        LinkedList<RoadBlock> deletedRoadBlocks = new LinkedList<>();
         ArrayList<ChunkCoord> claimCoords = new ArrayList<>();
         for (int x = 0; x < regionX; x++) {
             for (int y = 0; y < regionY; y++) {
@@ -836,9 +856,9 @@ public abstract class Buildable extends SQLObject {
                         throw new CivException(CivSettings.localize.localizedString("cannotBuild_farmInWay"));
                     }
 
-                    if (CivGlobal.getWallChunk(chunkCoord) != null) {
-                        throw new CivException(CivSettings.localize.localizedString("cannotBuild_wallInWay"));
-                    }
+//                    if (CivGlobal.getWallChunk(chunkCoord) != null) {
+//                        throw new CivException(CivSettings.localize.localizedString("cannotBuild_wallInWay"));
+//                    }
 
                     if (CivGlobal.getCampBlock(coord) != null) {
                         throw new CivException(CivSettings.localize.localizedString("cannotBuild_structureInWay"));
@@ -848,10 +868,10 @@ public abstract class Buildable extends SQLObject {
                         throw new CivException(CivSettings.localize.localizedString("cannotBuild_structureHere"));
                     }
 
-                    RoadBlock rb = CivGlobal.getRoadBlock(coord);
-                    if (rb != null) {
-                        deletedRoadBlocks.add(rb);
-                    }
+//                    RoadBlock rb = CivGlobal.getRoadBlock(coord);
+//                    if (rb != null) {
+//                        deletedRoadBlocks.add(rb);
+//                    }
 
                     BorderData border = Config.Border(b.getWorld().getName());
                     if (border != null) {
@@ -879,9 +899,9 @@ public abstract class Buildable extends SQLObject {
         }
 
         /* Delete any road blocks we happen to come across. */
-        for (RoadBlock rb : deletedRoadBlocks) {
-            rb.getRoad().deleteRoadBlock(rb);
-        }
+//        for (RoadBlock rb : deletedRoadBlocks) {
+//            rb.getRoad().deleteRoadBlock(rb);
+//        }
 
     }
 
@@ -895,14 +915,11 @@ public abstract class Buildable extends SQLObject {
             for (int y = 0; y < tpl.size_y; y++) {
                 for (int z = 0; z < tpl.size_z; z++) {
                     Block b = centerBlock.getRelative(x, y, z);
-                    //b.setTypeIdAndData(tpl.blocks[x][y][z].getType(), (byte)tpl.blocks[x][y][z].getData(), false);
+
                     if (tpl.blocks[x][y][z].specialType == Type.COMMAND) {
-                        b.setType(Material.AIR);
-                        b.setData((byte) 0);
+                        b.getState().setData(new MaterialData(Material.AIR));
                     } else {
-                        int data = (byte) tpl.blocks[x][y][z].getData();
-                        b.setType(tpl.blocks[x][y][z].getType());
-                        b.setData((byte) data);
+                        b.getState().setData(tpl.blocks[x][y][z].getMaterialData());
                     }
 
                     if (b.getType() == Material.WALL_SIGN || b.getType() == Material.SIGN_POST) {
@@ -1038,12 +1055,6 @@ public abstract class Buildable extends SQLObject {
     }
 
     public String getSavedTemplatePath() {
-        if (templateName == null)
-            return null;
-        if (templateName.contains("capital")) {
-            CivLog.debug("getSavedTemplatePath - Replacing Capital occurence");
-            templateName = templateName.replace("capital", "capitol");
-        }
         return templateName;
     }
 
@@ -1162,16 +1173,16 @@ public abstract class Buildable extends SQLObject {
         if (player != null) {
             Resident resident = CivGlobal.getResident(player);
             if (resident.isCombatInfo()) {
-                CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("var_buildable_OnDamageSuccess", hit.getOwner().getDisplayName(), (hit.getOwner().hitpoints + "/" + hit.getOwner().getMaxHitPoints())));
+                CivMessage.send(player, ChatColor.GRAY + CivSettings.localize.localizedString("var_buildable_OnDamageSuccess", hit.getOwner().getDisplayName(), (hit.getOwner().hitpoints + "/" + hit.getOwner().getMaxHitPoints())));
             }
         }
 
     }
 
     public void onDamageNotification(Player player, BuildableDamageBlock hit) {
-        CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("var_buildable_OnDamageSuccess", hit.getOwner().getDisplayName(), (hit.getOwner().getDamagePercentage() + "%")));
+        CivMessage.send(player, ChatColor.GRAY + CivSettings.localize.localizedString("var_buildable_OnDamageSuccess", hit.getOwner().getDisplayName(), (hit.getOwner().getDamagePercentage() + "%")));
 
-        CivMessage.sendTown(hit.getTown(), CivColor.Yellow + CivSettings.localize.localizedString("var_buildable_underAttackAlert", hit.getOwner().getDisplayName(), hit.getOwner().getCorner(), hit.getOwner().getDamagePercentage()));
+        CivMessage.sendTown(hit.getTown(), ChatColor.YELLOW + CivSettings.localize.localizedString("var_buildable_underAttackAlert", hit.getOwner().getDisplayName(), hit.getOwner().getCorner(), hit.getOwner().getDamagePercentage()));
     }
 
     public Map<BlockCoord, Boolean> getStructureBlocks() {
@@ -1499,10 +1510,6 @@ public abstract class Buildable extends SQLObject {
         }
     }
 
-    public boolean hasTemplate() {
-        return info.has_template;
-    }
-
     public boolean canRestoreFromTemplate() {
         return true;
     }
@@ -1526,10 +1533,10 @@ public abstract class Buildable extends SQLObject {
         this.damage(damage);
 
         DecimalFormat df = new DecimalFormat("###");
-        CivMessage.sendTown(this.getTown(), CivColor.Rose + CivSettings.localize.localizedString("var_buildable_cannotSupport", this.getDisplayName(), (center.getX() + "," + center.getY() + "," + center.getZ())));
-        CivMessage.sendTown(this.getTown(), CivColor.Rose + CivSettings.localize.localizedString("var_buildable_cannotSupportDamage", df.format(invalid_hourly_penalty * 100), (this.hitpoints + "/" + this.getMaxHitPoints())));
-        CivMessage.sendTown(this.getTown(), CivColor.Rose + this.invalidLayerMessage);
-        CivMessage.sendTown(this.getTown(), CivColor.Rose + CivSettings.localize.localizedString("buildable_validationPrompt"));
+        CivMessage.sendTown(this.getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_buildable_cannotSupport", this.getDisplayName(), (center.getX() + "," + center.getY() + "," + center.getZ())));
+        CivMessage.sendTown(this.getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_buildable_cannotSupportDamage", df.format(invalid_hourly_penalty * 100), (this.hitpoints + "/" + this.getMaxHitPoints())));
+        CivMessage.sendTown(this.getTown(), ChatColor.RED + this.invalidLayerMessage);
+        CivMessage.sendTown(this.getTown(), ChatColor.RED + CivSettings.localize.localizedString("buildable_validationPrompt"));
         this.save();
 
     }

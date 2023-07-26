@@ -6,7 +6,7 @@ import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.randomevents.RandomEvent;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 
 import java.text.SimpleDateFormat;
 
@@ -43,15 +43,15 @@ public class TownEventCommand extends CommandBase {
             SimpleDateFormat sdf = new SimpleDateFormat("M/dd h:mm:ss a z");
 
             CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_town_event_showCurrent") + " " + event.configRandomEvent.name);
-            CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_town_event_showStarted") + " " + CivColor.LightGreen + sdf.format(event.getStartDate()));
-            CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("cmd_town_event_showEnd") + " " + CivColor.LightGreen + sdf.format(event.getEndDate()));
+            CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("cmd_town_event_showStarted") + " " + ChatColor.GREEN + sdf.format(event.getStartDate()));
+            CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("cmd_town_event_showEnd") + " " + ChatColor.GREEN + sdf.format(event.getEndDate()));
             if (event.isActive()) {
-                CivMessage.send(sender, CivColor.LightGray + CivSettings.localize.localizedString("cmd_town_event_showActive"));
+                CivMessage.send(sender, ChatColor.GRAY + CivSettings.localize.localizedString("cmd_town_event_showActive"));
             } else {
-                CivMessage.send(sender, CivColor.Yellow + CivSettings.localize.localizedString("cmd_town_event_showInactive"));
+                CivMessage.send(sender, ChatColor.YELLOW + CivSettings.localize.localizedString("cmd_town_event_showInactive"));
             }
-            CivMessage.send(sender, CivColor.Green + "-- " + CivSettings.localize.localizedString("cmd_town_event_showMessageHeading") + " ---");
-            CivMessage.send(sender, CivColor.LightGray + event.getMessages());
+            CivMessage.send(sender, ChatColor.DARK_GREEN + "-- " + CivSettings.localize.localizedString("cmd_town_event_showMessageHeading") + " ---");
+            CivMessage.send(sender, String.valueOf(ChatColor.GRAY) + event.getMessages());
         }
     }
 

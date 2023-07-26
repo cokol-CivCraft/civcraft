@@ -28,7 +28,7 @@ import com.avrgaming.civcraft.object.Buff;
 import com.avrgaming.civcraft.object.Relation;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -85,7 +85,7 @@ public class ScoutTower extends Structure {
             } catch (CivException e) {
                 return;
             }
-            CivMessage.send(player, CivColor.Yellow + "[ScoutDebug] " + str);
+            CivMessage.send(player, ChatColor.YELLOW + "[ScoutDebug] " + str);
         }
     }
 
@@ -96,7 +96,7 @@ public class ScoutTower extends Structure {
             rate += this.getTown().getBuffManager().getEffectiveDouble("buff_chichen_itza_tower_hp");
             rate += this.getTown().getBuffManager().getEffectiveDouble(Buff.BARRICADE);
         }
-        return (int) (info.max_hitpoints * rate);
+        return (int) (info.max_hp * rate);
     }
 
     /*
@@ -165,7 +165,7 @@ public class ScoutTower extends Structure {
                 relationColor = Relation.getRelationColor(relation);
             } else {
                 relationName = CivSettings.localize.localizedString("scoutTower_isOutlaw");
-                relationColor = CivColor.Yellow;
+                relationColor = String.valueOf(ChatColor.YELLOW);
             }
 
 
@@ -177,11 +177,11 @@ public class ScoutTower extends Structure {
             if (center.distance(player.getLocation()) < range) {
                 /* Notify the town or civ. */
                 CivMessage.sendScout(this.getCiv(), CivSettings.localize.localizedString("var_scoutTower_detection",
-                        (relationColor + player.getName() + "(" + relationName + ")" + CivColor.White), (player.getLocation().getBlockX() + "," + player.getLocation().getBlockY() + "," + player.getLocation().getBlockZ()),
+                        (relationColor + player.getName() + "(" + relationName + ")" + ChatColor.WHITE), (player.getLocation().getBlockX() + "," + player.getLocation().getBlockY() + "," + player.getLocation().getBlockZ()),
                         this.getTown().getName()));
                 alreadyAnnounced.add(this.getCiv().getName() + ":" + player.getName());
                 player.playSound(player.getLocation(), Sound.ITEM_SHIELD_BREAK, 1.11f, 1.11f);
-                CivMessage.sendActionBar(player, CivSettings.localize.localizedString("var_scoutTower_you_detected", CivColor.Gold + CivColor.Rose + CivColor.LightGreen + this.getTown().getName() + CivColor.Rose));
+                CivMessage.sendActionBar(player, CivSettings.localize.localizedString("var_scoutTower_you_detected", String.valueOf(ChatColor.GOLD) + ChatColor.RED + ChatColor.GREEN + this.getTown().getName() + ChatColor.RED));
 
 
             }

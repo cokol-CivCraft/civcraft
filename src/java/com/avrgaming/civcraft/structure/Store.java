@@ -27,7 +27,7 @@ import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.StoreMaterial;
 import com.avrgaming.civcraft.object.StructureSign;
 import com.avrgaming.civcraft.object.Town;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -129,7 +129,7 @@ public class Store extends Structure {
             StoreMaterial mat = this.materials.get(special_id);
             sign_buy_material(player, mat.name, mat.type, mat.data, 64, mat.price);
         } else {
-            CivMessage.send(player, CivColor.Rose + CivSettings.localize.localizedString("store_buy_empty"));
+            CivMessage.send(player, ChatColor.RED + CivSettings.localize.localizedString("store_buy_empty"));
         }
     }
 
@@ -145,16 +145,16 @@ public class Store extends Structure {
             if (t == this.getTown()) {
                 // Pay no taxes! You're a member.
                 resident.buyItem(itemName, id, data, price, amount);
-                CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("var_market_buy", amount, itemName, price, CivSettings.CURRENCY_NAME));
+                CivMessage.send(player, ChatColor.GREEN + CivSettings.localize.localizedString("var_market_buy", amount, itemName, price, CivSettings.CURRENCY_NAME));
             } else {
                 // Pay non-resident taxes
                 resident.buyItem(itemName, id, data, price + payToTown, amount);
                 getTown().depositDirect(payToTown);
-                CivMessage.send(player, CivColor.Yellow + CivSettings.localize.localizedString("var_taxes_paid", payToTown, CivSettings.CURRENCY_NAME));
+                CivMessage.send(player, ChatColor.YELLOW + CivSettings.localize.localizedString("var_taxes_paid", payToTown, CivSettings.CURRENCY_NAME));
             }
 
         } catch (CivException e) {
-            CivMessage.send(player, CivColor.Rose + e.getMessage());
+            CivMessage.send(player, ChatColor.RED + e.getMessage());
         }
     }
 

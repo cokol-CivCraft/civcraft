@@ -4,7 +4,6 @@ import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.FireworkEffectPlayer;
 import org.bukkit.*;
 import org.bukkit.FireworkEffect.Type;
@@ -44,8 +43,8 @@ public class ArenaControlBlock {
             arena.onControlBlockDestroy(teamID, resident.getTeam());
 
         } else {
-            CivMessage.sendTeam(resident.getTeam(), CivSettings.localize.localizedString("var_arena_playerHitControlBlock", CivColor.LightGreen + resident.getName(), (curHP + " / " + maxHP)));
-            CivMessage.sendTeam(arena.getTeamFromID(teamID), CivColor.Rose + CivSettings.localize.localizedString("var_arena_announceHitControlBlock", resident.getName(), (curHP + " / " + maxHP)));
+            CivMessage.sendTeam(resident.getTeam(), CivSettings.localize.localizedString("var_arena_playerHitControlBlock", ChatColor.GREEN + resident.getName(), (curHP + " / " + maxHP)));
+            CivMessage.sendTeam(arena.getTeamFromID(teamID), ChatColor.RED + CivSettings.localize.localizedString("var_arena_announceHitControlBlock", resident.getName(), (curHP + " / " + maxHP)));
         }
 
     }

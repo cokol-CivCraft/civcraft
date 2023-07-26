@@ -19,7 +19,6 @@ package com.avrgaming.civcraft.threading.tasks;
 
 
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.object.StructureChest;
 import com.avrgaming.civcraft.object.StructureSign;
@@ -28,12 +27,12 @@ import com.avrgaming.civcraft.structure.wonders.GrandShipIngermanland;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.SimpleBlock;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.material.MaterialData;
+import org.bukkit.material.Sign;
 
 import java.util.Optional;
 
@@ -66,6 +65,10 @@ public class PostBuildSyncTask implements Runnable {
             Block block;
             BlockCoord absCoord = new BlockCoord(buildable.getCorner().getBlock().getRelative(relativeCoord.getX(), relativeCoord.getY(), relativeCoord.getZ()));
 
+            if (!(sb.getMaterialData() instanceof Sign)) {
+                buildable.onPostBuild(absCoord, sb);
+                continue;
+            }
             /* Signs and chests should already be handled, look for more exotic things. */
             switch (sb.command) {
                 case "/tradeoutpost":
@@ -183,7 +186,7 @@ public class PostBuildSyncTask implements Runnable {
                     block.setType(sb.getType());
                     block.setData((byte) sb.getData());
 
-                    structSign.setDirection(ItemManager.getData(block.getState()));
+                    structSign.setDirection(block.getState().getRawData());
                     for (String key : sb.keyvalues.keySet()) {
                         structSign.setType(key);
                         structSign.setAction(sb.keyvalues.get(key));
@@ -207,9 +210,7 @@ public class PostBuildSyncTask implements Runnable {
                     /* Convert sign data to chest data.*/
                     block = absCoord.getBlock();
                     if (block.getType() != Material.CHEST) {
-                        byte chestData = CivData.convertSignDataToChestData((byte) sb.getData());
-                        block.setType(Material.CHEST);
-                        block.setData((byte) (int) chestData, true);
+                        block.getState().setData(new org.bukkit.material.Chest(((Sign) sb.getMaterialData()).getFacing()));
                     }
 
                     Chest chest = (Chest) block.getState();
@@ -242,8 +243,7 @@ public class PostBuildSyncTask implements Runnable {
             if (buildable.getCiv().isAdminCiv()) {
                 block.getState().setData(new MaterialData(Material.AIR));
             } else {
-                block.setType(sb.getType());
-                block.setData((byte) sb.getData());
+                block.getState().setData(sb.getMaterialData());
             }
         }
 
@@ -253,8 +253,7 @@ public class PostBuildSyncTask implements Runnable {
 
             Block block = absCoord.getBlock();
             if (block.getType() != sb.getType()) {
-                block.setType(sb.getType());
-                block.setData((byte) sb.getData());
+                block.getState().setData(sb.getMaterialData());
             }
         }
 
@@ -268,7 +267,10 @@ public class PostBuildSyncTask implements Runnable {
             SimpleBlock sb = tpl.blocks[relativeCoord.getX()][relativeCoord.getY()][relativeCoord.getZ()];
             Block block;
             BlockCoord absCoord = new BlockCoord(buildable.getCorner().getBlock().getRelative(relativeCoord.getX(), relativeCoord.getY(), relativeCoord.getZ()));
-
+            if (!(sb.getMaterialData() instanceof org.bukkit.material.Sign)) {
+                buildable.onPostBuild(absCoord, sb);
+                continue;
+            }
             /* Signs and chests should already be handled, look for more exotic things. */
             switch (sb.command) {
                 case "/tradeoutpost":
@@ -389,7 +391,7 @@ public class PostBuildSyncTask implements Runnable {
                     block.setType(sb.getType());
                     block.setData((byte) sb.getData());
 
-                    structSign.setDirection(ItemManager.getData(block.getState()));
+                    structSign.setDirection(block.getState().getRawData());
                     for (String key : sb.keyvalues.keySet()) {
                         structSign.setType(key);
                         structSign.setAction(sb.keyvalues.get(key));
@@ -410,8 +412,7 @@ public class PostBuildSyncTask implements Runnable {
                     /* Convert sign data to chest data.*/
                     block = absCoord.getBlock();
                     if (block.getType() != Material.CHEST) {
-                        block.setType(Material.CHEST);
-                        block.setData(CivData.convertSignDataToChestData((byte) sb.getData()), true);
+                        block.getState().setData(new org.bukkit.material.Chest(((Sign) sb.getMaterialData()).getFacing()));
                     }
 
                     Chest chest = (Chest) block.getState();

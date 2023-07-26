@@ -31,7 +31,6 @@ import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.structure.TownHall;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.CallbackInterface;
-import com.avrgaming.civcraft.util.CivColor;
 import gpl.AttributeUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -54,10 +53,10 @@ public class Settler extends UnitMaterial implements CallbackInterface {
         UnitMaterial.setOwningTown(town, is);
 
         AttributeUtil attrs = new AttributeUtil(is);
-        attrs.addLore(CivColor.Rose + CivSettings.localize.localizedString("settler_Lore1") + " " + CivColor.LightBlue + town.getCiv().getName());
-        attrs.addLore(CivColor.Gold + CivSettings.localize.localizedString("settler_Lore2"));
+        attrs.addLore(ChatColor.RED + CivSettings.localize.localizedString("settler_Lore1") + " " + ChatColor.AQUA + town.getCiv().getName());
+        attrs.addLore(ChatColor.GOLD + CivSettings.localize.localizedString("settler_Lore2"));
         attrs.addEnhancement("LoreEnhancementSoulBound", null, null);
-        attrs.addLore(CivColor.Gold + CivSettings.localize.localizedString("Soulbound"));
+        attrs.addLore(ChatColor.GOLD + CivSettings.localize.localizedString("Soulbound"));
 
         attrs.setCivCraftProperty("owner_civ_id", String.valueOf(town.getCiv().getId()));
 
@@ -116,7 +115,7 @@ public class Settler extends UnitMaterial implements CallbackInterface {
         /*
          * Build a preview for the Capitol structure.
          */
-        CivMessage.send(player, CivColor.LightGreen + CivColor.BOLD + CivSettings.localize.localizedString("build_checking_position"));
+        CivMessage.send(player, String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("build_checking_position"));
         try {
             Buildable.buildVerifyStatic(player, CivSettings.structures.get("s_townhall"), player.getLocation(), this);
         } catch (CivException e) {
@@ -136,10 +135,10 @@ public class Settler extends UnitMaterial implements CallbackInterface {
         resident.desiredTownLocation = player.getLocation();
 
         CivMessage.sendHeading(player, CivSettings.localize.localizedString("settler_heading"));
-        CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("settler_prompt1"));
+        CivMessage.send(player, ChatColor.GREEN + CivSettings.localize.localizedString("settler_prompt1"));
         CivMessage.send(player, " ");
-        CivMessage.send(player, CivColor.LightGreen + ChatColor.BOLD + CivSettings.localize.localizedString("settler_prompt2"));
-        CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("build_cancel_prompt"));
+        CivMessage.send(player, String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("settler_prompt2"));
+        CivMessage.send(player, ChatColor.GRAY + CivSettings.localize.localizedString("build_cancel_prompt"));
 
         resident.setInteractiveMode(new InteractiveTownName());
     }

@@ -22,7 +22,6 @@ import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
-import com.avrgaming.civcraft.util.CivColor;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -45,7 +44,7 @@ public class InteractiveCivName implements InteractiveResponse {
         }
 
         if (!StringUtils.isAlpha(message) || !StringUtils.isAsciiPrintable(message)) {
-            CivMessage.send(player, CivColor.Rose + ChatColor.BOLD + CivSettings.localize.localizedString("interactive_civ_invalid"));
+            CivMessage.send(player, String.valueOf(ChatColor.RED) + ChatColor.BOLD + CivSettings.localize.localizedString("interactive_civ_invalid"));
             return;
         }
 
@@ -54,10 +53,10 @@ public class InteractiveCivName implements InteractiveResponse {
         message = message.replace("'", "");
 
         resident.desiredCivName = message;
-        CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("var_interactive_civ_success1", CivColor.Yellow + message + CivColor.LightGreen));
+        CivMessage.send(player, ChatColor.GREEN + CivSettings.localize.localizedString("var_interactive_civ_success1", ChatColor.YELLOW + message + ChatColor.GREEN));
         CivMessage.send(player, " ");
-        CivMessage.send(player, CivColor.LightGreen + ChatColor.BOLD + CivSettings.localize.localizedString("interactive_civ_success3"));
-        CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("interactive_civ_tocancel"));
+        CivMessage.send(player, String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("interactive_civ_success3"));
+        CivMessage.send(player, ChatColor.GRAY + CivSettings.localize.localizedString("interactive_civ_tocancel"));
         resident.setInteractiveMode(new InteractiveCapitolName());
 
     }

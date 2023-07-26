@@ -63,7 +63,7 @@ public class TeslaTower extends Structure {
             rate += this.getTown().getBuffManager().getEffectiveDouble("buff_chichen_itza_tower_hp");
             rate += this.getTown().getBuffManager().getEffectiveDouble(Buff.BARRICADE);
         }
-        return (int) (info.max_hitpoints * rate);
+        return (int) (info.max_hp * rate);
     }
 
 //	public void setDamage(int damage) {

@@ -19,7 +19,7 @@ package com.avrgaming.civcraft.object;
 
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigTradeGood;
-import com.avrgaming.civcraft.database.SQL;
+import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.exception.InvalidNameException;
@@ -31,10 +31,6 @@ import com.avrgaming.civcraft.structure.TradeOutpost;
 import com.avrgaming.civcraft.util.BlockCoord;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashMap;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -69,18 +65,18 @@ public class TradeGood extends SQLObject {
     public static final String TABLE_NAME = "TRADE_GOODS";
 
     public static void init() throws SQLException {
-        if (!SQL.hasTable(TABLE_NAME)) {
-            String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME + " (" +
+        if (!SQLController.hasTable(TABLE_NAME)) {
+            String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`name` VARCHAR(64) NOT NULL," +
                     "`town_id` int(11)," +
                     "`structure_id` int(11), " +
                     "`coord` mediumtext DEFAULT NULL," +
                     "`bonusLocation` mediumtext DEFAULT NULL," +
-                    //	 "FOREIGN KEY (town_id) REFERENCES "+SQL.tb_prefix+"TOWNS(id),"+
+                    //	 "FOREIGN KEY (town_id) REFERENCES "+SQLController.tb_prefix+"TOWNS(id),"+
                     "PRIMARY KEY (`id`)" + ")";
 
-            SQL.makeTable(table_create);
+            SQLController.makeTable(table_create);
             CivLog.info("Created " + TABLE_NAME + " table");
         } else {
             CivLog.info(TABLE_NAME + " table OK!");
@@ -165,7 +161,7 @@ public class TradeGood extends SQLObject {
 
         }
 
-        SQL.updateNamedObject(this, hashmap, TABLE_NAME);
+        SQLController.updateNamedObject(this, hashmap, TABLE_NAME);
     }
 
     @Override

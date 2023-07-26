@@ -24,7 +24,6 @@ import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.threading.TaskMaster;
-import com.avrgaming.civcraft.util.CivColor;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -48,7 +47,7 @@ public class InteractiveCapitolName implements InteractiveResponse {
         }
 
         if (!StringUtils.isAlpha(message) || !StringUtils.isAsciiPrintable(message)) {
-            CivMessage.send(player, CivColor.Rose + ChatColor.BOLD + CivSettings.localize.localizedString("interactive_capitol_invalidname"));
+            CivMessage.send(player, String.valueOf(ChatColor.RED) + ChatColor.BOLD + CivSettings.localize.localizedString("interactive_capitol_invalidname"));
             return;
         }
 
@@ -57,7 +56,7 @@ public class InteractiveCapitolName implements InteractiveResponse {
         message = message.replace("'", "");
 
         resident.desiredCapitolName = message;
-        CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("var_interactive_capitol_confirm1", CivColor.Yellow + resident.desiredCivName + CivColor.LightGreen, CivColor.Yellow + resident.desiredCapitolName + CivColor.LightGreen));
+        CivMessage.send(player, ChatColor.GREEN + CivSettings.localize.localizedString("var_interactive_capitol_confirm1", ChatColor.YELLOW + resident.desiredCivName + ChatColor.GREEN, ChatColor.YELLOW + resident.desiredCapitolName + ChatColor.GREEN));
         CivMessage.sendHeading(player, CivSettings.localize.localizedString("interactive_capitol_confirmSurvey"));
 
         class SyncTask implements Runnable {
@@ -84,7 +83,7 @@ public class InteractiveCapitolName implements InteractiveResponse {
 
                 CivMessage.send(player, TownCommand.survey(player.getLocation(), 1));
                 CivMessage.send(player, "");
-                CivMessage.send(player, CivColor.LightGreen + ChatColor.BOLD + CivSettings.localize.localizedString("interactive_capitol_confirmPrompt"));
+                CivMessage.send(player, String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("interactive_capitol_confirmPrompt"));
                 resident.setInteractiveMode(new InteractiveConfirmCivCreation());
             }
         }

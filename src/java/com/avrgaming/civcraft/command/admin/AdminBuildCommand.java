@@ -19,7 +19,7 @@ package com.avrgaming.civcraft.command.admin;
 
 import com.avrgaming.civcraft.command.CommandBase;
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.database.SQL;
+import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
@@ -29,7 +29,6 @@ import com.avrgaming.civcraft.structure.BuildableLayer;
 import com.avrgaming.civcraft.structure.Structure;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.CivColor;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -111,7 +110,7 @@ public class AdminBuildCommand extends CommandBase {
         Buildable buildable = town.getNearestBuildable(player.getLocation());
 
         if (args.length < 3 || !args[2].equalsIgnoreCase("yes")) {
-            CivMessage.send(player, CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("var_adcmd_build_wouldValidate", buildable.getDisplayName(), buildable.getCorner()));
+            CivMessage.send(player, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("var_adcmd_build_wouldValidate", buildable.getDisplayName(), buildable.getCorner()));
             return;
         }
 
@@ -145,7 +144,7 @@ public class AdminBuildCommand extends CommandBase {
         Buildable struct = town.getNearestStrucutreOrWonderInprogress(player.getLocation());
 
         if (args.length < 3 || !args[2].equalsIgnoreCase("yes")) {
-            CivMessage.send(player, CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("var_adcmd_build_wouldDestroy", struct.getDisplayName(), struct.getCorner()));
+            CivMessage.send(player, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("var_adcmd_build_wouldDestroy", struct.getDisplayName(), struct.getCorner()));
             return;
         }
 
@@ -196,8 +195,8 @@ public class AdminBuildCommand extends CommandBase {
         }
 
         if (args.length < 2 || !args[1].equalsIgnoreCase("yes")) {
-            CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("var_adcmd_build_repairConfirmPrompt", CivColor.Yellow + nearest.getDisplayName(), nearest.getCorner()));
-            CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("adcmd_build_toConfirm"));
+            CivMessage.send(player, ChatColor.GREEN + CivSettings.localize.localizedString("var_adcmd_build_repairConfirmPrompt", ChatColor.YELLOW + nearest.getDisplayName(), nearest.getCorner()));
+            CivMessage.send(player, ChatColor.GRAY + CivSettings.localize.localizedString("adcmd_build_toConfirm"));
             return;
         }
 
@@ -223,8 +222,8 @@ public class AdminBuildCommand extends CommandBase {
         if (args.length < 3) {
             CivMessage.sendHeading(sender, CivSettings.localize.localizedString("adcmd_build_unbuildHeading"));
             for (Structure struct : town.getStructures()) {
-                CivMessage.send(sender, struct.getDisplayName() + ": " + CivColor.Yellow + struct.getId() +
-                        CivColor.White + " - " + CivSettings.localize.localizedString("Location") + " " + CivColor.Yellow + struct.getCorner().toString());
+                CivMessage.send(sender, struct.getDisplayName() + ": " + ChatColor.YELLOW + struct.getId() +
+                        ChatColor.WHITE + " - " + CivSettings.localize.localizedString("Location") + " " + ChatColor.YELLOW + struct.getCorner().toString());
             }
             return;
         }
@@ -237,8 +236,8 @@ public class AdminBuildCommand extends CommandBase {
         Structure struct = null;
 
         try {
-            context = SQL.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQL.tb_prefix + Structure.TABLE_NAME + " WHERE id = " + id);
+            context = SQLController.getGameConnection();
+            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + Structure.TABLE_NAME + " WHERE id = " + id);
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -254,12 +253,12 @@ public class AdminBuildCommand extends CommandBase {
             e.printStackTrace();
             throw new CivException(e.getMessage());
         } finally {
-            SQL.close(rs, ps, context);
+            SQLController.close(rs, ps, context);
         }
 
 
         if (struct == null) {
-            CivMessage.send(sender, CivColor.Rose + CivSettings.localize.localizedString("NoStructureAt") + " " + args[2]);
+            CivMessage.send(sender, ChatColor.RED + CivSettings.localize.localizedString("NoStructureAt") + " " + args[2]);
             return;
         }
 
@@ -281,7 +280,7 @@ public class AdminBuildCommand extends CommandBase {
         if (args.length < 3) {
             CivMessage.sendHeading(sender, CivSettings.localize.localizedString("adcmd_build_unbuildHeading"));
             for (Structure struct : town.getStructures()) {
-                CivMessage.send(sender, CivSettings.localize.localizedString("var_cmd_build_demolish", struct.getDisplayName(), CivColor.Yellow + struct.getCorner().toString() + CivColor.White));
+                CivMessage.send(sender, CivSettings.localize.localizedString("var_cmd_build_demolish", struct.getDisplayName(), ChatColor.YELLOW + struct.getCorner().toString() + ChatColor.WHITE));
             }
             return;
         }
@@ -289,7 +288,7 @@ public class AdminBuildCommand extends CommandBase {
         BlockCoord coord = new BlockCoord(args[2]);
         Structure struct = town.getStructure(coord);
         if (struct == null) {
-            CivMessage.send(sender, CivColor.Rose + CivSettings.localize.localizedString("NoStructureAt") + " " + args[2]);
+            CivMessage.send(sender, ChatColor.RED + CivSettings.localize.localizedString("NoStructureAt") + " " + args[2]);
             return;
         }
 

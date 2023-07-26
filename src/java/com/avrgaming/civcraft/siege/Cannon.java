@@ -12,15 +12,16 @@ import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.template.Template.TemplateType;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.FireWorkTask;
-import com.avrgaming.civcraft.util.*;
+import com.avrgaming.civcraft.util.BlockCoord;
+import com.avrgaming.civcraft.util.ItemManager;
+import com.avrgaming.civcraft.util.SimpleBlock;
 import com.avrgaming.civcraft.util.SimpleBlock.Type;
+import com.avrgaming.civcraft.util.TimeTools;
 import com.avrgaming.civcraft.war.War;
 import com.avrgaming.civcraft.war.WarRegen;
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
@@ -90,6 +91,10 @@ public class Cannon extends Buildable {
         }
     }
 
+    public Cannon() {
+        super(BlockFace.SOUTH);
+    }
+
     public static void newCannon(Resident resident) throws CivException {
 
         Player player = CivGlobal.getPlayer(resident);
@@ -139,7 +144,7 @@ public class Cannon extends Buildable {
         /* Load in the template. */
         Template tpl;
         try {
-            String templatePath = Template.getTemplateFilePath(templateFile, Template.getDirection(center), TemplateType.STRUCTURE, "default");
+            String templatePath = Template.getTemplateFilePath(templateFile, TemplateType.STRUCTURE, "default");
             this.setTemplateName(templatePath);
             tpl = Template.getTemplate(templatePath, center);
         } catch (IOException | CivException e) {
@@ -210,9 +215,9 @@ public class Cannon extends Buildable {
                     yTotal += b.getWorld().getHighestBlockYAt(centerBlock.getX() + x, centerBlock.getZ() + z);
                     yCount++;
 
-                    if (CivGlobal.getRoadBlock(coord) != null) {
-                        throw new CivException(CivSettings.localize.localizedString("cannon_build_onRoad"));
-                    }
+//                    if (CivGlobal.getRoadBlock(coord) != null) {
+//                        throw new CivException(CivSettings.localize.localizedString("cannon_build_onRoad"));
+//                    }
                 }
             }
         }
@@ -259,19 +264,19 @@ public class Cannon extends Buildable {
         boolean loaded = false;
 
         if (this.tntLoaded >= tntCost) {
-            sign.setLine(1, CivColor.LightGreen + CivColor.BOLD + CivSettings.localize.localizedString("cannon_Loaded"));
+            sign.setLine(1, String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("cannon_Loaded"));
             loaded = true;
         } else {
-            sign.setLine(1, CivColor.Yellow + "(" + this.tntLoaded + "/" + tntCost + ") TNT");
+            sign.setLine(1, ChatColor.YELLOW + "(" + this.tntLoaded + "/" + tntCost + ") TNT");
         }
 
         if (this.shotCooldown > 0) {
-            sign.setLine(2, CivColor.LightGray + CivSettings.localize.localizedString("cannon_cooldownWait") + " " + this.shotCooldown);
+            sign.setLine(2, ChatColor.GRAY + CivSettings.localize.localizedString("cannon_cooldownWait") + " " + this.shotCooldown);
         } else {
             if (loaded) {
-                sign.setLine(2, CivColor.LightGray + CivSettings.localize.localizedString("cannon_ready"));
+                sign.setLine(2, ChatColor.GRAY + CivSettings.localize.localizedString("cannon_ready"));
             } else {
-                sign.setLine(2, CivColor.LightGray + CivSettings.localize.localizedString("cannon_addTNT"));
+                sign.setLine(2, ChatColor.GRAY + CivSettings.localize.localizedString("cannon_addTNT"));
             }
         }
 
@@ -452,23 +457,26 @@ public class Cannon extends Buildable {
     }
 
     @Override
-    protected Location repositionCenter(Location center, String dir, double x_size, double z_size) {
+    protected Location repositionCenter(Location center, BlockFace dir, double x_size, double z_size) {
         Location loc = center.clone();
 
-        if (dir.equalsIgnoreCase("east")) {
-            loc.setZ(loc.getZ() - (z_size / 2));
-            loc.setX(loc.getX() + SHIFT_OUT);
-        } else if (dir.equalsIgnoreCase("west")) {
-            loc.setZ(loc.getZ() - (z_size / 2));
-            loc.setX(loc.getX() - (SHIFT_OUT + x_size));
-
-        } else if (dir.equalsIgnoreCase("north")) {
-            loc.setX(loc.getX() - (x_size / 2));
-            loc.setZ(loc.getZ() - (SHIFT_OUT + z_size));
-        } else if (dir.equalsIgnoreCase("south")) {
-            loc.setX(loc.getX() - (x_size / 2));
-            loc.setZ(loc.getZ() + SHIFT_OUT);
-
+        switch (dir) {
+            case EAST:
+                loc.setZ(loc.getZ() - (z_size / 2));
+                loc.setX(loc.getX() + SHIFT_OUT);
+                break;
+            case WEST:
+                loc.setZ(loc.getZ() - (z_size / 2));
+                loc.setX(loc.getX() - (SHIFT_OUT + x_size));
+                break;
+            case NORTH:
+                loc.setX(loc.getX() - (x_size / 2));
+                loc.setZ(loc.getZ() - (SHIFT_OUT + z_size));
+                break;
+            case SOUTH:
+                loc.setX(loc.getX() - (x_size / 2));
+                loc.setZ(loc.getZ() + SHIFT_OUT);
+                break;
         }
 
         return loc;
@@ -667,14 +675,14 @@ public class Cannon extends Buildable {
 
         if (hitpoints <= 0) {
             destroy();
-            CivMessage.send(event.getPlayer(), CivColor.LightGreen + CivColor.BOLD + CivSettings.localize.localizedString("cannon_onHit_Destroyed"));
-            CivMessage.sendCiv(owner.getCiv(), CivColor.Yellow + CivSettings.localize.localizedString("var_cannon_onHit_DestroyAlert",
+            CivMessage.send(event.getPlayer(), String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("cannon_onHit_Destroyed"));
+            CivMessage.sendCiv(owner.getCiv(), ChatColor.YELLOW + CivSettings.localize.localizedString("var_cannon_onHit_DestroyAlert",
                     cannonLocation.getBlockX() + "," + cannonLocation.getBlockY() + "," + cannonLocation.getBlockZ()));
             return;
         }
 
-        CivMessage.send(event.getPlayer(), CivColor.Yellow + CivSettings.localize.localizedString("cannon_onHit_doDamage") + " (" + this.hitpoints + "/" + maxHitpoints + ")");
-        CivMessage.sendCiv(owner.getCiv(), CivColor.LightGray + CivSettings.localize.localizedString("var_cannon_onHit_doDamageAlert", hitpoints + "/" + maxHitpoints,
+        CivMessage.send(event.getPlayer(), ChatColor.YELLOW + CivSettings.localize.localizedString("cannon_onHit_doDamage") + " (" + this.hitpoints + "/" + maxHitpoints + ")");
+        CivMessage.sendCiv(owner.getCiv(), ChatColor.GRAY + CivSettings.localize.localizedString("var_cannon_onHit_doDamageAlert", hitpoints + "/" + maxHitpoints,
                 cannonLocation.getBlockX() + "," + cannonLocation.getBlockY() + "," + cannonLocation.getBlockZ()));
     }
 

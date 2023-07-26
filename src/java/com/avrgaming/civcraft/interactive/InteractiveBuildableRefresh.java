@@ -7,7 +7,7 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.threading.TaskMaster;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
@@ -32,9 +32,9 @@ public class InteractiveBuildableRefresh implements InteractiveResponse {
         }
 
         CivMessage.sendHeading(player, CivSettings.localize.localizedString("interactive_refresh_Heading"));
-        CivMessage.send(player, CivColor.LightGreen + CivColor.BOLD + CivSettings.localize.localizedString("var_interactive_refresh_prompt1", buildable.getDisplayName()));
-        CivMessage.send(player, CivColor.LightGreen + CivColor.BOLD + CivSettings.localize.localizedString("interactive_refresh_prompt2"));
-        CivMessage.send(player, CivColor.LightGreen + CivColor.BOLD + CivSettings.localize.localizedString("interactive_refresh_prompt3"));
+        CivMessage.send(player, String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("var_interactive_refresh_prompt1", buildable.getDisplayName()));
+        CivMessage.send(player, String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("interactive_refresh_prompt2"));
+        CivMessage.send(player, String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("interactive_refresh_prompt3"));
 
     }
 
@@ -44,7 +44,7 @@ public class InteractiveBuildableRefresh implements InteractiveResponse {
         resident.clearInteractiveMode();
 
         if (!message.equalsIgnoreCase("yes")) {
-            CivMessage.send(resident, CivColor.LightGray + CivSettings.localize.localizedString("interactive_refresh_cancel"));
+            CivMessage.send(resident, ChatColor.GRAY + CivSettings.localize.localizedString("interactive_refresh_cancel"));
             return;
         }
 

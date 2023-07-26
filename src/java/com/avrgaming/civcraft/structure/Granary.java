@@ -26,9 +26,9 @@ import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.threading.CivAsyncTask;
 import com.avrgaming.civcraft.threading.sync.request.UpdateInventoryRequest;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.MultiInventory;
 import com.avrgaming.civcraft.util.SimpleBlock;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Chest;
@@ -134,12 +134,12 @@ public class Granary extends Structure {
     }
 
     public String getResources() {
-        return CivColor.Gray + this.iron + CivColor.LightPurple + " / "
-                + CivColor.Gold + this.gold + CivColor.LightPurple + " / "
-                + CivColor.Navy + this.diamond + CivColor.LightPurple + " / "
-                + CivColor.LightGreen + this.emerald + CivColor.LightPurple + " / "
-                + CivColor.Blue + this.tungsten + CivColor.LightPurple + " / "
-                + CivColor.LightGray + this.chromium;
+        return ChatColor.GRAY.toString() + this.iron + ChatColor.LIGHT_PURPLE + " / "
+                + ChatColor.GOLD + this.gold + ChatColor.LIGHT_PURPLE + " / "
+                + ChatColor.AQUA + this.diamond + ChatColor.LIGHT_PURPLE + " / "
+                + ChatColor.GREEN + this.emerald + ChatColor.LIGHT_PURPLE + " / "
+                + ChatColor.BLUE + this.tungsten + ChatColor.LIGHT_PURPLE + " / "
+                + ChatColor.GRAY + this.chromium;
     }
 
     @Override

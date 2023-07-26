@@ -27,7 +27,7 @@ import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.structure.TownHall;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
@@ -76,7 +76,7 @@ public class CivResearchCommand extends CommandBase {
 
         if (civ.getResearchTech() != null) {
             civ.setResearchProgress(0);
-            CivMessage.send(sender, CivColor.Rose + CivSettings.localize.localizedString("var_cmd_civ_research_lostProgress1", civ.getResearchTech().name));
+            CivMessage.send(sender, ChatColor.RED + CivSettings.localize.localizedString("var_cmd_civ_research_lostProgress1", civ.getResearchTech().name));
             civ.setResearchTech(null);
         }
 
@@ -154,9 +154,9 @@ public class CivResearchCommand extends CommandBase {
 
         CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_civ_research_Available"));
         for (ConfigTech tech : techs) {
-            CivMessage.send(sender, tech.name + CivColor.LightGray + " " + CivSettings.localize.localizedString("Cost") + " " +
-                    CivColor.Yellow + tech.getAdjustedTechCost(civ) + CivColor.LightGray + " " + CivSettings.localize.localizedString("Beakers") + " " +
-                    CivColor.Yellow + tech.getAdjustedBeakerCost(civ));
+            CivMessage.send(sender, tech.name + ChatColor.GRAY + " " + CivSettings.localize.localizedString("Cost") + " " +
+                    ChatColor.YELLOW + tech.getAdjustedTechCost(civ) + ChatColor.GRAY + " " + CivSettings.localize.localizedString("Beakers") + " " +
+                    ChatColor.YELLOW + tech.getAdjustedBeakerCost(civ));
         }
 
     }
@@ -165,14 +165,14 @@ public class CivResearchCommand extends CommandBase {
         Civilization civ = getSenderCiv();
 
         CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_civ_research_era"));
-        CivMessage.send(sender, CivColor.White + CivSettings.localize.localizedString("var_cmd_civ_research_currentEra", CivColor.LightBlue + CivGlobal.localizedEraString(civ.getCurrentEra())));
-        CivMessage.send(sender, CivColor.White + CivSettings.localize.localizedString("var_cmd_civ_research_highestEra", CivColor.LightBlue + CivGlobal.localizedEraString(CivGlobal.highestCivEra)));
+        CivMessage.send(sender, ChatColor.WHITE + CivSettings.localize.localizedString("var_cmd_civ_research_currentEra", ChatColor.AQUA + CivGlobal.localizedEraString(civ.getCurrentEra())));
+        CivMessage.send(sender, ChatColor.WHITE + CivSettings.localize.localizedString("var_cmd_civ_research_highestEra", ChatColor.AQUA + CivGlobal.localizedEraString(CivGlobal.highestCivEra)));
 
         double eraRate = ConfigTech.eraRate(civ);
         if (eraRate == 0.0) {
-            CivMessage.send(sender, CivColor.Yellow + CivSettings.localize.localizedString("cmd_civ_research_eraNoDiscount"));
+            CivMessage.send(sender, ChatColor.YELLOW + CivSettings.localize.localizedString("cmd_civ_research_eraNoDiscount"));
         } else {
-            CivMessage.send(sender, CivColor.Green + CivSettings.localize.localizedString("var_cmd_civ_research_eraDiscount", (eraRate * 100), CivSettings.CURRENCY_NAME));
+            CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("var_cmd_civ_research_eraDiscount", (eraRate * 100), CivSettings.CURRENCY_NAME));
 
         }
     }

@@ -9,12 +9,8 @@ import com.avrgaming.civcraft.object.StructureSign;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.SimpleBlock;
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -135,10 +131,10 @@ public class FishHatchery extends Structure {
     public void processSignAction(Player player, StructureSign sign, PlayerInteractEvent event) {
         int special_id = Integer.parseInt(sign.getAction());
         if (special_id < this.level) {
-            CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("var_fishery_pool_msg_online", (special_id + 1)));
+            CivMessage.send(player, ChatColor.GREEN + CivSettings.localize.localizedString("var_fishery_pool_msg_online", (special_id + 1)));
 
         } else {
-            CivMessage.send(player, CivColor.Rose + CivSettings.localize.localizedString("var_fishery_pool_msg_offline", (special_id + 1)));
+            CivMessage.send(player, ChatColor.RED + CivSettings.localize.localizedString("var_fishery_pool_msg_offline", (special_id + 1)));
         }
     }
 

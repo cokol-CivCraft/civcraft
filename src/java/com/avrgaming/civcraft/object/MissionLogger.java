@@ -17,7 +17,7 @@
  */
 package com.avrgaming.civcraft.object;
 
-import com.avrgaming.civcraft.database.SQL;
+import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 
@@ -36,8 +36,8 @@ public class MissionLogger {
     public static String TABLE_NAME = "MISSION_LOGS";
 
     public static void init() throws SQLException {
-        if (!SQL.hasTable(TABLE_NAME)) {
-            String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME + " (" +
+        if (!SQLController.hasTable(TABLE_NAME)) {
+            String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`town_id` int(11) unsigned DEFAULT 0," +
                     "`target_id` int(11) unsigned DEFAULT 0," +
@@ -47,7 +47,7 @@ public class MissionLogger {
                     "`result` mediumtext," +
                     "PRIMARY KEY (`id`)" + ")";
 
-            SQL.makeTable(table_create);
+            SQLController.makeTable(table_create);
             CivLog.info("Created " + TABLE_NAME + " table");
         } else {
             CivLog.info(TABLE_NAME + " table OK!");
@@ -68,7 +68,7 @@ public class MissionLogger {
         hashmap.put("result", result);
 
         try {
-            SQL.insertNow(hashmap, TABLE_NAME);
+            SQLController.insertNow(hashmap, TABLE_NAME);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -82,8 +82,8 @@ public class MissionLogger {
 
         ArrayList<String> out = new ArrayList<>();
         try {
-            context = SQL.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQL.tb_prefix + TABLE_NAME + " WHERE `town_id` = ?");
+            context = SQLController.getGameConnection();
+            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + TABLE_NAME + " WHERE `town_id` = ?");
             ps.setInt(1, town.getId());
             rs = ps.executeQuery();
 
@@ -103,7 +103,7 @@ public class MissionLogger {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            SQL.close(rs, ps, context);
+            SQLController.close(rs, ps, context);
         }
 
         return out;

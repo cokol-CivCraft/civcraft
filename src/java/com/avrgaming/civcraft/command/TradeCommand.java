@@ -8,7 +8,7 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.questions.TradeRequest;
 import com.avrgaming.civcraft.trade.TradeInventoryListener;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class TradeCommand extends CommandBase {
@@ -66,8 +66,8 @@ public class TradeCommand extends CommandBase {
 
     @Override
     public void showHelp() {
-        CivMessage.send(sender, CivColor.LightPurple + command + " " + CivColor.Yellow + CivSettings.localize.localizedString("cmd_trade_resName") + " " +
-                CivColor.LightGray + CivSettings.localize.localizedString("cmd_trade_cmdDesc"));
+        CivMessage.send(sender, ChatColor.LIGHT_PURPLE + command + " " + ChatColor.YELLOW + CivSettings.localize.localizedString("cmd_trade_resName") + " " +
+                ChatColor.GRAY + CivSettings.localize.localizedString("cmd_trade_cmdDesc"));
     }
 
     @Override

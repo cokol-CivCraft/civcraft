@@ -21,7 +21,7 @@ import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigGovernment;
 import com.avrgaming.civcraft.config.ConfigReligion;
 import com.avrgaming.civcraft.config.ConfigTech;
-import com.avrgaming.civcraft.database.SQL;
+import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.endgame.EndConditionScience;
 import com.avrgaming.civcraft.endgame.EndGameCondition;
@@ -43,7 +43,11 @@ import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.UpdateTechBar;
 import com.avrgaming.civcraft.threading.timers.BeakerTimer;
-import com.avrgaming.civcraft.util.*;
+import com.avrgaming.civcraft.util.BlockCoord;
+import com.avrgaming.civcraft.util.ChunkCoord;
+import com.avrgaming.civcraft.util.DateUtil;
+import com.avrgaming.civcraft.util.ItemManager;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -140,8 +144,8 @@ public class Civilization extends SQLObject {
     public static String TABLE_NAME = "CIVILIZATIONS";
 
     public static void init() throws SQLException {
-        if (!SQL.hasTable(TABLE_NAME)) {
-            String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME + " (" +
+        if (!SQLController.hasTable(TABLE_NAME)) {
+            String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`name` VARCHAR(64) NOT NULL," +
                     "`leaderName` mediumtext," +
@@ -170,14 +174,14 @@ public class Civilization extends SQLObject {
                     "UNIQUE KEY (`name`), " +
                     "PRIMARY KEY (`id`)" + ")";
 
-            SQL.makeTable(table_create);
+            SQLController.makeTable(table_create);
             CivLog.info("Created " + TABLE_NAME + " table");
         } else {
             CivLog.info(TABLE_NAME + " table OK!");
-            SQL.makeCol("conquered", "booelan", TABLE_NAME);
-            SQL.makeCol("conquered_date", "long", TABLE_NAME);
-            SQL.makeCol("created_date", "long", TABLE_NAME);
-            SQL.makeCol("motd", "mediumtext", TABLE_NAME);
+            SQLController.makeCol("conquered", "booelan", TABLE_NAME);
+            SQLController.makeCol("conquered_date", "long", TABLE_NAME);
+            SQLController.makeCol("created_date", "long", TABLE_NAME);
+            SQLController.makeCol("motd", "mediumtext", TABLE_NAME);
         }
     }
 
@@ -288,7 +292,7 @@ public class Civilization extends SQLObject {
             hashmap.put("created_date", null);
         }
 
-        SQL.updateNamedObject(this, hashmap, TABLE_NAME);
+        SQLController.updateNamedObject(this, hashmap, TABLE_NAME);
     }
 
     private void loadResearchedTechs(String techstring) {
@@ -453,7 +457,7 @@ public class Civilization extends SQLObject {
         /* Delete all relationships with other civs. */
         this.diplomacyManager.deleteAllRelations();
 
-        SQL.deleteNamedObject(this, TABLE_NAME);
+        SQLController.deleteNamedObject(this, TABLE_NAME);
         CivGlobal.removeCiv(this);
         if (this.isConquered()) {
             CivGlobal.removeConqueredCiv(this);
@@ -558,7 +562,7 @@ public class Civilization extends SQLObject {
             } catch (SQLException e) {
                 CivLog.error("Caught exception:" + e.getMessage() + " error code:" + e.getErrorCode());
                 if (e.getMessage().contains("Duplicate entry")) {
-                    SQL.deleteByName(name, TABLE_NAME);
+                    SQLController.deleteByName(name, TABLE_NAME);
                     throw new CivException(CivSettings.localize.localizedString("civ_found_databaseException"));
                 }
             }
@@ -1350,7 +1354,7 @@ public class Civilization extends SQLObject {
                     CultureChunk cc = CivGlobal.getCultureChunk(coord);
                     if (cc != null && cc.getCiv() != this &&
                             cc.getCiv().getDiplomacyManager().atWarWith(this)) {
-                        CivMessage.send(player, CivColor.Purple + reason);
+                        CivMessage.send(player, ChatColor.DARK_PURPLE + reason);
                         player.teleport(revive.getLocation());
                     }
 

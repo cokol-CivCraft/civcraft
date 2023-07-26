@@ -17,7 +17,7 @@
  */
 package com.avrgaming.civcraft.config;
 
-import com.avrgaming.civcraft.database.SQL;
+import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.lorestorage.LoreMaterial;
@@ -119,21 +119,21 @@ public class ConfigMarketItem {
 	
 	public static final String TABLE_NAME = "MARKET_ITEMS";
 	public static void init() throws SQLException {
-		if (!SQL.hasTable(TABLE_NAME)) {
-			String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME+" (" + 
-					"`ident` VARCHAR(64) NOT NULL," +
-					"`buy_value` int(11) NOT NULL DEFAULT 105," +
-					"`buy_bulk` int(11) NOT NULL DEFAULT 1," +
-					"`sell_value` int(11) NOT NULL DEFAULT 95," +
-					"`sell_bulk` int(11) NOT NULL DEFAULT 1," +
-					"`buysell` int(11) NOT NULL DEFAULT 0,"+
-					"`bought` int(11) NOT NULL DEFAULT 0," +
-					"`sold` int(11) NOT NULL DEFAULT 0," +
-					"`last_action` mediumtext, " +
-				"PRIMARY KEY (`ident`)" + ")";
-			
-			SQL.makeTable(table_create);
-			CivLog.info("Created "+TABLE_NAME+" table");
+        if (!SQLController.hasTable(TABLE_NAME)) {
+            String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
+                    "`ident` VARCHAR(64) NOT NULL," +
+                    "`buy_value` int(11) NOT NULL DEFAULT 105," +
+                    "`buy_bulk` int(11) NOT NULL DEFAULT 1," +
+                    "`sell_value` int(11) NOT NULL DEFAULT 95," +
+                    "`sell_bulk` int(11) NOT NULL DEFAULT 1," +
+                    "`buysell` int(11) NOT NULL DEFAULT 0," +
+                    "`bought` int(11) NOT NULL DEFAULT 0," +
+                    "`sold` int(11) NOT NULL DEFAULT 0," +
+                    "`last_action` mediumtext, " +
+                    "PRIMARY KEY (`ident`)" + ")";
+
+            SQLController.makeTable(table_create);
+            CivLog.info("Created " + TABLE_NAME + " table");
 		} else {
 			CivLog.info(TABLE_NAME+" table OK!");
 		}
@@ -155,19 +155,19 @@ public class ConfigMarketItem {
 		Connection context = null;
 		ResultSet rs = null;
 		PreparedStatement ps = null;
-		try {	
-			String query = "SELECT * FROM `"+SQL.tb_prefix+TABLE_NAME+"` WHERE `ident` = ?;";
-			context = SQL.getGameConnection();
-			ps = context.prepareStatement(query);	
-			ps.setString(1, getIdent());
-			rs = ps.executeQuery();
-			
-			if (rs.next()) {
-				this.buy_value = rs.getInt("buy_value");
-				this.buy_bulk = rs.getInt("buy_bulk");
-				this.sell_value = rs.getInt("sell_value");
-				this.sell_bulk = rs.getInt("sell_bulk");
-				this.bought = rs.getInt("bought");
+		try {
+            String query = "SELECT * FROM `" + SQLController.tb_prefix + TABLE_NAME + "` WHERE `ident` = ?;";
+            context = SQLController.getGameConnection();
+            ps = context.prepareStatement(query);
+            ps.setString(1, getIdent());
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                this.buy_value = rs.getInt("buy_value");
+                this.buy_bulk = rs.getInt("buy_bulk");
+                this.sell_value = rs.getInt("sell_value");
+                this.sell_bulk = rs.getInt("sell_bulk");
+                this.bought = rs.getInt("bought");
 				this.sold = rs.getInt("sold");
 				this.lastaction = LastAction.valueOf(rs.getString("last_action"));
 				this.buysell_count = rs.getInt("buysell");
@@ -190,7 +190,7 @@ public class ConfigMarketItem {
 			}
 			
 		} finally {
-			SQL.close(rs, ps, context);
+            SQLController.close(rs, ps, context);
 		}
 	}
 	
@@ -199,10 +199,10 @@ public class ConfigMarketItem {
 		PreparedStatement ps = null;
 		
 		try {
-			String query = "INSERT INTO `"+SQL.tb_prefix+TABLE_NAME+"` (`ident`, `buy_value`, `buy_bulk`, `sell_value`, `sell_bulk`, `bought`, `sold`, `last_action`, `buysell`) "+
-					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `buy_value`=?, `buy_bulk`=?, `sell_value`=?, `sell_bulk`=?, `bought`=?, `sold`=?, `last_action`=?, `buysell`=?";
-			context = SQL.getGameConnection();		
-			ps = context.prepareStatement(query);
+            String query = "INSERT INTO `" + SQLController.tb_prefix + TABLE_NAME + "` (`ident`, `buy_value`, `buy_bulk`, `sell_value`, `sell_bulk`, `bought`, `sold`, `last_action`, `buysell`) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `buy_value`=?, `buy_bulk`=?, `sell_value`=?, `sell_bulk`=?, `bought`=?, `sold`=?, `last_action`=?, `buysell`=?";
+            context = SQLController.getGameConnection();
+            ps = context.prepareStatement(query);
 			
 			ps.setString(1, getIdent());
 			ps.setInt(2, buy_value);
@@ -224,10 +224,10 @@ public class ConfigMarketItem {
 	
 			int rs = ps.executeUpdate();
 			if (rs == 0) {
-				throw new SQLException("Could not execute SQL code:"+query);
+                throw new SQLException("Could not execute SQLController code:" + query);
 			}
 		} finally {
-			SQL.close(null, ps, context);
+            SQLController.close(null, ps, context);
 		}
 	}
 

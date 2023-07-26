@@ -10,7 +10,6 @@ import com.avrgaming.civcraft.structure.Quarry.Mineral;
 import com.avrgaming.civcraft.structure.Structure;
 import com.avrgaming.civcraft.threading.CivAsyncTask;
 import com.avrgaming.civcraft.threading.sync.request.UpdateInventoryRequest.Action;
-import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.MultiInventory;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -151,7 +150,7 @@ public class QuarryAsyncTask extends CivAsyncTask {
 
                 if (stack.getType() == Material.WOOD_PICKAXE) {
                     try {
-                        short damage = ItemManager.getData(stack);
+                        short damage = stack.getDurability();
                         this.updateInventory(Action.REMOVE, source_inv, stack);
                         damage += modifier;
                         stack.setDurability(damage);
@@ -191,7 +190,7 @@ public class QuarryAsyncTask extends CivAsyncTask {
                 }
                 if (this.quarry.getLevel() >= 2 && stack.getType() == Material.STONE_PICKAXE) {
                     try {
-                        short damage = ItemManager.getData(stack);
+                        short damage = stack.getDurability();
                         this.updateInventory(Action.REMOVE, source_inv, stack);
                         damage += modifier;
                         stack.setDurability(damage);
@@ -235,7 +234,7 @@ public class QuarryAsyncTask extends CivAsyncTask {
                 }
                 if (this.quarry.getLevel() >= 3 && stack.getType() == Material.IRON_PICKAXE) {
                     try {
-                        short damage = ItemManager.getData(stack);
+                        short damage = stack.getDurability();
                         this.updateInventory(Action.REMOVE, source_inv, stack);
                         damage += modifier;
                         stack.setDurability(damage);
@@ -285,7 +284,7 @@ public class QuarryAsyncTask extends CivAsyncTask {
                 }
                 if (stack.getType() == Material.GOLD_PICKAXE) {
                     try {
-                        short damage = ItemManager.getData(stack);
+                        short damage = stack.getDurability();
                         this.updateInventory(Action.REMOVE, source_inv, stack);
                         damage += modifier;
                         stack.setDurability(damage);
@@ -323,7 +322,7 @@ public class QuarryAsyncTask extends CivAsyncTask {
                 }
                 if (this.quarry.getLevel() >= 4 && stack.getType() == Material.DIAMOND_PICKAXE) {
                     try {
-                        short damage = ItemManager.getData(stack);
+                        short damage = stack.getDurability();
                         this.updateInventory(Action.REMOVE, source_inv, stack);
                         damage += modifier;
                         stack.setDurability(damage);

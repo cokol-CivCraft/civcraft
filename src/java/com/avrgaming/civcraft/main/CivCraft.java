@@ -33,7 +33,7 @@ import com.avrgaming.civcraft.command.team.TeamCommand;
 import com.avrgaming.civcraft.command.town.TownChatCommand;
 import com.avrgaming.civcraft.command.town.TownCommand;
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.database.SQL;
+import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.endgame.EndConditionNotificationTask;
 import com.avrgaming.civcraft.event.EventTimerTask;
@@ -220,8 +220,8 @@ public final class CivCraft extends JavaPlugin {
         try {
             CivSettings.init(this);
 
-            SQL.initialize();
-            SQL.initCivObjectTables();
+            SQLController.initialize();
+            SQLController.initCivObjectTables();
             ChunkCoord.buildWorldList();
             CivGlobal.loadGlobals();
 

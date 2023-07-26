@@ -24,7 +24,7 @@ import com.avrgaming.civcraft.components.SifterComponent;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigCampLonghouseLevel;
 import com.avrgaming.civcraft.config.ConfigCampUpgrade;
-import com.avrgaming.civcraft.database.SQL;
+import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
@@ -37,7 +37,6 @@ import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.*;
 import com.avrgaming.civcraft.permission.PlotPermissions;
-import com.avrgaming.civcraft.road.RoadBlock;
 import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.template.Template.TemplateType;
@@ -47,12 +46,10 @@ import com.avrgaming.civcraft.util.*;
 import com.avrgaming.civcraft.util.SimpleBlock.Type;
 import gpl.AttributeUtil;
 import org.bukkit.*;
-import org.bukkit.block.Block;
-import org.bukkit.block.Chest;
-import org.bukkit.block.Furnace;
-import org.bukkit.block.Sign;
+import org.bukkit.block.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.Door;
 
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -138,6 +135,7 @@ public class Camp extends Buildable {
     }
 
     public Camp(Resident owner, String name, Location corner) throws CivException {
+        super(BlockFace.SOUTH);
         this.ownerName = owner.getUUID().toString();
         this.corner = new BlockCoord(corner);
         try {
@@ -159,6 +157,7 @@ public class Camp extends Buildable {
     }
 
     public Camp(ResultSet rs) throws SQLException, InvalidNameException {
+        super(BlockFace.SOUTH);
         this.load(rs);
         loadSettings();
     }
@@ -197,8 +196,8 @@ public class Camp extends Buildable {
     public static final String TABLE_NAME = "CAMPS";
 
     public static void init() throws SQLException {
-        if (!SQL.hasTable(TABLE_NAME)) {
-            String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME + " (" +
+        if (!SQLController.hasTable(TABLE_NAME)) {
+            String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`name` VARCHAR(64) NOT NULL," +
                     "`owner_name` mediumtext NOT NULL," +
@@ -209,7 +208,7 @@ public class Camp extends Buildable {
                     "`template_name` mediumtext," +
                     "PRIMARY KEY (`id`)" + ")";
 
-            SQL.makeTable(table_create);
+            SQLController.makeTable(table_create);
             CivLog.info("Created " + TABLE_NAME + " table");
         }
     }
@@ -260,7 +259,7 @@ public class Camp extends Buildable {
         hashmap.put("upgrades", this.getUpgradeSaveString());
         hashmap.put("template_name", this.getSavedTemplatePath());
 
-        SQL.updateNamedObject(this, hashmap, TABLE_NAME);
+        SQLController.updateNamedObject(this, hashmap, TABLE_NAME);
     }
 
     @Override
@@ -272,7 +271,7 @@ public class Camp extends Buildable {
         }
 
         this.unbindCampBlocks();
-        SQL.deleteNamedObject(this, TABLE_NAME);
+        SQLController.deleteNamedObject(this, TABLE_NAME);
         CivGlobal.removeCamp(this.getName());
     }
 
@@ -362,7 +361,7 @@ public class Camp extends Buildable {
         if (resident.desiredTemplate == null) {
             try {
                 //tpl.setDirection(center);
-                String templatePath = Template.getTemplateFilePath(templateFile, Template.getDirection(center), TemplateType.STRUCTURE, "default");
+                String templatePath = Template.getTemplateFilePath(templateFile, TemplateType.STRUCTURE, "default");
                 this.setTemplateName(templatePath);
                 //tpl.load_template(templatePath);
                 tpl = Template.getTemplate(templatePath, center);
@@ -391,7 +390,7 @@ public class Camp extends Buildable {
             this.saveNow();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new CivException("Internal SQL Error.");
+            throw new CivException("Internal SQLController Error.");
         }
 
         this.addMember(resident);
@@ -418,15 +417,14 @@ public class Camp extends Buildable {
         for (BlockCoord relativeCoord : tpl.commandBlockRelativeLocations) {
             SimpleBlock sb = tpl.blocks[relativeCoord.getX()][relativeCoord.getY()][relativeCoord.getZ()];
             BlockCoord absCoord = new BlockCoord(corner.getBlock().getRelative(relativeCoord.getX(), relativeCoord.getY(), relativeCoord.getZ()));
-
+            if (!(sb.getMaterialData() instanceof org.bukkit.material.Sign)) {
+                continue;
+            }
             switch (sb.command) {
                 case "/gardensign":
                     if (!this.gardenEnabled) {
-                        absCoord.getBlock().setType(Material.SIGN_POST);
-                        Block block = absCoord.getBlock();
-                        block.setData((byte) sb.getData());
-
                         Sign sign = (Sign) absCoord.getBlock().getState();
+                        sign.setData(sb.getMaterialData());
                         sign.setLine(0, "Garden Disabled");
                         sign.setLine(1, "Upgrade using");
                         sign.setLine(2, "/camp upgrade");
@@ -460,16 +458,11 @@ public class Camp extends Buildable {
                     this.addCampBlock(absCoord);
                     break;
                 case "/fire":
-                    Block block2 = absCoord.getBlock();
-                    block2.setType(Material.FIRE);
+                    absCoord.getBlock().setType(Material.FIRE);
                     break;
                 case "/firefurnace":
                     this.fireFurnaceBlocks.add(absCoord);
-                    byte data = CivData.convertSignDataToChestData((byte) sb.getData());
-                    Block block1 = absCoord.getBlock();
-                    block1.setType(Material.FURNACE);
-                    Block block4 = absCoord.getBlock();
-                    block4.setData((byte) (int) data);
+                    absCoord.getBlock().getState().setData(new org.bukkit.material.Furnace(((org.bukkit.material.Sign) sb.getMaterialData()).getFacing()));
                     this.addCampBlock(absCoord);
 
                     break;
@@ -488,19 +481,11 @@ public class Camp extends Buildable {
                     }
 
                     if (this.sifterEnabled) {
-                        Block block = absCoord.getBlock();
-                        block.setType(Material.CHEST);
-                        byte data2 = CivData.convertSignDataToChestData((byte) sb.getData());
-                        Block block3 = absCoord.getBlock();
-                        block3.setData((byte) (int) data2);
+                        absCoord.getBlock().getState().setData(new org.bukkit.material.Chest(((org.bukkit.material.Sign) sb.getMaterialData()).getFacing()));
                     } else {
                         try {
-                            Block block = absCoord.getBlock();
-                            block.setType(Material.SIGN_POST);
-                            Block block3 = absCoord.getBlock();
-                            block3.setData((byte) sb.getData());
-
                             Sign sign = (Sign) absCoord.getBlock().getState();
+                            sign.setData(sb.getMaterialData());
                             sign.setLine(0, CivSettings.localize.localizedString("camp_sifterUpgradeSign1"));
                             sign.setLine(1, CivSettings.localize.localizedString("upgradeUsing_SignText"));
                             sign.setLine(2, "/camp upgrade");
@@ -515,18 +500,10 @@ public class Camp extends Buildable {
                 case "/foodinput":
                     if (this.longhouseEnabled) {
                         this.foodDepositPoints.add(absCoord);
-                        Block block = absCoord.getBlock();
-                        block.setType(Material.CHEST);
-                        byte data3 = CivData.convertSignDataToChestData((byte) sb.getData());
-                        Block block3 = absCoord.getBlock();
-                        block3.setData((byte) (int) data3);
+                        absCoord.getBlock().getState().setData(new org.bukkit.material.Chest(((org.bukkit.material.Sign) sb.getMaterialData()).getFacing()));
                     } else {
-                        Block block = absCoord.getBlock();
-                        block.setType(Material.SIGN_POST);
-                        Block block3 = absCoord.getBlock();
-                        block3.setData((byte) sb.getData());
-
                         Sign sign = (Sign) absCoord.getBlock().getState();
+                        sign.setData(sb.getMaterialData());
                         sign.setLine(0, CivSettings.localize.localizedString("camp_longhouseSign1"));
                         sign.setLine(1, CivSettings.localize.localizedString("camp_longhouseSign2"));
                         sign.setLine(2, CivSettings.localize.localizedString("upgradeUsing_SignText"));
@@ -541,10 +518,8 @@ public class Camp extends Buildable {
                     Block doorBlock2 = absCoord.getBlock().getRelative(0, 1, 0);
 
 
-                    doorBlock.setType(Material.WOODEN_DOOR);
-                    doorBlock.setData(CivData.convertSignDataToDoorDirectionData((byte) sb.getData()));
-                    doorBlock2.setType(Material.WOODEN_DOOR);
-                    doorBlock.setData((byte) 0x8);
+                    doorBlock.getState().setData(new Door(Material.WOODEN_DOOR, ((org.bukkit.material.Sign) sb.getMaterialData()).getFacing()));
+                    doorBlock2.getState().setData(new Door(Material.WOODEN_DOOR, false));
 
                     this.addCampBlock(new BlockCoord(doorBlock));
                     this.addCampBlock(new BlockCoord(doorBlock2));
@@ -554,12 +529,8 @@ public class Camp extends Buildable {
                     break;
                 case "/literal":
                     /* Unrecognized command... treat as a literal sign. */
-                    Block block = absCoord.getBlock();
-                    block.setType(Material.WALL_SIGN);
-                    Block block3 = absCoord.getBlock();
-                    block3.setData((byte) sb.getData());
-
                     Sign sign = (Sign) absCoord.getBlock().getState();
+                    sign.setData(sb.getMaterialData());
                     sign.setLine(0, sb.message[0]);
                     sign.setLine(1, sb.message[1]);
                     sign.setLine(2, sb.message[2]);
@@ -594,13 +565,7 @@ public class Camp extends Buildable {
                     continue;
                 }
 
-                if (i < litFires) {
-                    Block block = next.getBlock();
-                    block.setType(Material.FIRE);
-                } else {
-                    Block block = next.getBlock();
-                    block.setType(Material.AIR);
-                }
+                next.getBlock().setType(i < litFires ? Material.FIRE : Material.AIR);
             }
         } catch (InvalidConfiguration e) {
             e.printStackTrace();
@@ -628,11 +593,11 @@ public class Camp extends Buildable {
             }
         } else {
             this.firepoints--;
-            CivMessage.sendCamp(this, CivColor.Yellow + CivSettings.localize.localizedString("var_camp_campfireDown", this.firepoints));
+            CivMessage.sendCamp(this, ChatColor.YELLOW + CivSettings.localize.localizedString("var_camp_campfireDown", this.firepoints));
 
             double percentLeft = (double) this.firepoints / (double) this.maxFirePoints;
             if (percentLeft < 0.3) {
-                CivMessage.sendCamp(this, CivColor.Yellow + ChatColor.BOLD + CivSettings.localize.localizedString("camp_campfire30percent"));
+                CivMessage.sendCamp(this, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("camp_campfire30percent"));
             }
 
             if (this.firepoints < 0) {
@@ -659,7 +624,7 @@ public class Camp extends Buildable {
         }
 
         if (mInv.getInventoryCount() == 0) {
-            CivMessage.sendCamp(this, CivColor.Rose + CivSettings.localize.localizedString("camp_longhouseNoChest"));
+            CivMessage.sendCamp(this, ChatColor.RED + CivSettings.localize.localizedString("camp_longhouseNoChest"));
             return;
         }
 
@@ -669,16 +634,16 @@ public class Camp extends Buildable {
 
         switch (result) {
             case STARVE:
-                CivMessage.sendCamp(this, CivColor.LightGreen + CivSettings.localize.localizedString("var_camp_yourLonghouseDown", (CivColor.Rose + CivSettings.localize.localizedString("var_camp_longhouseStarved", consumeComponent.getCountString()) + CivColor.LightGreen), CivSettings.CURRENCY_NAME));
+                CivMessage.sendCamp(this, ChatColor.GREEN + CivSettings.localize.localizedString("var_camp_yourLonghouseDown", (ChatColor.RED + CivSettings.localize.localizedString("var_camp_longhouseStarved", consumeComponent.getCountString()) + ChatColor.GREEN), CivSettings.CURRENCY_NAME));
                 return;
             case LEVELDOWN:
-                CivMessage.sendCamp(this, CivColor.LightGreen + CivSettings.localize.localizedString("var_camp_yourLonghouseDown", (CivColor.Rose + CivSettings.localize.localizedString("camp_longhouseStavedAndLeveledDown") + CivColor.LightGreen), CivSettings.CURRENCY_NAME));
+                CivMessage.sendCamp(this, ChatColor.GREEN + CivSettings.localize.localizedString("var_camp_yourLonghouseDown", (ChatColor.RED + CivSettings.localize.localizedString("camp_longhouseStavedAndLeveledDown") + ChatColor.GREEN), CivSettings.CURRENCY_NAME));
                 return;
             case STAGNATE:
-                CivMessage.sendCamp(this, CivColor.LightGreen + CivSettings.localize.localizedString("var_camp_yourLonghouseDown", (CivColor.Yellow + CivSettings.localize.localizedString("camp_longhouseStagnated") + CivColor.LightGreen), CivSettings.CURRENCY_NAME));
+                CivMessage.sendCamp(this, ChatColor.GREEN + CivSettings.localize.localizedString("var_camp_yourLonghouseDown", (ChatColor.YELLOW + CivSettings.localize.localizedString("camp_longhouseStagnated") + ChatColor.GREEN), CivSettings.CURRENCY_NAME));
                 return;
             case UNKNOWN:
-                CivMessage.sendCamp(this, CivColor.LightGreen + CivSettings.localize.localizedString("var_camp_yourLonghouseDown", (CivColor.Purple + CivSettings.localize.localizedString("camp_longhouseSomethingUnknown") + CivColor.LightGreen), CivSettings.CURRENCY_NAME));
+                CivMessage.sendCamp(this, ChatColor.GREEN + CivSettings.localize.localizedString("var_camp_yourLonghouseDown", (ChatColor.DARK_PURPLE + CivSettings.localize.localizedString("camp_longhouseSomethingUnknown") + ChatColor.GREEN), CivSettings.CURRENCY_NAME));
                 return;
             default:
                 break;
@@ -704,28 +669,29 @@ public class Camp extends Buildable {
             token = tag.addTag(token, res.getUUIDString());
 
             AttributeUtil attrs = new AttributeUtil(token);
-            attrs.addLore(CivColor.LightGray + res.getName());
+            attrs.addLore(ChatColor.GRAY + res.getName());
             token = attrs.getStack();
 
             mInv.addItems(token, true);
         }
 
-        String stateMessage = "";
+        String stateMessage;
         switch (result) {
             case GROW:
-                stateMessage = CivColor.Green + CivSettings.localize.localizedString("var_camp_longhouseGrew", consumeComponent.getCountString() + CivColor.LightGreen);
+                stateMessage = ChatColor.DARK_GREEN + CivSettings.localize.localizedString("var_camp_longhouseGrew", consumeComponent.getCountString() + ChatColor.GREEN);
                 break;
             case LEVELUP:
-                stateMessage = CivColor.Green + CivSettings.localize.localizedString("camp_longhouselvlUp") + CivColor.LightGreen;
+                stateMessage = ChatColor.DARK_GREEN + CivSettings.localize.localizedString("camp_longhouselvlUp") + ChatColor.GREEN;
                 break;
             case MAXED:
-                stateMessage = CivColor.Green + CivSettings.localize.localizedString("var_camp_longhouseIsMaxed", consumeComponent.getCountString() + CivColor.LightGreen);
+                stateMessage = ChatColor.DARK_GREEN + CivSettings.localize.localizedString("var_camp_longhouseIsMaxed", consumeComponent.getCountString() + ChatColor.GREEN);
                 break;
             default:
+                stateMessage = "";
                 break;
         }
 
-        CivMessage.sendCamp(this, CivColor.LightGreen + CivSettings.localize.localizedString("var_camp_yourLonghouse", stateMessage, total_coins, CivSettings.CURRENCY_NAME));
+        CivMessage.sendCamp(this, ChatColor.GREEN + CivSettings.localize.localizedString("var_camp_yourLonghouse", stateMessage, total_coins, CivSettings.CURRENCY_NAME));
     }
 
     private void buildCampFromTemplate(Template tpl, BlockCoord corner) {
@@ -749,9 +715,7 @@ public class Camp extends Buildable {
 
                     try {
                         if (nextBlock.getType() != tpl.blocks[x][y][z].getType()) {
-                            nextBlock.setType(tpl.blocks[x][y][z].getType());
-                            nextBlock.setData((byte) tpl.blocks[x][y][z].getData());
-
+                            nextBlock.getState().setData(tpl.blocks[x][y][z].getMaterialData());
                         }
 
                         if (nextBlock.getType() != Material.AIR) {
@@ -806,26 +770,31 @@ public class Camp extends Buildable {
 
     }
 
-    protected Location repositionCenter(Location center, String dir, double x_size, double z_size) {
+    protected Location repositionCenter(Location center, BlockFace dir, double x_size, double z_size) {
         Location loc = new Location(center.getWorld(),
                 center.getX(), center.getY(), center.getZ(),
                 center.getYaw(), center.getPitch());
 
         // Reposition tile improvements
-        if (dir.equalsIgnoreCase("east")) {
-            loc.setZ(loc.getZ() - (z_size / 2));
-            loc.setX(loc.getX() + SHIFT_OUT);
-        } else if (dir.equalsIgnoreCase("west")) {
-            loc.setZ(loc.getZ() - (z_size / 2));
-            loc.setX(loc.getX() - (SHIFT_OUT + x_size));
+        switch (dir) {
+            case EAST:
+                loc.setZ(loc.getZ() - (z_size / 2));
+                loc.setX(loc.getX() + SHIFT_OUT);
+                break;
+            case WEST:
+                loc.setZ(loc.getZ() - (z_size / 2));
+                loc.setX(loc.getX() - (SHIFT_OUT + x_size));
 
-        } else if (dir.equalsIgnoreCase("north")) {
-            loc.setX(loc.getX() - (x_size / 2));
-            loc.setZ(loc.getZ() - (SHIFT_OUT + z_size));
-        } else if (dir.equalsIgnoreCase("south")) {
-            loc.setX(loc.getX() - (x_size / 2));
-            loc.setZ(loc.getZ() + SHIFT_OUT);
+                break;
+            case NORTH:
+                loc.setX(loc.getX() - (x_size / 2));
+                loc.setZ(loc.getZ() - (SHIFT_OUT + z_size));
+                break;
+            case SOUTH:
+                loc.setX(loc.getX() - (x_size / 2));
+                loc.setZ(loc.getZ() + SHIFT_OUT);
 
+                break;
         }
 
         return loc;
@@ -858,8 +827,8 @@ public class Camp extends Buildable {
         int yTotal = 0;
         int yCount = 0;
 
-        RoadBlock rb;
-        LinkedList<RoadBlock> deletedRoadBlocks = new LinkedList<>();
+//        RoadBlock rb;
+//        LinkedList<RoadBlock> deletedRoadBlocks = new LinkedList<>();
         for (int x = 0; x < regionX; x++) {
             for (int y = 0; y < regionY; y++) {
                 for (int z = 0; z < regionZ; z++) {
@@ -890,9 +859,9 @@ public class Camp extends Buildable {
                         throw new CivException(CivSettings.localize.localizedString("cannotBuild_farmInWay"));
                     }
 
-                    if (CivGlobal.getWallChunk(chunkCoord) != null) {
-                        throw new CivException(CivSettings.localize.localizedString("cannotBuild_wallInWay"));
-                    }
+//                    if (CivGlobal.getWallChunk(chunkCoord) != null) {
+//                        throw new CivException(CivSettings.localize.localizedString("cannotBuild_wallInWay"));
+//                    }
 
                     if (CivGlobal.getCampBlock(coord) != null) {
                         throw new CivException(CivSettings.localize.localizedString("cannotBuild_campinWay"));
@@ -901,23 +870,23 @@ public class Camp extends Buildable {
                     yTotal += b.getWorld().getHighestBlockYAt(centerBlock.getX() + x, centerBlock.getZ() + z);
                     yCount++;
 
-                    rb = CivGlobal.getRoadBlock(coord);
-                    if (CivGlobal.getRoadBlock(coord) != null) {
-                        /*
-                         * XXX Special case. Since road blocks can be built in wilderness
-                         * we don't want people griefing with them. Building a structure over
-                         * a road block should always succeed.
-                         */
-                        deletedRoadBlocks.add(rb);
-                    }
+//                    rb = CivGlobal.getRoadBlock(coord);
+//                    if (CivGlobal.getRoadBlock(coord) != null) {
+//                        /*
+//                         * XXX Special case. Since road blocks can be built in wilderness
+//                         * we don't want people griefing with them. Building a structure over
+//                         * a road block should always succeed.
+//                         */
+//                        deletedRoadBlocks.add(rb);
+//                    }
                 }
             }
         }
 
         /* Delete any roads that we're building over. */
-        for (RoadBlock roadBlock : deletedRoadBlocks) {
-            roadBlock.getRoad().deleteRoadBlock(roadBlock);
-        }
+//        for (RoadBlock roadBlock : deletedRoadBlocks) {
+//            roadBlock.getRoad().deleteRoadBlock(roadBlock);
+//        }
 
         double highestAverageBlock = (double) yTotal / (double) yCount;
 
@@ -1066,15 +1035,13 @@ public class Camp extends Buildable {
         Location centerLoc = absCoord.getLocation();
 
         /* Build the bedrock tower. */
-        Block b = centerLoc.getBlock();
-        b.setType(Material.FENCE);
-        b.setData((byte) 0);
+        centerLoc.getBlock().setType(Material.FENCE);
 
-        StructureBlock sb = new StructureBlock(new BlockCoord(b), this);
+        StructureBlock sb = new StructureBlock(new BlockCoord(centerLoc.getBlock()), this);
         this.addCampBlock(sb.getCoord());
 
         /* Build the control block. */
-        b = centerLoc.getBlock().getRelative(0, 1, 0);
+        Block b = centerLoc.getBlock().getRelative(0, 1, 0);
         b.setType(Material.OBSIDIAN);
         this.addCampBlock(new StructureBlock(new BlockCoord(b), this).getCoord());
 
@@ -1194,8 +1161,8 @@ public class Camp extends Buildable {
         world.playEffect(cp.getCoord().getLocation(), Effect.MOBSPAWNER_FLAMES, 0);
         CivMessage.sendActionBar(player, CivData.getStringForBar(CivData.TaskType.CONTROL, cp.getHitpoints(), cp.getMaxHitpoints()));
 
-        CivMessage.send(player, CivColor.LightGray + CivSettings.localize.localizedString("camp_hitControlBlock") + "(" + cp.getHitpoints() + " / " + cp.getMaxHitpoints() + ")");
-        CivMessage.sendCamp(this, CivColor.Yellow + CivSettings.localize.localizedString("camp_controlBlockUnderAttack"));
+        CivMessage.send(player, ChatColor.GRAY + CivSettings.localize.localizedString("camp_hitControlBlock") + "(" + cp.getHitpoints() + " / " + cp.getMaxHitpoints() + ")");
+        CivMessage.sendCamp(this, ChatColor.YELLOW + CivSettings.localize.localizedString("camp_controlBlockUnderAttack"));
     }
 
 
@@ -1224,10 +1191,10 @@ public class Camp extends Buildable {
         }
 
         if (allDestroyed) {
-            CivMessage.sendCamp(this, CivColor.Rose + CivSettings.localize.localizedString("camp_destroyed"));
+            CivMessage.sendCamp(this, ChatColor.RED + CivSettings.localize.localizedString("camp_destroyed"));
             this.destroy();
         } else {
-            CivMessage.sendCamp(this, CivColor.Rose + CivSettings.localize.localizedString("camp_controlBlockDestroyed"));
+            CivMessage.sendCamp(this, ChatColor.RED + CivSettings.localize.localizedString("camp_controlBlockDestroyed"));
         }
 
     }
@@ -1254,11 +1221,11 @@ public class Camp extends Buildable {
                         onControlBlockHit(cp, world, player);
                     }
                 } else {
-                    CivMessage.send(player, CivColor.Rose + CivSettings.localize.localizedString("camp_controlBlockAlreadyDestroyed"));
+                    CivMessage.send(player, ChatColor.RED + CivSettings.localize.localizedString("camp_controlBlockAlreadyDestroyed"));
                 }
             } else {
                 SimpleDateFormat sdf = new SimpleDateFormat("M/dd h:mm:ss a z");
-                CivMessage.send(player, CivColor.Rose + CivSettings.localize.localizedString("camp_protectedUntil") + " " + sdf.format(getNextRaidDate()));
+                CivMessage.send(player, ChatColor.RED + CivSettings.localize.localizedString("camp_protectedUntil") + " " + sdf.format(getNextRaidDate()));
             }
 
         }

@@ -17,7 +17,7 @@
  */
 package com.avrgaming.civcraft.sessiondb;
 
-import com.avrgaming.civcraft.database.SQL;
+import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.sessiondb.SessionAsyncRequest.Database;
@@ -39,7 +39,7 @@ public class SessionDatabase {
     private final ConcurrentHashMap<String, ArrayList<SessionEntry>> cache = new ConcurrentHashMap<>();
 
     public SessionDatabase() {
-        tb_prefix = SQL.tb_prefix;
+        tb_prefix = SQLController.tb_prefix;
     }
 
     public static String TABLE_NAME = "SESSIONS";
@@ -47,8 +47,8 @@ public class SessionDatabase {
     public static void init() throws SQLException {
         System.out.println("================= SESSION DB INIT ======================");
         // Check/Build SessionDB tables
-        if (!SQL.hasTable(TABLE_NAME)) {
-            String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME + " (" +
+        if (!SQLController.hasTable(TABLE_NAME)) {
+            String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`request_id` int(11) unsigned NOT NULL auto_increment," +
                     "`key` mediumtext," +
                     "`value` mediumtext," +
@@ -58,7 +58,7 @@ public class SessionDatabase {
                     "`time` long," +
                     "PRIMARY KEY (`request_id`)" + ")";
 
-            SQL.makeTable(table_create);
+            SQLController.makeTable(table_create);
             CivLog.info("Created " + TABLE_NAME + " table");
         } else {
             CivLog.info(TABLE_NAME + " table OK!");
@@ -109,7 +109,7 @@ public class SessionDatabase {
             code = "SELECT * FROM `" + tb_prefix + "SESSIONS` WHERE `key` = ?";
 
             try {
-                cntx = SQL.getGameConnection();
+                cntx = SQLController.getGameConnection();
                 ps = cntx.prepareStatement(code);
                 ps.setString(1, key);
 
@@ -144,7 +144,7 @@ public class SessionDatabase {
                 }
 
             } catch (SQLException e) {
-                CivLog.error("SQL: select sql error " + e.getMessage() + " --> " + code);
+                CivLog.error("SQLController: select sql error " + e.getMessage() + " --> " + code);
             }
 
             // Add what we found to the cache.
@@ -152,7 +152,7 @@ public class SessionDatabase {
 
             return retList;
         } finally {
-            SQL.close(rs, ps, cntx);
+            SQLController.close(rs, ps, cntx);
         }
     }
 
@@ -234,7 +234,7 @@ public class SessionDatabase {
 
 
     public void deleteAllForTown(Town town) {
-        /* XXX FIXME, we use this for sessiondb deletion when towns die. Need to make this waaay  better by using SQL queries. */
+        /* XXX FIXME, we use this for sessiondb deletion when towns die. Need to make this waaay  better by using SQLController queries. */
 //		class AsyncTask implements Runnable {
 //			Town town;
 //			
@@ -299,7 +299,7 @@ public class SessionDatabase {
     }
 
     public void deleteAllForBuildable(Buildable buildable) {
-        /* TODO Make this better by using SQL queries. */
+        /* TODO Make this better by using SQLController queries. */
 //		class AsyncTask implements Runnable {
 //			Buildable buildable;
 //			

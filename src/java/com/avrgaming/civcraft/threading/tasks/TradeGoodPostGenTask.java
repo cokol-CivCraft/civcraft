@@ -19,7 +19,7 @@
 package com.avrgaming.civcraft.threading.tasks;
 
 import com.avrgaming.civcraft.config.ConfigTradeGood;
-import com.avrgaming.civcraft.database.SQL;
+import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.TradeGood;
@@ -57,7 +57,7 @@ public class TradeGoodPostGenTask implements Runnable {
         PreparedStatement ps = null;
         try {
             try {
-                conn = SQL.getGameConnection();
+                conn = SQLController.getGameConnection();
                 String code = "TRUNCATE TABLE " + TradeGood.TABLE_NAME;
                 ps = conn.prepareStatement(code);
                 ps.execute();

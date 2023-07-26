@@ -17,7 +17,7 @@
  */
 package com.avrgaming.civcraft.lorestorage;
 
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -38,7 +38,7 @@ public class LoreStoreage {
             lore = new ArrayList<>();
         }
 
-        lore.set(0, CivColor.Black + "MID:" + id);
+        lore.set(0, ChatColor.BLACK + "MID:" + id);
         meta.setLore(lore);
         stack.setItemMeta(meta);
     }
@@ -56,11 +56,11 @@ public class LoreStoreage {
         ItemMeta meta = stack.getItemMeta();
         ArrayList<String> lore = new ArrayList<>();
 
-        lore.add(CivColor.Blue + type);
+        lore.add(ChatColor.DARK_AQUA + type);
 
         for (String key : map.keySet()) {
             String value = map.get(key);
-            lore.add(CivColor.Gray + key + ":" + value);
+            lore.add(ChatColor.DARK_GRAY + key + ":" + value);
         }
 
         meta.setLore(lore);

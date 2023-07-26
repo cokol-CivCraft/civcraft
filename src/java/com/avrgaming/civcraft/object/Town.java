@@ -22,7 +22,7 @@ import com.avrgaming.civcraft.components.AttributeRate;
 import com.avrgaming.civcraft.components.AttributeWarUnhappiness;
 import com.avrgaming.civcraft.components.Component;
 import com.avrgaming.civcraft.config.*;
-import com.avrgaming.civcraft.database.SQL;
+import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.exception.AlreadyRegisteredException;
 import com.avrgaming.civcraft.exception.CivException;
@@ -36,7 +36,6 @@ import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.permission.PermissionGroup;
 import com.avrgaming.civcraft.randomevents.RandomEvent;
-import com.avrgaming.civcraft.road.Road;
 import com.avrgaming.civcraft.structure.*;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.template.Template;
@@ -44,9 +43,13 @@ import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.sync.SyncUpdateTags;
 import com.avrgaming.civcraft.threading.tasks.BuildAsyncTask;
 import com.avrgaming.civcraft.threading.tasks.BuildUndoTask;
-import com.avrgaming.civcraft.util.*;
+import com.avrgaming.civcraft.util.BlockCoord;
+import com.avrgaming.civcraft.util.ChunkCoord;
+import com.avrgaming.civcraft.util.DateUtil;
+import com.avrgaming.civcraft.util.ItemFrameStorage;
 import com.avrgaming.civcraft.war.War;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Chest;
@@ -63,16 +66,16 @@ import static java.lang.Math.max;
 
 public class Town extends SQLObject {
 
-    private ConcurrentHashMap<String, Resident> residents = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<String, Resident> fakeResidents = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, Resident> residents = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, Resident> fakeResidents = new ConcurrentHashMap<>();
 
-    private ConcurrentHashMap<ChunkCoord, TownChunk> townChunks = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<ChunkCoord, TownChunk> outposts = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<ChunkCoord, TownChunk> townChunks = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<ChunkCoord, TownChunk> outposts = new ConcurrentHashMap<>();
     private ConcurrentHashMap<ChunkCoord, CultureChunk> cultureChunks = new ConcurrentHashMap<>();
 
-    private ConcurrentHashMap<BlockCoord, Wonder> wonders = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<BlockCoord, Structure> structures = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<BlockCoord, Buildable> disabledBuildables = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<BlockCoord, Wonder> wonders = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<BlockCoord, Structure> structures = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<BlockCoord, Buildable> disabledBuildables = new ConcurrentHashMap<>();
 
     private final ArrayList<Granary> granaryAL = new ArrayList<Granary>();
 
@@ -169,8 +172,8 @@ public class Town extends SQLObject {
     public static final String TABLE_NAME = "TOWNS";
 
     public static void init() throws SQLException {
-        if (!SQL.hasTable(TABLE_NAME)) {
-            String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME + " (" +
+        if (!SQLController.hasTable(TABLE_NAME)) {
+            String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`name` VARCHAR(64) NOT NULL," +
                     "`civ_id` int(11) NOT NULL DEFAULT 0," +
@@ -193,17 +196,17 @@ public class Town extends SQLObject {
                     "UNIQUE KEY (`name`), " +
                     "PRIMARY KEY (`id`)" + ")";
 
-            SQL.makeTable(table_create);
+            SQLController.makeTable(table_create);
             CivLog.info("Created " + TABLE_NAME + " table");
         } else {
             CivLog.info(TABLE_NAME + " table OK!");
 
             //Check for new columns and update the table if we dont have them.
-            SQL.makeCol("outlaws", "mediumtext", TABLE_NAME);
-            SQL.makeCol("daysInDebt", "int(11)", TABLE_NAME);
-            SQL.makeCol("mother_civ_id", "int(11)", TABLE_NAME);
-            SQL.makeCol("dbg_civ_name", "mediumtext", TABLE_NAME);
-            SQL.makeCol("created_date", "long", TABLE_NAME);
+            SQLController.makeCol("outlaws", "mediumtext", TABLE_NAME);
+            SQLController.makeCol("daysInDebt", "int(11)", TABLE_NAME);
+            SQLController.makeCol("mother_civ_id", "int(11)", TABLE_NAME);
+            SQLController.makeCol("dbg_civ_name", "mediumtext", TABLE_NAME);
+            SQLController.makeCol("created_date", "long", TABLE_NAME);
         }
     }
 
@@ -310,7 +313,7 @@ public class Town extends SQLObject {
         }
         hashmap.put("outlaws", outlaws.toString());
 
-        SQL.updateNamedObject(this, hashmap, TABLE_NAME);
+        SQLController.updateNamedObject(this, hashmap, TABLE_NAME);
     }
 
     @Override
@@ -369,7 +372,7 @@ public class Town extends SQLObject {
         /* Remove any related SessionDB entries */
         CivGlobal.getSessionDB().deleteAllForTown(this);
 
-        SQL.deleteNamedObject(this, TABLE_NAME);
+        SQLController.deleteNamedObject(this, TABLE_NAME);
         CivGlobal.removeTown(this);
     }
 
@@ -619,7 +622,7 @@ public class Town extends SQLObject {
 
             double bonus = culturePerTown * townCount;
 
-            CivMessage.sendTown(this, CivColor.LightGreen + CivSettings.localize.localizedString("var_town_GlobeTheatreCulture", CivColor.Yellow + bonus + CivColor.LightGreen, townCount));
+            CivMessage.sendTown(this, ChatColor.GREEN + CivSettings.localize.localizedString("var_town_GlobeTheatreCulture", String.valueOf(ChatColor.YELLOW) + bonus + ChatColor.GREEN, townCount));
 
             fromStructures += bonus;
         }
@@ -1095,7 +1098,7 @@ public class Town extends SQLObject {
             }
 
             double capturePayment = amount * capturedPenalty;
-            CivMessage.sendTown(this, CivColor.Yellow + CivSettings.localize.localizedString("var_town_capturePenalty1", (amount - capturePayment), CivSettings.CURRENCY_NAME, this.getCiv().getName()));
+            CivMessage.sendTown(this, ChatColor.YELLOW + CivSettings.localize.localizedString("var_town_capturePenalty1", (amount - capturePayment), CivSettings.CURRENCY_NAME, this.getCiv().getName()));
             amount = capturePayment;
         }
 
@@ -1193,12 +1196,12 @@ public class Town extends SQLObject {
     public String getPvpString() {
         if (!this.getCiv().getDiplomacyManager().isAtWar()) {
             if (pvp) {
-                return CivColor.Red + "[PvP]";
+                return ChatColor.DARK_RED + "[PvP]";
             } else {
-                return CivColor.Green + "[No PvP]";
+                return ChatColor.DARK_GREEN + "[No PvP]";
             }
         } else {
-            return CivColor.Red + "[WAR-PvP]";
+            return ChatColor.DARK_RED + "[WAR-PvP]";
         }
     }
 
@@ -1529,7 +1532,7 @@ public class Town extends SQLObject {
         wonders.put(wonder.getCorner(), wonder);
 
         this.getTreasury().withdraw(cost);
-        CivMessage.sendTown(this, CivColor.Yellow + CivSettings.localize.localizedString("var_town_buildwonder_success", wonder.getDisplayName()));
+        CivMessage.sendTown(this, ChatColor.YELLOW + CivSettings.localize.localizedString("var_town_buildwonder_success", wonder.getDisplayName()));
         this.save();
     }
 
@@ -1581,7 +1584,7 @@ public class Town extends SQLObject {
              */
             if (tpl == null) {
                 tpl = new Template();
-                tpl.initTemplate(center, struct);
+                tpl.initTemplate(struct);
             }
 
             struct.build(player, center, tpl);
@@ -1605,7 +1608,7 @@ public class Town extends SQLObject {
         }
 
         this.getTreasury().withdraw(cost);
-        CivMessage.sendTown(this, CivColor.Yellow + CivSettings.localize.localizedString("var_town_buildwonder_success", struct.getDisplayName()));
+        CivMessage.sendTown(this, ChatColor.YELLOW + CivSettings.localize.localizedString("var_town_buildwonder_success", struct.getDisplayName()));
 
         //	try {
         //this.save();
@@ -1682,15 +1685,15 @@ public class Town extends SQLObject {
             throw new CivException(CivSettings.localize.localizedString("town_undo_cannotFind"));
         }
 
-        if (!(this.lastBuildableBuilt instanceof Wall) &&
-                !(this.lastBuildableBuilt instanceof Road)) {
-            throw new CivException(CivSettings.localize.localizedString("town_undo_notRoadOrWall"));
-        }
-
-        this.lastBuildableBuilt.processUndo();
-        this.structures.remove(this.lastBuildableBuilt.getCorner());
-        removeBuildTask(lastBuildableBuilt);
-        this.lastBuildableBuilt = null;
+//        if (!(this.lastBuildableBuilt instanceof Wall) &&
+//                !(this.lastBuildableBuilt instanceof Road)) {
+        throw new CivException(CivSettings.localize.localizedString("town_undo_notRoadOrWall"));
+//        }
+//
+//        this.lastBuildableBuilt.processUndo();
+//        this.structures.remove(this.lastBuildableBuilt.getCorner());
+//        removeBuildTask(lastBuildableBuilt);
+//        this.lastBuildableBuilt = null;
     }
 
     private void removeBuildTask(Buildable lastBuildableBuilt) {
@@ -2572,9 +2575,6 @@ public class Town extends SQLObject {
     }
 
     public AttrSource getFaithRate() {
-        double rate = 0.0;
-        HashMap<String, Double> rates = new HashMap<>();
-
         ConfigHappinessState state = this.getHappinessState();
         double rate = state.culture_rate;
         HashMap<String, Double> rates = new HashMap<String, Double>();
@@ -3034,7 +3034,7 @@ public class Town extends SQLObject {
         try {
 
             if (percent >= CivSettings.getDouble(CivSettings.espionageConfig, "espionage.town_exposure_failure")) {
-                CivMessage.sendTown(this, CivColor.Yellow + CivColor.BOLD + CivSettings.localize.localizedString("town_spy_thwarted"));
+                CivMessage.sendTown(this, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("town_spy_thwarted"));
                 return true;
             }
 
@@ -3052,7 +3052,7 @@ public class Town extends SQLObject {
 
             if (message.length() > 0) {
                 if (lastMessage == null || !lastMessage.equals(message)) {
-                    CivMessage.sendTown(this, CivColor.Yellow + CivColor.BOLD + message);
+                    CivMessage.sendTown(this, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + message);
                     lastMessage = message;
                 }
             }

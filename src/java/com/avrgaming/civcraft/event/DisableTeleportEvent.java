@@ -21,9 +21,9 @@ import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.war.War;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 
 import java.io.*;
 import java.util.Calendar;
@@ -82,7 +82,7 @@ public class DisableTeleportEvent implements EventInterface {
 
                 String line;
                 try {
-                    CivMessage.globalHeading(CivColor.BOLD + CivSettings.localize.localizedString(CivSettings.localize.localizedString("warteleportDisable")));
+                    CivMessage.globalHeading(ChatColor.BOLD + CivSettings.localize.localizedString(CivSettings.localize.localizedString("warteleportDisable")));
                     while ((line = br.readLine()) != null) {
                         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), line);
                     }
@@ -114,7 +114,7 @@ public class DisableTeleportEvent implements EventInterface {
             String line;
             try {
 
-                CivMessage.globalHeading(CivColor.BOLD + CivSettings.localize.localizedString("warteleportEnable"));
+                CivMessage.globalHeading(ChatColor.BOLD + CivSettings.localize.localizedString("warteleportEnable"));
                 while ((line = br.readLine()) != null) {
                     Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), line);
                 }

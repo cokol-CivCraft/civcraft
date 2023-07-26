@@ -28,8 +28,8 @@ import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.StructureSign;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.SimpleBlock;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -40,6 +40,8 @@ import org.bukkit.material.MaterialData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+
+import static java.lang.Math.max;
 
 public class Bank extends Structure {
 
@@ -73,7 +75,7 @@ public class Bank extends Structure {
     }
 
     public double getBankExchangeRate() {
-        double exchange_rate = 0.0;
+        double exchange_rate;
         switch (level) {
             case 1:
                 exchange_rate = 0.40;
@@ -105,15 +107,12 @@ public class Bank extends Structure {
             case 10:
                 exchange_rate = 2;
                 break;
+            default:
+                exchange_rate = 0.0;
         }
 
-        double rate = 1;
-        double addtional = rate * this.getTown().getBuffManager().getEffectiveDouble(Buff.BARTER);
-        rate += addtional;
-        if (rate > 1) {
-            exchange_rate *= rate;
-        }
-        return exchange_rate;
+        double rate = 1 + this.getTown().getBuffManager().getEffectiveDouble(Buff.BARTER);
+        return exchange_rate * max(rate, 1);
     }
 
     @Override
@@ -183,7 +182,7 @@ public class Bank extends Structure {
             DecimalFormat df = new DecimalFormat();
             resident.getTreasury().deposit((int) ((coins * count) * exchange_rate));
             CivMessage.send(player,
-                    CivColor.LightGreen + CivSettings.localize.localizedString("var_bank_exchanged", count, itemName, (df.format((coins * count) * exchange_rate)), CivSettings.CURRENCY_NAME));
+                    ChatColor.GREEN + CivSettings.localize.localizedString("var_bank_exchanged", count, itemName, (df.format((coins * count) * exchange_rate)), CivSettings.CURRENCY_NAME));
             return;
         }
 
@@ -198,8 +197,8 @@ public class Bank extends Structure {
         this.getTown().depositDirect(giveToTown);
         resident.getTreasury().deposit(giveToPlayer);
 
-        CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("var_bank_exchanged", count, itemName, giveToPlayer, CivSettings.CURRENCY_NAME));
-        CivMessage.send(player, CivColor.Yellow + " " + CivSettings.localize.localizedString("var_taxes_paid", giveToTown, CivSettings.CURRENCY_NAME));
+        CivMessage.send(player, ChatColor.GREEN + CivSettings.localize.localizedString("var_bank_exchanged", count, itemName, giveToPlayer, CivSettings.CURRENCY_NAME));
+        CivMessage.send(player, ChatColor.YELLOW + " " + CivSettings.localize.localizedString("var_taxes_paid", giveToTown, CivSettings.CURRENCY_NAME));
 
     }
 
@@ -245,7 +244,7 @@ public class Bank extends Structure {
                     break;
             }
         } catch (CivException e) {
-            CivMessage.send(player, CivColor.Rose + e.getMessage());
+            CivMessage.send(player, ChatColor.RED + e.getMessage());
         }
     }
 
@@ -372,7 +371,7 @@ public class Bank extends Structure {
         if (this.getTown().getBuffManager().hasBuff("buff_greed")) {
             double increase = this.getTown().getBuffManager().getEffectiveDouble("buff_greed");
             effectiveInterestRate += increase;
-            CivMessage.sendTown(this.getTown(), CivColor.LightGray + CivSettings.localize.localizedString("bank_greed"));
+            CivMessage.sendTown(this.getTown(), ChatColor.GRAY + CivSettings.localize.localizedString("bank_greed"));
         }
 
         double newCoins = principal * effectiveInterestRate;
@@ -381,7 +380,7 @@ public class Bank extends Structure {
         newCoins = Math.floor(newCoins);
 
         if (newCoins != 0) {
-            CivMessage.sendTown(this.getTown(), CivColor.LightGreen + CivSettings.localize.localizedString("var_bank_interestMsg1", newCoins, CivSettings.CURRENCY_NAME, principal));
+            CivMessage.sendTown(this.getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_bank_interestMsg1", newCoins, CivSettings.CURRENCY_NAME, principal));
             this.getTown().getTreasury().deposit(newCoins);
 
         }

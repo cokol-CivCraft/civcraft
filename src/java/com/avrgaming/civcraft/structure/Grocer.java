@@ -27,7 +27,7 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.StructureSign;
 import com.avrgaming.civcraft.object.Town;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -113,17 +113,17 @@ public class Grocer extends Structure {
             if (t == this.getTown()) {
                 // Pay no taxes! You're a member.
                 resident.buyItem(itemName, id, data, price, amount);
-                CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("var_grocer_msgBought", amount, itemName, price + " " + CivSettings.CURRENCY_NAME));
+                CivMessage.send(player, ChatColor.GREEN + CivSettings.localize.localizedString("var_grocer_msgBought", amount, itemName, price + " " + CivSettings.CURRENCY_NAME));
             } else {
                 // Pay non-resident taxes
                 resident.buyItem(itemName, id, data, price + payToTown, amount);
                 getTown().depositDirect(payToTown);
-                CivMessage.send(player, CivColor.LightGreen + CivSettings.localize.localizedString("var_grocer_msgBought", amount, itemName, price, CivSettings.CURRENCY_NAME));
-                CivMessage.send(player, CivColor.Yellow + CivSettings.localize.localizedString("var_grocer_msgPaidTaxes", this.getTown().getName(), payToTown + " " + CivSettings.CURRENCY_NAME));
+                CivMessage.send(player, ChatColor.GREEN + CivSettings.localize.localizedString("var_grocer_msgBought", amount, itemName, price, CivSettings.CURRENCY_NAME));
+                CivMessage.send(player, ChatColor.YELLOW + CivSettings.localize.localizedString("var_grocer_msgPaidTaxes", this.getTown().getName(), payToTown + " " + CivSettings.CURRENCY_NAME));
             }
 
         } catch (CivException e) {
-            CivMessage.send(player, CivColor.Rose + e.getMessage());
+            CivMessage.send(player, ChatColor.RED + e.getMessage());
         }
     }
 
@@ -167,7 +167,7 @@ public class Grocer extends Structure {
             sign_buy_material(player, grocerlevel.itemName, grocerlevel.itemId,
                     (byte) grocerlevel.itemData, grocerlevel.amount, grocerlevel.price);
         } else {
-            CivMessage.send(player, CivColor.Rose + CivSettings.localize.localizedString("grocer_sign_needUpgrade"));
+            CivMessage.send(player, ChatColor.RED + CivSettings.localize.localizedString("grocer_sign_needUpgrade"));
         }
     }
 

@@ -22,7 +22,7 @@ import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.Resident;
-import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class FoundCivSync implements Runnable {
@@ -46,7 +46,7 @@ public class FoundCivSync implements Runnable {
         try {
             Civilization.newCiv(resident.desiredCivName, resident.desiredCapitolName, resident, player, resident.desiredTownLocation);
         } catch (CivException e) {
-            CivMessage.send(player, CivColor.Rose + e.getMessage());
+            CivMessage.send(player, ChatColor.RED + e.getMessage());
         }
 
     }
