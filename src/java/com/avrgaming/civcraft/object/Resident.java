@@ -49,6 +49,7 @@ import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.BuildPreviewAsyncTask;
 import com.avrgaming.civcraft.tutorial.CivTutorial;
 import com.avrgaming.civcraft.util.*;
+import com.avrgaming.civcraft.util.*;
 import com.avrgaming.global.perks.NotVerifiedException;
 import com.avrgaming.global.perks.Perk;
 import com.avrgaming.global.perks.components.CustomPersonalTemplate;
@@ -1173,21 +1174,8 @@ public class Resident extends SQLObject {
 
             @Override
             public void run() {
-                try {
-                    resident.perks.clear();
-                    Player player = CivGlobal.getPlayer(resident);
-                    try {
-                        CivGlobal.perkManager.loadPerksForResident(resident);
-                    } catch (SQLException e) {
-                        CivMessage.sendError(player, CivSettings.localize.localizedString("resident_couldnotloadperks"));
-                        e.printStackTrace();
-                        return;
-                    } catch (NotVerifiedException e) {
-                        return;
-                    }
-                } catch (CivException e1) {
-                    return;
-                }
+                resident.perks.clear();
+
                 try {
 
                     StringBuilder perkMessage = new StringBuilder();

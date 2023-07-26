@@ -50,7 +50,6 @@ import com.avrgaming.civcraft.threading.tasks.*;
 import com.avrgaming.civcraft.util.*;
 import com.avrgaming.civcraft.war.War;
 import com.avrgaming.civcraft.war.WarRegen;
-import com.avrgaming.global.perks.PerkManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
@@ -160,8 +159,7 @@ public class CivGlobal {
     public static boolean checkForBooks = true;
     public static boolean debugDateBypass = false;
     public static boolean endWorld = false;
-    public static PerkManager perkManager = null;
-    public static boolean installMode = false;
+	public static boolean installMode = false;
 
     public static int highestCivEra = 0;
 

@@ -17,15 +17,6 @@
  */
 package com.avrgaming.civcraft.object;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.DecimalFormat;
-import java.util.HashMap;
-
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-
 import com.avrgaming.civcraft.camp.Camp;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigTownLevel;
@@ -41,6 +32,14 @@ import com.avrgaming.civcraft.permission.PermissionGroup;
 import com.avrgaming.civcraft.permission.PlotPermissions;
 import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.util.HashMap;
 
 public class TownChunk extends SQLObject {
 	
@@ -79,23 +78,23 @@ public class TownChunk extends SQLObject {
 
 	public static void init() throws SQLException {
 		if (!SQL.hasTable(TABLE_NAME)) {
-			String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME+" (" + 
-				"`id` int(11) unsigned NOT NULL auto_increment," +
-				"`town_id` int(11) unsigned NOT NULL," +
-				"`world` VARCHAR(32) NOT NULL," +
-				 "`x` bigint(20) NOT NULL," +
-				 "`z` bigint(20) NOT NULL," +
-				 "`owner_id` int(11) unsigned DEFAULT NULL," +
-				 "`groups` mediumtext DEFAULT NULL," +
-				 "`permissions` mediumtext NOT NULL," +
-				 "`for_sale` bool NOT NULL DEFAULT '0'," +
-				 "`value` float NOT NULL DEFAULT '0'," +
-				 "`price` float NOT NULL DEFAULT '0'," +
-				 "`canunclaim` bool DEFAULT '1'," +
-				 "`outpost` bool DEFAULT '0'," +			 
-			//	 "FOREIGN KEY (owner_id) REFERENCES "+SQL.tb_prefix+Resident.TABLE_NAME+"(id),"+
-			//	 "FOREIGN KEY (town_id) REFERENCES "+SQL.tb_prefix+Town.TABLE_NAME+"(id),"+
-				 "PRIMARY KEY (`id`)" + ")";
+			String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME + " (" +
+					"`id` int(11) unsigned NOT NULL auto_increment," +
+					"`town_id` int(11) unsigned NOT NULL," +
+					"`world` VARCHAR(32) NOT NULL," +
+					"`x` bigint(20) NOT NULL," +
+					"`z` bigint(20) NOT NULL," +
+					"`owner_id` int(11) unsigned DEFAULT NULL," +
+					"`cc_groups` mediumtext DEFAULT NULL," +
+					"`permissions` mediumtext NOT NULL," +
+					"`for_sale` bool NOT NULL DEFAULT '0'," +
+					"`cc_value` float NOT NULL DEFAULT '0'," +
+					"`price` float NOT NULL DEFAULT '0'," +
+					"`canunclaim` bool DEFAULT '1'," +
+					"`outpost` bool DEFAULT '0'," +
+					//	 "FOREIGN KEY (owner_id) REFERENCES "+SQL.tb_prefix+Resident.TABLE_NAME+"(id),"+
+					//	 "FOREIGN KEY (town_id) REFERENCES "+SQL.tb_prefix+Town.TABLE_NAME+"(id),"+
+					"PRIMARY KEY (`id`)" + ")";
 			
 			SQL.makeTable(table_create);
 			CivLog.info("Created "+TABLE_NAME+" table");
@@ -128,16 +127,16 @@ public class TownChunk extends SQLObject {
 		
 		this.perms.setOwner(CivGlobal.getResidentFromId(rs.getInt("owner_id")));
 		//this.perms.setGroup(CivGlobal.getPermissionGroup(this.getTown(), rs.getInt("groups")));
-		String grpString = rs.getString("groups");
+		String grpString = rs.getString("cc_groups");
 		if (grpString != null) {
 			String[] groups = grpString.split(":");
 			for (String grp : groups) {
 				this.perms.addGroup(CivGlobal.getPermissionGroup(this.getTown(), Integer.valueOf(grp)));
 			}
 		}
-			
+
 		this.forSale = rs.getBoolean("for_sale");
-		this.value = rs.getDouble("value");
+		this.value = rs.getDouble("cc_value");
 		this.price = rs.getDouble("price");
 		this.outpost = rs.getBoolean("outpost");
 		this.setCanUnclaim(rs.getBoolean("canunclaim"));
@@ -174,7 +173,7 @@ public class TownChunk extends SQLObject {
 		hashmap.put("z", this.getChunkCoord().getZ());
 		hashmap.put("permissions", perms.getSaveString());
 		hashmap.put("for_sale", this.isForSale());
-		hashmap.put("value", this.getValue());
+		hashmap.put("cc_value", this.getValue());
 		hashmap.put("price", this.getPrice());
 		hashmap.put("outpost", this.outpost);
 		
@@ -189,9 +188,9 @@ public class TownChunk extends SQLObject {
 			for (PermissionGroup grp : this.perms.getGroups()) {
                 out.append(grp.getId()).append(":");
 			}
-            hashmap.put("groups", out.toString());
+			hashmap.put("cc_groups", out.toString());
 		} else {
-			hashmap.put("groups", null);
+			hashmap.put("cc_groups", null);
 		}
 						
 		SQL.updateNamedObject(this, hashmap, TABLE_NAME);
