@@ -15,47 +15,47 @@ beakers_per_culture: 0.1
 culture_levels:
     - level: 0
       amount: 0
-      chunks: 6
+      chunks: 8
 
     - level: 1
       amount: 500
-      chunks: 8
+      chunks: 10
 
     - level: 2
       amount: 10000
-      chunks: 10
+      chunks: 13
 
     - level: 3
       amount: 20000
-      chunks: 13
+      chunks: 15
 
     - level: 4
       amount: 100000
-      chunks: 15
+      chunks: 17
 
     - level: 5
       amount: 250000
-      chunks: 17
+      chunks: 19
 
     - level: 6
       amount: 500000
-      chunks: 19
+      chunks: 22
 
     - level: 7
       amount: 1000000
-      chunks: 22
+      chunks: 26
 
     - level: 8
       amount: 2000000
-      chunks: 26
+      chunks: 32
 
     - level: 9
       amount: 4000000
-      chunks: 32
+      chunks: 40
 
     - level: 10
       amount: 5000000
-      chunks: 40
+      chunks: 50
 
 culture_biomes:
     - name: OCEAN
@@ -246,6 +246,7 @@ culture_biomes:
       growth: 1.0
       happiness: 0.02
       beakers: 1.5
+      faith: 0.25
 
     - name: RIVER
       coins: 0.0
@@ -393,6 +394,7 @@ culture_biomes:
       growth: 0.25
       happiness: 0.03
       beakers: 1.0
+      faith: 0.3
 
     - name: FOREST_HILLS
       coins: 0.0
@@ -477,6 +479,7 @@ culture_biomes:
       growth: 1.0
       happiness: 0.02
       beakers: 1.0
+      faith: 0.15
 
     - name: JUNGLE_HILLS
       coins: 0.0
@@ -498,6 +501,7 @@ culture_biomes:
       growth: 0.2
       happiness: 0.01
       beakers: 0.2
+      faith: 100.0
 
 
 

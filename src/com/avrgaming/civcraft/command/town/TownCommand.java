@@ -18,21 +18,6 @@
 package com.avrgaming.civcraft.command.town;
 
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.block.Biome;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
 import com.avrgaming.civcraft.command.CommandBase;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigBuildableInfo;
@@ -49,10 +34,8 @@ import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.object.TownChunk;
 import com.avrgaming.civcraft.permission.PermissionGroup;
 import com.avrgaming.civcraft.questions.JoinTownResponse;
-//import com.avrgaming.civcraft.structure.Capitol;
 import com.avrgaming.civcraft.structure.Structure;
 import com.avrgaming.civcraft.structure.TownHall;
-//import com.avrgaming.civcraft.structure.TownHall;
 import com.avrgaming.civcraft.tutorial.CivTutorial;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
@@ -60,6 +43,20 @@ import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.war.War;
 import com.avrgaming.global.perks.Perk;
 import com.avrgaming.global.perks.components.CustomTemplate;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.block.Biome;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class TownCommand extends CommandBase {
 	
@@ -247,9 +244,12 @@ public class TownCommand extends CommandBase {
 		player.openInventory(inv);
 	}
 	
-	public static ArrayList<String> survey(Location loc) {
+	public static ArrayList<String> survey(Location loc, int culturelevel) {
         ChunkCoord start = new ChunkCoord(loc);
-        ConfigCultureLevel lvl = CivSettings.cultureLevels.get(1);
+        if (culturelevel == 0 || culturelevel == 1) {
+            culturelevel = 1;
+        }
+        ConfigCultureLevel lvl = CivSettings.cultureLevels.get(culturelevel);
 
         ArrayList<String> outList = new ArrayList<>();
 
@@ -337,7 +337,7 @@ public class TownCommand extends CommandBase {
 	
 	public void survey_cmd() throws CivException {
 		Player player = getPlayer();
-		CivMessage.send(player, survey(player.getLocation()));
+        CivMessage.send(player, survey(player.getLocation(), Integer.parseInt(args[1])));
 	}
 	
 	public void capitulate_cmd() throws CivException {
@@ -548,16 +548,19 @@ public class TownCommand extends CommandBase {
 		}
 		
 		if (!residentToKick.isLandOwner()) {
-			town.removeResident(residentToKick);
+            town.removeResident(residentToKick);
 
-			try {
-				CivMessage.send(CivGlobal.getPlayer(residentToKick), CivColor.Yellow+CivSettings.localize.localizedString("cmd_town_evictAlert"));
-			} catch (CivException e) {
-				//Player not online.
-			}
-			CivMessage.sendTown(town, CivSettings.localize.localizedString("var_cmd_town_evictSuccess1",residentToKick.getName(),resident.getName()));
-			return;
-		}
+            try {
+                CivMessage.send(CivGlobal.getPlayer(residentToKick), CivColor.Yellow + CivSettings.localize.localizedString("cmd_town_evictAlert"));
+            } catch (CivException e) {
+                //Player not online.
+            }
+            if (residentToKick.getNativeTown() == town) {
+                residentToKick.setNativeTown(0);
+            }
+            CivMessage.sendTown(town, CivSettings.localize.localizedString("var_cmd_town_evictSuccess1", residentToKick.getName(), resident.getName()));
+            return;
+        }
 		
 		residentToKick.setDaysTilEvict(CivSettings.GRACE_DAYS);
 		residentToKick.warnEvict();

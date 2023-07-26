@@ -17,32 +17,11 @@
  */
 package com.avrgaming.civcraft.object;
 
-import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.DecimalFormat;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import com.avrgaming.civcraft.components.AttributeBase;
 import com.avrgaming.civcraft.components.AttributeRate;
 import com.avrgaming.civcraft.components.AttributeWarUnhappiness;
 import com.avrgaming.civcraft.components.Component;
-import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.config.ConfigBuff;
-import com.avrgaming.civcraft.config.ConfigBuildableInfo;
-import com.avrgaming.civcraft.config.ConfigCultureLevel;
-import com.avrgaming.civcraft.config.ConfigGovernment;
-import com.avrgaming.civcraft.config.ConfigHappinessState;
-import com.avrgaming.civcraft.config.ConfigTownLevel;
-import com.avrgaming.civcraft.config.ConfigTownUpgrade;
-import com.avrgaming.civcraft.config.ConfigUnit;
+import com.avrgaming.civcraft.config.*;
 import com.avrgaming.civcraft.database.SQL;
 import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.exception.AlreadyRegisteredException;
@@ -58,30 +37,29 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.permission.PermissionGroup;
 import com.avrgaming.civcraft.randomevents.RandomEvent;
 import com.avrgaming.civcraft.road.Road;
-import com.avrgaming.civcraft.structure.Buildable;
-import com.avrgaming.civcraft.structure.Mine;
-import com.avrgaming.civcraft.structure.ResearchLab;
-import com.avrgaming.civcraft.structure.School;
-import com.avrgaming.civcraft.structure.Structure;
-import com.avrgaming.civcraft.structure.Temple;
-import com.avrgaming.civcraft.structure.TownHall;
-import com.avrgaming.civcraft.structure.TradeOutpost;
-import com.avrgaming.civcraft.structure.University;
-import com.avrgaming.civcraft.structure.Wall;
+import com.avrgaming.civcraft.structure.*;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.sync.SyncUpdateTags;
 import com.avrgaming.civcraft.threading.tasks.BuildAsyncTask;
 import com.avrgaming.civcraft.threading.tasks.BuildUndoTask;
-import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.CivColor;
-import com.avrgaming.civcraft.util.DateUtil;
-import com.avrgaming.civcraft.util.ItemFrameStorage;
+import com.avrgaming.civcraft.util.*;
 import com.avrgaming.civcraft.war.War;
 import com.avrgaming.global.perks.Perk;
 import com.avrgaming.global.perks.components.CustomTemplate;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Chest;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Town extends SQLObject {
 
@@ -96,12 +74,16 @@ public class Town extends SQLObject {
     private final ConcurrentHashMap<BlockCoord, Structure> structures = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<BlockCoord, Buildable> disabledBuildables = new ConcurrentHashMap<>();
 
+    private final ArrayList<Granary> granaryAL = new ArrayList<Granary>();
+
     private int level;
     private double taxRate;
     private double flatTax;
     private Civilization civ;
     private Civilization motherCiv;
     private int daysInDebt;
+
+    private String granaryResources;
 
     /* Hammers */
     private double baseHammers = 1.0;
@@ -191,26 +173,27 @@ public class Town extends SQLObject {
 		if (!SQL.hasTable(TABLE_NAME)) {
 			String table_create = "CREATE TABLE " + SQL.tb_prefix + TABLE_NAME+" (" +
 					"`id` int(11) unsigned NOT NULL auto_increment," +
-					"`name` VARCHAR(64) NOT NULL," +
-					"`civ_id` int(11) NOT NULL DEFAULT 0," +
-					"`master_civ_id` int(11) NOT NULL DEFAULT 0," + //XXX no longer used.
-					"`mother_civ_id` int(11) NOT NULL DEFAULT 0," +
-					"`defaultGroupName` mediumtext DEFAULT NULL," +
-					"`mayorGroupName` mediumtext DEFAULT NULL," +
-					"`assistantGroupName` mediumtext DEFAULT NULL," +
-					"`upgrades` mediumtext DEFAULT NULL," +
-					"`level` int(11) DEFAULT 1," +
-					"`debt` double DEFAULT 0," +
-					"`coins` double DEFAULT 0," +
-					"`daysInDebt` int(11) DEFAULT 0,"+
-					"`flat_tax` double NOT NULL DEFAULT '0'," +
-					"`tax_rate` double DEFAULT 0," +
-					"`extra_hammers` double DEFAULT 0," +
-					"`culture` int(11) DEFAULT 0," +
-					"`created_date` long," +
-					"`outlaws` mediumtext DEFAULT NULL,"+
-					"`dbg_civ_name` mediumtext DEFAULT NULL,"+
-				"UNIQUE KEY (`name`), " +
+                    "`name` VARCHAR(64) NOT NULL," +
+                    "`civ_id` int(11) NOT NULL DEFAULT 0," +
+                    "`master_civ_id` int(11) NOT NULL DEFAULT 0," + //XXX no longer used.
+                    "`mother_civ_id` int(11) NOT NULL DEFAULT 0," +
+                    "`defaultGroupName` mediumtext DEFAULT NULL," +
+                    "`mayorGroupName` mediumtext DEFAULT NULL," +
+                    "`assistantGroupName` mediumtext DEFAULT NULL," +
+                    "`upgrades` mediumtext DEFAULT NULL," +
+                    "`level` int(11) DEFAULT 1," +
+                    "`debt` double DEFAULT 0," +
+                    "`granaryResources` mediumtext DEFAULT NULL," +
+                    "`coins` double DEFAULT 0," +
+                    "`daysInDebt` int(11) DEFAULT 0," +
+                    "`flat_tax` double NOT NULL DEFAULT '0'," +
+                    "`tax_rate` double DEFAULT 0," +
+                    "`extra_hammers` double DEFAULT 0," +
+                    "`culture` int(11) DEFAULT 0," +
+                    "`created_date` long," +
+                    "`outlaws` mediumtext DEFAULT NULL," +
+                    "`dbg_civ_name` mediumtext DEFAULT NULL," +
+                    "UNIQUE KEY (`name`), " +
 				"PRIMARY KEY (`id`)" + ")";
 
 			SQL.makeTable(table_create);
@@ -231,8 +214,9 @@ public class Town extends SQLObject {
 	public void load(ResultSet rs) throws SQLException, InvalidNameException, CivException {
 		this.setId(rs.getInt("id"));
 		this.setName(rs.getString("name"));
-		this.setLevel(rs.getInt("level"));
-		this.setCiv(CivGlobal.getCivFromId(rs.getInt("civ_id")));
+        this.setLevel(rs.getInt("level"));
+        this.granaryResources = rs.getString("granaryResources");
+        this.setCiv(CivGlobal.getCivFromId(rs.getInt("civ_id")));
 
 		Integer motherCivId = rs.getInt("mother_civ_id");
         if (motherCivId != 0) {
@@ -318,7 +302,8 @@ public class Town extends SQLObject {
 		hashmap.put("culture", this.getAccumulatedCulture());
 		hashmap.put("upgrades", this.getUpgradesString());
 		hashmap.put("coins", this.getTreasury().getBalance());
-		hashmap.put("dbg_civ_name", this.getCiv().getName());
+        hashmap.put("dbg_civ_name", this.getCiv().getName());
+        hashmap.put("granaryResources", this.granaryResources);
 
 		if (this.created_date != null) {
 			hashmap.put("created_date", this.created_date.getTime());
@@ -2470,6 +2455,11 @@ public class Town extends SQLObject {
 
     public void disband() {
         getCiv().removeTown(this);
+        for (Resident r : getResidents()) {
+            if (r.getNativeTown() == this) {
+                r.setNativeTown(0);
+            }
+        }
         try {
             delete();
         } catch (SQLException e) {
@@ -2669,20 +2659,16 @@ public class Town extends SQLObject {
     }
 
     public AttrSource getFaithRate() {
-        double rate = 0.0;
-        HashMap<String, Double> rates = new HashMap<String, Double>();
-
         ConfigHappinessState state = this.getHappinessState();
-        double haprate = 0.0;
-        rate = state.culture_rate;
-        rates.put("Happiness", haprate);
+        double rate = state.culture_rate;
+        HashMap<String, Double> rates = new HashMap<String, Double>();
+        rates.put("Happiness", rate);
 // TODO for Pashkov: ПЕРЕПИШИ К ЧЕРТЯМ РЕЙТИНГИ СТАТИСТИК пожалуйста :3
 // TODO: я не понимаю как оно считает, и почему вообще рейтинг друг на друга умножается, а не в общую сумму идёт
         // я подозреваю что у нас будут баги с %
         double govrate = getGovernment().culture_rate;
         rate *= govrate;
         rates.put("Government", govrate);
-        rate += govrate;
 
         double techs = 0.0;
         if (this.hasTechnology("tech_religion")) {
@@ -2712,8 +2698,6 @@ public class Town extends SQLObject {
         }
         rates.put("Wonders", wonders);
         rate += wonders;
-
-
         return new AttrSource(rates, rate, null);
     }
 
@@ -2738,30 +2722,29 @@ public class Town extends SQLObject {
         rate += additional;
         rates.put("Goodies/Wonders", additional);
 
-//		double education = 0.0;
-//		for (Structure struct : this.structures.values()) {
-//			for (Component comp : struct.attachedComponents) {
-//				if (comp instanceof AttributeBase) {
-//					AttributeBase as = (AttributeBase)comp;
-//					if (as.getString("attribute").equalsIgnoreCase("BEAKERBOOST")) {
-//						double boostPerRes = as.getGenerated();
-//						int maxBoost = 0;
-//
-//						if (struct instanceof University) {
-//							maxBoost = 5;
-//						}
-//						else if (struct instanceof School || struct instanceof ResearchLab) {
-//							maxBoost = 10;
-//						}
-//						int resCount = Math.min(this.getResidentCount(),maxBoost);
-//						education += (boostPerRes * resCount);
-//					}
-//				}
-//			}
-//		}
-//
-//		rate += education;
-//		rates.put("Education", education);
+        double education = 0.0;
+        for (Structure struct : this.structures.values()) {
+            for (Component comp : struct.attachedComponents) {
+                if (comp instanceof AttributeBase) {
+                    AttributeBase as = (AttributeBase) comp;
+                    if (as.getString("attribute").equalsIgnoreCase("BEAKERBOOST")) {
+                        double boostPerRes = as.getGenerated();
+                        int maxBoost = 0;
+
+                        if (struct instanceof University) {
+                            maxBoost = 5;
+                        } else if (struct instanceof School || struct instanceof ResearchLab) {
+                            maxBoost = 10;
+                        }
+                        int resCount = Math.min(this.getResidentCount(), maxBoost);
+                        education += (boostPerRes * resCount);
+                    }
+                }
+            }
+        }
+
+        rate += education;
+        rates.put("Education", education);
 
         return new AttrSource(rates, rate, null);
     }
@@ -2817,7 +2800,7 @@ public class Town extends SQLObject {
         beakers += wondersTrade;
         sources.put("Goodies/Wonders", wondersTrade);
 
-        double education = 0.0;
+    /*    double education = 0.0;
         for (Structure struct : this.structures.values()) {
             for (Component comp : struct.attachedComponents) {
                 if (comp instanceof AttributeBase) {
@@ -2839,7 +2822,7 @@ public class Town extends SQLObject {
         }
         double educationBeakers = (beakers * education);
         beakers += educationBeakers;
-        sources.put("Education", educationBeakers);
+        sources.put("Education", educationBeakers); */
 
         /* Make sure we never give out negative beakers. */
         beakers = Math.max(beakers, 0);
@@ -3399,6 +3382,64 @@ public class Town extends SQLObject {
 
     public Collection<Buildable> getDisabledBuildables() {
         return this.disabledBuildables.values();
+    }
+
+    public Granary getGranary(int granaryNumber) {
+        return granaryAL.get(granaryNumber);
+    }
+
+    public ArrayList<Granary> getGranaries() {
+        return granaryAL;
+    }
+
+    public void saveGranaryResources(int i1, int i2, int i3, int i4, int i5, int i6) {
+        String s = granaryResources;
+        if (s != null) {
+            String[] c = s.split("/");
+            int iron = Integer.parseInt(c[0]);
+            int gold = Integer.parseInt(c[1]);
+            int diamond = Integer.parseInt(c[2]);
+            int emerald = Integer.parseInt(c[3]);
+            int tungsten = Integer.parseInt(c[4]);
+            int chromium = Integer.parseInt(c[5]);
+            iron += i1;
+            gold += i2;
+            diamond += i3;
+            emerald += i4;
+            tungsten += i5;
+            chromium += i6;
+            s = iron + "/" + gold + "/" + diamond + "/" + emerald + "/" + tungsten + "/" + chromium;
+        } else {
+            s = i1 + "/" + i2 + "/" + i3 + "/" + i4 + "/" + i5 + "/" + i6;
+        }
+        granaryResources = s;
+
+    }
+
+    public Granary getFreeGranary() {
+        for (int i = 0; i < granaryAL.size(); i++) {
+            Granary g = getGranary(i);
+            ArrayList<StructureChest> aa = g.getAllChestsById(2);
+            int full = 0;
+            for (StructureChest ab : aa) {
+                Chest chest = (Chest) ab.getCoord().getBlock().getState();
+                if (chest.getBlockInventory().firstEmpty() < 0) {
+                    full++;
+                }
+            }
+            if (full < 2) {
+                return g;
+            }
+        }
+        return null;
+    }
+
+    public void addGranary(Granary g) {
+        this.granaryAL.add(g);
+    }
+
+    public void removeGranary(Granary g) {
+        this.granaryAL.remove(g);
     }
 
 

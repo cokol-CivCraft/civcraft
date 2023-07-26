@@ -17,14 +17,13 @@
  */
 package com.avrgaming.civcraft.config;
 
+import com.avrgaming.civcraft.main.CivLog;
+import com.avrgaming.civcraft.object.Civilization;
+import org.bukkit.configuration.file.FileConfiguration;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import org.bukkit.configuration.file.FileConfiguration;
-
-import com.avrgaming.civcraft.main.CivLog;
-import com.avrgaming.civcraft.object.Civilization;
 
 public class ConfigGovernment {
 
@@ -60,7 +59,7 @@ public class ConfigGovernment {
 			gov.hammer_rate = (Double)level.get("hammer_rate");
 			gov.beaker_rate = (Double)level.get("beaker_rate");
             gov.maximum_tax_rate = (Double) level.get("maximum_tax_rate");
-            gov.trommel_rate = (Double) level.get("trommel_rate");
+			gov.trommel_rate = (Double) level.get("trommel_rate");
 
 			government_map.put(gov.id, gov);
 		}

@@ -17,12 +17,9 @@
  */
 package com.avrgaming.civcraft.threading.tasks;
 
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.entity.Player;
-
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
+import com.avrgaming.civcraft.listener.BlockListener;
 import com.avrgaming.civcraft.loreenhancements.LoreEnhancement;
 import com.avrgaming.civcraft.lorestorage.LoreMaterial;
 import com.avrgaming.civcraft.main.CivGlobal;
@@ -30,8 +27,10 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.BuildableDamageBlock;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.CivColor;
-
 import gpl.AttributeUtil;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
 
 public class StructureBlockHitEvent implements Runnable {
 
@@ -83,11 +82,12 @@ public class StructureBlockHitEvent implements Runnable {
 			if (damage > 1) {
 				CivMessage.send(player, CivColor.LightGray+CivSettings.localize.localizedString("var_StructureBlockHitEvent_punchoutDmg",(damage-1)));
 			}
-				
-			dmgBlock.getOwner().onDamage(damage, world, player, dmgBlock.getCoord(), dmgBlock);
+
+            dmgBlock.getOwner().onDamage(damage, world, player, dmgBlock.getCoord(), dmgBlock);
+            BlockListener.updateBlockUnderAttack(dmgBlock.getCoord().getBlock());
 		} else {
-			CivMessage.sendErrorNoRepeat(player, 
-					CivSettings.localize.localizedString("var_StructureBlockHitEvent_Invulnerable",dmgBlock.getOwner().getDisplayName()));
+            CivMessage.sendErrorNoRepeat(player,
+                    CivSettings.localize.localizedString("var_StructureBlockHitEvent_Invulnerable", dmgBlock.getOwner().getDisplayName(), dmgBlock.getTown().getName()));
 		}
 	}
 }

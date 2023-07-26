@@ -17,43 +17,6 @@
  */
 package com.avrgaming.civcraft.main;
 
-import java.io.File;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Queue;
-import java.util.TreeMap;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-
-import com.avrgaming.civcraft.object.*;
-import net.milkbowl.vault.economy.Economy;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.World;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.ItemFrame;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
 import com.avrgaming.civcraft.arena.ArenaTeam;
 import com.avrgaming.civcraft.camp.Camp;
 import com.avrgaming.civcraft.camp.CampBlock;
@@ -67,6 +30,7 @@ import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.exception.InvalidNameException;
 import com.avrgaming.civcraft.exception.InvalidObjectException;
 import com.avrgaming.civcraft.items.BonusGoodie;
+import com.avrgaming.civcraft.object.*;
 import com.avrgaming.civcraft.object.Relation.Status;
 import com.avrgaming.civcraft.permission.PermissionGroup;
 import com.avrgaming.civcraft.populators.MobSpawnerPreGenerate;
@@ -77,30 +41,32 @@ import com.avrgaming.civcraft.randomevents.RandomEvent;
 import com.avrgaming.civcraft.road.RoadBlock;
 import com.avrgaming.civcraft.sessiondb.SessionDatabase;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
-import com.avrgaming.civcraft.structure.Buildable;
-import com.avrgaming.civcraft.structure.Capitol;
-import com.avrgaming.civcraft.structure.Market;
-import com.avrgaming.civcraft.structure.Structure;
-import com.avrgaming.civcraft.structure.TownHall;
-import com.avrgaming.civcraft.structure.Wall;
+import com.avrgaming.civcraft.structure.*;
 import com.avrgaming.civcraft.structure.farm.FarmChunk;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.threading.TaskMaster;
-import com.avrgaming.civcraft.threading.tasks.CivLeaderQuestionTask;
-import com.avrgaming.civcraft.threading.tasks.CivQuestionTask;
-import com.avrgaming.civcraft.threading.tasks.CultureProcessAsyncTask;
-import com.avrgaming.civcraft.threading.tasks.PlayerQuestionTask;
-import com.avrgaming.civcraft.threading.tasks.UpdateTagBetweenCivsTask;
-import com.avrgaming.civcraft.threading.tasks.onLoadTask;
-import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.BukkitObjects;
-import com.avrgaming.civcraft.util.ChunkCoord;
-import com.avrgaming.civcraft.util.CivColor;
-import com.avrgaming.civcraft.util.ItemFrameStorage;
+import com.avrgaming.civcraft.threading.tasks.*;
+import com.avrgaming.civcraft.util.*;
 import com.avrgaming.civcraft.war.War;
 import com.avrgaming.civcraft.war.WarRegen;
 import com.avrgaming.global.perks.PerkManager;
+import net.milkbowl.vault.economy.Economy;
+import org.bukkit.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.ItemFrame;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.io.File;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class CivGlobal {
 
@@ -847,13 +813,16 @@ public class CivGlobal {
 	
 	//TODO make lookup via ID faster(use hashtable)
 	public static Town getTownFromId(int id) {
-		for (Town t : towns.values()) {
-			if (t.getId() == id) {
-				return t;
-			}
-		}
-		return null;
-	}
+        if (id == 0) {
+            return null;
+        }
+        for (Town t : towns.values()) {
+            if (t.getId() == id) {
+                return t;
+            }
+        }
+        return null;
+    }
 	
 	public static void addTown(Town town) {
 		towns.put(town.getName().toLowerCase(), town);

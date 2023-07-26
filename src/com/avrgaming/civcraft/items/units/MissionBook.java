@@ -17,21 +17,6 @@
  */
 package com.avrgaming.civcraft.items.units;
 
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Random;
-
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BookMeta;
-
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigMission;
 import com.avrgaming.civcraft.config.ConfigUnit;
@@ -41,26 +26,28 @@ import com.avrgaming.civcraft.interactive.InteractiveSpyMission;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
-import com.avrgaming.civcraft.object.Civilization;
-import com.avrgaming.civcraft.object.CultureChunk;
-import com.avrgaming.civcraft.object.MissionLogger;
-import com.avrgaming.civcraft.object.Resident;
-import com.avrgaming.civcraft.object.Town;
-import com.avrgaming.civcraft.object.TownChunk;
+import com.avrgaming.civcraft.object.*;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
-import com.avrgaming.civcraft.structure.Buildable;
-import com.avrgaming.civcraft.structure.Capitol;
-import com.avrgaming.civcraft.structure.Cottage;
-import com.avrgaming.civcraft.structure.FishingBoat;
-import com.avrgaming.civcraft.structure.Granary;
-import com.avrgaming.civcraft.structure.Structure;
-import com.avrgaming.civcraft.structure.TownHall;
-import com.avrgaming.civcraft.structure.TradeOutpost;
+import com.avrgaming.civcraft.structure.*;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.util.BookUtil;
 import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.war.War;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
+
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Random;
 
 public class MissionBook extends UnitItemMaterial {
 	
@@ -415,7 +402,7 @@ public class MissionBook extends UnitItemMaterial {
 			throw new CivException(CivSettings.localize.localizedString("missionBook_poison_errorNotGranary"));
 		}
 		
-		double distance = player.getLocation().distance(granary.getCorner().getLocation());
+		double distance = player.getLocation().distance(granary.getCenterLocation().getLocation());
 		if (distance > mission.range) {
 			throw new CivException(CivSettings.localize.localizedString("missionBook_poison_errorTooFar"));
 		}
@@ -458,8 +445,8 @@ public class MissionBook extends UnitItemMaterial {
 							((Cottage)struct).delevel();
 						}
 					}
-					
-					CivMessage.global(CivColor.Yellow+CivSettings.localize.localizedString("missionBook_sabatoge_alert1")+CivColor.White+" "+CivSettings.localize.localizedString("var_missionBook_poison_alert1",tc.getTown().getName()));
+                    CivMessage.sendSuccess(resident, CivSettings.localize.localizedString("var_mission_poisoned"));
+                    CivMessage.global(CivColor.Yellow + CivSettings.localize.localizedString("missionBook_sabatoge_alert1") + CivColor.White + " " + CivSettings.localize.localizedString("var_missionBook_poison_alert1", tc.getTown().getName()));
 				}
 			} catch (InvalidConfiguration e) {
 				e.printStackTrace();
@@ -546,11 +533,12 @@ public class MissionBook extends UnitItemMaterial {
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("M/dd h:mm:ss a z");
 			out += CivSettings.localize.localizedString("Time")+" "+sdf.format(new Date())+"\n";
-			out += (CivSettings.localize.localizedString("Treasury")+" "+tc.getTown().getTreasury().getBalance()+"\n");
-			out += (CivSettings.localize.localizedString("Hammers")+" "+tc.getTown().getHammers().total+"\n");
+            out += (CivSettings.localize.localizedString("Treasury") + " " + tc.getTown().getTreasury().getBalance() + "\n");
+            out += (CivSettings.localize.localizedString("cmd_town_happiness") + " " + tc.getTown().getHappinessPercentage()) + " " + "(" + tc.getTown().getHappinessState().name + ")";
+            out += (CivSettings.localize.localizedString("Hammers") + " " + tc.getTown().getHammers().total + "\n");
 			out += (CivSettings.localize.localizedString("Culture")+" "+tc.getTown().getCulture().total+"\n");
-			out += (CivSettings.localize.localizedString("cmd_town_growth")+" "+tc.getTown().getGrowth().total+"\n");
-			out += (CivSettings.localize.localizedString("BeakersCiv")+" "+tc.getTown().getBeakers().total+"\n");
+            out += (CivSettings.localize.localizedString("cmd_town_growth") + " " + tc.getTown().getGrowth().total + "\n");
+            out += (CivSettings.localize.localizedString("BeakersCiv") + " " + tc.getTown().getCiv().getBeakers() + "\n");
 			if (tc.getTown().getCiv().getResearchTech() != null) {
 				out += (CivSettings.localize.localizedString("Researching")+" "+tc.getTown().getCiv().getResearchTech().name+"\n");
 			} else {

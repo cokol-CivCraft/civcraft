@@ -128,8 +128,8 @@ random_events:
       length: 72
       actions:
          - name: 'HammerRate'
-           value: '1.5'
-           duration: '72'
+           value: '1.33'
+           duration: '96'
       requirements:
       success:
       failure:
@@ -174,8 +174,8 @@ random_events:
          - name: 'MessageTown'
            message: "We've found the herbs! The people rejoice!"
          - name: 'Happiness'
-           value: '5'
-           duration: '120'
+           value: '7'
+           duration: '96'
       failure:
          - name: 'MessageTown'
            message: "We couldn't find the herbs in time!"
@@ -186,8 +186,8 @@ random_events:
       message:
         - "There is a rumor going around the town that there is a large cache of coins, hidden somewhere out in"
         - "the world. If we can find the block it's hidden in and break it, we'll be able to collect a massive"
-        - "reward! The first person to break the block recieves a reward. We have 12 hours to find the coins."
-      length: 12
+        - "reward! The first person to break the block recieves a reward. We have 24 hours to find the coins."
+      length: 24
       actions:
         - name: 'PickRandomBlock'
           varname: 'loc'
@@ -196,11 +196,11 @@ random_events:
           varname: 'loc'
           playername_var: 'player'
       success:
-         - name: 'MessageTown'
-           message: "One of the town residents have found the cache of coins!"
+        - name: 'MessageTown'
+          message: "One of the town residents have found the cache of coins!"
          - name: 'PayPlayer'
            playername_var: 'player'
-           amount: '75000'
+           amount: '300000'
       failure:
          - name: 'MessageTown'
            message: "We couldn't find the coins in time!"

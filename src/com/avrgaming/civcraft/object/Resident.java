@@ -18,43 +18,6 @@
  */
 package com.avrgaming.civcraft.object;
 
-import gpl.InventorySerializer;
-
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-//import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-//import org.bukkit.potion.PotionEffect;
-//import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Score;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
-
 import com.avrgaming.civcraft.arena.Arena;
 import com.avrgaming.civcraft.arena.ArenaTeam;
 import com.avrgaming.civcraft.camp.Camp;
@@ -85,15 +48,27 @@ import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.BuildPreviewAsyncTask;
 import com.avrgaming.civcraft.tutorial.CivTutorial;
-import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.CallbackInterface;
-import com.avrgaming.civcraft.util.CivColor;
-import com.avrgaming.civcraft.util.PlayerBlockChangeUtil;
-import com.avrgaming.civcraft.util.SimpleBlock;
+import com.avrgaming.civcraft.util.*;
 import com.avrgaming.global.perks.NotVerifiedException;
 import com.avrgaming.global.perks.Perk;
 import com.avrgaming.global.perks.components.CustomPersonalTemplate;
 import com.avrgaming.global.perks.components.CustomTemplate;
+import gpl.InventorySerializer;
+import org.bukkit.*;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.scoreboard.*;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Resident extends SQLObject {
 
@@ -105,6 +80,7 @@ public class Resident extends SQLObject {
     private boolean combatInfo = true;
     private boolean titleAPI = true;
     private int respawntime;
+    private Civilization nativeCiv;
 
     private boolean usesAntiCheat = false;
 
@@ -118,6 +94,7 @@ public class Resident extends SQLObject {
     private boolean controlBlockInstantBreak = false;
     private int townID = 0;
     private int campID = 0;
+    private int nativeTownId = 0;
     private boolean dontSaveTown = false;
     private String timezone;
 
@@ -207,6 +184,7 @@ public class Resident extends SQLObject {
                     "`uuid` VARCHAR(256) NOT NULL DEFAULT 'UNKNOWN'," +
                     "`currentName` VARCHAR(64) DEFAULT NULL," +
                     "`town_id` int(11)," +
+                    "`nativetown_id` int(11)," +
                     "`lastOnline` BIGINT NOT NULL," +
                     "`registered` BIGINT NOT NULL," +
                     "`friends` mediumtext," +
@@ -293,6 +271,8 @@ public class Resident extends SQLObject {
         this.campID = rs.getInt("camp_id");
         this.lastIP = rs.getString("last_ip");
         this.debugTown = rs.getString("debug_town");
+        this.nativeTownId = rs.getInt("nativetown_id");
+        LoadNativeCiv(nativeTownId);
 
         if (rs.getString("uuid").equalsIgnoreCase("UNKNOWN")) {
             this.uid = null;
@@ -1282,7 +1262,7 @@ public class Resident extends SQLObject {
         if (entries.size() > 0) {
             Civilization oldCiv = CivGlobal.getCivFromId(Integer.parseInt(entries.get(0).value));
             if (oldCiv == null) {
-                /* Hmm old civ is gone. */
+                /* Hmm, old civ is gone. */
                 cleanupCooldown();
                 return;
             }
@@ -1833,4 +1813,36 @@ public class Resident extends SQLObject {
     public void setTitleAPI(boolean titleAPI) {
         this.titleAPI = titleAPI;
     }
+
+    public Civilization getNativeCiv() {
+        if (nativeCiv != null) {
+            return nativeCiv;
+        }
+        return null;
+    }
+
+    public void setNativeCiv(Civilization c) {
+        nativeCiv = c;
+    }
+
+    public void LoadNativeCiv(int townId) {
+        Town t = CivGlobal.getTownFromId(townId);
+        if (t != null && t.getMotherCiv() != null) {
+            nativeCiv = t.getMotherCiv();
+        }
+    }
+
+    public void setNativeTown(int i) {
+        nativeTownId = i;
+    }
+
+    public Town getNativeTown() {
+        return CivGlobal.getTownFromId(nativeTownId);
+    }
+
+    public int getNativeTownId() {
+        return nativeTownId;
+    }
+
+
 }

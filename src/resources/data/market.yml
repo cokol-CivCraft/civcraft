@@ -40,11 +40,10 @@ items:
       value: 1
     
     - id: 4
-      name: 'CraftedReed'
-      custom_id: 'mat_crafted_reeds'
-      type_id: 0
+      name: 'Sugar Cane'
+      type_id: 338
       data: 0
-      value: 1
+      value: 2
 # Shelf 1 right side, front 5-9
     - id: 5
       name: 'String'

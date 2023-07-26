@@ -17,10 +17,6 @@
  */
 package com.avrgaming.civcraft.object;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashMap;
-
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigTradeGood;
 import com.avrgaming.civcraft.database.SQL;
@@ -33,6 +29,12 @@ import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.structure.Structure;
 import com.avrgaming.civcraft.structure.TradeOutpost;
 import com.avrgaming.civcraft.util.BlockCoord;
+import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
 
 public class TradeGood extends SQLObject {
 
@@ -82,36 +84,43 @@ public class TradeGood extends SQLObject {
 
 	
 	@Override
-	public void load(ResultSet rs) throws SQLException, InvalidNameException {
-		this.setId(rs.getInt("id"));
-		this.setName(rs.getString("name"));
-		setInfo(CivSettings.goods.get(this.getName()));
-		this.setTown(CivGlobal.getTownFromId(rs.getInt("town_id")));
-		String bonusLocation = rs.getString("bonusLocation");
-		if (bonusLocation != null) {
-			this.bonusLocation = new BlockCoord(bonusLocation);
-		} else {
-			this.bonusLocation = null;
-		}
-		
-		this.coord = new BlockCoord(rs.getString("coord"));
-		this.addProtectedBlocks(this.coord);
-		
-		this.setStruct(CivGlobal.getStructureById(rs.getInt("structure_id")));
-		
-		if (this.getStruct() != null) {
-			if (struct instanceof TradeOutpost) {
-				TradeOutpost outpost = (TradeOutpost)this.struct;
-				outpost.setGood(this);
-			}
-		}
-		
-		if (this.getTown() != null) {
-			this.civ = this.getTown().getCiv();
-		}
-		
-	}
-	private void addProtectedBlocks(BlockCoord coord2) {
+    public void load(ResultSet rs) throws SQLException, InvalidNameException {
+        this.setId(rs.getInt("id"));
+        this.setName(rs.getString("name"));
+        setInfo(CivSettings.goods.get(this.getName()));
+        this.setTown(CivGlobal.getTownFromId(rs.getInt("town_id")));
+        String bonusLocation = rs.getString("bonusLocation");
+        if (bonusLocation != null) {
+            this.bonusLocation = new BlockCoord(bonusLocation);
+        } else {
+            this.bonusLocation = null;
+        }
+
+        this.coord = new BlockCoord(rs.getString("coord"));
+        this.addProtectedBlocks(this.coord);
+
+        this.setStruct(CivGlobal.getStructureById(rs.getInt("structure_id")));
+
+        if (this.getStruct() != null) {
+            if (struct instanceof TradeOutpost) {
+                TradeOutpost outpost = (TradeOutpost) this.struct;
+                outpost.setGood(this);
+            }
+        }
+
+        if (this.getTown() != null) {
+            this.civ = this.getTown().getCiv();
+        }
+
+    }
+
+    public Chunk getChunk() {
+        int x = this.getCoord().getX();
+        int z = this.getCoord().getZ();
+        return Bukkit.getWorld(coord.getWorldname()).getChunkAt(x, z);
+    }
+
+    private void addProtectedBlocks(BlockCoord coord2) {
 //		CivLog.debug("Protecting TRADE GOOD:"+coord2);
 //		for (int i = 0; i < 3; i++) {
 //			BlockCoord bcoord = new BlockCoord(coord2);

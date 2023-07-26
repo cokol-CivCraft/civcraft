@@ -17,37 +17,43 @@
  */
 package com.avrgaming.civcraft.structure.wonders;
 
-import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashMap;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Sound;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigBuff;
 import com.avrgaming.civcraft.config.ConfigWonderBuff;
 import com.avrgaming.civcraft.database.SQL;
 import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.exception.CivException;
+import com.avrgaming.civcraft.items.BonusGoodie;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.Town;
+import com.avrgaming.civcraft.object.TradeGood;
 import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.CivColor;
+import com.avrgaming.civcraft.util.ItemFrameStorage;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Sound;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
 
 public abstract class Wonder extends Buildable {
 
     public static String TABLE_NAME = "WONDERS";
     private ConfigWonderBuff wonderBuffs = null;
+    protected BlockCoord tradeGoodCoord;
+    protected BlockCoord tradeOutpostTower = null;
+    protected ItemFrameStorage frameStore = null;
+    protected TradeGood good = null;
+    protected BonusGoodie goodie = null;
 
     public Wonder(ResultSet rs) throws SQLException, CivException {
         this.load(rs);
@@ -426,6 +432,13 @@ public abstract class Wonder extends Buildable {
     @Override
     public void onComplete() {
         addWonderBuffsToTown();
+    }
+
+    public void build_trade_outpost_tower() throws CivException {
+    }
+
+    public void setWonderTower(BlockCoord absCoord) {
+        tradeOutpostTower = absCoord;
     }
 
     public ConfigWonderBuff getWonderBuffs() {

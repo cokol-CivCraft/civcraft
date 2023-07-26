@@ -17,19 +17,6 @@
  */
 package com.avrgaming.civcraft.config;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import com.avrgaming.civcraft.database.SQL;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
@@ -39,6 +26,18 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.MultiInventory;
+import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ConfigMarketItem {
 	public int id;
@@ -177,13 +176,16 @@ public class ConfigMarketItem {
 				this.sold = 0;
 				this.buy_bulk = 1;
 				this.sell_bulk = 1;
-				this.buy_value = this.inital_value + (int)((double)this.inital_value*RATE);
+				this.buy_value = this.inital_value + (int) ((double) this.inital_value * RATE);
 				this.sell_value = this.inital_value;
-				
-				if(buy_value == sell_value) {
+				if (sell_value < inital_value) {
+					sell_value = inital_value;
+				}
+
+				if (buy_value == sell_value) {
 					buy_value++;
 				}
-				
+
 				this.saveItemNow();
 			}
 			
@@ -364,11 +366,14 @@ public class ConfigMarketItem {
 
 			//buy_value -= STEP;
 			//sell_value = buy_value - (PRICE_DIFF*2);
-			
+
 			if (sell_value < this.step) {
 				//buy_value = STEP + (PRICE_DIFF*2);
 				sell_value = this.step;
-				buy_value = this.step*2;
+				buy_value = this.step * 2;
+			}
+			if (sell_value < inital_value) {
+				sell_value = inital_value; // планируется добавить минимальную цену не в единицу.
 			}
 			this.lastaction = LastAction.SELL;
 			buysell_count = 0;

@@ -73,7 +73,7 @@ public class InteractiveTownName implements InteractiveResponse {
 				}
 
 				CivMessage.sendHeading(player, CivSettings.localize.localizedString("interactive_town_surveyResults"));
-				CivMessage.send(player, TownCommand.survey(player.getLocation()));
+                CivMessage.send(player, TownCommand.survey(player.getLocation(), 1));
 
 				if (resident.getCiv().getCapitolTownHallLocation() == null) {
 					CivMessage.sendError(player, CivSettings.localize.localizedString("interactive_town_noCapitol"));

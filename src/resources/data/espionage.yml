@@ -9,47 +9,47 @@ espionage:
     exposure_per_second: 1
 
     # Exposure per player nearby
-    exposure_per_player: 2
+    exposure_per_player: 1
 
     # Exposure per scout tower nearby
-    exposure_per_scout: 5
+    exposure_per_scout: 3
 
     # Town Warning exposure limit (in percent)
     # When the exposure level of a spy exceeds this percent, the town is notified they are being spied on.
-    town_exposure_warning: 0.4
+    town_exposure_warning: 0.25
 
     # Town location exposure limit
     # When the exposure level of a spy exceeds this percent, the town is notified of the position the spy is located at.
-    town_exposure_location: 0.8
+    town_exposure_location: 0.5
 
     # Town name exposure limit
     # When the exposure level of the spy exceeds this percent, the town knows who is spying on them.
-    town_exposure_name: 0.9
+    town_exposure_name: 0.75
 
-    # Mission failure limit
-    # If the spy exposure level goves above this, the mission automatically fails.
-    # XXX this is disabled for now by setting it at over 100% exposure. I think it's not needed.
-    # I think we'd rather have players attempt the mission and _have_ to be hunted down.
-    town_exposure_failure: 1.95
+  # Mission failure limit
+  # If the spy exposure level goves above this, the mission automatically fails.
+  # XXX this is disabled for now by setting it at over 100% exposure. I think it's not needed.
+  # I think we'd rather have players attempt the mission and _have_ to be hunted down.
+    town_exposure_failure: 2.0
 
-    # The number of cottage ticks(aka hours) the granary
-    # will remain poisoned. A random number is selected
-    # between min and max.
-    poison_granary_min_ticks: 3
-    poison_granary_max_ticks: 50
+  # The number of cottage ticks(aka hours) the granary
+  # will remain poisoned. A random number is selected
+  # between min and max.
+    poison_granary_min_ticks: 2
+    poison_granary_max_ticks: 48
 
-    # Chance that the poison will cause an entire
-    # cottage level to be lost.
-    # Nerfed from 0.2 to 0.05 was way too op, would bring ALL cottages down a level
-    poison_granary_famine_chance: 0.05
+  # Chance that the poison will cause an entire
+  # cottage level to be lost.
+  # Nerfed from 0.2 to 0.05 was way too op, would bring ALL cottages down a level
+    poison_granary_famine_chance: 0.075
 
-    # Number of mins a resident must have registered
-    # before being allowed to use a spy unit.
-    spy_register_time: 1440
+  # Number of mins a resident must have registered
+  # before being allowed to use a spy unit.
+    spy_register_time: 600
 
-    # Number of mins a resident must be online before
+  # Number of mins a resident must be online before
     # being able to use a spy unit.
-    spy_online_time: 10
+    spy_online_time: 5
 
 missions:
     - id: 'spy_investigate_town'

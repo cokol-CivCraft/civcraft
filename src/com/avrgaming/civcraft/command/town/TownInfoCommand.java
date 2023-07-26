@@ -17,14 +17,6 @@
  */
 package com.avrgaming.civcraft.command.town;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import com.avrgaming.civcraft.command.CommandBase;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigCultureLevel;
@@ -35,24 +27,18 @@ import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.items.BonusGoodie;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
-import com.avrgaming.civcraft.object.AttrSource;
-import com.avrgaming.civcraft.object.Buff;
-import com.avrgaming.civcraft.object.Civilization;
-import com.avrgaming.civcraft.object.CultureChunk;
-import com.avrgaming.civcraft.object.Relation;
+import com.avrgaming.civcraft.object.*;
 import com.avrgaming.civcraft.object.Relation.Status;
-import com.avrgaming.civcraft.object.Resident;
-import com.avrgaming.civcraft.object.Town;
-import com.avrgaming.civcraft.object.TradeGood;
-import com.avrgaming.civcraft.structure.Bank;
-import com.avrgaming.civcraft.structure.Buildable;
-import com.avrgaming.civcraft.structure.Cottage;
-import com.avrgaming.civcraft.structure.Mine;
-import com.avrgaming.civcraft.structure.Structure;
-import com.avrgaming.civcraft.structure.Temple;
-import com.avrgaming.civcraft.structure.TownHall;
+import com.avrgaming.civcraft.structure.*;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.util.CivColor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 public class TownInfoCommand extends CommandBase {
 
@@ -77,38 +63,57 @@ public class TownInfoCommand extends CommandBase {
 		register_sub("happiness", this::happiness_cmd, CivSettings.localize.localizedString("cmd_town_info_happinessDesc"));
 		register_sub("beakers", this::beakers_cmd, CivSettings.localize.localizedString("cmd_town_info_beakersDesc"));
 		register_sub("area", this::area_cmd, CivSettings.localize.localizedString("cmd_town_info_areaDesc"));
+		register_sub("granary", this::granary_cmd, CivSettings.localize.localizedString("cmd_town_info_granaryDesc"));
 		register_sub("disabled", this::disabled_cmd, CivSettings.localize.localizedString("cmd_town_info_disabledDesc"));
+	}
+
+	public void granary_cmd() throws CivException {
+		String s = null;
+		Town t = getSelectedTown();
+		for (Granary g : t.getGranaries()) {
+			s += g.getResources();
+		}
+		CivMessage.send(sender, s);
 	}
 
 	public void disabled_cmd() throws CivException {
 		Town town = getSelectedTown();
-		
+
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_town_info_disabledHeading"));
 		LinkedList<String> out = new LinkedList<>();
-        boolean showhelp = false;
-		
+		boolean showhelp = false;
+
 		for (Buildable buildable : town.getDisabledBuildables()) {
 			showhelp = true;
 			out.add(CivColor.Green+buildable.getDisplayName()+CivColor.LightGreen+" "+CivSettings.localize.localizedString("Coord")+buildable.getCorner().toString());
 		}
-		
-		if (showhelp)  {
-			out.add(CivColor.LightGray+CivSettings.localize.localizedString("cmd_town_info_disabledHelp1"));
-			out.add(CivColor.LightGray+CivSettings.localize.localizedString("cmd_town_info_disabledHelp2"));
-			out.add(CivColor.LightGray+CivSettings.localize.localizedString("cmd_town_info_disabledHelp3"));
-			out.add(CivColor.LightGray+CivSettings.localize.localizedString("cmd_town_info_disabledHelp4"));
-			out.add(CivColor.LightGray+CivSettings.localize.localizedString("cmd_town_info_disabledHelp5"));
+
+		if (showhelp) {
+			out.add(CivColor.LightGray + CivSettings.localize.localizedString("cmd_town_info_disabledHelp1"));
+			out.add(CivColor.LightGray + CivSettings.localize.localizedString("cmd_town_info_disabledHelp2"));
+			out.add(CivColor.LightGray + CivSettings.localize.localizedString("cmd_town_info_disabledHelp3"));
+			out.add(CivColor.LightGray + CivSettings.localize.localizedString("cmd_town_info_disabledHelp4"));
+			out.add(CivColor.LightGray + CivSettings.localize.localizedString("cmd_town_info_disabledHelp5"));
 		}
-		
+
 		CivMessage.send(sender, out);
 	}
-	
+
+	private String buildStringFromHash(HashMap<String, Integer> hm) {
+		String s = null;
+		for (String ss : hm.keySet()) {
+			s += CivColor.LightGreen + ss + CivColor.LightGray + "( " + hm.get(ss) + " ), ";
+		}
+		return s;
+	}
+
 	public void area_cmd() throws CivException {
 		Town town = getSelectedTown();
-		
+
 		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_town_info_areaHeading"));
-        HashMap<String, Integer> biomes = new HashMap<>();
-		
+		HashMap<String, Integer> biomes = new HashMap<>();
+		HashMap<String, Integer> trades = new HashMap<>();
+
 		double hammers = 0.0;
 		double growth = 0.0;
 		double happiness = 0.0;
@@ -121,9 +126,13 @@ public class TownInfoCommand extends CommandBase {
 				biomes.put(cc.getBiome().name(), 1);
 			} else {
 				Integer value = biomes.get(cc.getBiome().name());
-				biomes.put(cc.getBiome().name(), value+1);
+				biomes.put(cc.getBiome().name(), value + 1);
 			}
-			
+			for (TradeGood tg : CivGlobal.getTradeGoods()) {
+				if (tg.getChunk().equals(cc.getChunkCoord().getChunk())) {
+					trades.merge(tg.getName(), 1, Integer::sum);
+				}
+			}
 			hammers += cc.getHammers();
 			growth += cc.getGrowth();
 			happiness += cc.getHappiness();
@@ -136,18 +145,20 @@ public class TownInfoCommand extends CommandBase {
 		for (String biome : biomes.keySet()) {
 			Integer count = biomes.get(biome);
             out.append(CivColor.Green).append(biome).append(": ").append(CivColor.LightGreen).append(count).append(CivColor.Green).append(", ");
-		//	totalBiomes += count;
+			//	totalBiomes += count;
 		}
-        CivMessage.send(sender, out.toString());
-		
+		CivMessage.send(sender, out.toString());
+
 		//CivMessage.send(sender, CivColor.Green+"Biome Count:"+CivColor.LightGreen+totalBiomes);
-		
-		CivMessage.send(sender, CivColor.LightBlue+"Totals");
-		CivMessage.send(sender, CivColor.Green+" "+CivSettings.localize.localizedString("cmd_town_happiness")+" "+CivColor.LightGreen+df.format(happiness)+
-				CivColor.Green+" "+CivSettings.localize.localizedString("Hammers")+" "+CivColor.LightGreen+df.format(hammers)+
-				CivColor.Green+" "+CivSettings.localize.localizedString("cmd_town_growth")+" "+CivColor.LightGreen+df.format(growth)+
-				CivColor.Green+" "+CivSettings.localize.localizedString("Beakers")+" "+CivColor.LightGreen+df.format(beakers));
-		
+
+		CivMessage.send(sender, CivColor.LightBlue + "Totals");
+		CivMessage.send(sender, CivColor.Green + " " + CivSettings.localize.localizedString("cmd_town_happiness") + " " + CivColor.LightGreen + df.format(happiness) +
+				CivColor.Green + " " + CivSettings.localize.localizedString("Hammers") + " " + CivColor.LightGreen + df.format(hammers) +
+				CivColor.Green + " " + CivSettings.localize.localizedString("cmd_town_growth") + " " + CivColor.LightGreen + df.format(growth) +
+				CivColor.Green + " " + CivSettings.localize.localizedString("Beakers") + " " + CivColor.LightGreen + df.format(beakers) +
+				buildStringFromHash(trades));
+
+
 	}
 	
 	public void beakers_cmd() throws CivException {

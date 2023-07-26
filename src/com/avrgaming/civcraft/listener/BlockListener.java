@@ -17,78 +17,6 @@
  */
 package com.avrgaming.civcraft.listener;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
-import org.bukkit.FireworkEffect.Type;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftLivingEntity;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Fireball;
-import org.bukkit.entity.ItemFrame;
-import org.bukkit.entity.LightningStrike;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Painting;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
-import org.bukkit.entity.Slime;
-import org.bukkit.entity.ThrownPotion;
-import org.bukkit.entity.Witch;
-import org.bukkit.entity.Wolf;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockBurnEvent;
-import org.bukkit.event.block.BlockDispenseEvent;
-import org.bukkit.event.block.BlockFormEvent;
-import org.bukkit.event.block.BlockFromToEvent;
-import org.bukkit.event.block.BlockGrowEvent;
-import org.bukkit.event.block.BlockIgniteEvent;
-import org.bukkit.event.block.BlockPistonExtendEvent;
-import org.bukkit.event.block.BlockPistonRetractEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.block.BlockRedstoneEvent;
-import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
-import org.bukkit.event.entity.EntityBreakDoorEvent;
-import org.bukkit.event.entity.EntityChangeBlockEvent;
-import org.bukkit.event.entity.EntityCreatePortalEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.entity.EntityInteractEvent;
-import org.bukkit.event.entity.EntityTameEvent;
-import org.bukkit.event.entity.PotionSplashEvent;
-import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
-import org.bukkit.event.entity.SlimeSplitEvent;
-import org.bukkit.event.hanging.HangingBreakByEntityEvent;
-import org.bukkit.event.player.PlayerBedEnterEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerItemConsumeEvent;
-import org.bukkit.event.world.ChunkLoadEvent;
-import org.bukkit.event.world.ChunkUnloadEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
-
 import com.avrgaming.civcraft.cache.ArrowFiredCache;
 import com.avrgaming.civcraft.cache.CannonFiredCache;
 import com.avrgaming.civcraft.cache.CivCache;
@@ -740,53 +668,64 @@ public class BlockListener implements Listener {
         }
     }
 
-    private void updateBlockUnderAttack(Block b) {
-		Material m = b.getType();
-		switch (b.getType()) {
-			case STEP:
-			case WOOD_STEP:
-				b.setType(Material.STONE_SLAB2);
-				break;
-			case SANDSTONE:
-			case RED_SANDSTONE:
-			case ICE:
-			case PACKED_ICE:
-			case SNOW_BLOCK:
-			case GRASS:
-			case DIRT:
-			case NETHERRACK:
-			case GRAVEL:
-			case SAND:
-			case SOUL_SAND:
-				b.setType(Material.BEDROCK);
-				break;
-			case LEAVES:
-			case LEAVES_2:
-				b.setType(Material.NETHER_WART_BLOCK);
-				break;
-			case ACACIA_STAIRS:
-			case BIRCH_WOOD_STAIRS:
-			case SANDSTONE_STAIRS:
-			case QUARTZ_STAIRS:
-			case WOOD_STAIRS:
-			case SPRUCE_WOOD_STAIRS:
-			case DARK_OAK_STAIRS:
-			case RED_SANDSTONE_STAIRS:
-			case JUNGLE_WOOD_STAIRS:
-			case PURPUR_STAIRS:
-			case BRICK_STAIRS:
-			case SMOOTH_STAIRS:
-			case NETHER_BRICK_STAIRS:
-				b.setType(Material.COBBLESTONE_STAIRS);
-				break;
-		}
-		try {
-			this.wait(7);
-			b.setType(m);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}@EventHandler(priority = EventPriority.HIGH)
+    public static void updateBlockUnderAttack(Block b) {
+        Material m = b.getType();
+        byte by = b.getData();
+        switch (b.getType()) {
+            case STEP:
+            case WOOD_STEP:
+            case STONE_SLAB2:
+                b.setType(Material.PURPUR_SLAB);
+                b.setData(by);
+                break;
+            case DOUBLE_STEP:
+            case WOOD_DOUBLE_STEP:
+            case DOUBLE_STONE_SLAB2:
+                b.setType(Material.PURPUR_DOUBLE_SLAB);
+                b.setData(by);
+                break;
+            case SANDSTONE:
+            case RED_SANDSTONE:
+            case ICE:
+            case PACKED_ICE:
+            case SNOW_BLOCK:
+            case GRASS:
+            case DIRT:
+            case NETHERRACK:
+            case GRAVEL:
+            case SAND:
+            case SOUL_SAND:
+                b.setType(Material.BEDROCK);
+                break;
+            case LEAVES:
+            case LEAVES_2:
+                b.setType(Material.NETHER_WART_BLOCK);
+                break;
+            case ACACIA_STAIRS:
+            case BIRCH_WOOD_STAIRS:
+            case SANDSTONE_STAIRS:
+            case QUARTZ_STAIRS:
+            case WOOD_STAIRS:
+            case SPRUCE_WOOD_STAIRS:
+            case DARK_OAK_STAIRS:
+            case RED_SANDSTONE_STAIRS:
+            case JUNGLE_WOOD_STAIRS:
+            case PURPUR_STAIRS:
+            case BRICK_STAIRS:
+            case SMOOTH_STAIRS:
+            case NETHER_BRICK_STAIRS:
+                b.setType(Material.COBBLESTONE_STAIRS);
+                b.setData(by);
+                break;
+        }
+        int i = 0;
+        while (i < 9) {
+            i++;
+        }
+        b.setType(m);
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
     public void OnBlockBreakEvent(BlockBreakEvent event) {
         Resident resident = CivGlobal.getResident(event.getPlayer());
 
@@ -804,7 +743,9 @@ public class BlockListener implements Listener {
 
         if (sb != null) {
             event.setCancelled(true);
-            this.updateBlockUnderAttack(event.getBlock()); // TODO fix if any problems with that :/TaskMaster.syncTask(new StructureBlockHitEvent(event.getPlayer().getName(), bcoord, sb, event.getBlock().getWorld()), 0);
+            TaskMaster.syncTask(new StructureBlockHitEvent(event.getPlayer().getName(), bcoord, sb, event.getBlock().getWorld()), 0);
+            // TODO fix if any problems with that :/
+
             return;
         }
 

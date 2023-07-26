@@ -17,15 +17,6 @@
  */
 package com.avrgaming.civcraft.threading.tasks;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Random;
-
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivTaskAbortException;
 import com.avrgaming.civcraft.lorestorage.LoreMaterial;
@@ -39,7 +30,15 @@ import com.avrgaming.civcraft.threading.CivAsyncTask;
 import com.avrgaming.civcraft.threading.sync.request.UpdateInventoryRequest.Action;
 import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.MultiInventory;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Random;
 
 public class TrommelAsyncTask extends CivAsyncTask {
 
@@ -415,7 +414,7 @@ public class TrommelAsyncTask extends CivAsyncTask {
 						try {
                             debug(trommel, "Updating inventory:" + newItem);
                             this.updateInventory(Action.ADD, dest_inv, newItem);
-							trommel.getCorner().getBlock().getWorld().playSound(trommel.getCenterLocation().getLocation(), Sound.ENTITY_MINECART_RIDING, 1.2f, 1.2f);
+                            trommel.getCenterLocation().getBlock().getWorld().playSound(trommel.getCenterLocation().getLocation(), Sound.ENTITY_MINECART_RIDING, 1.2f, 1.2f);
 
 						} catch (InterruptedException e) {
 							return;

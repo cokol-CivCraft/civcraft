@@ -96,10 +96,10 @@ materials:
           category: '<lightgreen>Tier 1 Materials'
           ingredients:
               - type_id: 4
-                data: 0
+                data: -1
                 count: 9
 
-        # Checked 10/8/13
+  # Checked 10/8/13 delete?
         - id: 'mat_refined_stone_alt0'
           item_id: 1
           item_data: 0
@@ -4252,12 +4252,15 @@ materials:
           craftable: true
           category: '<lightgreen>Tier 1 Materials'
           ingredients:
-              - type_id: 41
-                data: 0
-                count: 1
-              - type_id: 42
-                data: 0
-                count: 1
+            - type_id: 41
+              data: 0
+              count: 1
+            - type_id: 42
+              data: 0
+              count: 1
+            - type_id: 133
+              data: 0
+              count: 1
 
         - id: 'mat_mercury_bath'
           item_id: 368
@@ -5020,14 +5023,13 @@ materials:
           components:
               - name: 'AllowBlockPlace'
           ingredients:
-              - type_id: 0
-                custom_id: 'mat_refined_sulphur'
-                data: 0
-                count: 1
-              - type_id: 0
-                custom_id: 'mat_compacted_sand'
-                data: 0
-                count: 1
+            - type_id: 0
+              custom_id: 'mat_refined_sulphur'
+              data: 0
+              count: 1
+            - type_id: 12
+              data: -1
+              count: 8
 
         - id: 'mat_vanilla_ender_chest'
           item_id: 130
@@ -5624,10 +5626,6 @@ removed_recipes:
         #      data: 0
         #    - type_id: DIAMOND_HOE
         #      data: 0
-
-  # TNT
-    - type_id: TNT
-      data: 0
 
     # Ender Chest
     - type_id: ENDER_CHEST

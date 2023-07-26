@@ -17,12 +17,6 @@
  */
 package com.avrgaming.civcraft.command.civ;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import com.avrgaming.civcraft.command.CommandBase;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.endgame.EndConditionDiplomacy;
@@ -36,13 +30,19 @@ import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
+import com.avrgaming.civcraft.structure.Granary;
 import com.avrgaming.civcraft.util.CivColor;
 import com.avrgaming.civcraft.util.DecimalHelper;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 public class CivInfoCommand extends CommandBase {
 
-	@Override
-	public void init() {
+    @Override
+    public void init() {
         command = "/civ info";
         displayName = CivSettings.localize.localizedString("cmd_civ_info_name");
 
@@ -50,16 +50,29 @@ public class CivInfoCommand extends CommandBase {
         register_sub("taxes", this::taxes_cmd, CivSettings.localize.localizedString("cmd_civ_info_taxesDesc"));
         register_sub("beakers", this::beakers_cmd, CivSettings.localize.localizedString("cmd_civ_info_beakersDesc"));
         register_sub("online", this::online_cmd, CivSettings.localize.localizedString("cmd_civ_info_onlineDesc"));
+        register_sub("granary", this::granary_cmd, CivSettings.localize.localizedString("cmd_civ_info_granaryDesc"));
     }
-	
-	public void online_cmd() throws CivException {
-		Civilization civ = getSenderCiv();
-		
-		CivMessage.sendHeading(sender, CivSettings.localize.localizedString("var_cmd_civ_info_onlineHeading",civ.getName()));
-		StringBuilder out = new StringBuilder();
-		for (Resident resident : civ.getOnlineResidents()) {
+
+    public void granary_cmd() throws CivException {
+        String s = null;
+        Civilization civ = getSenderCiv();
+        for (Town t : civ.getTowns()) {
+            s += CivColor.Gold + " [" + t.getName() + "] ";
+            for (Granary g : t.getGranaries()) {
+                s += g.getResources();
+            }
+        }
+        CivMessage.send(sender, s);
+    }
+
+    public void online_cmd() throws CivException {
+        Civilization civ = getSenderCiv();
+
+        CivMessage.sendHeading(sender, CivSettings.localize.localizedString("var_cmd_civ_info_onlineHeading", civ.getName()));
+        StringBuilder out = new StringBuilder();
+        for (Resident resident : civ.getOnlineResidents()) {
             out.append(resident.getName()).append(" ");
-		}
+        }
         CivMessage.send(sender, out.toString());
 	}
 	
