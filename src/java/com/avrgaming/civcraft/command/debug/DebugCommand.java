@@ -433,7 +433,7 @@ public class DebugCommand extends CommandBase {
                                         if (struct instanceof Capitol) {
                                             AdminTownCommand.claimradius(spawnCapitol, center, 15);
                                         }
-                                        struct.setTemplateName("templates/themes/default/structures/" + info.template_base_name + "/" + info.template_base_name + "_" + dir + ".def");
+                                        struct.setTemplateName("templates/themes/default/" + info.template_base_name + "/" + info.template_base_name + "_" + dir + ".def");
                                         struct.bindStructureBlocks();
                                         struct.setComplete(true);
                                         struct.setHitpoints(info.max_hitpoints);
