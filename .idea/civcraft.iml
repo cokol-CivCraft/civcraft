@@ -21,12 +21,10 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="spigot-1.12.2 (1)" level="project" />
     <orderEntry type="library" name="Vault" level="project" />
     <orderEntry type="library" name="WorldBorder" level="project" />
     <orderEntry type="library" name="EssentialsX-2.20.0" level="project" />
     <orderEntry type="library" name="spigot-1.12.2" level="project" />
-    <orderEntry type="library" name="spigotmc.spigot.api" level="project" />
     <orderEntry type="library" name="TitleAPI-1.8.1" level="project" />
     <orderEntry type="library" name="mysql.connector.j" level="application" />
     <orderEntry type="library" name="jolbox.bonecp" level="application" />

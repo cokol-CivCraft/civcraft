@@ -42,6 +42,7 @@ import com.avrgaming.civcraft.object.*;
 import com.avrgaming.civcraft.permission.PermissionGroup;
 import com.avrgaming.civcraft.populators.TradeGoodPopulator;
 import com.avrgaming.civcraft.siege.Cannon;
+import com.avrgaming.civcraft.structure.Structure;
 import com.avrgaming.civcraft.structure.*;
 import com.avrgaming.civcraft.structure.wonders.GrandShipIngermanland;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
@@ -57,10 +58,7 @@ import gpl.AttributeUtil;
 import org.bukkit.*;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.block.Biome;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.Sign;
+import org.bukkit.block.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
@@ -408,21 +406,23 @@ public class DebugCommand extends CommandBase {
 
                                 } else if (sb.specialType.equals(SimpleBlock.Type.LITERAL)) {
                                     try {
-                                        Sign s = (Sign) next.getBlock();
+                                        next.getBlock().setType(sb.getType(), false);
+                                        Sign s = (Sign) next.getBlock().getState();
                                         s.setData(sb.getMaterialData());
                                         for (int j = 0; j < 4; j++) {
                                             s.setLine(j, sb.message[j]);
                                         }
 
-                                        s.update();
+                                        s.update(false, false);
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
                                 } else {
                                     try {
-                                        next.getLocation().getBlock().setType(sb.getType()); //TODO
-                                        //next.getBlock().getState().setData(sb.getMaterialData());
-                                        next.getLocation().getBlock().setData(sb.getMaterialData().getData());
+                                        BlockState state = next.getLocation().getBlock().getState();
+                                        state.setType(sb.getType());
+                                        state.setData(sb.getMaterialData());
+                                        state.update(true, false);
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
