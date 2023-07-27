@@ -305,101 +305,91 @@ public abstract class Wonder extends Buildable {
     }
 
     public static Wonder newWonder(Location center, String id, Town town) throws CivException {
-        try {
-            return _newWonder(center, id, town, null);
-        } catch (SQLException e) {
-            // should never happen
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public static Wonder _newWonder(Location center, String id, Town town, ResultSet rs) throws CivException, SQLException {
         Wonder wonder;
         switch (id) {
             case "w_pyramid":
-                if (rs == null) {
-                    wonder = new TheGreatPyramid(center, id, town);
-                } else {
-                    wonder = new TheGreatPyramid(rs);
-                }
+                wonder = new TheGreatPyramid(center, id, town);
                 break;
             case "w_greatlibrary":
-                if (rs == null) {
-                    wonder = new GreatLibrary(center, id, town);
-                } else {
-                    wonder = new GreatLibrary(rs);
-                }
+                wonder = new GreatLibrary(center, id, town);
                 break;
             case "w_hanginggardens":
-                if (rs == null) {
-                    wonder = new TheHangingGardens(center, id, town);
-                } else {
-                    wonder = new TheHangingGardens(rs);
-                }
+                wonder = new TheHangingGardens(center, id, town);
                 break;
             case "w_colossus":
-                if (rs == null) {
-                    wonder = new TheColossus(center, id, town);
-                } else {
-                    wonder = new TheColossus(rs);
-                }
+                wonder = new TheColossus(center, id, town);
                 break;
             case "w_notre_dame":
-                if (rs == null) {
-                    wonder = new NotreDame(center, id, town);
-                } else {
-                    wonder = new NotreDame(rs);
-                }
+                wonder = new NotreDame(center, id, town);
                 break;
             case "w_chichen_itza":
-                if (rs == null) {
-                    wonder = new ChichenItza(center, id, town);
-                } else {
-                    wonder = new ChichenItza(rs);
-                }
+                wonder = new ChichenItza(center, id, town);
                 break;
             case "w_council_of_eight":
-                if (rs == null) {
-                    wonder = new CouncilOfEight(center, id, town);
-                } else {
-                    wonder = new CouncilOfEight(rs);
-                }
+                wonder = new CouncilOfEight(center, id, town);
                 break;
             case "w_colosseum":
-                if (rs == null) {
-                    wonder = new Colosseum(center, id, town);
-                } else {
-                    wonder = new Colosseum(rs);
-                }
+                wonder = new Colosseum(center, id, town);
                 break;
             case "w_globe_theatre":
-                if (rs == null) {
-                    wonder = new GlobeTheatre(center, id, town);
-                } else {
-                    wonder = new GlobeTheatre(rs);
-                }
+                wonder = new GlobeTheatre(center, id, town);
                 break;
             case "w_great_lighthouse":
-                if (rs == null) {
-                    wonder = new GreatLighthouse(center, id, town);
-                } else {
-                    wonder = new GreatLighthouse(rs);
-                }
+                wonder = new GreatLighthouse(center, id, town);
                 break;
             case "w_mother_tree":
-                if (rs == null) {
-                    wonder = new MotherTree(center, id, town);
-                } else {
-                    wonder = new MotherTree(rs);
-                }
+                wonder = new MotherTree(center, id, town);
                 break;
             case "w_grand_ship_ingermanland":
-                if (rs == null) {
-                    wonder = new GrandShipIngermanland(center, id, town);
-                } else {
-                    wonder = new GrandShipIngermanland(rs);
-                }
+                wonder = new GrandShipIngermanland(center, id, town);
+                break;
+            default:
+                throw new CivException(CivSettings.localize.localizedString("wonder_unknwon_type") + " " + id);
+        }
+
+        wonder.loadSettings();
+        return wonder;
+    }
+
+    public static Wonder newWonder(ResultSet rs) throws CivException, SQLException {
+        String id = rs.getString("type_id");
+        Wonder wonder;
+        switch (id) {
+            case "w_pyramid":
+                wonder = new TheGreatPyramid(rs);
+                break;
+            case "w_greatlibrary":
+                wonder = new GreatLibrary(rs);
+                break;
+            case "w_hanginggardens":
+                wonder = new TheHangingGardens(rs);
+                break;
+            case "w_colossus":
+                wonder = new TheColossus(rs);
+                break;
+            case "w_notre_dame":
+                wonder = new NotreDame(rs);
+                break;
+            case "w_chichen_itza":
+                wonder = new ChichenItza(rs);
+                break;
+            case "w_council_of_eight":
+                wonder = new CouncilOfEight(rs);
+                break;
+            case "w_colosseum":
+                wonder = new Colosseum(rs);
+                break;
+            case "w_globe_theatre":
+                wonder = new GlobeTheatre(rs);
+                break;
+            case "w_great_lighthouse":
+                wonder = new GreatLighthouse(rs);
+                break;
+            case "w_mother_tree":
+                wonder = new MotherTree(rs);
+                break;
+            case "w_grand_ship_ingermanland":
+                wonder = new GrandShipIngermanland(rs);
                 break;
             default:
                 throw new CivException(CivSettings.localize.localizedString("wonder_unknwon_type") + " " + id);
@@ -444,10 +434,6 @@ public abstract class Wonder extends Buildable {
 
     public void setWonderBuffs(ConfigWonderBuff wonderBuffs) {
         this.wonderBuffs = wonderBuffs;
-    }
-
-    public static Wonder newWonder(ResultSet rs) throws CivException, SQLException {
-        return _newWonder(null, rs.getString("type_id"), null, rs);
     }
 
     @Override
