@@ -253,7 +253,9 @@ public class PostBuildSyncTask implements Runnable {
 
             Block block = absCoord.getBlock();
             if (block.getType() != sb.getType()) {
-                block.getState().setData(sb.getMaterialData());
+                block.setType(sb.getType());
+                //block.getState().setData(sb.getMaterialData());
+                block.setData(sb.getMaterialData().getData());
             }
         }
 

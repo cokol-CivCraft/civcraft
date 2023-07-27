@@ -522,7 +522,7 @@ public class Barracks extends Structure {
         String value = this.getTrainingUnit().id + ":" + this.currentHammers;
         ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(key);
 
-        if (entries.size() > 0) {
+        if (entries != null && entries.size() > 0) {
             CivGlobal.getSessionDB().update(entries.get(0).request_id, key, value);
 
             /* delete any bad extra entries. */

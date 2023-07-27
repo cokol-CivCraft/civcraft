@@ -2612,6 +2612,7 @@ public class Town extends SQLObject {
         if (this.getCiv().hasWonder("w_pyramid") || this.getCiv().hasWonder("w_hanginggardens")) {
             wonders += 0.25;
         }
+        wonders += this.getBuffManager().getEffectiveDouble("wonder_trade_notre_dame");
         rates.put("Wonders", wonders);
         rate += wonders;
         return new AttrSource(rates, rate, null);

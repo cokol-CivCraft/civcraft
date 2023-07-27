@@ -59,15 +59,15 @@ public class StructureValidator implements Runnable {
     private final boolean isWork = CivCraft.getIsValidate();
 
     public static boolean isEnabled() {
-        String enabledStr;
+        boolean enabledStr;
         try {
-            enabledStr = CivSettings.getString(CivSettings.civConfig, "global.structure_validation");
+            enabledStr = CivSettings.getBoolean(CivSettings.civConfig, "global.structure_validation");
         } catch (InvalidConfiguration e) {
             e.printStackTrace();
             return false;
         }
 
-        return enabledStr.equalsIgnoreCase("true");
+        return enabledStr;
     }
 
     public StructureValidator(Player player, Buildable bld) {

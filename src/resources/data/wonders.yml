@@ -283,7 +283,7 @@ wonder_buffs:
    - id: w_chichen_itza
      buffs:
        - buff_chichen_itza_tower_hp
-         - buff_chichen_itza_regen_rate
+       - buff_chichen_itza_regen_rate
        - buff_chichen_itza_cp_bonus_hp
 
    - id: w_colosseum

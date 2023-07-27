@@ -387,7 +387,7 @@ public class DebugCommand extends CommandBase {
                                     if (struct instanceof Capitol) {
                                         AdminTownCommand.claimradius(spawnCapitol, center, 15);
                                     }
-                                    struct.setTemplateName("templates/themes/default/" + info.template_base_name + ".def");
+                                    struct.setTemplateName("templates/themes/medieval/" + info.template_base_name + ".def");
                                     struct.bindStructureBlocks();
                                     struct.setComplete(true);
                                     struct.setHitpoints(info.max_hp);
@@ -408,7 +408,7 @@ public class DebugCommand extends CommandBase {
 
                                 } else if (sb.specialType.equals(SimpleBlock.Type.LITERAL)) {
                                     try {
-                                        Sign s = (Sign) next.getBlock().getState();
+                                        Sign s = (Sign) next.getBlock();
                                         s.setData(sb.getMaterialData());
                                         for (int j = 0; j < 4; j++) {
                                             s.setLine(j, sb.message[j]);
@@ -420,7 +420,9 @@ public class DebugCommand extends CommandBase {
                                     }
                                 } else {
                                     try {
-                                        next.getBlock().getState().setData(sb.getMaterialData());
+                                        next.getLocation().getBlock().setType(sb.getType()); //TODO
+                                        //next.getBlock().getState().setData(sb.getMaterialData());
+                                        next.getLocation().getBlock().setData(sb.getMaterialData().getData());
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }

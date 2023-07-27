@@ -232,7 +232,7 @@ public class AdminCommand extends CommandBase {
             m.invoke(null, player.getInventory(), town);
         } catch (ClassNotFoundException | NoSuchMethodException | SecurityException
                  | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            throw new CivException(e.getMessage());
+            throw new CivException(e.getCause().getMessage());
         }
 
 

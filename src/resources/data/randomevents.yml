@@ -198,9 +198,9 @@ random_events:
       success:
         - name: 'MessageTown'
           message: "One of the town residents have found the cache of coins!"
-         - name: 'PayPlayer'
-           playername_var: 'player'
-           amount: '300000'
+        - name: 'PayPlayer'
+          playername_var: 'player'
+          amount: '300000'
       failure:
          - name: 'MessageTown'
            message: "We couldn't find the coins in time!"

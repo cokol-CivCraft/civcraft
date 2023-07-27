@@ -72,7 +72,8 @@ public class SyncBuildUpdateTask implements Runnable {
                 }
 
                 Block block = Bukkit.getWorld(next.worldname).getBlockAt(next.x, next.y, next.z);
-                block.getState().setData(next.getMaterialData());
+                block.setType(next.getType());
+                block.setData(next.getMaterialData().getData());
 
                 /* Handle Special Blocks */
                 switch (next.specialType) {

@@ -651,6 +651,7 @@ public class BlockListener implements Listener {
 
     public static void updateBlockUnderAttack(Block b) {
         Material m = b.getType();
+        MaterialData md = b.getState().getData();
         byte by = b.getData();
         switch (b.getType()) {
             case STEP:
@@ -658,12 +659,14 @@ public class BlockListener implements Listener {
             case STONE_SLAB2:
                 b.setType(Material.PURPUR_SLAB);
                 b.setData(by);
+                b.getState().setData(md);
                 break;
             case DOUBLE_STEP:
             case WOOD_DOUBLE_STEP:
             case DOUBLE_STONE_SLAB2:
                 b.setType(Material.PURPUR_DOUBLE_SLAB);
                 b.setData(by);
+                b.getState().setData(md);
                 break;
             case SANDSTONE:
             case RED_SANDSTONE:
@@ -677,10 +680,14 @@ public class BlockListener implements Listener {
             case SAND:
             case SOUL_SAND:
                 b.setType(Material.BEDROCK);
+                b.setData(by);
+                b.getState().setData(md);
                 break;
             case LEAVES:
             case LEAVES_2:
                 b.setType(Material.NETHER_WART_BLOCK);
+                b.setData(by);
+                b.getState().setData(md);
                 break;
             case ACACIA_STAIRS:
             case BIRCH_WOOD_STAIRS:
@@ -697,13 +704,12 @@ public class BlockListener implements Listener {
             case NETHER_BRICK_STAIRS:
                 b.setType(Material.COBBLESTONE_STAIRS);
                 b.setData(by);
+                b.getState().setData(md);
                 break;
         }
-        int i = 0;
-        while (i < 9) {
-            i++;
-        }
         b.setType(m);
+        b.setData(by);
+        b.getState().setData(md);
     }
 
 

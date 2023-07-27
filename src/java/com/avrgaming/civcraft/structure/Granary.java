@@ -134,7 +134,7 @@ public class Granary extends Structure {
     }
 
     public String getResources() {
-        return ChatColor.GRAY.toString() + this.iron + ChatColor.LIGHT_PURPLE + " / "
+        return ChatColor.DARK_GRAY.toString() + this.iron + ChatColor.LIGHT_PURPLE + " / "
                 + ChatColor.GOLD + this.gold + ChatColor.LIGHT_PURPLE + " / "
                 + ChatColor.AQUA + this.diamond + ChatColor.LIGHT_PURPLE + " / "
                 + ChatColor.GREEN + this.emerald + ChatColor.LIGHT_PURPLE + " / "

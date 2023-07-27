@@ -464,7 +464,7 @@ public abstract class Buildable extends SQLObject {
         Resident resident = CivGlobal.getResident(player);
         /* Look for any custom template perks and ask the player if they want to use them. */
         ArrayList<ConfigTemplate> perkList = info.getTemplates();
-        if (perkList.size() == 0) {
+        if (perkList == null || perkList.size() == 0) {
             String path = Template.getTemplateFilePath(info.template_base_name, TemplateType.STRUCTURE, "default");
 
             Template tpl;
@@ -917,9 +917,12 @@ public abstract class Buildable extends SQLObject {
                     Block b = centerBlock.getRelative(x, y, z);
 
                     if (tpl.blocks[x][y][z].specialType == Type.COMMAND) {
+                        b.getState().setType(Material.AIR);
                         b.getState().setData(new MaterialData(Material.AIR));
                     } else {
-                        b.getState().setData(tpl.blocks[x][y][z].getMaterialData());
+                        b.setType(tpl.blocks[x][y][z].getType());
+                        //b.getState().setData(tpl.blocks[x][y][z].getMaterialData());
+                        b.setData((byte) tpl.blocks[x][y][z].getData());
                     }
 
                     if (b.getType() == Material.WALL_SIGN || b.getType() == Material.SIGN_POST) {

@@ -18,7 +18,6 @@
 package com.avrgaming.civcraft.threading.tasks;
 
 
-import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.object.Resident;
@@ -92,7 +91,7 @@ public class BuildPreviewAsyncTask extends CivAsyncTask {
                                 return;
                             }
 
-                            ItemManager.sendBlockChange(getPlayer(), b.getLocation(), CivSettings.previewMaterial.getNewData((byte) 5));
+                            ItemManager.sendBlockChange(getPlayer(), b.getLocation(), tpl.blocks[x][y][z].getMaterialData());
                             resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getState().getData()));
                             count++;
                         } finally {

@@ -166,13 +166,13 @@ public class BuildAsyncTask extends CivAsyncTask {
                                 CivMessage.sendActionBar(p, CivData.getStringForBar(CivData.TaskType.WONDERBUILD, this.percent_complete, 100));
                                 p.playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 1.0f, 1.0f);
                             }
-                        }
-                    } else {
-                        CivMessage.sendTown(buildable.getTown(),
-                                ChatColor.YELLOW + CivSettings.localize.localizedString("var_buildAsync_progressOther", buildable.getDisplayName(), nextPercentComplete));
-                        for (Player p : buildable.getTown().getOnlinePlayers()) {
-                            CivMessage.sendActionBar(p, CivData.getStringForBar(CivData.TaskType.STRUCTUREBUILD, this.percent_complete, 100));
-                            p.playSound(p.getLocation(), Sound.ITEM_SHIELD_BLOCK, 1.0f, 1.0f);
+                        } else {
+                            CivMessage.sendTown(buildable.getTown(),
+                                    ChatColor.YELLOW + CivSettings.localize.localizedString("var_buildAsync_progressOther", buildable.getDisplayName(), nextPercentComplete));
+                            for (Player p : buildable.getTown().getOnlinePlayers()) {
+                                CivMessage.sendActionBar(p, CivData.getStringForBar(CivData.TaskType.STRUCTUREBUILD, this.percent_complete, 100));
+                                p.playSound(p.getLocation(), Sound.ITEM_SHIELD_BLOCK, 1.0f, 1.0f);
+                            }
                         }
                     }
                 }
