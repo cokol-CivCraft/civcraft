@@ -22,6 +22,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.material.MaterialData;
 
 import java.util.HashMap;
@@ -111,6 +112,25 @@ public class SimpleBlock {
 
     public Location getLocation() {
         return new Location(Bukkit.getWorld(this.worldname), this.x, this.y, this.z);
+    }
+
+    public void setTo(BlockCoord coord) {
+        this.setTo(coord, false);
+    }
+
+    public void setTo(BlockCoord coord, boolean applyPhysics) {
+        this.setTo(coord.getBlock(), applyPhysics);
+    }
+
+    public void setTo(Block block) {
+        this.setTo(block, false);
+    }
+
+    public void setTo(Block block, boolean applyPhysics) {
+        BlockState state = block.getState();
+        state.setType(this.getType());
+        state.setData(this.getMaterialData());
+        state.update(true, applyPhysics);
     }
 
 }

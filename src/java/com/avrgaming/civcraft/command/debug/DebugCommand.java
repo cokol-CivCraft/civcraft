@@ -42,7 +42,6 @@ import com.avrgaming.civcraft.object.*;
 import com.avrgaming.civcraft.permission.PermissionGroup;
 import com.avrgaming.civcraft.populators.TradeGoodPopulator;
 import com.avrgaming.civcraft.siege.Cannon;
-import com.avrgaming.civcraft.structure.Structure;
 import com.avrgaming.civcraft.structure.*;
 import com.avrgaming.civcraft.structure.wonders.GrandShipIngermanland;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
@@ -58,13 +57,15 @@ import gpl.AttributeUtil;
 import org.bukkit.*;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.block.*;
+import org.bukkit.block.Biome;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.MaterialData;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -352,80 +353,80 @@ public class DebugCommand extends CommandBase {
 
                                 SimpleBlock sb = tpl.blocks[x][y][z];
 
-                                if (sb.specialType.equals(SimpleBlock.Type.COMMAND)) {
-                                    String buildableName = sb.command.replace("/", "");
-
-
-                                    info = null;
-                                    for (ConfigBuildableInfo buildInfo : CivSettings.structures.values()) {
-                                        if (buildInfo.displayName.equalsIgnoreCase(buildableName)) {
-                                            info = buildInfo;
-                                            break;
+                                switch (sb.specialType) {
+                                    case COMMAND:
+                                        String buildableName = sb.command.replace("/", "");
+                                        info = null;
+                                        for (ConfigBuildableInfo buildInfo : CivSettings.structures.values()) {
+                                            if (buildInfo.displayName.equalsIgnoreCase(buildableName)) {
+                                                info = buildInfo;
+                                                break;
+                                            }
                                         }
-                                    }
-                                    if (info == null) {
+
+                                        if (info == null) {
+                                            try {
+                                                new SimpleBlock(Material.AIR, 0).setTo(next.getBlock());
+                                                continue;
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                                continue;
+                                            }
+                                        }
+
+                                        CivMessage.send(sender, "Setting up " + buildableName);
+                                        String[] split = sb.getKeyValueString().split(",")[0].split(":");
+                                        String dir = split[0];
+                                        int yShift = Integer.parseInt(split[1]);
+
+                                        Location loc = next.getLocation();
+                                        loc.setY(loc.getY() + yShift);
+
+                                        Structure struct = Structure.newStructure(loc, info.id, spawnCapitol);
+                                        if (struct instanceof Capitol) {
+                                            AdminTownCommand.claimradius(spawnCapitol, center, 15);
+                                        }
+                                        struct.setTemplateName("templates/themes/medieval/" + info.template_base_name + ".def");
+                                        struct.bindStructureBlocks();
+                                        struct.setComplete(true);
+                                        struct.setHitpoints(info.max_hp);
+                                        CivGlobal.addStructure(struct);
+                                        spawnCapitol.addStructure(struct);
+
+                                        Template tplStruct;
                                         try {
-                                            next.getBlock().getState().setData(new MaterialData(Material.AIR));
-                                            continue;
+                                            tplStruct = Template.getTemplate(struct.getSavedTemplatePath(), null);
+                                            TaskMaster.syncTask(new PostBuildSyncTask(tplStruct, struct));
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                            throw new CivException("IO Exception.");
+                                        }
+
+                                        struct.save();
+                                        spawnCapitol.save();
+
+                                        break;
+                                    case LITERAL:
+                                        try {
+                                            sb.setTo(next.getLocation().getBlock());
+                                            Sign s = (Sign) next.getBlock().getState();
+                                            for (int j = 0; j < 4; j++) {
+                                                s.setLine(j, sb.message[j]);
+                                            }
+
+                                            s.update(false, false);
                                         } catch (Exception e) {
                                             e.printStackTrace();
-                                            continue;
                                         }
-                                    }
-
-                                    CivMessage.send(sender, "Setting up " + buildableName);
-                                    String[] split = sb.getKeyValueString().split(",")[0].split(":");
-                                    String dir = split[0];
-                                    int yShift = Integer.parseInt(split[1]);
-
-                                    Location loc = next.getLocation();
-                                    loc.setY(loc.getY() + yShift);
-
-                                    Structure struct = Structure.newStructure(loc, info.id, spawnCapitol);
-                                    if (struct instanceof Capitol) {
-                                        AdminTownCommand.claimradius(spawnCapitol, center, 15);
-                                    }
-                                    struct.setTemplateName("templates/themes/medieval/" + info.template_base_name + ".def");
-                                    struct.bindStructureBlocks();
-                                    struct.setComplete(true);
-                                    struct.setHitpoints(info.max_hp);
-                                    CivGlobal.addStructure(struct);
-                                    spawnCapitol.addStructure(struct);
-
-                                    Template tplStruct;
-                                    try {
-                                        tplStruct = Template.getTemplate(struct.getSavedTemplatePath(), null);
-                                        TaskMaster.syncTask(new PostBuildSyncTask(tplStruct, struct));
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                        throw new CivException("IO Exception.");
-                                    }
-
-                                    struct.save();
-                                    spawnCapitol.save();
-
-                                } else if (sb.specialType.equals(SimpleBlock.Type.LITERAL)) {
-                                    try {
-                                        next.getBlock().setType(sb.getType(), false);
-                                        Sign s = (Sign) next.getBlock().getState();
-                                        s.setData(sb.getMaterialData());
-                                        for (int j = 0; j < 4; j++) {
-                                            s.setLine(j, sb.message[j]);
+                                        break;
+                                    default:
+                                        try {
+                                            sb.setTo(next.getLocation().getBlock());
+                                            ;
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
                                         }
-
-                                        s.update(false, false);
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                } else {
-                                    try {
-                                        BlockState state = next.getLocation().getBlock().getState();
-                                        state.setType(sb.getType());
-                                        state.setData(sb.getMaterialData());
-                                        state.update(true, false);
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
+                                        break;
                                 }
                             }
                         }

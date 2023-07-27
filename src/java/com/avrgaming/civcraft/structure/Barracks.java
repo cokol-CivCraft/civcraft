@@ -43,7 +43,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -316,8 +315,7 @@ public class Barracks extends Structure {
 
         switch (sb.command) {
             case "/prev":
-                absCoord.getBlock().setType(sb.getType());
-                absCoord.getBlock().setData((byte) sb.getData());
+                sb.setTo(absCoord);
                 structSign = new StructureSign(absCoord, this);
                 structSign.setText("\n" + ChatColor.BOLD + ChatColor.UNDERLINE + CivSettings.localize.localizedString("barracks_sign_previousUnit"));
                 structSign.setDirection(sb.getData());
@@ -328,8 +326,7 @@ public class Barracks extends Structure {
 
                 break;
             case "/unitname":
-                absCoord.getBlock().setType(sb.getType());
-                absCoord.getBlock().setData((byte) sb.getData());
+                sb.setTo(absCoord);
 
                 structSign = new StructureSign(absCoord, this);
                 structSign.setText(getUnitSignText(0));
@@ -344,9 +341,7 @@ public class Barracks extends Structure {
 
                 break;
             case "/next":
-                absCoord.getBlock().setType(sb.getType());
-                Block block3 = absCoord.getBlock();
-                block3.setData((byte) sb.getData());
+                sb.setTo(absCoord);
 
                 structSign = new StructureSign(absCoord, this);
                 structSign.setText("\n" + ChatColor.BOLD + ChatColor.UNDERLINE + CivSettings.localize.localizedString("barracks_sign_nextUnit"));
@@ -358,9 +353,7 @@ public class Barracks extends Structure {
 
                 break;
             case "/train":
-                absCoord.getBlock().setType(sb.getType());
-                Block block2 = absCoord.getBlock();
-                block2.setData((byte) sb.getData());
+                sb.setTo(absCoord);
 
                 structSign = new StructureSign(absCoord, this);
                 structSign.setText("\n" + ChatColor.BOLD + ChatColor.UNDERLINE + CivSettings.localize.localizedString("barracks_sign_train"));
@@ -372,9 +365,7 @@ public class Barracks extends Structure {
 
                 break;
             case "/progress":
-                absCoord.getBlock().setType(sb.getType());
-                Block block1 = absCoord.getBlock();
-                block1.setData((byte) sb.getData());
+                sb.setTo(absCoord);
 
                 structSign = new StructureSign(absCoord, this);
                 structSign.setText("");
@@ -388,9 +379,7 @@ public class Barracks extends Structure {
 
                 break;
             case "/repair":
-                absCoord.getBlock().setType(sb.getType());
-                Block block = absCoord.getBlock();
-                block.setData((byte) sb.getData());
+                sb.setTo(absCoord);
 
                 structSign = new StructureSign(absCoord, this);
                 structSign.setText("\n" + ChatColor.BOLD + ChatColor.UNDERLINE + CivSettings.localize.localizedString("barracks_sign_repairItem"));
