@@ -47,7 +47,7 @@ public class MarkerPlacementManager implements Listener {
 
         if (player.getInventory().getItemInMainHand() != null) {
             ItemStack stack = player.getInventory().getItemInMainHand();
-            if (stack.getTypeId() != Material.AIR.getId()) {
+            if (stack.getType() != Material.AIR) {
                 throw new CivException(CivSettings.localize.localizedString("placement_errorHolding"));
             }
         }

@@ -42,7 +42,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_12_R1.util.HashTreeSet;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
@@ -313,9 +312,7 @@ public class Stable extends Structure {
 
         switch (sb.command) {
             case "/prev":
-                absCoord.getBlock().setType(sb.getType());
-                Block block2 = absCoord.getBlock();
-                block2.setData((byte) sb.getData());
+                sb.setTo(absCoord);
                 structSign = new StructureSign(absCoord, this);
                 structSign.setText("\n" + ChatColor.BOLD + ChatColor.UNDERLINE + CivSettings.localize.localizedString("stable_sign_previousUnit"));
                 structSign.setDirection(sb.getData());
@@ -326,9 +323,7 @@ public class Stable extends Structure {
                 CivGlobal.addStructureSign(structSign);
                 break;
             case "/item":
-                absCoord.getBlock().setType(sb.getType());
-                Block block1 = absCoord.getBlock();
-                block1.setData((byte) sb.getData());
+                sb.setTo(absCoord);
 
                 structSign = new StructureSign(absCoord, this);
                 structSign.setText("");
@@ -351,9 +346,7 @@ public class Stable extends Structure {
 
                 break;
             case "/next":
-                absCoord.getBlock().setType(sb.getType());
-                Block block = absCoord.getBlock();
-                block.setData((byte) sb.getData());
+                sb.setTo(absCoord);
 
                 structSign = new StructureSign(absCoord, this);
                 structSign.setText("\n" + ChatColor.BOLD + ChatColor.UNDERLINE + CivSettings.localize.localizedString("stable_sign_nextUnit"));

@@ -135,17 +135,45 @@ public class FisheryAsyncTask extends CivAsyncTask {
         for (int i = 0; i < fishHatchery.skippedCounter + 1; i++) {
 
             for (ItemStack stack : contents0) {
-                if (stack == null) {
+                if (stack == null || stack.getType() != Material.FISHING_ROD) {
                     continue;
                 }
+                try {
+                    short damage = ItemManager.getData(stack);
+                    this.updateInventory(Action.REMOVE, source_inv0, new ItemStack(Material.FISHING_ROD, 1, damage));
+                    damage++;
+                    if (damage < 64) {
+                        this.updateInventory(Action.ADD, source_inv0, new ItemStack(Material.FISHING_ROD, 1, damage));
+                    }
+                } catch (InterruptedException e) {
+                    return;
+                }
 
-                if (stack.getTypeId() == Material.FISHING_ROD.getId()) {
+                ItemStack newItem;
+
+                newItem = this.getFishForBiome();
+
+                //Try to add the new item to the dest chest, if we cant, oh well.
+                try {
+                    debug(fishHatchery, "Updating inventory:" + newItem);
+                    this.updateInventory(Action.ADD, dest_inv, newItem);
+                } catch (InterruptedException e) {
+                    return;
+                }
+                break;
+            }
+
+            if (this.fishHatchery.getLevel() >= 2) {
+                for (ItemStack stack : contents1) {
+                    if (stack == null || stack.getType() != Material.FISHING_ROD) {
+                        continue;
+                    }
                     try {
                         short damage = ItemManager.getData(stack);
-                        this.updateInventory(Action.REMOVE, source_inv0, new ItemStack(Material.FISHING_ROD.getId(), 1, damage));
+                        this.updateInventory(Action.REMOVE, source_inv1, new ItemStack(Material.FISHING_ROD, 1, damage));
                         damage++;
                         if (damage < 64) {
-                            this.updateInventory(Action.ADD, source_inv0, new ItemStack(Material.FISHING_ROD.getId(), 1, damage));
+                            this.updateInventory(Action.ADD, source_inv1, new ItemStack(Material.FISHING_ROD, 1, damage));
                         }
                     } catch (InterruptedException e) {
                         return;
@@ -166,103 +194,63 @@ public class FisheryAsyncTask extends CivAsyncTask {
                 }
             }
 
-            if (this.fishHatchery.getLevel() >= 2) {
-                for (ItemStack stack : contents1) {
-                    if (stack == null) {
-                        continue;
-                    }
-
-                    if (stack.getTypeId() == Material.FISHING_ROD.getId()) {
-                        try {
-                            short damage = ItemManager.getData(stack);
-                            this.updateInventory(Action.REMOVE, source_inv1, new ItemStack(Material.FISHING_ROD.getId(), 1, damage));
-                            damage++;
-                            if (damage < 64) {
-                                this.updateInventory(Action.ADD, source_inv1, new ItemStack(Material.FISHING_ROD.getId(), 1, damage));
-                            }
-                        } catch (InterruptedException e) {
-                            return;
-                        }
-
-                        ItemStack newItem;
-
-                        newItem = this.getFishForBiome();
-
-                        //Try to add the new item to the dest chest, if we cant, oh well.
-                        try {
-                            debug(fishHatchery, "Updating inventory:" + newItem);
-                            this.updateInventory(Action.ADD, dest_inv, newItem);
-                        } catch (InterruptedException e) {
-                            return;
-                        }
-                        break;
-                    }
-                }
-            }
-
             if (this.fishHatchery.getLevel() >= 3) {
                 for (ItemStack stack : contents2) {
-                    if (stack == null) {
+                    if (stack == null || stack.getType() != Material.FISHING_ROD) {
                         continue;
                     }
-
-                    if (stack.getTypeId() == Material.FISHING_ROD.getId()) {
-                        try {
-                            short damage = ItemManager.getData(stack);
-                            this.updateInventory(Action.REMOVE, source_inv2, new ItemStack(Material.FISHING_ROD.getId(), 1, damage));
-                            damage++;
-                            if (damage < 64) {
-                                this.updateInventory(Action.ADD, source_inv2, new ItemStack(Material.FISHING_ROD.getId(), 1, damage));
-                            }
-                        } catch (InterruptedException e) {
-                            return;
+                    try {
+                        short damage = ItemManager.getData(stack);
+                        this.updateInventory(Action.REMOVE, source_inv2, new ItemStack(Material.FISHING_ROD, 1, damage));
+                        damage++;
+                        if (damage < 64) {
+                            this.updateInventory(Action.ADD, source_inv2, new ItemStack(Material.FISHING_ROD, 1, damage));
                         }
-
-                        ItemStack newItem;
-
-                        newItem = this.getFishForBiome();
-
-                        //Try to add the new item to the dest chest, if we cant, oh well.
-                        try {
-                            debug(fishHatchery, "Updating inventory:" + newItem);
-                            this.updateInventory(Action.ADD, dest_inv, newItem);
-                        } catch (InterruptedException e) {
-                            return;
-                        }
-                        break;
+                    } catch (InterruptedException e) {
+                        return;
                     }
+
+                    ItemStack newItem;
+
+                    newItem = this.getFishForBiome();
+
+                    //Try to add the new item to the dest chest, if we cant, oh well.
+                    try {
+                        debug(fishHatchery, "Updating inventory:" + newItem);
+                        this.updateInventory(Action.ADD, dest_inv, newItem);
+                    } catch (InterruptedException e) {
+                        return;
+                    }
+                    break;
                 }
             }
             if (this.fishHatchery.getLevel() >= 4) {
                 for (ItemStack stack : contents3) {
-                    if (stack == null) {
+                    if (stack == null || stack.getType() != Material.FISHING_ROD) {
                         continue;
                     }
-
-                    if (stack.getTypeId() == Material.FISHING_ROD.getId()) {
-                        try {
-                            short damage = ItemManager.getData(stack);
-                            this.updateInventory(Action.REMOVE, source_inv3, new ItemStack(Material.FISHING_ROD.getId(), 1, damage));
-                            damage++;
-                            if (damage < 64) {
-                                this.updateInventory(Action.ADD, source_inv3, new ItemStack(Material.FISHING_ROD.getId(), 1, damage));
-                            }
-                        } catch (InterruptedException e) {
-                            return;
+                    try {
+                        short damage = ItemManager.getData(stack);
+                        this.updateInventory(Action.REMOVE, source_inv3, new ItemStack(Material.FISHING_ROD, 1, damage));
+                        damage++;
+                        if (damage < 64) {
+                            this.updateInventory(Action.ADD, source_inv3, new ItemStack(Material.FISHING_ROD, 1, damage));
                         }
-
-                        ItemStack newItem = this.getFishForBiome();
-
-                        //Try to add the new item to the dest chest, if we cant, oh well.
-                        try {
-                            debug(fishHatchery, "Updating inventory:" + newItem);
-                            this.updateInventory(Action.ADD, dest_inv, newItem);
-                            fishHatchery.getCorner().getBlock().getWorld().playSound(fishHatchery.getCenterLocation().getLocation(), Sound.BLOCK_BREWING_STAND_BREW, 1f, 1f);
-                        } catch (InterruptedException e) {
-                            return;
-                        }
-                        break;
+                    } catch (InterruptedException e) {
+                        return;
                     }
+
+                    ItemStack newItem = this.getFishForBiome();
+
+                    //Try to add the new item to the dest chest, if we cant, oh well.
+                    try {
+                        debug(fishHatchery, "Updating inventory:" + newItem);
+                        this.updateInventory(Action.ADD, dest_inv, newItem);
+                        fishHatchery.getCorner().getBlock().getWorld().playSound(fishHatchery.getCenterLocation().getLocation(), Sound.BLOCK_BREWING_STAND_BREW, 1f, 1f);
+                    } catch (InterruptedException e) {
+                        return;
+                    }
+                    break;
                 }
             }
         }
@@ -388,7 +376,7 @@ public class FisheryAsyncTask extends CivAsyncTask {
             case 1: //Fish Tier 1
                 switch (biome) {
                     case 0: //Not ranked
-                        newItem = new ItemStack(Material.RAW_FISH.getId(), 1, (short) 0);
+                        newItem = new ItemStack(Material.RAW_FISH, 1, (short) 0);
                         break;
 
                     case 1: //Mountains

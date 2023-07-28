@@ -23,7 +23,7 @@ public class NoCauldronWash extends ItemComponent {
             BlockCoord bcoord = new BlockCoord(event.getClickedBlock());
 
             Block block = bcoord.getBlock();
-            if (block.getTypeId() == Material.CAULDRON.getId()) {
+            if (block.getType() == Material.CAULDRON) {
                 event.setCancelled(true);
             }
         }

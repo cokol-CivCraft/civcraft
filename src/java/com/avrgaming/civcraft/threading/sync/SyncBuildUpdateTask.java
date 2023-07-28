@@ -22,6 +22,7 @@ import com.avrgaming.civcraft.util.SimpleBlock;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.material.MaterialData;
 
@@ -70,15 +71,15 @@ public class SyncBuildUpdateTask implements Runnable {
                 if (next == null) {
                     break;
                 }
-
                 Block block = Bukkit.getWorld(next.worldname).getBlockAt(next.x, next.y, next.z);
-                block.setType(next.getType());
-                block.setData(next.getMaterialData().getData());
+                next.setTo(block);
 
                 /* Handle Special Blocks */
                 switch (next.specialType) {
                     case COMMAND:
-                        block.getState().setData(new MaterialData(Material.AIR));
+                        BlockState state = next.getLocation().getBlock().getState();
+                        state.setType(Material.AIR);
+                        state.update(true, false);
                         break;
                     case LITERAL:
                         if (block.getState() instanceof Sign) {

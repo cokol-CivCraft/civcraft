@@ -32,6 +32,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -166,8 +167,7 @@ public class Capitol extends TownHall {
                 }
                 break;
             case "/next":
-                absCoord.getBlock().setType(commandBlock.getType());
-                absCoord.getBlock().setData((byte) commandBlock.getData());
+                commandBlock.setTo(absCoord);
 
                 structSign = new StructureSign(absCoord, this);
                 structSign.setText("\n" + ChatColor.BOLD + ChatColor.UNDERLINE + CivSettings.localize.localizedString("capitol_sign_nextLocation"));
@@ -179,8 +179,8 @@ public class Capitol extends TownHall {
 
                 break;
             case "/prev":
-                absCoord.getBlock().setType(commandBlock.getType());
-                absCoord.getBlock().setData((byte) commandBlock.getData());
+                commandBlock.setTo(absCoord);
+
                 structSign = new StructureSign(absCoord, this);
                 structSign.setText("\n" + ChatColor.BOLD + ChatColor.UNDERLINE + CivSettings.localize.localizedString("capitol_sign_previousLocation"));
                 structSign.setDirection(commandBlock.getData());
@@ -191,8 +191,8 @@ public class Capitol extends TownHall {
 
                 break;
             case "/respawndata":
-                absCoord.getBlock().setType(commandBlock.getType());
-                absCoord.getBlock().setData((byte) commandBlock.getData());
+                commandBlock.setTo(absCoord);
+
                 structSign = new StructureSign(absCoord, this);
                 structSign.setText(CivSettings.localize.localizedString("capitol_sign_Capitol"));
                 structSign.setDirection(commandBlock.getData());
@@ -211,23 +211,24 @@ public class Capitol extends TownHall {
     @Override
     public void createControlPoint(BlockCoord absCoord) {
 
-        Location centerLoc = absCoord.getLocation();
+        Block centerBlock = absCoord.getBlock();
 
         /* Build the bedrock tower. */
         //for (int i = 0; i < 1; i++) {
-        Block b = centerLoc.getBlock();
-        b.setType(Material.BEDROCK);
-        b.setData((byte) 0);
+        BlockState state = centerBlock.getState();
+        state.setType(Material.BEDROCK);
+        state.update(true, false);
 
-        StructureBlock sb = new StructureBlock(new BlockCoord(b), this);
+        StructureBlock sb = new StructureBlock(new BlockCoord(centerBlock), this);
         this.addStructureBlock(sb.getCoord(), true);
         //}
 
         /* Build the control block. */
-        b = centerLoc.getBlock().getRelative(0, 1, 0);
-        b.setType(Material.OBSIDIAN);
-        sb = new StructureBlock(new BlockCoord(b), this);
-        this.addStructureBlock(sb.getCoord(), true);
+        BlockState state2 = centerBlock.getRelative(0, 1, 0).getState();
+        state2.setType(Material.OBSIDIAN);
+        state2.update(true, false);
+
+        this.addStructureBlock(new BlockCoord(centerBlock.getRelative(0, 1, 0)), true);
 
         int capitolControlHitpoints;
         try {
@@ -237,7 +238,7 @@ public class Capitol extends TownHall {
             capitolControlHitpoints = 100;
         }
 
-        BlockCoord coord = new BlockCoord(b);
+        BlockCoord coord = new BlockCoord(centerBlock.getRelative(0, 1, 0));
         this.controlPoints.put(coord, new ControlPoint(coord, this, capitolControlHitpoints));
     }
 

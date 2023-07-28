@@ -26,7 +26,7 @@ public class Tagged extends ItemComponent {
         String tag = null;
 
         for (ItemStack stack : matrix) {
-            if ((stack == null) || (stack.getTypeId() == Material.AIR.getId())) {
+            if ((stack == null) || (stack.getType() == Material.AIR)) {
                 continue;
             }
 

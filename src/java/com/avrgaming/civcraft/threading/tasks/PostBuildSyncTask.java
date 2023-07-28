@@ -182,11 +182,9 @@ public class PostBuildSyncTask implements Runnable {
                     if (structSign == null) {
                         structSign = new StructureSign(absCoord, buildable);
                     }
-                    block = absCoord.getBlock();
-                    block.setType(sb.getType());
-                    block.setData((byte) sb.getData());
+                    sb.setTo(absCoord);
 
-                    structSign.setDirection(block.getState().getRawData());
+                    structSign.setDirection(absCoord.getBlock().getState().getRawData());
                     for (String key : sb.keyvalues.keySet()) {
                         structSign.setType(key);
                         structSign.setAction(sb.keyvalues.get(key));
@@ -253,9 +251,7 @@ public class PostBuildSyncTask implements Runnable {
 
             Block block = absCoord.getBlock();
             if (block.getType() != sb.getType()) {
-                block.setType(sb.getType());
-                //block.getState().setData(sb.getMaterialData());
-                block.setData(sb.getMaterialData().getData());
+                sb.setTo(block);
             }
         }
 
@@ -389,11 +385,9 @@ public class PostBuildSyncTask implements Runnable {
                     break;
                 case "/sign":
                     StructureSign structSign = Optional.ofNullable(CivGlobal.getStructureSign(absCoord)).orElseGet(() -> new StructureSign(absCoord, buildable));
-                    block = absCoord.getBlock();
-                    block.setType(sb.getType());
-                    block.setData((byte) sb.getData());
+                    sb.setTo(absCoord);
 
-                    structSign.setDirection(block.getState().getRawData());
+                    structSign.setDirection(absCoord.getBlock().getState().getRawData());
                     for (String key : sb.keyvalues.keySet()) {
                         structSign.setType(key);
                         structSign.setAction(sb.keyvalues.get(key));

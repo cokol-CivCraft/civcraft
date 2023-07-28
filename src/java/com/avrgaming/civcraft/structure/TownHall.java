@@ -189,8 +189,8 @@ public class TownHall extends Structure implements RespawnLocationHolder {
         }
 
         Block itemFrameBlock = absCoord.getBlock();
-        if (itemFrameBlock.getTypeId() != Material.AIR.getId()) {
-            itemFrameBlock.setTypeId(Material.AIR.getId());
+        if (itemFrameBlock.getType() != Material.AIR) {
+            itemFrameBlock.setType(Material.AIR);
         }
 
         ItemFrameStorage itemStore;
