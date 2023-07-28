@@ -27,22 +27,27 @@ import java.util.List;
 import java.util.Map;
 
 public class ConfigFishing {
-    public String craftMatId;
-    public Material type_id;
-    public double drop_chance;
+    public final String craftMatId;
+    public final Material type_id;
+    public final double drop_chance;
+
+    public ConfigFishing(String craftMatId, Material typeId, double dropChance) {
+        this.craftMatId = craftMatId;
+        type_id = typeId;
+        drop_chance = dropChance;
+    }
 
     public static void loadConfig(FileConfiguration cfg, ArrayList<ConfigFishing> configList) {
         configList.clear();
         List<Map<?, ?>> drops = cfg.getMapList("fishing_drops");
         for (Map<?, ?> item : drops) {
-            ConfigFishing g = new ConfigFishing();
-
-            g.craftMatId = (String) item.get("craftMatId");
-            g.type_id = Material.getMaterial((String) item.get("type_id"));
-            g.drop_chance = (Double) item.get("drop_chance");
+            ConfigFishing g = new ConfigFishing(
+                    (String) item.get("craftMatId"),
+                    Material.getMaterial((String) item.get("type_id")),
+                    (Double) item.get("drop_chance")
+            );
 
             configList.add(g);
-
         }
         CivLog.info("Loaded " + configList.size() + " fishing drops.");
 

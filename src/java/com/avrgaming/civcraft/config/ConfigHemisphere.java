@@ -24,23 +24,32 @@ import java.util.List;
 import java.util.Map;
 
 public class ConfigHemisphere {
-    public String id;
-    public int x_min;
-    public int x_max;
-    public int z_min;
-    public int z_max;
+    public final String id;
+    public final int x_min;
+    public final int x_max;
+    public final int z_min;
+    public final int z_max;
+
+    public ConfigHemisphere(String id, int xMin, int xMax, int zMin, int zMax) {
+        this.id = id;
+        x_min = xMin;
+        x_max = xMax;
+        z_min = zMin;
+        z_max = zMax;
+    }
 
 
     public static void loadConfig(FileConfiguration cfg, Map<String, ConfigHemisphere> hemis) {
         hemis.clear();
         List<Map<?, ?>> configHemis = cfg.getMapList("hemispheres");
         for (Map<?, ?> b : configHemis) {
-            ConfigHemisphere buff = new ConfigHemisphere();
-            buff.id = (String) b.get("id");
-            buff.x_min = (Integer) b.get("x_min");
-            buff.x_max = (Integer) b.get("x_max");
-            buff.z_min = (Integer) b.get("z_min");
-            buff.z_max = (Integer) b.get("z_max");
+            ConfigHemisphere buff = new ConfigHemisphere(
+                    (String) b.get("id"),
+                    (Integer) b.get("x_min"),
+                    (Integer) b.get("x_max"),
+                    (Integer) b.get("z_min"),
+                    (Integer) b.get("z_max")
+            );
             hemis.put(buff.id, buff);
         }
 

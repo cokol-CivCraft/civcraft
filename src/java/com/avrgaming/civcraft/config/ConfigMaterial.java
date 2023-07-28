@@ -8,10 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ConfigMaterial {
 
@@ -80,16 +77,8 @@ public class ConfigMaterial {
                 mat.craftable = craftable;
             }
 
-            Boolean shaped = (Boolean) b.get("shaped");
-            if (shaped != null) {
-                mat.shaped = shaped;
-            }
-
-            Boolean isShiny = (Boolean) b.get("shiny");
-            if (isShiny != null) {
-
-                mat.shiny = isShiny;
-            }
+            mat.shaped = Optional.ofNullable((Boolean) b.get("shaped")).orElse(false);
+            mat.shiny = Optional.ofNullable((Boolean) b.get("shiny")).orElse(false);
 
             Boolean isTradeable = (Boolean) b.get("tradeable");
             if (isTradeable != null) {
@@ -134,40 +123,27 @@ public class ConfigMaterial {
                 mat.ingredients = new HashMap<>();
 
                 for (Map<?, ?> ingred : configIngredients) {
-                    ConfigIngredient ingredient = new ConfigIngredient();
-                    ingredient.type_id = Material.getMaterial((Integer) ingred.get("type_id"));
-                    ingredient.data = (Integer) ingred.get("data");
-                    String key = null;
-
-                    String custom_id = (String) ingred.get("custom_id");
-                    if (custom_id != null) {
-                        ingredient.custom_id = custom_id;
-                        key = custom_id;
+                    ConfigIngredient ingredient = new ConfigIngredient(
+                            Material.getMaterial((Integer) ingred.get("type_id")),
+                            Optional.ofNullable((Integer) ingred.get("data")).orElse(0),
+                            (String) ingred.get("custom_id"),
+                            Optional.ofNullable((Integer) ingred.get("count")).orElse(1),
+                            (String) ingred.get("letter"),
+                            Optional.ofNullable((Boolean) ingred.get("ignore_data")).orElse(false)
+                    );
+                    String key;
+                    if (ingredient.custom_id != null) {
+                        key = ingredient.custom_id;
                     } else {
-                        ingredient.custom_id = null;
                         key = "mc_" + ingredient.type_id;
                     }
-
-                    Boolean ignore_data = (Boolean) ingred.get("ignore_data");
-                    ingredient.ignore_data = ignore_data != null && ignore_data;
-
-                    Integer count = (Integer) ingred.get("count");
-                    if (count != null) {
-                        ingredient.count = count;
-                    }
-
-                    String letter = (String) ingred.get("letter");
-                    if (letter != null) {
-                        ingredient.letter = letter;
-                    }
-
 
                     mat.ingredients.put(key, ingredient);
                     //ConfigIngredient.ingredientMap.put(ingredient.custom_id, ingredient);
                 }
             }
 
-            if (shaped) {
+            if (mat.shaped) {
                 /* Optional shape argument. */
                 List<?> configShape = (List<?>) b.get("shape");
 

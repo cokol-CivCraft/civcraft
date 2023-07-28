@@ -26,40 +26,53 @@ import java.util.List;
 import java.util.Map;
 
 public class ConfigGovernment {
+    public final String id;
+    public final String displayName;
+    public final String require_tech;
 
-    public String id;
-    public String displayName;
-    public String require_tech;
+    public final double trade_rate;
+    public final double upkeep_rate;
+    public final double cottage_rate;
+    public final double growth_rate;
+    public final double culture_rate;
+    public final double hammer_rate;
+    public final double beaker_rate;
+    public final double maximum_tax_rate;
+    public final double trommel_rate;
 
-    public double trade_rate;
-    public double upkeep_rate;
-    public double cottage_rate;
-    public double growth_rate;
-    public double culture_rate;
-    public double hammer_rate;
-    public double beaker_rate;
-    public double maximum_tax_rate;
-    public double trommel_rate;
+    public ConfigGovernment(String id, String displayName, String requireTech, double tradeRate, double upkeepRate, double cottageRate, double growthRate, double cultureRate, double hammerRate, double beakerRate, double maximumTaxRate, double trommelRate) {
+        this.id = id;
+        this.displayName = displayName;
+        require_tech = requireTech;
+        trade_rate = tradeRate;
+        upkeep_rate = upkeepRate;
+        cottage_rate = cottageRate;
+        growth_rate = growthRate;
+        culture_rate = cultureRate;
+        hammer_rate = hammerRate;
+        beaker_rate = beakerRate;
+        maximum_tax_rate = maximumTaxRate;
+        trommel_rate = trommelRate;
+    }
 
     public static void loadConfig(FileConfiguration cfg, Map<String, ConfigGovernment> government_map) {
         government_map.clear();
         List<Map<?, ?>> techs = cfg.getMapList("governments");
         for (Map<?, ?> level : techs) {
-            ConfigGovernment gov = new ConfigGovernment();
-
-            gov.id = (String) level.get("id");
-            gov.displayName = (String) level.get("displayName");
-            gov.require_tech = (String) level.get("require_tech");
-
-            gov.trade_rate = (Double) level.get("trade_rate");
-            gov.upkeep_rate = (Double) level.get("upkeep_rate");
-            gov.cottage_rate = (Double) level.get("cottage_rate");
-            gov.growth_rate = (Double) level.get("growth_rate");
-            gov.culture_rate = (Double) level.get("culture_rate");
-            gov.hammer_rate = (Double) level.get("hammer_rate");
-            gov.beaker_rate = (Double) level.get("beaker_rate");
-            gov.maximum_tax_rate = (Double) level.get("maximum_tax_rate");
-			gov.trommel_rate = (Double) level.get("trommel_rate");
+            ConfigGovernment gov = new ConfigGovernment(
+                    (String) level.get("id"),
+                    (String) level.get("displayName"),
+                    (String) level.get("require_tech"),
+                    (Double) level.get("trade_rate"),
+                    (Double) level.get("upkeep_rate"),
+                    (Double) level.get("cottage_rate"),
+                    (Double) level.get("growth_rate"),
+                    (Double) level.get("culture_rate"),
+                    (Double) level.get("hammer_rate"),
+                    (Double) level.get("beaker_rate"),
+                    (Double) level.get("maximum_tax_rate"),
+                    (Double) level.get("trommel_rate")
+            );
 
             government_map.put(gov.id, gov);
         }
