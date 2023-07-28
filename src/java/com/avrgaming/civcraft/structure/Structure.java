@@ -612,7 +612,7 @@ public class Structure extends Buildable {
 
 
     protected void runOnBuild(Location centerLoc, Template tpl) throws CivException {
-        if (this.getOnBuildEvent() == null || this.getOnBuildEvent().equals("")) {
+        if (this.getOnBuildEvent() == null || this.getOnBuildEvent().isEmpty()) {
             return;
         }
 

@@ -299,7 +299,7 @@ public class AdminTownCommand extends CommandBase {
                 CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_town_tpSuccess", town.getName()));
                 return;
             } else {
-                if (town.getTownChunks().size() > 0) {
+                if (!town.getTownChunks().isEmpty()) {
                     ChunkCoord coord = town.getTownChunks().iterator().next().getChunkCoord();
 
                     Location loc = new Location(Bukkit.getWorld(coord.getWorldname()), (coord.getX() << 4), 100, (coord.getZ() << 4));

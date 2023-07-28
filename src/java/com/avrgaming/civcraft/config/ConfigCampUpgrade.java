@@ -57,7 +57,7 @@ public class ConfigCampUpgrade {
             return false;
         }
 
-        if (this.require_upgrade == null || this.require_upgrade.equals("")) {
+        if (this.require_upgrade == null || this.require_upgrade.isEmpty()) {
             return true;
         }
 

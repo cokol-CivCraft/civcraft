@@ -42,7 +42,7 @@ public class NonMemberFeeComponent extends Component {
     public void onLoad() {
         ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getKey());
 
-        if (entries.size() == 0) {
+        if (entries.isEmpty()) {
             buildable.sessionAdd(getKey(), String.valueOf(feeRate));
             return;
         }
@@ -56,7 +56,7 @@ public class NonMemberFeeComponent extends Component {
 
         ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getKey());
 
-        if (entries.size() == 0) {
+        if (entries.isEmpty()) {
             buildable.sessionAdd(getKey(), String.valueOf(feeRate));
             return;
         }

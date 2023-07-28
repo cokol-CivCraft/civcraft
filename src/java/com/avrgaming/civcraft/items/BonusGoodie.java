@@ -490,7 +490,7 @@ public class BonusGoodie extends LoreItem {
 
         // First find the outpost for this goodie.
         try {
-            if (outpostLocString != null && !outpostLocString.equals("")) {
+            if (outpostLocString != null && !outpostLocString.isEmpty()) {
                 outpostLocation = CivGlobal.getLocationFromHash(outpostLocString);
                 this.outpost = (TradeOutpost) CivGlobal.getStructure(new BlockCoord(outpostLocation));
             }
@@ -509,7 +509,7 @@ public class BonusGoodie extends LoreItem {
 
         // Now that we have an outpost for this good, lets see if we
         // can find where it is stored.
-        if (holderLocString != null && !holderLocString.equals("")) {
+        if (holderLocString != null && !holderLocString.isEmpty()) {
             Location loc = CivGlobal.getLocationFromHash(holderLocString);
             BlockCoord bcoord = new BlockCoord(loc);
 
@@ -538,7 +538,7 @@ public class BonusGoodie extends LoreItem {
         }
 
         // if in an item frame
-        if (frameUID != null && !frameUID.equals("")) {
+        if (frameUID != null && !frameUID.isEmpty()) {
             Location loc = CivGlobal.getLocationFromHash(rs.getString("frame_location"));
             loc.getWorld().loadChunk(loc.getChunk());
 
@@ -577,7 +577,7 @@ public class BonusGoodie extends LoreItem {
             return;
         }
 
-        if (itemUID != null && !itemUID.equals("")) {
+        if (itemUID != null && !itemUID.isEmpty()) {
             this.item = (Item) EntityUtil.getEntity(outpostLocation.getWorld(), UUID.fromString(itemUID));
             if (this.item == null) {
                 CivLog.warning("ITEM ON GROUND WAS NULL...deleting goodie");

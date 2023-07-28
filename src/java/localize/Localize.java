@@ -30,7 +30,7 @@ public class Localize {
     }
 
     public void setLanguageFile(String langFile) {
-        this.languageFile = langFile.equals("") ? "default_lang.yml" : langFile;
+        this.languageFile = langFile.isEmpty() ? "default_lang.yml" : langFile;
         this.reloadDefaultLocalizedStrings();
         this.reloadLocalizedStrings();
     }

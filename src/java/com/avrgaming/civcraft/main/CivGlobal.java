@@ -1023,7 +1023,7 @@ public class CivGlobal {
         HashSet<Buildable> buildables = buildablesInChunk.get(key);
         if (buildables != null) {
             buildables.remove(sb.getOwner());
-            if (buildables.size() > 0) {
+            if (!buildables.isEmpty()) {
                 buildablesInChunk.put(key, buildables);
             } else {
                 buildablesInChunk.remove(key);

@@ -200,7 +200,7 @@ public class PlayerLoginAsyncTask implements Runnable {
 
 
                 ArrayList<SessionEntry> deathEvents = CivGlobal.getSessionDB().lookup("pvplogger:death:" + resident.getName());
-                if (deathEvents.size() != 0) {
+                if (!deathEvents.isEmpty()) {
                     CivMessage.send(resident, String.valueOf(ChatColor.RED) + ChatColor.BOLD + CivSettings.localize.localizedString("PlayerLoginAsync_killedWhilePVPLogged"));
                     class SyncTask implements Runnable {
                         final String playerName;

@@ -489,7 +489,7 @@ public class MobGrinderAsyncTask extends CivAsyncTask {
                     default:
                         break;
                 }
-                if (newItems.size() >= 1) {
+                if (!newItems.isEmpty()) {
                     //Try to add the new item to the dest chest, if we cant, oh well.
                     try {
                         for (ItemStack item : newItems) {

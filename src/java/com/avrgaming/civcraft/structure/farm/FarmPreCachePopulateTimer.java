@@ -71,7 +71,7 @@ public class FarmPreCachePopulateTimer implements Runnable {
                     CivGlobal.queueFarmChunk(fc);
                 }
 
-                if (farms.size() > 0) {
+                if (!farms.isEmpty()) {
                     TaskMaster.asyncTask(new FarmCachePopulateTask(farms), 0);
                 }
             } finally {

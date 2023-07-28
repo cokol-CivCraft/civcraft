@@ -67,12 +67,12 @@ public class TownInfoCommand extends CommandBase {
 	}
 
     public void granary_cmd() throws CivException {
-		String s = null;
-		Town t = getSelectedTown();
-		for (Granary g : t.getGranaries()) {
-			s += g.getResources();
+        Town t = getSelectedTown();
+        StringBuilder s = new StringBuilder();
+        for (Granary g : t.getGranaries()) {
+            s.append(g.getResources());
 		}
-		CivMessage.send(sender, s);
+        CivMessage.send(sender, s.toString());
 	}
 
 	public void disabled_cmd() throws CivException {
@@ -315,7 +315,7 @@ public class TownInfoCommand extends CommandBase {
         }
 
 
-        if (town.getBonusGoodies().size() > 0) {
+        if (!town.getBonusGoodies().isEmpty()) {
             for (BonusGoodie goodie : town.getBonusGoodies()) {
                 TradeGood good = goodie.getOutpost().getGood();
 
@@ -630,7 +630,7 @@ public class TownInfoCommand extends CommandBase {
 
         }
 
-        if (town.getBonusGoodies().size() > 0) {
+        if (!town.getBonusGoodies().isEmpty()) {
             StringBuilder goodies = new StringBuilder();
             for (BonusGoodie goodie : town.getBonusGoodies()) {
                 goodies.append(goodie.getDisplayName()).append(",");

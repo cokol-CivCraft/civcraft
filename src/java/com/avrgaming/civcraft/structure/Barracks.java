@@ -83,7 +83,7 @@ public class Barracks extends Structure {
     private String getUnitSignText(int index) throws IndexOutOfBoundsException {
         ArrayList<ConfigUnit> unitList = getTown().getAvailableUnits();
 
-        if (unitList.size() == 0) {
+        if (unitList.isEmpty()) {
             return "\n" + ChatColor.GRAY + CivSettings.localize.localizedString("Nothing") + "\n" + ChatColor.GRAY + CivSettings.localize.localizedString("Available");
         }
 
@@ -429,7 +429,7 @@ public class Barracks extends Structure {
 
         // Find the chest inventory
         ArrayList<StructureChest> chests = this.getAllChestsById(0);
-        if (chests.size() == 0) {
+        if (chests.isEmpty()) {
             return;
         }
 
@@ -511,7 +511,7 @@ public class Barracks extends Structure {
         String value = this.getTrainingUnit().id + ":" + this.currentHammers;
         ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(key);
 
-        if (entries != null && entries.size() > 0) {
+        if (entries != null && !entries.isEmpty()) {
             CivGlobal.getSessionDB().update(entries.get(0).request_id, key, value);
 
             /* delete any bad extra entries. */
@@ -535,7 +535,7 @@ public class Barracks extends Structure {
         String key = getSessionKey();
         ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(key);
 
-        if (entries.size() == 0) {
+        if (entries.isEmpty()) {
             return;
         }
         String[] values = entries.get(0).value.split(":");

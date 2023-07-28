@@ -54,7 +54,7 @@ public class WindmillStartSyncTask implements Runnable {
         }
 
 
-        if (snapshots.size() == 0) {
+        if (snapshots.isEmpty()) {
             return;
         }
 

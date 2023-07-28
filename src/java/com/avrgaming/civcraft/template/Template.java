@@ -498,7 +498,7 @@ public class Template {
             if (block.getType().getData() == Material.WALL_SIGN.getData() && locTypeSplit.length > 2) {
 
                 // The first character on special signs needs to be a /.
-                if (locTypeSplit[2] != null && !locTypeSplit[2].equals("") && locTypeSplit[2].charAt(0) == '/') {
+                if (locTypeSplit[2] != null && !locTypeSplit[2].isEmpty() && locTypeSplit[2].charAt(0) == '/') {
                     block.specialType = SimpleBlock.Type.COMMAND;
 
                     // Got a command, save it.
@@ -507,7 +507,7 @@ public class Template {
                     // Save any key values we find.
                     if (locTypeSplit.length > 3) {
                         for (int i = 3; i < locTypeSplit.length; i++) {
-                            if (locTypeSplit[i] == null || locTypeSplit[i].equals("")) {
+                            if (locTypeSplit[i] == null || locTypeSplit[i].isEmpty()) {
                                 continue;
                             }
 

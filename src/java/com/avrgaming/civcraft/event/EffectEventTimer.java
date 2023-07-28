@@ -68,7 +68,7 @@ public class EffectEventTimer extends CivAsyncTask {
 
 			struct.onEffectEvent();
 
-			if (struct.getEffectEvent() == null || struct.getEffectEvent().equals(""))
+            if (struct.getEffectEvent() == null || struct.getEffectEvent().isEmpty())
 				continue;
 
 			String[] split = struct.getEffectEvent().toLowerCase().split(":");

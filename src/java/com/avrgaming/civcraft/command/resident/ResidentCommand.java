@@ -128,7 +128,7 @@ public class ResidentCommand extends CommandBase {
         ItemStack helpBook = LoreCraftableMaterial.spawn(craftMat);
 
         HashMap<Integer, ItemStack> leftovers = player.getInventory().addItem(helpBook);
-        if (leftovers != null && leftovers.size() >= 1) {
+        if (leftovers != null && !leftovers.isEmpty()) {
             throw new CivException(CivSettings.localize.localizedString("cmd_res_bookInvenFull"));
         }
 

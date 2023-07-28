@@ -30,7 +30,7 @@ public class EndConditionConquest extends EndGameCondition {
         String key = "endcondition:conquest:startdate";
 
         ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(key);
-        if (entries.size() == 0) {
+        if (entries.isEmpty()) {
             /* Start date is now! */
             startDate = new Date();
             CivGlobal.getSessionDB().add(key, String.valueOf(startDate.getTime()), 0, 0, 0);

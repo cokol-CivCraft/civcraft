@@ -38,7 +38,7 @@ public class KeyValue {
     }
 
     public void deserialize(String input) {
-        if (input == null || input.equals("")) {
+        if (input == null || input.isEmpty()) {
             return;
         }
 

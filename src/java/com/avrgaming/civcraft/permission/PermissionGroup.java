@@ -159,7 +159,7 @@ public class PermissionGroup extends SQLObject {
         for (String n : names) {
             Resident res;
 
-            if (n.length() >= 1) {
+            if (!n.isEmpty()) {
                 res = CivGlobal.getResidentViaUUID(UUID.fromString(n));
 
                 if (res != null) {

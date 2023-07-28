@@ -104,7 +104,7 @@ public class ConfigTech {
             return true;
         }
 
-        if (require_techs == null || require_techs.equals("")) {
+        if (require_techs == null || require_techs.isEmpty()) {
             return true;
         }
 

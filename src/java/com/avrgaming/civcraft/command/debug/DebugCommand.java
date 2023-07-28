@@ -422,7 +422,6 @@ public class DebugCommand extends CommandBase {
                                     default:
                                         try {
                                             sb.setTo(next.getLocation().getBlock());
-                                            ;
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }
@@ -843,7 +842,7 @@ public class DebugCommand extends CommandBase {
         if (inHand != null) {
             ItemMeta meta = inHand.getItemMeta();
             List<String> newLore = meta.getLore();
-            if (newLore != null && newLore.size() > 0 && newLore.get(0).equalsIgnoreCase("RJMAGIC")) {
+            if (newLore != null && !newLore.isEmpty() && newLore.get(0).equalsIgnoreCase("RJMAGIC")) {
                 CivMessage.sendSuccess(player, "found magic lore");
             } else {
                 CivMessage.sendSuccess(player, "No magic lore.");

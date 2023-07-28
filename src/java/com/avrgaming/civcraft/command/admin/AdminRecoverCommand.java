@@ -70,7 +70,7 @@ public class AdminRecoverCommand extends CommandBase {
 
     public void fixtownresidents_cmd() {
         for (Resident resident : CivGlobal.getResidents()) {
-            if (resident.debugTown != null && !resident.debugTown.equals("")) {
+            if (resident.debugTown != null && !resident.debugTown.isEmpty()) {
                 Town town = CivGlobal.getTown(resident.debugTown);
                 if (town == null) {
                     CivLog.error(CivSettings.localize.localizedString("var_admcd_recover_FixTownError1", resident.debugTown, resident.getName()));

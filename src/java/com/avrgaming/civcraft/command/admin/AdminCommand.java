@@ -106,7 +106,7 @@ public class AdminCommand extends CommandBase {
         Civilization civ = getNamedCiv(2);
 
         ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(key);
-        if (entries.size() == 0) {
+        if (entries.isEmpty()) {
             throw new CivException(CivSettings.localize.localizedString("adcmd_clearEndGameNoKey"));
         }
 

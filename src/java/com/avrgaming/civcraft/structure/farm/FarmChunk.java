@@ -253,7 +253,7 @@ public class FarmChunk {
         this.lastGrowDate = c.getTime();
         this.growBlocks = new LinkedList<>();
 
-        if (this.cropLocationCache.size() == 0) {
+        if (this.cropLocationCache.isEmpty()) {
             return;
         }
 

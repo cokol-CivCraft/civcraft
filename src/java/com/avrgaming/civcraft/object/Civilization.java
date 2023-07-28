@@ -296,7 +296,7 @@ public class Civilization extends SQLObject {
     }
 
     private void loadResearchedTechs(String techstring) {
-        if (techstring == null || techstring.equals("")) {
+        if (techstring == null || techstring.isEmpty()) {
             return;
         }
 
@@ -367,7 +367,7 @@ public class Civilization extends SQLObject {
     }
 
     private boolean hasTech(String configId) {
-        if (configId == null || configId.equals("")) {
+        if (configId == null || configId.isEmpty()) {
             return true;
         }
 
@@ -1476,7 +1476,7 @@ public class Civilization extends SQLObject {
             town.save();
         }
 
-        if (oldciv.towns.size() > 0) {
+        if (!oldciv.towns.isEmpty()) {
             CivLog.error("CIV SOMEHOW STILL HAS TOWNS AFTER WE GAVE THEM ALL AWAY WTFWTFWTFWTF.");
             this.towns.clear();
         }

@@ -120,7 +120,7 @@ public class InventorySerializer {
             }
         }
 
-        if (lore.size() > 0) {
+        if (!lore.isEmpty()) {
             ItemMeta meta = is.getItemMeta();
             if (meta != null) {
                 meta.setLore(lore);

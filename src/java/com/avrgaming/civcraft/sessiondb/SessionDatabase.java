@@ -193,7 +193,7 @@ public class SessionDatabase {
                 }
             }
             // Go ahead and remove entire array if empty now
-            if (entries.size() == 0) {
+            if (entries.isEmpty()) {
                 cache.remove(key);
             }
         }

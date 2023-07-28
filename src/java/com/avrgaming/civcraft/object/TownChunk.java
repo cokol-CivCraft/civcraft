@@ -162,7 +162,7 @@ public class TownChunk extends SQLObject {
             hashmap.put("owner_id", null);
         }
 
-        if (this.perms.getGroups().size() != 0) {
+        if (!this.perms.getGroups().isEmpty()) {
             StringBuilder out = new StringBuilder();
             for (PermissionGroup grp : this.perms.getGroups()) {
                 out.append(grp.getId()).append(":");

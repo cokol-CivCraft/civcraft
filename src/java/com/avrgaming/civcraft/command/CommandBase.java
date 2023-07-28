@@ -377,7 +377,7 @@ public abstract class CommandBase implements TabExecutor {
             }
         }
 
-        if (potentialMatches.size() == 0) {
+        if (potentialMatches.isEmpty()) {
             throw new CivException(CivSettings.localize.localizedString("cmd_NameNoResults"));
         }
 
@@ -417,7 +417,7 @@ public abstract class CommandBase implements TabExecutor {
             }
         }
 
-        if (potentialMatches.size() == 0) {
+        if (potentialMatches.isEmpty()) {
             throw new CivException(CivSettings.localize.localizedString("cmd_NameNoResults") + " '" + args[index] + "'");
         }
 
@@ -459,7 +459,7 @@ public abstract class CommandBase implements TabExecutor {
             }
         }
 
-        if (potentialMatches.size() == 0) {
+        if (potentialMatches.isEmpty()) {
             throw new CivException(CivSettings.localize.localizedString("cmd_NameNoResults") + " '" + args[index] + "'");
         }
 
@@ -513,7 +513,7 @@ public abstract class CommandBase implements TabExecutor {
             }
         }
 
-        if (potentialMatches.size() == 0) {
+        if (potentialMatches.isEmpty()) {
             throw new CivException(CivSettings.localize.localizedString("cmd_NameNoResults"));
         }
 
@@ -620,7 +620,7 @@ public abstract class CommandBase implements TabExecutor {
             }
         }
 
-        if (potentialMatches.size() == 0) {
+        if (potentialMatches.isEmpty()) {
             throw new CivException(CivSettings.localize.localizedString("cmd_NameNoResults"));
         }
 
@@ -655,7 +655,7 @@ public abstract class CommandBase implements TabExecutor {
             }
         }
 
-        if (potentialMatches.size() == 0) {
+        if (potentialMatches.isEmpty()) {
             throw new CivException(CivSettings.localize.localizedString("cmd_NameNoResults"));
         }
 

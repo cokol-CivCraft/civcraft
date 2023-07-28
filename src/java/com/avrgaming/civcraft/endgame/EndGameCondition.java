@@ -115,12 +115,12 @@ public abstract class EndGameCondition {
      * meeting winning conditions.
      */
     public boolean isActive(Civilization civ) {
-        return CivGlobal.getSessionDB().lookup(getSessionKey()).size() != 0;
+        return !CivGlobal.getSessionDB().lookup(getSessionKey()).isEmpty();
     }
 
     public int getDaysLeft(Civilization civ) {
         ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getSessionKey());
-        if (entries.size() == 0) {
+        if (entries.isEmpty()) {
             return -1;
         }
 
@@ -140,7 +140,7 @@ public abstract class EndGameCondition {
 
         int daysToHold = getDaysToHold();
 
-        if (entries.size() == 0) {
+        if (entries.isEmpty()) {
             /* No entry yet, first time we hit the win condition, save entry. */
             civ.sessionAdd(getSessionKey(), getSessionData(civ, 0));
             civ.winConditionWarning(this, daysToHold);

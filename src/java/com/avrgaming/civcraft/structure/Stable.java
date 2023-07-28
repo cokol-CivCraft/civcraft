@@ -245,7 +245,7 @@ public class Stable extends Structure {
                 }
 
                 HashMap<Integer, ItemStack> leftovers = player.getInventory().addItem(new ItemStack(item_id, 1, (short) 0));
-                if (leftovers.size() > 0) {
+                if (!leftovers.isEmpty()) {
                     for (ItemStack stack : leftovers.values()) {
                         player.getWorld().dropItem(player.getLocation(), stack);
                     }

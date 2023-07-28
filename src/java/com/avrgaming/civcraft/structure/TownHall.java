@@ -225,7 +225,7 @@ public class TownHall extends Structure implements RespawnLocationHolder {
     }
 
     public BlockCoord getRandomRespawnPoint() { // FOR WAR-ROOM
-        if (this.respawnPoints.size() == 0) {
+        if (this.respawnPoints.isEmpty()) {
             return null;
         }
 
@@ -273,7 +273,7 @@ public class TownHall extends Structure implements RespawnLocationHolder {
     }
 
     public BlockCoord getRandomRevivePoint() { // FOR STRUCTURE
-        if (this.revivePoints.size() == 0 || !this.isComplete()) {
+        if (this.revivePoints.isEmpty() || !this.isComplete()) {
             return new BlockCoord(this.getCorner());
         }
         Random rand = new Random();

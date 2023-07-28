@@ -260,7 +260,7 @@ public class AttributeUtil {
         }
     	
     	if (nmsStack.getTag() != null) {
-    		if (attributes.size() == 0) {
+            if (attributes.isEmpty()) {
     			parent.remove("AttributeModifiers");
     		}
     	}
@@ -391,8 +391,8 @@ public class AttributeUtil {
     	if (loreList == null) {
     		return null;
     	}
-    	
-    	if (loreList.size() < 1) {
+
+        if (loreList.isEmpty()) {
     		return null;
     	}
     	

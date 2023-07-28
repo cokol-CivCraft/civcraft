@@ -113,7 +113,7 @@ public class TradeLevelComponent extends Component {
         ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(
                 getKey());
 
-        if (entries.size() == 0) {
+        if (entries.isEmpty()) {
             getBuildable().sessionAdd(getKey(), getValue());
             return;
         }
@@ -132,7 +132,7 @@ public class TradeLevelComponent extends Component {
                 ArrayList<SessionEntry> entries = CivGlobal.getSessionDB()
                         .lookup(getKey());
 
-                if (entries.size() == 0) {
+                if (entries.isEmpty()) {
                     getBuildable().sessionAdd(getKey(), getValue());
                     return;
                 }

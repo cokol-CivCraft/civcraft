@@ -42,7 +42,7 @@ public class TheGreatPyramid extends Wonder {
     private Civilization calculateNearestCivilization() {
         TreeMap<Double, Civilization> civMaps = CivGlobal.findNearestCivilizations(this.getTown());
         Civilization nearestCiv = null;
-        if (civMaps.size() > 0) {
+        if (!civMaps.isEmpty()) {
             nearestCiv = civMaps.firstEntry().getValue();
         }
         return nearestCiv;

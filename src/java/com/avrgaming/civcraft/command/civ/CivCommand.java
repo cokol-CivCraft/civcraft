@@ -140,7 +140,7 @@ public class CivCommand extends CommandBase {
 
         for (EndGameCondition endCond : EndGameCondition.endConditions) {
             ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(endCond.getSessionKey());
-            if (entries.size() == 0) {
+            if (entries.isEmpty()) {
                 continue;
             }
 

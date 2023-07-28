@@ -73,7 +73,7 @@ public class Capitol extends TownHall {
             this.respawnSign.setText(CivSettings.localize.localizedString("capitol_sign_respawnAt") + "\n" + ChatColor.DARK_GREEN + ChatColor.BOLD + respawnables.get(newIndex).getRespawnName());
             index = newIndex;
         } catch (IndexOutOfBoundsException e) {
-            if (respawnables.size() > 0) {
+            if (!respawnables.isEmpty()) {
                 this.respawnSign.setText(CivSettings.localize.localizedString("capitol_sign_respawnAt") + "\n" + ChatColor.DARK_GREEN + ChatColor.BOLD + respawnables.get(0).getRespawnName());
                 index = 0;
             }

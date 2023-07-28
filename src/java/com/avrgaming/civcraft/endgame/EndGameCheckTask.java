@@ -31,7 +31,7 @@ public class EndGameCheckTask implements Runnable {
         }
 
         ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup("endgame:winningCiv");
-        if (entries.size() != 0) {
+        if (!entries.isEmpty()) {
             CivMessage.global(entries.get(0).value);
             return;
         }

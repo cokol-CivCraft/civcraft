@@ -94,7 +94,7 @@ public class EndConditionScience extends EndGameCondition {
 
     public double getExtraBeakersInCiv(Civilization civ) {
         ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getBeakerSessionKey(civ));
-        if (entries.size() == 0) {
+        if (entries.isEmpty()) {
             return 0;
         }
         return Double.parseDouble(entries.get(0).value);
@@ -102,7 +102,7 @@ public class EndConditionScience extends EndGameCondition {
 
     public void addExtraBeakersToCiv(Civilization civ, double beakers) {
         ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getBeakerSessionKey(civ));
-        if (entries.size() == 0) {
+        if (entries.isEmpty()) {
             CivGlobal.getSessionDB().add(getBeakerSessionKey(civ), String.valueOf(beakers), civ.getId(), 0, 0);
         } else {
             double current = Double.parseDouble(entries.get(0).value) + beakers;
@@ -112,7 +112,7 @@ public class EndConditionScience extends EndGameCondition {
 
     public static Double getBeakersFor(Civilization civ) {
         ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getBeakerSessionKey(civ));
-        if (entries.size() == 0) {
+        if (entries.isEmpty()) {
             return 0.0;
         }
         return Double.valueOf(entries.get(0).value);

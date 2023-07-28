@@ -124,7 +124,7 @@ public class LoreCraftableMaterialListener implements Listener {
                     String key = resident.getName() + ":platinumCrafted";
                     ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(key);
 
-                    if (entries.size() == 0) {
+                    if (entries.isEmpty()) {
                         CivGlobal.getSessionDB().add(key, String.valueOf(finalAmount), 0, 0, 0);
 
                     } else {

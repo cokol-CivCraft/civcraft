@@ -57,7 +57,7 @@ public class FarmGrowthRegrowTask extends CivAsyncTask {
             }
         }
 
-        if (regrow.size() > 0) {
+        if (!regrow.isEmpty()) {
             TaskMaster.syncTask(new FarmGrowthRegrowTask(regrow));
         }
     }

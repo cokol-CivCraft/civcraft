@@ -213,7 +213,7 @@ public class BuildAsyncTask extends CivAsyncTask {
             }
         }
         // Make sure the last iteration makes it on to the queue.
-        if (sbs.size() > 0) {
+        if (!sbs.isEmpty()) {
             updateBlocksQueue(sbs);
             sbs.clear();
         }

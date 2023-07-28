@@ -161,7 +161,7 @@ public class Store extends Structure {
     @Override
     public String getDynmapDescription() {
         StringBuilder out = new StringBuilder("<u><b>" + this.getDisplayName() + "</u></b><br/>");
-        if (this.materials.size() == 0) {
+        if (this.materials.isEmpty()) {
             out.append(CivSettings.localize.localizedString("store_dynmap_nothingStocked"));
         } else {
             for (StoreMaterial mat : this.materials) {

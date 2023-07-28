@@ -286,7 +286,7 @@ public class Library extends Structure {
     public String getDynmapDescription() {
         StringBuilder out = new StringBuilder("<u><b>" + this.getDisplayName() + "</u></b><br/>");
 
-        if (this.enchantments.size() == 0) {
+        if (this.enchantments.isEmpty()) {
             out.append(CivSettings.localize.localizedString("library_dynmap_nothingStocked"));
         } else {
             for (LibraryEnchantment mat : this.enchantments) {

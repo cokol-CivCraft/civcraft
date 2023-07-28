@@ -251,7 +251,7 @@ public class CivMessage {
                 CivMessage.sendTitle(player, 10, 60, 10, title, subTitle);
             } else {
                 send(player, buildTitle(title));
-                if (!subTitle.equals("")) {
+                if (!subTitle.isEmpty()) {
                     send(player, subTitle);
                 }
             }

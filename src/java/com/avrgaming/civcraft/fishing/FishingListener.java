@@ -43,7 +43,7 @@ public class FishingListener implements Listener {
         ArrayList<ConfigFishing> dropped = getRandomDrops();
         event.getCaught().remove();
 
-        if (dropped.size() == 0) {
+        if (dropped.isEmpty()) {
             for (ItemStack is : player.getInventory().addItem(new ItemStack(Material.RAW_FISH, 1, (short) 0)).values()) {
                 player.getWorld().dropItem(player.getLocation(), is);
             }

@@ -220,7 +220,7 @@ public class Blacksmith extends Structure {
         String key = this.getkey(player, this, "forge");
         ArrayList<SessionEntry> sessions = CivGlobal.getSessionDB().lookup(key);
 
-        if (sessions == null || sessions.size() == 0) {
+        if (sessions == null || sessions.isEmpty()) {
             /* Validate that the item being added is a catalyst */
             LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(item);
             if (craftMat == null || !craftMat.hasComponent("Catalyst")) {
@@ -247,7 +247,7 @@ public class Blacksmith extends Structure {
 
             ItemStack stack = LoreMaterial.spawn(craftMat);
             HashMap<Integer, ItemStack> leftovers = player.getInventory().addItem(stack);
-            if (leftovers.size() > 0) {
+            if (!leftovers.isEmpty()) {
                 for (ItemStack is : leftovers.values()) {
                     player.getWorld().dropItem(player.getLocation(), is);
                 }
@@ -276,7 +276,7 @@ public class Blacksmith extends Structure {
         String freeStr = attrs.getCivCraftProperty("freeCatalyst");
         if (freeStr == null) {
             /* No free enhancements on item, search for catalyst. */
-            if (sessions == null || sessions.size() == 0) {
+            if (sessions == null || sessions.isEmpty()) {
                 throw new CivException(CivSettings.localize.localizedString("blacksmith_forge_noCatalyst"));
             }
 
@@ -416,7 +416,7 @@ public class Blacksmith extends Structure {
 
         ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(key);
 
-        if (entries == null || entries.size() == 0) {
+        if (entries == null || entries.isEmpty()) {
             throw new CivException(CivSettings.localize.localizedString("blacksmith_smelt_nothingInSmelter"));
         }
 
@@ -443,7 +443,7 @@ public class Blacksmith extends Structure {
             HashMap<Integer, ItemStack> leftovers = inv.addItem(stack);
 
             // If this stack was successfully withdrawn, delete it from the DB.
-            if (leftovers.size() == 0) {
+            if (leftovers.isEmpty()) {
                 CivGlobal.getSessionDB().delete(se.request_id, se.key);
                 CivMessage.send(player, CivSettings.localize.localizedString("var_cmd_civ_withdrawSuccess", amount, CivData.getDisplayName(itemId)));
 

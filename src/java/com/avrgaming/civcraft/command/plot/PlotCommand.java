@@ -226,7 +226,7 @@ public class PlotCommand extends CommandBase {
         }
 
         out += ChatColor.DARK_GREEN + " " + CivSettings.localize.localizedString("cmd_civ_group_listGroup") + " " + ChatColor.GREEN;
-        if (tc.perms.getGroups().size() != 0) {
+        if (!tc.perms.getGroups().isEmpty()) {
             out += tc.perms.getGroupString();
         } else {
             out += CivSettings.localize.localizedString("none");

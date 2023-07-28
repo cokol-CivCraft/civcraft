@@ -57,7 +57,7 @@ public class UpdateMinuteEventTimer extends CivAsyncTask {
                     continue;
 
                 try {
-                    if (struct.getUpdateEvent() != null && !struct.getUpdateEvent().equals("")) {
+                    if (struct.getUpdateEvent() != null && !struct.getUpdateEvent().isEmpty()) {
                         if (struct.getUpdateEvent().equals("mobGrinder_process")) {
                             if (!CivGlobal.mobGrinderEnabled) {
                                 continue;

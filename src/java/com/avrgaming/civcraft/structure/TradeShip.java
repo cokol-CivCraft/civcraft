@@ -228,7 +228,7 @@ public class TradeShip extends WaterStructure {
     public TradeShipResults consume(CivAsyncTask task) throws InterruptedException {
         TradeShipResults tradeResult;
         //Look for the TradeShip chests.
-        if (this.goodsDepositPoints.size() == 0 || this.goodsWithdrawPoints.size() == 0) {
+        if (this.goodsDepositPoints.isEmpty() || this.goodsWithdrawPoints.isEmpty()) {
             tradeResult = new TradeShipResults();
             tradeResult.setResult(Result.STAGNATE);
             return tradeResult;
@@ -321,7 +321,7 @@ public class TradeShip extends WaterStructure {
             this.getTown().getDepositCiv().taxPayment(this.getTown(), taxesPaid);
         }
 
-        if (tradeResult.getReturnCargo().size() >= 1) {
+        if (!tradeResult.getReturnCargo().isEmpty()) {
             MultiInventory multiInv = new MultiInventory();
 
             for (BlockCoord bcoord : this.goodsWithdrawPoints) {

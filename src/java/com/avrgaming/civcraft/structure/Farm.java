@@ -116,7 +116,7 @@ public class Farm extends Structure {
         TaskMaster.asyncTask(() -> {
             ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getSessionKey());
 
-            if (entries == null || entries.size() == 0) {
+            if (entries == null || entries.isEmpty()) {
                 if (missedTicks > 0) {
                     Farm.this.sessionAdd(getSessionKey(), String.valueOf(missedTicks));
                     return;
@@ -140,7 +140,7 @@ public class Farm extends Structure {
         ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getSessionKey());
         int missedGrowths = 0;
 
-        if (entries.size() > 0) {
+        if (!entries.isEmpty()) {
             missedGrowths = Integer.parseInt(entries.get(0).value);
         }
 

@@ -105,7 +105,7 @@ public class RandomEvent extends SQLObject {
     }
 
     private void loadComponentVars(String input) {
-        if (input == null || input.equals("")) {
+        if (input == null || input.isEmpty()) {
             return;
         }
         String[] keyValues = input.split(",");

@@ -141,7 +141,7 @@ public class ConsumeLevelComponent extends Component {
     public void onLoad() {
         ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getKey());
 
-        if (entries.size() == 0) {
+        if (entries.isEmpty()) {
             getBuildable().sessionAdd(getKey(), getValue());
             return;
         }
@@ -159,7 +159,7 @@ public class ConsumeLevelComponent extends Component {
             public void run() {
                 ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getKey());
 
-                if (entries.size() == 0) {
+                if (entries.isEmpty()) {
                     getBuildable().sessionAdd(getKey(), getValue());
                     return;
                 }

@@ -175,7 +175,7 @@ public class Trommel extends Structure {
 
 
     public HashMap<Mineral, Double> getAndesiteChanceMap() {
-        if (andesiteChance.size() == 0) {
+        if (andesiteChance.isEmpty()) {
             andesiteChance.put(Mineral.CRYSTAL, ANDESITE_CRYSTAL_CHANCE);
             andesiteChance.put(Mineral.IRON, ANDESITE_IRON_CHANCE);
             andesiteChance.put(Mineral.GOLD, ANDESITE_GOLD_CHANCE);
@@ -194,7 +194,7 @@ public class Trommel extends Structure {
     }
 
     public HashMap<Mineral, Double> getDioriteChanceMap() {
-        if (dioriteChance.size() == 0) {
+        if (dioriteChance.isEmpty()) {
             dioriteChance.put(Mineral.CRYSTAL, DIORITE_CRYSTAL_CHANCE);
             dioriteChance.put(Mineral.IRON, DIORITE_IRON_CHANCE);
             dioriteChance.put(Mineral.GOLD, DIORITE_GOLD_CHANCE);
@@ -213,7 +213,7 @@ public class Trommel extends Structure {
     }
 
     public HashMap<Mineral, Double> getGraniteChanceMap() {
-        if (graniteChance.size() == 0) {
+        if (graniteChance.isEmpty()) {
             graniteChance.put(Mineral.CRYSTAL, GRANITE_CRYSTAL_CHANCE);
             graniteChance.put(Mineral.IRON, GRANITE_IRON_CHANCE);
             graniteChance.put(Mineral.GOLD, GRANITE_GOLD_CHANCE);
@@ -232,7 +232,7 @@ public class Trommel extends Structure {
     }
 
     public HashMap<Mineral, Double> getGravelChanceMap() {
-        if (gravelChance.size() == 0) {
+        if (gravelChance.isEmpty()) {
             gravelChance.put(Mineral.IRON, GRAVEL_IRON_CHANCE);
             gravelChance.put(Mineral.GOLD, GRAVEL_GOLD_CHANCE);
             gravelChance.put(Mineral.EMERALD, GRAVEL_EMERALD_CHANCE);

@@ -57,7 +57,7 @@ public class PlotPermissions {
         }
 
         StringBuilder groupString = new StringBuilder("0");
-        if (groups.size() != 0) {
+        if (!groups.isEmpty()) {
             for (PermissionGroup grp : groups) {
                 groupString.append(grp.getId()).append(":");
             }
@@ -79,7 +79,7 @@ public class PlotPermissions {
 
         for (String gstr : grpString) {
             gstr = gstr.trim();
-            if (gstr.equals("0") || gstr.equals("")) {
+            if (gstr.equals("0") || gstr.isEmpty()) {
                 continue;
             }
             PermissionGroup group = CivGlobal.getPermissionGroup(town, Integer.valueOf(gstr));
@@ -144,7 +144,7 @@ public class PlotPermissions {
                 return true;
 
 
-            if (groups.size() != 0 && node.isPermitGroup()) {
+            if (!groups.isEmpty() && node.isPermitGroup()) {
                 for (PermissionGroup group : groups) {
                     if (group.hasMember(resident)) {
                         return true;

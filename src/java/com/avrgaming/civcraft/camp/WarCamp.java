@@ -99,7 +99,7 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
     public void setWarCampBuilt() {
         ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getSessionKey());
         Date now = new Date();
-        if (entries.size() == 0) {
+        if (entries.isEmpty()) {
             CivGlobal.getSessionDB().add(getSessionKey(), String.valueOf(now.getTime()), this.getCiv().getId(), this.getTown().getId(), 0);
         } else {
             CivGlobal.getSessionDB().update(entries.get(0).request_id, entries.get(0).key, String.valueOf(now.getTime()));
@@ -110,7 +110,7 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
         ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getSessionKey());
         Date now = new Date();
         long minsLeft = 0;
-        if (entries.size() == 0) {
+        if (entries.isEmpty()) {
             return 0;
         } else {
             Date then = new Date(Long.parseLong(entries.get(0).value));
@@ -509,7 +509,7 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
 
     @Override
     public BlockCoord getRandomRevivePoint() {
-        if (this.respawnPoints.size() == 0) {
+        if (this.respawnPoints.isEmpty()) {
             return new BlockCoord(this.getCorner());
         }
         Random rand = new Random();

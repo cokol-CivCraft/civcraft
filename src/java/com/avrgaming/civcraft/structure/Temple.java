@@ -91,7 +91,7 @@ public class Temple extends Structure {
     public Result consume(CivAsyncTask task) throws InterruptedException {
 
         //Look for the temple's chest.
-        if (this.getChests().size() == 0)
+        if (this.getChests().isEmpty())
             return Result.STAGNATE;
 
         MultiInventory multiInv = new MultiInventory();

@@ -25,7 +25,7 @@ public class RandomEventSweeper implements Runnable {
         LinkedList<RandomEvent> removed = new LinkedList<>();
         for (RandomEvent event : events) {
             boolean allPass = false;
-            if (event.requirements.size() > 0) {
+            if (!event.requirements.isEmpty()) {
                 allPass = true;
                 for (RandomEventComponent comp : event.requirements.values()) {
                     if (!comp.onCheck()) {

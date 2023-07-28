@@ -57,7 +57,7 @@ public class UpdateEventTimer extends CivAsyncTask {
                     continue;
 
                 try {
-                    if (struct.getUpdateEvent() != null && !struct.getUpdateEvent().equals("")) {
+                    if (struct.getUpdateEvent() != null && !struct.getUpdateEvent().isEmpty()) {
                         if (struct.getUpdateEvent().equals("trommel_process")) {
                             if (!CivGlobal.trommelsEnabled) {
                                 continue;

@@ -408,7 +408,7 @@ public class MissionBook extends UnitItemMaterial {
         }
 
         ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup("posiongranary:" + tc.getTown().getName());
-        if (entries != null && entries.size() != 0) {
+        if (entries != null && !entries.isEmpty()) {
             throw new CivException(CivSettings.localize.localizedString("missionBook_poison_errorPoisoned"));
         }
 

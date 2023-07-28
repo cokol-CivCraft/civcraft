@@ -187,7 +187,7 @@ public class War {
             CivMessage.globalTitle(String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("war_wartimeEndedHeading"), CivSettings.localize.localizedString("var_war_mostLethal", WarStats.getTopKiller()));
             /* display some stats. */
             List<String> civs = WarStats.getCapturedCivs();
-            if (civs.size() > 0) {
+            if (!civs.isEmpty()) {
                 for (String str : civs) {
                     CivMessage.global(str);
                 }

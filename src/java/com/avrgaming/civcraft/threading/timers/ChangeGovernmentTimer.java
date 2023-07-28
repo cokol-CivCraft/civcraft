@@ -38,7 +38,7 @@ public class ChangeGovernmentTimer implements Runnable {
                 ArrayList<SessionEntry> entries;
 
                 entries = CivGlobal.getSessionDB().lookup(key);
-                if (entries == null || entries.size() < 1) {
+                if (entries == null || entries.isEmpty()) {
                     //We are in anarchy but didn't have a sessiondb entry? huh...
                     civ.setGovernment("gov_tribalism");
                     return;

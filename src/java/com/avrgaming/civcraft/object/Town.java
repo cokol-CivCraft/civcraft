@@ -77,7 +77,7 @@ public class Town extends SQLObject {
     private final ConcurrentHashMap<BlockCoord, Structure> structures = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<BlockCoord, Buildable> disabledBuildables = new ConcurrentHashMap<>();
 
-    private final ArrayList<Granary> granaryAL = new ArrayList<Granary>();
+    private final ArrayList<Granary> granaryAL = new ArrayList<>();
 
     private int level;
     private Civilization civ;
@@ -419,7 +419,7 @@ public class Town extends SQLObject {
         String[] split = upgradeString.split(",");
 
         for (String str : split) {
-            if (str == null || str.equals("")) {
+            if (str == null || str.isEmpty()) {
                 continue;
             }
 
@@ -1351,7 +1351,7 @@ public class Town extends SQLObject {
     }
 
     public boolean hasUpgrade(String require_upgrade) {
-        if (require_upgrade == null || require_upgrade.equals(""))
+        if (require_upgrade == null || require_upgrade.isEmpty())
             return true;
 
         return upgrades.containsKey(require_upgrade);
@@ -1446,7 +1446,7 @@ public class Town extends SQLObject {
     }
 
     public void giveExtraHammers(double extra) {
-        if (build_tasks.size() == 0) {
+        if (build_tasks.isEmpty()) {
             //Nothing is building, store the extra hammers for when a structure starts building.
             extraHammers = extra;
         } else {
@@ -1727,7 +1727,7 @@ public class Town extends SQLObject {
     }
 
     public boolean hasStructure(String require_structure) {
-        if (require_structure == null || require_structure.equals("")) {
+        if (require_structure == null || require_structure.isEmpty()) {
             return true;
         }
 
@@ -2577,7 +2577,7 @@ public class Town extends SQLObject {
     public AttrSource getFaithRate() {
         ConfigHappinessState state = this.getHappinessState();
         double rate = state.culture_rate;
-        HashMap<String, Double> rates = new HashMap<String, Double>();
+        HashMap<String, Double> rates = new HashMap<>();
         rates.put("Happiness", rate);
 // TODO for Pashkov: ПЕРЕПИШИ К ЧЕРТЯМ РЕЙТИНГИ СТАТИСТИК пожалуйста :3
 // TODO: я не понимаю как оно считает, и почему вообще рейтинг друг на друга умножается, а не в общую сумму идёт
@@ -3051,7 +3051,7 @@ public class Town extends SQLObject {
                 message += CivSettings.localize.localizedString("var_town_spy_perpetrator", resident.getName());
             }
 
-            if (message.length() > 0) {
+            if (!message.isEmpty()) {
                 if (lastMessage == null || !lastMessage.equals(message)) {
                     CivMessage.sendTown(this, String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + message);
                     lastMessage = message;
@@ -3247,7 +3247,7 @@ public class Town extends SQLObject {
     }
 
     public boolean hasDisabledStructures() {
-        return this.disabledBuildables.size() != 0;
+        return !this.disabledBuildables.isEmpty();
     }
 
     public ArrayList<Player> getOnlinePlayers() {

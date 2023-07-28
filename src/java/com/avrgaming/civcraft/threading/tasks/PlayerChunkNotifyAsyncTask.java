@@ -167,7 +167,7 @@ public class PlayerChunkNotifyAsyncTask implements Runnable {
                     subTitle += CivSettings.localize.localizedString("var_civ_border_welcomeBack", player.getName());
                 } else {
                     String relationship = civilization.getDiplomacyManager().getRelation(toCc.getCiv()).toString();
-                    if (relationship != null && relationship.length() >= 1) {
+                    if (relationship != null && !relationship.isEmpty()) {
                         subTitle = CivSettings.localize.localizedString("var_civ_border_relation", relationship);
                     }
                 }
@@ -183,14 +183,14 @@ public class PlayerChunkNotifyAsyncTask implements Runnable {
                     subTitle += CivSettings.localize.localizedString("var_civ_border_welcomeBack", player.getName());
                 } else {
                     String relationship = civilization.getDiplomacyManager().getRelation(toCc.getCiv()).toString();
-                    if (relationship != null && relationship.length() >= 1) {
+                    if (relationship != null && !relationship.isEmpty()) {
                         subTitle = CivSettings.localize.localizedString("var_civ_border_relation", relationship);
                     }
                 }
             }
         }
 
-        if (!title.equals("")) {
+        if (!title.isEmpty()) {
             //ItemMessage im = new ItemMessage(CivCraft.getPlugin());
             //im.sendMessage(player, CivColor.BOLD+out, 3);
             CivMessage.sendTitle(player, title, subTitle);

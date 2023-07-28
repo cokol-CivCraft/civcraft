@@ -1014,7 +1014,7 @@ public class Resident extends SQLObject {
         cooldownTime = (long) cooldownHours * 60 * 60 * 1000; /*convert hours to milliseconds. */
 
         ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getCooldownKey());
-        if (entries.size() > 0) {
+        if (!entries.isEmpty()) {
             Civilization oldCiv = CivGlobal.getCivFromId(Integer.parseInt(entries.get(0).value));
             if (oldCiv == null) {
                 /* Hmm, old civ is gone. */
