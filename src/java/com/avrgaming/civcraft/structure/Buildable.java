@@ -48,15 +48,11 @@ import com.avrgaming.civcraft.war.War;
 import com.wimbli.WorldBorder.BorderData;
 import com.wimbli.WorldBorder.Config;
 import org.bukkit.*;
-import org.bukkit.block.Biome;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.Sign;
+import org.bukkit.block.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
 
 import java.io.File;
 import java.io.IOException;
@@ -917,12 +913,11 @@ public abstract class Buildable extends SQLObject {
                     Block b = centerBlock.getRelative(x, y, z);
 
                     if (tpl.blocks[x][y][z].specialType == Type.COMMAND) {
-                        b.getState().setType(Material.AIR);
-                        b.getState().setData(new MaterialData(Material.AIR));
+                        BlockState state = b.getState();
+                        state.setType(Material.AIR);
+                        state.update(true, false);
                     } else {
-                        b.setType(tpl.blocks[x][y][z].getType());
-                        //b.getState().setData(tpl.blocks[x][y][z].getMaterialData());
-                        b.setData((byte) tpl.blocks[x][y][z].getData());
+                        tpl.blocks[x][y][z].setTo(b);
                     }
 
                     if (b.getType() == Material.WALL_SIGN || b.getType() == Material.SIGN_POST) {
@@ -1222,7 +1217,6 @@ public abstract class Buildable extends SQLObject {
     //}
 
     public void fancyDestroyStructureBlocks() {
-
         TaskMaster.syncTask(() -> {
             for (BlockCoord coord : structureBlocks.keySet()) {
 
@@ -1242,8 +1236,9 @@ public abstract class Buildable extends SQLObject {
                 }
 
                 if (CivSettings.alwaysCrumble.contains(coord.getBlock().getType())) {
-                    Block block = coord.getBlock();
+                    BlockState block = coord.getBlock().getState();
                     block.setType(Material.COBBLESTONE);
+                    block.update(true, false);
                     continue;
                 }
 
@@ -1251,23 +1246,26 @@ public abstract class Buildable extends SQLObject {
 
                 // Each block has a 70% chance to turn into Air
                 if (rand.nextInt(100) <= 70) {
-                    coord.getBlock().setType(Material.AIR);
-                    coord.getBlock().setData((byte) 0, true);
+                    BlockState block = coord.getBlock().getState();
+                    block.setType(Material.AIR);
+                    block.update(true, false);
                     continue;
                 }
 
                 // Each block has a 30% chance to turn into gravel
                 if (rand.nextInt(100) <= 30) {
-                    coord.getBlock().setType(Material.COBBLESTONE);
-                    coord.getBlock().setData((byte) 0, true);
+                    BlockState block = coord.getBlock().getState();
+                    block.setType(Material.GRAVEL);
+                    block.update(true, false);
                     continue;
                 }
 
 
                 // Each block has a 10% chance of starting a fire
                 if (rand.nextInt(100) <= 10) {
-                    coord.getBlock().setType(Material.FIRE);
-                    coord.getBlock().setData((byte) 0, true);
+                    BlockState block = coord.getBlock().getState();
+                    block.setType(Material.FIRE);
+                    block.update(true, false);
                     continue;
                 }
 
@@ -1326,12 +1324,8 @@ public abstract class Buildable extends SQLObject {
      * Plays a fire effect on all of the structure blocks for this structure.
      */
     public void flashStructureBlocks() {
-        World world = null;
+        World world = structureBlocks.keySet().iterator().next().getLocation().getWorld();
         for (BlockCoord coord : structureBlocks.keySet()) {
-            if (world == null) {
-                world = coord.getLocation().getWorld();
-            }
-
             world.playEffect(coord.getLocation(), Effect.MOBSPAWNER_FLAMES, 0);
         }
     }

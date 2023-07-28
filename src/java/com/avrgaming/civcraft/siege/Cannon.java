@@ -22,6 +22,7 @@ import com.avrgaming.civcraft.war.WarRegen;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
@@ -56,7 +57,7 @@ public class Cannon extends Buildable {
     public static final byte WALLSIGN_WEST = 0x4;
     public static final byte WALLSIGN_NORTH = 0x2;
     public static final byte WALLSIGN_SOUTH = 0x3;
-    public int signDirection;
+    public BlockFace signDirection;
 
     public static final double minAngle = -35.0f;
     public static final double maxAngle = 35.0f;
@@ -287,80 +288,68 @@ public class Cannon extends Buildable {
     private void processCommandSigns(Template tpl, BlockCoord corner) {
         for (BlockCoord relativeCoord : tpl.commandBlockRelativeLocations) {
             SimpleBlock sb = tpl.blocks[relativeCoord.getX()][relativeCoord.getY()][relativeCoord.getZ()];
+            if (!(sb.getMaterialData() instanceof org.bukkit.material.Sign)) {
+                continue;
+            }
             BlockCoord absCoord = new BlockCoord(corner.getBlock().getRelative(relativeCoord.getX(), relativeCoord.getY(), relativeCoord.getZ()));
-            BlockCoord coord;
-
+            BlockCoord coord = new BlockCoord(absCoord);
             switch (sb.command) {
                 case "/fire":
-                    coord = new BlockCoord(absCoord);
                     this.setFireSignLocation(coord);
 
-                    Block block = coord.getBlock();
-                    block.setType(sb.getType());
-                    block.setData((byte) sb.getData());
+                    sb.setTo(coord);
                     updateFireSign(coord.getBlock());
-
 
                     Cannon.fireSignLocations.put(coord, this);
                     break;
                 case "/angle":
-                    coord = new BlockCoord(absCoord);
                     this.setAngleSignLocation(coord);
 
-                    Block block1 = coord.getBlock();
-                    block1.setType(sb.getType());
-                    block1.setData((byte) sb.getData());
+                    sb.setTo(coord);
                     updateAngleSign(coord.getBlock());
 
                     Cannon.angleSignLocations.put(coord, this);
                     break;
                 case "/power":
-                    coord = new BlockCoord(absCoord);
                     this.setPowerSignLocation(coord);
 
-                    Block block2 = coord.getBlock();
-                    block2.setType(sb.getType());
-                    block2.setData((byte) sb.getData());
+                    sb.setTo(coord);
                     updatePowerSign(coord.getBlock());
 
                     Cannon.powerSignLocations.put(coord, this);
                     break;
                 case "/cannon":
-                    coord = new BlockCoord(absCoord);
                     this.cannonLocation = coord.getLocation();
 
-                    switch (sb.getData()) {
-                        case WALLSIGN_EAST:
+                    switch (((org.bukkit.material.Sign) sb.getMaterialData()).getFacing()) {
+                        case EAST:
                             cannonLocation.add(1, 0, 0);
                             direction.setX(1.0f);
                             direction.setY(0.0f);
                             direction.setZ(0.0f);
                             break;
-                        case WALLSIGN_WEST:
+                        case WEST:
                             cannonLocation.add(-1, 0, 0);
                             this.angleFlip = true;
                             direction.setX(-1.0f);
                             direction.setY(0.0f);
                             direction.setZ(0.0f);
                             break;
-                        case WALLSIGN_NORTH:
+                        case NORTH:
                             cannonLocation.add(0, 0, -1);
                             direction.setX(0.0f);
                             direction.setY(0.0f);
                             direction.setZ(-1.0f);
                             break;
-                        case WALLSIGN_SOUTH:
+                        case SOUTH:
                             cannonLocation.add(0, 0, 1);
                             this.angleFlip = true;
                             direction.setX(0.0f);
                             direction.setY(0.0f);
                             direction.setZ(1.0f);
                             break;
-                        default:
-                            CivLog.error("INVALID SIGN DIRECTION..");
-                            break;
                     }
-                    signDirection = sb.getData();
+                    signDirection = ((org.bukkit.material.Sign) sb.getMaterialData()).getFacing();
 
                     break;
             }
@@ -439,8 +428,7 @@ public class Cannon extends Buildable {
                         if (nextBlock.getType() != tpl.blocks[x][y][z].getType()) {
                             /* Save it as a war block so it's automatically removed when war time ends. */
                             WarRegen.saveBlock(nextBlock, Cannon.RESTORE_NAME, false);
-                            nextBlock.setType(tpl.blocks[x][y][z].getType());
-                            nextBlock.setData((byte) tpl.blocks[x][y][z].getData());
+                            tpl.blocks[x][y][z].setTo(nextBlock);
                         }
 
                         if (nextBlock.getType() != Material.AIR) {
@@ -542,11 +530,10 @@ public class Cannon extends Buildable {
                 }
 
                 CivMessage.sendError(event.getPlayer(), CivSettings.localize.localizedString("cannon_notLoaded"));
-                return;
             } else {
                 event.setCancelled(true);
-                return;
             }
+            return;
         } else {
 //			Random rand = new Random();
 //			int randDestroy = rand.nextInt(100);
@@ -614,12 +601,9 @@ public class Cannon extends Buildable {
             }
         }
 
-        double a = this.angle;
-        if (this.angleFlip) {
-            a *= -1;
-        }
+        double a = this.angleFlip ? -this.angle : this.angle;
 
-        if (signDirection == WALLSIGN_EAST || signDirection == WALLSIGN_WEST) {
+        if (signDirection == BlockFace.EAST || signDirection == BlockFace.WEST) {
             direction.setZ(a / 100);
         } else {
             // NORTH/SOUTH
@@ -695,20 +679,25 @@ public class Cannon extends Buildable {
         for (BlockCoord b : blocks) {
             launchExplodeFirework(b.getCenteredLocation());
             if (b.getBlock().getType().equals(Material.COAL_BLOCK)) {
-                b.getBlock().setType(Material.GRAVEL);
-                b.getBlock().setData((byte) 0);
+                BlockState state = b.getBlock().getState();
+                state.setType(Material.GRAVEL);
+                state.update(true, false);
             } else {
-                b.getBlock().setType(Material.AIR);
-                b.getBlock().setData((byte) 0);
+                BlockState state = b.getBlock().getState();
+                state.setType(Material.AIR);
+                state.update(true, false);
             }
         }
 
-        fireSignLocation.getBlock().setType(Material.AIR);
-        fireSignLocation.getBlock().setData((byte) 0);
-        angleSignLocation.getBlock().setType(Material.AIR);
-        angleSignLocation.getBlock().setData((byte) 0);
-        powerSignLocation.getBlock().setType(Material.AIR);
-        powerSignLocation.getBlock().setData((byte) 0);
+        BlockState state1 = fireSignLocation.getBlock().getState();
+        state1.setType(Material.AIR);
+        state1.update(true, false);
+        BlockState state2 = angleSignLocation.getBlock().getState();
+        state2.setType(Material.AIR);
+        state2.update(true, false);
+        BlockState state3 = powerSignLocation.getBlock().getState();
+        state3.setType(Material.AIR);
+        state3.update(true, false);
 
         blocks.clear();
         this.cleanup();
