@@ -72,39 +72,15 @@ public class ConfigMaterial {
             /* Optional Lore */
             List<?> configLore = (List<?>) b.get("lore");
 
-            Boolean craftable = (Boolean) b.get("craftable");
-            if (craftable != null) {
-                mat.craftable = craftable;
-            }
-
+            mat.craftable = Optional.ofNullable((Boolean) b.get("craftable")).orElse(false);
             mat.shaped = Optional.ofNullable((Boolean) b.get("shaped")).orElse(false);
             mat.shiny = Optional.ofNullable((Boolean) b.get("shiny")).orElse(false);
+            mat.tradeable = Optional.ofNullable((Boolean) b.get("tradeable")).orElse(false);
+            mat.tradeValue = Optional.ofNullable((Double) b.get("tradeValue")).orElse(0d);
+            mat.vanilla = Optional.ofNullable((Boolean) b.get("vanilla")).orElse(false);
+            mat.amount = Optional.ofNullable((Integer) b.get("amount")).orElse(1);
+            mat.required_tech = (String) b.get("required_techs");
 
-            Boolean isTradeable = (Boolean) b.get("tradeable");
-            if (isTradeable != null) {
-
-                mat.tradeable = isTradeable;
-            }
-
-            Double tValue = (Double) b.get("tradeValue");
-            if (tValue != null) {
-                mat.tradeValue = tValue;
-            }
-
-            Boolean vanilla = (Boolean) b.get("vanilla");
-            if (vanilla != null) {
-                mat.vanilla = vanilla;
-            }
-
-            Integer amount = (Integer) b.get("amount");
-            if (amount != null) {
-                mat.amount = amount;
-            }
-
-            String required_tech = (String) b.get("required_techs");
-            if (required_tech != null) {
-                mat.required_tech = required_tech;
-            }
 
             List<Map<?, ?>> comps = (List<Map<?, ?>>) b.get("components");
             if (comps != null) {
