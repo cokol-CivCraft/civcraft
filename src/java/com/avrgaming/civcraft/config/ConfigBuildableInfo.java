@@ -81,7 +81,7 @@ public class ConfigBuildableInfo {
     }
 
     public ArrayList<ConfigTemplate> getTemplates() {
-        return CivSettings.templates.get(this.template_base_name);
+        return CivSettings.templates.getOrDefault(this.template_base_name, new ArrayList<>());
     }
 
     public static void loadConfig(FileConfiguration cfg, String path, Map<String, ConfigBuildableInfo> structureMap, boolean isWonder) {
