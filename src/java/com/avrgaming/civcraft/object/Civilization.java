@@ -311,7 +311,7 @@ public class Civilization extends SQLObject {
         }
     }
 
-    private Object saveResearchedTechs() {
+    private String saveResearchedTechs() {
         StringBuilder out = new StringBuilder();
 
         for (ConfigTech tech : this.techs.values()) {
