@@ -64,7 +64,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public abstract class Buildable extends SQLObject {
     private Town town;
     protected BlockCoord corner;
-    public final BlockFace dir;
+    public BlockFace dir;
     public ConfigBuildableInfo info = new ConfigBuildableInfo(); //Blank buildable info for buildables which do not have configs.
     protected int hitpoints;
 
@@ -106,10 +106,6 @@ public abstract class Buildable extends SQLObject {
     public static final double DEFAULT_HAMMERRATE = 1.0;
     public AABB templateBoundingBox = null;
     public String invalidLayerMessage = "";
-
-    protected Buildable(BlockFace dir) {
-        this.dir = dir;
-    }
 
     public Town getTown() {
         return town;

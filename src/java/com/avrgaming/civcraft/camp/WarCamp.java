@@ -26,7 +26,6 @@ import com.avrgaming.civcraft.war.War;
 import com.avrgaming.civcraft.war.WarRegen;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -133,7 +132,6 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
     }
 
     public WarCamp(Resident resident, Location loc, ConfigBuildableInfo info) {
-        super(BlockFace.SOUTH);
         this.setCorner(new BlockCoord(loc));
         this.setTown(resident.getTown());
         this.info = info;

@@ -92,10 +92,6 @@ public class Cannon extends Buildable {
         }
     }
 
-    public Cannon() {
-        super(BlockFace.SOUTH);
-    }
-
     public static void newCannon(Resident resident) throws CivException {
 
         Player player = CivGlobal.getPlayer(resident);

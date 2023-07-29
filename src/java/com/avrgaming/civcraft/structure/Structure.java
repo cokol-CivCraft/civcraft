@@ -48,7 +48,7 @@ public class Structure extends Buildable {
     public static String TABLE_NAME = "STRUCTURES";
 
     public Structure(Location center, String id, Town town) throws CivException {
-        super(Template.getDirection(center));
+        this.dir = Template.getDirection(center);
         this.info = CivSettings.structures.get(id);
         this.setTown(town);
         this.setCorner(new BlockCoord(center));
@@ -62,7 +62,6 @@ public class Structure extends Buildable {
     }
 
     public Structure(ResultSet rs) throws SQLException, CivException {
-        super(BlockFace.SOUTH);
         this.load(rs);
     }
 
@@ -380,10 +379,8 @@ public class Structure extends Buildable {
                     "`complete` bool NOT NULL DEFAULT '0'," +
                     "`builtBlockCount` int(11) DEFAULT NULL, " +
                     "`cornerBlockHash` mediumtext DEFAULT NULL," +
-                    "`template_name` mediumtext DEFAULT NULL, " +
-                    "`template_x` int(11) DEFAULT NULL, " +
-                    "`template_y` int(11) DEFAULT NULL, " +
-                    "`template_z` int(11) DEFAULT NULL, " +
+                    "`template_name` mediumtext DEFAULT NULL," +
+                    "`direction` mediumtext DEFAULT NULL," +
                     "`hitpoints` int(11) DEFAULT '100'," +
                     "PRIMARY KEY (`id`)" + ")";
 
@@ -414,9 +411,7 @@ public class Structure extends Buildable {
         this.setCorner(new BlockCoord(rs.getString("cornerBlockHash")));
         this.hitpoints = rs.getInt("hitpoints");
         this.setTemplateName(rs.getString("template_name"));
-        this.setTemplateX(rs.getInt("template_x"));
-        this.setTemplateY(rs.getInt("template_y"));
-        this.setTemplateZ(rs.getInt("template_z"));
+        this.dir = BlockFace.valueOf(rs.getString("direction"));
         this.setComplete(rs.getBoolean("complete"));
         this.setBuiltBlockCount(rs.getInt("builtBlockCount"));
 
@@ -448,9 +443,7 @@ public class Structure extends Buildable {
         hashmap.put("cornerBlockHash", this.getCorner().toString());
         hashmap.put("hitpoints", this.getHitpoints());
         hashmap.put("template_name", this.getSavedTemplatePath());
-        hashmap.put("template_x", this.getTemplateX());
-        hashmap.put("template_y", this.getTemplateY());
-        hashmap.put("template_z", this.getTemplateZ());
+        hashmap.put("direction", this.dir.toString());
         SQLController.updateNamedObject(this, hashmap, TABLE_NAME);
     }
 

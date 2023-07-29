@@ -135,7 +135,6 @@ public class Camp extends Buildable {
     }
 
     public Camp(Resident owner, String name, Location corner) throws CivException {
-        super(BlockFace.SOUTH);
         this.ownerName = owner.getUUID().toString();
         this.corner = new BlockCoord(corner);
         try {
@@ -157,7 +156,6 @@ public class Camp extends Buildable {
     }
 
     public Camp(ResultSet rs) throws SQLException, InvalidNameException {
-        super(BlockFace.SOUTH);
         this.load(rs);
         loadSettings();
     }

@@ -57,7 +57,7 @@ public abstract class Wonder extends Buildable {
     protected BonusGoodie goodie = null;
 
     public Wonder(ResultSet rs) throws SQLException, CivException {
-        super(BlockFace.SOUTH);
+        this.dir = BlockFace.SOUTH;
         this.load(rs);
 
         if (this.hitpoints == 0) {
@@ -66,8 +66,6 @@ public abstract class Wonder extends Buildable {
     }
 
     public Wonder(Location center, String id, Town town) throws CivException {
-
-        super(BlockFace.SOUTH);
         this.info = CivSettings.wonders.get(id);
         this.setTown(town);
         this.setCorner(new BlockCoord(center));
