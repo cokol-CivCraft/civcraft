@@ -185,10 +185,9 @@ public class StructureSign extends SQLObject {
     }
 
     public void update() {
-        if (!(coord.getBlock().getState() instanceof Sign)) {
+        if (!(coord.getBlock().getState() instanceof Sign sign)) {
             return;
         }
-        Sign sign = (Sign) coord.getBlock().getState();
         String[] lines = this.text.split("\\n");
 
         for (int i = 0; i < 4; i++) {

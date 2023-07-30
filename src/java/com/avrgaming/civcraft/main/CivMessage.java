@@ -56,8 +56,7 @@ public class CivMessage {
     private static final Map<String, ArrayList<String>> extraCivChatListeners = new ConcurrentHashMap<>();
 
     public static void sendErrorNoRepeat(Object sender, String line) {
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
+        if (sender instanceof Player player) {
 
             Integer hashcode = lastMessageHashCode.get(player.getName());
             if (hashcode != null && hashcode == line.hashCode()) {

@@ -449,21 +449,17 @@ public class CustomItemManager implements Listener {
     private void replaceItem(PlayerDeathEvent event, ItemStack oldItem, ItemStack newItem) {
         ArmorType type = ArmorType.matchType(oldItem);
         switch (type) {
-            case HELMET: {
+            case HELMET -> {
                 event.getEntity().getInventory().setHelmet(newItem);
-                break;
             }
-            case CHESTPLATE: {
+            case CHESTPLATE -> {
                 event.getEntity().getInventory().setChestplate(newItem);
-                break;
             }
-            case LEGGINGS: {
+            case LEGGINGS -> {
                 event.getEntity().getInventory().setLeggings(newItem);
-                break;
             }
-            case BOOTS: {
+            case BOOTS -> {
                 event.getEntity().getInventory().setBoots(newItem);
-                break;
             }
         }
 

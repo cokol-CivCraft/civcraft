@@ -198,20 +198,24 @@ public class Cottage extends Structure {
 
         /* Bail early for results that do not generate coins. */
         switch (result) {
-            case STARVE:
+            case STARVE -> {
                 CivMessage.sendTown(getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_cottage_starved_base", getConsumeComponent().getLevel(), CivSettings.localize.localizedString("var_cottage_status_starved", getConsumeComponent().getCountString()), CivSettings.CURRENCY_NAME));
                 return;
-            case LEVELDOWN:
+            }
+            case LEVELDOWN -> {
                 CivMessage.sendTown(getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_cottage_starved_base", (getConsumeComponent().getLevel() + 1), CivSettings.localize.localizedString("var_cottage_status_lvlDown"), CivSettings.CURRENCY_NAME));
                 return;
-            case STAGNATE:
+            }
+            case STAGNATE -> {
                 CivMessage.sendTown(getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_cottage_starved_base", getConsumeComponent().getLevel(), CivSettings.localize.localizedString("var_cottage_status_stagnated", getConsumeComponent().getCountString()), CivSettings.CURRENCY_NAME));
                 return;
-            case UNKNOWN:
+            }
+            case UNKNOWN -> {
                 CivMessage.sendTown(getTown(), ChatColor.DARK_PURPLE + CivSettings.localize.localizedString("var_cottage_starved_unknwon", CivSettings.CURRENCY_NAME));
                 return;
-            default:
-                break;
+            }
+            default -> {
+            }
         }
 
         if (processPoison(multiInv)) {
@@ -248,17 +252,14 @@ public class Cottage extends Structure {
 
         String stateMessage = "";
         switch (result) {
-            case GROW:
-                stateMessage = ChatColor.DARK_GREEN + CivSettings.localize.localizedString("var_cottage_grew", getConsumeComponent().getCountString()) + ChatColor.GREEN;
-                break;
-            case LEVELUP:
-                stateMessage = ChatColor.DARK_GREEN + CivSettings.localize.localizedString("var_cottage_grew_lvlUp") + ChatColor.GREEN;
-                break;
-            case MAXED:
-                stateMessage = ChatColor.DARK_GREEN + CivSettings.localize.localizedString("var_cottage_grew_isMaxed", getConsumeComponent().getCountString()) + ChatColor.GREEN;
-                break;
-            default:
-                break;
+            case GROW ->
+                    stateMessage = ChatColor.DARK_GREEN + CivSettings.localize.localizedString("var_cottage_grew", getConsumeComponent().getCountString()) + ChatColor.GREEN;
+            case LEVELUP ->
+                    stateMessage = ChatColor.DARK_GREEN + CivSettings.localize.localizedString("var_cottage_grew_lvlUp") + ChatColor.GREEN;
+            case MAXED ->
+                    stateMessage = ChatColor.DARK_GREEN + CivSettings.localize.localizedString("var_cottage_grew_isMaxed", getConsumeComponent().getCountString()) + ChatColor.GREEN;
+            default -> {
+            }
         }
 
         if (taxesPaid > 0) {

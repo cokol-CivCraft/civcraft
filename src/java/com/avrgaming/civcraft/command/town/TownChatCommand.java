@@ -33,11 +33,10 @@ public class TownChatCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 
         //TODO let non players use this command
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             return false;
         }
 
-        Player player = (Player) sender;
         Resident resident = CivGlobal.getResident(player);
         if (resident == null) {
             CivMessage.sendError(sender, CivSettings.localize.localizedString("cmd_civchat_notResident"));

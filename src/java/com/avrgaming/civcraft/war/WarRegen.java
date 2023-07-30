@@ -70,36 +70,32 @@ public class WarRegen {
 
             Inventory inv = null;
             switch (blk.getType()) {
-                case TRAPPED_CHEST:
-                case CHEST:
+                case TRAPPED_CHEST, CHEST -> {
                     inv = ((Chest) blk.getState()).getBlockInventory();
                     str += blockInventoryString(inv);
-                    break;
-                case DISPENSER:
+                }
+                case DISPENSER -> {
                     inv = ((Dispenser) blk.getState()).getInventory();
                     str += blockInventoryString(inv);
-                    break;
-                case BURNING_FURNACE:
-                case FURNACE:
+                }
+                case BURNING_FURNACE, FURNACE -> {
                     inv = ((Furnace) blk.getState()).getInventory();
                     str += blockInventoryString(inv);
-                    break;
-                case DROPPER:
+                }
+                case DROPPER -> {
                     inv = ((Dropper) blk.getState()).getInventory();
                     str += blockInventoryString(inv);
-                    break;
-                case HOPPER:
+                }
+                case HOPPER -> {
                     inv = ((Hopper) blk.getState()).getInventory();
                     str += blockInventoryString(inv);
-                    break;
-                case SIGN:
-                case SIGN_POST:
-                case WALL_SIGN:
+                }
+                case SIGN, SIGN_POST, WALL_SIGN -> {
                     Sign sign = (Sign) blk.getState();
                     str += blockSignString(sign);
-                    break;
-                default:
-                    break;
+                }
+                default -> {
+                }
             }
 
             return str;
@@ -124,31 +120,27 @@ public class WarRegen {
         // End of basic block info, try to get more now.
         Inventory inv = null;
         switch (block.getType()) {
-            case TRAPPED_CHEST:
-            case CHEST:
+            case TRAPPED_CHEST, CHEST -> {
                 inv = ((Chest) block.getState()).getBlockInventory();
                 InventorySerializer.StringToInventory(inv, split[6]);
-                break;
-            case DISPENSER:
+            }
+            case DISPENSER -> {
                 inv = ((Dispenser) block.getState()).getInventory();
                 InventorySerializer.StringToInventory(inv, split[6]);
-                break;
-            case BURNING_FURNACE:
-            case FURNACE:
+            }
+            case BURNING_FURNACE, FURNACE -> {
                 inv = ((Furnace) block.getState()).getInventory();
                 InventorySerializer.StringToInventory(inv, split[6]);
-                break;
-            case DROPPER:
+            }
+            case DROPPER -> {
                 inv = ((Dropper) block.getState()).getInventory();
                 InventorySerializer.StringToInventory(inv, split[6]);
-                break;
-            case HOPPER:
+            }
+            case HOPPER -> {
                 inv = ((Hopper) block.getState()).getInventory();
                 InventorySerializer.StringToInventory(inv, split[6]);
-                break;
-            case SIGN:
-            case SIGN_POST:
-            case WALL_SIGN:
+            }
+            case SIGN, SIGN_POST, WALL_SIGN -> {
                 Sign sign = (Sign) block.getState();
                 String[] messages = split[6].split(",");
                 for (int i = 0; i < 4; i++) {
@@ -157,9 +149,9 @@ public class WarRegen {
                     }
                 }
                 sign.update();
-                break;
-            default:
-                break;
+            }
+            default -> {
+            }
         }
 
 
@@ -168,36 +160,23 @@ public class WarRegen {
     public static void explodeThisBlock(Block blk, String file) {
 
         switch (blk.getType()) {
-            case SIGN_POST:
-            case TNT:
-            case WALL_SIGN:
+            case SIGN_POST, TNT, WALL_SIGN -> {
                 return;
-            default:
-                break;
+            }
+            default -> {
+            }
         }
 
         WarRegen.saveBlock(blk, file, false);
 
         switch (blk.getType()) {
-            case TRAPPED_CHEST:
-            case CHEST:
-                ((Chest) blk.getState()).getBlockInventory().clear();
-                break;
-            case DISPENSER:
-                ((Dispenser) blk.getState()).getInventory().clear();
-                break;
-            case BURNING_FURNACE:
-            case FURNACE:
-                ((Furnace) blk.getState()).getInventory().clear();
-                break;
-            case DROPPER:
-                ((Dropper) blk.getState()).getInventory().clear();
-                break;
-            case HOPPER:
-                ((Hopper) blk.getState()).getInventory().clear();
-                break;
-            default:
-                break;
+            case TRAPPED_CHEST, CHEST -> ((Chest) blk.getState()).getBlockInventory().clear();
+            case DISPENSER -> ((Dispenser) blk.getState()).getInventory().clear();
+            case BURNING_FURNACE, FURNACE -> ((Furnace) blk.getState()).getInventory().clear();
+            case DROPPER -> ((Dropper) blk.getState()).getInventory().clear();
+            case HOPPER -> ((Hopper) blk.getState()).getInventory().clear();
+            default -> {
+            }
         }
 
         blk.setTypeId(Material.AIR.getId());
@@ -210,25 +189,13 @@ public class WarRegen {
         WarRegen.saveBlock(blk, town.getName(), false);
 
         switch (blk.getType()) {
-            case TRAPPED_CHEST:
-            case CHEST:
-                ((Chest) blk.getState()).getBlockInventory().clear();
-                break;
-            case DISPENSER:
-                ((Dispenser) blk.getState()).getInventory().clear();
-                break;
-            case BURNING_FURNACE:
-            case FURNACE:
-                ((Furnace) blk.getState()).getInventory().clear();
-                break;
-            case DROPPER:
-                ((Dropper) blk.getState()).getInventory().clear();
-                break;
-            case HOPPER:
-                ((Hopper) blk.getState()).getInventory().clear();
-                break;
-            default:
-                break;
+            case TRAPPED_CHEST, CHEST -> ((Chest) blk.getState()).getBlockInventory().clear();
+            case DISPENSER -> ((Dispenser) blk.getState()).getInventory().clear();
+            case BURNING_FURNACE, FURNACE -> ((Furnace) blk.getState()).getInventory().clear();
+            case DROPPER -> ((Dropper) blk.getState()).getInventory().clear();
+            case HOPPER -> ((Hopper) blk.getState()).getInventory().clear();
+            default -> {
+            }
         }
 
         blk.setTypeId(Material.AIR.getId());
@@ -238,11 +205,11 @@ public class WarRegen {
 
     public static boolean canPlaceThisBlock(Block blk) {
         switch (blk.getType()) {
-            case LAVA:
-            case WATER:
+            case LAVA, WATER -> {
                 return false;
-            default:
-                break;
+            }
+            default -> {
+            }
         }
         return true;
     }

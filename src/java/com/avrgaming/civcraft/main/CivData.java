@@ -76,18 +76,10 @@ public class CivData {
     }
 
     public static boolean isDoor(Material i) {
-        switch (i) {
-            case ACACIA_DOOR:
-            case DARK_OAK_DOOR:
-            case WOOD_DOOR:
-            case BIRCH_DOOR:
-            case IRON_DOOR:
-            case JUNGLE_DOOR:
-            case SPRUCE_DOOR:
-                return true;
-            default:
-                return false;
-        }
+        return switch (i) {
+            case ACACIA_DOOR, DARK_OAK_DOOR, WOOD_DOOR, BIRCH_DOOR, IRON_DOOR, JUNGLE_DOOR, SPRUCE_DOOR -> true;
+            default -> false;
+        };
     }
 
     public static String getStringForBar(TaskType type, double HP, int maxHP) {
@@ -98,33 +90,32 @@ public class CivData {
         int sizeOfChars = (int) (HP / tenPercentOfMax);
         int emptyChars = 10 - sizeOfChars;
         switch (type) {
-            case STRUCTURE:
+            case STRUCTURE -> {
                 open = "❰";
                 close = "❱";
-                break;
-            case CONTROL:
+            }
+            case CONTROL -> {
                 open = "⟪";
                 close = "⟫";
-                break;
-            case PLAYER:
+            }
+            case PLAYER -> {
                 open = "﴾";
                 close = "﴿";
-                break;
-            case NULL:
-            default:
-                break;
-            case TECH:
+            }
+            default -> {
+            }
+            case TECH -> {
                 open = "〖";
                 close = "〗";
-                break;
-            case STRUCTUREBUILD:
+            }
+            case STRUCTUREBUILD -> {
                 open = "⧼";
                 close = "⧽";
-                break;
-            case WONDERBUILD:
+            }
+            case WONDERBUILD -> {
                 open = "⸨";
                 close = "⸩";
-                break;
+            }
         }
         s = paintString(open, close, sizeOfChars, emptyChars);
 
@@ -146,18 +137,13 @@ public class CivData {
     }
 
     public static String getDisplayName(Material material) {
-        switch (material) {
-            case GOLD_ORE:
-                return "Gold Ore";
-            case IRON_ORE:
-                return "Iron Ore";
-            case IRON_INGOT:
-                return "Iron";
-            case GOLD_INGOT:
-                return "Gold";
-            default:
-                return "Unknown_Id";
-        }
+        return switch (material) {
+            case GOLD_ORE -> "Gold Ore";
+            case IRON_ORE -> "Iron Ore";
+            case IRON_INGOT -> "Iron";
+            case GOLD_INGOT -> "Gold";
+            default -> "Unknown_Id";
+        };
     }
 
 
@@ -208,23 +194,13 @@ public class CivData {
     }
 
     public static boolean canGrow(BlockSnapshot bs) {
-        switch (bs.getType()) {
-            case WHEAT:
-            case CARROT:
-            case POTATO:
-                return bs.getData() != 0x7;
+        return switch (bs.getType()) {
+            case WHEAT, CARROT, POTATO -> bs.getData() != 0x7;
+            case NETHER_WARTS -> bs.getData() != 0x3;
+            case COCOA -> (bs.getData() & 0xC) != 0x8;
+            case MELON_STEM, PUMPKIN_STEM -> canGrowFromStem(bs);
+            default -> false;
+        };
 
-            case NETHER_WARTS:
-                return bs.getData() != 0x3;
-
-            case COCOA:
-                return (bs.getData() & 0xC) != 0x8;
-
-            case MELON_STEM:
-            case PUMPKIN_STEM:
-                return canGrowFromStem(bs);
-        }
-
-        return false;
     }
 }

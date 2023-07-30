@@ -50,8 +50,7 @@ public class RangedAttack extends ItemComponent {
 
         if (event.getDamager() instanceof Arrow) {
             Arrow arrow = (Arrow) event.getDamager();
-            if (arrow.getShooter() instanceof Player) {
-                Player attacker = (Player) arrow.getShooter();
+            if (arrow.getShooter() instanceof Player attacker) {
                 if (Unit.isWearingAnyMetal(attacker)) {
                     event.setCancelled(true);
                     CivMessage.sendError(attacker, CivSettings.localize.localizedString("itemLore_RangedAttack_errorMetal"));

@@ -137,8 +137,7 @@ public class BlockCoord {
 
     @Override
     public boolean equals(Object other) {
-        if (other instanceof BlockCoord) {
-            BlockCoord otherCoord = (BlockCoord) other;
+        if (other instanceof BlockCoord otherCoord) {
             if (otherCoord.worldname.equals(worldname)) {
                 return (otherCoord.getX()) == x && (otherCoord.getY() == y) &&
                         (otherCoord.getZ() == z);

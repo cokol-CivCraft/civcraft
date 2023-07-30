@@ -419,7 +419,7 @@ public class Camp extends Buildable {
                 continue;
             }
             switch (sb.command) {
-                case "/gardensign":
+                case "/gardensign" -> {
                     if (!this.gardenEnabled) {
                         Sign sign = (Sign) absCoord.getBlock().getState();
                         sign.setData(sb.getMaterialData());
@@ -433,8 +433,8 @@ public class Camp extends Buildable {
                         absCoord.getBlock().setType(Material.AIR);
                         this.removeCampBlock(absCoord);
                     }
-                    break;
-                case "/growth":
+                }
+                case "/growth" -> {
                     if (this.gardenEnabled) {
                         this.growthLocations.add(absCoord);
                         CivGlobal.vanillaGrowthLocations.add(absCoord);
@@ -450,34 +450,24 @@ public class Camp extends Buildable {
                         this.addCampBlock(absCoord);
                         this.addCampBlock(new BlockCoord(absCoord.getBlock().getRelative(0, 1, 0)));
                     }
-                    break;
-                case "/firepit":
+                }
+                case "/firepit" -> {
                     this.firepitBlocks.put(Integer.valueOf(sb.keyvalues.get("id")), absCoord);
                     this.addCampBlock(absCoord);
-                    break;
-                case "/fire":
-                    absCoord.getBlock().setType(Material.FIRE);
-                    break;
-                case "/firefurnace":
+                }
+                case "/fire" -> absCoord.getBlock().setType(Material.FIRE);
+                case "/firefurnace" -> {
                     this.fireFurnaceBlocks.add(absCoord);
                     absCoord.getBlock().getState().setData(new org.bukkit.material.Furnace(((org.bukkit.material.Sign) sb.getMaterialData()).getFacing()));
                     this.addCampBlock(absCoord);
-
-                    break;
-                case "/sifter":
+                }
+                case "/sifter" -> {
                     int id = Integer.parseInt(sb.keyvalues.get("id"));
                     switch (id) {
-                        case 0:
-                            sifter.setSourceCoord(absCoord);
-                            break;
-                        case 1:
-                            sifter.setDestCoord(absCoord);
-                            break;
-                        default:
-                            CivLog.warning("Unknown ID for sifter in camp:" + id);
-                            break;
+                        case 0 -> sifter.setSourceCoord(absCoord);
+                        case 1 -> sifter.setDestCoord(absCoord);
+                        default -> CivLog.warning("Unknown ID for sifter in camp:" + id);
                     }
-
                     if (this.sifterEnabled) {
                         absCoord.getBlock().getState().setData(new org.bukkit.material.Chest(((org.bukkit.material.Sign) sb.getMaterialData()).getFacing()));
                     } else {
@@ -494,8 +484,8 @@ public class Camp extends Buildable {
                         }
                     }
                     this.addCampBlock(absCoord);
-                    break;
-                case "/foodinput":
+                }
+                case "/foodinput" -> {
                     if (this.longhouseEnabled) {
                         this.foodDepositPoints.add(absCoord);
                         absCoord.getBlock().getState().setData(new org.bukkit.material.Chest(((org.bukkit.material.Sign) sb.getMaterialData()).getFacing()));
@@ -509,23 +499,18 @@ public class Camp extends Buildable {
                         sign.update();
                     }
                     this.addCampBlock(absCoord);
-                    break;
-                case "/door":
+                }
+                case "/door" -> {
                     this.doors.add(absCoord);
                     Block doorBlock = absCoord.getBlock();
                     Block doorBlock2 = absCoord.getBlock().getRelative(0, 1, 0);
-
-
                     doorBlock.getState().setData(new Door(Material.WOODEN_DOOR, ((org.bukkit.material.Sign) sb.getMaterialData()).getFacing()));
                     doorBlock2.getState().setData(new Door(Material.WOODEN_DOOR, false));
-
                     this.addCampBlock(new BlockCoord(doorBlock));
                     this.addCampBlock(new BlockCoord(doorBlock2));
-                    break;
-                case "/control":
-                    this.createControlPoint(absCoord);
-                    break;
-                case "/literal":
+                }
+                case "/control" -> this.createControlPoint(absCoord);
+                case "/literal" -> {
                     /* Unrecognized command... treat as a literal sign. */
                     Sign sign = (Sign) absCoord.getBlock().getState();
                     sign.setData(sb.getMaterialData());
@@ -534,7 +519,7 @@ public class Camp extends Buildable {
                     sign.setLine(2, sb.message[2]);
                     sign.setLine(3, sb.message[3]);
                     sign.update();
-                    break;
+                }
             }
         }
 
@@ -631,20 +616,24 @@ public class Camp extends Buildable {
         this.consumeComponent.onSave();
 
         switch (result) {
-            case STARVE:
+            case STARVE -> {
                 CivMessage.sendCamp(this, ChatColor.GREEN + CivSettings.localize.localizedString("var_camp_yourLonghouseDown", (ChatColor.RED + CivSettings.localize.localizedString("var_camp_longhouseStarved", consumeComponent.getCountString()) + ChatColor.GREEN), CivSettings.CURRENCY_NAME));
                 return;
-            case LEVELDOWN:
+            }
+            case LEVELDOWN -> {
                 CivMessage.sendCamp(this, ChatColor.GREEN + CivSettings.localize.localizedString("var_camp_yourLonghouseDown", (ChatColor.RED + CivSettings.localize.localizedString("camp_longhouseStavedAndLeveledDown") + ChatColor.GREEN), CivSettings.CURRENCY_NAME));
                 return;
-            case STAGNATE:
+            }
+            case STAGNATE -> {
                 CivMessage.sendCamp(this, ChatColor.GREEN + CivSettings.localize.localizedString("var_camp_yourLonghouseDown", (ChatColor.YELLOW + CivSettings.localize.localizedString("camp_longhouseStagnated") + ChatColor.GREEN), CivSettings.CURRENCY_NAME));
                 return;
-            case UNKNOWN:
+            }
+            case UNKNOWN -> {
                 CivMessage.sendCamp(this, ChatColor.GREEN + CivSettings.localize.localizedString("var_camp_yourLonghouseDown", (ChatColor.DARK_PURPLE + CivSettings.localize.localizedString("camp_longhouseSomethingUnknown") + ChatColor.GREEN), CivSettings.CURRENCY_NAME));
                 return;
-            default:
-                break;
+            }
+            default -> {
+            }
         }
 
         ConfigCampLonghouseLevel lvl = null;
@@ -673,21 +662,15 @@ public class Camp extends Buildable {
             mInv.addItems(token, true);
         }
 
-        String stateMessage;
-        switch (result) {
-            case GROW:
-                stateMessage = ChatColor.DARK_GREEN + CivSettings.localize.localizedString("var_camp_longhouseGrew", consumeComponent.getCountString() + ChatColor.GREEN);
-                break;
-            case LEVELUP:
-                stateMessage = ChatColor.DARK_GREEN + CivSettings.localize.localizedString("camp_longhouselvlUp") + ChatColor.GREEN;
-                break;
-            case MAXED:
-                stateMessage = ChatColor.DARK_GREEN + CivSettings.localize.localizedString("var_camp_longhouseIsMaxed", consumeComponent.getCountString() + ChatColor.GREEN);
-                break;
-            default:
-                stateMessage = "";
-                break;
-        }
+        String stateMessage = switch (result) {
+            case GROW ->
+                    ChatColor.DARK_GREEN + CivSettings.localize.localizedString("var_camp_longhouseGrew", consumeComponent.getCountString() + ChatColor.GREEN);
+            case LEVELUP ->
+                    ChatColor.DARK_GREEN + CivSettings.localize.localizedString("camp_longhouselvlUp") + ChatColor.GREEN;
+            case MAXED ->
+                    ChatColor.DARK_GREEN + CivSettings.localize.localizedString("var_camp_longhouseIsMaxed", consumeComponent.getCountString() + ChatColor.GREEN);
+            default -> "";
+        };
 
         CivMessage.sendCamp(this, ChatColor.GREEN + CivSettings.localize.localizedString("var_camp_yourLonghouse", stateMessage, total_coins, CivSettings.CURRENCY_NAME));
     }
@@ -775,24 +758,22 @@ public class Camp extends Buildable {
 
         // Reposition tile improvements
         switch (dir) {
-            case EAST:
+            case EAST -> {
                 loc.setZ(loc.getZ() - (z_size / 2));
                 loc.setX(loc.getX() + SHIFT_OUT);
-                break;
-            case WEST:
+            }
+            case WEST -> {
                 loc.setZ(loc.getZ() - (z_size / 2));
                 loc.setX(loc.getX() - (SHIFT_OUT + x_size));
-
-                break;
-            case NORTH:
+            }
+            case NORTH -> {
                 loc.setX(loc.getX() - (x_size / 2));
                 loc.setZ(loc.getZ() - (SHIFT_OUT + z_size));
-                break;
-            case SOUTH:
+            }
+            case SOUTH -> {
                 loc.setX(loc.getX() - (x_size / 2));
                 loc.setZ(loc.getZ() + SHIFT_OUT);
-
-                break;
+            }
         }
 
         return loc;

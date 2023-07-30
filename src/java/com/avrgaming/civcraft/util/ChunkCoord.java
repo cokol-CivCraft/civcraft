@@ -99,8 +99,7 @@ public class ChunkCoord {
 
     @Override
     public boolean equals(Object other) {
-        if (other instanceof ChunkCoord) {
-            ChunkCoord otherCoord = (ChunkCoord) other;
+        if (other instanceof ChunkCoord otherCoord) {
             if (otherCoord.worldname.equals(worldname)) {
                 return (otherCoord.getX()) == x && (otherCoord.getZ() == z);
             }

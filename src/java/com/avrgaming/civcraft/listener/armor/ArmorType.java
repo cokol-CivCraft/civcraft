@@ -27,34 +27,14 @@ public enum ArmorType {
         if (itemStack == null) {
             return null;
         }
-        switch (itemStack.getType()) {
-            case DIAMOND_HELMET:
-            case GOLD_HELMET:
-            case IRON_HELMET:
-            case CHAINMAIL_HELMET:
-            case LEATHER_HELMET:
-                return HELMET;
-            case DIAMOND_CHESTPLATE:
-            case GOLD_CHESTPLATE:
-            case IRON_CHESTPLATE:
-            case CHAINMAIL_CHESTPLATE:
-            case LEATHER_CHESTPLATE:
-                return CHESTPLATE;
-            case DIAMOND_LEGGINGS:
-            case GOLD_LEGGINGS:
-            case IRON_LEGGINGS:
-            case CHAINMAIL_LEGGINGS:
-            case LEATHER_LEGGINGS:
-                return LEGGINGS;
-            case DIAMOND_BOOTS:
-            case GOLD_BOOTS:
-            case IRON_BOOTS:
-            case CHAINMAIL_BOOTS:
-            case LEATHER_BOOTS:
-                return BOOTS;
-            default:
-                return null;
-        }
+        return switch (itemStack.getType()) {
+            case DIAMOND_HELMET, GOLD_HELMET, IRON_HELMET, CHAINMAIL_HELMET, LEATHER_HELMET -> HELMET;
+            case DIAMOND_CHESTPLATE, GOLD_CHESTPLATE, IRON_CHESTPLATE, CHAINMAIL_CHESTPLATE, LEATHER_CHESTPLATE ->
+                    CHESTPLATE;
+            case DIAMOND_LEGGINGS, GOLD_LEGGINGS, IRON_LEGGINGS, CHAINMAIL_LEGGINGS, LEATHER_LEGGINGS -> LEGGINGS;
+            case DIAMOND_BOOTS, GOLD_BOOTS, IRON_BOOTS, CHAINMAIL_BOOTS, LEATHER_BOOTS -> BOOTS;
+            default -> null;
+        };
     }
 
     public int getSlot() {

@@ -88,16 +88,11 @@ public class WindmillPreProcessTask extends CivAsyncTask {
             }
 
             switch (stack.getType()) {
-                case SEEDS:
-                    breadCount += stack.getAmount();
-                    break;
-                case CARROT_ITEM:
-                    carrotCount += stack.getAmount();
-                    break;
-                case POTATO_ITEM:
-                    potatoCount += stack.getAmount();
-                    break;
-                default:
+                case SEEDS -> breadCount += stack.getAmount();
+                case CARROT_ITEM -> carrotCount += stack.getAmount();
+                case POTATO_ITEM -> potatoCount += stack.getAmount();
+                default -> {
+                }
             }
         }
 

@@ -151,14 +151,14 @@ public class ScoutTower extends Structure {
                 /* Only announce hostile, war, and neutral players */
                 Relation.Status relation = this.getCiv().getDiplomacyManager().getRelationStatus(player);
                 switch (relation) {
-                    case PEACE:
-                    case ALLY:
+                    case PEACE, ALLY -> {
 //				case VASSAL:
 //				case MASTER:
                         scoutDebug(CivSettings.localize.localizedString("acoutTower_debug_ally"));
                         continue;
-                    default:
-                        break;
+                    }
+                    default -> {
+                    }
                 }
 
                 relationName = relation.name();

@@ -54,33 +54,16 @@ public class Quarry extends Structure {
     }
 
     public double getChance(Mineral mineral) {
-        double chance = 0;
-        switch (mineral) {
-            case RARE:
-                chance = RARE_CHANCE;
-                break;
-            case TUNGSTEN:
-                chance = TUNGSTEN_CHANCE;
-                break;
-            case GOLD:
-                chance = GOLD_CHANCE;
-                break;
-            case IRON:
-                chance = IRON_CHANCE;
-                break;
-            case REDSTONE:
-                chance = REDSTONE_CHANCE;
-                break;
-            case COAL:
-                chance = COAL_RATE;
-                break;
-            case OTHER:
-                chance = OTHER_RATE;
-                break;
-            case COBBLESTONE:
-                chance = COBBLESTONE_RATE;
-                break;
-        }
+        double chance = switch (mineral) {
+            case RARE -> RARE_CHANCE;
+            case TUNGSTEN -> TUNGSTEN_CHANCE;
+            case GOLD -> GOLD_CHANCE;
+            case IRON -> IRON_CHANCE;
+            case REDSTONE -> REDSTONE_CHANCE;
+            case COAL -> COAL_RATE;
+            case OTHER -> OTHER_RATE;
+            case COBBLESTONE -> COBBLESTONE_RATE;
+        };
         return this.modifyChance(chance) * MAX_CHANCE;
     }
 

@@ -280,7 +280,7 @@ public class BonusGoodieManager implements Listener {
     @EventHandler(priority = EventPriority.LOW)
     public void OnPlayerInteractEntityEvent(PlayerInteractEntityEvent event) {
 
-        if (!(event.getRightClicked() instanceof ItemFrame)) {
+        if (!(event.getRightClicked() instanceof ItemFrame frame)) {
             return;
         }
 
@@ -295,7 +295,6 @@ public class BonusGoodieManager implements Listener {
         }
 
         BonusGoodie goodie = CivGlobal.getBonusGoodie(event.getPlayer().getInventory().getItemInMainHand());
-        ItemFrame frame = (ItemFrame) event.getRightClicked();
         ItemFrameStorage frameStore = CivGlobal.getProtectedItemFrame(frame.getUniqueId());
 
         if (goodie == null) {

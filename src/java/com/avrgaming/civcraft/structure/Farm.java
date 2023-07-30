@@ -91,23 +91,15 @@ public class Farm extends Structure {
 
     public static boolean isBlockControlled(Block b) {
 
-        switch (b.getType()) {
+        return switch (b.getType()) {
             //case BROWNMUSHROOM:
             //case REDMUSHROOM:
-            case COCOA:
-            case MELON_BLOCK:
-            case MELON_STEM:
-            case PUMPKIN:
-            case PUMPKIN_STEM:
-            case WHEAT:
-            case CARROT:
-            case POTATO:
-            case NETHER_WARTS:
+            case COCOA, MELON_BLOCK, MELON_STEM, PUMPKIN, PUMPKIN_STEM, WHEAT, CARROT, POTATO, NETHER_WARTS ->
                 //	case SUGARCANE:
-                return true;
-        }
+                    true;
+            default -> false;
+        };
 
-        return false;
     }
 
     public void saveMissedGrowths() {

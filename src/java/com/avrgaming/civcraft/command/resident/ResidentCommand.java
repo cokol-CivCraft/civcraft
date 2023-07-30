@@ -182,27 +182,26 @@ public class ResidentCommand extends CommandBase {
         type = type.toLowerCase();
 
         Material exchangeID;
-        double rate;
-        switch (type) {
-            case "iron":
+        double rate = switch (type) {
+            case "iron" -> {
                 exchangeID = Material.IRON_INGOT;
-                rate = CivSettings.iron_rate;
-                break;
-            case "gold":
+                yield CivSettings.iron_rate;
+            }
+            case "gold" -> {
                 exchangeID = Material.GOLD_INGOT;
-                rate = CivSettings.gold_rate;
-                break;
-            case "diamond":
+                yield CivSettings.gold_rate;
+            }
+            case "diamond" -> {
                 exchangeID = Material.DIAMOND;
-                rate = CivSettings.diamond_rate;
-                break;
-            case "emerald":
+                yield CivSettings.diamond_rate;
+            }
+            case "emerald" -> {
                 exchangeID = Material.EMERALD;
-                rate = CivSettings.emerald_rate;
-                break;
-            default:
-                throw new CivException(CivSettings.localize.localizedString("var_cmd_res_exchangeInvalid", type));
-        }
+                yield CivSettings.emerald_rate;
+            }
+            default ->
+                    throw new CivException(CivSettings.localize.localizedString("var_cmd_res_exchangeInvalid", type));
+        };
 
         double exchangeRate;
         try {

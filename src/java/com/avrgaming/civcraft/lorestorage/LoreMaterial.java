@@ -174,8 +174,7 @@ public abstract class LoreMaterial {
         AttributeUtil attrs = new AttributeUtil(stack);
         setMIDAndName(attrs, material.getId(), material.getName());
         boolean isShiny = false;
-        if (material instanceof LoreCraftableMaterial) {
-            LoreCraftableMaterial craftMat = (LoreCraftableMaterial) material;
+        if (material instanceof LoreCraftableMaterial craftMat) {
             attrs.addLore(ChatColor.ITALIC + craftMat.getConfigMaterial().category);
             if (craftMat.getConfigMaterial().tradeable) {
                 attrs.setCivCraftProperty("tradeable", "true");

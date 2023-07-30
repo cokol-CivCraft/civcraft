@@ -61,22 +61,12 @@ public class KeyValue {
             }
 
             try {
-                Object valueInstance;
-
-                switch (className) {
-                    case "Integer":
-                        valueInstance = Integer.valueOf(decodedValue);
-                        break;
-                    case "Boolean":
-                        valueInstance = Boolean.valueOf(decodedValue);
-                        break;
-                    case "Double":
-                        valueInstance = Double.valueOf(decodedValue);
-                        break;
-                    default:
-                        valueInstance = decodedValue;
-                        break;
-                }
+                Object valueInstance = switch (className) {
+                    case "Integer" -> Integer.valueOf(decodedValue);
+                    case "Boolean" -> Boolean.valueOf(decodedValue);
+                    case "Double" -> Double.valueOf(decodedValue);
+                    default -> decodedValue;
+                };
 
                 keyValues.put(key, valueInstance);
 

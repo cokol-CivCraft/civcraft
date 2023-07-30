@@ -113,26 +113,20 @@ public class Mine extends Structure {
             e.printStackTrace();
         }
         switch (result) {
-            case STARVE:
-                CivMessage.sendTown(getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_mine_productionFell", getConsumeComponent().getLevel(), ChatColor.GREEN + getConsumeComponent().getCountString()));
-                break;
-            case LEVELDOWN:
-                CivMessage.sendTown(getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_mine_lostalvl", getConsumeComponent().getLevel()));
-                break;
-            case STAGNATE:
-                CivMessage.sendTown(getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_mine_stagnated", getConsumeComponent().getLevel(), ChatColor.GREEN + getConsumeComponent().getCountString()));
-                break;
-            case GROW:
-                CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_mine_productionGrew", getConsumeComponent().getLevel(), getConsumeComponent().getCountString()));
-                break;
-            case LEVELUP:
-                CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_mine_lvlUp", getConsumeComponent().getLevel()));
-                break;
-            case MAXED:
-                CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_mine_maxed", getConsumeComponent().getLevel(), ChatColor.GREEN + getConsumeComponent().getCountString()));
-                break;
-            default:
-                break;
+            case STARVE ->
+                    CivMessage.sendTown(getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_mine_productionFell", getConsumeComponent().getLevel(), ChatColor.GREEN + getConsumeComponent().getCountString()));
+            case LEVELDOWN ->
+                    CivMessage.sendTown(getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_mine_lostalvl", getConsumeComponent().getLevel()));
+            case STAGNATE ->
+                    CivMessage.sendTown(getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_mine_stagnated", getConsumeComponent().getLevel(), ChatColor.GREEN + getConsumeComponent().getCountString()));
+            case GROW ->
+                    CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_mine_productionGrew", getConsumeComponent().getLevel(), getConsumeComponent().getCountString()));
+            case LEVELUP ->
+                    CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_mine_lvlUp", getConsumeComponent().getLevel()));
+            case MAXED ->
+                    CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_mine_maxed", getConsumeComponent().getLevel(), ChatColor.GREEN + getConsumeComponent().getCountString()));
+            default -> {
+            }
         }
     }
 

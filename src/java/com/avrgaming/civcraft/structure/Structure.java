@@ -86,141 +86,50 @@ public class Structure extends Buildable {
 
     public static Structure newStructure(ResultSet rs) throws CivException, SQLException {
         String id = rs.getString("type_id");
-        Structure struct;
-        switch (id) {
-            case "s_bank":
-                struct = new Bank(rs);
-                break;
-            case "s_trommel":
-                struct = new Trommel(rs);
-                break;
-            case "ti_fish_hatchery":
-                struct = new FishHatchery(rs);
-                break;
-            case "ti_trade_ship":
-                struct = new TradeShip(rs);
-                break;
-            case "ti_quarry":
-                struct = new Quarry(rs);
-                break;
-            case "s_mob_grinder":
-                struct = new MobGrinder(rs);
-                break;
-            case "s_store":
-                struct = new Store(rs);
-                break;
-            case "s_stadium":
-                struct = new Stadium(rs);
-                break;
-            case "ti_hospital":
-                struct = new Hospital(rs);
-                break;
-            case "s_grocer":
-                struct = new Grocer(rs);
-                break;
-            case "s_broadcast_tower":
-                struct = new BroadcastTower(rs);
-                break;
-            case "s_library":
-                struct = new Library(rs);
-                break;
-
-            case "s_university":
-                struct = new University(rs);
-                break;
-
-            case "s_school":
-                struct = new School(rs);
-                break;
-
-            case "s_research_lab":
-                struct = new ResearchLab(rs);
-                break;
-
-            case "s_blacksmith":
-                struct = new Blacksmith(rs);
-                break;
-
-            case "s_granary":
-                struct = new Granary(rs);
-                break;
-
-            case "ti_cottage":
-                struct = new Cottage(rs);
-                break;
-            case "s_monument":
-                struct = new Monument(rs);
-                break;
-            case "s_temple":
-                struct = new Temple(rs);
-                break;
-            case "ti_mine":
-                struct = new Mine(rs);
-                break;
-            case "ti_farm":
-                struct = new Farm(rs);
-                break;
-            case "ti_trade_outpost":
-                struct = new TradeOutpost(rs);
-                break;
-            case "ti_fishing_boat":
-                struct = new FishingBoat(rs);
-                break;
-            case "s_townhall":
-                struct = new TownHall(rs);
-                break;
-            case "s_capitol":
-                struct = new Capitol(rs);
-                break;
-            case "s_arrowship":
-                struct = new ArrowShip(rs);
-                break;
-            case "s_arrowtower":
-                struct = new ArrowTower(rs);
-                break;
-            case "s_cannonship":
-                struct = new CannonShip(rs);
-                break;
-            case "s_cannontower":
-                struct = new CannonTower(rs);
-                break;
-            case "s_scoutship":
-                struct = new ScoutShip(rs);
-                break;
-            case "s_scouttower":
-                struct = new ScoutTower(rs);
-                break;
-            case "s_shipyard":
-                struct = new Shipyard(rs);
-                break;
-            case "s_barracks":
-                struct = new Barracks(rs);
-                break;
-            case "ti_windmill":
-                struct = new Windmill(rs);
-                break;
-            case "s_museum":
-                struct = new Museum(rs);
-                break;
-            case "s_market":
-                struct = new Market(rs);
-                break;
-            case "s_stable":
-                struct = new Stable(rs);
-                break;
-            case "ti_pasture":
-                struct = new Pasture(rs);
-                break;
-            case "ti_lighthouse":
-                struct = new Lighthouse(rs);
-                break;
-            case "s_teslatower":
-                struct = new TeslaTower(rs);
-                break;
-            default:
-                struct = new Structure(rs);
-                break;
-        }
+        Structure struct = switch (id) {
+            case "s_bank" -> new Bank(rs);
+            case "s_trommel" -> new Trommel(rs);
+            case "ti_fish_hatchery" -> new FishHatchery(rs);
+            case "ti_trade_ship" -> new TradeShip(rs);
+            case "ti_quarry" -> new Quarry(rs);
+            case "s_mob_grinder" -> new MobGrinder(rs);
+            case "s_store" -> new Store(rs);
+            case "s_stadium" -> new Stadium(rs);
+            case "ti_hospital" -> new Hospital(rs);
+            case "s_grocer" -> new Grocer(rs);
+            case "s_broadcast_tower" -> new BroadcastTower(rs);
+            case "s_library" -> new Library(rs);
+            case "s_university" -> new University(rs);
+            case "s_school" -> new School(rs);
+            case "s_research_lab" -> new ResearchLab(rs);
+            case "s_blacksmith" -> new Blacksmith(rs);
+            case "s_granary" -> new Granary(rs);
+            case "ti_cottage" -> new Cottage(rs);
+            case "s_monument" -> new Monument(rs);
+            case "s_temple" -> new Temple(rs);
+            case "ti_mine" -> new Mine(rs);
+            case "ti_farm" -> new Farm(rs);
+            case "ti_trade_outpost" -> new TradeOutpost(rs);
+            case "ti_fishing_boat" -> new FishingBoat(rs);
+            case "s_townhall" -> new TownHall(rs);
+            case "s_capitol" -> new Capitol(rs);
+            case "s_arrowship" -> new ArrowShip(rs);
+            case "s_arrowtower" -> new ArrowTower(rs);
+            case "s_cannonship" -> new CannonShip(rs);
+            case "s_cannontower" -> new CannonTower(rs);
+            case "s_scoutship" -> new ScoutShip(rs);
+            case "s_scouttower" -> new ScoutTower(rs);
+            case "s_shipyard" -> new Shipyard(rs);
+            case "s_barracks" -> new Barracks(rs);
+            case "ti_windmill" -> new Windmill(rs);
+            case "s_museum" -> new Museum(rs);
+            case "s_market" -> new Market(rs);
+            case "s_stable" -> new Stable(rs);
+            case "ti_pasture" -> new Pasture(rs);
+            case "ti_lighthouse" -> new Lighthouse(rs);
+            case "s_teslatower" -> new TeslaTower(rs);
+            default -> new Structure(rs);
+        };
 
         struct.loadSettings();
         struct.loadComponents();
@@ -228,140 +137,50 @@ public class Structure extends Buildable {
     }
 
     public static Structure newStructure(Location center, String id, Town town) throws CivException {
-        Structure struct;
-
-        switch (id) {
-            case "s_bank":
-                struct = new Bank(center, id, town);
-                break;
-            case "s_trommel":
-                struct = new Trommel(center, id, town);
-                break;
-            case "ti_fish_hatchery":
-                struct = new FishHatchery(center, id, town);
-                break;
-            case "ti_trade_ship":
-                struct = new TradeShip(center, id, town);
-                break;
-            case "ti_quarry":
-                struct = new Quarry(center, id, town);
-                break;
-            case "s_mob_grinder":
-                struct = new MobGrinder(center, id, town);
-                break;
-            case "s_store":
-                struct = new Store(center, id, town);
-                break;
-            case "s_stadium":
-                struct = new Stadium(center, id, town);
-                break;
-            case "ti_hospital":
-                struct = new Hospital(center, id, town);
-                break;
-            case "s_grocer":
-                struct = new Grocer(center, id, town);
-                break;
-            case "s_broadcast_tower":
-                struct = new BroadcastTower(center, id, town);
-                break;
-            case "s_library":
-                struct = new Library(center, id, town);
-                break;
-            case "s_university":
-                struct = new University(center, id, town);
-                break;
-
-            case "s_school":
-                struct = new School(center, id, town);
-                break;
-
-            case "s_research_lab":
-                struct = new ResearchLab(center, id, town);
-                break;
-
-            case "s_blacksmith":
-                struct = new Blacksmith(center, id, town);
-                break;
-
-            case "s_granary":
-                struct = new Granary(center, id, town);
-                break;
-
-            case "ti_cottage":
-                struct = new Cottage(center, id, town);
-                break;
-            case "s_monument":
-                struct = new Monument(center, id, town);
-                break;
-            case "s_temple":
-                struct = new Temple(center, id, town);
-                break;
-            case "ti_mine":
-                struct = new Mine(center, id, town);
-                break;
-            case "ti_farm":
-                struct = new Farm(center, id, town);
-                break;
-            case "ti_trade_outpost":
-                struct = new TradeOutpost(center, id, town);
-                break;
-            case "ti_fishing_boat":
-                struct = new FishingBoat(center, id, town);
-                break;
-            case "s_townhall":
-                struct = new TownHall(center, id, town);
-                break;
-            case "s_capitol":
-                struct = new Capitol(center, id, town);
-                break;
-            case "s_arrowship":
-                struct = new ArrowShip(center, id, town);
-                break;
-            case "s_arrowtower":
-                struct = new ArrowTower(center, id, town);
-                break;
-            case "s_cannonship":
-                struct = new CannonShip(center, id, town);
-                break;
-            case "s_cannontower":
-                struct = new CannonTower(center, id, town);
-                break;
-            case "s_scoutship":
-                struct = new ScoutShip(center, id, town);
-                break;
-            case "s_scouttower":
-                struct = new ScoutTower(center, id, town);
-                break;
-            case "s_shipyard":
-                struct = new Shipyard(center, id, town);
-                break;
-            case "s_barracks":
-                struct = new Barracks(center, id, town);
-                break;
-            case "ti_windmill":
-                struct = new Windmill(center, id, town);
-                break;
-            case "s_museum":
-                struct = new Museum(center, id, town);
-                break;
-            case "s_market":
-                struct = new Market(center, id, town);
-                break;
-            case "s_stable":
-                struct = new Stable(center, id, town);
-                break;
-            case "ti_pasture":
-                struct = new Pasture(center, id, town);
-                break;
-            case "ti_lighthouse":
-                struct = new Lighthouse(center, id, town);
-                break;
-            case "s_teslatower":
-                struct = new TeslaTower(center, id, town);
-                break;
-            default:
-                struct = new Structure(center, id, town);
-        }
+        Structure struct = switch (id) {
+            case "s_bank" -> new Bank(center, id, town);
+            case "s_trommel" -> new Trommel(center, id, town);
+            case "ti_fish_hatchery" -> new FishHatchery(center, id, town);
+            case "ti_trade_ship" -> new TradeShip(center, id, town);
+            case "ti_quarry" -> new Quarry(center, id, town);
+            case "s_mob_grinder" -> new MobGrinder(center, id, town);
+            case "s_store" -> new Store(center, id, town);
+            case "s_stadium" -> new Stadium(center, id, town);
+            case "ti_hospital" -> new Hospital(center, id, town);
+            case "s_grocer" -> new Grocer(center, id, town);
+            case "s_broadcast_tower" -> new BroadcastTower(center, id, town);
+            case "s_library" -> new Library(center, id, town);
+            case "s_university" -> new University(center, id, town);
+            case "s_school" -> new School(center, id, town);
+            case "s_research_lab" -> new ResearchLab(center, id, town);
+            case "s_blacksmith" -> new Blacksmith(center, id, town);
+            case "s_granary" -> new Granary(center, id, town);
+            case "ti_cottage" -> new Cottage(center, id, town);
+            case "s_monument" -> new Monument(center, id, town);
+            case "s_temple" -> new Temple(center, id, town);
+            case "ti_mine" -> new Mine(center, id, town);
+            case "ti_farm" -> new Farm(center, id, town);
+            case "ti_trade_outpost" -> new TradeOutpost(center, id, town);
+            case "ti_fishing_boat" -> new FishingBoat(center, id, town);
+            case "s_townhall" -> new TownHall(center, id, town);
+            case "s_capitol" -> new Capitol(center, id, town);
+            case "s_arrowship" -> new ArrowShip(center, id, town);
+            case "s_arrowtower" -> new ArrowTower(center, id, town);
+            case "s_cannonship" -> new CannonShip(center, id, town);
+            case "s_cannontower" -> new CannonTower(center, id, town);
+            case "s_scoutship" -> new ScoutShip(center, id, town);
+            case "s_scouttower" -> new ScoutTower(center, id, town);
+            case "s_shipyard" -> new Shipyard(center, id, town);
+            case "s_barracks" -> new Barracks(center, id, town);
+            case "ti_windmill" -> new Windmill(center, id, town);
+            case "s_museum" -> new Museum(center, id, town);
+            case "s_market" -> new Market(center, id, town);
+            case "s_stable" -> new Stable(center, id, town);
+            case "ti_pasture" -> new Pasture(center, id, town);
+            case "ti_lighthouse" -> new Lighthouse(center, id, town);
+            case "s_teslatower" -> new TeslaTower(center, id, town);
+            default -> new Structure(center, id, town);
+        };
 
         struct.loadSettings();
         struct.saveComponents();
@@ -452,9 +271,8 @@ public class Structure extends Buildable {
 
         if (this.getTown() != null) {
             /* Release trade goods if we are a trade outpost. */
-            if (this instanceof TradeOutpost) {
+            if (this instanceof TradeOutpost outpost) {
                 //TODO move to trade outpost delete..
-                TradeOutpost outpost = (TradeOutpost) this;
 
                 if (outpost.getGood() != null) {
                     outpost.getGood().setStruct(null);
@@ -479,8 +297,7 @@ public class Structure extends Buildable {
             CivGlobal.removeStructure(this);
             this.getTown().removeStructure(this);
             this.unbindStructureBlocks();
-            if (this instanceof Farm) {
-                Farm farm = (Farm) this;
+            if (this instanceof Farm farm) {
                 farm.removeFarmChunk();
             }
 //            } else {
@@ -509,9 +326,8 @@ public class Structure extends Buildable {
 
         if (this.getTown() != null) {
             /* Release trade goods if we are a trade outpost. */
-            if (this instanceof TradeOutpost) {
+            if (this instanceof TradeOutpost outpost) {
                 //TODO move to trade outpost delete..
-                TradeOutpost outpost = (TradeOutpost) this;
 
                 if (outpost.getGood() != null) {
                     outpost.getGood().setStruct(null);
@@ -610,15 +426,13 @@ public class Structure extends Buildable {
         }
 
         if (this.getOnBuildEvent().equals("build_farm")) {
-            if (this instanceof Farm) {
-                Farm farm = (Farm) this;
+            if (this instanceof Farm farm) {
                 farm.build_farm(centerLoc);
             }
         }
 
         if (this.getOnBuildEvent().equals("build_trade_outpost")) {
-            if (this instanceof TradeOutpost) {
-                TradeOutpost tradeoutpost = (TradeOutpost) this;
+            if (this instanceof TradeOutpost tradeoutpost) {
                 tradeoutpost.build_trade_outpost(centerLoc);
             }
         }

@@ -163,16 +163,20 @@ public class PlotPermissions {
         }
 
         switch (type) {
-            case BUILD:
+            case BUILD -> {
                 return checkPermissionNode(this.build, resident);
-            case DESTROY:
+            }
+            case DESTROY -> {
                 return checkPermissionNode(this.destroy, resident);
-            case INTERACT:
+            }
+            case INTERACT -> {
                 return checkPermissionNode(this.interact, resident);
-            case ITEMUSE:
+            }
+            case ITEMUSE -> {
                 return checkPermissionNode(this.itemUse, resident);
-            default:
-                break;
+            }
+            default -> {
+            }
         }
 
         return false;

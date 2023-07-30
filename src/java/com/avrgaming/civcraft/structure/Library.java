@@ -50,71 +50,39 @@ public class Library extends Structure {
     private final NonMemberFeeComponent nonMemberFeeComponent;
 
     public static Enchantment getEnchantFromString(String name) {
-        switch (name.toLowerCase()) {
-            case "protection":
-                return Enchantment.PROTECTION_ENVIRONMENTAL;
-            case "fire_protection":
-                return Enchantment.PROTECTION_FIRE;
-            case "feather_falling":
-                return Enchantment.PROTECTION_FALL;
-            case "blast_protection":
-                return Enchantment.PROTECTION_EXPLOSIONS;
-            case "projectile_protection":
-                return Enchantment.PROTECTION_PROJECTILE;
-            case "respiration":
-                return Enchantment.OXYGEN;
-            case "aqua_affinity":
-                return Enchantment.WATER_WORKER;
-            case "sharpness":
-                return Enchantment.DAMAGE_ALL;
-            case "smite":
-                return Enchantment.DAMAGE_UNDEAD;
-            case "bane_of_arthropods":
-                return Enchantment.DAMAGE_ARTHROPODS;
-            case "knockback":
-                return Enchantment.KNOCKBACK;
-            case "fire_aspect":
-                return Enchantment.FIRE_ASPECT;
-            case "looting":
-                return Enchantment.LOOT_BONUS_MOBS;
-            case "efficiency":
-                return Enchantment.DIG_SPEED;
-            case "silk_touch":
-                return Enchantment.SILK_TOUCH;
-            case "unbreaking":
-                return Enchantment.DURABILITY;
-            case "fortune":
-                return Enchantment.LOOT_BONUS_BLOCKS;
-            case "power":
-                return Enchantment.ARROW_DAMAGE;
-            case "punch":
-                return Enchantment.ARROW_KNOCKBACK;
-            case "flame":
-                return Enchantment.ARROW_FIRE;
-            case "infinity":
-                return Enchantment.ARROW_INFINITE;
-            case "mending":
-                return Enchantment.MENDING;
-            case "lure":
-                return Enchantment.LURE;
-            case "frost_walker":
-                return Enchantment.FROST_WALKER;
-            case "depth_strider":
-                return Enchantment.DEPTH_STRIDER;
-            case "curse_of_vanishing":
-                return Enchantment.VANISHING_CURSE;
-            case "curse_of_binding":
-                return Enchantment.BINDING_CURSE;
-            case "thorns":
-                return Enchantment.THORNS;
-            case "sweeping_edge":
-                return Enchantment.SWEEPING_EDGE;
-            case "luck_of_the_sea":
-                return Enchantment.LUCK;
-            default:
-                return null;
-
-        }
+        return switch (name.toLowerCase()) {
+            case "protection" -> Enchantment.PROTECTION_ENVIRONMENTAL;
+            case "fire_protection" -> Enchantment.PROTECTION_FIRE;
+            case "feather_falling" -> Enchantment.PROTECTION_FALL;
+            case "blast_protection" -> Enchantment.PROTECTION_EXPLOSIONS;
+            case "projectile_protection" -> Enchantment.PROTECTION_PROJECTILE;
+            case "respiration" -> Enchantment.OXYGEN;
+            case "aqua_affinity" -> Enchantment.WATER_WORKER;
+            case "sharpness" -> Enchantment.DAMAGE_ALL;
+            case "smite" -> Enchantment.DAMAGE_UNDEAD;
+            case "bane_of_arthropods" -> Enchantment.DAMAGE_ARTHROPODS;
+            case "knockback" -> Enchantment.KNOCKBACK;
+            case "fire_aspect" -> Enchantment.FIRE_ASPECT;
+            case "looting" -> Enchantment.LOOT_BONUS_MOBS;
+            case "efficiency" -> Enchantment.DIG_SPEED;
+            case "silk_touch" -> Enchantment.SILK_TOUCH;
+            case "unbreaking" -> Enchantment.DURABILITY;
+            case "fortune" -> Enchantment.LOOT_BONUS_BLOCKS;
+            case "power" -> Enchantment.ARROW_DAMAGE;
+            case "punch" -> Enchantment.ARROW_KNOCKBACK;
+            case "flame" -> Enchantment.ARROW_FIRE;
+            case "infinity" -> Enchantment.ARROW_INFINITE;
+            case "mending" -> Enchantment.MENDING;
+            case "lure" -> Enchantment.LURE;
+            case "frost_walker" -> Enchantment.FROST_WALKER;
+            case "depth_strider" -> Enchantment.DEPTH_STRIDER;
+            case "curse_of_vanishing" -> Enchantment.VANISHING_CURSE;
+            case "curse_of_binding" -> Enchantment.BINDING_CURSE;
+            case "thorns" -> Enchantment.THORNS;
+            case "sweeping_edge" -> Enchantment.SWEEPING_EDGE;
+            case "luck_of_the_sea" -> Enchantment.LUCK;
+            default -> null;
+        };
     }
 
     public double getNonResidentFee() {

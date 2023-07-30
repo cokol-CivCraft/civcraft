@@ -68,24 +68,11 @@ public class WarListener implements Listener {
             return;
         }
         switch (event.getBlock().getType()) {
-            case DIRT:
-            case GRASS:
-            case SAND:
-            case GRAVEL:
-            case TORCH:
-            case REDSTONE_TORCH_OFF:
-            case REDSTONE_TORCH_ON:
-            case REDSTONE:
-            case TNT:
-            case LADDER:
-            case VINE:
-            case IRON_BLOCK:
-            case GOLD_BLOCK:
-            case DIAMOND_BLOCK:
-            case EMERALD_BLOCK:
+            case DIRT, GRASS, SAND, GRAVEL, TORCH, REDSTONE_TORCH_OFF, REDSTONE_TORCH_ON, REDSTONE, TNT, LADDER, VINE, IRON_BLOCK, GOLD_BLOCK, DIAMOND_BLOCK, EMERALD_BLOCK -> {
                 return;
-            default:
-                break;
+            }
+            default -> {
+            }
         }
         if (!event.getBlock().getType().isSolid()) {
             return;
@@ -117,25 +104,14 @@ public class WarListener implements Listener {
             return;
         }
         switch (event.getBlock().getType()) {
-            case DIRT:
-            case GRASS:
-            case SAND:
-            case GRAVEL:
-            case TORCH:
-            case REDSTONE_TORCH_OFF:
-            case REDSTONE_TORCH_ON:
-            case REDSTONE:
-            case TNT:
-            case LADDER:
-            case VINE:
+            case DIRT, GRASS, SAND, GRAVEL, TORCH, REDSTONE_TORCH_OFF, REDSTONE_TORCH_ON, REDSTONE, TNT, LADDER, VINE -> {
                 if (event.getBlock().getLocation().subtract(0, 1, 0).getBlock().getType() != Material.AIR) {
                     return;
                 }
-
                 event.getBlock().getWorld().spawnFallingBlock(event.getBlock().getLocation(), event.getBlock().getType(), event.getBlock().getData());
                 event.getBlock().setType(Material.AIR);
-
                 return;
+            }
         }
 
         if (event.getBlock().getType().equals(Material.IRON_BLOCK) ||
@@ -242,8 +218,7 @@ public class WarListener implements Listener {
 
                                         structuresHit.add(sb.getOwner());
 
-                                        if (sb.getOwner() instanceof TownHall) {
-                                            TownHall th = (TownHall) sb.getOwner();
+                                        if (sb.getOwner() instanceof TownHall th) {
 
                                             if (th.getHitpoints() == 0) {
                                                 explodeBlock(b);

@@ -98,21 +98,21 @@ public class Capitol extends TownHall {
         boolean hasPermission = (resident.getTown().isMayor(resident)) || (resident.getTown().getAssistantGroup().hasMember(resident)) || (resident.getCiv().getLeaderGroup().hasMember(resident)) || (resident.getCiv().getAdviserGroup().hasMember(resident));
 
         switch (sign.getAction()) {
-            case "prev":
+            case "prev" -> {
                 if (hasPermission) {
                     changeIndex((index - 1));
                 } else {
                     CivMessage.sendError(resident, CivSettings.localize.localizedString("capitol_Sign_noPermission"));
                 }
-                break;
-            case "next":
+            }
+            case "next" -> {
                 if (hasPermission) {
                     changeIndex((index + 1));
                 } else {
                     CivMessage.sendError(resident, CivSettings.localize.localizedString("capitol_Sign_noPermission"));
                 }
-                break;
-            case "respawn":
+            }
+            case "respawn" -> {
                 ArrayList<RespawnLocationHolder> respawnables = this.getTown().getCiv().getAvailableRespawnables();
                 if (index >= respawnables.size()) {
                     index = 0;
@@ -120,11 +120,9 @@ public class Capitol extends TownHall {
                     CivMessage.sendError(resident, CivSettings.localize.localizedString("capitol_cannotRespawn"));
                     return;
                 }
-
                 RespawnLocationHolder holder = getSelectedHolder();
                 int respawnTimeSeconds = this.getRespawnTime();
                 Date now = new Date();
-
                 if (resident.getLastKilledTime() != null) {
                     long secondsLeft = (resident.getLastKilledTime().getTime() + (respawnTimeSeconds * 1000L)) - now.getTime();
                     if (secondsLeft > 0) {
@@ -133,7 +131,6 @@ public class Capitol extends TownHall {
                         return;
                     }
                 }
-
                 BlockCoord revive = holder.getRandomRevivePoint();
                 Location loc;
                 if (revive == null) {
@@ -141,10 +138,9 @@ public class Capitol extends TownHall {
                 } else {
                     loc = revive.getLocation();
                 }
-
                 CivMessage.send(player, ChatColor.GREEN + CivSettings.localize.localizedString("capitol_respawningAlert"));
                 player.teleport(loc);
-                break;
+            }
         }
     }
 
@@ -154,9 +150,8 @@ public class Capitol extends TownHall {
         StructureSign structSign;
 
         switch (commandBlock.command) {
-            case "/towerfire":
+            case "/towerfire" -> {
                 Integer towerID = Integer.valueOf(commandBlock.keyvalues.get("id"));
-
                 if (!arrowTowers.containsKey(towerID)) {
 
                     ProjectileArrowComponent arrowTower = new ProjectileArrowComponent(this, absCoord.getLocation());
@@ -165,10 +160,9 @@ public class Capitol extends TownHall {
 
                     arrowTowers.put(towerID, arrowTower);
                 }
-                break;
-            case "/next":
+            }
+            case "/next" -> {
                 commandBlock.setTo(absCoord);
-
                 structSign = new StructureSign(absCoord, this);
                 structSign.setText("\n" + ChatColor.BOLD + ChatColor.UNDERLINE + CivSettings.localize.localizedString("capitol_sign_nextLocation"));
                 structSign.setDirection(commandBlock.getData());
@@ -176,11 +170,9 @@ public class Capitol extends TownHall {
                 structSign.update();
                 this.addStructureSign(structSign);
                 CivGlobal.addStructureSign(structSign);
-
-                break;
-            case "/prev":
+            }
+            case "/prev" -> {
                 commandBlock.setTo(absCoord);
-
                 structSign = new StructureSign(absCoord, this);
                 structSign.setText("\n" + ChatColor.BOLD + ChatColor.UNDERLINE + CivSettings.localize.localizedString("capitol_sign_previousLocation"));
                 structSign.setDirection(commandBlock.getData());
@@ -188,11 +180,9 @@ public class Capitol extends TownHall {
                 structSign.update();
                 this.addStructureSign(structSign);
                 CivGlobal.addStructureSign(structSign);
-
-                break;
-            case "/respawndata":
+            }
+            case "/respawndata" -> {
                 commandBlock.setTo(absCoord);
-
                 structSign = new StructureSign(absCoord, this);
                 structSign.setText(CivSettings.localize.localizedString("capitol_sign_Capitol"));
                 structSign.setDirection(commandBlock.getData());
@@ -200,10 +190,9 @@ public class Capitol extends TownHall {
                 structSign.update();
                 this.addStructureSign(structSign);
                 CivGlobal.addStructureSign(structSign);
-
                 this.respawnSign = structSign;
                 changeIndex(index);
-                break;
+            }
         }
 
     }

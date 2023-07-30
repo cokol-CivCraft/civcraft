@@ -77,8 +77,7 @@ public class AttributeBiomeRadiusPerLevel extends AttributeBiomeBase {
 
         int mineLevel = -1;
         for (Component comp : this.getBuildable().attachedComponents) {
-            if (comp instanceof ConsumeLevelComponent) {
-                ConsumeLevelComponent consumeComp = (ConsumeLevelComponent) comp;
+            if (comp instanceof ConsumeLevelComponent consumeComp) {
                 mineLevel = consumeComp.getLevel();
             }
         }

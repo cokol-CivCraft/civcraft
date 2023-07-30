@@ -107,8 +107,7 @@ public class CannonProjectile {
 
                                     structuresHit.add(sb.getOwner());
 
-                                    if (sb.getOwner() instanceof TownHall) {
-                                        TownHall th = (TownHall) sb.getOwner();
+                                    if (sb.getOwner() instanceof TownHall th) {
 
                                         if (th.getHitpoints() == 0) {
                                             explodeBlock(b);

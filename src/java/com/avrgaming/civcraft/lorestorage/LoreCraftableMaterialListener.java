@@ -29,8 +29,7 @@ public class LoreCraftableMaterialListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOW)
     public void OnCraftItemEvent(CraftItemEvent event) {
-        if (event.getWhoClicked() instanceof Player) {
-            Player player = (Player) event.getWhoClicked();
+        if (event.getWhoClicked() instanceof Player player) {
 
             LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(event.getInventory().getResult());
             if (craftMat == null) {

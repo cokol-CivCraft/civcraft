@@ -285,15 +285,9 @@ public class Stable extends Structure {
         }
 
         switch (sign.getType()) {
-            case "prev":
-                signSelection.processPrev();
-                break;
-            case "next":
-                signSelection.processNext();
-                break;
-            case "item":
-                signSelection.processAction(player);
-                break;
+            case "prev" -> signSelection.processPrev();
+            case "next" -> signSelection.processNext();
+            case "item" -> signSelection.processAction(player);
         }
     }
 
@@ -311,7 +305,7 @@ public class Stable extends Structure {
         SignSelectionComponent signComp;
 
         switch (sb.command) {
-            case "/prev":
+            case "/prev" -> {
                 sb.setTo(absCoord);
                 structSign = new StructureSign(absCoord, this);
                 structSign.setText("\n" + ChatColor.BOLD + ChatColor.UNDERLINE + CivSettings.localize.localizedString("stable_sign_previousUnit"));
@@ -321,20 +315,17 @@ public class Stable extends Structure {
                 structSign.update();
                 this.addStructureSign(structSign);
                 CivGlobal.addStructureSign(structSign);
-                break;
-            case "/item":
+            }
+            case "/item" -> {
                 sb.setTo(absCoord);
-
                 structSign = new StructureSign(absCoord, this);
                 structSign.setText("");
                 structSign.setDirection(sb.getData());
                 structSign.setAction(sb.keyvalues.get("id"));
                 structSign.setType("item");
                 structSign.update();
-
                 this.addStructureSign(structSign);
                 CivGlobal.addStructureSign(structSign);
-
                 selectorIndex = Integer.parseInt(sb.keyvalues.get("id"));
                 signComp = signSelectors.get(selectorIndex);
                 if (signComp != null) {
@@ -343,11 +334,9 @@ public class Stable extends Structure {
                 } else {
                     CivLog.warning("No sign selector found for id:" + selectorIndex);
                 }
-
-                break;
-            case "/next":
+            }
+            case "/next" -> {
                 sb.setTo(absCoord);
-
                 structSign = new StructureSign(absCoord, this);
                 structSign.setText("\n" + ChatColor.BOLD + ChatColor.UNDERLINE + CivSettings.localize.localizedString("stable_sign_nextUnit"));
                 structSign.setDirection(sb.getData());
@@ -356,14 +345,9 @@ public class Stable extends Structure {
                 structSign.update();
                 this.addStructureSign(structSign);
                 CivGlobal.addStructureSign(structSign);
-
-                break;
-            case "/horsespawn":
-                this.horseSpawnCoord = absCoord;
-                break;
-            case "/mulespawn":
-                this.muleSpawnCoord = absCoord;
-                break;
+            }
+            case "/horsespawn" -> this.horseSpawnCoord = absCoord;
+            case "/mulespawn" -> this.muleSpawnCoord = absCoord;
         }
     }
 

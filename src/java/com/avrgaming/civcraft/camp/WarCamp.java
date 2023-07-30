@@ -176,23 +176,19 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
             BlockCoord absCoord = new BlockCoord(corner.getBlock().getRelative(relativeCoord.getX(), relativeCoord.getY(), relativeCoord.getZ()));
 
             switch (sb.command) {
-                case "/respawn":
+                case "/respawn" -> {
                     this.respawnPoints.add(absCoord);
                     BlockCoord coord = new BlockCoord(absCoord);
                     Block block1 = coord.getBlock();
                     block1.setType(Material.AIR);
                     this.addStructureBlock(new BlockCoord(absCoord), false);
-
                     coord = new BlockCoord(absCoord);
                     coord.setY(absCoord.getY() + 1);
                     Block block = coord.getBlock();
                     block.setType(Material.AIR);
                     this.addStructureBlock(coord, false);
-
-                    break;
-                case "/control":
-                    this.createControlPoint(absCoord);
-                    break;
+                }
+                case "/control" -> this.createControlPoint(absCoord);
             }
         }
     }

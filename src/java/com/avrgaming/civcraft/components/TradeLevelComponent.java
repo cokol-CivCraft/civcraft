@@ -240,19 +240,16 @@ public class TradeLevelComponent extends Component {
         String s;
         ArrayList<ItemStack> newItems = new ArrayList<>();
         switch (mobType) {
-            case "A":
-                s = "aggressive";
-                break;
-            case "P":
-                s = "peaceful";
-                break;
-            default:
+            case "A" -> s = "aggressive";
+            case "P" -> s = "peaceful";
+            default -> {
                 return null;
+            }
         }
         switch (tier) {
-            case 1:
+            case 1 -> {
                 switch (s) {
-                    case "peaceful":
+                    case "peaceful" -> {
                         if (isWeapon) {
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_hunting_bow")));
                         } else {
@@ -261,8 +258,8 @@ public class TradeLevelComponent extends Component {
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_leather_helmet")));
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_leather_boots")));
                         }
-                        break;
-                    case "aggressive":
+                    }
+                    case "aggressive" -> {
                         if (isWeapon) {
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_iron_sword")));
                         } else {
@@ -271,12 +268,12 @@ public class TradeLevelComponent extends Component {
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_iron_helmet")));
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_iron_boots")));
                         }
-                        break;
+                    }
                 }
-                break;
-            case 2:
+            }
+            case 2 -> {
                 switch (s) {
-                    case "peaceful":
+                    case "peaceful" -> {
                         if (isWeapon) {
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_recurve_bow")));
                         } else {
@@ -285,8 +282,8 @@ public class TradeLevelComponent extends Component {
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_refined_leather_helmet")));
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_refined_leather_boots")));
                         }
-                        break;
-                    case "aggressive":
+                    }
+                    case "aggressive" -> {
                         if (isWeapon) {
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_steel_sword")));
                         } else {
@@ -295,12 +292,12 @@ public class TradeLevelComponent extends Component {
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_steel_helmet")));
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_steel_boots")));
                         }
-                        break;
+                    }
                 }
-                break;
-            case 3:
+            }
+            case 3 -> {
                 switch (s) {
-                    case "peaceful":
+                    case "peaceful" -> {
                         if (isWeapon) {
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_longbow")));
                         } else {
@@ -309,8 +306,8 @@ public class TradeLevelComponent extends Component {
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_hardened_leather_helmet")));
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_hardened_leather_boots")));
                         }
-                        break;
-                    case "aggressive":
+                    }
+                    case "aggressive" -> {
                         if (isWeapon) {
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_carbide_steel_sword")));
                         } else {
@@ -319,12 +316,12 @@ public class TradeLevelComponent extends Component {
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_carbide_steel_helmet")));
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_carbide_steel_boots")));
                         }
-                        break;
+                    }
                 }
-                break;
-            case 4:
+            }
+            case 4 -> {
                 switch (s) {
-                    case "peaceful":
+                    case "peaceful" -> {
                         if (isWeapon) {
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_marksmen_bow")));
                         } else {
@@ -333,8 +330,8 @@ public class TradeLevelComponent extends Component {
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_helmet")));
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_boots")));
                         }
-                        break;
-                    case "aggressive":
+                    }
+                    case "aggressive" -> {
                         if (isWeapon) {
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_sword")));
                         } else {
@@ -343,8 +340,9 @@ public class TradeLevelComponent extends Component {
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_helmet")));
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_boots")));
                         }
-                        break;
+                    }
                 }
+            }
         }
         return newItems;
     }
@@ -358,58 +356,58 @@ public class TradeLevelComponent extends Component {
             int rand1 = rand.nextInt(MaxRand);
             if (rand1 < (int) (HUGEPACK_CHANCE)) {
                 switch (getEggTier(stack)) {
-                    case 4:
+                    case 4 -> {
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_4"), 2));
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_4"), 2));
                         newItems.addAll(getSetByTier(getEggTier(stack), getEggMob(stack), false));
-                        break;
-                    case 3:
+                    }
+                    case 3 -> {
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_3"), 2));
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_3"), 2));
                         newItems.addAll(getSetByTier(getEggTier(stack), getEggMob(stack), false));
-                        break;
-                    case 2:
+                    }
+                    case 2 -> {
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_2"), 2));
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_2"), 2));
                         newItems.addAll(getSetByTier(getEggTier(stack), getEggMob(stack), false));
-                        break;
-                    case 1:
+                    }
+                    case 1 -> {
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_1"), 2));
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_1"), 2));
                         newItems.addAll(getSetByTier(getEggTier(stack), getEggMob(stack), false));
-                        break;
-                    default:
+                    }
+                    default -> {
                         int emeraldRand = (rand.nextInt(4)) + 1;
                         if (emeraldRand >= 3) {
                             newItems.add(new ItemStack(Material.SULPHUR, 3, (short) 0));
                         } else {
                             newItems.add(new ItemStack(Material.EMERALD, 1, (short) 0));
                         }
-                        break;
+                    }
                 }
             } else if (rand1 < (int) (BIGPACK_CHANCE)) {
                 switch (getEggTier(stack)) {
-                    case 4:
+                    case 4 -> {
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_4")));
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_4")));
                         newItems.addAll(getSetByTier(getEggTier(stack), getEggMob(stack), true));
-                        break;
-                    case 3:
+                    }
+                    case 3 -> {
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_3")));
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_3")));
                         newItems.addAll(getSetByTier(getEggTier(stack), getEggMob(stack), true));
-                        break;
-                    case 2:
+                    }
+                    case 2 -> {
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_2")));
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_2")));
                         newItems.addAll(getSetByTier(getEggTier(stack), getEggMob(stack), true));
-                        break;
-                    case 1:
+                    }
+                    case 1 -> {
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_1")));
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_1")));
                         newItems.addAll(getSetByTier(getEggTier(stack), getEggMob(stack), true));
-                        break;
-                    default:
+                    }
+                    default -> {
                         int diamondRand = (rand.nextInt(4)) + 1;
                         if (diamondRand >= 3) {
                             newItems.add(new ItemStack(Material.SULPHUR, 2, (short) 0));
@@ -418,64 +416,63 @@ public class TradeLevelComponent extends Component {
                         }
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_fragment_3"), (rand.nextInt(3)) + 1));
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_fragment_3"), (rand.nextInt(3)) + 1));
-                        break;
+                    }
                 }
             } else if (rand1 < (int) (MEDIUMPACK_CHANCE)) {
                 switch (getEggTier(stack)) {
-                    case 4:
+                    case 4 -> {
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_4")));
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_4")));
-                        break;
-                    case 3:
+                    }
+                    case 3 -> {
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_3")));
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_3")));
-                        break;
-                    case 2:
+                    }
+                    case 2 -> {
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_2")));
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_2")));
-                        break;
-                    case 1:
+                    }
+                    case 1 -> {
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_1")));
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_1")));
-                        break;
-                    default:
+                    }
+                    default -> {
                         int goldRand = (rand.nextInt(4)) + 1;
                         if (goldRand >= 3) {
                             newItems.add(new ItemStack(Material.SULPHUR, 2, (short) 0));
                         } else {
                             newItems.add(new ItemStack(Material.GOLD_INGOT, 1, (short) 0));
                         }
-
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_fragment_2"), (rand.nextInt(3)) + 1));
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_fragment_2"), (rand.nextInt(3)) + 1));
-                        break;
+                    }
                 }
             } else if (rand1 < (int) (PACK_CHANCE)) {
                 switch (getEggTier(stack)) {
-                    case 4:
+                    case 4 -> {
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_fragment_4")));
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_fragment_4")));
-                        break;
-                    case 3:
+                    }
+                    case 3 -> {
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_fragment_3")));
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_fragment_3")));
-                        break;
-                    case 2:
+                    }
+                    case 2 -> {
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_fragment_2")));
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_fragment_2")));
-                        break;
-                    case 1:
+                    }
+                    case 1 -> {
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_fragment_1")));
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_fragment_1")));
-                        break;
-                    default:
+                    }
+                    default -> {
                         int ironRand = (rand.nextInt(4)) + 1;
                         if (ironRand >= 3) {
                             newItems.add(new ItemStack(Material.SULPHUR, 1, (short) 0));
                         } else {
                             newItems.add(new ItemStack(Material.IRON_INGOT, 1, (short) 0));
                         }
-                        break;
+                    }
                 }
             }
         }

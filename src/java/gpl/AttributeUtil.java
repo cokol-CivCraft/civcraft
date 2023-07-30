@@ -516,8 +516,7 @@ public class AttributeUtil {
 
             Object obj = compound.get(keyObj);
 
-            if (obj instanceof NBTTagCompound) {
-                NBTTagCompound enhCompound = (NBTTagCompound) obj;
+            if (obj instanceof NBTTagCompound enhCompound) {
                 String name = enhCompound.getString("name").replace("\"", "");
 
                 LoreEnhancement enh = LoreEnhancement.enhancements.get(name);

@@ -110,18 +110,10 @@ public class Market extends Structure {
         }
 
         switch (sign.getAction().toLowerCase()) {
-            case "sellbig":
-                processSell(player, resident, BULK_AMOUNT, item);
-                break;
-            case "sell":
-                processSell(player, resident, 1, item);
-                break;
-            case "buy":
-                processBuy(player, resident, 1, item);
-                break;
-            case "buybig":
-                processBuy(player, resident, BULK_AMOUNT, item);
-                break;
+            case "sellbig" -> processSell(player, resident, BULK_AMOUNT, item);
+            case "sell" -> processSell(player, resident, 1, item);
+            case "buy" -> processBuy(player, resident, 1, item);
+            case "buybig" -> processBuy(player, resident, BULK_AMOUNT, item);
         }
 
         Market.globalSignUpdate(id);
@@ -129,23 +121,16 @@ public class Market extends Structure {
 
     public void setSignText(StructureSign sign, ConfigMarketItem item) throws ClassCastException {
 
-        String itemColor;
-        switch (item.lastaction) {
-            case BUY:
-                itemColor = String.valueOf(ChatColor.GREEN);
-                break;
-            case SELL:
-                itemColor = String.valueOf(ChatColor.RED);
-                break;
-            default:
-                itemColor = String.valueOf(ChatColor.BLACK);
-                break;
-        }
+        String itemColor = switch (item.lastaction) {
+            case BUY -> String.valueOf(ChatColor.GREEN);
+            case SELL -> String.valueOf(ChatColor.RED);
+            default -> String.valueOf(ChatColor.BLACK);
+        };
 
         try {
             Sign s;
             switch (sign.getAction().toLowerCase()) {
-                case "sellbig":
+                case "sellbig" -> {
                     if (sign.getCoord().getBlock().getState() instanceof Sign) {
                         s = (Sign) sign.getCoord().getBlock().getState();
                         s.setLine(0, ChatColor.BOLD + CivSettings.localize.localizedString("market_sign_sellBulk"));
@@ -154,8 +139,8 @@ public class Market extends Structure {
                         s.setLine(3, CivSettings.localize.localizedString("var_market_sign_amount", BULK_AMOUNT));
                         s.update();
                     }
-                    break;
-                case "sell":
+                }
+                case "sell" -> {
                     if (sign.getCoord().getBlock().getState() instanceof Sign) {
                         s = (Sign) sign.getCoord().getBlock().getState();
                         s.setLine(0, ChatColor.BOLD + CivSettings.localize.localizedString("market_sign_sell"));
@@ -164,8 +149,8 @@ public class Market extends Structure {
                         s.setLine(3, CivSettings.localize.localizedString("var_market_sign_amount", 1));
                         s.update();
                     }
-                    break;
-                case "buy":
+                }
+                case "buy" -> {
                     if (sign.getCoord().getBlock().getState() instanceof Sign) {
                         s = (Sign) sign.getCoord().getBlock().getState();
                         s.setLine(0, ChatColor.BOLD + CivSettings.localize.localizedString("market_sign_buy"));
@@ -174,8 +159,8 @@ public class Market extends Structure {
                         s.setLine(3, CivSettings.localize.localizedString("var_market_sign_amount", 1));
                         s.update();
                     }
-                    break;
-                case "buybig":
+                }
+                case "buybig" -> {
                     if (sign.getCoord().getBlock().getState() instanceof Sign) {
                         s = (Sign) sign.getCoord().getBlock().getState();
                         s.setLine(0, ChatColor.BOLD + CivSettings.localize.localizedString("market_sign_buyBulk"));
@@ -184,7 +169,7 @@ public class Market extends Structure {
                         s.setLine(3, CivSettings.localize.localizedString("var_market_sign_amount", BULK_AMOUNT));
                         s.update();
                     }
-                    break;
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -225,7 +210,7 @@ public class Market extends Structure {
         Integer id;
         ConfigMarketItem item;
         switch (commandBlock.command.toLowerCase().trim()) {
-            case "/sellbig":
+            case "/sellbig" -> {
                 id = Integer.valueOf(commandBlock.keyvalues.get("id"));
                 item = CivSettings.marketItems.get(id);
                 if (item != null) {
@@ -233,23 +218,22 @@ public class Market extends Structure {
                         buildSign("sellbig", id, absCoord, item, commandBlock);
                     }
                 }
-                break;
-            case "/sell":
+            }
+            case "/sell" -> {
                 id = Integer.valueOf(commandBlock.keyvalues.get("id"));
-
                 item = CivSettings.marketItems.get(id);
                 if (item != null) {
                     buildSign("sell", id, absCoord, item, commandBlock);
                 }
-                break;
-            case "/buy":
+            }
+            case "/buy" -> {
                 id = Integer.valueOf(commandBlock.keyvalues.get("id"));
                 item = CivSettings.marketItems.get(id);
                 if (item != null) {
                     buildSign("buy", id, absCoord, item, commandBlock);
                 }
-                break;
-            case "/buybig":
+            }
+            case "/buybig" -> {
                 id = Integer.valueOf(commandBlock.keyvalues.get("id"));
                 item = CivSettings.marketItems.get(id);
                 if (item != null) {
@@ -257,7 +241,7 @@ public class Market extends Structure {
                         buildSign("buybig", id, absCoord, item, commandBlock);
                     }
                 }
-                break;
+            }
         }
     }
 

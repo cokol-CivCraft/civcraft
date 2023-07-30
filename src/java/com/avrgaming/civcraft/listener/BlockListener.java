@@ -282,7 +282,7 @@ public class BlockListener implements Listener {
             }
         }
 
-        if (!(event.getEntity() instanceof Player)) {
+        if (!(event.getEntity() instanceof Player defender)) {
             return;
         }
 
@@ -290,8 +290,6 @@ public class BlockListener implements Listener {
         if (!CivSettings.playerEntityWeapons.contains(event.getDamager().getType())) {
             return;
         }
-
-        Player defender = (Player) event.getEntity();
 
         coord.setFromLocation(event.getEntity().getLocation());
         TownChunk tc = CivGlobal.getTownChunk(coord);
@@ -316,21 +314,19 @@ public class BlockListener implements Listener {
             allowPVP = true;
         } else {
             switch (playersCanPVPHere(attacker, defender, tc)) {
-                case ALLOWED:
-                    allowPVP = true;
-                    break;
-                case NOT_AT_WAR:
+                case ALLOWED -> allowPVP = true;
+                case NOT_AT_WAR -> {
                     allowPVP = false;
                     denyMessage = CivSettings.localize.localizedString("var_pvpError1", defender.getName());
-                    break;
-                case NEUTRAL_IN_WARZONE:
+                }
+                case NEUTRAL_IN_WARZONE -> {
                     allowPVP = false;
                     denyMessage = CivSettings.localize.localizedString("var_pvpError2", defender.getName());
-                    break;
-                case NON_PVP_ZONE:
+                }
+                case NON_PVP_ZONE -> {
                     allowPVP = false;
                     denyMessage = CivSettings.localize.localizedString("var_pvpError3", defender.getName());
-                    break;
+                }
             }
         }
 
@@ -654,58 +650,31 @@ public class BlockListener implements Listener {
         MaterialData md = b.getState().getData();
         byte by = b.getData();
         switch (b.getType()) {
-            case STEP:
-            case WOOD_STEP:
-            case STONE_SLAB2:
+            case STEP, WOOD_STEP, STONE_SLAB2 -> {
                 b.setType(Material.PURPUR_SLAB);
                 b.setData(by);
                 b.getState().setData(md);
-                break;
-            case DOUBLE_STEP:
-            case WOOD_DOUBLE_STEP:
-            case DOUBLE_STONE_SLAB2:
+            }
+            case DOUBLE_STEP, WOOD_DOUBLE_STEP, DOUBLE_STONE_SLAB2 -> {
                 b.setType(Material.PURPUR_DOUBLE_SLAB);
                 b.setData(by);
                 b.getState().setData(md);
-                break;
-            case SANDSTONE:
-            case RED_SANDSTONE:
-            case ICE:
-            case PACKED_ICE:
-            case SNOW_BLOCK:
-            case GRASS:
-            case DIRT:
-            case NETHERRACK:
-            case GRAVEL:
-            case SAND:
-            case SOUL_SAND:
+            }
+            case SANDSTONE, RED_SANDSTONE, ICE, PACKED_ICE, SNOW_BLOCK, GRASS, DIRT, NETHERRACK, GRAVEL, SAND, SOUL_SAND -> {
                 b.setType(Material.BEDROCK);
                 b.setData(by);
                 b.getState().setData(md);
-                break;
-            case LEAVES:
-            case LEAVES_2:
+            }
+            case LEAVES, LEAVES_2 -> {
                 b.setType(Material.NETHER_WART_BLOCK);
                 b.setData(by);
                 b.getState().setData(md);
-                break;
-            case ACACIA_STAIRS:
-            case BIRCH_WOOD_STAIRS:
-            case SANDSTONE_STAIRS:
-            case QUARTZ_STAIRS:
-            case WOOD_STAIRS:
-            case SPRUCE_WOOD_STAIRS:
-            case DARK_OAK_STAIRS:
-            case RED_SANDSTONE_STAIRS:
-            case JUNGLE_WOOD_STAIRS:
-            case PURPUR_STAIRS:
-            case BRICK_STAIRS:
-            case SMOOTH_STAIRS:
-            case NETHER_BRICK_STAIRS:
+            }
+            case ACACIA_STAIRS, BIRCH_WOOD_STAIRS, SANDSTONE_STAIRS, QUARTZ_STAIRS, WOOD_STAIRS, SPRUCE_WOOD_STAIRS, DARK_OAK_STAIRS, RED_SANDSTONE_STAIRS, JUNGLE_WOOD_STAIRS, PURPUR_STAIRS, BRICK_STAIRS, SMOOTH_STAIRS, NETHER_BRICK_STAIRS -> {
                 b.setType(Material.COBBLESTONE_STAIRS);
                 b.setData(by);
                 b.getState().setData(md);
-                break;
+            }
         }
         b.setType(m);
         b.setData(by);
@@ -1105,22 +1074,11 @@ public class BlockListener implements Listener {
                 if (tc.getTown().getCiv().getDiplomacyManager().atWarWith(resident.getTown().getCiv())) {
 
                     switch (event.getClickedBlock().getType()) {
-                        case WOODEN_DOOR:
-                        case IRON_DOOR:
-                        case SPRUCE_DOOR:
-                        case BIRCH_DOOR:
-                        case JUNGLE_DOOR:
-                        case ACACIA_DOOR:
-                        case DARK_OAK_DOOR:
-                        case ACACIA_FENCE_GATE:
-                        case BIRCH_FENCE_GATE:
-                        case DARK_OAK_FENCE_GATE:
-                        case FENCE_GATE:
-                        case SPRUCE_FENCE_GATE:
-                        case JUNGLE_FENCE_GATE:
+                        case WOODEN_DOOR, IRON_DOOR, SPRUCE_DOOR, BIRCH_DOOR, JUNGLE_DOOR, ACACIA_DOOR, DARK_OAK_DOOR, ACACIA_FENCE_GATE, BIRCH_FENCE_GATE, DARK_OAK_FENCE_GATE, FENCE_GATE, SPRUCE_FENCE_GATE, JUNGLE_FENCE_GATE -> {
                             return;
-                        default:
-                            break;
+                        }
+                        default -> {
+                        }
                     }
                 }
             }
@@ -1196,42 +1154,40 @@ public class BlockListener implements Listener {
 
             boolean denyBreeding = false;
             switch (event.getRightClicked().getType()) {
-                case COW:
-                case SHEEP:
-                case MUSHROOM_COW:
+                case COW, SHEEP, MUSHROOM_COW -> {
                     if (inHand.getType().equals(Material.WHEAT)) {
                         denyBreeding = true;
                     }
-                    break;
-                case PIG:
+                }
+                case PIG -> {
                     if (inHand.getType().equals(Material.CARROT_ITEM)) {
                         denyBreeding = true;
                     }
-                    break;
-                case HORSE:
+                }
+                case HORSE -> {
                     if (inHand.getType().equals(Material.GOLDEN_APPLE) ||
                             inHand.getType().equals(Material.GOLDEN_CARROT)) {
                         CivMessage.sendError(event.getPlayer(), CivSettings.localize.localizedString("itemUse_errorNoHorseBreeding"));
                         event.setCancelled(true);
                         return;
                     }
-                    break;
-                case CHICKEN:
+                }
+                case CHICKEN -> {
                     if (inHand.getType().equals(Material.SEEDS) ||
                             inHand.getType().equals(Material.MELON_SEEDS) ||
                             inHand.getType().equals(Material.PUMPKIN_SEEDS)) {
                         denyBreeding = true;
                     }
-                    break;
-                case RABBIT:
+                }
+                case RABBIT -> {
                     if (inHand.getType().equals(Material.CARROT) ||
                             inHand.getType().equals(Material.GOLDEN_CARROT) ||
                             inHand.getType().equals(Material.YELLOW_FLOWER)) {
                         denyBreeding = true;
                     }
-                    break;
-                default:
-                    break;
+                }
+                default -> {
+                }
             }
 
             if (denyBreeding) {
@@ -1328,8 +1284,7 @@ public class BlockListener implements Listener {
             return;
         }
 
-        if (event.getRemover() instanceof Player) {
-            Player player = (Player) event.getRemover();
+        if (event.getRemover() instanceof Player player) {
 
             coord.setFromLocation(player.getLocation());
             TownChunk tc = CivGlobal.getTownChunk(coord);
@@ -1599,10 +1554,9 @@ public class BlockListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onProjectileLaunchEvent(ProjectileLaunchEvent event) {
-        if (!(event.getEntity() instanceof ThrownPotion)) {
+        if (!(event.getEntity() instanceof ThrownPotion potion)) {
             return;
         }
-        ThrownPotion potion = (ThrownPotion) event.getEntity();
         if (!(potion.getShooter() instanceof Player)) {
             //Get Ruffian type here and change damage type based on the potion thrown
             //Also change effect based on ruffian type
@@ -1768,11 +1722,9 @@ public class BlockListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPotionSplashEvent(PotionSplashEvent event) {
         ThrownPotion potion = event.getPotion();
-        if (!(potion.getShooter() instanceof Player)) {
+        if (!(potion.getShooter() instanceof Player attacker)) {
             return;
         }
-
-        Player attacker = (Player) potion.getShooter();
 
         for (PotionEffect effect : potion.getEffects()) {
             if (effect.getType().equals(PotionEffectType.INVISIBILITY)) {
@@ -1802,8 +1754,7 @@ public class BlockListener implements Listener {
         }
 
         for (LivingEntity entity : event.getAffectedEntities()) {
-            if (entity instanceof Player) {
-                Player defender = (Player) entity;
+            if (entity instanceof Player defender) {
                 coord.setFromLocation(entity.getLocation());
                 TownChunk tc = CivGlobal.getTownChunk(coord);
                 if (tc == null) {
@@ -1811,20 +1762,24 @@ public class BlockListener implements Listener {
                 }
 
                 switch (playersCanPVPHere(attacker, defender, tc)) {
-                    case ALLOWED:
+                    case ALLOWED -> {
                         continue;
-                    case NOT_AT_WAR:
+                    }
+                    case NOT_AT_WAR -> {
                         CivMessage.send(attacker, ChatColor.RED + CivSettings.localize.localizedString("var_itemUse_potionError1", defender.getName()));
                         event.setCancelled(true);
                         return;
-                    case NEUTRAL_IN_WARZONE:
+                    }
+                    case NEUTRAL_IN_WARZONE -> {
                         CivMessage.send(attacker, ChatColor.RED + CivSettings.localize.localizedString("var_itemUse_potionError2", defender.getName()));
                         event.setCancelled(true);
                         return;
-                    case NON_PVP_ZONE:
+                    }
+                    case NON_PVP_ZONE -> {
                         CivMessage.send(attacker, ChatColor.RED + CivSettings.localize.localizedString("var_itemUse_potionError3", defender.getName()));
                         event.setCancelled(true);
                         return;
+                    }
                 }
             }
         }

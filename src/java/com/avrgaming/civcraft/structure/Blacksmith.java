@@ -121,19 +121,13 @@ public class Blacksmith extends Structure {
         lastUse = now;
 
         switch (special_id) {
-            case 0:
-                this.deposit_forge(player);
-                break;
-            case 1:
+            case 0 -> this.deposit_forge(player);
+            case 1 -> {
                 double cost = CivSettings.getDoubleStructure("blacksmith.forge_cost");
                 this.perform_forge(player, cost);
-                break;
-            case 2:
-                this.depositSmelt(player, player.getInventory().getItemInMainHand());
-                break;
-            case 3:
-                this.withdrawSmelt(player);
-                break;
+            }
+            case 2 -> this.depositSmelt(player, player.getInventory().getItemInMainHand());
+            case 3 -> this.withdrawSmelt(player);
         }
 
     }
@@ -146,19 +140,12 @@ public class Blacksmith extends Structure {
             int special_id = Integer.parseInt(sign.getAction());
 
             switch (special_id) {
-                case 0:
-                    sign.setText(CivSettings.localize.localizedString("blacksmith_sign_catalyst"));
-                    break;
-                case 1:
-                    sign.setText(CivSettings.localize.localizedString("blacksmith_sign_forgeCost") + " " + cost + CivSettings.CURRENCY_NAME + "\n" +
-                            getNonResidentFeeString());
-                    break;
-                case 2:
-                    sign.setText(CivSettings.localize.localizedString("blacksmith_sign_depositOre"));
-                    break;
-                case 3:
-                    sign.setText(CivSettings.localize.localizedString("blacksmith_sign_withdrawOre"));
-                    break;
+                case 0 -> sign.setText(CivSettings.localize.localizedString("blacksmith_sign_catalyst"));
+                case 1 ->
+                        sign.setText(CivSettings.localize.localizedString("blacksmith_sign_forgeCost") + " " + cost + CivSettings.CURRENCY_NAME + "\n" +
+                                getNonResidentFeeString());
+                case 2 -> sign.setText(CivSettings.localize.localizedString("blacksmith_sign_depositOre"));
+                case 3 -> sign.setText(CivSettings.localize.localizedString("blacksmith_sign_withdrawOre"));
             }
 
             sign.update();
@@ -187,25 +174,21 @@ public class Blacksmith extends Structure {
     }
 
     public static boolean canSmelt(Material material) {
-        switch (material) {
-            case GOLD_ORE:
-            case IRON_ORE:
-                return true;
-        }
-        return false;
+        return switch (material) {
+            case GOLD_ORE, IRON_ORE -> true;
+            default -> false;
+        };
     }
 
     /*
      * Converts the ore id's into the ingot id's
      */
     public static Material convertType(Material bmaterial) {
-        switch (bmaterial) {
-            case GOLD_ORE:
-                return Material.GOLD_INGOT;
-            case IRON_ORE:
-                return Material.IRON_INGOT;
-        }
-        return null;
+        return switch (bmaterial) {
+            case GOLD_ORE -> Material.GOLD_INGOT;
+            case IRON_ORE -> Material.IRON_INGOT;
+            default -> null;
+        };
     }
 
     /*

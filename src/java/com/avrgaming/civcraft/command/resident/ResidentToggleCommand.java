@@ -78,39 +78,39 @@ public class ResidentToggleCommand extends CommandBase {
 
         boolean result;
         switch (args[0].toLowerCase()) {
-            case "map":
+            case "map" -> {
                 resident.setShowMap(!resident.isShowMap());
                 result = resident.isShowMap();
-                break;
-            case "showtown":
+            }
+            case "showtown" -> {
                 resident.setShowTown(!resident.isShowTown());
                 result = resident.isShowTown();
-                break;
-            case "showciv":
+            }
+            case "showciv" -> {
                 resident.setShowCiv(!resident.isShowCiv());
                 result = resident.isShowCiv();
-                break;
-            case "showscout":
+            }
+            case "showscout" -> {
                 resident.setShowScout(!resident.isShowScout());
                 result = resident.isShowScout();
-                break;
-            case "info":
+            }
+            case "info" -> {
                 resident.setShowInfo(!resident.isShowInfo());
                 result = resident.isShowInfo();
-                break;
-            case "combatinfo":
+            }
+            case "combatinfo" -> {
                 resident.setCombatInfo(!resident.isCombatInfo());
                 result = resident.isCombatInfo();
-                break;
-            case "titles":
+            }
+            case "titles" -> {
                 resident.setTitleAPI(!resident.isTitleAPI());
                 result = resident.isTitleAPI();
-                break;
-            case "itemdrops":
+            }
+            case "itemdrops" -> {
                 resident.toggleItemMode();
                 return;
-            default:
-                throw new CivException(CivSettings.localize.localizedString("cmd_unkownFlag") + " " + args[0]);
+            }
+            default -> throw new CivException(CivSettings.localize.localizedString("cmd_unkownFlag") + " " + args[0]);
         }
 
         resident.save();

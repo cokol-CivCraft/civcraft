@@ -69,8 +69,7 @@ import java.util.Date;
 public class PlayerListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerPickup(EntityPickupItemEvent event) {
-        if (event.getEntity() instanceof Player) {
-            Player player = (Player) event.getEntity();
+        if (event.getEntity() instanceof Player player) {
             String name;
             boolean rare = false;
             ItemStack item = event.getItem().getItemStack();
@@ -458,8 +457,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onInventoryOpenEvent(InventoryOpenEvent event) {
-        if (event.getInventory() instanceof DoubleChestInventory) {
-            DoubleChestInventory doubleInv = (DoubleChestInventory) event.getInventory();
+        if (event.getInventory() instanceof DoubleChestInventory doubleInv) {
 
             Chest leftChest = (Chest) doubleInv.getHolder().getLeftSide();
             /*Generate a new player 'switch' event for the left and right chests. */
@@ -499,8 +497,7 @@ public class PlayerListener implements Listener {
 
         if (event.getDamager() instanceof Player) {
             attacker = (Player) event.getDamager();
-        } else if (event.getDamager() instanceof Arrow) {
-            Arrow arrow = (Arrow) event.getDamager();
+        } else if (event.getDamager() instanceof Arrow arrow) {
             if (arrow.getShooter() instanceof Player) {
                 attacker = (Player) arrow.getShooter();
             } else {

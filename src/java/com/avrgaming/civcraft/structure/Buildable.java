@@ -116,20 +116,11 @@ public abstract class Buildable extends SQLObject {
     }
 
     public boolean isOnWater(Biome b) {
-        switch (b) {
-            case BEACHES:
-            case COLD_BEACH:
-            case STONE_BEACH:
-            case RIVER:
-            case FROZEN_RIVER:
-            case OCEAN:
-            case DEEP_OCEAN:
-            case FROZEN_OCEAN:
-            case SWAMPLAND:
-            case MUTATED_SWAMPLAND:
-                return true;
-        }
-        return false;
+        return switch (b) {
+            case BEACHES, COLD_BEACH, STONE_BEACH, RIVER, FROZEN_RIVER, OCEAN, DEEP_OCEAN, FROZEN_OCEAN, SWAMPLAND, MUTATED_SWAMPLAND ->
+                    true;
+            default -> false;
+        };
     }
 
     public boolean isNationalWonder() {
@@ -175,11 +166,8 @@ public abstract class Buildable extends SQLObject {
     }
 
     public int getRegenRate() {
-        if (this.info.regenRate == null) {
-            return 0;
-        }
+        return Objects.requireNonNullElse(this.info.regenRate, 0);
 
-        return info.regenRate;
     }
 
 
@@ -540,26 +528,26 @@ public abstract class Buildable extends SQLObject {
             loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
         } else {
             switch (dir) {
-                case EAST:
+                case EAST -> {
                     loc.setZ(loc.getZ() - (z_size / 2));
                     loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
                     loc.setX(loc.getX() + SHIFT_OUT);
-                    break;
-                case WEST:
+                }
+                case WEST -> {
                     loc.setZ(loc.getZ() - (z_size / 2));
                     loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
                     loc.setX(loc.getX() - (SHIFT_OUT + x_size));
-                    break;
-                case NORTH:
+                }
+                case NORTH -> {
                     loc.setX(loc.getX() - (x_size / 2));
                     loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
                     loc.setZ(loc.getZ() - (SHIFT_OUT + z_size));
-                    break;
-                case SOUTH:
+                }
+                case SOUTH -> {
                     loc.setX(loc.getX() - (x_size / 2));
                     loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
                     loc.setZ(loc.getZ() + SHIFT_OUT);
-                    break;
+                }
             }
         }
         if (info.templateYShift != 0) {
@@ -586,26 +574,26 @@ public abstract class Buildable extends SQLObject {
             loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
         } else {
             switch (dir) {
-                case EAST:
+                case EAST -> {
                     loc.setZ(loc.getZ() - (z_size / 2));
                     loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
                     loc.setX(loc.getX() + SHIFT_OUT);
-                    break;
-                case WEST:
+                }
+                case WEST -> {
                     loc.setZ(loc.getZ() - (z_size / 2));
                     loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
                     loc.setX(loc.getX() - (SHIFT_OUT + x_size));
-                    break;
-                case NORTH:
+                }
+                case NORTH -> {
                     loc.setX(loc.getX() - (x_size / 2));
                     loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
                     loc.setZ(loc.getZ() - (SHIFT_OUT + z_size));
-                    break;
-                case SOUTH:
+                }
+                case SOUTH -> {
                     loc.setX(loc.getX() - (x_size / 2));
                     loc = center.getChunk().getBlock(0, center.getBlockY(), 0).getLocation();
                     loc.setZ(loc.getZ() + SHIFT_OUT);
-                    break;
+                }
             }
         }
         if (this.getTemplateYShift() != 0) {
@@ -1224,11 +1212,9 @@ public abstract class Buildable extends SQLObject {
                     continue;
                 }
                 switch (coord.getBlock().getType()) {
-                    case AIR:
-                    case CHEST:
-                    case SIGN_POST:
-                    case WALL_SIGN:
+                    case AIR, CHEST, SIGN_POST, WALL_SIGN -> {
                         continue;
+                    }
                 }
 
                 if (CivSettings.alwaysCrumble.contains(coord.getBlock().getType())) {
@@ -1471,36 +1457,16 @@ public abstract class Buildable extends SQLObject {
     }
 
     public static double getReinforcementValue(Material material) {
-        switch (material) {
-            case STATIONARY_WATER:
-            case WATER:
-            case STATIONARY_LAVA:
-            case LAVA:
-            case AIR:
-            case WEB:
-                return 0;
-            case IRON_BLOCK:
-            case EMERALD_BLOCK:
-            case DIAMOND_BLOCK:
-            case GOLD_BLOCK:
-            case LAPIS_BLOCK:
-                return 4;
-            case SMOOTH_BRICK:
-                return 3;
-            case STONE:
-            case COAL_BLOCK:
-            case REDSTONE_BLOCK:
-            case NETHER_WART_BLOCK:
-                return 2;
-            case GRAVEL:
-                return 1.25;
-            case OBSIDIAN:
-                return 8;
-            case SPONGE:
-                return 2.75;
-            default:
-                return 1;
-        }
+        return switch (material) {
+            case STATIONARY_WATER, WATER, STATIONARY_LAVA, LAVA, AIR, WEB -> 0;
+            case IRON_BLOCK, EMERALD_BLOCK, DIAMOND_BLOCK, GOLD_BLOCK, LAPIS_BLOCK -> 4;
+            case SMOOTH_BRICK -> 3;
+            case STONE, COAL_BLOCK, REDSTONE_BLOCK, NETHER_WART_BLOCK -> 2;
+            case GRAVEL -> 1.25;
+            case OBSIDIAN -> 8;
+            case SPONGE -> 2.75;
+            default -> 1;
+        };
     }
 
     public boolean canRestoreFromTemplate() {
@@ -1542,4 +1508,6 @@ public abstract class Buildable extends SQLObject {
         this.enabled = enabled;
     }
 
+    public record BuildTaskInstance(ConfigBuildableInfo info, Town town) {
+    }
 }

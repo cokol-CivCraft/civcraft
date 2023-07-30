@@ -210,22 +210,17 @@ public class PermissionGroup extends SQLObject {
     }
 
     private static boolean isTownProtectedGroup(String name) {
-        switch (name.toLowerCase()) {
-            case "mayors":
-            case "assistants":
-            case "residents":
-                return true;
-        }
-        return false;
+        return switch (name.toLowerCase()) {
+            case "mayors", "assistants", "residents" -> true;
+            default -> false;
+        };
     }
 
     private static boolean isCivProtectedGroup(String name) {
-        switch (name.toLowerCase()) {
-            case "leaders":
-            case "advisers":
-                return true;
-        }
-        return false;
+        return switch (name.toLowerCase()) {
+            case "leaders", "advisers" -> true;
+            default -> false;
+        };
     }
 
     public String getMembersString() {

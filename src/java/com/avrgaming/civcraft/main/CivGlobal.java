@@ -318,32 +318,24 @@ public class CivGlobal {
     public static String localizedEraString(int era) {
         String newEra = "";
         switch (era) {
-            case 0: //ANCIENT
-                newEra = "announce_ancientEra";
-                break;
-            case 1: //CLASSICAL
-                newEra = "announce_classicalEra";
-                break;
-            case 2: //MEDIEVAL
-                newEra = "announce_medievalEra";
-                break;
-            case 3: //RENAISSANCE
-                newEra = "announce_renaissanceEra";
-                break;
-            case 4: //INDUSTRIAL
-                newEra = "announce_industrialEra";
-                break;
-            case 5: //MODERN
-                newEra = "announce_modernEra";
-                break;
-            case 6: //ATOMIC
-                newEra = "announce_atomicEra";
-                break;
-            case 7: //INFORMATION
-                newEra = "announce_informationEra";
-                break;
-            default:
-                break;
+            case 0 -> //ANCIENT
+                    newEra = "announce_ancientEra";
+            case 1 -> //CLASSICAL
+                    newEra = "announce_classicalEra";
+            case 2 -> //MEDIEVAL
+                    newEra = "announce_medievalEra";
+            case 3 -> //RENAISSANCE
+                    newEra = "announce_renaissanceEra";
+            case 4 -> //INDUSTRIAL
+                    newEra = "announce_industrialEra";
+            case 5 -> //MODERN
+                    newEra = "announce_modernEra";
+            case 6 -> //ATOMIC
+                    newEra = "announce_atomicEra";
+            case 7 -> //INFORMATION
+                    newEra = "announce_informationEra";
+            default -> {
+            }
         }
         return CivSettings.localize.localizedString(newEra);
     }
@@ -1471,23 +1463,18 @@ public class CivGlobal {
 
         String out = "";
         switch (status) {
-            case NEUTRAL:
-                out += ChatColor.GRAY + CivSettings.localize.localizedString("civGlobal_relation_Neutral") + ChatColor.WHITE;
-                break;
-            case HOSTILE:
-                out += ChatColor.YELLOW + CivSettings.localize.localizedString("civGlobal_relation_Hostile") + ChatColor.WHITE;
-                break;
-            case WAR:
-                out += ChatColor.RED + CivSettings.localize.localizedString("civGlobal_relation_War") + ChatColor.WHITE;
-                break;
-            case PEACE:
-                out += ChatColor.GREEN + CivSettings.localize.localizedString("civGlobal_relation_Peace") + ChatColor.WHITE;
-                break;
-            case ALLY:
-                out += ChatColor.DARK_GREEN + CivSettings.localize.localizedString("civGlobal_relation_Allied") + ChatColor.WHITE;
-                break;
-            default:
-                break;
+            case NEUTRAL ->
+                    out += ChatColor.GRAY + CivSettings.localize.localizedString("civGlobal_relation_Neutral") + ChatColor.WHITE;
+            case HOSTILE ->
+                    out += ChatColor.YELLOW + CivSettings.localize.localizedString("civGlobal_relation_Hostile") + ChatColor.WHITE;
+            case WAR ->
+                    out += ChatColor.RED + CivSettings.localize.localizedString("civGlobal_relation_War") + ChatColor.WHITE;
+            case PEACE ->
+                    out += ChatColor.GREEN + CivSettings.localize.localizedString("civGlobal_relation_Peace") + ChatColor.WHITE;
+            case ALLY ->
+                    out += ChatColor.DARK_GREEN + CivSettings.localize.localizedString("civGlobal_relation_Allied") + ChatColor.WHITE;
+            default -> {
+            }
         }
         CivMessage.global(CivSettings.localize.localizedString("var_civGlobal_relation_isNow", civ.getName(), out, otherCiv.getName()));
         CivGlobal.updateTagsBetween(civ, otherCiv);
@@ -1564,47 +1551,11 @@ public class CivGlobal {
 
     public static boolean willInstantBreak(Material type) {
 
-        switch (type) {
-            case BED_BLOCK:
-            case BROWN_MUSHROOM:
-            case CROPS:
-            case DEAD_BUSH:
-            case DIODE:
-            case DIODE_BLOCK_OFF:
-            case DIODE_BLOCK_ON:
-            case FIRE:
-            case FLOWER_POT:
-            case FLOWER_POT_ITEM:
-            case GLASS:
-            case GRASS:
-            case LEAVES:
-            case LEVER:
-            case LONG_GRASS:
-            case MELON_STEM:
-            case NETHER_STALK:
-            case NETHER_WARTS:
-            case PUMPKIN_STEM:
-            case REDSTONE:
-            case REDSTONE_TORCH_OFF:
-            case REDSTONE_TORCH_ON:
-            case REDSTONE_WIRE:
-            case SAPLING:
-            case SKULL:
-            case SKULL_ITEM:
-            case SNOW:
-            case SUGAR_CANE_BLOCK:
-            case THIN_GLASS:
-            case TNT:
-            case TORCH:
-            case TRIPWIRE:
-            case TRIPWIRE_HOOK:
-            case VINE:
-            case WATER_LILY:
-            case YELLOW_FLOWER:
-                return true;
-            default:
-                return false;
-        }
+        return switch (type) {
+            case BED_BLOCK, BROWN_MUSHROOM, CROPS, DEAD_BUSH, DIODE, DIODE_BLOCK_OFF, DIODE_BLOCK_ON, FIRE, FLOWER_POT, FLOWER_POT_ITEM, GLASS, GRASS, LEAVES, LEVER, LONG_GRASS, MELON_STEM, NETHER_STALK, NETHER_WARTS, PUMPKIN_STEM, REDSTONE, REDSTONE_TORCH_OFF, REDSTONE_TORCH_ON, REDSTONE_WIRE, SAPLING, SKULL, SKULL_ITEM, SNOW, SUGAR_CANE_BLOCK, THIN_GLASS, TNT, TORCH, TRIPWIRE, TRIPWIRE_HOOK, VINE, WATER_LILY, YELLOW_FLOWER ->
+                    true;
+            default -> false;
+        };
     }
 
     public static String updateTag(Player namedPlayer, Player player) {
@@ -1632,20 +1583,12 @@ public class CivGlobal {
 
             Relation.Status status = playerRes.getTown().getCiv().getDiplomacyManager().getRelationStatus(namedRes.getTown().getCiv());
             switch (status) {
-                case PEACE:
-                    color = String.valueOf(ChatColor.AQUA);
-                    break;
-                case ALLY:
-                    color = String.valueOf(ChatColor.GREEN);
-                    break;
-                case HOSTILE:
-                    color = String.valueOf(ChatColor.YELLOW);
-                    break;
-                case WAR:
-                    color = String.valueOf(ChatColor.RED);
-                    break;
-                default:
-                    break;
+                case PEACE -> color = String.valueOf(ChatColor.AQUA);
+                case ALLY -> color = String.valueOf(ChatColor.GREEN);
+                case HOSTILE -> color = String.valueOf(ChatColor.YELLOW);
+                case WAR -> color = String.valueOf(ChatColor.RED);
+                default -> {
+                }
             }
         }
 

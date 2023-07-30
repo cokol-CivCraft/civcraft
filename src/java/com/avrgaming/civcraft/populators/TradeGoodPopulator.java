@@ -98,8 +98,7 @@ public class TradeGoodPopulator extends BlockPopulator {
 
         BlockState state = signBlock.getState();
 
-        if (state instanceof Sign) {
-            Sign sign = (Sign) state;
+        if (state instanceof Sign sign) {
             org.bukkit.material.Sign data = (org.bukkit.material.Sign) state.getData();
 
             data.setFacingDirection(direction);

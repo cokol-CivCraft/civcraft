@@ -600,15 +600,13 @@ public class Town extends SQLObject {
         double fromStructures = 0;
         for (Structure struct : this.structures.values()) {
             for (Component comp : struct.attachedComponents) {
-                if (comp instanceof AttributeBase) {
-                    AttributeBase as = (AttributeBase) comp;
+                if (comp instanceof AttributeBase as) {
                     if (as.getString("attribute").equalsIgnoreCase("CULTURE")) {
                         fromStructures += as.getGenerated();
                     }
                 }
             }
-            if (struct instanceof Temple) {
-                Temple temple = (Temple) struct;
+            if (struct instanceof Temple temple) {
                 fromStructures += temple.getCultureGenerated();
             }
         }
@@ -732,13 +730,11 @@ public class Town extends SQLObject {
         double structures = 0;
         double mines = 0;
         for (Structure struct : this.structures.values()) {
-            if (struct instanceof Mine) {
-                Mine mine = (Mine) struct;
+            if (struct instanceof Mine mine) {
                 mines += mine.getBonusHammers();
             }
             for (Component comp : struct.attachedComponents) {
-                if (comp instanceof AttributeBase) {
-                    AttributeBase as = (AttributeBase) comp;
+                if (comp instanceof AttributeBase as) {
                     if (as.getString("attribute").equalsIgnoreCase("HAMMERS")) {
                         structures += as.getGenerated();
                     }
@@ -1614,8 +1610,7 @@ public class Town extends SQLObject {
         //this.save();
 
         /* Good needs to be saved after structure to get proper structure id.*/
-        if (struct instanceof TradeOutpost) {
-            TradeOutpost outpost = (TradeOutpost) struct;
+        if (struct instanceof TradeOutpost outpost) {
             if (outpost.getGood() != null) {
                 outpost.getGood().save();
             }
@@ -1806,8 +1801,7 @@ public class Town extends SQLObject {
         double structures = 0;
         for (Structure struct : this.structures.values()) {
             for (Component comp : struct.attachedComponents) {
-                if (comp instanceof AttributeBase) {
-                    AttributeBase as = (AttributeBase) comp;
+                if (comp instanceof AttributeBase as) {
                     if (as.getString("attribute").equalsIgnoreCase("GROWTH")) {
                         double h = as.getGenerated();
                         structures += h;
@@ -1897,8 +1891,7 @@ public class Town extends SQLObject {
         double fromStructures = 0.0;
         for (Structure struct : this.structures.values()) {
             for (Component comp : struct.attachedComponents) {
-                if (comp instanceof AttributeRate) {
-                    AttributeRate as = (AttributeRate) comp;
+                if (comp instanceof AttributeRate as) {
                     if (as.getString("attribute").equalsIgnoreCase("TRADE")) {
                         fromStructures += as.getGenerated();
                     }
@@ -2549,10 +2542,9 @@ public class Town extends SQLObject {
         double fromStructures = 0;
         for (Structure struct : this.structures.values()) {
             for (Component comp : struct.attachedComponents) {
-                if (!(comp instanceof AttributeBase)) {
+                if (!(comp instanceof AttributeBase as)) {
                     continue;
                 }
-                AttributeBase as = (AttributeBase) comp;
                 if (as.getString("attribute").equalsIgnoreCase("FAITH")) {
                     fromStructures += as.getGenerated();
                 }
@@ -2560,10 +2552,9 @@ public class Town extends SQLObject {
         }
         for (Wonder w : this.wonders.values()) {
             for (Component comp : w.attachedComponents) {
-                if (!(comp instanceof AttributeBase)) {
+                if (!(comp instanceof AttributeBase as)) {
                     continue;
                 }
-                AttributeBase as = (AttributeBase) comp;
                 if (as.getString("attribute").equalsIgnoreCase("FAITH")) {
                     fromStructures += as.getGenerated();
                 }
@@ -2642,8 +2633,7 @@ public class Town extends SQLObject {
         double education = 0.0;
         for (Structure struct : this.structures.values()) {
             for (Component comp : struct.attachedComponents) {
-                if (comp instanceof AttributeBase) {
-                    AttributeBase as = (AttributeBase) comp;
+                if (comp instanceof AttributeBase as) {
                     if (as.getString("attribute").equalsIgnoreCase("BEAKERBOOST")) {
                         double boostPerRes = as.getGenerated();
                         int maxBoost = 0;
@@ -2697,8 +2687,7 @@ public class Town extends SQLObject {
         double fromStructures = 0;
         for (Structure struct : this.structures.values()) {
             for (Component comp : struct.attachedComponents) {
-                if (comp instanceof AttributeBase) {
-                    AttributeBase as = (AttributeBase) comp;
+                if (comp instanceof AttributeBase as) {
                     if (as.getString("attribute").equalsIgnoreCase("BEAKERS")) {
                         fromStructures += as.getGenerated();
                     }
@@ -2813,8 +2802,7 @@ public class Town extends SQLObject {
         double structures = 0;
         for (Structure struct : this.structures.values()) {
             for (Component comp : struct.attachedComponents) {
-                if (comp instanceof AttributeBase) {
-                    AttributeBase as = (AttributeBase) comp;
+                if (comp instanceof AttributeBase as) {
                     if (as.getString("attribute").equalsIgnoreCase("HAPPINESS")) {
                         structures += as.getGenerated();
                     }
@@ -2900,8 +2888,7 @@ public class Town extends SQLObject {
                         continue;
                     }
 
-                    if (comp instanceof AttributeWarUnhappiness) {
-                        AttributeWarUnhappiness warunhappyComp = (AttributeWarUnhappiness) comp;
+                    if (comp instanceof AttributeWarUnhappiness warunhappyComp) {
                         double value = sources.get("War"); // Negative if a reduction
                         value += warunhappyComp.value;
 
@@ -2932,10 +2919,9 @@ public class Town extends SQLObject {
         double structures = 0;
         for (Structure struct : this.structures.values()) {
             for (Component comp : struct.attachedComponents) {
-                if (!(comp instanceof AttributeBase)) {
+                if (!(comp instanceof AttributeBase as)) {
                     continue;
                 }
-                AttributeBase as = (AttributeBase) comp;
                 if (as.getString("attribute").equalsIgnoreCase("UNHAPPINESS")) {
                     structures += as.getGenerated();
                 }

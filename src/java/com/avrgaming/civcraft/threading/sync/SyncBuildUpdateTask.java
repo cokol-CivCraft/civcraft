@@ -76,12 +76,12 @@ public class SyncBuildUpdateTask implements Runnable {
 
                 /* Handle Special Blocks */
                 switch (next.specialType) {
-                    case COMMAND:
+                    case COMMAND -> {
                         BlockState state = next.getLocation().getBlock().getState();
                         state.setType(Material.AIR);
                         state.update(true, false);
-                        break;
-                    case LITERAL:
+                    }
+                    case LITERAL -> {
                         if (block.getState() instanceof Sign) {
 
                             Sign s = (Sign) block.getState();
@@ -93,9 +93,9 @@ public class SyncBuildUpdateTask implements Runnable {
                         } else {
                             block.getState().setData(new MaterialData(Material.AIR));
                         }
-                        break;
-                    case NORMAL:
-                        break;
+                    }
+                    case NORMAL -> {
+                    }
                 }
 
                 if (next.buildable != null) {

@@ -303,47 +303,21 @@ public abstract class Wonder extends Buildable {
     }
 
     public static Wonder newWonder(Location center, String id, Town town) throws CivException {
-        Wonder wonder;
-        switch (id) {
-            case "w_pyramid":
-                wonder = new TheGreatPyramid(center, id, town);
-                break;
-            case "w_greatlibrary":
-                wonder = new GreatLibrary(center, id, town);
-                break;
-            case "w_hanginggardens":
-                wonder = new TheHangingGardens(center, id, town);
-                break;
-            case "w_colossus":
-                wonder = new TheColossus(center, id, town);
-                break;
-            case "w_notre_dame":
-                wonder = new NotreDame(center, id, town);
-                break;
-            case "w_chichen_itza":
-                wonder = new ChichenItza(center, id, town);
-                break;
-            case "w_council_of_eight":
-                wonder = new CouncilOfEight(center, id, town);
-                break;
-            case "w_colosseum":
-                wonder = new Colosseum(center, id, town);
-                break;
-            case "w_globe_theatre":
-                wonder = new GlobeTheatre(center, id, town);
-                break;
-            case "w_great_lighthouse":
-                wonder = new GreatLighthouse(center, id, town);
-                break;
-            case "w_mother_tree":
-                wonder = new MotherTree(center, id, town);
-                break;
-            case "w_grand_ship_ingermanland":
-                wonder = new GrandShipIngermanland(center, id, town);
-                break;
-            default:
-                throw new CivException(CivSettings.localize.localizedString("wonder_unknwon_type") + " " + id);
-        }
+        Wonder wonder = switch (id) {
+            case "w_pyramid" -> new TheGreatPyramid(center, id, town);
+            case "w_greatlibrary" -> new GreatLibrary(center, id, town);
+            case "w_hanginggardens" -> new TheHangingGardens(center, id, town);
+            case "w_colossus" -> new TheColossus(center, id, town);
+            case "w_notre_dame" -> new NotreDame(center, id, town);
+            case "w_chichen_itza" -> new ChichenItza(center, id, town);
+            case "w_council_of_eight" -> new CouncilOfEight(center, id, town);
+            case "w_colosseum" -> new Colosseum(center, id, town);
+            case "w_globe_theatre" -> new GlobeTheatre(center, id, town);
+            case "w_great_lighthouse" -> new GreatLighthouse(center, id, town);
+            case "w_mother_tree" -> new MotherTree(center, id, town);
+            case "w_grand_ship_ingermanland" -> new GrandShipIngermanland(center, id, town);
+            default -> throw new CivException(CivSettings.localize.localizedString("wonder_unknwon_type") + " " + id);
+        };
 
         wonder.loadSettings();
         return wonder;
@@ -351,47 +325,21 @@ public abstract class Wonder extends Buildable {
 
     public static Wonder newWonder(ResultSet rs) throws CivException, SQLException {
         String id = rs.getString("type_id");
-        Wonder wonder;
-        switch (id) {
-            case "w_pyramid":
-                wonder = new TheGreatPyramid(rs);
-                break;
-            case "w_greatlibrary":
-                wonder = new GreatLibrary(rs);
-                break;
-            case "w_hanginggardens":
-                wonder = new TheHangingGardens(rs);
-                break;
-            case "w_colossus":
-                wonder = new TheColossus(rs);
-                break;
-            case "w_notre_dame":
-                wonder = new NotreDame(rs);
-                break;
-            case "w_chichen_itza":
-                wonder = new ChichenItza(rs);
-                break;
-            case "w_council_of_eight":
-                wonder = new CouncilOfEight(rs);
-                break;
-            case "w_colosseum":
-                wonder = new Colosseum(rs);
-                break;
-            case "w_globe_theatre":
-                wonder = new GlobeTheatre(rs);
-                break;
-            case "w_great_lighthouse":
-                wonder = new GreatLighthouse(rs);
-                break;
-            case "w_mother_tree":
-                wonder = new MotherTree(rs);
-                break;
-            case "w_grand_ship_ingermanland":
-                wonder = new GrandShipIngermanland(rs);
-                break;
-            default:
-                throw new CivException(CivSettings.localize.localizedString("wonder_unknwon_type") + " " + id);
-        }
+        Wonder wonder = switch (id) {
+            case "w_pyramid" -> new TheGreatPyramid(rs);
+            case "w_greatlibrary" -> new GreatLibrary(rs);
+            case "w_hanginggardens" -> new TheHangingGardens(rs);
+            case "w_colossus" -> new TheColossus(rs);
+            case "w_notre_dame" -> new NotreDame(rs);
+            case "w_chichen_itza" -> new ChichenItza(rs);
+            case "w_council_of_eight" -> new CouncilOfEight(rs);
+            case "w_colosseum" -> new Colosseum(rs);
+            case "w_globe_theatre" -> new GlobeTheatre(rs);
+            case "w_great_lighthouse" -> new GreatLighthouse(rs);
+            case "w_mother_tree" -> new MotherTree(rs);
+            case "w_grand_ship_ingermanland" -> new GrandShipIngermanland(rs);
+            default -> throw new CivException(CivSettings.localize.localizedString("wonder_unknwon_type") + " " + id);
+        };
 
         wonder.loadSettings();
         return wonder;

@@ -465,8 +465,7 @@ public class TownCommand extends CommandBase {
         try {
             Civilization civ = getSenderCiv();
             if (town.getCiv() != civ) {
-                if (sender instanceof Player) {
-                    Player player = (Player) sender;
+                if (sender instanceof Player player) {
                     Location ourCapLoc = civ.getCapitolTownHallLocation();
 
                     if (ourCapLoc == null) {

@@ -250,30 +250,23 @@ public class CivDiplomacyCommand extends CommandBase {
 
             String message = String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_civ_dip_requestHasRequested", ourCiv.getName()) + " ";
             switch (status) {
-                case NEUTRAL:
-                    message += CivSettings.localize.localizedString("cmd_civ_dip_requestNeutral");
-                    break;
-                case PEACE:
-                    message += CivSettings.localize.localizedString("cmd_civ_dip_requestPeace");
-                    break;
-                case ALLY:
+                case NEUTRAL -> message += CivSettings.localize.localizedString("cmd_civ_dip_requestNeutral");
+                case PEACE -> message += CivSettings.localize.localizedString("cmd_civ_dip_requestPeace");
+                case ALLY -> {
                     message += CivSettings.localize.localizedString("cmd_civ_dip_requestAlly");
-
                     if (War.isWithinWarDeclareDays()) {
                         if (ourCiv.getDiplomacyManager().isAtWar() || otherCiv.getDiplomacyManager().isAtWar()) {
                             throw new CivException(CivSettings.localize.localizedString("var_cmd_civ_dip_requestErrorWar1", War.getTimeDeclareDays()));
                         }
                     }
-                    break;
-                case WAR:
+                }
+                case WAR -> {
                     if (!CivGlobal.isCasualMode()) {
                         throw new CivException(CivSettings.localize.localizedString("cmd_civ_dip_requestErrorCasual"));
                     }
-
                     message += CivSettings.localize.localizedString("cmd_civ_dip_requestWar");
-                    break;
-                default:
-                    throw new CivException(CivSettings.localize.localizedString("cmd_civ_dip_requestPrompt"));
+                }
+                default -> throw new CivException(CivSettings.localize.localizedString("cmd_civ_dip_requestPrompt"));
             }
             message += ". " + CivSettings.localize.localizedString("cmd_civ_dip_requestQuestion");
 
@@ -324,20 +317,18 @@ public class CivDiplomacyCommand extends CommandBase {
             }
 
             switch (status) {
-                case HOSTILE:
-                    if (currentStatus == Relation.Status.WAR) {
+                case HOSTILE -> {
+                    if (currentStatus == Status.WAR) {
                         throw new CivException(CivSettings.localize.localizedString("var_cmd_civ_dip_declareAtWar", status.name()));
                     }
-                    break;
-                case WAR:
+                }
+                case WAR -> {
                     if (CivGlobal.isCasualMode()) {
                         throw new CivException(CivSettings.localize.localizedString("cmd_civ_dip_declareCasual"));
                     }
-
                     if (War.isWarTime()) {
                         throw new CivException(CivSettings.localize.localizedString("cmd_civ_dip_errorDuringWar"));
                     }
-
                     if (War.isWithinWarDeclareDays()) {
                         if (War.isCivAggressorToAlly(otherCiv, ourCiv)) {
                             if (War.isWithinAllyDeclareHours()) {
@@ -348,14 +339,11 @@ public class CivDiplomacyCommand extends CommandBase {
                             throw new CivException(CivSettings.localize.localizedString("var_cmd_civ_dip_declareTooCloseToWar2", War.getTimeDeclareDays()));
                         }
                     }
-
                     if (ourCiv.getTreasury().inDebt()) {
                         throw new CivException(CivSettings.localize.localizedString("cmd_civ_dip_declareInDebt"));
                     }
-
-                    break;
-                default:
-                    throw new CivException(CivSettings.localize.localizedString("cmd_civ_dip_declareInvalid"));
+                }
+                default -> throw new CivException(CivSettings.localize.localizedString("cmd_civ_dip_declareInvalid"));
             }
 
             CivGlobal.setRelation(ourCiv, otherCiv, status);

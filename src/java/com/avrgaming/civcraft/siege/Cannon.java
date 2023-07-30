@@ -290,64 +290,56 @@ public class Cannon extends Buildable {
             BlockCoord absCoord = new BlockCoord(corner.getBlock().getRelative(relativeCoord.getX(), relativeCoord.getY(), relativeCoord.getZ()));
             BlockCoord coord = new BlockCoord(absCoord);
             switch (sb.command) {
-                case "/fire":
+                case "/fire" -> {
                     this.setFireSignLocation(coord);
-
                     sb.setTo(coord);
                     updateFireSign(coord.getBlock());
-
                     Cannon.fireSignLocations.put(coord, this);
-                    break;
-                case "/angle":
+                }
+                case "/angle" -> {
                     this.setAngleSignLocation(coord);
-
                     sb.setTo(coord);
                     updateAngleSign(coord.getBlock());
-
                     Cannon.angleSignLocations.put(coord, this);
-                    break;
-                case "/power":
+                }
+                case "/power" -> {
                     this.setPowerSignLocation(coord);
-
                     sb.setTo(coord);
                     updatePowerSign(coord.getBlock());
-
                     Cannon.powerSignLocations.put(coord, this);
-                    break;
-                case "/cannon":
+                }
+                case "/cannon" -> {
                     this.cannonLocation = coord.getLocation();
-
                     switch (((org.bukkit.material.Sign) sb.getMaterialData()).getFacing()) {
-                        case EAST:
+                        case EAST -> {
                             cannonLocation.add(1, 0, 0);
                             direction.setX(1.0f);
                             direction.setY(0.0f);
                             direction.setZ(0.0f);
-                            break;
-                        case WEST:
+                        }
+                        case WEST -> {
                             cannonLocation.add(-1, 0, 0);
                             this.angleFlip = true;
                             direction.setX(-1.0f);
                             direction.setY(0.0f);
                             direction.setZ(0.0f);
-                            break;
-                        case NORTH:
+                        }
+                        case NORTH -> {
                             cannonLocation.add(0, 0, -1);
                             direction.setX(0.0f);
                             direction.setY(0.0f);
                             direction.setZ(-1.0f);
-                            break;
-                        case SOUTH:
+                        }
+                        case SOUTH -> {
                             cannonLocation.add(0, 0, 1);
                             this.angleFlip = true;
                             direction.setX(0.0f);
                             direction.setY(0.0f);
                             direction.setZ(1.0f);
-                            break;
+                        }
                     }
                     signDirection = ((org.bukkit.material.Sign) sb.getMaterialData()).getFacing();
-
-                    break;
+                }
             }
         }
     }
@@ -445,22 +437,22 @@ public class Cannon extends Buildable {
         Location loc = center.clone();
 
         switch (dir) {
-            case EAST:
+            case EAST -> {
                 loc.setZ(loc.getZ() - (z_size / 2));
                 loc.setX(loc.getX() + SHIFT_OUT);
-                break;
-            case WEST:
+            }
+            case WEST -> {
                 loc.setZ(loc.getZ() - (z_size / 2));
                 loc.setX(loc.getX() - (SHIFT_OUT + x_size));
-                break;
-            case NORTH:
+            }
+            case NORTH -> {
                 loc.setX(loc.getX() - (x_size / 2));
                 loc.setZ(loc.getZ() - (SHIFT_OUT + z_size));
-                break;
-            case SOUTH:
+            }
+            case SOUTH -> {
                 loc.setX(loc.getX() - (x_size / 2));
                 loc.setZ(loc.getZ() + SHIFT_OUT);
-                break;
+            }
         }
 
         return loc;

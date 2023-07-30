@@ -75,41 +75,19 @@ public class Bank extends Structure {
     }
 
     public double getBankExchangeRate() {
-        double exchange_rate;
-        switch (level) {
-            case 1:
-                exchange_rate = 0.40;
-                break;
-            case 2:
-                exchange_rate = 0.50;
-                break;
-            case 3:
-                exchange_rate = 0.60;
-                break;
-            case 4:
-                exchange_rate = 0.70;
-                break;
-            case 5:
-                exchange_rate = 0.80;
-                break;
-            case 6:
-                exchange_rate = 0.90;
-                break;
-            case 7:
-                exchange_rate = 1;
-                break;
-            case 8:
-                exchange_rate = 1.20;
-                break;
-            case 9:
-                exchange_rate = 1.50;
-                break;
-            case 10:
-                exchange_rate = 2;
-                break;
-            default:
-                exchange_rate = 0.0;
-        }
+        double exchange_rate = switch (level) {
+            case 1 -> 0.40;
+            case 2 -> 0.50;
+            case 3 -> 0.60;
+            case 4 -> 0.70;
+            case 5 -> 0.80;
+            case 6 -> 0.90;
+            case 7 -> 1;
+            case 8 -> 1.20;
+            case 9 -> 1.50;
+            case 10 -> 2;
+            default -> 0.0;
+        };
 
         double rate = 1 + this.getTown().getBuffManager().getEffectiveDouble(Buff.BARTER);
         return exchange_rate * max(rate, 1);
@@ -218,30 +196,14 @@ public class Bank extends Structure {
             }
             player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1.1f, 1.1f);
             switch (sign.getAction()) {
-                case "iron":
-                    exchange_for_coins(resident, Material.IRON_INGOT, CivSettings.iron_rate);
-                    break;
-                case "gold":
-                    exchange_for_coins(resident, Material.GOLD_INGOT, CivSettings.gold_rate);
-                    break;
-                case "diamond":
-                    exchange_for_coins(resident, Material.DIAMOND, CivSettings.diamond_rate);
-                    break;
-                case "emerald":
-                    exchange_for_coins(resident, Material.EMERALD, CivSettings.emerald_rate);
-                    break;
-                case "ironB":
-                    exchange_for_coins(resident, Material.IRON_INGOT, CivSettings.iron_rate * 9);
-                    break;
-                case "goldB":
-                    exchange_for_coins(resident, Material.GOLD_INGOT, CivSettings.gold_rate * 9);
-                    break;
-                case "diamondB":
-                    exchange_for_coins(resident, Material.DIAMOND, CivSettings.diamond_rate * 9);
-                    break;
-                case "emeraldB":
-                    exchange_for_coins(resident, Material.EMERALD, CivSettings.emerald_rate * 9);
-                    break;
+                case "iron" -> exchange_for_coins(resident, Material.IRON_INGOT, CivSettings.iron_rate);
+                case "gold" -> exchange_for_coins(resident, Material.GOLD_INGOT, CivSettings.gold_rate);
+                case "diamond" -> exchange_for_coins(resident, Material.DIAMOND, CivSettings.diamond_rate);
+                case "emerald" -> exchange_for_coins(resident, Material.EMERALD, CivSettings.emerald_rate);
+                case "ironB" -> exchange_for_coins(resident, Material.IRON_INGOT, CivSettings.iron_rate * 9);
+                case "goldB" -> exchange_for_coins(resident, Material.GOLD_INGOT, CivSettings.gold_rate * 9);
+                case "diamondB" -> exchange_for_coins(resident, Material.DIAMOND, CivSettings.diamond_rate * 9);
+                case "emeraldB" -> exchange_for_coins(resident, Material.EMERALD, CivSettings.emerald_rate * 9);
             }
         } catch (CivException e) {
             CivMessage.send(player, ChatColor.RED + e.getMessage());
@@ -253,54 +215,40 @@ public class Bank extends Structure {
         for (StructureSign sign : getSigns()) {
 
             switch (sign.getAction().toLowerCase()) {
-                case "iron":
-                    sign.setText(CivSettings.localize.localizedString("bank_itemName_iron") + "\n" +
-                            "At " + getExchangeRateString() + "\n" +
-                            getSignItemPrice(IRON_SIGN) + "\n" +
-                            getNonResidentFeeString());
-                    break;
-                case "gold":
-                    sign.setText(CivSettings.localize.localizedString("bank_itemName_gold") + "\n" +
-                            "At " + getExchangeRateString() + "\n" +
-                            getSignItemPrice(GOLD_SIGN) + "\n" +
-                            getNonResidentFeeString());
-                    break;
-                case "diamond":
-                    sign.setText(CivSettings.localize.localizedString("bank_itemName_diamond") + "\n" +
-                            "At " + getExchangeRateString() + "\n" +
-                            getSignItemPrice(DIAMOND_SIGN) + "\n" +
-                            getNonResidentFeeString());
-                    break;
-                case "emerald":
-                    sign.setText(CivSettings.localize.localizedString("bank_itemName_emerald") + "\n" +
-                            "At " + getExchangeRateString() + "\n" +
-                            getSignItemPrice(EMERALD_SIGN) + "\n" +
-                            getNonResidentFeeString());
-                    break;
-                case "ironb":
-                    sign.setText(CivSettings.localize.localizedString("bank_itemName_ironBlock") + "\n" +
-                            "At " + getExchangeRateString() + "\n" +
-                            getSignItemPrice(IRON_BLOCK_SIGN) + "\n" +
-                            getNonResidentFeeString());
-                    break;
-                case "goldb":
-                    sign.setText(CivSettings.localize.localizedString("bank_itemName_goldBlock") + "\n" +
-                            "At " + getExchangeRateString() + "\n" +
-                            getSignItemPrice(GOLD_BLOCK_SIGN) + "\n" +
-                            getNonResidentFeeString());
-                    break;
-                case "diamondb":
-                    sign.setText(CivSettings.localize.localizedString("bank_itemName_diamondBlock") + "\n" +
-                            "At " + getExchangeRateString() + "\n" +
-                            getSignItemPrice(DIAMOND_BLOCK_SIGN) + "\n" +
-                            getNonResidentFeeString());
-                    break;
-                case "emeraldb":
-                    sign.setText(CivSettings.localize.localizedString("bank_itemName_emeraldBlock") + "\n" +
-                            "At " + getExchangeRateString() + "\n" +
-                            getSignItemPrice(EMERALD_BLOCK_SIGN) + "\n" +
-                            getNonResidentFeeString());
-                    break;
+                case "iron" -> sign.setText(CivSettings.localize.localizedString("bank_itemName_iron") + "\n" +
+                        "At " + getExchangeRateString() + "\n" +
+                        getSignItemPrice(IRON_SIGN) + "\n" +
+                        getNonResidentFeeString());
+                case "gold" -> sign.setText(CivSettings.localize.localizedString("bank_itemName_gold") + "\n" +
+                        "At " + getExchangeRateString() + "\n" +
+                        getSignItemPrice(GOLD_SIGN) + "\n" +
+                        getNonResidentFeeString());
+                case "diamond" -> sign.setText(CivSettings.localize.localizedString("bank_itemName_diamond") + "\n" +
+                        "At " + getExchangeRateString() + "\n" +
+                        getSignItemPrice(DIAMOND_SIGN) + "\n" +
+                        getNonResidentFeeString());
+                case "emerald" -> sign.setText(CivSettings.localize.localizedString("bank_itemName_emerald") + "\n" +
+                        "At " + getExchangeRateString() + "\n" +
+                        getSignItemPrice(EMERALD_SIGN) + "\n" +
+                        getNonResidentFeeString());
+                case "ironb" -> sign.setText(CivSettings.localize.localizedString("bank_itemName_ironBlock") + "\n" +
+                        "At " + getExchangeRateString() + "\n" +
+                        getSignItemPrice(IRON_BLOCK_SIGN) + "\n" +
+                        getNonResidentFeeString());
+                case "goldb" -> sign.setText(CivSettings.localize.localizedString("bank_itemName_goldBlock") + "\n" +
+                        "At " + getExchangeRateString() + "\n" +
+                        getSignItemPrice(GOLD_BLOCK_SIGN) + "\n" +
+                        getNonResidentFeeString());
+                case "diamondb" ->
+                        sign.setText(CivSettings.localize.localizedString("bank_itemName_diamondBlock") + "\n" +
+                                "At " + getExchangeRateString() + "\n" +
+                                getSignItemPrice(DIAMOND_BLOCK_SIGN) + "\n" +
+                                getNonResidentFeeString());
+                case "emeraldb" ->
+                        sign.setText(CivSettings.localize.localizedString("bank_itemName_emeraldBlock") + "\n" +
+                                "At " + getExchangeRateString() + "\n" +
+                                getSignItemPrice(EMERALD_BLOCK_SIGN) + "\n" +
+                                getNonResidentFeeString());
             }
 
 

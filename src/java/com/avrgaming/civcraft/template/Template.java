@@ -141,14 +141,11 @@ public class Template {
     }
 
     public static String getTemplateFilePath(String template_file, TemplateType type, String theme) {
-        switch (type) {
-            case STRUCTURE:
-                return getStructureFilePath(template_file, theme);
-            case WONDER:
-                return getWonderFilePath(template_file);
-            default:
-                throw new IllegalStateException("Unexpected value: " + type);
-        }
+        return switch (type) {
+            case STRUCTURE -> getStructureFilePath(template_file, theme);
+            case WONDER -> getWonderFilePath(template_file);
+            default -> throw new IllegalStateException("Unexpected value: " + type);
+        };
     }
 
     public static String getStructureFilePath(String template_file, String theme) {
@@ -420,16 +417,12 @@ public class Template {
         if (dir == null) {
             return EnumBlockRotation.NONE;
         }
-        switch (dir) {
-            case EAST:
-                return EnumBlockRotation.COUNTERCLOCKWISE_90;
-            case NORTH:
-                return EnumBlockRotation.CLOCKWISE_180;
-            case WEST:
-                return EnumBlockRotation.CLOCKWISE_90;
-            default:
-                return EnumBlockRotation.NONE;
-        }
+        return switch (dir) {
+            case EAST -> EnumBlockRotation.COUNTERCLOCKWISE_90;
+            case NORTH -> EnumBlockRotation.CLOCKWISE_180;
+            case WEST -> EnumBlockRotation.CLOCKWISE_90;
+            default -> EnumBlockRotation.NONE;
+        };
     }
 
     public void load_template(String filepath) throws IOException, CivException {
@@ -603,8 +596,7 @@ public class Template {
 
                     sbs.add(sb);
 
-                    if (b.getState() instanceof Sign) {
-                        Sign s2 = (Sign) b.getState();
+                    if (b.getState() instanceof Sign s2) {
                         s2.setLine(0, tpl.blocks[x][y][z].message[0]);
                         s2.setLine(1, tpl.blocks[x][y][z].message[1]);
                         s2.setLine(2, tpl.blocks[x][y][z].message[2]);

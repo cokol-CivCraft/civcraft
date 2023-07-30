@@ -241,10 +241,9 @@ public class TradeInventoryListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOW)
     public void onInventoryClickEvent(InventoryClickEvent event) {
-        if (!(event.getWhoClicked() instanceof Player)) {
+        if (!(event.getWhoClicked() instanceof Player player)) {
             return;
         }
-        Player player = (Player) event.getWhoClicked();
         Resident resident = CivGlobal.getResident(player);
         TradeInventoryPair pair = tradeInventories.get(getTradeInventoryKey(resident));
         if (pair == null) {
@@ -477,10 +476,9 @@ public class TradeInventoryListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOW)
     public void onInventoryDragEvent(InventoryDragEvent event) {
-        if (!(event.getWhoClicked() instanceof Player)) {
+        if (!(event.getWhoClicked() instanceof Player player)) {
             return;
         }
-        Player player = (Player) event.getWhoClicked();
         Resident resident = CivGlobal.getResident(player);
         TradeInventoryPair pair = tradeInventories.get(getTradeInventoryKey(resident));
         if (pair == null) {
@@ -506,10 +504,9 @@ public class TradeInventoryListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOW)
     public void onInventoryClose(InventoryCloseEvent event) {
-        if (!(event.getPlayer() instanceof Player)) {
+        if (!(event.getPlayer() instanceof Player player)) {
             return;
         }
-        Player player = (Player) event.getPlayer();
         Resident resident = CivGlobal.getResident(player);
 
         if (resident == null) {

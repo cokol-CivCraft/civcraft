@@ -37,8 +37,7 @@ public final class ArrayWrapper<E> {
     @SuppressWarnings({"unused", "unchecked"})
     public static <T> T[] toArray(Iterable<? extends T> list, Class<T> c) {
         int size = -1;
-        if ((list instanceof Collection)) {
-            Collection<? extends T> coll = (Collection<? extends T>) list;
+        if ((list instanceof Collection<? extends T> coll)) {
             size = coll.size();
         }
         if (size < 0) {

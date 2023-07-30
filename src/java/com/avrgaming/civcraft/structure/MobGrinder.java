@@ -47,29 +47,15 @@ public class MobGrinder extends Structure {
     }
 
     public double getMineralChance(Crystal crystal) {
-        double chance = 0;
-        switch (crystal) {
-            case T1:
-                chance = T1_CHANCE;
-                break;
-            case T2:
-                chance = T2_CHANCE;
-                break;
-            case T3:
-                chance = T3_CHANCE;
-                break;
-            case T4:
-                chance = T4_CHANCE;
-                break;
-            case PACK:
-                chance = PACK_CHANCE;
-                break;
-            case BIGPACK:
-                chance = BIGPACK_CHANCE;
-                break;
-            case HUGEPACK:
-                chance = HUGEPACK_CHANCE;
-        }
+        double chance = switch (crystal) {
+            case T1 -> T1_CHANCE;
+            case T2 -> T2_CHANCE;
+            case T3 -> T3_CHANCE;
+            case T4 -> T4_CHANCE;
+            case PACK -> PACK_CHANCE;
+            case BIGPACK -> BIGPACK_CHANCE;
+            case HUGEPACK -> HUGEPACK_CHANCE;
+        };
 
         double increase = chance * this.getTown().getBuffManager().getEffectiveDouble(Buff.EXTRACTION);
         chance += increase;

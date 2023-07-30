@@ -131,8 +131,7 @@ public class UnitMaterial extends LoreMaterial {
             if (stack != null) {
                 //	CustomItemStack is = new CustomItemStack(stack);
                 LoreMaterial material = LoreMaterial.getMaterial(stack);
-                if ((material instanceof UnitItemMaterial)) {
-                    UnitItemMaterial umat = (UnitItemMaterial) material;
+                if ((material instanceof UnitItemMaterial umat)) {
                     if (umat.getParent() == this) {
                         inv.remove(stack);
                     }
@@ -213,8 +212,7 @@ public class UnitMaterial extends LoreMaterial {
 
     @Override
     public void onItemPickup(EntityPickupItemEvent event) {
-        if (event.getEntity() instanceof Player) {
-            Player player = (Player) event.getEntity();
+        if (event.getEntity() instanceof Player player) {
             if (!validateUnitUse(player, event.getItem().getItemStack())) {
                 CivMessage.sendErrorNoRepeat(player, CivSettings.localize.localizedString("unitMaterial_errorWrongCiv"));
                 event.setCancelled(true);
@@ -287,8 +285,7 @@ public class UnitMaterial extends LoreMaterial {
     public void onInvItemPickup(InventoryClickEvent event,
                                 Inventory fromInv, ItemStack stack) {
 
-        if (fromInv.getHolder() instanceof Player) {
-            Player player = (Player) fromInv.getHolder();
+        if (fromInv.getHolder() instanceof Player player) {
             onItemFromPlayer(player, stack);
         }
     }
@@ -297,11 +294,10 @@ public class UnitMaterial extends LoreMaterial {
     public void onInvItemDrop(InventoryClickEvent event,
                               Inventory toInv, ItemStack stack) {
 
-        if (toInv.getHolder() instanceof Player) {
+        if (toInv.getHolder() instanceof Player player) {
             //A hack to make sure we are always moving the item to the player's inv.
             //A player inv is always on the bottom, toInv could be the 'crafting' inv
             toInv = event.getView().getBottomInventory();
-            Player player = (Player) toInv.getHolder();
 
             if (!validateUnitUse(player, stack)) {
                 CivMessage.sendError(player, CivSettings.localize.localizedString("unitMaterial_errorWrongCiv"));
@@ -347,8 +343,7 @@ public class UnitMaterial extends LoreMaterial {
             return;
         }
 
-        if (toInv.getHolder() instanceof Player) {
-            Player player = (Player) toInv.getHolder();
+        if (toInv.getHolder() instanceof Player player) {
 
             if (!validateUnitUse(player, stack)) {
                 CivMessage.sendError(player, CivSettings.localize.localizedString("unitMaterial_errorWrongCiv"));

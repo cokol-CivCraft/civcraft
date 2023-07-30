@@ -55,22 +55,22 @@ public class WaterStructure extends Structure {
             //loc = center.getChunk().getBlock(arg0, arg1, arg2)
         } else {
             switch (dir) {
-                case EAST:
+                case EAST -> {
                     loc.setZ(loc.getZ() - (z_size / 2));
                     loc.setX(loc.getX() + SHIFT_OUT);
-                    break;
-                case WEST:
+                }
+                case WEST -> {
                     loc.setZ(loc.getZ() - (z_size / 2));
                     loc.setX(loc.getX() - (SHIFT_OUT + x_size));
-                    break;
-                case NORTH:
+                }
+                case NORTH -> {
                     loc.setX(loc.getX() - (x_size / 2));
                     loc.setZ(loc.getZ() - (SHIFT_OUT + z_size));
-                    break;
-                case SOUTH:
+                }
+                case SOUTH -> {
                     loc.setX(loc.getX() - (x_size / 2));
                     loc.setZ(loc.getZ() + SHIFT_OUT);
-                    break;
+                }
             }
         }
 

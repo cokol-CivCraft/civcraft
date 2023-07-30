@@ -69,165 +69,90 @@ public class MobGrinderAsyncTask extends CivAsyncTask {
         String id = getMobId(is);
         ArrayList<ItemStack> newItems = new ArrayList<>();
         switch (id) {
-            case "ZOMBIE":
+            case "ZOMBIE" -> {
                 switch (tier) {
-                    case 1:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_zombie_egg_2")));
-                        break;
-                    case 2:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_zombie_egg_3")));
-                        break;
-                    case 3:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_zombie_egg_4")));
-                        break;
-                    case 4:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_boots")));
-                        break;
+                    case 1 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_zombie_egg_2")));
+                    case 2 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_zombie_egg_3")));
+                    case 3 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_zombie_egg_4")));
+                    case 4 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_boots")));
                 }
-                break;
-            case "SHEEP":
+            }
+            case "SHEEP" -> {
                 switch (tier) {
-                    case 1:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_sheep_egg_2")));
-                        break;
-                    case 2:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_sheep_egg_3")));
-                        break;
-                    case 3:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_sheep_egg_4")));
-                        break;
-                    case 4:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_boots")));
-                        break;
+                    case 1 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_sheep_egg_2")));
+                    case 2 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_sheep_egg_3")));
+                    case 3 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_sheep_egg_4")));
+                    case 4 ->
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_boots")));
                 }
-                break;
-            case "PIG":
+            }
+            case "PIG" -> {
                 switch (tier) {
-                    case 1:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_pig_egg_2")));
-                        break;
-                    case 2:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_pig_egg_3")));
-                        break;
-                    case 3:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_pig_egg_4")));
-                        break;
-                    case 4:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_leggings")));
-                        break;
+                    case 1 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_pig_egg_2")));
+                    case 2 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_pig_egg_3")));
+                    case 3 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_pig_egg_4")));
+                    case 4 ->
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_leggings")));
                 }
-                break;
-            case "COW":
+            }
+            case "COW" -> {
                 switch (tier) {
-                    case 1:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_cow_egg_2")));
-                        break;
-                    case 2:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_cow_egg_3")));
-                        break;
-                    case 3:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_cow_egg_4")));
-                        break;
-                    case 4:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_chestplate")));
-                        break;
+                    case 1 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_cow_egg_2")));
+                    case 2 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_cow_egg_3")));
+                    case 3 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_cow_egg_4")));
+                    case 4 ->
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_chestplate")));
                 }
-                break;
-            case "CHICKEN":
+            }
+            case "CHICKEN" -> {
                 switch (tier) {
-                    case 1:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_chicken_egg_2")));
-                        break;
-                    case 2:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_chicken_egg_3")));
-                        break;
-                    case 3:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_chicken_egg_4")));
-                        break;
-                    case 4:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_helmet")));
-                        break;
+                    case 1 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_chicken_egg_2")));
+                    case 2 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_chicken_egg_3")));
+                    case 3 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_chicken_egg_4")));
+                    case 4 ->
+                            newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_composite_leather_helmet")));
                 }
-                break;
-            case "SKELETON":
+            }
+            case "SKELETON" -> {
                 switch (tier) {
-                    case 1:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_skeleton_egg_2")));
-                        break;
-                    case 2:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_skeleton_egg_3")));
-                        break;
-                    case 3:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_skeleton_egg_4")));
-                        break;
-                    case 4:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_leggings")));
-                        break;
+                    case 1 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_skeleton_egg_2")));
+                    case 2 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_skeleton_egg_3")));
+                    case 3 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_skeleton_egg_4")));
+                    case 4 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_leggings")));
                 }
-                break;
-            case "SLIME":
+            }
+            case "SLIME" -> {
                 switch (tier) {
-                    case 1:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_slime_egg_2")));
-                        break;
-                    case 2:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_slime_egg_3")));
-                        break;
-                    case 3:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_slime_egg_4")));
-                        break;
-                    case 4:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_sword")));
-                        break;
+                    case 1 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_slime_egg_2")));
+                    case 2 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_slime_egg_3")));
+                    case 3 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_slime_egg_4")));
+                    case 4 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_sword")));
                 }
-                break;
-            case "ENDERMAN":
+            }
+            case "ENDERMAN" -> {
                 switch (tier) {
-                    case 1:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_enderman_egg_2")));
-                        break;
-                    case 2:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_enderman_egg_3")));
-                        break;
-                    case 3:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_enderman_egg_4")));
-                        break;
-                    case 4:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_sword")));
-                        break;
+                    case 1 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_enderman_egg_2")));
+                    case 2 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_enderman_egg_3")));
+                    case 3 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_enderman_egg_4")));
+                    case 4 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_sword")));
                 }
-                break;
-            case "CREEPER":
+            }
+            case "CREEPER" -> {
                 switch (tier) {
-                    case 1:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_creeper_egg_2")));
-                        break;
-                    case 2:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_creeper_egg_3")));
-                        break;
-                    case 3:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_creeper_egg_4")));
-                        break;
-                    case 4:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_chestplate")));
-                        break;
+                    case 1 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_creeper_egg_2")));
+                    case 2 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_creeper_egg_3")));
+                    case 3 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_creeper_egg_4")));
+                    case 4 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_chestplate")));
                 }
-                break;
-            case "SPIDER":
+            }
+            case "SPIDER" -> {
                 switch (tier) {
-                    case 1:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_spider_egg_2")));
-                        break;
-                    case 2:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_spider_egg_3")));
-                        break;
-                    case 3:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_spider_egg_4")));
-                        break;
-                    case 4:
-                        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_helmet")));
-                        break;
+                    case 1 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_spider_egg_2")));
+                    case 2 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_spider_egg_3")));
+                    case 3 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_spider_egg_4")));
+                    case 4 -> newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_helmet")));
                 }
+            }
         }
         return newItems;
     }
@@ -328,7 +253,7 @@ public class MobGrinderAsyncTask extends CivAsyncTask {
                 int rand1 = rand.nextInt(10000);
                 ArrayList<ItemStack> newItems = new ArrayList<>();
                 switch (getEggTier(stack)) {
-                    case 4:
+                    case 4 -> {
                         if (rand1 < ((int) ((mobGrinder.getMineralChance(Crystal.HUGEPACK)) * 10000))) {
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_1"), 2));
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_1"), 2));
@@ -367,8 +292,8 @@ public class MobGrinderAsyncTask extends CivAsyncTask {
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_fragment_4"), 2));
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_fragment_4"), 2));
                         }
-                        break;
-                    case 3:
+                    }
+                    case 3 -> {
                         if (rand1 < ((int) ((mobGrinder.getMineralChance(Crystal.HUGEPACK)) * 10000))) {
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_1")));
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_1")));
@@ -410,9 +335,8 @@ public class MobGrinderAsyncTask extends CivAsyncTask {
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_fragment_3")));
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_fragment_3")));
                         }
-                        break;
-
-                    case 2:
+                    }
+                    case 2 -> {
                         if (rand1 < ((int) ((mobGrinder.getMineralChance(Crystal.HUGEPACK)) * 10000))) {
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_2"), 2));
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_2"), 2));
@@ -451,9 +375,8 @@ public class MobGrinderAsyncTask extends CivAsyncTask {
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_fragment_2")));
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_fragment_2")));
                         }
-                        break;
-
-                    case 1:
+                    }
+                    case 1 -> {
                         if (rand1 < ((int) ((mobGrinder.getMineralChance(Crystal.HUGEPACK)) * 10000))) {
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_1"), 2));
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_1"), 2));
@@ -485,9 +408,9 @@ public class MobGrinderAsyncTask extends CivAsyncTask {
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_fragment_1")));
                             newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_fragment_1")));
                         }
-                        break;
-                    default:
-                        break;
+                    }
+                    default -> {
+                    }
                 }
                 if (!newItems.isEmpty()) {
                     //Try to add the new item to the dest chest, if we cant, oh well.

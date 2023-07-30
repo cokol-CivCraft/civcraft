@@ -46,8 +46,7 @@ public class PlayerProximityComponentTimer implements Runnable {
              * Wait for the lock to free up before we continue;
              */
             for (Component comp : proximityComponents) {
-                if (comp instanceof PlayerProximityComponent) {
-                    PlayerProximityComponent ppc = (PlayerProximityComponent) comp;
+                if (comp instanceof PlayerProximityComponent ppc) {
 
                     if (ppc.lock.tryLock()) {
                         try {

@@ -243,8 +243,7 @@ public class PlotCommand extends CommandBase {
 
 
     public void info_cmd() throws CivException {
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
+        if (sender instanceof Player player) {
 
             TownChunk tc = CivGlobal.getTownChunk(player.getLocation());
             if (tc == null) {

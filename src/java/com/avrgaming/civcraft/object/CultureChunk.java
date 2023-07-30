@@ -166,8 +166,7 @@ public class CultureChunk {
 
             for (Component comp : attrs) {
 
-                if (comp instanceof AttributeBiomeBase) {
-                    AttributeBiomeBase attrComp = (AttributeBiomeBase) comp;
+                if (comp instanceof AttributeBiomeBase attrComp) {
                     if (attrComp.getAttribute().equals(attrType)) {
                         total += attrComp.getGenerated(this);
                     }

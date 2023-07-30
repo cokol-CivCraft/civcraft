@@ -59,8 +59,7 @@ public class SignSelectionComponent extends Component {
 
                 Block block = actionSignCoord.getBlock();
 
-                if (block.getState() instanceof Sign) {
-                    Sign sign = (Sign) block.getState();
+                if (block.getState() instanceof Sign sign) {
                     SelectionItem item = items.get(selectedIndex);
                     if (item != null) {
                         sign.setLine(0, item.message[0]);

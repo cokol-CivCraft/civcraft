@@ -36,6 +36,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class MarkerPlacementManager implements Listener {
 
@@ -57,11 +58,7 @@ public class MarkerPlacementManager implements Listener {
 
         ItemStack stack = new ItemStack(Material.REDSTONE_TORCH_OFF, 2, (short) 0);
         ItemMeta meta = stack.getItemMeta();
-        if (markerName != null) {
-            meta.setDisplayName(markerName);
-        } else {
-            meta.setDisplayName("Marker");
-        }
+        meta.setDisplayName(Objects.requireNonNullElse(markerName, "Marker"));
         stack.setItemMeta(meta);
         player.getInventory().setItemInMainHand(stack);
 

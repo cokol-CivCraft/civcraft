@@ -124,12 +124,7 @@ public class FarmChunk {
         zOff = offset[randInt][1];
         try {
             switch (randInt) {
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                    nextBlock = bs.getRelative(xOff, 0, zOff);
-                    break;
+                case 0, 1, 2, 3 -> nextBlock = bs.getRelative(xOff, 0, zOff);
             }
         } catch (InvalidBlockLocation e) {
             // An invalid block location can occur if we try to grow 'off the chunk'
@@ -177,31 +172,28 @@ public class FarmChunk {
         //XXX we are skipping hydration as I guess we dont seem to care.
         //XXX we also skip light level checks, as we dont really care about that either.
         switch (bs.getType()) {
-            case WHEAT:
-            case CARROT:
-            case POTATO:
+            case WHEAT, CARROT, POTATO -> {
                 if (bs.getData() < 0x7) {
                     addGrowBlock("world", growMe.getX(), growMe.getY(), growMe.getZ(), bs.getType(), bs.getData() + 0x1, false);
                 }
-                break;
-            case NETHER_WARTS:
+            }
+            case NETHER_WARTS -> {
                 if (bs.getData() < 0x3) {
                     addGrowBlock("world", growMe.getX(), growMe.getY(), growMe.getZ(), bs.getType(), bs.getData() + 0x1, false);
                 }
-                break;
-            case MELON_STEM:
-            case PUMPKIN_STEM:
+            }
+            case MELON_STEM, PUMPKIN_STEM -> {
                 if (bs.getData() < 0x7) {
                     addGrowBlock("world", growMe.getX(), growMe.getY(), growMe.getZ(), bs.getType(), bs.getData() + 0x1, false);
                 } else if (bs.getData() == 0x7) {
                     spawnMelonOrPumpkin(bs, growMe, task);
                 }
-                break;
-            case COCOA:
+            }
+            case COCOA -> {
                 if (CivData.canCocoaGrow(bs)) {
                     addGrowBlock("world", growMe.getX(), growMe.getY(), growMe.getZ(), bs.getType(), CivData.getNextCocoaValue(bs), false);
                 }
-                break;
+            }
         }
     }
 
@@ -232,8 +224,7 @@ public class FarmChunk {
         }
 
         for (Component comp : this.getFarm().attachedComponents) {
-            if (comp instanceof ActivateOnBiome) {
-                ActivateOnBiome ab = (ActivateOnBiome) comp;
+            if (comp instanceof ActivateOnBiome ab) {
                 if (ab.isValidBiome(biomeName)) {
                     effectiveGrowthRate *= ab.getValue();
                     break;

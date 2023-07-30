@@ -79,14 +79,13 @@ public class ConfigTownUpgrade {
         Structure struct;
 
         switch (args[0]) {
-            case "set_town_level":
+            case "set_town_level" -> {
                 if (town.getLevel() < Integer.parseInt(args[1].trim())) {
                     town.setLevel(Integer.parseInt(args[1].trim()));
                     CivMessage.global(CivSettings.localize.localizedString("var_townUpgrade_town", town.getName(), town.getLevelTitle()));
                 }
-                break;
-
-            case "set_bank_level":
+            }
+            case "set_bank_level" -> {
                 if (town.saved_bank_level < Integer.parseInt(args[1].trim())) {
                     town.saved_bank_level = Integer.parseInt(args[1].trim());
                 }
@@ -99,8 +98,8 @@ public class ConfigTownUpgrade {
                         CivMessage.sendTown(town, CivSettings.localize.localizedString("var_townUpgrade_bank", bank.getLevel()));
                     }
                 }
-                break;
-            case "set_bank_interest":
+            }
+            case "set_bank_interest" -> {
                 if (town.saved_bank_interest_amount < Double.parseDouble(args[1].trim())) {
                     town.saved_bank_interest_amount = Double.parseDouble(args[1].trim());
                 }
@@ -113,8 +112,8 @@ public class ConfigTownUpgrade {
                         CivMessage.sendTown(town, CivSettings.localize.localizedString("var_townupgrade_interest", df.format(bank.getInterestRate() * 100)));
                     }
                 }
-                break;
-            case "set_store_level":
+            }
+            case "set_store_level" -> {
                 if (town.saved_store_level < Integer.parseInt(args[1].trim())) {
                     town.saved_store_level = Integer.parseInt(args[1].trim());
                 }
@@ -127,8 +126,8 @@ public class ConfigTownUpgrade {
                         CivMessage.sendTown(town, CivSettings.localize.localizedString("var_townupgrade_store", store.getLevel()));
                     }
                 }
-                break;
-            case "set_store_material":
+            }
+            case "set_store_material" -> {
                 struct = town.getStructureByType("s_store");
                 if ((struct instanceof Store)) {
                     Store store = (Store) struct;
@@ -136,8 +135,8 @@ public class ConfigTownUpgrade {
                     store.addStoreMaterial(mat);
                     store.updateSignText();
                 }
-                break;
-            case "set_library_level":
+            }
+            case "set_library_level" -> {
                 if (town.saved_library_level < Integer.parseInt(args[1].trim())) {
                     town.saved_library_level = Integer.parseInt(args[1].trim());
                 }
@@ -150,8 +149,8 @@ public class ConfigTownUpgrade {
                         CivMessage.sendTown(town, CivSettings.localize.localizedString("var_townupgrade_library", library.getLevel()));
                     }
                 }
-                break;
-            case "enable_library_enchantment":
+            }
+            case "enable_library_enchantment" -> {
                 struct = town.getStructureByType("s_library");
                 if ((struct instanceof Library)) {
                     Library library = (Library) struct;
@@ -160,8 +159,8 @@ public class ConfigTownUpgrade {
                     library.updateSignText();
                     CivMessage.sendTown(town, CivSettings.localize.localizedString("var_townupgrade_enchantment", args[1].trim() + " " + args[2]));
                 }
-                break;
-            case "set_fish_hatchery_level":
+            }
+            case "set_fish_hatchery_level" -> {
                 boolean didUpgradeFishery = false;
                 if (town.saved_fish_hatchery_level < Integer.parseInt(args[1].trim())) {
                     town.saved_fish_hatchery_level = Integer.parseInt(args[1].trim());
@@ -182,8 +181,8 @@ public class ConfigTownUpgrade {
                 if (didUpgradeFishery) {
                     CivMessage.sendTown(town, CivSettings.localize.localizedString("var_townupgrade_fish_hatchery", town.saved_fish_hatchery_level));
                 }
-                break;
-            case "set_tradeship_upgrade_level":
+            }
+            case "set_tradeship_upgrade_level" -> {
                 if (town.saved_tradeship_upgrade_levels < Integer.parseInt(args[1].trim())) {
                     town.saved_tradeship_upgrade_levels = Integer.parseInt(args[1].trim());
                 }
@@ -204,8 +203,8 @@ public class ConfigTownUpgrade {
                 if (didUpgradeTradeShip) {
                     CivMessage.sendTown(town, CivSettings.localize.localizedString("var_townupgrade_tradeship", town.saved_tradeship_upgrade_levels));
                 }
-                break;
-            case "set_grocer_level":
+            }
+            case "set_grocer_level" -> {
                 if (town.saved_grocer_levels < Integer.parseInt(args[1].trim())) {
                     town.saved_grocer_levels = Integer.parseInt(args[1].trim());
                 }
@@ -218,8 +217,8 @@ public class ConfigTownUpgrade {
                         CivMessage.sendTown(town, CivSettings.localize.localizedString("var_townupgrade_grocer", grocer.getLevel()));
                     }
                 }
-                break;
-            case "set_trommel_level":
+            }
+            case "set_trommel_level" -> {
                 boolean didUpgrade = false;
                 if (town.saved_trommel_level < Integer.parseInt(args[1].trim())) {
                     town.saved_trommel_level = Integer.parseInt(args[1].trim());
@@ -239,8 +238,8 @@ public class ConfigTownUpgrade {
                 if (didUpgrade) {
                     CivMessage.sendTown(town, CivSettings.localize.localizedString("var_townupgrade_trommels", town.saved_trommel_level));
                 }
-                break;
-            case "set_quarry_level":
+            }
+            case "set_quarry_level" -> {
                 if (town.saved_quarry_level < Integer.parseInt(args[1].trim())) {
                     town.saved_quarry_level = Integer.parseInt(args[1].trim());
                 }
@@ -260,7 +259,7 @@ public class ConfigTownUpgrade {
                 if (didUpgradeQuarry) {
                     CivMessage.sendTown(town, CivSettings.localize.localizedString("var_townupgrade_quarries", town.saved_quarry_level));
                 }
-                break;
+            }
         }
     }
 

@@ -81,8 +81,7 @@ public class CivResearchCommand extends CommandBase {
         }
 
         civ.startTechnologyResearch(tech);
-        if (sender instanceof Player) {
-            Player p = (Player) sender;
+        if (sender instanceof Player p) {
             p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.1f, 1.0f);
         }
         CivMessage.sendCiv(civ, CivSettings.localize.localizedString("var_cmd_civ_research_start", tech.name));
@@ -127,8 +126,7 @@ public class CivResearchCommand extends CommandBase {
         }
 
         civ.startTechnologyResearch(tech);
-        if (sender instanceof Player) {
-            Player p = (Player) sender;
+        if (sender instanceof Player p) {
             p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.1f, 1.0f);
         }
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_civ_research_start", tech.name));

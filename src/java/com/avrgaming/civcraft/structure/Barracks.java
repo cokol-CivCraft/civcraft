@@ -195,13 +195,9 @@ public class Barracks extends Structure {
         }
 
         switch (sign.getAction()) {
-            case "prev":
-                changeIndex((index - 1));
-                break;
-            case "next":
-                changeIndex((index + 1));
-                break;
-            case "train":
+            case "prev" -> changeIndex((index - 1));
+            case "next" -> changeIndex((index + 1));
+            case "train" -> {
                 if (resident.hasTown()) {
                     try {
                         if (getTown().getAssistantGroup().hasMember(resident) || getTown().getMayorGroup().hasMember(resident)) {
@@ -213,10 +209,8 @@ public class Barracks extends Structure {
                         CivMessage.send(player, ChatColor.RED + e.getMessage());
                     }
                 }
-                break;
-            case "repair_item":
-                repairItem(player, resident, event);
-                break;
+            }
+            case "repair_item" -> repairItem(player, resident, event);
         }
     }
 
@@ -314,7 +308,7 @@ public class Barracks extends Structure {
         StructureSign structSign;
 
         switch (sb.command) {
-            case "/prev":
+            case "/prev" -> {
                 sb.setTo(absCoord);
                 structSign = new StructureSign(absCoord, this);
                 structSign.setText("\n" + ChatColor.BOLD + ChatColor.UNDERLINE + CivSettings.localize.localizedString("barracks_sign_previousUnit"));
@@ -323,26 +317,20 @@ public class Barracks extends Structure {
                 structSign.update();
                 this.addStructureSign(structSign);
                 CivGlobal.addStructureSign(structSign);
-
-                break;
-            case "/unitname":
+            }
+            case "/unitname" -> {
                 sb.setTo(absCoord);
-
                 structSign = new StructureSign(absCoord, this);
                 structSign.setText(getUnitSignText(0));
                 structSign.setDirection(sb.getData());
                 structSign.setAction("info");
                 structSign.update();
-
                 this.unitNameSign = structSign;
-
                 this.addStructureSign(structSign);
                 CivGlobal.addStructureSign(structSign);
-
-                break;
-            case "/next":
+            }
+            case "/next" -> {
                 sb.setTo(absCoord);
-
                 structSign = new StructureSign(absCoord, this);
                 structSign.setText("\n" + ChatColor.BOLD + ChatColor.UNDERLINE + CivSettings.localize.localizedString("barracks_sign_nextUnit"));
                 structSign.setDirection(sb.getData());
@@ -350,11 +338,9 @@ public class Barracks extends Structure {
                 structSign.update();
                 this.addStructureSign(structSign);
                 CivGlobal.addStructureSign(structSign);
-
-                break;
-            case "/train":
+            }
+            case "/train" -> {
                 sb.setTo(absCoord);
-
                 structSign = new StructureSign(absCoord, this);
                 structSign.setText("\n" + ChatColor.BOLD + ChatColor.UNDERLINE + CivSettings.localize.localizedString("barracks_sign_train"));
                 structSign.setDirection(sb.getData());
@@ -362,11 +348,9 @@ public class Barracks extends Structure {
                 structSign.update();
                 this.addStructureSign(structSign);
                 CivGlobal.addStructureSign(structSign);
-
-                break;
-            case "/progress":
+            }
+            case "/progress" -> {
                 sb.setTo(absCoord);
-
                 structSign = new StructureSign(absCoord, this);
                 structSign.setText("");
                 structSign.setDirection(sb.getData());
@@ -374,13 +358,10 @@ public class Barracks extends Structure {
                 structSign.update();
                 this.addStructureSign(structSign);
                 CivGlobal.addStructureSign(structSign);
-
                 this.progresBar.put(Integer.valueOf(sb.keyvalues.get("id")), structSign);
-
-                break;
-            case "/repair":
+            }
+            case "/repair" -> {
                 sb.setTo(absCoord);
-
                 structSign = new StructureSign(absCoord, this);
                 structSign.setText("\n" + ChatColor.BOLD + ChatColor.UNDERLINE + CivSettings.localize.localizedString("barracks_sign_repairItem"));
                 structSign.setDirection(sb.getData());
@@ -388,9 +369,7 @@ public class Barracks extends Structure {
                 structSign.update();
                 this.addStructureSign(structSign);
                 CivGlobal.addStructureSign(structSign);
-
-                break;
-
+            }
         }
     }
 

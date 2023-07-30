@@ -354,7 +354,7 @@ public class DebugCommand extends CommandBase {
                                 SimpleBlock sb = tpl.blocks[x][y][z];
 
                                 switch (sb.specialType) {
-                                    case COMMAND:
+                                    case COMMAND -> {
                                         String buildableName = sb.command.replace("/", "");
                                         info = null;
                                         for (ConfigBuildableInfo buildInfo : CivSettings.structures.values()) {
@@ -363,7 +363,6 @@ public class DebugCommand extends CommandBase {
                                                 break;
                                             }
                                         }
-
                                         if (info == null) {
                                             try {
                                                 new SimpleBlock(Material.AIR, 0).setTo(next.getBlock());
@@ -373,15 +372,12 @@ public class DebugCommand extends CommandBase {
                                                 continue;
                                             }
                                         }
-
                                         CivMessage.send(sender, "Setting up " + buildableName);
                                         String[] split = sb.getKeyValueString().split(",")[0].split(":");
                                         String dir = split[0];
                                         int yShift = Integer.parseInt(split[1]);
-
                                         Location loc = next.getLocation();
                                         loc.setY(loc.getY() + yShift);
-
                                         Structure struct = Structure.newStructure(loc, info.id, spawnCapitol);
                                         if (struct instanceof Capitol) {
                                             AdminTownCommand.claimradius(spawnCapitol, center, 15);
@@ -392,7 +388,6 @@ public class DebugCommand extends CommandBase {
                                         struct.setHitpoints(info.max_hp);
                                         CivGlobal.addStructure(struct);
                                         spawnCapitol.addStructure(struct);
-
                                         Template tplStruct;
                                         try {
                                             tplStruct = Template.getTemplate(struct.getSavedTemplatePath(), null);
@@ -401,12 +396,10 @@ public class DebugCommand extends CommandBase {
                                             e.printStackTrace();
                                             throw new CivException("IO Exception.");
                                         }
-
                                         struct.save();
                                         spawnCapitol.save();
-
-                                        break;
-                                    case LITERAL:
+                                    }
+                                    case LITERAL -> {
                                         try {
                                             sb.setTo(next.getLocation().getBlock());
                                             Sign s = (Sign) next.getBlock().getState();
@@ -418,14 +411,14 @@ public class DebugCommand extends CommandBase {
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }
-                                        break;
-                                    default:
+                                    }
+                                    default -> {
                                         try {
                                             sb.setTo(next.getLocation().getBlock());
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }
-                                        break;
+                                    }
                                 }
                             }
                         }
@@ -1200,27 +1193,13 @@ public class DebugCommand extends CommandBase {
         }
 
         String locationString = "world," + args[1];
-        BlockFace face;
-
-        switch (args[2]) {
-            case "n":
-                face = BlockFace.NORTH;
-                break;
-
-            case "s":
-                face = BlockFace.SOUTH;
-                break;
-
-            case "e":
-                face = BlockFace.EAST;
-                break;
-
-            case "w":
-                face = BlockFace.WEST;
-                break;
-            default:
-                throw new CivException("Invalid direction, use n,s,e,w");
-        }
+        BlockFace face = switch (args[2]) {
+            case "n" -> BlockFace.NORTH;
+            case "s" -> BlockFace.SOUTH;
+            case "e" -> BlockFace.EAST;
+            case "w" -> BlockFace.WEST;
+            default -> throw new CivException("Invalid direction, use n,s,e,w");
+        };
 
         Location loc = CivGlobal.getLocationFromHash(locationString);
         new ItemFrameStorage(loc, face);
@@ -1281,8 +1260,7 @@ public class DebugCommand extends CommandBase {
     }
 
     public void culturechunk_cmd() {
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
+        if (sender instanceof Player player) {
 
             CultureChunk cc = CivGlobal.getCultureChunk(player.getLocation());
 
@@ -1360,8 +1338,7 @@ public class DebugCommand extends CommandBase {
     }
 
     public void townchunk_cmd() {
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
+        if (sender instanceof Player player) {
 
             TownChunk tc = CivGlobal.getTownChunk(player.getLocation());
 

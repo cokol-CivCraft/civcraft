@@ -38,8 +38,7 @@ public class ConfigWonderBuff {
 
             List<?> buffStrings = (List<?>) b.get("buffs");
             for (Object obj : buffStrings) {
-                if (obj instanceof String) {
-                    String str = (String) obj;
+                if (obj instanceof String str) {
 
                     ConfigBuff cfgBuff = CivSettings.buffs.get(str);
 

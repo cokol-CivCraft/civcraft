@@ -141,9 +141,8 @@ public class InventorySerializer {
             }
         }
 
-        if (invInventory instanceof PlayerInventory) {
+        if (invInventory instanceof PlayerInventory pInv) {
             serialization.append("&PINV@");
-            PlayerInventory pInv = (PlayerInventory) invInventory;
 
             for (ItemStack stack : pInv.getArmorContents()) {
                 if (stack != null) {
@@ -181,8 +180,7 @@ public class InventorySerializer {
             inv.setItem(stackPosition, is);
         }
 
-        if (inv instanceof PlayerInventory) {
-            PlayerInventory pInv = (PlayerInventory) inv;
+        if (inv instanceof PlayerInventory pInv) {
             invString = inventorySplit[1]; // was 1
             String[] serializedBlocksArmor = invString.split(";");
 

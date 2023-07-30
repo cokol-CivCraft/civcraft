@@ -40,7 +40,6 @@ import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.permission.PermissionGroup;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
-import com.avrgaming.civcraft.structure.BuildTaskInstance;
 import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.structure.TownHall;
 import com.avrgaming.civcraft.template.Template;
@@ -133,7 +132,7 @@ public class Resident extends SQLObject {
      * but there isn't a good way to do this ATM. If we had a way to send arbitary objects it would
      * be better. Could we store it here on the resident object?
      */
-    public BuildTaskInstance pendingBuildable;
+    public Buildable.BuildTaskInstance pendingBuildable;
     public ConfigBuildableInfo pendingBuildableInfo;
     public CallbackInterface pendingCallback;
 
@@ -335,33 +334,15 @@ public class Resident extends SQLObject {
 
         for (String s : str.split(",")) {
             switch (s.toLowerCase()) {
-                case "map":
-                    this.setShowMap(true);
-                    break;
-                case "showtown":
-                    this.setShowTown(true);
-                    break;
-                case "showciv":
-                    this.setShowCiv(true);
-                    break;
-                case "showscout":
-                    this.setShowScout(true);
-                    break;
-                case "info":
-                    this.setShowInfo(true);
-                    break;
-                case "combatinfo":
-                    this.setCombatInfo(true);
-                    break;
-                case "titleapi":
-                    this.setTitleAPI(CivSettings.hasTitleAPI);
-                    break;
-                case "itemmoderare":
-                    this.itemMode = "rare";
-                    break;
-                case "itemmodenone":
-                    this.itemMode = "none";
-                    break;
+                case "map" -> this.setShowMap(true);
+                case "showtown" -> this.setShowTown(true);
+                case "showciv" -> this.setShowCiv(true);
+                case "showscout" -> this.setShowScout(true);
+                case "info" -> this.setShowInfo(true);
+                case "combatinfo" -> this.setCombatInfo(true);
+                case "titleapi" -> this.setTitleAPI(CivSettings.hasTitleAPI);
+                case "itemmoderare" -> this.itemMode = "rare";
+                case "itemmodenone" -> this.itemMode = "none";
             }
         }
     }

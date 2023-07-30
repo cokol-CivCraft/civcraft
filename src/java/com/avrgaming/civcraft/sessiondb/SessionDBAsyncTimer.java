@@ -31,38 +31,29 @@ public class SessionDBAsyncTimer implements Runnable {
 
                     Connection cntx;
                     switch (request.database) {
-                        case GAME:
+                        case GAME -> {
                             if (gameConnection == null || gameConnection.isClosed()) {
                                 gameConnection = SQLController.getGameConnection();
                             }
                             cntx = gameConnection;
-                            break;
-                        case GLOBAL:
+                        }
+                        case GLOBAL -> {
                             if (globalConnection == null || globalConnection.isClosed()) {
                                 globalConnection = SQLController.getGameConnection();
                             }
                             cntx = globalConnection;
-                            break;
-                        default:
+                        }
+                        default -> {
                             return;
+                        }
                     }
 
                     switch (request.op) {
-                        case ADD:
-                            performAdd(request, cntx);
-                            break;
-                        case DELETE:
-                            performDelete(request, cntx);
-                            break;
-                        case DELETE_ALL:
-                            performDeleteAll(request, cntx);
-                            break;
-                        case UPDATE:
-                            performUpdate(request, cntx);
-                            break;
-                        case UPDATE_INSERT:
-                            performUpdateInsert(request, cntx);
-                            break;
+                        case ADD -> performAdd(request, cntx);
+                        case DELETE -> performDelete(request, cntx);
+                        case DELETE_ALL -> performDeleteAll(request, cntx);
+                        case UPDATE -> performUpdate(request, cntx);
+                        case UPDATE_INSERT -> performUpdateInsert(request, cntx);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

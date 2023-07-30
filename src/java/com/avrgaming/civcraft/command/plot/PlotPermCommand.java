@@ -53,24 +53,17 @@ public class PlotPermCommand extends CommandBase {
 
         PermissionNode node = null;
         switch (args[1].toLowerCase()) {
-            case "build":
-                node = tc.perms.build;
-                break;
-            case "destroy":
-                node = tc.perms.destroy;
-                break;
-            case "interact":
-                node = tc.perms.interact;
-                break;
-            case "itemuse":
-                node = tc.perms.itemUse;
-                break;
-            case "reset":
-                //TODO implement permissions reset.
-                break;
-            default:
+            case "build" -> node = tc.perms.build;
+            case "destroy" -> node = tc.perms.destroy;
+            case "interact" -> node = tc.perms.interact;
+            case "itemuse" -> node = tc.perms.itemUse;
+            case "reset" -> {
+            }
+            //TODO implement permissions reset.
+            default -> {
                 showPermCmdHelp();
                 throw new CivException(CivSettings.localize.localizedString("cmd_plot_perm_setBadArg"));
+            }
         }
 
         if (node == null) {
@@ -88,14 +81,9 @@ public class PlotPermCommand extends CommandBase {
         }
 
         switch (args[2].toLowerCase()) {
-            case "owner":
-                node.setPermitOwner(on);
-                break;
-            case "group":
-                node.setPermitGroup(on);
-                break;
-            case "others":
-                node.setPermitOthers(on);
+            case "owner" -> node.setPermitOwner(on);
+            case "group" -> node.setPermitGroup(on);
+            case "others" -> node.setPermitOthers(on);
         }
 
         tc.save();

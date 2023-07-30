@@ -56,22 +56,7 @@ public abstract class CommandBase implements TabExecutor {
         void run() throws CivException;
     }
 
-    private static class SubCommandRecord {
-        private final String description;
-        private final SubCommandFunction command;
-
-        SubCommandRecord(String description, SubCommandFunction command) {
-            this.description = description;
-            this.command = command;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public SubCommandFunction getCommand() {
-            return command;
-        }
+    private record SubCommandRecord(String description, SubCommandFunction command) {
     }
 
 
@@ -145,7 +130,7 @@ public abstract class CommandBase implements TabExecutor {
                 return false;
             }
             try {
-                comm.getCommand().run();
+                comm.command().run();
             } catch (IllegalArgumentException | CivException e) {
                 e.printStackTrace();
                 CivMessage.sendError(sender, CivSettings.localize.localizedString("internalCommandException"));
@@ -179,8 +164,8 @@ public abstract class CommandBase implements TabExecutor {
         CivMessage.sendHeading(sender, displayName + " " + CivSettings.localize.localizedString("cmd_CommandHelpTitle"));
         for (String c : commands.keySet()) {
             SubCommandRecord info = commands.get(c);
-            if (info.getDescription() != null) {
-                String text = info.getDescription().
+            if (info.description() != null) {
+                String text = info.description().
                         replace("[", ChatColor.YELLOW + "[").
                         replace("]", "]" + ChatColor.GRAY).
                         replace("(", ChatColor.YELLOW + "(").
@@ -212,10 +197,9 @@ public abstract class CommandBase implements TabExecutor {
             return senderTownOverride;
         }
 
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             throw new CivException(CivSettings.localize.localizedString("cmd_notPartOfTown"));
         }
-        Player player = (Player) sender;
         Resident res = CivGlobal.getResident(player);
         if (res == null || res.getTown() == null) {
             throw new CivException(CivSettings.localize.localizedString("cmd_notPartOfTown"));

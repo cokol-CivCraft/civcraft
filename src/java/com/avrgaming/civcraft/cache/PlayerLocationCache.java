@@ -141,8 +141,7 @@ public class PlayerLocationCache {
 
     @Override
     public boolean equals(Object other) {
-        if (other instanceof PlayerLocationCache) {
-            PlayerLocationCache otherCache = (PlayerLocationCache) other;
+        if (other instanceof PlayerLocationCache otherCache) {
             return otherCache.getName().equalsIgnoreCase(this.getName());
         }
         return false;

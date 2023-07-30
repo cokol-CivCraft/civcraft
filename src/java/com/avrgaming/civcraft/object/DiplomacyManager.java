@@ -227,12 +227,9 @@ public class DiplomacyManager {
         if (relation == null) {
             return false;
         }
-        switch (relation.getStatus()) {
-            case WAR:
-            case HOSTILE:
-                return true;
-            default:
-                return false;
-        }
+        return switch (relation.getStatus()) {
+            case WAR, HOSTILE -> true;
+            default -> false;
+        };
     }
 }

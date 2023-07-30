@@ -33,13 +33,9 @@ public class OpenInventory extends GuiAction {
             }
 
             switch (LoreGuiItem.getActionData(stack, "invType")) {
-                case "showTutorialInventory":
-                    CivTutorial.showTutorialInventory(player1);
-                    break;
-                case "showCraftingHelp":
-                    CivTutorial.showCraftingHelp(player1);
-                    break;
-                case "showGuiInv":
+                case "showTutorialInventory" -> CivTutorial.showTutorialInventory(player1);
+                case "showCraftingHelp" -> CivTutorial.showCraftingHelp(player1);
+                case "showGuiInv" -> {
                     String invName = LoreGuiItem.getActionData(stack, "invName");
                     Inventory inv = LoreGuiItemListener.guiInventories.get(invName);
                     if (inv == null) {
@@ -47,9 +43,9 @@ public class OpenInventory extends GuiAction {
                         break;
                     }
                     player1.openInventory(inv);
-                    break;
-                default:
-                    break;
+                }
+                default -> {
+                }
             }
         });
     }

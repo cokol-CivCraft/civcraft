@@ -35,8 +35,7 @@ public class DiplomacyGiftResponse implements QuestionResponseInterface {
     public void processResponse(String param) {
         if (param.equalsIgnoreCase("accept")) {
 
-            if (giftedObject instanceof Town) {
-                Town town = (Town) giftedObject;
+            if (giftedObject instanceof Town town) {
 
                 if (!toCiv.getTreasury().hasEnough(town.getGiftCost())) {
                     CivMessage.sendCiv(toCiv, ChatColor.RED + CivSettings.localize.localizedString("var_diplomacy_gift_ErrorTooPoor", town.getName(), town.getGiftCost(), CivSettings.CURRENCY_NAME));

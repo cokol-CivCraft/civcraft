@@ -98,7 +98,7 @@ public class TradeShip extends WaterStructure {
                 continue;
             }
             switch (sb.command) {
-                case "/incoming": {
+                case "/incoming" -> {
                     int ID = Integer.parseInt(sb.keyvalues.get("id"));
                     if (this.getUpgradeLvl() >= ID + 1) {
                         this.goodsWithdrawPoints.add(absCoord);
@@ -107,9 +107,8 @@ public class TradeShip extends WaterStructure {
                         absCoord.getBlock().getState().setData(new MaterialData(Material.AIR));
                     }
                     this.addStructureBlock(absCoord, false);
-                    break;
                 }
-                case "/inSign": {
+                case "/inSign" -> {
                     int ID = Integer.parseInt(sb.keyvalues.get("id"));
                     if (this.getUpgradeLvl() >= ID + 1) {
                         Sign sign = (Sign) absCoord.getBlock().getState();
@@ -129,9 +128,8 @@ public class TradeShip extends WaterStructure {
                         sign.update();
                     }
                     this.addStructureBlock(absCoord, false);
-                    break;
                 }
-                case "/outgoing": {
+                case "/outgoing" -> {
                     int ID = Integer.parseInt(sb.keyvalues.get("id"));
 
                     if (this.getLevel() >= (ID * 2) + 1) {
@@ -141,9 +139,8 @@ public class TradeShip extends WaterStructure {
                     } else {
                         absCoord.getBlock().getState().setData(new MaterialData(Material.AIR));
                     }
-                    break;
                 }
-                case "/outSign": {
+                case "/outSign" -> {
                     int ID = Integer.parseInt(sb.keyvalues.get("id"));
                     if (this.getLevel() >= (ID * 2) + 1) {
                         Block block = absCoord.getBlock();
@@ -171,9 +168,8 @@ public class TradeShip extends WaterStructure {
                         sign.update();
                     }
                     this.addStructureBlock(absCoord, false);
-                    break;
                 }
-                case "/in": {
+                case "/in" -> {
                     int ID = Integer.parseInt(sb.keyvalues.get("id"));
                     if (ID == 0) {
                         Block block = absCoord.getBlock();
@@ -201,9 +197,8 @@ public class TradeShip extends WaterStructure {
                         sign.update();
                     }
                     this.addStructureBlock(absCoord, false);
-                    break;
                 }
-                default: {
+                default -> {
                     /* Unrecognized command... treat as a literal sign. */
                     Block block = absCoord.getBlock();
                     block.setType(Material.WALL_SIGN);
@@ -218,7 +213,6 @@ public class TradeShip extends WaterStructure {
                     sign.update();
 
                     this.addStructureBlock(absCoord, false);
-                    break;
                 }
             }
         }
@@ -273,21 +267,18 @@ public class TradeShip extends WaterStructure {
 
         Result result = tradeResult.getResult();
         switch (result) {
-            case STAGNATE:
-                CivMessage.sendTown(getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_tradeship_stagnated", getConsumeComponent().getLevel(), ChatColor.GREEN + getConsumeComponent().getCountString()));
-                break;
-            case GROW:
-                CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_tradeship_productionGrew", getConsumeComponent().getLevel(), getConsumeComponent().getCountString()));
-                break;
-            case LEVELUP:
+            case STAGNATE ->
+                    CivMessage.sendTown(getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_tradeship_stagnated", getConsumeComponent().getLevel(), ChatColor.GREEN + getConsumeComponent().getCountString()));
+            case GROW ->
+                    CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_tradeship_productionGrew", getConsumeComponent().getLevel(), getConsumeComponent().getCountString()));
+            case LEVELUP -> {
                 CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_tradeship_lvlUp", getConsumeComponent().getLevel()));
                 this.reprocessCommandSigns();
-                break;
-            case MAXED:
-                CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_tradeship_maxed", getConsumeComponent().getLevel(), ChatColor.GREEN + getConsumeComponent().getCountString()));
-                break;
-            default:
-                break;
+            }
+            case MAXED ->
+                    CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_tradeship_maxed", getConsumeComponent().getLevel(), ChatColor.GREEN + getConsumeComponent().getCountString()));
+            default -> {
+            }
         }
         if (tradeResult.getCulture() >= 1) {
             int total_culture = tradeResult.getCulture();

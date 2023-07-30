@@ -196,27 +196,13 @@ public class MissionBook extends UnitItemMaterial {
             }
 
             switch (mission.id) {
-                case "spy_investigate_town":
-                    performInvestigateTown(player, mission);
-                    break;
-                case "spy_steal_treasury":
-                    performStealTreasury(player, mission);
-                    break;
-                case "spy_incite_riots":
-                    performInciteRiots(player, mission);
-                    break;
-                case "spy_poison_granary":
-                    performPosionGranary(player, mission);
-                    break;
-                case "spy_pirate":
-                    performPirate(player, mission);
-                    break;
-                case "spy_sabotage":
-                    performSabotage(player, mission);
-                    break;
-                case "spy_subvert_government":
-                    performSubertGov(player, mission);
-                    break;
+                case "spy_investigate_town" -> performInvestigateTown(player, mission);
+                case "spy_steal_treasury" -> performStealTreasury(player, mission);
+                case "spy_incite_riots" -> performInciteRiots(player, mission);
+                case "spy_poison_granary" -> performPosionGranary(player, mission);
+                case "spy_pirate" -> performPirate(player, mission);
+                case "spy_sabotage" -> performSabotage(player, mission);
+                case "spy_subvert_government" -> performSubertGov(player, mission);
             }
 
         } catch (CivException e) {
@@ -324,8 +310,7 @@ public class MissionBook extends UnitItemMaterial {
             buildable.fancyDestroyStructureBlocks();
             buildable.save();
 
-            if (buildable instanceof Wonder) {
-                Wonder wonder = (Wonder) buildable;
+            if (buildable instanceof Wonder wonder) {
                 wonder.unbindStructureBlocks();
                 try {
                     wonder.delete();
@@ -352,7 +337,7 @@ public class MissionBook extends UnitItemMaterial {
 
         // Check that the player is within range of the town hall.
         Structure tradeoutpost = cc.getCiv().getNearestStructureInTowns(player.getLocation());
-        if (!(tradeoutpost instanceof TradeOutpost)) {
+        if (!(tradeoutpost instanceof TradeOutpost outpost)) {
             throw new CivException(CivSettings.localize.localizedString("missionBook_pirate_errorNottrade"));
         }
         if ((tradeoutpost instanceof FishingBoat)) {
@@ -366,7 +351,6 @@ public class MissionBook extends UnitItemMaterial {
             throw new CivException(CivSettings.localize.localizedString("missionBook_pirate_errorTooFar"));
         }
 
-        TradeOutpost outpost = (TradeOutpost) tradeoutpost;
         ItemStack stack = outpost.getItemFrameStore().getItem();
 
         if (stack == null || stack.getType() == Material.AIR) {

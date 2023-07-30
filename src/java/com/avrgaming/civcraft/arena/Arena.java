@@ -176,16 +176,12 @@ public class Arena {
         stack = LoreCraftableMaterial.addEnhancement(stack, LoreEnhancement.enhancements.get("LoreEnhancementSoulBound"));
         stack = LoreCraftableMaterial.addEnhancement(stack, LoreEnhancement.enhancements.get("LoreEnhancementUnbreaking"));
         switch (stack.getType()) {
-            case BOW:
+            case BOW -> {
                 stack.addEnchantment(Enchantment.ARROW_INFINITE, 1);
                 ItemStack is = new ItemStack(Material.ARROW, 5);
                 inv.addItem(is);
-                break;
-            case DIAMOND_PICKAXE:
-                stack.addEnchantment(Enchantment.DIG_SPEED, 5);
-
-                break;
-
+            }
+            case DIAMOND_PICKAXE -> stack.addEnchantment(Enchantment.DIG_SPEED, 5);
         }
         inv.addItem(stack);
         inv.addItem(sis);

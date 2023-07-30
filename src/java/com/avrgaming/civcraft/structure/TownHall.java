@@ -167,25 +167,26 @@ public class TownHall extends Structure implements RespawnLocationHolder {
         BlockFace facingDirection;
 
         switch (direction) {
-            case CivData.DATA_SIGN_EAST:
+            case CivData.DATA_SIGN_EAST -> {
                 attachedBlock = absCoord.getBlock();
                 facingDirection = BlockFace.EAST;
-                break;
-            case CivData.DATA_SIGN_WEST:
+            }
+            case CivData.DATA_SIGN_WEST -> {
                 attachedBlock = absCoord.getBlock();
                 facingDirection = BlockFace.WEST;
-                break;
-            case CivData.DATA_SIGN_NORTH:
+            }
+            case CivData.DATA_SIGN_NORTH -> {
                 attachedBlock = absCoord.getBlock();
                 facingDirection = BlockFace.NORTH;
-                break;
-            case CivData.DATA_SIGN_SOUTH:
+            }
+            case CivData.DATA_SIGN_SOUTH -> {
                 attachedBlock = absCoord.getBlock();
                 facingDirection = BlockFace.SOUTH;
-                break;
-            default:
+            }
+            default -> {
                 CivLog.error("Bad sign data for /itemframe sign in town hall.");
                 return;
+            }
         }
 
         Block itemFrameBlock = absCoord.getBlock();

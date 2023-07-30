@@ -51,14 +51,7 @@ public class NamedObject {
         }
 
         switch (name.toLowerCase()) {
-            case "":
-            case "null":
-            case "none":
-            case "town":
-            case "group":
-            case "civ":
-            case "resident":
-                throw new InvalidNameException(name);
+            case "", "null", "none", "town", "group", "civ", "resident" -> throw new InvalidNameException(name);
         }
     }
 }

@@ -85,22 +85,22 @@ public class GreatLibrary extends Wonder {
         for (StructureSign sign : getSigns()) {
             ConfigEnchant enchant;
             switch (sign.getAction().toLowerCase()) {
-                case "0":
+                case "0" -> {
                     enchant = CivSettings.enchants.get("ench_fire_aspect");
                     sign.setText(enchant.name + "\n\n" + ChatColor.GREEN + enchant.cost + " " + CivSettings.CURRENCY_NAME);
-                    break;
-                case "1":
+                }
+                case "1" -> {
                     enchant = CivSettings.enchants.get("ench_fire_protection");
                     sign.setText(enchant.name + "\n\n" + ChatColor.GREEN + enchant.cost + " " + CivSettings.CURRENCY_NAME);
-                    break;
-                case "2":
+                }
+                case "2" -> {
                     enchant = CivSettings.enchants.get("ench_flame");
                     sign.setText(enchant.name + "\n\n" + ChatColor.GREEN + enchant.cost + " " + CivSettings.CURRENCY_NAME);
-                    break;
-                case "3":
+                }
+                case "3" -> {
                     enchant = CivSettings.enchants.get("ench_punchout");
                     sign.setText(enchant.name + "\n\n" + ChatColor.GREEN + enchant.cost + " " + CivSettings.CURRENCY_NAME);
-                    break;
+                }
             }
 
             sign.update();
@@ -125,86 +125,74 @@ public class GreatLibrary extends Wonder {
         ConfigEnchant configEnchant;
 
         switch (sign.getAction()) {
-            case "0": /* fire aspect */
+            case "0" -> { /* fire aspect */
                 if (!Enchantment.FIRE_ASPECT.canEnchantItem(hand)) {
                     CivMessage.sendError(player, CivSettings.localize.localizedString("library_enchant_cannotEnchant"));
                     return;
                 }
-
                 configEnchant = CivSettings.enchants.get("ench_fire_aspect");
                 if (!resident.getTreasury().hasEnough(configEnchant.cost)) {
                     CivMessage.send(player, ChatColor.RED + CivSettings.localize.localizedString("var_library_enchant_cannotAfford", configEnchant.cost, CivSettings.CURRENCY_NAME));
                     return;
                 }
-
                 resident.getTreasury().withdraw(configEnchant.cost);
                 hand.addEnchantment(Enchantment.FIRE_ASPECT, 2);
-                break;
-            case "1": /* fire protection */
+            }
+            case "1" -> { /* fire protection */
                 if (!Enchantment.PROTECTION_FIRE.canEnchantItem(hand)) {
                     CivMessage.sendError(player, CivSettings.localize.localizedString("library_enchant_cannotEnchant"));
                     return;
                 }
-
                 configEnchant = CivSettings.enchants.get("ench_fire_protection");
                 if (!resident.getTreasury().hasEnough(configEnchant.cost)) {
                     CivMessage.send(player, ChatColor.RED + CivSettings.localize.localizedString("var_library_enchant_cannotAfford", configEnchant.cost, CivSettings.CURRENCY_NAME));
                     return;
                 }
-
                 resident.getTreasury().withdraw(configEnchant.cost);
                 hand.addEnchantment(Enchantment.PROTECTION_FIRE, 3);
-                break;
-            case "2": /* flame */
+            }
+            case "2" -> { /* flame */
                 if (!Enchantment.ARROW_FIRE.canEnchantItem(hand)) {
                     CivMessage.sendError(player, CivSettings.localize.localizedString("library_enchant_cannotEnchant"));
                     return;
                 }
-
                 configEnchant = CivSettings.enchants.get("ench_flame");
                 if (!resident.getTreasury().hasEnough(configEnchant.cost)) {
                     CivMessage.send(player, ChatColor.RED + CivSettings.localize.localizedString("var_library_enchant_cannotAfford", configEnchant.cost, CivSettings.CURRENCY_NAME));
                     return;
                 }
-
                 resident.getTreasury().withdraw(configEnchant.cost);
                 hand.addEnchantment(Enchantment.ARROW_FIRE, 1);
-                break;
-            case "3":
+            }
+            case "3" -> {
                 switch (hand.getType()) {
-                    case WOOD_PICKAXE:
-                    case STONE_PICKAXE:
-                    case IRON_PICKAXE:
-                    case DIAMOND_PICKAXE:
-                    case GOLD_PICKAXE:
+                    case WOOD_PICKAXE, STONE_PICKAXE, IRON_PICKAXE, DIAMOND_PICKAXE, GOLD_PICKAXE -> {
                         configEnchant = CivSettings.enchants.get("ench_punchout");
-
                         if (!LoreMaterial.isCustom(hand)) {
                             CivMessage.sendError(player, CivSettings.localize.localizedString("library_enchant_nonEnchantable"));
                             return;
                         }
-
                         if (LoreMaterial.hasEnhancement(hand, configEnchant.enchant_id)) {
                             CivMessage.sendError(player, CivSettings.localize.localizedString("library_enchant_hasEnchantment"));
                             return;
                         }
-
                         if (!resident.getTreasury().hasEnough(configEnchant.cost)) {
                             CivMessage.send(player, ChatColor.RED + CivSettings.localize.localizedString("var_library_enchant_cannotAfford", configEnchant.cost, CivSettings.CURRENCY_NAME));
                             return;
                         }
-
                         resident.getTreasury().withdraw(configEnchant.cost);
                         ItemStack newItem = LoreMaterial.addEnhancement(hand, LoreEnhancement.enhancements.get(configEnchant.enchant_id));
                         player.getInventory().setItemInMainHand(newItem);
-                        break;
-                    default:
+                    }
+                    default -> {
                         CivMessage.sendError(player, CivSettings.localize.localizedString("library_enchant_cannotEnchant"));
                         return;
+                    }
                 }
-                break;
-            default:
+            }
+            default -> {
                 return;
+            }
         }
 
         CivMessage.sendSuccess(player, CivSettings.localize.localizedString("library_enchantment_success"));

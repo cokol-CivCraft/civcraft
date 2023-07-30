@@ -78,18 +78,10 @@ public class FisheryAsyncTask extends CivAsyncTask {
                     return;
                 }
                 switch (src.getChestId()) {
-                    case 0:
-                        source_inv0.addInventory(tmp);
-                        break;
-                    case 1:
-                        source_inv1.addInventory(tmp);
-                        break;
-                    case 2:
-                        source_inv2.addInventory(tmp);
-                        break;
-                    case 3:
-                        source_inv3.addInventory(tmp);
-                        break;
+                    case 0 -> source_inv0.addInventory(tmp);
+                    case 1 -> source_inv1.addInventory(tmp);
+                    case 2 -> source_inv2.addInventory(tmp);
+                    case 3 -> source_inv3.addInventory(tmp);
                 }
             }
 
@@ -259,68 +251,15 @@ public class FisheryAsyncTask extends CivAsyncTask {
 
     private int getBiome() {
         Biome biome = this.fishHatchery.getBiome();
-        switch (biome) {
-            case BIRCH_FOREST_HILLS:
-            case MUTATED_BIRCH_FOREST:
-            case MUTATED_BIRCH_FOREST_HILLS:
-            case MUTATED_TAIGA_COLD:
-            case MUTATED_EXTREME_HILLS:
-            case MUTATED_EXTREME_HILLS_WITH_TREES:
-            case ICE_MOUNTAINS:
-            case MUTATED_JUNGLE_EDGE:
-            case JUNGLE_HILLS:
-            case MUTATED_JUNGLE:
-            case MUTATED_MESA:
-            case MUTATED_MESA_CLEAR_ROCK:
-            case MUTATED_MESA_ROCK:
-            case MUTATED_SAVANNA:
-            case MUTATED_SAVANNA_ROCK:
-            case SMALLER_EXTREME_HILLS:
-            case MUTATED_SWAMPLAND:
-            case MUTATED_TAIGA:
-                return 1;
-            case BIRCH_FOREST:
-            case EXTREME_HILLS:
-            case FOREST:
-            case FOREST_HILLS:
-            case ICE_FLATS:
-            case MUTATED_ICE_FLATS:
-            case JUNGLE:
-            case JUNGLE_EDGE:
-            case MUTATED_REDWOOD_TAIGA:
-            case MUTATED_REDWOOD_TAIGA_HILLS:
-            case REDWOOD_TAIGA:
-            case REDWOOD_TAIGA_HILLS:
-            case ROOFED_FOREST:
-            case MESA:
-            case MESA_CLEAR_ROCK:
-            case MESA_ROCK:
-            case EXTREME_HILLS_WITH_TREES:
-            case SAVANNA:
-            case SAVANNA_ROCK:
-            case TAIGA:
-            case TAIGA_HILLS:
-                return 2;
-            case BEACHES:
-            case COLD_BEACH:
-            case TAIGA_COLD:
-            case DEEP_OCEAN:
-            case DESERT:
-            case DESERT_HILLS:
-            case MUTATED_DESERT:
-            case FROZEN_OCEAN:
-            case FROZEN_RIVER:
-            case MUSHROOM_ISLAND:
-            case MUSHROOM_ISLAND_SHORE:
-            case OCEAN:
-            case PLAINS:
-            case RIVER:
-            case STONE_BEACH:
-            case SWAMPLAND:
-                return 3;
-            default:
-                return 0;
-        }
+        return switch (biome) {
+            case BIRCH_FOREST_HILLS, MUTATED_BIRCH_FOREST, MUTATED_BIRCH_FOREST_HILLS, MUTATED_TAIGA_COLD, MUTATED_EXTREME_HILLS, MUTATED_EXTREME_HILLS_WITH_TREES, ICE_MOUNTAINS, MUTATED_JUNGLE_EDGE, JUNGLE_HILLS, MUTATED_JUNGLE, MUTATED_MESA, MUTATED_MESA_CLEAR_ROCK, MUTATED_MESA_ROCK, MUTATED_SAVANNA, MUTATED_SAVANNA_ROCK, SMALLER_EXTREME_HILLS, MUTATED_SWAMPLAND, MUTATED_TAIGA ->
+                    1;
+            case BIRCH_FOREST, EXTREME_HILLS, FOREST, FOREST_HILLS, ICE_FLATS, MUTATED_ICE_FLATS, JUNGLE, JUNGLE_EDGE, MUTATED_REDWOOD_TAIGA, MUTATED_REDWOOD_TAIGA_HILLS, REDWOOD_TAIGA, REDWOOD_TAIGA_HILLS, ROOFED_FOREST, MESA, MESA_CLEAR_ROCK, MESA_ROCK, EXTREME_HILLS_WITH_TREES, SAVANNA, SAVANNA_ROCK, TAIGA, TAIGA_HILLS ->
+                    2;
+            case BEACHES, COLD_BEACH, TAIGA_COLD, DEEP_OCEAN, DESERT, DESERT_HILLS, MUTATED_DESERT, FROZEN_OCEAN, FROZEN_RIVER, MUSHROOM_ISLAND, MUSHROOM_ISLAND_SHORE, OCEAN, PLAINS, RIVER, STONE_BEACH, SWAMPLAND ->
+                    3;
+            default -> 0;
+        };
     }
 
     private ItemStack getFishForBiome() {
@@ -349,7 +288,7 @@ public class FisheryAsyncTask extends CivAsyncTask {
         int biomeRand = rand.nextInt(randMax);
 
         switch (fishTier) {
-            case 0: //Fish Tier 0
+            case 0 -> { //Fish Tier 0
                 if (biomeRand >= 95) {
                     newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_pufferfish"));
                 } else if (biomeRand > 85) {
@@ -372,135 +311,115 @@ public class FisheryAsyncTask extends CivAsyncTask {
                         newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_pond_scum"));
                     }
                 }
-                break;
-            case 1: //Fish Tier 1
+            }
+            case 1 -> { //Fish Tier 1
                 switch (biome) {
-                    case 0: //Not ranked
-                        newItem = new ItemStack(Material.RAW_FISH, 1, (short) 0);
-                        break;
-
-                    case 1: //Mountains
+                    case 0 -> //Not ranked
+                            newItem = new ItemStack(Material.RAW_FISH, 1, (short) 0);
+                    case 1 -> { //Mountains
                         if (biomeRand < 90) {
                             newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_brown_trout"));
                         } else {
                             newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_gag_grouper"));
                         }
-                        break;
-
-                    case 2: //Flatter Lands
+                    }
+                    case 2 -> { //Flatter Lands
                         if (biomeRand < 90) {
                             newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_atlantic_striped_bass"));
                         } else {
                             newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_arrowtooth_flounder"));
                         }
-                        break;
-
-                    case 3: // Oceans, Mushroom, Swamps, Ice
+                    }
+                    case 3 -> { // Oceans, Mushroom, Swamps, Ice
                         if (biomeRand < 90) {
                             newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_atlantic_cod"));
                         } else {
                             newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_atlantic_surfclam"));
                         }
-                        break;
+                    }
                 }
-                break;
-
-            case 2: //Fish Tier 2
+            }
+            case 2 -> { //Fish Tier 2
                 switch (biome) {
-                    case 0: //Not ranked
-                        newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_fish"));
-                        break;
-
-                    case 1: //Mountains
+                    case 0 -> //Not ranked
+                            newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_fish"));
+                    case 1 -> { //Mountains
                         if (biomeRand < 90) {
                             newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_brook_trout"));
                         } else {
                             newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_red_grouper"));
                         }
-                        break;
-
-                    case 2: //Flatter Lands
+                    }
+                    case 2 -> { //Flatter Lands
                         if (biomeRand < 90) {
                             newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_pacific_ocean_perch"));
                         } else {
                             newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_summer_flounder"));
                         }
-                        break;
-
-                    case 3: // Oceans, Mushroom, Swamps, Ice
+                    }
+                    case 3 -> { // Oceans, Mushroom, Swamps, Ice
                         if (biomeRand < 90) {
                             newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_pacific_cod"));
                         } else {
                             newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_ocean_quahog"));
                         }
-                        break;
+                    }
                 }
-                break;
-
-            case 3: //Fish Tier 3
+            }
+            case 3 -> { //Fish Tier 3
                 switch (biome) {
-                    case 0: //Not ranked
-                        newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_fish"));
-                        break;
-
-                    case 1: //Mountains
+                    case 0 -> //Not ranked
+                            newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_fish"));
+                    case 1 -> { //Mountains
                         if (biomeRand < 80) {
                             newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_cutthroat_trout"));
                         } else {
                             newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_black_sea_bass"));
                         }
-                        break;
-
-                    case 2: //Flatter Lands
+                    }
+                    case 2 -> { //Flatter Lands
                         if (biomeRand < 80) {
                             newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_acadian_redfish"));
                         } else {
                             newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_winter_flounder"));
                         }
-                        break;
-
-                    case 3: // Oceans, Mushroom, Swamps, Ice
+                    }
+                    case 3 -> { // Oceans, Mushroom, Swamps, Ice
                         if (biomeRand < 80) {
                             newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_lingcod"));
                         } else {
                             newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_northern_quahog"));
                         }
-                        break;
+                    }
                 }
-                break;
-
-            case 4: //Fish Tier 4
+            }
+            case 4 -> { //Fish Tier 4
                 switch (biome) {
-                    case 0: //Not ranked
-                        newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_fish"));
-                        break;
-
-                    case 1: //Mountains
+                    case 0 -> //Not ranked
+                            newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_fish"));
+                    case 1 -> { //Mountains
                         if (biomeRand < 80) {
                             newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_rainbow_trout"));
                         } else {
                             newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_wreckfish"));
                         }
-                        break;
-
-                    case 2: //Flatter Lands
+                    }
+                    case 2 -> { //Flatter Lands
                         if (biomeRand < 80) {
                             newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_widow_rockfish"));
                         } else {
                             newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_yellowtail_flounder"));
                         }
-                        break;
-
-                    case 3: // Oceans, Mushroom, Swamps, Ice
+                    }
+                    case 3 -> { // Oceans, Mushroom, Swamps, Ice
                         if (biomeRand < 80) {
                             newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_sablefish"));
                         } else {
                             newItem = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_fish_geoduck"));
                         }
-                        break;
+                    }
                 }
-                break;
-
+            }
         }
         if (newItem == null) {
             CivLog.debug("Fish Hatchery: newItem was null");

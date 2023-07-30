@@ -72,21 +72,20 @@ public class ConfigCampUpgrade {
         }
 
         switch (this.action.toLowerCase()) {
-            case "enable_sifter":
+            case "enable_sifter" -> {
                 camp.setSifterEnabled(true);
                 CivMessage.sendCamp(camp, CivSettings.localize.localizedString("camp_upgrade_Sifter"));
-                break;
-            case "enable_longhouse":
+            }
+            case "enable_longhouse" -> {
                 camp.setLonghouseEnabled(true);
                 CivMessage.sendCamp(camp, CivSettings.localize.localizedString("camp_upgrade_longhouse"));
-                break;
-            case "enable_garden":
+            }
+            case "enable_garden" -> {
                 camp.setGardenEnabled(true);
                 CivMessage.sendCamp(camp, CivSettings.localize.localizedString("camp_upgrade_garden"));
-                break;
-            default:
-                CivLog.warning(CivSettings.localize.localizedString("var_camp_upgrade_unknown", this.action, this.id));
-                break;
+            }
+            default ->
+                    CivLog.warning(CivSettings.localize.localizedString("var_camp_upgrade_unknown", this.action, this.id));
         }
     }
 

@@ -124,29 +124,30 @@ public class Temple extends Structure {
     public void templeCulture(CivAsyncTask task) throws InterruptedException {
         Result result = this.consume(task);
         switch (result) {
-            case STARVE:
+            case STARVE -> {
                 CivMessage.sendTown(getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_temple_productionFell", getConsumeComponent().getLevel(), getConsumeComponent().getCountString()));
                 return;
-            case LEVELDOWN:
+            }
+            case LEVELDOWN -> {
                 CivMessage.sendTown(getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_temple_lostalvl", getConsumeComponent().getLevel()));
                 return;
-            case STAGNATE:
+            }
+            case STAGNATE -> {
                 CivMessage.sendTown(getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_temple_stagnated", getConsumeComponent().getLevel(), getConsumeComponent().getCountString()));
                 return;
-            case GROW:
-                CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_temple_productionGrew", getConsumeComponent().getLevel(), getConsumeComponent().getCountString()));
-                break;
-            case LEVELUP:
-                CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_temple_lvlUp", getConsumeComponent().getLevel()));
-                break;
-            case MAXED:
-                CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_temple_maxed", getConsumeComponent().getLevel(), getConsumeComponent().getCountString()));
-                break;
-            case UNKNOWN:
+            }
+            case GROW ->
+                    CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_temple_productionGrew", getConsumeComponent().getLevel(), getConsumeComponent().getCountString()));
+            case LEVELUP ->
+                    CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_temple_lvlUp", getConsumeComponent().getLevel()));
+            case MAXED ->
+                    CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_temple_maxed", getConsumeComponent().getLevel(), getConsumeComponent().getCountString()));
+            case UNKNOWN -> {
                 CivMessage.sendTown(getTown(), ChatColor.BLUE + CivSettings.localize.localizedString("temple_unknown"));
                 return;
-            default:
-                break;
+            }
+            default -> {
+            }
         }
 
         ConfigTempleLevel lvl = null;

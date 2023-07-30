@@ -70,15 +70,13 @@ public class SyncGrowTask implements Runnable {
 
                         for (GrowBlock growBlock : request.growBlocks) {
                             switch (growBlock.getMaterial()) {
-                                case CARROT:
-                                case WHEAT:
-                                case POTATO:
+                                case CARROT, WHEAT, POTATO -> {
                                     Block block = growBlock.bcoord.getBlock();
                                     if ((growBlock.data - 1) != block.getData()) {
                                         // replanted??
                                         continue;
                                     }
-                                    break;
+                                }
                             }
 
                             Block block1 = growBlock.bcoord.getBlock();

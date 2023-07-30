@@ -35,8 +35,7 @@ public class InventoryHolderStorage {
     private String playerName;
 
     public InventoryHolderStorage(InventoryHolder holder, Location holderLocation) {
-        if (holder instanceof Player) {
-            Player player = (Player) holder;
+        if (holder instanceof Player player) {
             playerName = player.getName();
             blockLocation = null;
         } else {
@@ -67,11 +66,10 @@ public class InventoryHolderStorage {
                     throw new CivException("Couldn't load chunk at " + blockLocation + " where holder should reside.");
                 }
             }
-            if (!(blockLocation.getBlock().getState() instanceof Chest)) {
+            if (!(blockLocation.getBlock().getState() instanceof Chest chest)) {
                 throw new CivException("Holder location is not a chest, invalid.");
             }
 
-            Chest chest = (Chest) blockLocation.getBlock().getState();
             return chest.getInventory().getHolder();
         }
 
@@ -79,22 +77,19 @@ public class InventoryHolderStorage {
     }
 
     public void setHolder(InventoryHolder holder) throws CivException {
-        if (holder instanceof Player) {
-            Player player = (Player) holder;
+        if (holder instanceof Player player) {
             playerName = player.getName();
             blockLocation = null;
             return;
         }
 
-        if (holder instanceof Chest) {
-            Chest chest = (Chest) holder;
+        if (holder instanceof Chest chest) {
             playerName = null;
             blockLocation = chest.getLocation();
             return;
         }
 
-        if (holder instanceof DoubleChest) {
-            DoubleChest dchest = (DoubleChest) holder;
+        if (holder instanceof DoubleChest dchest) {
             playerName = null;
             blockLocation = dchest.getLocation();
             return;

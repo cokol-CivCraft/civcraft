@@ -36,73 +36,27 @@ public abstract class LoreEnhancement {
     }
 
     public static boolean isWeapon(ItemStack item) {
-        switch (item.getType()) {
-            case WOOD_SWORD:
-            case STONE_SWORD:
-            case IRON_SWORD:
-            case GOLD_SWORD:
-            case DIAMOND_SWORD:
-            case WOOD_AXE:
-            case STONE_AXE:
-            case IRON_AXE:
-            case GOLD_AXE:
-            case DIAMOND_AXE:
-            case BOW:
-                return true;
-            default:
-                return false;
-        }
+        return switch (item.getType()) {
+            case WOOD_SWORD, STONE_SWORD, IRON_SWORD, GOLD_SWORD, DIAMOND_SWORD, WOOD_AXE, STONE_AXE, IRON_AXE, GOLD_AXE, DIAMOND_AXE, BOW ->
+                    true;
+            default -> false;
+        };
     }
 
     public static boolean isArmor(ItemStack item) {
-        switch (item.getType()) {
-            case LEATHER_BOOTS:
-            case LEATHER_CHESTPLATE:
-            case LEATHER_HELMET:
-            case LEATHER_LEGGINGS:
-            case IRON_BOOTS:
-            case IRON_CHESTPLATE:
-            case IRON_HELMET:
-            case IRON_LEGGINGS:
-            case DIAMOND_BOOTS:
-            case DIAMOND_CHESTPLATE:
-            case DIAMOND_HELMET:
-            case DIAMOND_LEGGINGS:
-            case CHAINMAIL_BOOTS:
-            case CHAINMAIL_CHESTPLATE:
-            case CHAINMAIL_HELMET:
-            case CHAINMAIL_LEGGINGS:
-            case GOLD_BOOTS:
-            case GOLD_CHESTPLATE:
-            case GOLD_HELMET:
-            case GOLD_LEGGINGS:
-                return true;
-            default:
-                return false;
-        }
+        return switch (item.getType()) {
+            case LEATHER_BOOTS, LEATHER_CHESTPLATE, LEATHER_HELMET, LEATHER_LEGGINGS, IRON_BOOTS, IRON_CHESTPLATE, IRON_HELMET, IRON_LEGGINGS, DIAMOND_BOOTS, DIAMOND_CHESTPLATE, DIAMOND_HELMET, DIAMOND_LEGGINGS, CHAINMAIL_BOOTS, CHAINMAIL_CHESTPLATE, CHAINMAIL_HELMET, CHAINMAIL_LEGGINGS, GOLD_BOOTS, GOLD_CHESTPLATE, GOLD_HELMET, GOLD_LEGGINGS ->
+                    true;
+            default -> false;
+        };
     }
 
     public static boolean isTool(ItemStack item) {
-        switch (item.getType()) {
-            case WOOD_SPADE:
-            case WOOD_PICKAXE:
-            case WOOD_AXE:
-            case STONE_SPADE:
-            case STONE_PICKAXE:
-            case STONE_AXE:
-            case IRON_SPADE:
-            case IRON_PICKAXE:
-            case IRON_AXE:
-            case DIAMOND_SPADE:
-            case DIAMOND_PICKAXE:
-            case DIAMOND_AXE:
-            case GOLD_SPADE:
-            case GOLD_PICKAXE:
-            case GOLD_AXE:
-                return true;
-            default:
-                return false;
-        }
+        return switch (item.getType()) {
+            case WOOD_SPADE, WOOD_PICKAXE, WOOD_AXE, STONE_SPADE, STONE_PICKAXE, STONE_AXE, IRON_SPADE, IRON_PICKAXE, IRON_AXE, DIAMOND_SPADE, DIAMOND_PICKAXE, DIAMOND_AXE, GOLD_SPADE, GOLD_PICKAXE, GOLD_AXE ->
+                    true;
+            default -> false;
+        };
     }
 
     public static boolean isWeaponOrArmor(ItemStack item) {

@@ -51,25 +51,15 @@ public class PlayerChunkNotifyAsyncTask implements Runnable {
 
         String color = String.valueOf(ChatColor.WHITE);
         switch (status) {
-            case NEUTRAL:
+            case NEUTRAL -> {
                 if (toCc.getTown().isOutlaw(player.getName())) {
                     color = String.valueOf(ChatColor.YELLOW);
                 }
-
-                break;
-            case HOSTILE:
-                color = String.valueOf(ChatColor.YELLOW);
-                break;
-            case WAR:
-                color = String.valueOf(ChatColor.RED);
-
-                break;
-            case PEACE:
-                color = String.valueOf(ChatColor.AQUA);
-
-                break;
-            case ALLY:
-                color = String.valueOf(ChatColor.DARK_GREEN);
+            }
+            case HOSTILE -> color = String.valueOf(ChatColor.YELLOW);
+            case WAR -> color = String.valueOf(ChatColor.RED);
+            case PEACE -> color = String.valueOf(ChatColor.AQUA);
+            case ALLY -> color = String.valueOf(ChatColor.DARK_GREEN);
         }
 
         return color;

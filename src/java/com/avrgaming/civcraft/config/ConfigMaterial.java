@@ -108,11 +108,7 @@ public class ConfigMaterial {
                             Optional.ofNullable((Boolean) ingred.get("ignore_data")).orElse(false)
                     );
                     String key;
-                    if (ingredient.custom_id != null) {
-                        key = ingredient.custom_id;
-                    } else {
-                        key = "mc_" + ingredient.type_id;
-                    }
+                    key = Objects.requireNonNullElseGet(ingredient.custom_id, () -> "mc_" + ingredient.type_id);
 
                     mat.ingredients.put(key, ingredient);
                     //ConfigIngredient.ingredientMap.put(ingredient.custom_id, ingredient);
