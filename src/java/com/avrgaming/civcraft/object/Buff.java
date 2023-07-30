@@ -60,8 +60,7 @@ public class Buff {
 
     @Override
     public boolean equals(Object other) {
-        if (other instanceof Buff) {
-            Buff otherBuff = (Buff) other;
+        if (other instanceof Buff otherBuff) {
             return otherBuff.getConfig().id.equals(this.getConfig().id);
         }
         return false;

@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-import static jdk.nashorn.internal.objects.NativeMath.max;
+import static java.lang.Math.max;
 
 public class VaultEconObject extends EconObject {
 
