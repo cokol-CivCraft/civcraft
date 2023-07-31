@@ -365,7 +365,20 @@ public class Template {
     }
 
     public void setDirection(Location center) {
-        dir = getDirection(center);
+        setDirection(getDirection(center));
+    }
+
+    public void setDirection(BlockFace face) {
+        if (face == null) {
+            dir = BlockFace.SOUTH;
+            return;
+        }
+        dir = switch (face) {
+            case EAST -> BlockFace.EAST;
+            case WEST -> BlockFace.WEST;
+            case NORTH -> BlockFace.NORTH;
+            default -> BlockFace.SOUTH;
+        };
     }
 
     public static BlockFace getDirection(Location center) {
@@ -387,7 +400,7 @@ public class Template {
 
     public void initTemplate(Buildable buildable, String theme) throws IOException, CivException {
 
-        dir = buildable.dir;
+        setDirection(buildable.dir);
 
         // Find the template file.
         this.setTheme(theme);
@@ -408,7 +421,7 @@ public class Template {
         if (dirLoc != null) {
             tpl.setDirection(dirLoc);
         } else {
-            tpl.dir = BlockFace.SOUTH;
+            tpl.setDirection(BlockFace.SOUTH);
         }
         return tpl;
     }
