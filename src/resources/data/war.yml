@@ -3,107 +3,107 @@
 #
 
 war:
-    # Number of hours an aggressor has to wait before being
-    # able to declare war again on the same town. 168 = 1 week
-    cooldown_time: 168
+  # Number of hours an aggressor has to wait before being
+  # able to declare war again on the same town. 168 = 1 week
+  cooldown_time: 168
 
-    # Number of hours that war-time will last.
-    time_length: 120
+  # Number of hours that war-time will last.
+  time_length: 120
 
-    # Number of hours between wars. if 0, use the weekly timer
-    # must be time_length + (hours of rest)
-    # 166 + 2 is 168 (exactly 1 week since start of last war)
-    time_war_repeat: 166
+  # Number of hours between wars. if 0, use the weekly timer
+  # must be time_length + (hours of rest)
+  # 166 + 2 is 168 (exactly 1 week since start of last war)
+  time_war_repeat: 166
 
-    # Days of the week that war-time will occur
-    # 1 = Sunday
-    # 7 = Saturday
-    time_day: 7
+  # Days of the week that war-time will occur
+  # 1 = Sunday
+  # 7 = Saturday
+  time_day: 7
 
-    # Hour of the day that war-time will start
-    # 0 = Midnight
-    # 12 = Noon
-    time_hour: 10
+  # Hour of the day that war-time will start
+  # 0 = Midnight
+  # 12 = Noon
+  time_hour: 10
 
-    # Days of the week that Disable TP-time will occur
-    disable_tp_time_day: 7
-    # Hour of the day that TP will be disabled using the teleportsOff.txt
-    disable_tp_time_hour: 9
+  # Days of the week that Disable TP-time will occur
+  disable_tp_time_day: 7
+  # Hour of the day that TP will be disabled using the teleportsOff.txt
+  disable_tp_time_hour: 9
 
-    # Days before war time that towns are no longer allowed to declare war
-    time_declare_days: 3
+  # Days before war time that towns are no longer allowed to declare war
+  time_declare_days: 3
 
-    # Number of hours that allies can declare war on aggressors to their allies
-    ally_declare_hours: 24
+  # Number of hours that allies can declare war on aggressors to their allies
+  ally_declare_hours: 24
 
-    # Number of hours that civs remain a vassal
-    # Unused
-    #vassal_hours: 168
+  # Number of hours that civs remain a vassal
+  # Unused
+  #vassal_hours: 168
 
-    # Percentage of income paid to master as a vassal.
-    # Unused
-    #vassal_tax: 0.5
+  # Percentage of income paid to master as a vassal.
+  # Unused
+  #vassal_tax: 0.5
 
-    # Amount of hammers a wonder is delayed by each hit
-    wonder_hammer_hit: 0.008
+  # Amount of hammers a wonder is delayed by each hit
+  wonder_hammer_hit: 0.008
 
-    # Amount of upkeep an agressor nation recieves for each war
-    upkeep_per_war: 3000.0
+  # Amount of upkeep an agressor nation recieves for each war
+  upkeep_per_war: 3000.0
 
-    # Amount the war upkeep is multiplied per score point above the other civ
-    upkeep_per_war_multiplier: 0.005
+  # Amount the war upkeep is multiplied per score point above the other civ
+  upkeep_per_war_multiplier: 0.005
 
-    # Default Respawn Time (all control blocks active) in seconds
-    respawn_time: 30
+  # Default Respawn Time (all control blocks active) in seconds
+  respawn_time: 30
   
-    # Respawn time per control block, destroying control blocks add this much time to respawn in seconds.
-    control_block_respawn_time: 15
+  # Respawn time per control block, destroying control blocks add this much time to respawn in seconds.
+  control_block_respawn_time: 15
 
-    # Control block hitpoints.
-    control_block_hitpoints_capitol: 100
-    control_block_hitpoints_camp: 80
-    control_block_hitpoints_townhall: 20
+  # Control block hitpoints.
+  control_block_hitpoints_capitol: 100
+  control_block_hitpoints_camp: 80
+  control_block_hitpoints_townhall: 20
 
-    # Penalty of income and hammers taken and given to server when captured.
-    captured_penalty: 0.50
+  # Penalty of income and hammers taken and given to server when captured.
+  captured_penalty: 0.50
 
-    # percentage of hitpoints to take away each hour when structures are invalid.
-    invalid_hourly_penalty: 0.1
+  # percentage of hitpoints to take away each hour when structures are invalid.
+  invalid_hourly_penalty: 0.1
 
-    # number of seconds increase the respawn time if captials/townhalls are invalid (in mins)
-    invalid_respawn_penalty: 2
+  # number of seconds increase the respawn time if captials/townhalls are invalid (in mins)
+  invalid_respawn_penalty: 2
 
-### PVP LOGGER settings.
-    # Logout time is 2mins after being hit.
+  ### PVP LOGGER settings.
+  # Logout time is 2mins after being hit.
   #logout_time: 120 REMOVED?
 
-    # Time players remain zombies, in seconds
+  # Time players remain zombies, in seconds
   #zombie_time: 30
 
 
 revolution:
-    # Base cost for a revolution
-    base_cost: 50000.0
+  # Base cost for a revolution
+  base_cost: 50000.0
 
-    # number of extra coins paid per town in your old civ
-    coins_per_town: 10000.0
+  # number of extra coins paid per town in your old civ
+  coins_per_town: 10000.0
 
-    # Number of coins paid per point of all of your civ and town scores
-    coins_per_point: 0.1
+  # Number of coins paid per point of all of your civ and town scores
+  coins_per_point: 0.1
 
-    # Maximum revolution fee you can pay --> 1 Million
-    maximum_fee: 1000000.0
+  # Maximum revolution fee you can pay --> 1 Million
+  maximum_fee: 1000000.0
 
 
 scout_tower:
-    # Range at which scout tower searches for players
-    range: 400.0
+  # Range at which scout tower searches for players
+  range: 400.0
 
-    # How often does thescout tower inform the town of enemies in borders(in seconds)
-    update: 120
+  # How often does thescout tower inform the town of enemies in borders(in seconds)
+  update: 120
 
 arrow_tower:
-    # Damage done per hit from arrow tower
+  # Damage done per hit from arrow tower
   damage: 5
 
   # Range of the arrow tower
@@ -122,27 +122,27 @@ arrow_tower:
   homing_stop_distance: 10.0
 
 cannon_tower:
-    # Damage done by cannon blast
-    damage: 8
+  # Damage done by cannon blast
+  damage: 8
 
-    # Cannon tower range
-    range: 125.0
+  # Cannon tower range
+  range: 125.0
 
-    # Distance cannon towers must be built apart
-    build_distance: 115.0
+  # Distance cannon towers must be built apart
+  build_distance: 115.0
 
-    # Min-range of cannon tower
-    min_range: 30.0
+  # Min-range of cannon tower
+  min_range: 30.0
 
-    # Speed of the 'cannon' projectile.
-    speed: 6
+  # Speed of the 'cannon' projectile.
+  speed: 6
 
-    # Splash radius that damages players
-    splash: 30
+  # Splash radius that damages players
+  splash: 30
 
-    # Cannon tower fire rate
-    # Defined in number of half-seconds to delay. Higher numbers is lower fire rate.
-    fire_rate: 4
+  # Cannon tower fire rate
+  # Defined in number of half-seconds to delay. Higher numbers is lower fire rate.
+  fire_rate: 4
 
 tesla_tower:
   # Damage done by lightning blast
@@ -162,48 +162,48 @@ tesla_tower:
   fire_rate: 6
 
 wall:
-   # Maximum height walls can be built at.
-   maximum_height: 200
+  # Maximum height walls can be built at.
+  maximum_height: 200
 
-   # Height of a basic wall piece
-   height: 6
+  # Height of a basic wall piece
+  height: 6
 
-   # Cost of a vertical segment
-   cost_per_segment: 50.0
+  # Cost of a vertical segment
+  cost_per_segment: 50.0
 
-   max_segment: 300
+  max_segment: 300
 
-   recursion_limit: 350
+  recursion_limit: 350
 
 fortified_wall:
-   # Maximum height walls can be built at.
-   maximum_height: 200
+  # Maximum height walls can be built at.
+  maximum_height: 200
 
-   # Height of a basic wall piece
-   height: 10
+  # Height of a basic wall piece
+  height: 10
 
-   # Cost of a vertical segment
-   cost_per_segment: 100.0
+  # Cost of a vertical segment
+  cost_per_segment: 100.0
 
-   max_segment: 300
+  max_segment: 300
 
-   recursion_limit: 350
+  recursion_limit: 350
 
 warcamp:
-    # template for war camps.
-    template: warcamp
+  # template for war camps.
+  template: warcamp
 
-    # Amount of HP each control block has
-    control_block_hitpoints: 20
+  # Amount of HP each control block has
+  control_block_hitpoints: 20
 
-    # Number of mins it takes to rebuild.
-    rebuild_timeout: 30
+  # Number of mins it takes to rebuild.
+  rebuild_timeout: 30
 
-    # maximum number of war camps a civ can have.
-    max: 3
+  # maximum number of war camps a civ can have.
+  max: 3
 
 cannon:
-    # template for deployable cannon
+  # template for deployable cannon
   template: cannon
 
   min_power: 0
@@ -222,25 +222,25 @@ cannon:
   cooldown: 30
 
   # Amount of HP each cannon has
-    hitpoints: 50
+  hitpoints: 50
 
-    # Amount of damage done to PLAYERS when hit by a blast
-    player_damage: 50
+  # Amount of damage done to PLAYERS when hit by a blast
+  player_damage: 50
 
-    # Amount of damage d one to STRUCTURES when hit by a blast
-    structure_damage: 100
+  # Amount of damage d one to STRUCTURES when hit by a blast
+  structure_damage: 100
 
-    # Maximum range a cannon shot will travel.
-    max_range: 256.0
+  # Maximum range a cannon shot will travel.
+  max_range: 256.0
 
-    control_block_hp: 1
+  control_block_hp: 1
 
 tnt:
-    # amount of blocks to destroy per shot
-    yield: 3
+  # amount of blocks to destroy per shot
+  yield: 3
 
-    # Amount of damage done to PLAYERS when hit by a blast
-    player_damage: 20
+  # Amount of damage done to PLAYERS when hit by a blast
+  player_damage: 20
 
-    # Amount of damage d one to STRUCTURES when hit by a blast
-    structure_damage: 20
+  # Amount of damage d one to STRUCTURES when hit by a blast
+  structure_damage: 20
