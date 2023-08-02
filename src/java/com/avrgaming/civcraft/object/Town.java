@@ -2368,7 +2368,7 @@ public class Town extends SQLObject {
         getCiv().removeTown(this);
         for (Resident r : getResidents()) {
             if (r.getNativeTown() == this) {
-                r.setNativeTown(0);
+                r.setNativeTown(null);
             }
         }
         try {

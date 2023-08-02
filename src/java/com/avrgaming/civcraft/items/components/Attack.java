@@ -68,7 +68,7 @@ public class Attack extends ItemComponent {
             }
         }
         dmg += extraAtt;
-        if (resident.getNativeTown().getBuffManager().hasBuff("wonder_trade_chichen_itza")) {
+        if (resident.getNativeTown() != null && resident.getNativeTown().getBuffManager().hasBuff("wonder_trade_chichen_itza")) {
             dmg += resident.getNativeTown().getBuffManager().getEffectiveDouble("wonder_trade_chichen_itza");
         }
         if (resident.hasEnlightenment()) {

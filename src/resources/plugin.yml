@@ -4,37 +4,51 @@ softdepends: [TitleAPI]
 version: 1.0.1-Beta
 
 commands:
-    town:
+  town:
       aliases: [ t, е, ещцт ]
-    plot:
-      aliases: [ p, з, здще ]
-    resident:
-      aliases: [ res, куы, куышвуте ]
-    dbg:
-      aliases: [ вип ]
-    accept:
-      aliases: [ yes, фссузе, нуы ]
-    deny:
-      aliases: [ no, вутн, тщ ]
-    civ:
-      aliases: [ c, с ]
-    build:
-      aliases: [ b, и ]
-    market:
-      aliases: [ m, ь ]
-    select:
-      aliases: [ sel ]
-    econ:
-      aliases: [ money, ьщтун ]
-    here:
-      aliases: [ h, р, руку ]
-    camp:
-      aliases: [ ca, сф ]
-    report:
-      aliases: [ rep, куз ]
-    trade:
-      aliases: [ екфву ]
-    kill:
-      aliases: [ k, л, лшдд ]
-    team:
-      aliases: [ tm, еь, еуфь ]
+  plot:
+    aliases: [ p, з, здще ]
+  resident:
+    aliases: [ res, куы, куышвуте ]
+  dbg:
+    aliases: [ вип ]
+  accept:
+    aliases: [ yes, фссузе, нуы ]
+  deny:
+    aliases: [ no, вутн, тщ ]
+  civ:
+    aliases: [ c, с ]
+  tc:
+    aliases:
+  cc:
+    aliases:
+  ac:
+    aliases:
+  gc:
+    aliases:
+  ad:
+    aliases:
+  build:
+    aliases: [ b, и ]
+  market:
+    aliases: [ m, ь ]
+  select:
+    aliases: [ sel ]
+  econ:
+    aliases: [ money, ьщтун ]
+  pay:
+    aliases:
+  here:
+    aliases: [ h, р, руку ]
+  camp:
+    aliases: [ ca, сф ]
+  report:
+    aliases: [ rep, куз ]
+  trade:
+    aliases: [ екфву ]
+  kill:
+    aliases: [ k, л, лшдд ]
+  team:
+    aliases: [ tm, еь, еуфь ]
+  sb:
+    aliases:

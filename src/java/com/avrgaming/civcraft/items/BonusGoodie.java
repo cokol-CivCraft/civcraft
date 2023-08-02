@@ -172,11 +172,11 @@ public class BonusGoodie extends LoreItem {
             lore.add(ChatColor.YELLOW + str);
         }
 
-        if (isStackable()) {
+        /* if (isStackable()) {
             lore.add(ChatColor.AQUA + "Stackable");
         } else {
             lore.add(ChatColor.GRAY + "Not Stackable");
-        }
+        } */
 
         this.setLore(stack, lore);
         this.setDisplayName(stack, good.getInfo().name);
