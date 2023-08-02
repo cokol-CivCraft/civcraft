@@ -41,18 +41,6 @@ public class FishHatchery extends Structure {
         super(rs);
     }
 
-    @Override
-    public String getDynmapDescription() {
-        String out = "<u><b>" + this.getDisplayName() + "</u></b><br/>";
-        out += CivSettings.localize.localizedString("Level") + " " + this.level;
-        return out;
-    }
-
-    @Override
-    public String getMarkerIconName() {
-        return "cutlery";
-    }
-
     public double getChance(double chance) {
         return this.modifyChance(chance);
     }

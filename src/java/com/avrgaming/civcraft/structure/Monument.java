@@ -35,8 +35,4 @@ public class Monument extends Structure {
         super(rs);
     }
 
-    @Override
-    public String getMarkerIconName() {
-        return "building";
-    }
 }

@@ -69,23 +69,7 @@ public class Cottage extends Structure {
 
     } */
 
-	@Override
-	public String getDynmapDescription() {
-		if (getConsumeComponent() == null) {
-			return "";
-		}
-
-		String out = "";
-		out += CivSettings.localize.localizedString("Level")+" "+getConsumeComponent().getLevel()+" "+getConsumeComponent().getCountString();
-		return out;
-	}
-
-	@Override
-	public String getMarkerIconName() {
-		return "house";
-	}
-
-	public String getkey() {
+    public String getkey() {
 		return this.getTown().getName()+"_"+this.getConfigId()+"_"+this.getCorner().toString();
 	}
 

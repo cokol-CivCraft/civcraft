@@ -335,16 +335,6 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
     }
 
     @Override
-    public String getDynmapDescription() {
-        return null;
-    }
-
-    @Override
-    public String getMarkerIconName() {
-        return null;
-    }
-
-    @Override
     public void onComplete() {
 
     }

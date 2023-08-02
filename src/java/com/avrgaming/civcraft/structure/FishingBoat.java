@@ -53,11 +53,6 @@ public class FishingBoat extends TradeOutpost {
     }
 
     @Override
-    public String getMarkerIconName() {
-        return "anchor";
-    }
-
-    @Override
     public void build_trade_outpost(Location centerLoc) throws CivException {
 
         /* Add trade good to town. */

@@ -55,23 +55,6 @@ public class Grocer extends Structure {
         nonMemberFeeComponent.onLoad();
     }
 
-    @Override
-    public String getDynmapDescription() {
-        StringBuilder out = new StringBuilder("<u><b>" + this.getDisplayName() + "</u></b><br/>");
-
-        for (int i = 0; i < level; i++) {
-            ConfigGrocerLevel grocerlevel = CivSettings.grocerLevels.get(i + 1);
-            out.append("<b>").append(grocerlevel.itemName).append("</b> ").append(CivSettings.localize.localizedString("Amount")).append(" ").append(grocerlevel.item.getAmount()).append(" ").append(CivSettings.localize.localizedString("Price")).append(" ").append(grocerlevel.price).append(" ").append(CivSettings.CURRENCY_NAME).append(".<br/>");
-        }
-
-        return out.toString();
-    }
-
-    @Override
-    public String getMarkerIconName() {
-        return "cutlery";
-    }
-
     public int getLevel() {
         return level;
     }

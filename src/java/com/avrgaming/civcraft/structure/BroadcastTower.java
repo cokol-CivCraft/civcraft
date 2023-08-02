@@ -25,11 +25,6 @@ public class BroadcastTower extends Structure {
     }
 
     @Override
-    public String getMarkerIconName() {
-        return "pirateflag";
-    }
-
-    @Override
     public void onLoad() {
         if (this.isActive()) {
             addBuffs();

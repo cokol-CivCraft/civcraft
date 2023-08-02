@@ -158,24 +158,6 @@ public class Store extends Structure {
         }
     }
 
-    @Override
-    public String getDynmapDescription() {
-        StringBuilder out = new StringBuilder("<u><b>" + this.getDisplayName() + "</u></b><br/>");
-        if (this.materials.isEmpty()) {
-            out.append(CivSettings.localize.localizedString("store_dynmap_nothingStocked"));
-        } else {
-            for (StoreMaterial mat : this.materials) {
-                out.append(CivSettings.localize.localizedString("var_store_dynmap_item", mat.name, mat.price)).append("<br/>");
-            }
-        }
-        return out.toString();
-    }
-
-    @Override
-    public String getMarkerIconName() {
-        return "bricks";
-    }
-
     public void reset() {
         this.materials.clear();
         this.updateSignText();

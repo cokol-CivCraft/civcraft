@@ -92,8 +92,4 @@ public class WaterStructure extends Structure {
 
     }
 
-    @Override
-    public String getMarkerIconName() {
-        return "anchor";
-    }
 }

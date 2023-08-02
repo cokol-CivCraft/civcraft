@@ -256,18 +256,6 @@ public class Bank extends Structure {
         }
     }
 
-    @Override
-    public String getDynmapDescription() {
-        String out = "<u><b>" + CivSettings.localize.localizedString("bank_dynmapName") + "</u></b><br/>";
-        out += CivSettings.localize.localizedString("Level") + " " + this.level;
-        return out;
-    }
-
-    @Override
-    public String getMarkerIconName() {
-        return "bank";
-    }
-
     public int getLevel() {
         return level;
     }

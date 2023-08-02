@@ -1361,19 +1361,6 @@ public class Town extends SQLObject {
         return this.getCiv().hasTechnology(require_tech);
     }
 
-    public String getDynmapDescription() {
-        String out = "";
-        try {
-            out += "<h3><b>" + this.getName() + "</b> (<i>" + this.getCiv().getName() + "</i>)</h3>";
-            out += "<b>" + CivSettings.localize.localizedString("Mayors") + " " + this.getMayorGroup().getMembersString() + "</b>";
-        } catch (Exception e) {
-            CivLog.debug("Town: " + this.getName());
-            e.printStackTrace();
-        }
-
-        return out;
-    }
-
     public void removeCultureChunk(ChunkCoord coord) {
         this.cultureChunks.remove(coord);
     }

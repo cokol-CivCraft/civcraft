@@ -1036,10 +1036,6 @@ public abstract class Buildable extends SQLObject {
 
     }
 
-    public abstract String getDynmapDescription();
-
-    public abstract String getMarkerIconName();
-
 
     /* SessionDB helpers */
     public void sessionAdd(String key, String value) {

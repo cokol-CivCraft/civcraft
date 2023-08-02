@@ -101,11 +101,6 @@ public class Blacksmith extends Structure {
     }
 
     @Override
-    public String getMarkerIconName() {
-        return "factory";
-    }
-
-    @Override
     public void processSignAction(Player player, StructureSign sign, PlayerInteractEvent event) throws CivException {
         int special_id = Integer.parseInt(sign.getAction());
 

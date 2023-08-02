@@ -296,17 +296,6 @@ public class Structure extends MetaStructure {
     }
 
     @Override
-    public String getDynmapDescription() {
-        return null;
-    }
-
-    @Override
-    public String getMarkerIconName() {
-        // options at https://github.com/webbukkit/dynmap/wiki/Using-markers
-        return "bighouse";
-    }
-
-    @Override
     public void processUndo() throws CivException {
 
         if (isTownHall()) {

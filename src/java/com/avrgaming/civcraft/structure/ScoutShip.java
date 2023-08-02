@@ -162,11 +162,6 @@ public class ScoutShip extends WaterStructure {
         }
     }
 
-    @Override
-    public String getMarkerIconName() {
-        return "tower";
-    }
-
     public int getReportSeconds() {
         return reportSeconds;
     }

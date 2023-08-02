@@ -41,11 +41,6 @@ public class MobGrinder extends Structure {
         super(rs);
     }
 
-    @Override
-    public String getMarkerIconName() {
-        return "minecart";
-    }
-
     public double getMineralChance(Crystal crystal) {
         double chance = switch (crystal) {
             case T1 -> T1_CHANCE;

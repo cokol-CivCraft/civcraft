@@ -18,11 +18,6 @@ public class Museum extends Structure {
     }
 
     @Override
-    public String getMarkerIconName() {
-        return "flower";
-    }
-
-    @Override
     public void loadSettings() {
         super.loadSettings();
     }

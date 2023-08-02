@@ -21,11 +21,6 @@ public class Lighthouse extends Structure {
     }
 
 
-    @Override
-    public String getMarkerIconName() {
-        return "compass";
-    }
-
     public double getHammersPerTile() {
         AttributeBiomeRadiusPerLevel attrBiome = (AttributeBiomeRadiusPerLevel) this.getComponent("AttributeBiomeBase");
         double base = attrBiome.getBaseValue();

@@ -41,18 +41,6 @@ public class Quarry extends Structure {
         super(rs);
     }
 
-    @Override
-    public String getDynmapDescription() {
-        String out = "<u><b>" + this.getDisplayName() + "</u></b><br/>";
-        out += CivSettings.localize.localizedString("Level") + " " + this.level;
-        return out;
-    }
-
-    @Override
-    public String getMarkerIconName() {
-        return "minecart";
-    }
-
     public double getChance(Mineral mineral) {
         double chance = switch (mineral) {
             case RARE -> RARE_CHANCE;

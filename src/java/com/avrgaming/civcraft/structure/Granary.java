@@ -134,8 +134,4 @@ public class Granary extends Structure {
                 + ChatColor.GRAY + this.chromium;
     }
 
-    @Override
-    public String getMarkerIconName() {
-        return "chest";
-    }
 }

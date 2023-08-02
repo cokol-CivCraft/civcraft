@@ -31,11 +31,6 @@ public class University extends Structure {
 
     }
 
-    @Override
-    public String getMarkerIconName() {
-        return "bronzestar";
-    }
-
     private StructureSign getSignFromSpecialId(int special_id) {
         for (StructureSign sign : getSigns()) {
             int id = Integer.parseInt(sign.getAction());

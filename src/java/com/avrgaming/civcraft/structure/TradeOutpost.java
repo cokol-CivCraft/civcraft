@@ -80,11 +80,6 @@ public class TradeOutpost extends Structure {
     }
 
     @Override
-    public String getMarkerIconName() {
-        return "scales";
-    }
-
-    @Override
     public void onDemolish() throws CivException {
 
         /*

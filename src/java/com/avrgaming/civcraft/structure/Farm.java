@@ -76,11 +76,6 @@ public class Farm extends Structure {
         return false;
     }
 
-    @Override
-    public String getMarkerIconName() {
-        return "basket";
-    }
-
     public void build_farm(Location centerLoc) {
         // A new farm, add it to the farm chunk table ...
         Chunk chunk = centerLoc.getChunk();

@@ -1081,18 +1081,6 @@ public class Camp extends Buildable {
     }
 
     @Override
-    public String getDynmapDescription() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String getMarkerIconName() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public void onComplete() {
         // TODO Auto-generated method stub
 

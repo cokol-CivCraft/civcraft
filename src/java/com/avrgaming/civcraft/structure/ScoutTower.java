@@ -192,11 +192,6 @@ public class ScoutTower extends Structure {
         }
     }
 
-    @Override
-    public String getMarkerIconName() {
-        return "tower";
-    }
-
     public int getReportSeconds() {
         return reportSeconds;
     }

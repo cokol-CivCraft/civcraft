@@ -359,16 +359,6 @@ public class Cannon extends Buildable {
     }
 
     @Override
-    public String getDynmapDescription() {
-        return null;
-    }
-
-    @Override
-    public String getMarkerIconName() {
-        return null;
-    }
-
-    @Override
     public void onComplete() {
     }
 

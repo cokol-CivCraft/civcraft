@@ -19,11 +19,6 @@ public class ResearchLab extends Structure {
     }
 
     @Override
-    public String getMarkerIconName() {
-        return "warning";
-    }
-
-    @Override
     public void loadSettings() {
         super.loadSettings();
     }

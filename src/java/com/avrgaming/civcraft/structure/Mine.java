@@ -57,11 +57,6 @@ public class Mine extends Structure {
         return getTown().getName() + "_" + this.getConfigId() + "_" + this.getCorner().toString();
     }
 
-    @Override
-    public String getMarkerIconName() {
-        return "hammer";
-    }
-
     public ConsumeLevelComponent getConsumeComponent() {
         if (consumeComp == null) {
             consumeComp = (ConsumeLevelComponent) this.getComponent(ConsumeLevelComponent.class.getSimpleName());

@@ -18,8 +18,4 @@ public class Stadium extends Structure {
         super(rs);
     }
 
-    @Override
-    public String getMarkerIconName() {
-        return "flower";
-    }
 }

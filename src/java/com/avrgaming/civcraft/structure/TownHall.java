@@ -18,7 +18,6 @@
 package com.avrgaming.civcraft.structure;
 
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.config.ConfigCultureLevel;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.items.BonusGoodie;
@@ -95,15 +94,6 @@ public class TownHall extends Structure implements RespawnLocationHolder {
         }
 
         super.delete();
-    }
-
-    @Override
-    public String getDynmapDescription() {
-        String out = "";
-        out += "<b>" + CivSettings.localize.localizedString("var_townHall_dynmap_heading", this.getTown().getName()) + "</b>";
-        ConfigCultureLevel culturelevel = CivSettings.cultureLevels.get(this.getTown().getCultureLevel());
-        out += "<br/>" + CivSettings.localize.localizedString("townHall_dynmap_cultureLevel") + " " + culturelevel.level + " (" + this.getTown().getAccumulatedCulture() + "/" + culturelevel.amount + ")";
-        return out;
     }
 
     public void addTechBarBlock(BlockCoord coord, int index) {

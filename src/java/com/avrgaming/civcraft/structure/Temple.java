@@ -68,22 +68,6 @@ public class Temple extends Structure {
 //		attrComp.registerComponent();
     }
 
-    @Override
-    public String getDynmapDescription() {
-        if (getConsumeComponent() == null) {
-            return "";
-        }
-
-        String out = "";
-        out += CivSettings.localize.localizedString("Level") + " " + getConsumeComponent().getLevel() + " " + getConsumeComponent().getCountString();
-        return out;
-    }
-
-    @Override
-    public String getMarkerIconName() {
-        return "church";
-    }
-
     public String getkey() {
         return this.getTown().getName() + "_" + this.getConfigId() + "_" + this.getCorner().toString();
     }

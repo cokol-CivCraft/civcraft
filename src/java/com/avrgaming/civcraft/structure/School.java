@@ -19,9 +19,4 @@ public class School extends Structure {
     }
 
 
-    @Override
-    public String getMarkerIconName() {
-        return "walk";
-    }
-
 }

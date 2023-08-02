@@ -169,17 +169,6 @@ public abstract class Wonder extends MetaStructure {
 
 
     @Override
-    public String getDynmapDescription() {
-        return null;
-    }
-
-
-    @Override
-    public String getMarkerIconName() {
-        return "beer";
-    }
-
-    @Override
     protected void runOnBuild(Location centerLoc, Template tpl) {
     }
 

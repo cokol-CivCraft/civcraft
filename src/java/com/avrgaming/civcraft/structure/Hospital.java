@@ -23,11 +23,6 @@ public class Hospital extends Structure {
     }
 
     @Override
-    public String getMarkerIconName() {
-        return "bed";
-    }
-
-    @Override
     public void onUpdate() {
         super.onUpdate();
 

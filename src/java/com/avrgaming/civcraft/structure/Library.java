@@ -246,20 +246,6 @@ public class Library extends Structure {
         }
     }
 
-    @Override
-    public String getDynmapDescription() {
-        StringBuilder out = new StringBuilder("<u><b>" + this.getDisplayName() + "</u></b><br/>");
-
-        if (this.enchantments.isEmpty()) {
-            out.append(CivSettings.localize.localizedString("library_dynmap_nothingStocked"));
-        } else {
-            for (LibraryEnchantment mat : this.enchantments) {
-                out.append(CivSettings.localize.localizedString("var_library_dynmap_item", mat.displayName, mat.price)).append("<br/>");
-            }
-        }
-        return out.toString();
-    }
-
 
     public ArrayList<LibraryEnchantment> getEnchants() {
         return enchantments;
@@ -271,11 +257,6 @@ public class Library extends Structure {
             throw new CivException(CivSettings.localize.localizedString("library_full"));
         }
         enchantments.add(enchant);
-    }
-
-    @Override
-    public String getMarkerIconName() {
-        return "bookshelf";
     }
 
     public void reset() {
