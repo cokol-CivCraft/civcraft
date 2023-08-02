@@ -25,7 +25,6 @@ import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.items.BonusGoodie;
 import com.avrgaming.civcraft.main.CivGlobal;
-import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.Town;
@@ -39,7 +38,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
 import java.sql.ResultSet;
@@ -47,8 +45,6 @@ import java.sql.SQLException;
 import java.util.HashMap;
 
 public abstract class Wonder extends MetaStructure {
-
-    public static String TABLE_NAME = "WONDERS";
     private ConfigWonderBuff wonderBuffs = null;
     protected BlockCoord tradeGoodCoord;
     protected BlockCoord tradeOutpostTower = null;
@@ -57,24 +53,11 @@ public abstract class Wonder extends MetaStructure {
     protected BonusGoodie goodie = null;
 
     public Wonder(ResultSet rs) throws SQLException, CivException {
-        this.load(rs);
-
-        if (this.hitpoints == 0) {
-            this.delete();
-        }
+        super(rs);
     }
 
     public Wonder(Location center, String id, Town town) throws CivException {
-        this.info = CivSettings.wonders.get(id);
-        this.setTown(town);
-        this.setCorner(new BlockCoord(center));
-        this.hitpoints = info.max_hp;
-
-        // Disallow duplicate structures with the same hash.
-        Wonder wonder = CivGlobal.getWonder(this.getCorner());
-        if (wonder != null) {
-            throw new CivException(CivSettings.localize.localizedString("wonder_alreadyExistsHere"));
-        }
+        super(center, id, town);
     }
 
     public void loadSettings() {
@@ -85,76 +68,9 @@ public abstract class Wonder extends MetaStructure {
         }
     }
 
-    public static void init() throws SQLException {
-        if (!SQLController.hasTable(TABLE_NAME)) {
-            String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
-                    "`id` int(11) unsigned NOT NULL auto_increment," +
-                    "`type_id` mediumtext NOT NULL," +
-                    "`town_id` int(11) DEFAULT NULL," +
-                    "`complete` bool NOT NULL DEFAULT '0'," +
-                    "`builtBlockCount` int(11) DEFAULT NULL, " +
-                    "`cornerBlockHash` mediumtext DEFAULT NULL," +
-                    "`template_name` mediumtext DEFAULT NULL," +
-                    "`direction` mediumtext DEFAULT NULL," +
-                    "`hitpoints` int(11) DEFAULT '100'," +
-                    "PRIMARY KEY (`id`)" + ")";
-
-            SQLController.makeTable(table_create);
-            CivLog.info("Created " + TABLE_NAME + " table");
-        } else {
-            CivLog.info(TABLE_NAME + " table OK!");
-        }
-    }
-
-
-    @Override
-    public void load(ResultSet rs) throws SQLException, CivException {
-        this.setId(rs.getInt("id"));
-        this.info = CivSettings.wonders.get(rs.getString("type_id"));
-        this.setTown(CivGlobal.getTownFromId(rs.getInt("town_id")));
-
-        if (this.getTown() == null) {
-            this.delete();
-            throw new CivException("Coudln't find town ID:" + rs.getInt("town_id") + " for structure " + this.getDisplayName() + " ID:" + this.getId());
-        }
-
-        this.setCorner(new BlockCoord(rs.getString("cornerBlockHash")));
-        this.hitpoints = rs.getInt("hitpoints");
-        this.setTemplateName(rs.getString("template_name"));
-        this.dir = BlockFace.valueOf(rs.getString("direction"));
-        this.setComplete(rs.getBoolean("complete"));
-        this.setBuiltBlockCount(rs.getInt("builtBlockCount"));
-
-
-        this.getTown().addWonder(this);
-        bindStructureBlocks();
-
-        if (!this.isComplete()) {
-            try {
-                this.resumeBuildFromTemplate();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     @Override
     public void save() {
         SQLUpdate.add(this);
-    }
-
-    @Override
-    public void saveNow() throws SQLException {
-        HashMap<String, Object> hashmap = new HashMap<>();
-        hashmap.put("type_id", this.getConfigId());
-        hashmap.put("town_id", this.getTown().getId());
-        hashmap.put("complete", this.isComplete());
-        hashmap.put("builtBlockCount", this.getBuiltBlockCount());
-        hashmap.put("cornerBlockHash", this.getCorner().toString());
-        hashmap.put("hitpoints", this.getHitpoints());
-        hashmap.put("template_name", this.getSavedTemplatePath());
-        hashmap.put("direction", this.dir.toString());
-        SQLController.updateNamedObject(this, hashmap, TABLE_NAME);
     }
 
 
