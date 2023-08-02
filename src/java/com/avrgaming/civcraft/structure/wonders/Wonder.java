@@ -30,7 +30,7 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.object.TradeGood;
-import com.avrgaming.civcraft.structure.Buildable;
+import com.avrgaming.civcraft.structure.MetaStructure;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ItemFrameStorage;
@@ -46,7 +46,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-public abstract class Wonder extends Buildable {
+public abstract class Wonder extends MetaStructure {
 
     public static String TABLE_NAME = "WONDERS";
     private ConfigWonderBuff wonderBuffs = null;

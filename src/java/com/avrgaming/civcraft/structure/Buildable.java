@@ -364,7 +364,7 @@ public abstract class Buildable extends SQLObject {
         ArrayList<ConfigTemplate> perkList = info.getTemplates();
         if (perkList.isEmpty()) {
             Template tpl = new Template();
-            Buildable struct = Structure.newStructOrWonder(player.getLocation(), info, town);
+            MetaStructure struct = MetaStructure.newStructOrWonder(player.getLocation(), info, town);
             try {
                 tpl.initTemplate(struct);
             } catch (CivException | IOException e) {

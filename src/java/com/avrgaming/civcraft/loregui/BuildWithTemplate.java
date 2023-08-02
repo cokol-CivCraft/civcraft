@@ -6,9 +6,7 @@ import com.avrgaming.civcraft.lorestorage.LoreGuiItem;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
-import com.avrgaming.civcraft.structure.Buildable;
-import com.avrgaming.civcraft.structure.Structure;
-import com.avrgaming.civcraft.structure.wonders.Wonder;
+import com.avrgaming.civcraft.structure.MetaStructure;
 import com.avrgaming.civcraft.template.Template;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -28,7 +26,7 @@ public class BuildWithTemplate extends GuiAction {
 
         String theme = LoreGuiItem.getActionData(stack, "theme");
         try {
-            Buildable struct = Structure.newStructOrWonder(player.getLocation(), resident.pendingBuildable.info(), resident.pendingBuildable.town());
+            MetaStructure struct = MetaStructure.newStructOrWonder(player.getLocation(), resident.pendingBuildable.info(), resident.pendingBuildable.town());
             if (theme == null) {
                 /* Use the default template. */
                 Template tpl = new Template();

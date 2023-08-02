@@ -552,7 +552,7 @@ public class CivGlobal {
 
             while (rs.next()) {
                 try {
-                    Structure struct = (Structure) Structure.newStructOrWonder(rs);
+                    Structure struct = (Structure) MetaStructure.newStructOrWonder(rs);
                     structures.put(struct.getCorner(), struct);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -577,7 +577,7 @@ public class CivGlobal {
 
             while (rs.next()) {
                 try {
-                    Wonder wonder = (Wonder) Structure.newStructOrWonder(rs);
+                    Wonder wonder = (Wonder) MetaStructure.newStructOrWonder(rs);
                     wonders.put(wonder.getCorner(), wonder);
                 } catch (Exception e) {
                     e.printStackTrace();

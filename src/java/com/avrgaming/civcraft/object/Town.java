@@ -1469,7 +1469,7 @@ public class Town extends SQLObject {
             throw new CivException(CivSettings.localize.localizedString("town_buildwonder_NotOverworld"));
         }
 
-        Wonder wonder = (Wonder) Structure.newStructOrWonder(center, info, this);
+        Wonder wonder = (Wonder) MetaStructure.newStructOrWonder(center, info, this);
 
         if (!this.hasUpgrade(wonder.getRequiredUpgrade())) {
             throw new CivException(CivSettings.localize.localizedString("town_buildwonder_errorMissingUpgrade"));
@@ -1542,7 +1542,7 @@ public class Town extends SQLObject {
 //			throw new CivException("Cannot build structures in the overworld ... for now.");
 //		}
 
-        Structure struct = (Structure) Structure.newStructOrWonder(center, info, this);
+        Structure struct = (Structure) MetaStructure.newStructOrWonder(center, info, this);
 
         if (!this.hasUpgrade(struct.getRequiredUpgrade())) {
             throw new CivException(CivSettings.localize.localizedString("town_buildwonder_errorMissingUpgrade"));

@@ -26,6 +26,7 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.structure.BuildableLayer;
+import com.avrgaming.civcraft.structure.MetaStructure;
 import com.avrgaming.civcraft.structure.Structure;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.util.BlockCoord;
@@ -224,7 +225,7 @@ public class AdminBuildCommand extends CommandBase {
 
             while (rs.next()) {
                 try {
-                    Buildable structure = Structure.newStructOrWonder(rs);
+                    MetaStructure structure = MetaStructure.newStructOrWonder(rs);
                     struct = CivGlobal.getStructure(structure.getCorner());
                 } catch (Exception e) {
                     e.printStackTrace();

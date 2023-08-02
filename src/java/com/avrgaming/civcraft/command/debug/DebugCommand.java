@@ -389,7 +389,7 @@ public class DebugCommand extends CommandBase {
                                         int yShift = Integer.parseInt(split[1]);
                                         Location loc = next.getLocation();
                                         loc.setY(loc.getY() + yShift);
-                                        Structure struct = (Structure) Structure.newStructOrWonder(loc, info, spawnCapitol);
+                                        Structure struct = (Structure) MetaStructure.newStructOrWonder(loc, info, spawnCapitol);
                                         if (struct instanceof Capitol) {
                                             AdminTownCommand.claimradius(spawnCapitol, center, 15);
                                         }
