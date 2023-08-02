@@ -84,76 +84,132 @@ public class ConfigBuildableInfo {
         return CivSettings.templates.getOrDefault(this.template_base_name, new ArrayList<>());
     }
 
-    public static void loadConfig(FileConfiguration cfg, String path, Map<String, ConfigBuildableInfo> structureMap, boolean isWonder) {
+    public static void loadConfig(FileConfiguration structures, FileConfiguration wonders, Map<String, ConfigBuildableInfo> structureMap) {
         structureMap.clear();
-        List<Map<?, ?>> structures = cfg.getMapList(path);
-        for (Map<?, ?> obj : structures) {
-            ConfigBuildableInfo sinfo = new ConfigBuildableInfo();
+        {
+            for (Map<?, ?> obj : structures.getMapList("structures")) {
+                ConfigBuildableInfo sinfo = new ConfigBuildableInfo();
 
-            sinfo.id = (String) obj.get("id");
-            sinfo.template_base_name = (String) obj.get("template");
-            sinfo.templateYShift = (Integer) obj.get("template_y_shift");
-            sinfo.displayName = (String) obj.get("displayName");
-            sinfo.require_tech = (String) obj.get("require_tech");
-            sinfo.require_upgrade = (String) obj.get("require_upgrade");
-            sinfo.require_structure = (String) obj.get("require_structure");
-            sinfo.check_event = (String) obj.get("check_event");
-            sinfo.effect_event = (String) obj.get("effect_event");
-            sinfo.update_event = (String) obj.get("update_event");
-            sinfo.onBuild_event = (String) obj.get("onBuild_event");
-            sinfo.limit = (Integer) obj.get("limit");
-            //TODO handle signs
-            sinfo.cost = (Double) obj.get("cost");
-            sinfo.upkeep = (Double) obj.get("upkeep");
-            sinfo.hammer_cost = (Double) obj.get("hammer_cost");
-            sinfo.max_hp = (Integer) obj.get("max_hitpoints");
-            sinfo.destroyable = (Boolean) obj.get("destroyable");
-            sinfo.allow_outside_town = (Boolean) obj.get("allow_outside_town");
-            sinfo.regenRate = (Integer) obj.get("regen_rate");
-            sinfo.isWonder = isWonder;
-            sinfo.points = (Integer) obj.get("points");
-            sinfo.water_structure = Optional.ofNullable((Boolean) obj.get("onwater")).orElse(false);
-            if (isWonder) {
+                sinfo.id = (String) obj.get("id");
+                sinfo.template_base_name = (String) obj.get("template");
+                sinfo.templateYShift = (Integer) obj.get("template_y_shift");
+                sinfo.displayName = (String) obj.get("displayName");
+                sinfo.require_tech = (String) obj.get("require_tech");
+                sinfo.require_upgrade = (String) obj.get("require_upgrade");
+                sinfo.require_structure = (String) obj.get("require_structure");
+                sinfo.check_event = (String) obj.get("check_event");
+                sinfo.effect_event = (String) obj.get("effect_event");
+                sinfo.update_event = (String) obj.get("update_event");
+                sinfo.onBuild_event = (String) obj.get("onBuild_event");
+                sinfo.limit = (Integer) obj.get("limit");
+                //TODO handle signs
+                sinfo.cost = (Double) obj.get("cost");
+                sinfo.upkeep = (Double) obj.get("upkeep");
+                sinfo.hammer_cost = (Double) obj.get("hammer_cost");
+                sinfo.max_hp = (Integer) obj.get("max_hitpoints");
+                sinfo.destroyable = (Boolean) obj.get("destroyable");
+                sinfo.allow_outside_town = (Boolean) obj.get("allow_outside_town");
+                sinfo.regenRate = (Integer) obj.get("regen_rate");
+                sinfo.isWonder = false;
+                sinfo.points = (Integer) obj.get("points");
+                sinfo.water_structure = Optional.ofNullable((Boolean) obj.get("onwater")).orElse(false);
+                @SuppressWarnings("unchecked")
+                List<Map<?, ?>> comps = (List<Map<?, ?>>) obj.get("components");
+                if (comps != null) {
+                    for (Map<?, ?> compObj : comps) {
+
+                        HashMap<String, String> compMap = new HashMap<>();
+                        for (Object key : compObj.keySet()) {
+                            compMap.put((String) key, (String) compObj.get(key));
+                        }
+
+                        sinfo.components.add(compMap);
+                    }
+                }
+
+
+                Boolean tileImprovement = (Boolean) obj.get("tile_improvement");
+                sinfo.tile_improvement = tileImprovement != null && tileImprovement;
+
+                Boolean allowDemolish = (Boolean) obj.get("allow_demolish");
+                sinfo.allow_demolish = allowDemolish == null || allowDemolish;
+
+                Boolean strategic = (Boolean) obj.get("strategic");
+                sinfo.strategic = strategic != null && strategic;
+
+                Boolean ignore_floating = (Boolean) obj.get("ignore_floating");
+                if (ignore_floating != null) {
+                    sinfo.ignore_floating = ignore_floating;
+                }
+
+                structureMap.put(sinfo.id, sinfo);
+            }
+        }
+        {
+            for (Map<?, ?> obj : wonders.getMapList("wonders")) {
+                ConfigBuildableInfo sinfo = new ConfigBuildableInfo();
+
+                sinfo.id = (String) obj.get("id");
+                sinfo.template_base_name = (String) obj.get("template");
+                sinfo.templateYShift = (Integer) obj.get("template_y_shift");
+                sinfo.displayName = (String) obj.get("displayName");
+                sinfo.require_tech = (String) obj.get("require_tech");
+                sinfo.require_upgrade = (String) obj.get("require_upgrade");
+                sinfo.require_structure = (String) obj.get("require_structure");
+                sinfo.check_event = (String) obj.get("check_event");
+                sinfo.effect_event = (String) obj.get("effect_event");
+                sinfo.update_event = (String) obj.get("update_event");
+                sinfo.onBuild_event = (String) obj.get("onBuild_event");
+                sinfo.limit = (Integer) obj.get("limit");
+                //TODO handle signs
+                sinfo.cost = (Double) obj.get("cost");
+                sinfo.upkeep = (Double) obj.get("upkeep");
+                sinfo.hammer_cost = (Double) obj.get("hammer_cost");
+                sinfo.max_hp = (Integer) obj.get("max_hitpoints");
+                sinfo.destroyable = (Boolean) obj.get("destroyable");
+                sinfo.allow_outside_town = (Boolean) obj.get("allow_outside_town");
+                sinfo.regenRate = (Integer) obj.get("regen_rate");
+                sinfo.isWonder = true;
+                sinfo.points = (Integer) obj.get("points");
+                sinfo.water_structure = Optional.ofNullable((Boolean) obj.get("onwater")).orElse(false);
                 sinfo.nationalWonder = (Boolean) obj.get("national_wonder");
                 if (sinfo.nationalWonder == null) {
                     sinfo.nationalWonder = false;
                 }
-            }
-            @SuppressWarnings("unchecked")
-            List<Map<?, ?>> comps = (List<Map<?, ?>>) obj.get("components");
-            if (comps != null) {
-                for (Map<?, ?> compObj : comps) {
+                @SuppressWarnings("unchecked")
+                List<Map<?, ?>> comps = (List<Map<?, ?>>) obj.get("components");
+                if (comps != null) {
+                    for (Map<?, ?> compObj : comps) {
 
-                    HashMap<String, String> compMap = new HashMap<>();
-                    for (Object key : compObj.keySet()) {
-                        compMap.put((String) key, (String) compObj.get(key));
+                        HashMap<String, String> compMap = new HashMap<>();
+                        for (Object key : compObj.keySet()) {
+                            compMap.put((String) key, (String) compObj.get(key));
+                        }
+
+                        sinfo.components.add(compMap);
                     }
-
-                    sinfo.components.add(compMap);
                 }
-            }
 
 
-            Boolean tileImprovement = (Boolean) obj.get("tile_improvement");
-            sinfo.tile_improvement = tileImprovement != null && tileImprovement;
+                Boolean tileImprovement = (Boolean) obj.get("tile_improvement");
+                sinfo.tile_improvement = tileImprovement != null && tileImprovement;
 
-            Boolean allowDemolish = (Boolean) obj.get("allow_demolish");
-            sinfo.allow_demolish = allowDemolish == null || allowDemolish;
+                Boolean allowDemolish = (Boolean) obj.get("allow_demolish");
+                sinfo.allow_demolish = allowDemolish == null || allowDemolish;
 
-            Boolean strategic = (Boolean) obj.get("strategic");
-            sinfo.strategic = strategic != null && strategic;
+                Boolean strategic = (Boolean) obj.get("strategic");
+                sinfo.strategic = strategic != null && strategic;
 
-            Boolean ignore_floating = (Boolean) obj.get("ignore_floating");
-            if (ignore_floating != null) {
-                sinfo.ignore_floating = ignore_floating;
-            }
+                Boolean ignore_floating = (Boolean) obj.get("ignore_floating");
+                if (ignore_floating != null) {
+                    sinfo.ignore_floating = ignore_floating;
+                }
 
 
-            if (isWonder) {
                 sinfo.strategic = true;
-            }
 
-            structureMap.put(sinfo.id, sinfo);
+                structureMap.put(sinfo.id, sinfo);
+            }
         }
         CivLog.info("Loaded " + structureMap.size() + " structures.");
     }

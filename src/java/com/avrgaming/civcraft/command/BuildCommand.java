@@ -200,6 +200,9 @@ public class BuildCommand extends CommandBase {
         CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_build_listHeader"));
         Town town = getSelectedTown();
         for (ConfigBuildableInfo sinfo : CivSettings.structures.values()) {
+            if (sinfo.isWonder) {
+                continue;
+            }
             if (!sinfo.isAvailable(town)) {
                 continue;
             }
@@ -221,7 +224,10 @@ public class BuildCommand extends CommandBase {
     public void list_available_wonders() throws CivException {
         CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_build_listWondersHeader"));
         Town town = getSelectedTown();
-        for (ConfigBuildableInfo sinfo : CivSettings.wonders.values()) {
+        for (ConfigBuildableInfo sinfo : CivSettings.structures.values()) {
+            if (!sinfo.isWonder) {
+                continue;
+            }
             if (!sinfo.isAvailable(town)) {
                 continue;
             }

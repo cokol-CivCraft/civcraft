@@ -94,7 +94,6 @@ public class CivSettings {
     public static Map<Integer, ConfigTradeShipLevel> tradeShipLevels = new HashMap<>();
 
     public static FileConfiguration wonderConfig; /* wonders.yml */
-    public static Map<String, ConfigBuildableInfo> wonders = new HashMap<>();
     public static Map<String, ConfigWonderBuff> wonderBuffs = new HashMap<>();
 
     public static FileConfiguration religionConfig; /*religion.yml */
@@ -406,8 +405,7 @@ public class CivSettings {
         ConfigTownLevel.loadConfig(townConfig, townLevels);
         ConfigTownUpgrade.loadConfig(townConfig, townUpgrades);
         ConfigCultureLevel.loadConfig(cultureConfig, cultureLevels);
-        ConfigBuildableInfo.loadConfig(structureConfig, "structures", structures, false);
-        ConfigBuildableInfo.loadConfig(wonderConfig, "wonders", wonders, true);
+        ConfigBuildableInfo.loadConfig(structureConfig, wonderConfig, structures);
         ConfigTech.loadConfig(techsConfig, techs);
         ConfigReligion.loadConfig(religionConfig, religions);
         ConfigTechItem.loadConfig(techsConfig, techItems);
@@ -750,13 +748,6 @@ public class CivSettings {
                 return sinfo;
             }
         }
-
-        for (ConfigBuildableInfo sinfo : wonders.values()) {
-            if (sinfo.displayName.equalsIgnoreCase(fullArgs)) {
-                return sinfo;
-            }
-        }
-
         return null;
     }
 

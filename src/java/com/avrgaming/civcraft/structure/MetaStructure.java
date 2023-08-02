@@ -30,11 +30,7 @@ public abstract class MetaStructure extends Buildable {
 
     public MetaStructure(Location center, String id, Town town) throws CivException {
         this.dir = Template.getDirection(center);
-        if (this instanceof Wonder) {
-            this.info = CivSettings.wonders.get(id);
-        } else {
-            this.info = CivSettings.structures.get(id);
-        }
+        this.info = CivSettings.structures.get(id);
         this.setTown(town);
         this.setCorner(new BlockCoord(center));
         this.hitpoints = info.max_hp;
@@ -175,11 +171,8 @@ public abstract class MetaStructure extends Buildable {
     @Override
     public void load(ResultSet rs) throws SQLException, CivException {
         this.setId(rs.getInt("id"));
-        if (this instanceof Wonder) {
-            this.info = CivSettings.wonders.get(rs.getString("type_id"));
-        } else {
-            this.info = CivSettings.structures.get(rs.getString("type_id"));
-        }
+        this.info = CivSettings.structures.get(rs.getString("type_id"));
+
         this.setTown(CivGlobal.getTownFromId(rs.getInt("town_id")));
 
         if (this.getTown() == null) {
