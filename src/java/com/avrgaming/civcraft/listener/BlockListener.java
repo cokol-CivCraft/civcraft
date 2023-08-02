@@ -1247,11 +1247,8 @@ public class BlockListener implements Listener {
             return;
         }
         switch (event.getEntityType()) {
-            case ZOMBIE, SKELETON, WITCH, ENDERMAN, SILVERFISH, OCELOT, WOLF, CREEPER, SPIDER, CAVE_SPIDER, BAT -> {
-                event.setCancelled(true);
-                return;
-            }
-
+            case ZOMBIE, ZOMBIE_VILLAGER, ZOMBIE_HORSE, SKELETON_HORSE, SKELETON, WITCH, ENDERMAN, SILVERFISH, OCELOT, WOLF, CREEPER, SPIDER, CAVE_SPIDER, BAT, STRAY, HUSK, EVOKER, VINDICATOR, VILLAGER ->
+                    event.setCancelled(true);
         }
 
         if (event.getSpawnReason().equals(SpawnReason.SPAWNER)) {

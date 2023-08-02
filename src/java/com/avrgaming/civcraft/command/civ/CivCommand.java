@@ -289,7 +289,7 @@ public class CivCommand extends CommandBase {
             for (Integer score : CivGlobal.civilizationScores.descendingKeySet()) {
                 CivMessage.send(sender, i + ") " + ChatColor.GREEN + CivGlobal.civilizationScores.get(score).getName() + ChatColor.AQUA + " - " + score);
                 i++;
-                if (i > Integer.parseInt(args[1])) {
+                if (i > Optional.ofNullable(Integer.parseInt(args[1])).orElse(5)) {
                     break;
                 }
             }

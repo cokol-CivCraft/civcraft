@@ -430,7 +430,7 @@ public class TownCommand extends CommandBase {
                 //Player not online.
             }
             if (residentToKick.getNativeTown() == town) {
-                residentToKick.setNativeTown(0);
+                residentToKick.setNativeTown(null);
             }
             CivMessage.sendTown(town, CivSettings.localize.localizedString("var_cmd_town_evictSuccess1", residentToKick.getName(), resident.getName()));
             return;

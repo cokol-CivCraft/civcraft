@@ -178,11 +178,12 @@ public class DebugCommand extends CommandBase {
     }
 
     public void stopvalidate_cmd() {
-        CivCraft.setIsValidate(false);
-        CivMessage.sendError(sender, "StructureValidator is turned OFF!");
         if (!CivCraft.getIsValidate()) {
             CivCraft.setIsValidate(true);
             CivMessage.sendSuccess(sender, "StructureValidator is turned ON!");
+        } else {
+            CivCraft.setIsValidate(false);
+            CivMessage.sendError(sender, "StructureValidator is turned OFF!");
         }
     }
 
@@ -1399,7 +1400,7 @@ public class DebugCommand extends CommandBase {
         if (r == null) {
             r = getResident();
         }
-        r.setNativeTown(t.getId());
+        r.setNativeTown(t);
     }
 
 }

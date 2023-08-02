@@ -90,7 +90,7 @@ public class Resident extends SQLObject {
     private boolean permOverride = false;
     private boolean sbperm = false;
     private boolean controlBlockInstantBreak = false;
-    private int nativeTownId = 0;
+    private Town nativeTown;
     private boolean dontSaveTown = false;
     private String timezone;
 
@@ -214,8 +214,9 @@ public class Resident extends SQLObject {
         int campID = rs.getInt("camp_id");
         this.lastIP = rs.getString("last_ip");
         this.debugTown = rs.getString("debug_town");
-        this.nativeTownId = rs.getInt("nativetown_id");
-        LoadNativeCiv(nativeTownId);
+        this.nativeTown = CivGlobal.getTownFromId(rs.getInt("nativetown_id"));
+        assert nativeTown != null;
+        LoadNativeCiv(nativeTown.getId());
 
         if (rs.getString("uuid").equalsIgnoreCase("UNKNOWN")) {
             this.uid = null;
@@ -362,6 +363,11 @@ public class Resident extends SQLObject {
             if (!dontSaveTown) {
                 hashmap.put("town_id", null);
             }
+        }
+        if (this.getNativeTown() != null) {
+            hashmap.put("nativetown_id", this.getNativeTown().getId());
+        } else {
+            hashmap.put("nativetown_id", null);
         }
 
         if (this.getCamp() != null) {
@@ -1465,16 +1471,16 @@ public class Resident extends SQLObject {
         }
     }
 
-    public void setNativeTown(int i) {
-        nativeTownId = i;
+    public void setNativeTown(Town t) {
+        nativeTown = t;
     }
 
     public Town getNativeTown() {
-        return CivGlobal.getTownFromId(nativeTownId);
+        return nativeTown;
     }
 
     public int getNativeTownId() {
-        return nativeTownId;
+        return nativeTown.getId();
     }
 
 
