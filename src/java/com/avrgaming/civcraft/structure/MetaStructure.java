@@ -134,11 +134,67 @@ public abstract class MetaStructure extends Buildable {
     }
 
     public static MetaStructure newStructOrWonder(Location center, ConfigBuildableInfo info, Town town) throws CivException {
-        if (info.isWonder) {
-            return Wonder.newWonder(center, info.id, town);
-        } else {
-            return Structure.newStructure(center, info.id, town);
-        }
+        MetaStructure structure = switch (info.id) {
+            case "w_pyramid" -> new TheGreatPyramid(center, info.id, town);
+            case "w_greatlibrary" -> new GreatLibrary(center, info.id, town);
+            case "w_hanginggardens" -> new TheHangingGardens(center, info.id, town);
+            case "w_colossus" -> new TheColossus(center, info.id, town);
+            case "w_notre_dame" -> new NotreDame(center, info.id, town);
+            case "w_chichen_itza" -> new ChichenItza(center, info.id, town);
+            case "w_council_of_eight" -> new CouncilOfEight(center, info.id, town);
+            case "w_colosseum" -> new Colosseum(center, info.id, town);
+            case "w_globe_theatre" -> new GlobeTheatre(center, info.id, town);
+            case "w_great_lighthouse" -> new GreatLighthouse(center, info.id, town);
+            case "w_mother_tree" -> new MotherTree(center, info.id, town);
+            case "w_grand_ship_ingermanland" -> new GrandShipIngermanland(center, info.id, town);
+            case "s_bank" -> new Bank(center, info.id, town);
+            case "s_trommel" -> new Trommel(center, info.id, town);
+            case "ti_fish_hatchery" -> new FishHatchery(center, info.id, town);
+            case "ti_trade_ship" -> new TradeShip(center, info.id, town);
+            case "ti_quarry" -> new Quarry(center, info.id, town);
+            case "s_mob_grinder" -> new MobGrinder(center, info.id, town);
+            case "s_store" -> new Store(center, info.id, town);
+            case "s_stadium" -> new Stadium(center, info.id, town);
+            case "ti_hospital" -> new Hospital(center, info.id, town);
+            case "s_grocer" -> new Grocer(center, info.id, town);
+            case "s_broadcast_tower" -> new BroadcastTower(center, info.id, town);
+            case "s_library" -> new Library(center, info.id, town);
+            case "s_university" -> new University(center, info.id, town);
+            case "s_school" -> new School(center, info.id, town);
+            case "s_research_lab" -> new ResearchLab(center, info.id, town);
+            case "s_blacksmith" -> new Blacksmith(center, info.id, town);
+            case "s_granary" -> new Granary(center, info.id, town);
+            case "ti_cottage" -> new Cottage(center, info.id, town);
+            case "s_monument" -> new Monument(center, info.id, town);
+            case "s_temple" -> new Temple(center, info.id, town);
+            case "ti_mine" -> new Mine(center, info.id, town);
+            case "ti_farm" -> new Farm(center, info.id, town);
+            case "ti_trade_outpost" -> new TradeOutpost(center, info.id, town);
+            case "ti_fishing_boat" -> new FishingBoat(center, info.id, town);
+            case "s_townhall" -> new TownHall(center, info.id, town);
+            case "s_capitol" -> new Capitol(center, info.id, town);
+            case "s_arrowship" -> new ArrowShip(center, info.id, town);
+            case "s_arrowtower" -> new ArrowTower(center, info.id, town);
+            case "s_cannonship" -> new CannonShip(center, info.id, town);
+            case "s_cannontower" -> new CannonTower(center, info.id, town);
+            case "s_scoutship" -> new ScoutShip(center, info.id, town);
+            case "s_scouttower" -> new ScoutTower(center, info.id, town);
+            case "s_shipyard" -> new Shipyard(center, info.id, town);
+            case "s_barracks" -> new Barracks(center, info.id, town);
+            case "ti_windmill" -> new Windmill(center, info.id, town);
+            case "s_museum" -> new Museum(center, info.id, town);
+            case "s_market" -> new Market(center, info.id, town);
+            case "s_stable" -> new Stable(center, info.id, town);
+            case "ti_pasture" -> new Pasture(center, info.id, town);
+            case "ti_lighthouse" -> new Lighthouse(center, info.id, town);
+            case "s_teslatower" -> new TeslaTower(center, info.id, town);
+            default -> new Structure(center, info.id, town);
+        };
+
+        structure.loadSettings();
+
+        return structure;
+
     }
 
     @Override

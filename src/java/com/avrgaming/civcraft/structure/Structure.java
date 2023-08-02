@@ -70,58 +70,6 @@ public class Structure extends MetaStructure {
         }
     }
 
-    public static Structure newStructure(Location center, String id, Town town) throws CivException {
-        Structure struct = switch (id) {
-            case "s_bank" -> new Bank(center, id, town);
-            case "s_trommel" -> new Trommel(center, id, town);
-            case "ti_fish_hatchery" -> new FishHatchery(center, id, town);
-            case "ti_trade_ship" -> new TradeShip(center, id, town);
-            case "ti_quarry" -> new Quarry(center, id, town);
-            case "s_mob_grinder" -> new MobGrinder(center, id, town);
-            case "s_store" -> new Store(center, id, town);
-            case "s_stadium" -> new Stadium(center, id, town);
-            case "ti_hospital" -> new Hospital(center, id, town);
-            case "s_grocer" -> new Grocer(center, id, town);
-            case "s_broadcast_tower" -> new BroadcastTower(center, id, town);
-            case "s_library" -> new Library(center, id, town);
-            case "s_university" -> new University(center, id, town);
-            case "s_school" -> new School(center, id, town);
-            case "s_research_lab" -> new ResearchLab(center, id, town);
-            case "s_blacksmith" -> new Blacksmith(center, id, town);
-            case "s_granary" -> new Granary(center, id, town);
-            case "ti_cottage" -> new Cottage(center, id, town);
-            case "s_monument" -> new Monument(center, id, town);
-            case "s_temple" -> new Temple(center, id, town);
-            case "ti_mine" -> new Mine(center, id, town);
-            case "ti_farm" -> new Farm(center, id, town);
-            case "ti_trade_outpost" -> new TradeOutpost(center, id, town);
-            case "ti_fishing_boat" -> new FishingBoat(center, id, town);
-            case "s_townhall" -> new TownHall(center, id, town);
-            case "s_capitol" -> new Capitol(center, id, town);
-            case "s_arrowship" -> new ArrowShip(center, id, town);
-            case "s_arrowtower" -> new ArrowTower(center, id, town);
-            case "s_cannonship" -> new CannonShip(center, id, town);
-            case "s_cannontower" -> new CannonTower(center, id, town);
-            case "s_scoutship" -> new ScoutShip(center, id, town);
-            case "s_scouttower" -> new ScoutTower(center, id, town);
-            case "s_shipyard" -> new Shipyard(center, id, town);
-            case "s_barracks" -> new Barracks(center, id, town);
-            case "ti_windmill" -> new Windmill(center, id, town);
-            case "s_museum" -> new Museum(center, id, town);
-            case "s_market" -> new Market(center, id, town);
-            case "s_stable" -> new Stable(center, id, town);
-            case "ti_pasture" -> new Pasture(center, id, town);
-            case "ti_lighthouse" -> new Lighthouse(center, id, town);
-            case "s_teslatower" -> new TeslaTower(center, id, town);
-            default -> new Structure(center, id, town);
-        };
-
-        struct.loadSettings();
-        struct.saveComponents();
-
-        return struct;
-    }
-
     @Override
     public void save() {
         SQLUpdate.add(this);

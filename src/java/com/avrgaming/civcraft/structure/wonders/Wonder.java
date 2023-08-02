@@ -187,27 +187,6 @@ public abstract class Wonder extends MetaStructure {
         }
     }
 
-    public static Wonder newWonder(Location center, String id, Town town) throws CivException {
-        Wonder wonder = switch (id) {
-            case "w_pyramid" -> new TheGreatPyramid(center, id, town);
-            case "w_greatlibrary" -> new GreatLibrary(center, id, town);
-            case "w_hanginggardens" -> new TheHangingGardens(center, id, town);
-            case "w_colossus" -> new TheColossus(center, id, town);
-            case "w_notre_dame" -> new NotreDame(center, id, town);
-            case "w_chichen_itza" -> new ChichenItza(center, id, town);
-            case "w_council_of_eight" -> new CouncilOfEight(center, id, town);
-            case "w_colosseum" -> new Colosseum(center, id, town);
-            case "w_globe_theatre" -> new GlobeTheatre(center, id, town);
-            case "w_great_lighthouse" -> new GreatLighthouse(center, id, town);
-            case "w_mother_tree" -> new MotherTree(center, id, town);
-            case "w_grand_ship_ingermanland" -> new GrandShipIngermanland(center, id, town);
-            default -> throw new CivException(CivSettings.localize.localizedString("wonder_unknwon_type") + " " + id);
-        };
-
-        wonder.loadSettings();
-        return wonder;
-    }
-
     public void addWonderBuffsToTown() {
 
         if (this.wonderBuffs == null) {
