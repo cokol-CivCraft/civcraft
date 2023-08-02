@@ -61,6 +61,7 @@ import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
@@ -165,6 +166,15 @@ public class DebugCommand extends CommandBase {
         register_sub("restoreinv", this::restoreinv_cmd, "restore your inventory.");
         register_sub("arenainfo", this::arenainfo_cmd, "Shows arena info for this player.");
         register_sub("setnativetown", this::setNativeTown_cmd, "[Town] [Resident]");
+        register_sub("seritem", this::seritem_cmd, "serialize ItemStack in hand");
+    }
+
+    private void seritem_cmd() throws CivException {
+        ItemStack stack = getPlayer().getInventory().getItemInMainHand();
+        YamlConfiguration yaml = new YamlConfiguration();
+        yaml.set("item", stack);
+        getPlayer().sendMessage("in console");
+        CivLog.info("\n" + yaml.saveToString());
     }
 
     public void stopvalidate_cmd() {
