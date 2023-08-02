@@ -18,39 +18,31 @@
 package com.avrgaming.civcraft.config;
 
 import com.avrgaming.civcraft.main.CivLog;
-import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
 import java.util.Map;
 
 public class ConfigGrocerLevel {
     public final int level;
     public final String itemName;
-    public final Material itemId;
-    public final int itemData;
-    public final int amount;
+    public final ItemStack item;
     public final double price;
 
-    public ConfigGrocerLevel(int level, String itemName, Material itemId, int itemData, int amount, double price) {
+    public ConfigGrocerLevel(int level, String itemName, ItemStack item, double price) {
         this.level = level;
         this.itemName = itemName;
-        this.itemId = itemId;
-        this.itemData = itemData;
-        this.amount = amount;
+        this.item = item;
         this.price = price;
     }
 
     public static void loadConfig(FileConfiguration cfg, Map<Integer, ConfigGrocerLevel> levels) {
         levels.clear();
-        List<Map<?, ?>> culture_levels = cfg.getMapList("grocer_levels");
-        for (Map<?, ?> level : culture_levels) {
+        for (Map<?, ?> level : cfg.getMapList("grocer_levels")) {
             ConfigGrocerLevel grocer_level = new ConfigGrocerLevel(
                     (Integer) level.get("level"),
                     (String) level.get("itemName"),
-                    Material.getMaterial((Integer) level.get("itemId")),
-                    (Integer) level.get("itemData"),
-                    (Integer) level.get("amount"),
+                    (ItemStack) level.get("item"),
                     (Double) level.get("price")
             );
 

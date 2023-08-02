@@ -61,7 +61,7 @@ public class Grocer extends Structure {
 
         for (int i = 0; i < level; i++) {
             ConfigGrocerLevel grocerlevel = CivSettings.grocerLevels.get(i + 1);
-            out.append("<b>").append(grocerlevel.itemName).append("</b> ").append(CivSettings.localize.localizedString("Amount")).append(" ").append(grocerlevel.amount).append(" ").append(CivSettings.localize.localizedString("Price")).append(" ").append(grocerlevel.price).append(" ").append(CivSettings.CURRENCY_NAME).append(".<br/>");
+            out.append("<b>").append(grocerlevel.itemName).append("</b> ").append(CivSettings.localize.localizedString("Amount")).append(" ").append(grocerlevel.item.getAmount()).append(" ").append(CivSettings.localize.localizedString("Price")).append(" ").append(grocerlevel.price).append(" ").append(CivSettings.CURRENCY_NAME).append(".<br/>");
         }
 
         return out.toString();
@@ -164,8 +164,8 @@ public class Grocer extends Structure {
         int special_id = Integer.parseInt(sign.getAction());
         if (special_id < this.level) {
             ConfigGrocerLevel grocerlevel = CivSettings.grocerLevels.get(special_id + 1);
-            sign_buy_material(player, grocerlevel.itemName, grocerlevel.itemId,
-                    (byte) grocerlevel.itemData, grocerlevel.amount, grocerlevel.price);
+            sign_buy_material(player, grocerlevel.itemName, grocerlevel.item.getType(),
+                    grocerlevel.item.getData().getData(), grocerlevel.item.getAmount(), grocerlevel.price);
         } else {
             CivMessage.send(player, ChatColor.RED + CivSettings.localize.localizedString("grocer_sign_needUpgrade"));
         }

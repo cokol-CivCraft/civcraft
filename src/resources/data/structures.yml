@@ -114,30 +114,30 @@ mobGrinder:
 grocer_levels:
   - level: 1
     itemName: 'Fish'
-    itemId: 350
-    itemData: 0
-    amount: 1
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: COOKED_FISH
     price: 8.0
 
   - level: 2
     itemName: 'Roast Chicken'
-    itemId: 366
-    itemData: 0
-    amount: 1
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: COOKED_CHICKEN
     price: 15.0
 
   - level: 3
     itemName: 'Cooked Pork'
-    itemId: 320
-    itemData: 0
-    amount: 1
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: COOKED_RABBIT
     price: 20.0
 
   - level: 4
     itemName: 'Golden Carrot'
-    itemId: 396
-    itemData: 0
-    amount: 1
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: GOLDEN_CARROT
     price: 30.0
 ################# Blacksmith Settings #################
 blacksmith:
