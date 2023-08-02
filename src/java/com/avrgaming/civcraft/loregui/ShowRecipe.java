@@ -1,7 +1,6 @@
 package com.avrgaming.civcraft.loregui;
 
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.config.ConfigIngredient;
 import com.avrgaming.civcraft.config.ConfigMaterialCategory;
 import com.avrgaming.civcraft.config.ConfigTech;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
@@ -27,16 +26,16 @@ public class ShowRecipe extends GuiAction {
     }
 
 
-    public ItemStack getIngredItem(ConfigIngredient ingred, Inventory recInv) {
+    public ItemStack getIngredItem(LoreCraftableMaterial.ConfigIngredient ingred, Inventory recInv) {
         String name;
         String message;
         ItemStack entryStack;
-        if (ingred.custom_id == null) {
-            name = new MaterialData(ingred.type_id, (byte) ingred.data).toString();
+        if (ingred.custom_id() == null) {
+            name = new MaterialData(ingred.type_id(), (byte) ingred.data()).toString();
             message = "Vanilla Item";
-            entryStack = LoreGuiItem.build(name, ingred.type_id, ingred.data, message);
+            entryStack = LoreGuiItem.build(name, ingred.type_id(), ingred.data(), message);
         } else {
-            LoreCraftableMaterial cmat = LoreCraftableMaterial.getCraftMaterialFromId(ingred.custom_id);
+            LoreCraftableMaterial cmat = LoreCraftableMaterial.getCraftMaterialFromId(ingred.custom_id());
             name = cmat.getName();
 
             entryStack = LoreCraftableMaterial.spawn(cmat);
@@ -122,9 +121,9 @@ public class ShowRecipe extends GuiAction {
             int offset = START_OFFSET;
             for (String line : craftMat.getConfigMaterial().shape) {
                 for (int i = 0; i < line.toCharArray().length; i++) {
-                    ConfigIngredient ingred = null;
-                    for (ConfigIngredient in : craftMat.getConfigMaterial().ingredients.values()) {
-                        if (in.letter.equalsIgnoreCase(String.valueOf(line.toCharArray()[i]))) {
+                    LoreCraftableMaterial.ConfigIngredient ingred = null;
+                    for (LoreCraftableMaterial.ConfigIngredient in : craftMat.getConfigMaterial().ingredients.values()) {
+                        if (in.letter().equalsIgnoreCase(String.valueOf(line.toCharArray()[i]))) {
                             ingred = in;
                             break;
                         }
@@ -139,9 +138,9 @@ public class ShowRecipe extends GuiAction {
         } else {
             int x = 0;
             int offset = START_OFFSET;
-            for (ConfigIngredient ingred : craftMat.getConfigMaterial().ingredients.values()) {
+            for (LoreCraftableMaterial.ConfigIngredient ingred : craftMat.getConfigMaterial().ingredients.values()) {
                 if (ingred != null) {
-                    for (int i = 0; i < ingred.count; i++) {
+                    for (int i = 0; i < ingred.count(); i++) {
                         recInv.setItem(x + offset, getIngredItem(ingred, recInv));
 
                         x++;

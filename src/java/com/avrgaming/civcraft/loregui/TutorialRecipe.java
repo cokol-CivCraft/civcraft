@@ -1,7 +1,6 @@
 package com.avrgaming.civcraft.loregui;
 
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.config.ConfigIngredient;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.lorestorage.LoreGuiItem;
 import com.avrgaming.civcraft.lorestorage.LoreGuiItemListener;
@@ -38,9 +37,9 @@ public class TutorialRecipe extends ShowRecipe {
             int offset = START_OFFSET;
             for (String line : craftMat.getConfigMaterial().shape) {
                 for (int i = 0; i < line.toCharArray().length; i++) {
-                    ConfigIngredient ingred = null;
-                    for (ConfigIngredient in : craftMat.getConfigMaterial().ingredients.values()) {
-                        if (in.letter.equalsIgnoreCase(String.valueOf(line.toCharArray()[i]))) {
+                    LoreCraftableMaterial.ConfigIngredient ingred = null;
+                    for (LoreCraftableMaterial.ConfigIngredient in : craftMat.getConfigMaterial().ingredients.values()) {
+                        if (in.letter().equalsIgnoreCase(String.valueOf(line.toCharArray()[i]))) {
                             ingred = in;
                             break;
                         }
@@ -55,9 +54,9 @@ public class TutorialRecipe extends ShowRecipe {
         } else {
             int x = 0;
             int offset = START_OFFSET;
-            for (ConfigIngredient ingred : craftMat.getConfigMaterial().ingredients.values()) {
+            for (LoreCraftableMaterial.ConfigIngredient ingred : craftMat.getConfigMaterial().ingredients.values()) {
                 if (ingred != null) {
-                    for (int i = 0; i < ingred.count; i++) {
+                    for (int i = 0; i < ingred.count(); i++) {
                         recInv.setItem(x + offset, getIngredItem(ingred, recInv));
 
                         x++;

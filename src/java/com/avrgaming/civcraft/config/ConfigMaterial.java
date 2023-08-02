@@ -1,5 +1,6 @@
 package com.avrgaming.civcraft.config;
 
+import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.Resident;
@@ -28,7 +29,7 @@ public class ConfigMaterial {
     public boolean shaped = false;
     public boolean shiny = false;
     public boolean tradeable = false;
-    public HashMap<String, ConfigIngredient> ingredients;
+    public HashMap<String, LoreCraftableMaterial.ConfigIngredient> ingredients;
     public String[] shape;
     public List<HashMap<String, String>> components = new LinkedList<>();
     public boolean vanilla = false;
@@ -99,7 +100,7 @@ public class ConfigMaterial {
                 mat.ingredients = new HashMap<>();
 
                 for (Map<?, ?> ingred : configIngredients) {
-                    ConfigIngredient ingredient = new ConfigIngredient(
+                    LoreCraftableMaterial.ConfigIngredient ingredient = new LoreCraftableMaterial.ConfigIngredient(
                             Material.getMaterial((Integer) ingred.get("type_id")),
                             Optional.ofNullable((Integer) ingred.get("data")).orElse(0),
                             (String) ingred.get("custom_id"),
@@ -108,7 +109,7 @@ public class ConfigMaterial {
                             Optional.ofNullable((Boolean) ingred.get("ignore_data")).orElse(false)
                     );
                     String key;
-                    key = Objects.requireNonNullElseGet(ingredient.custom_id, () -> "mc_" + ingredient.type_id);
+                    key = Objects.requireNonNullElseGet(ingredient.custom_id(), () -> "mc_" + ingredient.type_id());
 
                     mat.ingredients.put(key, ingredient);
                     //ConfigIngredient.ingredientMap.put(ingredient.custom_id, ingredient);

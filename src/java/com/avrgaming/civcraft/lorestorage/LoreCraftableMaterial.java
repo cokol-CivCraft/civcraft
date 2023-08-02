@@ -1,7 +1,6 @@
 package com.avrgaming.civcraft.lorestorage;
 
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.config.ConfigIngredient;
 import com.avrgaming.civcraft.config.ConfigMaterial;
 import com.avrgaming.civcraft.items.components.*;
 import com.avrgaming.civcraft.loreenhancements.*;
@@ -226,21 +225,21 @@ public class LoreCraftableMaterial extends LoreMaterial {
                 for (ConfigIngredient ingred : configMaterial.ingredients.values()) {
                     ItemStack ingredStack = null;
 
-                    if (ingred.custom_id == null) {
-                        recipe.setIngredient(ingred.letter.charAt(0), new MaterialData(ingred.type_id, (byte) ingred.data));
-                        ingredStack = new ItemStack(ingred.type_id, 1, (short) ingred.data);
+                    if (ingred.custom_id() == null) {
+                        recipe.setIngredient(ingred.letter().charAt(0), new MaterialData(ingred.type_id(), (byte) ingred.data()));
+                        ingredStack = new ItemStack(ingred.type_id(), 1, (short) ingred.data());
                     } else {
-                        LoreCraftableMaterial customLoreMat = materials.get(ingred.custom_id);
+                        LoreCraftableMaterial customLoreMat = materials.get(ingred.custom_id());
                         if (customLoreMat == null) {
-                            CivLog.warning("Couldn't find custom material id:" + ingred.custom_id);
+                            CivLog.warning("Couldn't find custom material id:" + ingred.custom_id());
                         }
 
                         assert customLoreMat != null;
                         ConfigMaterial customMat = customLoreMat.configMaterial;
                         if (customMat != null) {
-                            recipe.setIngredient(ingred.letter.charAt(0), new MaterialData(customMat.item_id, (byte) customMat.item_data));
+                            recipe.setIngredient(ingred.letter().charAt(0), new MaterialData(customMat.item_id, (byte) customMat.item_data));
                         } else {
-                            CivLog.warning("Couldn't find custom material id:" + ingred.custom_id);
+                            CivLog.warning("Couldn't find custom material id:" + ingred.custom_id());
                         }
 
                         ingredStack = LoreMaterial.spawn(customLoreMat);
@@ -250,7 +249,7 @@ public class LoreCraftableMaterial extends LoreMaterial {
                     int i = 0;
                     for (String row : configMaterial.shape) {
                         for (int c = 0; c < row.length(); c++) {
-                            if (row.charAt(c) == ingred.letter.charAt(0)) {
+                            if (row.charAt(c) == ingred.letter().charAt(0)) {
                                 matrix[i] = ingredStack;
                             } else if (row.charAt(c) == ' ') {
                                 matrix[i] = new ItemStack(Material.AIR, 0, (short) -1);
@@ -280,25 +279,25 @@ public class LoreCraftableMaterial extends LoreMaterial {
                     ItemStack ingredStack = null;
 
                     try {
-                        if (ingred.custom_id == null) {
-                            recipe.addIngredient(ingred.count, new MaterialData(ingred.type_id, (byte) ingred.data));
-                            ingredStack = new ItemStack(ingred.type_id, 1, (short) ingred.data);
+                        if (ingred.custom_id() == null) {
+                            recipe.addIngredient(ingred.count(), new MaterialData(ingred.type_id(), (byte) ingred.data()));
+                            ingredStack = new ItemStack(ingred.type_id(), 1, (short) ingred.data());
                         } else {
-                            LoreCraftableMaterial customLoreMat = materials.get(ingred.custom_id);
+                            LoreCraftableMaterial customLoreMat = materials.get(ingred.custom_id());
                             if (customLoreMat == null) {
-                                CivLog.error("Couldn't configure ingredient:" + ingred.custom_id + " in config mat:" + configMaterial.id);
+                                CivLog.error("Couldn't configure ingredient:" + ingred.custom_id() + " in config mat:" + configMaterial.id);
                             }
                             assert customLoreMat != null;
                             ConfigMaterial customMat = customLoreMat.configMaterial;
                             if (customMat != null) {
-                                recipe.addIngredient(ingred.count, new MaterialData(customMat.item_id, (byte) customMat.item_data));
+                                recipe.addIngredient(ingred.count(), new MaterialData(customMat.item_id, (byte) customMat.item_data));
                                 ingredStack = LoreMaterial.spawn(customLoreMat);
                             } else {
-                                CivLog.warning("Couldn't find custom material id:" + ingred.custom_id);
+                                CivLog.warning("Couldn't find custom material id:" + ingred.custom_id());
                             }
                         }
                     } catch (IllegalArgumentException e) {
-                        CivLog.warning("Trying to process ingredient:" + ingred.type_id + ":" + ingred.custom_id + " for material:" + configMaterial.id);
+                        CivLog.warning("Trying to process ingredient:" + ingred.type_id() + ":" + ingred.custom_id() + " for material:" + configMaterial.id);
                         throw e;
                     }
 
@@ -306,7 +305,7 @@ public class LoreCraftableMaterial extends LoreMaterial {
                         continue;
                     }
                     //	loreMat.shaplessIngredientList.add(ingredStack);
-                    for (int i = 0; i < ingred.count; i++) {
+                    for (int i = 0; i < ingred.count(); i++) {
                         if (matrixIndex > 9) {
                             break;
                         }
@@ -315,7 +314,7 @@ public class LoreCraftableMaterial extends LoreMaterial {
                         matrixIndex++;
                     }
 
-                    ingredStack.setAmount(ingred.count);
+                    ingredStack.setAmount(ingred.count());
                     items.add(ingredStack);
                 }
 
@@ -700,4 +699,7 @@ public class LoreCraftableMaterial extends LoreMaterial {
 //	public abstract void onInteractEntity(PlayerInteractEntityEvent event);
 //	public abstract void onBlockPlaced(BlockPlaceEvent event);
 
+    public record ConfigIngredient(Material type_id, int data, String custom_id, int count, String letter,
+                                   boolean ignore_data) {
+    }
 }

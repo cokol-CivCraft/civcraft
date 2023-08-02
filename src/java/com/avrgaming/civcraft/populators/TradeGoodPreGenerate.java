@@ -46,16 +46,16 @@ public class TradeGoodPreGenerate {
 
 
     private boolean validHemisphere(ConfigHemisphere hemi, int x, int z) {
-        if (hemi.x_max != 0 && x > hemi.x_max) {
+        if (hemi.x_max() != 0 && x > hemi.x_max()) {
             return false;
         }
-        if (hemi.x_min != 0 && x < hemi.x_min) {
+        if (hemi.x_min() != 0 && x < hemi.x_min()) {
             return false;
         }
-        if (hemi.z_max != 0 && z > hemi.z_max) {
+        if (hemi.z_max() != 0 && z > hemi.z_max()) {
             return false;
         }
-        return hemi.z_min == 0 || z >= hemi.z_min;
+        return hemi.z_min() == 0 || z >= hemi.z_min();
     }
 
 

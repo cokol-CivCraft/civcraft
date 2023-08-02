@@ -23,22 +23,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import java.util.List;
 import java.util.Map;
 
-public class ConfigHemisphere {
-    public final String id;
-    public final int x_min;
-    public final int x_max;
-    public final int z_min;
-    public final int z_max;
-
-    public ConfigHemisphere(String id, int xMin, int xMax, int zMin, int zMax) {
-        this.id = id;
-        x_min = xMin;
-        x_max = xMax;
-        z_min = zMin;
-        z_max = zMax;
-    }
-
-
+public record ConfigHemisphere(String id, int x_min, int x_max, int z_min, int z_max) {
     public static void loadConfig(FileConfiguration cfg, Map<String, ConfigHemisphere> hemis) {
         hemis.clear();
         List<Map<?, ?>> configHemis = cfg.getMapList("hemispheres");
