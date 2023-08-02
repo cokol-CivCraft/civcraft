@@ -108,6 +108,19 @@ public abstract class MetaStructure extends Buildable {
     }
 
     @Override
+    public void updateBuildProgess() {
+        if (this.getId() != 0) {
+            HashMap<String, Object> struct_hm = new HashMap<>();
+            struct_hm.put("id", this.getId());
+            struct_hm.put("type_id", this.getConfigId());
+            struct_hm.put("complete", this.isComplete());
+            struct_hm.put("builtBlockCount", this.savedBlockCount);
+
+            SQLController.updateNamedObjectAsync(this, struct_hm, TABLE_NAME);
+        }
+    }
+
+    @Override
     public void load(ResultSet rs) throws SQLException, CivException {
         this.setId(rs.getInt("id"));
         if (this instanceof Wonder) {

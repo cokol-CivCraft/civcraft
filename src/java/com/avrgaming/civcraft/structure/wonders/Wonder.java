@@ -42,7 +42,6 @@ import org.bukkit.entity.Player;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 
 public abstract class Wonder extends MetaStructure {
     private ConfigWonderBuff wonderBuffs = null;
@@ -86,19 +85,6 @@ public abstract class Wonder extends MetaStructure {
 
         SQLController.deleteNamedObject(this, TABLE_NAME);
         CivGlobal.removeWonder(this);
-    }
-
-    @Override
-    public void updateBuildProgess() {
-        if (this.getId() != 0) {
-            HashMap<String, Object> struct_hm = new HashMap<>();
-            struct_hm.put("id", this.getId());
-            struct_hm.put("type_id", this.getConfigId());
-            struct_hm.put("complete", this.isComplete());
-            struct_hm.put("builtBlockCount", this.savedBlockCount);
-
-            SQLController.updateNamedObjectAsync(this, struct_hm, TABLE_NAME);
-        }
     }
 
     public static boolean isWonderAvailable(String configId) {
