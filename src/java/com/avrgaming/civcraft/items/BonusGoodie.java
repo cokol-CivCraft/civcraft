@@ -183,6 +183,11 @@ public class BonusGoodie extends LoreItem {
 
     }
 
+    public boolean isStackable() {
+        // RJ TODO remove me... bonuses are stackable not goodies.
+        return false;
+    }
+
     /*
      * Tries to find a goodie's itemstack
      */
