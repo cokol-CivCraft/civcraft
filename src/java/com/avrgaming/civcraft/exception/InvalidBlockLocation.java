@@ -17,11 +17,14 @@
  */
 package com.avrgaming.civcraft.exception;
 
+import java.io.Serial;
+
 public class InvalidBlockLocation extends Exception {
 
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -945041178494359650L;
 
 }

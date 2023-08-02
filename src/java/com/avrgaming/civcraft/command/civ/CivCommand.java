@@ -274,7 +274,7 @@ public class CivCommand extends CommandBase {
 
 
     public void top5_cmd() {
-        CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_civ_top5Heading"));
+        CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_civ_topHeading"));
 //		TreeMap<Integer, Civilization> scores = new TreeMap<Integer, Civilization>();
 //		
 //		for (Civilization civ : CivGlobal.getCivs()) {
@@ -287,9 +287,9 @@ public class CivCommand extends CommandBase {
         synchronized (CivGlobal.civilizationScores) {
             int i = 1;
             for (Integer score : CivGlobal.civilizationScores.descendingKeySet()) {
-                CivMessage.send(sender, i + ") " + ChatColor.GOLD + CivGlobal.civilizationScores.get(score).getName() + ChatColor.WHITE + " - " + score);
+                CivMessage.send(sender, i + ") " + ChatColor.GREEN + CivGlobal.civilizationScores.get(score).getName() + ChatColor.AQUA + " - " + score);
                 i++;
-                if (i > 5) {
+                if (i > Integer.parseInt(args[1])) {
                     break;
                 }
             }

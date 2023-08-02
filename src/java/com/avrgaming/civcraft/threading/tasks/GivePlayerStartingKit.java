@@ -48,7 +48,7 @@ public class GivePlayerStartingKit implements Runnable {
                     int type = Integer.parseInt(split[0]);
                     int amount = Integer.parseInt(split[1]);
 
-                    stack = new ItemStack(type, amount, (short) 0);
+                    stack = new ItemStack(type, amount);
 
 
                 } catch (NumberFormatException e) {

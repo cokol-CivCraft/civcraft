@@ -197,7 +197,7 @@ public class TradeGoodPostGenTask implements Runnable {
 
                 // Randomly choose a land or water good.
                 if (good == null) {
-                    System.out.println("Could not find suitable good type during populate! aborting.");
+                    CivLog.warning("Could not find suitable good type during populate! aborting.");
                     continue;
                 }
 

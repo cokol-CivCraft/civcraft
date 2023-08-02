@@ -58,6 +58,7 @@ public class Attack extends ItemComponent {
     @Override
     public void onAttack(EntityDamageByEntityEvent event, ItemStack inHand) {
         AttributeUtil attrs = new AttributeUtil(inHand);
+        Resident resident = CivGlobal.getResident(((Player) event.getDamager()));
         double dmg = this.getDouble("value");
 
         double extraAtt = 0.0;
@@ -67,9 +68,14 @@ public class Attack extends ItemComponent {
             }
         }
         dmg += extraAtt;
+        if (resident.getNativeTown().getBuffManager().hasBuff("wonder_trade_chichen_itza")) {
+            dmg += resident.getNativeTown().getBuffManager().getEffectiveDouble("wonder_trade_chichen_itza");
+        }
+        if (resident.hasEnlightenment()) {
+            dmg += 1;
+        }
 
         if (event.getDamager() instanceof Player) {
-            Resident resident = CivGlobal.getResident(((Player) event.getDamager()));
             if (!resident.hasTechForItem(inHand)) {
                 dmg = dmg / 2;
             }

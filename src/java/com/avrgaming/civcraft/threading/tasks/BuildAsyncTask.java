@@ -61,8 +61,6 @@ public class BuildAsyncTask extends CivAsyncTask {
     public Boolean aborted = false;
     public Date lastSave;
 
-    private final int SAVE_INTERVAL = 5 * 1000; /* once every 5 sec. */
-
     public BuildAsyncTask(Buildable bld, Template t, int s, int blocks_per_tick, Block center) {
         buildable = bld;
         speed = s;
@@ -139,7 +137,8 @@ public class BuildAsyncTask extends CivAsyncTask {
             }
 
             Date now = new Date();
-            if (now.getTime() > lastSave.getTime() + SAVE_INTERVAL) {
+            /* once every 5 sec. */
+            if (now.getTime() > lastSave.getTime() + 5000) {
                 buildable.updateBuildProgess();
                 lastSave = now;
             }

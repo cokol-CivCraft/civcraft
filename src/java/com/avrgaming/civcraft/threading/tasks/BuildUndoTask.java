@@ -11,6 +11,7 @@ import com.avrgaming.civcraft.util.SimpleBlock;
 import com.avrgaming.civcraft.util.TimeTools;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -21,8 +22,6 @@ public class BuildUndoTask implements Runnable {
     private final BlockCoord cornerBlock;
     private final int savedBlockCount;
 
-    private final int MAX_BLOCKS_PER_TICK = 300;
-    private final int DELAY_SPEED = 100;
     private final static String undoProgressFolder = "templates/undo/inprogress";
 
     private int builtBlockCount = 0;
@@ -96,6 +95,7 @@ public class BuildUndoTask implements Runnable {
         /* Add block to sync queue, will be built on next sync tick. */
         syncBlockQueue.add(sb);
 
+        int MAX_BLOCKS_PER_TICK = 300;
         if (builtBlockCount > MAX_BLOCKS_PER_TICK) {
             saveProgress();
             delay();
@@ -107,7 +107,7 @@ public class BuildUndoTask implements Runnable {
 
     private void delay() throws InterruptedException {
         /* Wait for a period of time. */
-        int timeleft = DELAY_SPEED;
+        int timeleft = 100;
         while (timeleft > 0) {
             int min = Math.min(10000, timeleft);
             Thread.sleep(min);
@@ -141,12 +141,14 @@ public class BuildUndoTask implements Runnable {
 
         try {
 
-            PrintWriter writer = new PrintWriter(this.getSaveFilePath(), "UTF-8");
+            PrintWriter writer = new PrintWriter(this.getSaveFilePath(), StandardCharsets.UTF_8);
             writer.println(kv.serialize());
             writer.close();
 
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

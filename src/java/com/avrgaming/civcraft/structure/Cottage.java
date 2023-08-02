@@ -47,13 +47,6 @@ public class Cottage extends Structure {
 
     private ConsumeLevelComponent consumeComp = null;
 
-    private final double iron = 0.5; // * lvl; 6lvl = 3;
-    private final double gold = 0.25; // * lvl; 6lvl = 1.5;
-    private final double diamond = 0.18; // * lvl; 6lvl = 1.08;
-    private final double emerald = 0.075; // * lvl; 6lvl = 0.45;
-    private final double tungsten = 0.15; // * lvl; 6lvl = 0.9;
-    private final double chromium = 0.12; // * lvl; 6lvl = 0.72;
-
 
     protected Cottage(Location center, String id, Town town) throws CivException {
         super(center, id, town);
@@ -70,17 +63,11 @@ public class Cottage extends Structure {
 		return consumeComp;
 	}
 
-	@Override
+	/* @Override
 	public void loadSettings() {
 		super.loadSettings();
 
-//		attrComp = new AttributeComponent();
-//		attrComp.setType(AttributeType.DIRECT);
-//		attrComp.setOwnerKey(this.getTown().getName());
-//		attrComp.setAttrKey(Attribute.TypeKeys.COINS.name());
-//		attrComp.setSource("Cottage("+this.getCorner().toString()+")");
-//		attrComp.registerComponent();
-	}
+    } */
 
 	@Override
 	public String getDynmapDescription() {
@@ -253,11 +240,11 @@ public class Cottage extends Structure {
         String stateMessage = "";
         switch (result) {
             case GROW ->
-                    stateMessage = ChatColor.DARK_GREEN + CivSettings.localize.localizedString("var_cottage_grew", getConsumeComponent().getCountString()) + ChatColor.GREEN;
+                    stateMessage = ChatColor.DARK_GREEN + CivSettings.localize.localizedString("var_cottage_grew", getConsumeComponent().getCountString()) + ChatColor.YELLOW;
             case LEVELUP ->
-                    stateMessage = ChatColor.DARK_GREEN + CivSettings.localize.localizedString("var_cottage_grew_lvlUp") + ChatColor.GREEN;
+                    stateMessage = ChatColor.BLUE + CivSettings.localize.localizedString("var_cottage_grew_lvlUp") + ChatColor.GREEN;
             case MAXED ->
-                    stateMessage = ChatColor.DARK_GREEN + CivSettings.localize.localizedString("var_cottage_grew_isMaxed", getConsumeComponent().getCountString()) + ChatColor.GREEN;
+                    stateMessage = ChatColor.DARK_AQUA + CivSettings.localize.localizedString("var_cottage_grew_isMaxed", getConsumeComponent().getCountString()) + ChatColor.AQUA;
             default -> {
             }
         }
@@ -276,14 +263,13 @@ public class Cottage extends Structure {
 
     public double getMultiplier() {
         double rate = 1.0;
-        if (this.getTown().hasStructure("ti_trade_outpost")) {
-            rate += 0.01 * this.getTown().getStructureTypeCount("ti_tradeoutpost");
-        }
+        rate += 0.05 * this.getTown().getStructureTypeCount("ti_tradeoutpost");
+        rate += 0.05 * this.getTown().getStructureTypeCount("ti_fishing_boat");
         rate *= this.getTown().getGovernment().cottage_rate * this.getTown().getGovernment().maximum_tax_rate + this.getTown().getHappinessPercentage();
         if (this.getCiv().hasWonder("w_hanginggardens")) {
             rate *= 1.5;
         }
-        return rate;
+        return rate * this.getTown().getCottageRate();
     }
 
     public int getLevel() {
@@ -299,6 +285,7 @@ public class Cottage extends Structure {
     }
 
     public void generateResources(int cottageLevel, double multiplier) {
+        double iron = 0.5, gold = 0.25, diamond = 0.18, emerald = 0.075, tungsten = 0.15, chromium = 0.12;
         this.getTown().getFreeGranary().putResources(iron * cottageLevel * multiplier, gold * cottageLevel * multiplier, diamond * cottageLevel * multiplier, emerald * cottageLevel * multiplier, tungsten * cottageLevel * multiplier, chromium * cottageLevel * multiplier);
     }
 

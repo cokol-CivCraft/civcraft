@@ -67,10 +67,6 @@ public class CustomItemManager implements Listener {
     public static HashMap<String, LinkedList<ItemDurabilityEntry>> itemDuraMap = new HashMap<>();
     public static boolean duraTaskScheduled = false;
 
-    @EventHandler(priority = EventPriority.NORMAL)
-    public void onBlockBreak(BlockBreakEvent event) {
-        //	this.onItemDurabilityChange(event.getPlayer(), event.getPlayer().getInventory().getItemInMainHand());
-    }
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onBlockBreakSpawnItems(BlockBreakEvent event) {
@@ -449,18 +445,10 @@ public class CustomItemManager implements Listener {
     private void replaceItem(PlayerDeathEvent event, ItemStack oldItem, ItemStack newItem) {
         ArmorType type = ArmorType.matchType(oldItem);
         switch (type) {
-            case HELMET -> {
-                event.getEntity().getInventory().setHelmet(newItem);
-            }
-            case CHESTPLATE -> {
-                event.getEntity().getInventory().setChestplate(newItem);
-            }
-            case LEGGINGS -> {
-                event.getEntity().getInventory().setLeggings(newItem);
-            }
-            case BOOTS -> {
-                event.getEntity().getInventory().setBoots(newItem);
-            }
+            case HELMET -> event.getEntity().getInventory().setHelmet(newItem);
+            case CHESTPLATE -> event.getEntity().getInventory().setChestplate(newItem);
+            case LEGGINGS -> event.getEntity().getInventory().setLeggings(newItem);
+            case BOOTS -> event.getEntity().getInventory().setBoots(newItem);
         }
 
     }
@@ -850,22 +838,21 @@ public class CustomItemManager implements Listener {
         ConfigRemovedRecipes removed = CivSettings.removedRecipies.get(stack.getTypeId());
         if (removed == null && !stack.getType().equals(Material.ENCHANTED_BOOK)) {
             /* Check for badly enchanted tools */
-            if (stack.containsEnchantment(Enchantment.DAMAGE_ALL) ||
-                    stack.containsEnchantment(Enchantment.DAMAGE_ARTHROPODS) ||
-                    stack.containsEnchantment(Enchantment.KNOCKBACK) ||
-                    stack.containsEnchantment(Enchantment.DAMAGE_UNDEAD) ||
-                    stack.containsEnchantment(Enchantment.DURABILITY)) {
-            } else if (stack.containsEnchantment(Enchantment.FIRE_ASPECT) &&
+            if (stack.containsEnchantment(Enchantment.FIRE_ASPECT) &&
                     stack.getEnchantmentLevel(Enchantment.FIRE_ASPECT) > 2) {
+                stack.removeEnchantment(Enchantment.FIRE_ASPECT);
                 // Remove any fire aspect above this amount
             } else if (stack.containsEnchantment(Enchantment.LOOT_BONUS_MOBS) &&
-                    stack.getEnchantmentLevel(Enchantment.LOOT_BONUS_MOBS) > 1) {
-                // Only allow looting 1
+                    stack.getEnchantmentLevel(Enchantment.LOOT_BONUS_MOBS) > 3) {
+                stack.removeEnchantment(Enchantment.LOOT_BONUS_MOBS);
+                // Only allow looting 3
             } else if (stack.containsEnchantment(Enchantment.LOOT_BONUS_BLOCKS) &&
-                    stack.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) > 1) {
+                    stack.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) > 3) {
+                stack.removeEnchantment(Enchantment.LOOT_BONUS_BLOCKS);
                 // Only allow fortune 1
             } else if (stack.containsEnchantment(Enchantment.DIG_SPEED) &&
                     stack.getEnchantmentLevel(Enchantment.DIG_SPEED) > 5) {
+                stack.removeEnchantment(Enchantment.DIG_SPEED);
                 // only allow effiencey 5
             } else {
                 /* Not in removed list, so allow it. */
@@ -951,79 +938,6 @@ public class CustomItemManager implements Listener {
 
 //	/* Prevent books from being inside an inventory. */
     /* Prevent vanilla gear from being used. */
-/*	@EventHandler(priority = EventPriority.LOWEST)
-	public void OnInventoryOpenRemove(InventoryOpenEvent event) {
-		//CivLog.debug("open event.");
-		if (event.getPlayer() instanceof Player) {
-			
-			//for (ItemStack stack : event.getInventory()) {
-			for (int i = 0; i < event.getInventory().getSize(); i++) {
-				ItemStack stack = event.getInventory().getItem(i);
-				//CivLog.debug("stack cleanup");
-				
-				AttributeUtil attrs = ItemCleanup(stack);
-				if (attrs != null) {
-					event.getInventory().setItem(i, attrs.getStack());
-				}
-			}
-		}
-	}*/
-	
-/*	@EventHandler(priority = EventPriority.LOW)
-	public void onPlayerLogin(PlayerLoginEvent event) {
-		
-		class SyncTask implements Runnable {
-			String playerName;
-			
-			public SyncTask(String name) {
-				playerName = name;
-			}
-
-			@Override
-			public void run() {
-				try {
-					Player player = CivGlobal.getPlayer(playerName);
-										
-					for (int i = 0; i < player.getInventory().getSize(); i++) {
-						ItemStack stack = player.getInventory().getItem(i);
-
-						AttributeUtil attrs = ItemCleanup(stack);
-						if (attrs != null) {
-							player.getInventory().setItem(i, attrs.getStack());
-						}
-					}
-					
-					ItemStack[] contents = new ItemStack[player.getInventory().getArmorContents().length];
-					for (int i = 0; i < player.getInventory().getArmorContents().length; i++) {
-						ItemStack stack = player.getInventory().getArmorContents()[i];
-						
-						AttributeUtil attrs = ItemCleanup(stack);
-						if (attrs != null) {
-							contents[i] = attrs.getStack();
-						} else {
-							contents[i] = stack;
-						}
-					}
-					
-					player.getInventory().setArmorContents(contents);
-					
-				} catch (CivException e) {
-					return;
-				}
-				
-			}
-		}
-		
-		TaskMaster.syncTask(new SyncTask(event.getPlayer().getName()));
-	
-	}*/
-
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void OnInventoryClickEvent(InventoryClickEvent event) {
-        //if (event.getWhoClicked() instanceof Player) {
-        //	removeUnwantedVanillaItems((Player)event.getWhoClicked(), event.getView().getBottomInventory());
-        //}
-    }
 
     public LoreCraftableMaterial getCompatibleCatalyst(LoreCraftableMaterial craftMat) {
         /* Setup list of catalysts to refund. */
@@ -1035,7 +949,7 @@ public class CustomItemManager implements Listener {
         cataList.add(LoreMaterial.materialMap.get("mat_rare_attack_catalyst"));
         cataList.add(LoreMaterial.materialMap.get("mat_rare_defense_catalyst"));
         cataList.add(LoreMaterial.materialMap.get("mat_legendary_attack_catalyst"));
-        cataList.add(LoreMaterial.materialMap.get("mat_legendary_defense_catalyst"));
+        cataList.add(LoreMaterial.materialMap.get("mat_legendary_defense_catalyst")); // TODO, ADD MYSTIC CATALYSTS (100% chance)
 
         for (LoreMaterial mat : cataList) {
             LoreCraftableMaterial cMat = (LoreCraftableMaterial) mat;
@@ -1054,67 +968,5 @@ public class CustomItemManager implements Listener {
         return null;
     }
 
-
-//	/*
-//	 * Checks a players inventory and inventories that are opened for items.
-//	 *   - Currently looks for old catalyst enhancements and marks them so
-//	 *     they can be refunded.
-//	 *
-//	 */
-//	public AttributeUtil ItemCleanup(ItemStack stack) {
-//		
-//		LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(stack);
-//		if (craftMat == null) {
-//			return null;
-//		}
-//			
-//		AttributeUtil attrs = new AttributeUtil(stack);
-//		if (!attrs.hasLegacyEnhancements()) {
-//			return null;
-//		}
-//		
-//		/* Found a legacy catalysts. Repair it. */
-//		ItemStack cleanItem = LoreCraftableMaterial.spawn(craftMat);
-//		AttributeUtil attrsClean = new AttributeUtil(cleanItem);
-//		
-//		double level = 0;
-//		for (LoreEnhancement enh : LoreCraftableMaterial.getLegacyEnhancements(stack)) {
-//			if (enh instanceof LoreEnhancementDefense) {
-//				level = Double.valueOf(attrs.getLegacyEnhancementData("LoreEnhancementDefense"));
-//				LoreCraftableMaterial compatCatalyst = getCompatibleCatalyst(craftMat);
-//				attrs.setCivCraftProperty("freeCatalyst", ""+level+":"+compatCatalyst.getId());
-//				attrs.removeLegacyEnhancement("LoreEnhancementDefense");
-//			} else if (enh instanceof LoreEnhancementAttack) {
-//				level = Double.valueOf(attrs.getLegacyEnhancementData("LoreEnhancementAttack"));
-//				LoreCraftableMaterial compatCatalyst = getCompatibleCatalyst(craftMat);
-//				attrs.setCivCraftProperty("freeCatalyst", ""+level+":"+compatCatalyst.getId());
-//				attrs.removeLegacyEnhancement("LoreEnhancementAttack");
-//			} 
-//		}
-//		
-//		attrs.setLore(attrsClean.getLore());
-//		attrs.setName(attrsClean.getName());
-//		attrs.add(Attribute.newBuilder().name("Attack").
-//				type(AttributeType.GENERIC_ATTACK_DAMAGE).
-//				amount(0).
-//				build());
-//		
-//		if (level != 0) {
-//			attrs.addLore(CivColor.LightBlue+level+" free enhancements! Redeem at blacksmith.");
-//			CivLog.cleanupLog("Converted stack:"+stack+" with enhancement level:"+level);
-//		
-//		}
-//		
-//		for (LoreEnhancement enh : LoreCraftableMaterial.getLegacyEnhancements(stack)) {
-//			if (enh instanceof LoreEnhancementSoulBound) {	
-//				LoreEnhancementSoulBound soulbound = (LoreEnhancementSoulBound)LoreEnhancement.enhancements.get("LoreEnhancementSoulBound");
-//				soulbound.add(attrs);
-//			}
-//		}
-//		
-//		
-//
-//		return attrs;
-//	}
 
 }

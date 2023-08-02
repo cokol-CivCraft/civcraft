@@ -41,7 +41,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -163,7 +162,7 @@ public class TownCommand extends CommandBase {
         CivMessage.sendTown(town, CivSettings.localize.localizedString("var_cmd_town_claimmayorSuccess2", resident.getName()));
     }
 
-    @EventHandler
+    // @EventHandler ???
     public void event_cmd() {
         TownEventCommand cmd = new TownEventCommand();
         cmd.onCommand(sender, null, "event", this.stripArgs(args, 1));

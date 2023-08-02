@@ -83,25 +83,15 @@ public class GreatLibrary extends Wonder {
     public void updateSignText() {
 
         for (StructureSign sign : getSigns()) {
-            ConfigEnchant enchant;
-            switch (sign.getAction().toLowerCase()) {
-                case "0" -> {
-                    enchant = CivSettings.enchants.get("ench_fire_aspect");
-                    sign.setText(enchant.name + "\n\n" + ChatColor.GREEN + enchant.cost + " " + CivSettings.CURRENCY_NAME);
-                }
-                case "1" -> {
-                    enchant = CivSettings.enchants.get("ench_fire_protection");
-                    sign.setText(enchant.name + "\n\n" + ChatColor.GREEN + enchant.cost + " " + CivSettings.CURRENCY_NAME);
-                }
-                case "2" -> {
-                    enchant = CivSettings.enchants.get("ench_flame");
-                    sign.setText(enchant.name + "\n\n" + ChatColor.GREEN + enchant.cost + " " + CivSettings.CURRENCY_NAME);
-                }
-                case "3" -> {
-                    enchant = CivSettings.enchants.get("ench_punchout");
-                    sign.setText(enchant.name + "\n\n" + ChatColor.GREEN + enchant.cost + " " + CivSettings.CURRENCY_NAME);
-                }
-            }
+            ConfigEnchant enchant = switch (sign.getAction().toLowerCase()) {
+                case "0" -> CivSettings.enchants.get("ench_fire_aspect");
+                case "1" -> CivSettings.enchants.get("ench_fire_protection");
+                case "2" -> CivSettings.enchants.get("ench_flame");
+                case "3" -> CivSettings.enchants.get("ench_punchout");
+                default -> null;
+            };
+            assert enchant != null;
+            sign.setText(enchant.name + "\n\n" + ChatColor.AQUA + enchant.cost + " " + CivSettings.CURRENCY_NAME);
 
             sign.update();
         }

@@ -111,11 +111,6 @@ public class Library extends Structure {
         nonMemberFeeComponent.onLoad();
     }
 
-    @Override
-    public void loadSettings() {
-        super.loadSettings();
-    }
-
     public int getLevel() {
         return level;
     }
@@ -156,6 +151,7 @@ public class Library extends Structure {
 
         for (; count < getSigns().size(); count++) {
             StructureSign sign = getSignFromSpecialId(count);
+            assert sign != null;
             sign.setText("Library Slot\nEmpty");
             sign.update();
         }

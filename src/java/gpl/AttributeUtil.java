@@ -14,10 +14,7 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentMap;
  
 public class AttributeUtil {
@@ -45,59 +42,62 @@ public class AttributeUtil {
             throw new IllegalArgumentException("Corrupt operation ID " + id + " detected.");
         }
     }
-    
-   // private List<String> lore = new LinkedList<String>();
-    
-    
-    public static class AttributeType {
+
+    // private List<String> lore = new LinkedList<String>();
+
+
+    public record AttributeType(String minecraftId) {
         private static final ConcurrentMap<String, AttributeType> LOOKUP = Maps.newConcurrentMap();
         public static final AttributeType GENERIC_MAX_HEALTH = new AttributeType("generic.maxHealth").register();
         public static final AttributeType GENERIC_FOLLOW_RANGE = new AttributeType("generic.followRange").register();
         public static final AttributeType GENERIC_ATTACK_DAMAGE = new AttributeType("generic.attackDamage").register();
         public static final AttributeType GENERIC_MOVEMENT_SPEED = new AttributeType("generic.movementSpeed").register();
         public static final AttributeType GENERIC_KNOCKBACK_RESISTANCE = new AttributeType("generic.knockbackResistance").register();
-        
-        private final String minecraftId;
-        
+
         /**
          * Construct a new attribute type.
          * <p>
          * Remember to {@link #register()} the type.
+         *
          * @param minecraftId - the ID of the type.
          */
-        public AttributeType(String minecraftId) {
-            this.minecraftId = minecraftId;
+        public AttributeType {
         }
-        
+
         /**
          * Retrieve the associated minecraft ID.
+         *
          * @return The associated ID.
          */
-        public String getMinecraftId() {
+        @Override
+        public String minecraftId() {
             return minecraftId;
         }
-        
+
         /**
          * Register the type in the central registry.
+         *
          * @return The registered type.
          */
-        // Constructors should have no side-effects!  
+        // Constructors should have no side-effects!
         public AttributeType register() {
             AttributeType old = LOOKUP.putIfAbsent(minecraftId, this);
-            return old != null ? old : this;
+            return Optional.ofNullable(old).orElse(this);
         }
-        
+
         /**
          * Retrieve the attribute type associated with a given ID.
+         *
          * @param minecraftId The ID to search for.
          * @return The attribute type, or NULL if not found.
          */
         public static AttributeType fromId(String minecraftId) {
             return LOOKUP.get(minecraftId);
         }
-        
+
         /**
          * Retrieve every registered attribute type.
+         *
          * @return Every type.
          */
         public static Iterable<AttributeType> values() {
@@ -144,7 +144,7 @@ public class AttributeUtil {
  
         public void setAttributeType(@Nonnull AttributeType type) {
             Preconditions.checkNotNull(type, "type cannot be NULL.");
-            data.setString("AttributeName", type.getMinecraftId());
+            data.setString("AttributeName", type.minecraftId());
         }
  
         public String getName() {
@@ -454,23 +454,8 @@ public class AttributeUtil {
     }
     
 //	not used yet...
-//	public void removeEnhancement(String enhName) {
-//    	NBTTagCompound compound = nmsStack.tag.getCompound("item_enhancements");
-//    	if (compound == null) {
-//    		return;
-//    	}
-//    	
-//    	NBTTagCompound enhCompound = compound.getCompound(enhName);
-//    	if (enhCompound == null) {
-//    		return;
-//    	}
-//    	
-//    	compound.remove(enhName);
-//    	nmsStack.tag.set("item_enhancements", compound);
-//	}
-//	
-    
-    
+
+
     private void _setEnhancementData(NBTTagCompound enhCompound, String key, String value) {
     	if (key.equalsIgnoreCase("name")) {
     		throw new IllegalArgumentException();

@@ -17,6 +17,7 @@
  */
 package com.avrgaming.civcraft.war;
 
+import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.util.BukkitObjects;
 import gpl.InventorySerializer;
@@ -37,11 +38,11 @@ public class WarRegen {
 
 
     private static String blockAsAir(Block blk) {
-        return Material.AIR.getId() + ":0:" + blk.getX() + ":" + blk.getY() + ":" + blk.getZ() + ":" + blk.getWorld().getName();
+        return Material.AIR + ":0:" + blk.getX() + ":" + blk.getY() + ":" + blk.getZ() + ":" + blk.getWorld().getName();
     }
 
     private static String blockBasicString(Block blk) {
-        return blk.getTypeId() + ":" + blk.getData() + ":" + blk.getX() + ":" + blk.getY() + ":" + blk.getZ() + ":" + blk.getWorld().getName();
+        return blk.getType() + ":" + blk.getData() + ":" + blk.getX() + ":" + blk.getY() + ":" + blk.getZ() + ":" + blk.getWorld().getName();
     }
 
     public static String blockInventoryString(Inventory inv) {
@@ -179,7 +180,7 @@ public class WarRegen {
             }
         }
 
-        blk.setTypeId(Material.AIR.getId());
+        blk.setType(Material.AIR);
         blk.setData((byte) 0x0, true);
 
     }
@@ -198,7 +199,7 @@ public class WarRegen {
             }
         }
 
-        blk.setTypeId(Material.AIR.getId());
+        blk.setType(Material.AIR);
         blk.setData((byte) 0x0, true);
 
     }
@@ -264,7 +265,7 @@ public class WarRegen {
             }
             reader.close();
             warLog.delete();
-            System.out.println("[CivCraft] Restored " + count + " blocks for town " + name);
+            CivLog.info("[CivCraft] Restored " + count + " blocks for town " + name);
 
         } catch (IOException e) {
             e.printStackTrace();

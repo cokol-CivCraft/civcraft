@@ -187,11 +187,11 @@ public class Relation extends SQLObject {
         String color;
         String out = relation.name() + ChatColor.WHITE + " " + CivSettings.localize.localizedString("relation_with") + " " + this.other_civ.getName();
         color = switch (relation) {
-            case NEUTRAL -> String.valueOf(ChatColor.WHITE);
-            case HOSTILE -> String.valueOf(ChatColor.YELLOW);
-            case WAR -> String.valueOf(ChatColor.RED);
-            case PEACE -> String.valueOf(ChatColor.AQUA);
-            case ALLY -> String.valueOf(ChatColor.DARK_GREEN);
+            case NEUTRAL -> String.valueOf(ChatColor.GRAY);
+            case HOSTILE -> String.valueOf(ChatColor.GOLD);
+            case WAR -> String.valueOf(ChatColor.DARK_RED);
+            case PEACE -> String.valueOf(ChatColor.BLUE);
+            case ALLY -> String.valueOf(ChatColor.GREEN);
 //		case MASTER:
 //			color = CivColor.Gold;
 //			out = "MASTER"+CivColor.White+" of "+this.other_civ.getName();
@@ -200,7 +200,6 @@ public class Relation extends SQLObject {
 //			color = CivColor.LightPurple;
 //			out = "VASSAL"+CivColor.White+" to "+this.other_civ.getName();
 //			break;
-            default -> String.valueOf(ChatColor.WHITE);
         };
 
         String expireString;
@@ -218,11 +217,11 @@ public class Relation extends SQLObject {
 
     public static String getRelationColor(Status status) {
         return switch (status) {
-            case NEUTRAL -> String.valueOf(ChatColor.WHITE);
-            case HOSTILE -> String.valueOf(ChatColor.YELLOW);
-            case WAR -> String.valueOf(ChatColor.RED);
-            case PEACE -> String.valueOf(ChatColor.AQUA);
-            case ALLY -> String.valueOf(ChatColor.DARK_GREEN);
+            case NEUTRAL -> String.valueOf(ChatColor.GRAY);
+            case HOSTILE -> String.valueOf(ChatColor.GOLD);
+            case WAR -> String.valueOf(ChatColor.DARK_RED);
+            case PEACE -> String.valueOf(ChatColor.BLUE);
+            case ALLY -> String.valueOf(ChatColor.GREEN);
 //		case MASTER:
 //			return CivColor.Gold;
 //		case VASSAL:

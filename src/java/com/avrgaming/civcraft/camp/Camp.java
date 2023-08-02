@@ -652,8 +652,14 @@ public class Camp extends Buildable {
 
             Tagged tag = (Tagged) craftMat.getComponent("Tagged");
             Resident res = CivGlobal.getResident(this.getOwnerName());
+            Player p = null;
+            try {
+                p = CivGlobal.getPlayer(res);
+            } catch (CivException ee) {
+                ee.printStackTrace();
+            }
 
-            token = tag.addTag(token, res.getUUIDString());
+            token = tag.addTag(token, p.getName());
 
             AttributeUtil attrs = new AttributeUtil(token);
             attrs.addLore(ChatColor.GRAY + res.getName());
@@ -806,8 +812,6 @@ public class Camp extends Buildable {
         int yTotal = 0;
         int yCount = 0;
 
-//        RoadBlock rb;
-//        LinkedList<RoadBlock> deletedRoadBlocks = new LinkedList<>();
         for (int x = 0; x < regionX; x++) {
             for (int y = 0; y < regionY; y++) {
                 for (int z = 0; z < regionZ; z++) {

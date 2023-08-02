@@ -206,8 +206,7 @@ public class WarListener implements Listener {
                                     continue;
                                 }
 
-                                if (sb.getOwner() instanceof TownHall) {
-                                    TownHall th = (TownHall) sb.getOwner();
+                                if (sb.getOwner() instanceof TownHall th) {
                                     if (th.getControlPoints().containsKey(bcoord)) {
                                         continue;
                                     }

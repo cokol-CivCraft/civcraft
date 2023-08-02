@@ -49,12 +49,23 @@ public class Defense extends ItemComponent {
 
     @Override
     public void onDefense(EntityDamageByEntityEvent event, ItemStack stack) {
+        Resident resident = CivGlobal.getResident(((Player) event.getEntity()));
+        Player player = (Player) event.getEntity();
         double defValue = this.getDouble("value");
 
         /* Try to get any extra defense enhancements from this item. */
         LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(stack);
         if (craftMat == null) {
             return;
+        }
+        if (resident.getNativeTown().getBuffManager().hasBuff("wonder_trade_chichen_itza")) {
+            defValue += resident.getNativeTown().getBuffManager().getEffectiveDouble("wonder_trade_chichen_itza") / 4;
+        }
+        if (resident.getNativeCiv().hasWonder("w_himeji_castle")) {
+            defValue += 0.125;
+        }
+        if (resident.hasEnlightenment()) {
+            defValue += 0.25;
         }
 
         double extraDef = 0;
@@ -70,7 +81,6 @@ public class Defense extends ItemComponent {
         double damage = event.getDamage();
 
         if (event.getEntity() instanceof Player) {
-            Resident resident = CivGlobal.getResident(((Player) event.getEntity()));
             if (!resident.hasTechForItem(stack)) {
                 defValue = defValue / 2;
             }

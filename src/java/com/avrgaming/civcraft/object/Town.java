@@ -17,10 +17,7 @@
  */
 package com.avrgaming.civcraft.object;
 
-import com.avrgaming.civcraft.components.AttributeBase;
-import com.avrgaming.civcraft.components.AttributeRate;
-import com.avrgaming.civcraft.components.AttributeWarUnhappiness;
-import com.avrgaming.civcraft.components.Component;
+import com.avrgaming.civcraft.components.*;
 import com.avrgaming.civcraft.config.*;
 import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.database.SQLUpdate;
@@ -566,6 +563,9 @@ public class Town extends SQLObject {
         if (this.getBuffManager().hasBuff("buff_pyramid_culture")) {
             additional += this.getBuffManager().getEffectiveDouble("buff_pyramid_culture");
         }
+        if (this.getBuffManager().hasBuff("wonder_trade_globe_theatre")) {
+            additional += this.getGlobeTradeBuff(Attribute.TypeKeys.COINS);
+        }
 
         rates.put("Wonders/Goodies", additional);
         rate += additional;
@@ -675,6 +675,15 @@ public class Town extends SQLObject {
         rates.put("Happiness", newRate - rate);
         rate = newRate;
 
+        double wonders = 0.0;
+        if (this.getBuffManager().hasBuff("wonder_trade_globe_theatre")) {
+            wonders += this.getGlobeTradeBuff(Attribute.TypeKeys.HAMMERS);
+        }
+        if (wonders != 0.0) {
+            rates.put("Wonders", wonders);
+        }
+        rate += wonders;
+
         /* Government */
         newRate = rate * getGovernment().hammer_rate;
         rates.put("Government", newRate - rate);
@@ -719,6 +728,7 @@ public class Town extends SQLObject {
 
         /* Wonders and Goodies. */
         double wonderGoodies = this.getBuffManager().getEffectiveInt(Buff.CONSTRUCTION);
+
         sources.put("Wonders/Goodies", wonderGoodies);
         total += wonderGoodies;
 
@@ -1192,9 +1202,9 @@ public class Town extends SQLObject {
     public String getPvpString() {
         if (!this.getCiv().getDiplomacyManager().isAtWar()) {
             if (pvp) {
-                return ChatColor.DARK_RED + "[PvP]";
+                return ChatColor.RED + "[PvP]";
             } else {
-                return ChatColor.DARK_GREEN + "[No PvP]";
+                return ChatColor.AQUA + "[No PvP]";
             }
         } else {
             return ChatColor.DARK_RED + "[WAR-PvP]";
@@ -1749,11 +1759,14 @@ public class Town extends SQLObject {
         additional += this.getBuffManager().getEffectiveDouble("buff_hanging_gardens_growth");
 
         additional += this.getBuffManager().getEffectiveDouble("buff_mother_tree_growth");
+        if (this.getBuffManager().hasBuff("wonder_trade_globe_theatre")) {
+            additional += this.getGlobeTradeBuff(Attribute.TypeKeys.GROWTH);
+        }
 
         double additionalGrapes = this.getBuffManager().getEffectiveDouble("buff_hanging_gardens_additional_growth");
         int grapeCount = 0;
         for (BonusGoodie goodie : this.getBonusGoodies()) {
-            if (goodie.getDisplayName().equalsIgnoreCase("grapes")) {
+            if (goodie.getConfigTradeGood().id.contains("grapes")) {
                 grapeCount++;
             }
         }
@@ -2603,6 +2616,9 @@ public class Town extends SQLObject {
         if (this.getCiv().hasWonder("w_pyramid") || this.getCiv().hasWonder("w_hanginggardens")) {
             wonders += 0.25;
         }
+        if (this.getBuffManager().hasBuff("wonder_trade_globe_theatre")) {
+            wonders += this.getGlobeTradeBuff(Attribute.TypeKeys.FAITH);
+        }
         wonders += this.getBuffManager().getEffectiveDouble("wonder_trade_notre_dame");
         rates.put("Wonders", wonders);
         rate += wonders;
@@ -2627,6 +2643,9 @@ public class Town extends SQLObject {
         /* Great Library buff is made to not stack with Science_Rate */
         double additional = rate * getBuffManager().getEffectiveDouble(Buff.SCIENCE_RATE);
         additional += rate * getBuffManager().getEffectiveDouble("buff_greatlibrary_extra_beakers");
+        if (this.getBuffManager().hasBuff("wonder_trade_globe_theatre")) {
+            additional += this.getGlobeTradeBuff(Attribute.TypeKeys.BEAKERS);
+        }
         rate += additional;
         rates.put("Goodies/Wonders", additional);
 
@@ -3117,7 +3136,7 @@ public class Town extends SQLObject {
         try {
             int mayor_inactive_days = CivSettings.getInteger(CivSettings.townConfig, "town.mayor_inactive_days");
             for (Resident resident : this.getMayorGroup().getMemberList()) {
-                if (!resident.isInactiveForDays(mayor_inactive_days)) {
+                if (resident.isInactiveForDays(mayor_inactive_days)) {
                     return false;
                 }
             }
@@ -3292,7 +3311,7 @@ public class Town extends SQLObject {
     public Granary getFreeGranary() {
         for (int i = 0; i < granaryAL.size(); i++) {
             Granary g = getGranary(i);
-            ArrayList<StructureChest> aa = g.getAllChestsById(2);
+            ArrayList<StructureChest> aa = g.getAllChestsById(1);
             int full = 0;
             for (StructureChest ab : aa) {
                 Chest chest = (Chest) ab.getCoord().getBlock().getState();
@@ -3313,6 +3332,70 @@ public class Town extends SQLObject {
 
     public void removeGranary(Granary g) {
         this.granaryAL.remove(g);
+    }
+
+    public double getGlobeTradeBuff(Attribute.TypeKeys ab) {
+        double globeTrade = 0.0;
+        int i = 0, ii = 0;
+        if (this.getBuffManager().hasBuff("wonder_trade_globe_theatre")) {
+            for (Relation r : this.getCiv().getDiplomacyManager().getRelations()) {
+                if (r.getStatus().equals(Relation.Status.ALLY) && r.getOtherCiv() != this.getCiv()) {
+                    Civilization allyCiv = r.getOtherCiv();
+                    for (Town tt : this.getCiv().getTowns()) {
+                        if (!tt.equals(this)) {
+                            i++;
+                        } else {
+                            for (Town t : allyCiv.getTowns()) {
+                                if (ii == i) {
+                                    switch (ab) {
+                                        case BEAKERS ->
+                                                globeTrade += t.getBeakerRate().total *= this.getBuffManager().getEffectiveDouble("wonder_trade_globe_theatre");
+                                        case HAMMERS ->
+                                                globeTrade += t.getHammerRate().total *= this.getBuffManager().getEffectiveDouble("wonder_trade_globe_theatre");
+                                        case FAITH ->
+                                                globeTrade += t.getFaithRate().total *= this.getBuffManager().getEffectiveDouble("wonder_trade_globe_theatre");
+                                        case GROWTH ->
+                                                globeTrade += t.getGrowthRate().total *= this.getBuffManager().getEffectiveDouble("wonder_trade_globe_theatre");
+                                        case COINS ->
+                                                globeTrade += t.getCultureRate().total *= this.getBuffManager().getEffectiveDouble("wonder_trade_globe_theatre");
+                                    }
+                                }
+                                ii++;
+                            }
+                        }
+                    }
+                }
+                if (r.getStatus().equals(Relation.Status.ALLY) && r.getCiv() != this.getCiv()) {
+                    Civilization allyCiv = r.getCiv();
+                    for (Town tt : this.getCiv().getTowns()) {
+                        if (!tt.equals(this)) {
+                            i++;
+                        } else {
+                            for (Town t : allyCiv.getTowns()) {
+                                if (ii == i) {
+                                    switch (ab) {
+                                        case BEAKERS ->
+                                                globeTrade += t.getBeakerRate().total *= this.getBuffManager().getEffectiveDouble("wonder_trade_globe_theatre");
+                                        case HAMMERS ->
+                                                globeTrade += t.getHammerRate().total *= this.getBuffManager().getEffectiveDouble("wonder_trade_globe_theatre");
+                                        case FAITH ->
+                                                globeTrade += t.getFaithRate().total *= this.getBuffManager().getEffectiveDouble("wonder_trade_globe_theatre");
+                                        case GROWTH ->
+                                                globeTrade += t.getGrowthRate().total *= this.getBuffManager().getEffectiveDouble("wonder_trade_globe_theatre");
+                                        case COINS ->
+                                                globeTrade += t.getCultureRate().total *= this.getBuffManager().getEffectiveDouble("wonder_trade_globe_theatre");
+                                        default -> {
+                                        }
+                                    }
+                                }
+                                ii++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return globeTrade;
     }
 
 

@@ -83,13 +83,6 @@ public class CalculateScoreTimer extends CivAsyncTask {
         }
 
 
-//		//Save out to file.
-//		try {
-//			writeCivScores(civScores);
-//			writeTownScores(townScores);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
     }
 
 }

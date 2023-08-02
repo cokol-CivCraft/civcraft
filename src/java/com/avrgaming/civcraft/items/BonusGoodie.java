@@ -543,14 +543,10 @@ public class BonusGoodie extends LoreItem {
             loc.getWorld().loadChunk(loc.getChunk());
 
             try {
-                //	this.frameStore = new ItemFrameStorage((ItemFrame) CivGlobal.getEntityClassFromUUID(outpostLocation.getWorld(),
-                //			ItemFrame.class, UUID.fromString(frameUID)));
                 this.frameStore = CivGlobal.getProtectedItemFrame(UUID.fromString(frameUID));
                 if (frameStore == null) {
                     throw new CivException("Couldn't find frame loaded from a structure? missing frame:" + frameUID);
                 }
-                //CivLog.debug("BonusGoodie set town:"+outpost.getTown().getName());
-                //this.frameStore.setTown(outpost.getTown());
 
             } catch (CivException e) {
                 CivLog.warning("Couldn't find frame loaded from DB:" + frameUID);
@@ -642,11 +638,6 @@ public class BonusGoodie extends LoreItem {
 
     @Override
     public void save() {
-//		try {
-//			update(sync);
-//		} catch (CivException e) {
-//			e.printStackTrace();
-//		}
 
         SQLUpdate.add(this);
 
@@ -716,10 +707,6 @@ public class BonusGoodie extends LoreItem {
         return config.name;
     }
 
-    public boolean isStackable() {
-        // RJ TODO remove me... bonuses are stackable not goodies.
-        return false;
-    }
 
     @Override
     public int hashCode() {

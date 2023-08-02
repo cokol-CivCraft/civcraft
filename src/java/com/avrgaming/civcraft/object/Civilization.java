@@ -473,7 +473,7 @@ public class Civilization extends SQLObject {
     }
 
     public String getLeaderGroupName() {
-        return "leaders";
+        return this.leaderGroupName;
     }
 
     public void setLeaderGroupName(String leaderGroupName) {
@@ -481,7 +481,7 @@ public class Civilization extends SQLObject {
     }
 
     public String getAdvisersGroupName() {
-        return "advisers";
+        return this.advisersGroupName;
     }
 
     public void setAdvisersGroupName(String advisersGroupName) {
@@ -953,7 +953,7 @@ public class Civilization extends SQLObject {
         //If we couldn't find a close color withing the max retries, pick any old color as a failsafe.
         if (!found) {
             c = rand.nextInt();
-            System.out.println(CivSettings.localize.localizedString("civ_colorExhaustion"));
+            CivLog.error(CivSettings.localize.localizedString("civ_colorExhaustion"));
         }
 
         return c;
@@ -1698,7 +1698,7 @@ public class Civilization extends SQLObject {
             int leader_inactive_days = CivSettings.getInteger(CivSettings.civConfig, "civ.leader_inactive_days");
 
             for (Resident resident : this.getLeaderGroup().getMemberList()) {
-                if (!resident.isInactiveForDays(leader_inactive_days)) {
+                if (resident.isInactiveForDays(leader_inactive_days)) {
                     return false;
                 }
             }
@@ -1907,6 +1907,10 @@ public class Civilization extends SQLObject {
             }
         }
         return false;
+    }
+
+    public boolean hasEnlightenment() {
+        return this.hasTechnology("tech_enlightenment");
     }
 
 }

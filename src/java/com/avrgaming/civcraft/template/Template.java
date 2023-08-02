@@ -144,7 +144,6 @@ public class Template {
         return switch (type) {
             case STRUCTURE -> getStructureFilePath(template_file, theme);
             case WONDER -> getWonderFilePath(template_file);
-            default -> throw new IllegalStateException("Unexpected value: " + type);
         };
     }
 
@@ -153,7 +152,7 @@ public class Template {
     }
 
     public static String getWonderFilePath(String template_file) {
-        return ("templates/wonders/" + template_file.replaceAll(" ", "_") + "/" + ".def").toLowerCase();
+        return ("templates/wonders/" + template_file.replaceAll(" ", "_") + ".def").toLowerCase();
     }
 
     public static final MaterialData SCAFFOLDING_BLOCK = new MaterialData(Material.BEDROCK);

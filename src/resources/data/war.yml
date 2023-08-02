@@ -204,18 +204,24 @@ warcamp:
 
 cannon:
     # template for deployable cannon
-    template: cannon
+  template: cannon
 
-    # amount of blocks to destroy per shot
-    yield: 7.0
+  min_power: 0
 
-    # TNT cost, number of TNT blocks it costs per shot.
-    tnt_cost: 3
+  max_power: 50
 
-    # Number of seconds between shots.
-    cooldown: 30
+  height: 135
 
-    # Amount of HP each cannon has
+  # amount of blocks to destroy per shot
+  yield: 7.0
+
+  # TNT cost, number of TNT blocks it costs per shot.
+  tnt_cost: 3
+
+  # Number of seconds between shots.
+  cooldown: 30
+
+  # Amount of HP each cannon has
     hitpoints: 50
 
     # Amount of damage done to PLAYERS when hit by a blast

@@ -876,7 +876,7 @@ cmd_civ_disbandtownError: "You cannot disband towns that are currently conquered
 cmd_civ_disbandtownErrorLeader: "No longer want to disband."
 var_cmd_civ_disbandtownSuccess: "[%0] is being disbanded by agreement from the civ leader and the mayor"
 cmd_civ_disbandtownPrompt: "Waiting on mayor to type [/town disbandtown]"
-cmd_civ_top5Heading: "Top 5 Civilizations"
+cmd_civ_topHeading: "Top Civilizations"
 cmd_civ_timeHeading: "CivCraft Timers"
 cmd_civ_timeServer: "Current Server Time:"
 cmd_civ_timeUpkeep: "Next Upkeep:"
@@ -2614,6 +2614,7 @@ PlayerReviveTask_respawning: "Respawning..."
 
 #---- StructureBlockHitEvent ----
 var_StructureBlockHitEvent_punchoutDmg: "Punchout does [%0] extra damage!"
+var_colossus_punchout: "Colossus does [%0] extra damage!"
 var_StructureBlockHitEvent_Invulnerable: "This block belongs to a [%0] of town [%1] and cannot be destroyed right now."
 
 #---- TownAddOutlawTask ----

@@ -20,7 +20,7 @@ public class RightClickForItem extends ItemComponent {
     }
 
 
-    public void onInteract(PlayerInteractEvent event) {
+    public void onInteract(PlayerInteractEvent event) { // TODO THIS
         CivMessage.send(event.getPlayer(), ChatColor.RED + CivSettings.localize.localizedString("rightClickDisabled"));
 //		if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 //			String amount = this.getString("amount");

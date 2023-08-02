@@ -90,8 +90,6 @@ public class Resident extends SQLObject {
     private boolean permOverride = false;
     private boolean sbperm = false;
     private boolean controlBlockInstantBreak = false;
-    private int townID = 0;
-    private int campID = 0;
     private int nativeTownId = 0;
     private boolean dontSaveTown = false;
     private String timezone;
@@ -212,8 +210,8 @@ public class Resident extends SQLObject {
     public void load(ResultSet rs) throws SQLException, InvalidNameException {
         this.setId(rs.getInt("id"));
         this.setName(rs.getString("name"));
-        this.townID = rs.getInt("town_id");
-        this.campID = rs.getInt("camp_id");
+        int townID = rs.getInt("town_id");
+        int campID = rs.getInt("camp_id");
         this.lastIP = rs.getString("last_ip");
         this.debugTown = rs.getString("debug_town");
         this.nativeTownId = rs.getInt("nativetown_id");
@@ -238,10 +236,10 @@ public class Resident extends SQLObject {
             this.setTimezoneToServerDefault();
         }
 
-        if (this.townID != 0) {
-            this.setTown(CivGlobal.getTownFromId(this.townID));
+        if (townID != 0) {
+            this.setTown(CivGlobal.getTownFromId(townID));
             if (this.town == null) {
-                CivLog.error("COULD NOT FIND TOWN(" + this.townID + ") FOR RESIDENT(" + this.getId() + ") Name:" + this.getName());
+                CivLog.error("COULD NOT FIND TOWN(" + townID + ") FOR RESIDENT(" + this.getId() + ") Name:" + this.getName());
                 /*
                  * When a town fails to load, we wont be able to find it above.
                  * However this can cause a cascade effect where because we couldn't find
@@ -259,10 +257,10 @@ public class Resident extends SQLObject {
             }
         }
 
-        if (this.campID != 0) {
-            this.setCamp(CivGlobal.getCampFromId(this.campID));
+        if (campID != 0) {
+            this.setCamp(CivGlobal.getCampFromId(campID));
             if (this.camp == null) {
-                CivLog.error("COULD NOT FIND CAMP(" + this.campID + ") FOR RESIDENT(" + this.getId() + ") Name:" + this.getName());
+                CivLog.error("COULD NOT FIND CAMP(" + campID + ") FOR RESIDENT(" + this.getId() + ") Name:" + this.getName());
             } else {
                 camp.addMember(this);
             }
@@ -618,7 +616,6 @@ public class Resident extends SQLObject {
         this.permOverride = permOverride;
     }
 
-    @SuppressWarnings("deprecation")
     public int takeItemsInHand(MaterialData materialData) throws CivException {
         Player player = CivGlobal.getPlayer(this);
         PlayerInventory inv = player.getInventory();
@@ -1053,7 +1050,7 @@ public class Resident extends SQLObject {
 
         expire.add(Calendar.DATE, days);
 
-        return now.after(expire);
+        return !now.after(expire);
     }
 
     public String getTimezone() {
@@ -1450,14 +1447,15 @@ public class Resident extends SQLObject {
     }
 
     public Civilization getNativeCiv() {
-        if (nativeCiv != null) {
-            return nativeCiv;
-        }
-        return null;
+        return nativeCiv;
+    }
+
+    public boolean hasEnlightenment() {
+        return this.getNativeCiv().hasTechnology("tech_enlightenment");
     }
 
     public void setNativeCiv(Civilization c) {
-        nativeCiv = c;
+        nativeCiv = getNativeTown().getMotherCiv();
     }
 
     public void LoadNativeCiv(int townId) {

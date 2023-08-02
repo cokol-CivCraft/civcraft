@@ -23,8 +23,6 @@ import com.avrgaming.civcraft.lorestorage.LoreMaterial;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.StructureChest;
 import com.avrgaming.civcraft.object.Town;
-import com.avrgaming.civcraft.threading.CivAsyncTask;
-import com.avrgaming.civcraft.threading.sync.request.UpdateInventoryRequest;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.MultiInventory;
 import com.avrgaming.civcraft.util.SimpleBlock;
@@ -89,7 +87,7 @@ public class Granary extends Structure {
         int spawnEmerald = (int) Math.min(64, emerald);
         int spawnTungsten = (int) Math.min(64, tungsten);
         int spawnChromium = (int) Math.min(64, chromium);
-        for (StructureChest sch : this.getAllChestsById(2)) {
+        for (StructureChest sch : this.getAllChestsById(1)) {
             Chest ch = (Chest) sch.getCoord().getBlock().getState();
             if (ch.getBlockInventory().firstEmpty() == -1) {
                 full++;
@@ -99,10 +97,9 @@ public class Granary extends Structure {
             return;
         }
         MultiInventory dest_inv = new MultiInventory();
-        for (StructureChest sch : this.getAllChestsById(2)) {
+        for (StructureChest sch : this.getAllChestsById(1)) {
             Chest ch = (Chest) sch.getCoord().getBlock().getState();
-            Inventory tmp;
-            tmp = ch.getBlockInventory();
+            Inventory tmp = ch.getBlockInventory();
             dest_inv.addInventory(tmp);
         }
         ItemStack ir = new ItemStack(Material.IRON_INGOT, spawnIron);
@@ -117,13 +114,8 @@ public class Granary extends Structure {
         newItems.add(em);
         newItems.add(tu);
         newItems.add(chr);
-        CivAsyncTask cat = null;
-        for (ItemStack newi : newItems) {
-            try {
-                cat.updateInventory(UpdateInventoryRequest.Action.ADD, dest_inv, newi);
-            } catch (InterruptedException e) {
-                e.getCause();
-            }
+        for (ItemStack newItem : newItems) {
+            dest_inv.addItemStack(newItem);
         }
         this.iron -= spawnIron;
         this.gold -= spawnGold;

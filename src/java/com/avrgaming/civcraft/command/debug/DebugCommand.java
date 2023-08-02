@@ -164,6 +164,7 @@ public class DebugCommand extends CommandBase {
         register_sub("saveinv", this::saveinv_cmd, "save an inventory");
         register_sub("restoreinv", this::restoreinv_cmd, "restore your inventory.");
         register_sub("arenainfo", this::arenainfo_cmd, "Shows arena info for this player.");
+        register_sub("setnativetown", this::setNativeTown_cmd, "[Town] [Resident]");
     }
 
     public void stopvalidate_cmd() {
@@ -201,7 +202,7 @@ public class DebugCommand extends CommandBase {
 
     public void cannon_cmd() throws CivException {
         Resident resident = getResident();
-        Cannon.newCannon(resident);
+        Cannon.newCannon(resident, CivGlobal.getPlayer(resident).getLocation());
 
         CivMessage.sendSuccess(resident, "built cannon.");
     }
@@ -1380,6 +1381,15 @@ public class DebugCommand extends CommandBase {
     @Override
     public void doDefaultAction() {
         showHelp();
+    }
+
+    public void setNativeTown_cmd() throws CivException {
+        Town t = getNamedTown(2);
+        Resident r = getNamedResident(3);
+        if (r == null) {
+            r = getResident();
+        }
+        r.setNativeTown(t.getId());
     }
 
 }

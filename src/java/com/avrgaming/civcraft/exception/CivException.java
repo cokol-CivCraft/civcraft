@@ -17,8 +17,11 @@
  */
 package com.avrgaming.civcraft.exception;
 
+import java.io.Serial;
+
 public class CivException extends Exception {
 
+    @Serial
     private static final long serialVersionUID = 2752707013644337603L;
 
     public CivException(String message) {

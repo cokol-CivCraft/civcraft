@@ -116,8 +116,7 @@ public class Barracks extends Structure {
                 this.unitNameSign.setText(getUnitSignText(newIndex));
                 index = newIndex;
             } catch (IndexOutOfBoundsException e) {
-                //index = 0;
-                //this.unitNameSign.setText(getUnitSignText(index));
+                e.printStackTrace();
             }
             this.unitNameSign.update();
         } else {
@@ -435,8 +434,6 @@ public class Barracks extends Structure {
                 this.currentHammers = 0.0;
             }
             //	e.getCause().getMessage()
-            //e.printStackTrace();
-            //	CivMessage.sendTown(getTown(), CivColor.Rose+e.getMessage());
         }
 
     }

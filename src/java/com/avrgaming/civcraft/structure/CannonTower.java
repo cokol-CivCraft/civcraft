@@ -75,18 +75,6 @@ public class CannonTower extends Structure {
     }
 
 
-//	@Override
-//	public void fire(Location turretLoc, Location playerLoc) {
-//		turretLoc = adjustTurretLocation(turretLoc, playerLoc);
-//		Vector dir = getVectorBetween(playerLoc, turretLoc);
-//		
-//		Fireball fb = turretLoc.getWorld().spawn(turretLoc, Fireball.class);
-//		fb.setDirection(dir);
-//		// NOTE cannon does not like it when the dir is normalized or when velocity is set.
-//		fb.setYield((float)yield);
-//		CivCache.cannonBallsFired.put(fb.getUniqueId(), new CannonFiredCache(this, playerLoc, fb));
-//	}
-
     @Override
     public void onCheck() throws CivException {
         try {

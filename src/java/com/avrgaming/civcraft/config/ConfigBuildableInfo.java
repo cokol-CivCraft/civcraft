@@ -115,6 +115,9 @@ public class ConfigBuildableInfo {
             sinfo.water_structure = Optional.ofNullable((Boolean) obj.get("onwater")).orElse(false);
             if (isWonder) {
                 sinfo.nationalWonder = (Boolean) obj.get("national_wonder");
+                if (sinfo.nationalWonder == null) {
+                    sinfo.nationalWonder = false;
+                }
             }
             @SuppressWarnings("unchecked")
             List<Map<?, ?>> comps = (List<Map<?, ?>>) obj.get("components");

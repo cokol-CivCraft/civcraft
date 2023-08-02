@@ -203,19 +203,6 @@ public class AdminCivCommand extends CommandBase {
         cmd.onCommand(sender, null, "info", this.stripArgs(args, 2));
     }
 
-//	public void setmaster_cmd() throws CivException {
-//		Civilization vassal = getNamedCiv(1);
-//		Civilization master = getNamedCiv(2);
-//		
-//		if (vassal == master) {
-//			throw new CivException("cannot make vassal and master the same");
-//		}
-//		
-//		CivGlobal.setVassalState(master, vassal);
-//		CivMessage.sendSuccess(sender, "Vassaled "+vassal.getName()+" to "+master.getName());
-//		
-//	}
-
 
     public void setrelation_cmd() throws CivException {
         if (args.length < 4) {

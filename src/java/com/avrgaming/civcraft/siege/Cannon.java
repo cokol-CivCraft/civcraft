@@ -13,7 +13,6 @@ import com.avrgaming.civcraft.template.Template.TemplateType;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.FireWorkTask;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.SimpleBlock;
 import com.avrgaming.civcraft.util.SimpleBlock.Type;
 import com.avrgaming.civcraft.util.TimeTools;
@@ -43,47 +42,41 @@ public class Cannon extends Buildable {
     public static HashMap<BlockCoord, Cannon> angleSignLocations = new HashMap<>();
     public static HashMap<BlockCoord, Cannon> powerSignLocations = new HashMap<>();
     public static HashMap<BlockCoord, Cannon> cannonBlocks = new HashMap<>();
-
     private BlockCoord fireSignLocation;
     private BlockCoord angleSignLocation;
     private BlockCoord powerSignLocation;
     private Location cannonLocation;
     private final Vector direction = new Vector(0, 0, 0);
-
     public static final String RESTORE_NAME = "special:Cannons";
     public static final double STEP = 1.0f;
-
     public static final byte WALLSIGN_EAST = 0x5;
     public static final byte WALLSIGN_WEST = 0x4;
     public static final byte WALLSIGN_NORTH = 0x2;
     public static final byte WALLSIGN_SOUTH = 0x3;
     public BlockFace signDirection;
-
     public static final double minAngle = -35.0f;
     public static final double maxAngle = 35.0f;
     private double angle = 0.0f;
-
-    public static final double minPower = 0.0f;
-    public static final double maxPower = 50.0f;
+    public static double minPower = 0.0f;
+    public static double maxPower = 50.0f;
     private double power = 0.0f;
-
     private int tntLoaded = 0;
     private int shotCooldown = 0;
     private int hitpoints = 0;
+    private static int maxHeight = 135;
     private Resident owner;
-
     private final HashSet<BlockCoord> blocks = new HashSet<>();
-
     public static int tntCost;
     public static int maxCooldown;
     public static int maxHitpoints;
     public static int baseStructureDamage;
-
     private boolean angleFlip = false;
-
     static {
         try {
             tntCost = CivSettings.getInteger(CivSettings.warConfig, "cannon.tnt_cost");
+            maxHeight = CivSettings.getInteger(CivSettings.warConfig, "cannon.height");
+            minPower = CivSettings.getDouble(CivSettings.warConfig, "cannon.min_power");
+            maxPower = CivSettings.getDouble(CivSettings.warConfig, "cannon.max_power");
             maxCooldown = CivSettings.getInteger(CivSettings.warConfig, "cannon.cooldown");
             maxHitpoints = CivSettings.getInteger(CivSettings.warConfig, "cannon.hitpoints");
             baseStructureDamage = CivSettings.getInteger(CivSettings.warConfig, "cannon.structure_damage");
@@ -92,12 +85,12 @@ public class Cannon extends Buildable {
         }
     }
 
-    public static void newCannon(Resident resident) throws CivException {
+    public static void newCannon(Resident resident, Location loc) throws CivException {
 
         Player player = CivGlobal.getPlayer(resident);
 
         Cannon cannon = new Cannon();
-        cannon.buildCannon(player, player.getLocation());
+        cannon.buildCannon(player, loc);
 
     }
 
@@ -127,6 +120,14 @@ public class Cannon extends Buildable {
         removeAllValues(this, powerSignLocations);
         removeAllValues(this, angleSignLocations);
         removeAllValues(this, fireSignLocations);
+    }
+
+    public int getTntCost() {
+        int tnt = tntCost;
+        if (owner.getNativeCiv() != null && owner.getNativeCiv().hasWonder("w_council_of_eight")) {
+            tnt -= 1;
+        }
+        return tnt;
     }
 
     public void buildCannon(Player player, Location center) throws CivException {
@@ -167,7 +168,7 @@ public class Cannon extends Buildable {
             throw new CivException(CivSettings.localize.localizedString("buildCannon_NotWar"));
         }
 
-        if (player.getLocation().getY() >= 128) {
+        if (player.getLocation().getY() > maxHeight) {
             throw new CivException(CivSettings.localize.localizedString("cannon_build_tooHigh"));
         }
 
@@ -212,9 +213,6 @@ public class Cannon extends Buildable {
                     yTotal += b.getWorld().getHighestBlockYAt(centerBlock.getX() + x, centerBlock.getZ() + z);
                     yCount++;
 
-//                    if (CivGlobal.getRoadBlock(coord) != null) {
-//                        throw new CivException(CivSettings.localize.localizedString("cannon_build_onRoad"));
-//                    }
                 }
             }
         }
@@ -235,9 +233,9 @@ public class Cannon extends Buildable {
         double a = this.angle;
 
         if (a > 0) {
-            sign.setLine(2, "-->");
+            sign.setLine(2, "==>");
         } else if (a < 0) {
-            sign.setLine(2, "<--");
+            sign.setLine(2, "<==");
         } else {
             sign.setLine(2, "");
         }
@@ -261,19 +259,19 @@ public class Cannon extends Buildable {
         boolean loaded = false;
 
         if (this.tntLoaded >= tntCost) {
-            sign.setLine(1, String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + CivSettings.localize.localizedString("cannon_Loaded"));
+            sign.setLine(1, String.valueOf(ChatColor.AQUA) + ChatColor.BOLD + CivSettings.localize.localizedString("cannon_Loaded"));
             loaded = true;
         } else {
-            sign.setLine(1, ChatColor.YELLOW + "(" + this.tntLoaded + "/" + tntCost + ") TNT");
+            sign.setLine(1, ChatColor.GOLD + "(" + this.tntLoaded + "/" + tntCost + ") TNT");
         }
 
         if (this.shotCooldown > 0) {
-            sign.setLine(2, ChatColor.GRAY + CivSettings.localize.localizedString("cannon_cooldownWait") + " " + this.shotCooldown);
+            sign.setLine(2, ChatColor.LIGHT_PURPLE + CivSettings.localize.localizedString("cannon_cooldownWait") + " " + this.shotCooldown);
         } else {
             if (loaded) {
-                sign.setLine(2, ChatColor.GRAY + CivSettings.localize.localizedString("cannon_ready"));
+                sign.setLine(2, ChatColor.AQUA + CivSettings.localize.localizedString("cannon_ready"));
             } else {
-                sign.setLine(2, ChatColor.GRAY + CivSettings.localize.localizedString("cannon_addTNT"));
+                sign.setLine(2, ChatColor.GREEN + CivSettings.localize.localizedString("cannon_addTNT"));
             }
         }
 
@@ -502,39 +500,26 @@ public class Cannon extends Buildable {
             return;
         }
 
-        if (this.tntLoaded < tntCost) {
+        if (this.tntLoaded < getTntCost()) {
             if (event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
                 ItemStack stack = event.getPlayer().getInventory().getItemInMainHand();
-                if (stack != null) {
-                    if (stack.getType() == Material.TNT) {
-                        if (ItemManager.removeItemFromPlayer(event.getPlayer(), Material.TNT, 1)) {
-                            this.tntLoaded++;
-                            CivMessage.sendSuccess(event.getPlayer(), CivSettings.localize.localizedString("cannon_addedTNT"));
-                            updateFireSign(fireSignLocation.getBlock());
-
-                            return;
-                        }
+                if (stack != null && stack.getType() == Material.TNT) {
+                    if (stack.getAmount() >= 2) {
+                        stack.setAmount(stack.getAmount() - 1);
+                    } else {
+                        stack.setType(Material.AIR);
                     }
+                    this.tntLoaded++;
+                    CivMessage.sendSuccess(event.getPlayer(), CivSettings.localize.localizedString("cannon_addedTNT"));
+                    updateFireSign(fireSignLocation.getBlock());
+                    return;
                 }
-
                 CivMessage.sendError(event.getPlayer(), CivSettings.localize.localizedString("cannon_notLoaded"));
             } else {
                 event.setCancelled(true);
             }
             return;
         } else {
-//			Random rand = new Random();
-//			int randDestroy = rand.nextInt(100);
-//			if (randDestroy <= 15)
-//			{
-//				//destroy cannon
-//				CivMessage.send(event.getPlayer(), "Cannon misfired and was destroyed");
-//				destroy();
-//				CivMessage.sendCiv(owner.getCiv(), CivColor.Yellow+"Our Cannon at "+
-//						cannonLocation.getBlockX()+","+cannonLocation.getBlockY()+","+cannonLocation.getBlockZ()+
-//						" has been destroyed due to misfire!");
-//				return;
-//			}
 
             CivMessage.send(event.getPlayer(), CivSettings.localize.localizedString("cannon_fireAway"));
             cannonLocation.setDirection(direction);
@@ -542,7 +527,7 @@ public class Cannon extends Buildable {
             CannonProjectile proj = new CannonProjectile(this, cannonLocation.clone(), resident);
             proj.fire();
             this.tntLoaded = 0;
-            this.shotCooldown = maxCooldown;
+            this.shotCooldown = getCooldown();
 
             class SyncTask implements Runnable {
                 final Cannon cannon;
@@ -609,10 +594,16 @@ public class Cannon extends Buildable {
             if (this.power < minPower) {
                 this.power = minPower;
             }
+            if (event.getPlayer().isSneaking()) {
+                this.power -= STEP * 10;
+            }
         } else if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
             this.power += STEP;
             if (this.power > maxPower) {
                 this.power = maxPower;
+            }
+            if (event.getPlayer().isSneaking()) {
+                this.power += STEP * 10;
             }
         }
 
@@ -700,7 +691,14 @@ public class Cannon extends Buildable {
     }
 
     public int getCooldown() {
-        return shotCooldown;
+        int scd = shotCooldown;
+        if (owner.getNativeCiv().hasWonder("w_grand_ship_ingermanland")) {
+            scd = -10;
+        }
+        if (owner.getNativeCiv().hasWonder("w_chichen_itza")) {
+            scd *= 0.75;
+        }
+        return Math.max(scd, 1);
     }
 
     public void setCooldown(int cooldown) {
@@ -708,7 +706,11 @@ public class Cannon extends Buildable {
     }
 
     public int getDamage() {
-        return baseStructureDamage;
+        int bsd = baseStructureDamage;
+        if (owner.getNativeTown().getBuffManager().hasBuff("wonder_trade_colossus")) {
+            bsd *= 1.0 + owner.getNativeTown().getBuffManager().getEffectiveDouble("wonder_trade_colossus");
+        }
+        return bsd;
     }
 
 

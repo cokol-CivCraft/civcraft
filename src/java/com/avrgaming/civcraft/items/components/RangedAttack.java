@@ -48,8 +48,7 @@ public class RangedAttack extends ItemComponent {
         AttributeUtil attrs = new AttributeUtil(inHand);
         double dmg = this.getDouble("value");
 
-        if (event.getDamager() instanceof Arrow) {
-            Arrow arrow = (Arrow) event.getDamager();
+        if (event.getDamager() instanceof Arrow arrow) {
             if (arrow.getShooter() instanceof Player attacker) {
                 if (Unit.isWearingAnyMetal(attacker)) {
                     event.setCancelled(true);
@@ -78,8 +77,7 @@ public class RangedAttack extends ItemComponent {
             totalDmg = dmg;
         }
 
-        if (event.getDamager() instanceof Arrow) {
-            Arrow arrow = (Arrow) event.getDamager();
+        if (event.getDamager() instanceof Arrow arrow) {
             if (arrow.getShooter() instanceof Player) {
                 Resident resident = CivGlobal.getResident(((Player) arrow.getShooter()));
                 if (!resident.hasTechForItem(inHand)) {

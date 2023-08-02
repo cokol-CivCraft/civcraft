@@ -115,7 +115,7 @@ public class LoreCraftableMaterial extends LoreMaterial {
                 key.append(loreMat.getId()).append(",");
             } else {
                 //			key += "mc_"+stack.getTypeId()+"_"+stack.getDurability()+",";
-                key.append("mc_").append(stack.getTypeId()).append(",");
+                key.append("mc_").append(stack.getType()).append(",");
 
             }
         }
@@ -138,7 +138,7 @@ public class LoreCraftableMaterial extends LoreMaterial {
                 item = LoreMaterial.getMaterial(stack).getId();
             } else {
                 //	item = "mc_"+stack.getTypeId()+"_"+stack.getDurability();
-                item = "mc_" + stack.getTypeId() + ",";
+                item = "mc_" + stack.getType() + ",";
             }
 
             Integer count = counts.get(item);
@@ -642,9 +642,6 @@ public class LoreCraftableMaterial extends LoreMaterial {
     }
 
 
-    public void rebuildLore() {
-
-    }
 
 
     public static String serializeEnhancements(ItemStack stack) {

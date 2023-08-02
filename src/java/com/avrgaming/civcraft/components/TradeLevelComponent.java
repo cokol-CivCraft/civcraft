@@ -44,8 +44,6 @@ public class TradeLevelComponent extends Component {
      */
     private double consumeRate;
 
-    private double cultureEarned;
-
     private double moneyEarned;
 
     /* Buildable this component is attached to. */
@@ -534,7 +532,7 @@ public class TradeLevelComponent extends Component {
     public TradeShipResults processConsumption(Integer updgradeLevel) {
         lastTrade = new TradeShipResults();
         moneyEarned = 0;
-        cultureEarned = 0.0;
+        double cultureEarned = 0.0;
         int countConsumed = 0;
 
         Integer currentCountMax = levelCounts.get(this.level);

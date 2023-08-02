@@ -140,7 +140,7 @@ public class TrommelAsyncTask extends CivAsyncTask {
 
                 if (stack.getType() == Material.COBBLESTONE) {
                     try {
-                        this.updateInventory(Action.REMOVE, source_inv, new ItemStack(Material.COBBLESTONE.getId(), 1, (short) 0));
+                        this.updateInventory(Action.REMOVE, source_inv, new ItemStack(Material.COBBLESTONE, 1));
                     } catch (InterruptedException e) {
                         return;
                     }

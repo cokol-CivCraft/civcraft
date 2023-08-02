@@ -74,37 +74,33 @@ public class EffectEventTimer extends CivAsyncTask {
 			String[] split = struct.getEffectEvent().toLowerCase().split(":");
 			switch (split[0]) {
 				case "generate_coins" -> {
-					if (struct instanceof Cottage) {
-						Cottage cottage = (Cottage) struct;
-						//cottage.generate_coins(this);
-						cottage.generateCoins(this);
-					}
+					if (struct instanceof Cottage cottage) {
+                        //cottage.generate_coins(this);
+                        cottage.generateCoins(this);
+                    }
 				}
 				case "process_mine" -> {
-					if (struct instanceof Mine) {
-						Mine mine = (Mine) struct;
-						mine.process_mine(this);
-					}
+                    if (struct instanceof Mine mine) {
+                        mine.process_mine(this);
+                    }
 				}
 				case "temple_culture" -> {
-					if (struct instanceof Temple) {
-						Temple temple = (Temple) struct;
-						try {
-							temple.templeCulture(this);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
+                    if (struct instanceof Temple temple) {
+                        try {
+                            temple.templeCulture(this);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
 				}
 				case "process_trade_ship" -> {
-					if (struct instanceof TradeShip) {
-						TradeShip tradeShip = (TradeShip) struct;
-						try {
-							tradeShip.process_trade_ship(this);
-						} catch (InterruptedException | InvalidConfiguration e) {
-							e.printStackTrace();
-						}
-					}
+                    if (struct instanceof TradeShip tradeShip) {
+                        try {
+                            tradeShip.process_trade_ship(this);
+                        } catch (InterruptedException | InvalidConfiguration e) {
+                            e.printStackTrace();
+                        }
+                    }
 				}
 			}
 
@@ -125,26 +121,29 @@ public class EffectEventTimer extends CivAsyncTask {
 				continue;
 			}
 
-			AttrSource cultureSources = town.getCulture();
+            AttrSource cultureSources = town.getCulture();
 
-			// Get amount generated after culture rate/bonus.
-			cultureGenerated = cultureSources.total;
-			cultureGenerated = Math.round(cultureGenerated);
-			town.addAccumulatedCulture(cultureGenerated);
+            // Get amount generated after culture rate/bonus.
+            cultureGenerated = cultureSources.total;
+            cultureGenerated = Math.round(cultureGenerated);
+            town.addAccumulatedCulture(cultureGenerated);
 
-			// Get from unused beakers.
-			DecimalFormat df = new DecimalFormat();
-			double unusedBeakers = town.getUnusedBeakers();
+            // Get from unused beakers.
+            DecimalFormat df = new DecimalFormat();
+            double unusedBeakers = town.getUnusedBeakers();
+            if (town.getBuffManager().hasBuff("wonder_trade_great_library")) {
+                town.giveExtraHammers(unusedBeakers * town.getBuffManager().getEffectiveDouble("wonder_trade_great_library"));
+            }
 
-			try {
-				double cultureToBeakerConversion = CivSettings.getDouble(CivSettings.cultureConfig, "beakers_per_culture");
-				if (unusedBeakers > 0) {
-					double cultureFromBeakers = unusedBeakers * cultureToBeakerConversion;
-					cultureFromBeakers = Math.round(cultureFromBeakers);
-					unusedBeakers = Math.round(unusedBeakers);
+            try {
+                double cultureToBeakerConversion = CivSettings.getDouble(CivSettings.cultureConfig, "beakers_per_culture");
+                if (unusedBeakers > 0) {
+                    double cultureFromBeakers = unusedBeakers * cultureToBeakerConversion;
+                    cultureFromBeakers = Math.round(cultureFromBeakers);
+                    unusedBeakers = Math.round(unusedBeakers);
 
-					if (cultureFromBeakers > 0) {
-						CivMessage.sendTown(town, ChatColor.GREEN + CivSettings.localize.localizedString("var_effectEvent_convertBeakers", (ChatColor.LIGHT_PURPLE +
+                    if (cultureFromBeakers > 0) {
+                        CivMessage.sendTown(town, ChatColor.GREEN + CivSettings.localize.localizedString("var_effectEvent_convertBeakers", (ChatColor.LIGHT_PURPLE +
 								df.format(unusedBeakers) + ChatColor.GREEN), (ChatColor.LIGHT_PURPLE +
 								df.format(cultureFromBeakers) + ChatColor.GREEN)));
 						cultureGenerated += cultureFromBeakers;

@@ -17,11 +17,14 @@
  */
 package com.avrgaming.civcraft.exception;
 
+import java.io.Serial;
+
 public class AlreadyRegisteredException extends Exception {
 
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -5711150822233792374L;
 
     public AlreadyRegisteredException(String message) {

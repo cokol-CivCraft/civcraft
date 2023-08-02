@@ -450,8 +450,9 @@ public abstract class Buildable extends SQLObject {
             Template tpl;
             try {
                 tpl = Template.getTemplate(path, player.getLocation());
-            } catch (IOException e) {
+            } catch (IOException | CivException e) {
                 e.printStackTrace();
+                tpl = null;
                 return;
             }
 
@@ -773,17 +774,6 @@ public abstract class Buildable extends SQLObject {
 
         /* Check that we're not overlapping with another structure's template outline. */
         /* XXX this needs to check actual blocks, not outlines cause thats more annoying than actual problems caused by building into each other. */
-//		Iterator<Entry<BlockCoord, Structure>> iter = CivGlobal.getStructureIterator();
-//		while(iter.hasNext()) {
-//			Entry<BlockCoord, Structure> entry = iter.next();
-//			Structure s = entry.getValue();
-//			
-//			if (s.templateBoundingBox != null) {
-//				if (s.templateBoundingBox.overlaps(this.templateBoundingBox)) {
-//					throw new CivException("Cannot build structure here as it would overlap with a "+s.getDisplayName());
-//				}
-//			}
-//		}
 
         onCheck();
 
@@ -836,10 +826,6 @@ public abstract class Buildable extends SQLObject {
                         throw new CivException(CivSettings.localize.localizedString("cannotBuild_farmInWay"));
                     }
 
-//                    if (CivGlobal.getWallChunk(chunkCoord) != null) {
-//                        throw new CivException(CivSettings.localize.localizedString("cannotBuild_wallInWay"));
-//                    }
-
                     if (CivGlobal.getCampBlock(coord) != null) {
                         throw new CivException(CivSettings.localize.localizedString("cannotBuild_structureInWay"));
                     }
@@ -847,11 +833,6 @@ public abstract class Buildable extends SQLObject {
                     if (CivGlobal.getBuildablesAt(coord) != null) {
                         throw new CivException(CivSettings.localize.localizedString("cannotBuild_structureHere"));
                     }
-
-//                    RoadBlock rb = CivGlobal.getRoadBlock(coord);
-//                    if (rb != null) {
-//                        deletedRoadBlocks.add(rb);
-//                    }
 
                     BorderData border = Config.Border(b.getWorld().getName());
                     if (border != null) {
@@ -879,9 +860,6 @@ public abstract class Buildable extends SQLObject {
         }
 
         /* Delete any road blocks we happen to come across. */
-//        for (RoadBlock rb : deletedRoadBlocks) {
-//            rb.getRoad().deleteRoadBlock(rb);
-//        }
 
     }
 
@@ -918,8 +896,6 @@ public abstract class Buildable extends SQLObject {
     }
 
     protected void startBuildTask(Template tpl, Location center) {
-        //CivBuildTask task = new CivBuildTask(TownyUniverse.getPlugin(), this, tpl,
-        //	this.getBuildSpeed(), this.getBlocksPerTick(), center.getBlock());
         if (this instanceof Structure) {
             this.getTown().setCurrentStructureInProgress(this);
         } else {
@@ -965,8 +941,6 @@ public abstract class Buildable extends SQLObject {
         double millisecondsPerBlock = hoursPerBlock * 60 * 60 * 1000;
 
         // Don't let this get lower than 1 just in case to prevent any crazyiness...
-        //if (millisecondsPerBlock < 1)
-        //millisecondsPerBlock = 1;
 
         double blocks = (500 / millisecondsPerBlock);
 
@@ -984,14 +958,6 @@ public abstract class Buildable extends SQLObject {
         //String chunkHash = Civ.chunkHash(center.getChunk());
 
         //TODO Revisit for walls and farms?
-//		if (Civ.getWallChunk(chunkHash) != null) {
-//			throw new CivException("Cannot build here, another tile improvement is in this chunk.");
-//			
-//		}
-//		
-//		if (Civ.getFarmChunk(chunkHash) != null) {
-//			throw new CivException("Cannot build here, another tile improvement is in this chunk.");
-//		}
 
 
     }
@@ -1191,15 +1157,6 @@ public abstract class Buildable extends SQLObject {
     public void runCheck(Location center) {
     }
 
-    //public void fancyDestroyStructureBlocks() {
-
-    //	for (BlockCoord coord : this.structureBlocks.keySet()) {
-    //		coord.getLocation().getWorld().spawnFallingBlock(coord.getLocation(), coord.getBlock().getTypeId(), coord.getBlock().getData());
-    //		coord.getBlock().setTypeId(CivData.AIR);
-    //	}
-
-    //}
-
     public void fancyDestroyStructureBlocks() {
         TaskMaster.syncTask(() -> {
             for (BlockCoord coord : structureBlocks.keySet()) {
@@ -1312,9 +1269,6 @@ public abstract class Buildable extends SQLObject {
         }
     }
 
-    public boolean showOnDynmap() {
-        return true;
-    }
 
     public void onDailyEvent() {
     }
@@ -1324,18 +1278,9 @@ public abstract class Buildable extends SQLObject {
 
     public void updateSignText() {
     }
-//	public boolean isAborted() {
-//		return aborted;
-//	}
-//	
-//	public void setAborted(boolean aborted) {
-//		this.aborted = aborted;
-//	}
 
     public void repairFromTemplate() throws IOException, CivException {
-        //	Template tpl = new Template();
-        //tpl.load_template(this.getSavedTemplatePath());
-        Template tpl = Template.getTemplate(this.getSavedTemplatePath(), null);
+        Template tpl = Template.getTemplate(this.getSavedTemplatePath(), this.corner.getCenteredLocation());
         this.buildRepairTemplate(tpl, this.getCorner().getBlock());
         TaskMaster.syncTask(new PostBuildSyncTask(tpl, this));
     }

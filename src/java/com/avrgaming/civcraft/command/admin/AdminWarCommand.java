@@ -72,25 +72,6 @@ public class AdminWarCommand extends CommandBase {
     }
 
 
-//	public void setlastwar_cmd() throws CivException {
-//		if (args.length < 2) {
-//			throw new CivException("Enter a date like DAY:MONTH:YEAR:HOUR:MIN");
-//		}
-//		
-//		String dateStr = args[1];
-//		SimpleDateFormat parser = new SimpleDateFormat("d:M:y:H:m");
-//		
-//		Date lastwar;
-//		try {
-//			lastwar = parser.parse(dateStr);
-//			War.setLastWarTime(lastwar);
-//			CivMessage.sendSuccess(sender, "Set last war date");
-//		} catch (ParseException e) {
-//			throw new CivException("Couldnt parse "+args[1]+" into a date, use format: DAY:MONTH:YEAR:HOUR:MIN");
-//		}
-//		
-//	}
-
     public void start_cmd() {
 
         War.setWarTime(true);

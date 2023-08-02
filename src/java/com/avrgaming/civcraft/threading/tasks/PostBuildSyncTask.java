@@ -73,8 +73,7 @@ public class PostBuildSyncTask implements Runnable {
             switch (sb.command) {
                 case "/tradeoutpost" -> {
                     /* Builds the trade outpost tower at this location. */
-                    if (buildable instanceof TradeOutpost) {
-                        TradeOutpost outpost = (TradeOutpost) buildable;
+                    if (buildable instanceof TradeOutpost outpost) {
                         outpost.setTradeOutpostTower(absCoord);
                         try {
                             outpost.build_trade_outpost_tower();
@@ -83,8 +82,7 @@ public class PostBuildSyncTask implements Runnable {
                         }
 
                     }
-                    if (buildable instanceof Wonder) {
-                        Wonder w = (Wonder) buildable;
+                    if (buildable instanceof Wonder w) {
                         w.setWonderTower(absCoord);
                         try {
                             w.build_trade_outpost_tower();
@@ -94,8 +92,7 @@ public class PostBuildSyncTask implements Runnable {
                     }
                 }
                 case "/techbar" -> {
-                    if (buildable instanceof TownHall) {
-                        TownHall townhall = (TownHall) buildable;
+                    if (buildable instanceof TownHall townhall) {
 
                         int index = Integer.parseInt(sb.keyvalues.get("id"));
                         townhall.addTechBarBlock(absCoord, index);
@@ -103,8 +100,7 @@ public class PostBuildSyncTask implements Runnable {
                     }
                 }
                 case "/techname" -> {
-                    if (buildable instanceof TownHall) {
-                        TownHall townhall = (TownHall) buildable;
+                    if (buildable instanceof TownHall townhall) {
 
                         townhall.setTechnameSign(absCoord);
                         townhall.setTechnameSignData((byte) sb.getData());
@@ -112,8 +108,7 @@ public class PostBuildSyncTask implements Runnable {
                     }
                 }
                 case "/techdata" -> {
-                    if (buildable instanceof TownHall) {
-                        TownHall townhall = (TownHall) buildable;
+                    if (buildable instanceof TownHall townhall) {
 
                         townhall.setTechdataSign(absCoord);
                         townhall.setTechdataSignData((byte) sb.getData());
@@ -125,54 +120,44 @@ public class PostBuildSyncTask implements Runnable {
                     if (strvalue != null) {
                         int index = Integer.parseInt(strvalue);
 
-                        if (buildable instanceof TownHall) {
-                            TownHall townhall = (TownHall) buildable;
+                        if (buildable instanceof TownHall townhall) {
                             townhall.createGoodieItemFrame(absCoord, index, sb.getData());
                             townhall.addStructureBlock(absCoord, false);
                         }
                     }
                 }
                 case "/respawn" -> {
-                    if (buildable instanceof TownHall) {
-                        TownHall townhall = (TownHall) buildable;
+                    if (buildable instanceof TownHall townhall) {
 
                         townhall.setRespawnPoint(absCoord);
                     }
                 }
                 case "/revive" -> {
-                    if (buildable instanceof TownHall) {
-                        TownHall townhall = (TownHall) buildable;
+                    if (buildable instanceof TownHall townhall) {
 
                         townhall.setRevivePoint(absCoord);
                     }
                 }
                 case "/towerfire" -> {
-                    if (buildable instanceof ArrowShip) {
-                        ArrowShip arrowship = (ArrowShip) buildable;
+                    if (buildable instanceof ArrowShip arrowship) {
                         arrowship.setTurretLocation(absCoord);
-                    } else if (buildable instanceof ArrowTower) {
-                        ArrowTower arrowtower = (ArrowTower) buildable;
+                    } else if (buildable instanceof ArrowTower arrowtower) {
                         arrowtower.setTurretLocation(absCoord);
-                    } else if (buildable instanceof CannonShip) {
-                        CannonShip cannonship = (CannonShip) buildable;
+                    } else if (buildable instanceof CannonShip cannonship) {
                         cannonship.setTurretLocation(absCoord);
-                    } else if (buildable instanceof CannonTower) {
-                        CannonTower cannontower = (CannonTower) buildable;
+                    } else if (buildable instanceof CannonTower cannontower) {
                         cannontower.setTurretLocation(absCoord);
-                    } else if (buildable instanceof TeslaTower) {
-                        TeslaTower teslaTower = (TeslaTower) buildable;
+                    } else if (buildable instanceof TeslaTower teslaTower) {
                         teslaTower.setTurretLocation(absCoord);
                     }
                 }
                 case "/arrowfire" -> {
-                    if (buildable instanceof GrandShipIngermanland) {
-                        GrandShipIngermanland arrowtower = (GrandShipIngermanland) buildable;
+                    if (buildable instanceof GrandShipIngermanland arrowtower) {
                         arrowtower.setArrowLocation(absCoord);
                     }
                 }
                 case "/cannonfire" -> {
-                    if (buildable instanceof GrandShipIngermanland) {
-                        GrandShipIngermanland cannontower = (GrandShipIngermanland) buildable;
+                    if (buildable instanceof GrandShipIngermanland cannontower) {
                         cannontower.setCannonLocation(absCoord);
                     }
                 }
@@ -268,8 +253,7 @@ public class PostBuildSyncTask implements Runnable {
             switch (sb.command) {
                 case "/tradeoutpost" -> {
                     /* Builds the trade outpost tower at this location. */
-                    if (buildable instanceof TradeOutpost) {
-                        TradeOutpost outpost = (TradeOutpost) buildable;
+                    if (buildable instanceof TradeOutpost outpost) {
                         outpost.setTradeOutpostTower(absCoord);
                         try {
                             outpost.build_trade_outpost_tower();
@@ -278,8 +262,7 @@ public class PostBuildSyncTask implements Runnable {
                         }
 
                     }
-                    if (buildable instanceof Wonder) {
-                        Wonder w = (Wonder) buildable;
+                    if (buildable instanceof Wonder w) {
                         w.setWonderTower(absCoord);
                         try {
                             w.build_trade_outpost_tower();
@@ -289,8 +272,7 @@ public class PostBuildSyncTask implements Runnable {
                     }
                 }
                 case "/techbar" -> {
-                    if (buildable instanceof TownHall) {
-                        TownHall townhall = (TownHall) buildable;
+                    if (buildable instanceof TownHall townhall) {
 
                         int index = Integer.parseInt(sb.keyvalues.get("id"));
                         townhall.addTechBarBlock(absCoord, index);
@@ -298,8 +280,7 @@ public class PostBuildSyncTask implements Runnable {
                     }
                 }
                 case "/techname" -> {
-                    if (buildable instanceof TownHall) {
-                        TownHall townhall = (TownHall) buildable;
+                    if (buildable instanceof TownHall townhall) {
 
                         townhall.setTechnameSign(absCoord);
                         townhall.setTechnameSignData((byte) sb.getData());
@@ -307,8 +288,7 @@ public class PostBuildSyncTask implements Runnable {
                     }
                 }
                 case "/techdata" -> {
-                    if (buildable instanceof TownHall) {
-                        TownHall townhall = (TownHall) buildable;
+                    if (buildable instanceof TownHall townhall) {
 
                         townhall.setTechdataSign(absCoord);
                         townhall.setTechdataSignData((byte) sb.getData());
@@ -320,60 +300,49 @@ public class PostBuildSyncTask implements Runnable {
                     if (strvalue != null) {
                         int index = Integer.parseInt(strvalue);
 
-                        if (buildable instanceof TownHall) {
-                            TownHall townhall = (TownHall) buildable;
+                        if (buildable instanceof TownHall townhall) {
                             townhall.createGoodieItemFrame(absCoord, index, sb.getData());
                             townhall.addStructureBlock(absCoord, false);
                         }
                     }
                 }
                 case "/respawn" -> {
-                    if (buildable instanceof TownHall) {
-                        TownHall townhall = (TownHall) buildable;
+                    if (buildable instanceof TownHall townhall) {
 
                         townhall.setRespawnPoint(absCoord);
                     }
                 }
                 case "/revive" -> {
-                    if (buildable instanceof TownHall) {
-                        TownHall townhall = (TownHall) buildable;
+                    if (buildable instanceof TownHall townhall) {
 
                         townhall.setRevivePoint(absCoord);
                     }
                 }
                 case "/control" -> {
-                    if (buildable instanceof TownHall) {
-                        TownHall townhall = (TownHall) buildable;
+                    if (buildable instanceof TownHall townhall) {
                         townhall.createControlPoint(absCoord);
                     }
                 }
                 case "/towerfire" -> {
-                    if (buildable instanceof ArrowShip) {
-                        ArrowShip arrowship = (ArrowShip) buildable;
+                    if (buildable instanceof ArrowShip arrowship) {
                         arrowship.setTurretLocation(absCoord);
-                    } else if (buildable instanceof ArrowTower) {
-                        ArrowTower arrowtower = (ArrowTower) buildable;
+                    } else if (buildable instanceof ArrowTower arrowtower) {
                         arrowtower.setTurretLocation(absCoord);
-                    } else if (buildable instanceof CannonShip) {
-                        CannonShip cannonship = (CannonShip) buildable;
+                    } else if (buildable instanceof CannonShip cannonship) {
                         cannonship.setTurretLocation(absCoord);
-                    } else if (buildable instanceof CannonTower) {
-                        CannonTower cannontower = (CannonTower) buildable;
+                    } else if (buildable instanceof CannonTower cannontower) {
                         cannontower.setTurretLocation(absCoord);
-                    } else if (buildable instanceof TeslaTower) {
-                        TeslaTower teslaTower = (TeslaTower) buildable;
+                    } else if (buildable instanceof TeslaTower teslaTower) {
                         teslaTower.setTurretLocation(absCoord);
                     }
                 }
                 case "/arrowfire" -> {
-                    if (buildable instanceof GrandShipIngermanland) {
-                        GrandShipIngermanland arrowtower = (GrandShipIngermanland) buildable;
+                    if (buildable instanceof GrandShipIngermanland arrowtower) {
                         arrowtower.setArrowLocation(absCoord);
                     }
                 }
                 case "/cannonfire" -> {
-                    if (buildable instanceof GrandShipIngermanland) {
-                        GrandShipIngermanland cannontower = (GrandShipIngermanland) buildable;
+                    if (buildable instanceof GrandShipIngermanland cannontower) {
                         cannontower.setCannonLocation(absCoord);
                     }
                 }
@@ -399,6 +368,7 @@ public class PostBuildSyncTask implements Runnable {
                     /* Convert sign data to chest data.*/
                     block = absCoord.getBlock();
                     if (block.getType() != Material.CHEST) {
+                        block.setType(Material.CHEST);
                         block.getState().setData(new org.bukkit.material.Chest(((Sign) sb.getMaterialData()).getFacing()));
                     }
                     Chest chest = (Chest) block.getState();

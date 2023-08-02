@@ -18,16 +18,6 @@ commands:
       aliases: [ no, вутн, тщ ]
     civ:
       aliases: [ c, с ]
-    tc:
-        aliases:
-    cc:
-        aliases:
-    ac:
-        aliases:
-    gc:
-        aliases:
-    ad:
-        aliases:
     build:
       aliases: [ b, и ]
     market:
@@ -36,8 +26,6 @@ commands:
       aliases: [ sel ]
     econ:
       aliases: [ money, ьщтун ]
-    pay:
-        aliases:
     here:
       aliases: [ h, р, руку ]
     camp:
@@ -50,5 +38,3 @@ commands:
       aliases: [ k, л, лшдд ]
     team:
       aliases: [ tm, еь, еуфь ]
-    sb:
-        aliases:

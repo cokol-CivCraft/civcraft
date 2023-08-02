@@ -59,9 +59,9 @@ public class CivData {
     public static final short DATA_WOOL_RED = 14;
     public static final int DATA_WOOL_WHITE = 0;
     private static final String hp = "❤";
-    private static String hpCFG;
 
     private static String getHP() {
+        String hpCFG;
         try {
             hpCFG = CivSettings.getString(CivSettings.civConfig, "global.health");
         } catch (InvalidConfiguration e) {

@@ -41,6 +41,8 @@ public class Buff {
     public static final String FISHING = "buff_fishing";
     public static final String MEDICINE = "buff_medicine";
     public static final String RUSH = "buff_rush";
+
+    public static final String DEFENCE = "buff_wonder_def";
     public static final String DEBUFF_PYRAMID_LEECH = "debuff_pyramid_leech";
 
     private ConfigBuff config;

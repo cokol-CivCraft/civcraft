@@ -82,9 +82,8 @@ public class SyncBuildUpdateTask implements Runnable {
                         state.update(true, false);
                     }
                     case LITERAL -> {
-                        if (block.getState() instanceof Sign) {
+                        if (block.getState() instanceof Sign s) {
 
-                            Sign s = (Sign) block.getState();
                             for (int j = 0; j < 4; j++) {
                                 s.setLine(j, next.message[j]);
                             }

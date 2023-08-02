@@ -136,17 +136,6 @@ public abstract class CivAsyncTask implements Runnable {
 
         SyncBuildUpdateTask.queueSimpleBlock(sbs);
 
-        //		this.finished = false;
-//		SimpleBlock sb;
-//		while((sb = sbs.poll()) != null) {		
-//			if (!SyncBuildUpdateTask.updateBlocks.offer(sb)) {
-//				this.finished = true;
-//				return false;
-//			}
-//		}
-//		
-//		this.finished = true;
-//		return true;
     }
 
     public Boolean updateInventory(Action action, MultiInventory inv, ItemStack itemStack) throws InterruptedException {

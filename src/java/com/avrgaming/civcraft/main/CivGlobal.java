@@ -195,7 +195,7 @@ public class CivGlobal {
             }
 
         }
-	/*	ScoreboardManager manager = Bukkit.getScoreboardManager();
+	/*	ScoreboardManager manager = Bukkit.getScoreboardManager(); // TODO ?!?
 		CivGlobal.globalBoard = manager.getNewScoreboard();
 		Team team = globalBoard.registerNewTeam("everybody");
 		team.setPrefix(":PREFIX:");
@@ -590,60 +590,6 @@ public class CivGlobal {
         }
     }
 
-//    private static void loadWallBlocks() throws SQLException {
-//        Connection context = null;
-//        ResultSet rs = null;
-//        PreparedStatement ps = null;
-//
-//        try {
-//            context = SQLController.getGameConnection();
-//            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + WallBlock.TABLE_NAME);
-//            rs = ps.executeQuery();
-//
-//            int count = 0;
-//            while (rs.next()) {
-//                try {
-//                    new WallBlock(rs);
-//                    count++;
-//                } catch (Exception e) {
-//                    CivLog.warning(e.getMessage());
-//                    //e.printStackTrace();
-//                }
-//            }
-//
-//            CivLog.info("Loaded " + count + " Wall Block");
-//        } finally {
-//            SQLController.close(rs, ps, context);
-//        }
-//    }
-
-//    private static void loadRoadBlocks() throws SQLException {
-//        Connection context = null;
-//        ResultSet rs = null;
-//        PreparedStatement ps = null;
-//
-//        try {
-//            context = SQLController.getGameConnection();
-//            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + RoadBlock.TABLE_NAME);
-//            rs = ps.executeQuery();
-//
-//            int count = 0;
-//            while (rs.next()) {
-//                try {
-//                    new RoadBlock(rs);
-//                    count++;
-//                } catch (Exception e) {
-//                    CivLog.warning(e.getMessage());
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            CivLog.info("Loaded " + count + " Road Block");
-//        } finally {
-//            SQLController.close(rs, ps, context);
-//        }
-//    }
-
     public static void loadRandomEvents() throws SQLException {
         Connection context = null;
         ResultSet rs = null;
@@ -792,14 +738,6 @@ public class CivGlobal {
     }
 
     //TODO make lookup via ID faster(use hashtable)
-/*	public static PermissionGroup getPermissionGroupFromId(int int1) {
-		for (PermissionGroup grp : permgroups.values()) {
-			if (grp.getId() == int1) {
-				return grp;
-			}
-		}
-		return null;
-	}*/
 
     public static TownChunk getTownChunk(ChunkCoord coord) {
         return townChunks.get(coord);
@@ -994,14 +932,6 @@ public class CivGlobal {
         buildables.add(owner);
         buildablesInChunk.put(key, buildables);
 
-//		BlockCoord xz = new BlockCoord(coord.getWorldname(), coord.getX(), 0, coord.getZ());
-//		LinkedList<StructureBlock> sbList = structureBlocksIn2D.get(xz);
-//		if (sbList == null) {
-//			sbList = new LinkedList<StructureBlock>();
-//		}
-//		
-//		sbList.add(sb);
-//		structureBlocksIn2D.put(xz, sbList);
     }
 
     public static void removeStructureBlock(BlockCoord coord) {
@@ -1022,16 +952,6 @@ public class CivGlobal {
             }
         }
 
-//		BlockCoord xz = new BlockCoord(coord.getWorldname(), coord.getX(), 0, coord.getZ());
-//		LinkedList<StructureBlock> sbList = structureBlocksIn2D.get(xz);
-//		if (sbList != null) {
-//			sbList.remove(sb);
-//			if (sbList.size() > 0) {
-//				structureBlocksIn2D.put(xz, sbList);
-//			} else {
-//				structureBlocksIn2D.remove(xz);
-//			}
-//		}		
     }
 
     public static StructureBlock getStructureBlock(BlockCoord coord) {
@@ -1151,26 +1071,6 @@ public class CivGlobal {
         EventTimer daily = EventTimer.timers.get("daily");
         return daily.getNext().getTime();
 
-//		int upkeepHour;
-//		try {
-//			upkeepHour = CivSettings.getInteger(CivSettings.civConfig, "global.daily_upkeep_hour");
-//		} catch (InvalidConfiguration e) {
-//			e.printStackTrace();
-//			return null;
-//		}
-//		
-//		Calendar c = Calendar.getInstance();
-//		Date now = c.getTime();
-//		
-//		c.set(Calendar.HOUR_OF_DAY, upkeepHour);
-//		c.set(Calendar.MINUTE, 0);
-//		c.set(Calendar.SECOND, 0);
-//		
-//		if (now.after(c.getTime())) {
-//			c.add(Calendar.DATE, 1);
-//		}
-//		
-//		return c.getTime();
     }
 
     public static void removeTownChunk(TownChunk tc) {
@@ -1979,7 +1879,7 @@ public class CivGlobal {
     }
 
     public static Economy getEconomy() {
-        return econ == null ? (econ = Bukkit.getServicesManager().getRegistration(Economy.class).getProvider()) : econ;
+        return Optional.ofNullable((econ = Bukkit.getServicesManager().getRegistration(Economy.class).getProvider())).orElse(econ);
     }
 
     public static EconObject createEconObject(SQLObject holder) {

@@ -348,12 +348,6 @@ public class CivDiplomacyCommand extends CommandBase {
 
             CivGlobal.setRelation(ourCiv, otherCiv, status);
             //Boolean aidingAlly is in commentaries a couple lines higher (2 times)
-            //if (aidingAlly) {
-            //	/* If we're aiding an ally, the other civ is the true aggressor. */
-            //	CivGlobal.setAggressor(otherCiv, ourCiv, otherCiv);
-            //} else {
-            //	CivGlobal.setAggressor(ourCiv, otherCiv, ourCiv);
-            //}
             CivGlobal.setAggressor(ourCiv, otherCiv, ourCiv);
 
         } catch (IllegalArgumentException e) {

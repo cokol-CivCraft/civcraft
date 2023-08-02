@@ -117,24 +117,6 @@ public class AdminBuildCommand extends CommandBase {
         buildable.validate(player);
     }
 
-//	public void changenearest_cmd() throws CivException {
-//		Player player = getPlayer();
-//		Town town = getNamedTown(1);
-//		Buildable buildable = town.getNearestBuildable(player.getLocation());
-//		
-//		if (args.length < 3)
-//		{
-//			CivMessage.send(player, CivColor.Red+ChatColor.BOLD+CivSettings.localize.localizedString("adcmd_build_wouldChangeTheme_NoTheme"));
-//
-//			return;
-//		}
-//		
-//		if (args.length < 4 || !args[3].equalsIgnoreCase("yes")) {
-//			CivMessage.send(player, CivColor.Yellow+ChatColor.BOLD+CivSettings.localize.localizedString("var_adcmd_build_wouldChangeTheme",buildable.getDisplayName(),buildable.getCorner()));
-//			return;
-//		}
-//	}
-
 
     public void destroynearest_cmd() throws CivException {
 

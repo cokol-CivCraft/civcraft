@@ -142,9 +142,6 @@ public class ArenaManager implements Runnable {
         Objective points1 = activeArena.getScoreboard(team1.getName()).registerNewObjective("teampoints1", "dummy");
         Objective points2 = activeArena.getScoreboard(team2.getName()).registerNewObjective("teampoints2", "dummy");
 
-        //	Objective names1 = activeArena.getScoreboard(team1.getName()).registerNewObjective("team1", "dummy");
-        //	Objective names2 = activeArena.getScoreboard(team2.getName()).registerNewObjective("team2", "dummy");
-
         points1.setDisplaySlot(DisplaySlot.SIDEBAR);
         points1.setDisplayName("Team Hitpoints");
         points2.setDisplaySlot(DisplaySlot.SIDEBAR);
@@ -175,12 +172,6 @@ public class ArenaManager implements Runnable {
 
         score2Team1.setScore(activeArena.config.teams.get(0).controlPoints.size() * activeArena.config.control_block_hp);
         score2Team2.setScore(activeArena.config.teams.get(1).controlPoints.size() * activeArena.config.control_block_hp);
-
-        //	names1.setDisplaySlot(DisplaySlot.BELOW_NAME);
-        //	names1.setDisplayName(team1.getTeamColor()+team1.getName());
-
-        //	names2.setDisplaySlot(DisplaySlot.BELOW_NAME);
-        //	names2.setDisplayName(team2.getTeamColor()+team2.getName());
 
         activeArena.objectives.put(team1.getName(), points1);
         activeArena.objectives.put(team2.getName(), points2);
@@ -405,7 +396,7 @@ public class ArenaManager implements Runnable {
             //if directory not exists, create it
             if (!dest.exists()) {
                 dest.mkdir();
-                System.out.println("Directory copied from "
+                CivLog.info("Directory copied from "
                         + src + "  to " + dest);
             }
 
@@ -436,7 +427,7 @@ public class ArenaManager implements Runnable {
 
             in.close();
             out.close();
-            System.out.println("File copied from " + src + " to " + dest);
+            CivLog.info("File copied from " + src + " to " + dest);
         }
     }
 

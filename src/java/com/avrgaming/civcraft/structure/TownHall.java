@@ -474,7 +474,7 @@ public class TownHall extends Structure implements RespawnLocationHolder {
     public void regenControlBlocks() {
         for (BlockCoord coord : this.controlPoints.keySet()) {
             Block block = coord.getBlock();
-            block.setTypeId(Material.OBSIDIAN.getId());
+            block.setType(Material.OBSIDIAN);
 
             ControlPoint cp = this.controlPoints.get(coord);
             cp.setHitpoints(cp.getMaxHitpoints());

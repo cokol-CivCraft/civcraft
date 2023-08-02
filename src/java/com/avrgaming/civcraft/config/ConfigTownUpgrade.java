@@ -90,8 +90,7 @@ public class ConfigTownUpgrade {
                     town.saved_bank_level = Integer.parseInt(args[1].trim());
                 }
                 struct = town.getStructureByType("s_bank");
-                if ((struct instanceof Bank)) {
-                    Bank bank = (Bank) struct;
+                if ((struct instanceof Bank bank)) {
                     if (bank.getLevel() < town.saved_bank_level) {
                         bank.setLevel(town.saved_bank_level);
                         bank.updateSignText();
@@ -104,8 +103,7 @@ public class ConfigTownUpgrade {
                     town.saved_bank_interest_amount = Double.parseDouble(args[1].trim());
                 }
                 struct = town.getStructureByType("s_bank");
-                if ((struct instanceof Bank)) {
-                    Bank bank = (Bank) struct;
+                if ((struct instanceof Bank bank)) {
                     if (bank.getInterestRate() < town.saved_bank_interest_amount) {
                         bank.setInterestRate(town.saved_bank_interest_amount);
                         DecimalFormat df = new DecimalFormat();
@@ -118,8 +116,7 @@ public class ConfigTownUpgrade {
                     town.saved_store_level = Integer.parseInt(args[1].trim());
                 }
                 struct = town.getStructureByType("s_store");
-                if ((struct instanceof Store)) {
-                    Store store = (Store) struct;
+                if ((struct instanceof Store store)) {
                     if (store.getLevel() < town.saved_store_level) {
                         store.setLevel(town.saved_store_level);
                         store.updateSignText();
@@ -129,8 +126,7 @@ public class ConfigTownUpgrade {
             }
             case "set_store_material" -> {
                 struct = town.getStructureByType("s_store");
-                if ((struct instanceof Store)) {
-                    Store store = (Store) struct;
+                if ((struct instanceof Store store)) {
                     StoreMaterial mat = new StoreMaterial(args[1].trim(), args[2].trim(), args[3].trim(), args[4].trim());
                     store.addStoreMaterial(mat);
                     store.updateSignText();
@@ -141,8 +137,7 @@ public class ConfigTownUpgrade {
                     town.saved_library_level = Integer.parseInt(args[1].trim());
                 }
                 struct = town.getStructureByType("s_library");
-                if ((struct instanceof Library)) {
-                    Library library = (Library) struct;
+                if ((struct instanceof Library library)) {
                     if (library.getLevel() < town.saved_library_level) {
                         library.setLevel(town.saved_library_level);
                         library.updateSignText();
@@ -152,8 +147,7 @@ public class ConfigTownUpgrade {
             }
             case "enable_library_enchantment" -> {
                 struct = town.getStructureByType("s_library");
-                if ((struct instanceof Library)) {
-                    Library library = (Library) struct;
+                if ((struct instanceof Library library)) {
                     LibraryEnchantment enchant = new LibraryEnchantment(args[1].trim(), Integer.parseInt(args[2].trim()), Double.parseDouble(args[3].trim()));
                     library.addEnchant(enchant);
                     library.updateSignText();
@@ -168,8 +162,7 @@ public class ConfigTownUpgrade {
                 for (Structure structure : town.getStructures()) {
                     if (structure.getConfigId().equalsIgnoreCase("ti_fish_hatchery")) {
 
-                        if (structure instanceof FishHatchery) {
-                            FishHatchery fishery = (FishHatchery) structure;
+                        if (structure instanceof FishHatchery fishery) {
                             if (fishery.getLevel() < town.saved_fish_hatchery_level) {
                                 didUpgradeFishery = true;
                                 fishery.setLevel(town.saved_fish_hatchery_level);
@@ -190,8 +183,7 @@ public class ConfigTownUpgrade {
                 for (Structure structure : town.getStructures()) {
                     if (structure.getConfigId().equalsIgnoreCase("ti_trade_ship")) {
 
-                        if (structure instanceof TradeShip) {
-                            TradeShip tradeShip = (TradeShip) structure;
+                        if (structure instanceof TradeShip tradeShip) {
                             if (tradeShip.getUpgradeLvl() < town.saved_tradeship_upgrade_levels) {
                                 didUpgradeTradeShip = true;
                                 tradeShip.setUpgradeLvl(town.saved_tradeship_upgrade_levels);
@@ -209,8 +201,7 @@ public class ConfigTownUpgrade {
                     town.saved_grocer_levels = Integer.parseInt(args[1].trim());
                 }
                 struct = town.getStructureByType("s_grocer");
-                if ((struct instanceof Grocer)) {
-                    Grocer grocer = (Grocer) struct;
+                if ((struct instanceof Grocer grocer)) {
                     if (grocer.getLevel() < town.saved_grocer_levels) {
                         grocer.setLevel(town.saved_grocer_levels);
                         grocer.updateSignText();
@@ -226,8 +217,7 @@ public class ConfigTownUpgrade {
                 for (Structure structure : town.getStructures()) {
                     if (structure.getConfigId().equalsIgnoreCase("s_trommel")) {
 
-                        if (structure instanceof Trommel) {
-                            Trommel trommel = (Trommel) structure;
+                        if (structure instanceof Trommel trommel) {
                             if (trommel.getLevel() < town.saved_trommel_level) {
                                 didUpgrade = true;
                                 trommel.setLevel(town.saved_trommel_level);
@@ -247,8 +237,7 @@ public class ConfigTownUpgrade {
                 for (Structure structure : town.getStructures()) {
                     if (structure.getConfigId().equalsIgnoreCase("ti_quarry")) {
 
-                        if (structure instanceof Quarry) {
-                            Quarry quarry = (Quarry) structure;
+                        if (structure instanceof Quarry quarry) {
                             if (quarry.getLevel() < town.saved_quarry_level) {
                                 didUpgradeQuarry = true;
                                 quarry.setLevel(town.saved_quarry_level);

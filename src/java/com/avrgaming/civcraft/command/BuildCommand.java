@@ -189,11 +189,9 @@ public class BuildCommand extends CommandBase {
             double current = b.getBuiltHammers();
             double builtPercentage = Math.round(current / total * 100);
 
-            CivMessage.send(sender, ChatColor.LIGHT_PURPLE + b.getDisplayName() + ": " + ChatColor.YELLOW + builtPercentage + "% (" + df.format(current) + "/" + total + ")" +
-                    ChatColor.LIGHT_PURPLE + " Blocks " + ChatColor.YELLOW + "(" + b.builtBlockCount + "/" + b.getTotalBlockCount() + ")");
+            CivMessage.send(sender, ChatColor.DARK_PURPLE + b.getDisplayName() + ": " + ChatColor.GOLD + builtPercentage + "% (" + df.format(current) + "/" + total + ")" +
+                    ChatColor.DARK_PURPLE + " Blocks " + ChatColor.GOLD + "(" + b.builtBlockCount + "/" + b.getTotalBlockCount() + ")");
 
-            //CivMessage.send(sender, CivColor.LightPurple+b.getDisplayName()+" "+CivColor.Yellow+"("+
-            //	b.builtBlockCount+" / "+b.getTotalBlockCount()+")");
         }
 
     }

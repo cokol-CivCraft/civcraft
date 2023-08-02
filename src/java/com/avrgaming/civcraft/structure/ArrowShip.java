@@ -58,20 +58,6 @@ public class ArrowShip extends WaterStructure {
         return (int) (arrowComponent.getDamage() * rate);
     }
 
-//	/**
-//	 * @param damage the damage to set
-//	 */
-//	public void setDamage(int damage) {
-//		arrowComponent.setDamage(damage);
-//	}
-
-//	/**
-//	 * @return the power
-//	 */
-//	public double getPower() {
-//		return arrowComponent.getPower();
-//	}
-
     /**
      * @param power the power to set
      */

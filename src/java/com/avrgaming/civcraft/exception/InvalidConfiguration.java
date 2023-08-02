@@ -17,8 +17,11 @@
  */
 package com.avrgaming.civcraft.exception;
 
+import java.io.Serial;
+
 public class InvalidConfiguration extends Exception {
 
+    @Serial
     private static final long serialVersionUID = 6603010451357647626L;
 
     public InvalidConfiguration(String message) {

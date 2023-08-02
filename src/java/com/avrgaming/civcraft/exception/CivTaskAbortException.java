@@ -17,11 +17,14 @@
  */
 package com.avrgaming.civcraft.exception;
 
+import java.io.Serial;
+
 public class CivTaskAbortException extends Exception {
 
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 1124555676255765506L;
 
     public CivTaskAbortException(String message) {

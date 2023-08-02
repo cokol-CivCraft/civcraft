@@ -17,11 +17,14 @@
  */
 package com.avrgaming.civcraft.exception;
 
+import java.io.Serial;
+
 public class InventoryFullException extends Exception {
 
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -7319210530660943548L;
 
 }

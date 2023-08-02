@@ -56,8 +56,6 @@ public class BuildPreviewAsyncTask extends CivAsyncTask {
         centerBlock = center;
         this.playerUUID = playerUUID;
         resident = CivGlobal.getResidentViaUUID(playerUUID);
-        //this.blocksPerTick = getBlocksPerTick();
-        //this.speed = getBuildSpeed();
         this.blocksPerStep = 100;
         this.speed = 600;
     }

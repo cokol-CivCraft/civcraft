@@ -149,8 +149,7 @@ public class CivMessage {
     }
 
     public static void send(Object sender, String line, ItemStack item) {
-        if ((sender instanceof Player)) {
-            Player p = (Player) sender;
+        if ((sender instanceof Player p)) {
             TextComponent msg = new TextComponent(line);
             msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM, new ComponentBuilder(itemTooltip(item)).create()));
 

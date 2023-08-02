@@ -32,7 +32,7 @@ public class ScoreManager {
     public static String CIV_TABLE_NAME = "SCORES_CIVS";
 
     public static void init() throws SQLException {
-        System.out.println("================= SCORE_TOWN INIT ======================");
+        CivLog.info("================= SCORE_TOWN INIT ======================");
 
         // Check/Build SessionDB tables
         if (!SQLController.hasGlobalTable(TOWN_TABLE_NAME)) {
@@ -49,9 +49,9 @@ public class ScoreManager {
             CivLog.info(TOWN_TABLE_NAME + " table OK!");
         }
 
-        System.out.println("==================================================");
+        CivLog.info("==================================================");
 
-        System.out.println("================= SCORE_CIV INIT ======================");
+        CivLog.info("================= SCORE_CIV INIT ======================");
 
         // Check/Build SessionDB tables
         if (!SQLController.hasGlobalTable(CIV_TABLE_NAME)) {
@@ -66,7 +66,7 @@ public class ScoreManager {
             CivLog.info("Created " + CIV_TABLE_NAME + " table");
         }
 
-        System.out.println("==================================================");
+        CivLog.info("==================================================");
     }
 
     public static void UpdateScore(Civilization civ, int points) throws SQLException {

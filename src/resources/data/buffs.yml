@@ -215,7 +215,7 @@ buffs:
   # Colossus buffs
   - id: 'debuff_colossus_leech_upkeep'
     name: 'Colossus Leach Upkeep'
-    description: 'Leeches 2% of your upkeep payments and sends it to the town with the Colossus.'
+    description: 'Leeches 2% of your upkeep payments and sends it to the town with the Colossus.' # TODO change to +1 hp every 3 seconds in enemy culture
     value: '0.02'
     stackable: false
 
@@ -284,8 +284,8 @@ buffs:
 
   - id: 'wonder_trade_chichen_itza'
     name: 'Chichen Itza Extra Damage'
-    description: 'Residents damage: +0.5, Residents defence: +0.25.' #TODO
-    value: '0.5'
+    description: 'Residents damage: +1.0, Residents defence: +0.25.' #TODO
+    value: '1.0'
     stackable: false
 
   #Colosseum Buffs

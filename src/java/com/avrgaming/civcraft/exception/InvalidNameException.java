@@ -17,8 +17,11 @@
  */
 package com.avrgaming.civcraft.exception;
 
+import java.io.Serial;
+
 public class InvalidNameException extends Exception {
 
+    @Serial
     private static final long serialVersionUID = -697962518690144537L;
 
     public InvalidNameException() {

@@ -20,11 +20,6 @@ public class Lighthouse extends Structure {
         super(rs);
     }
 
-    @Override
-    public void loadSettings() {
-        super.loadSettings();
-
-    }
 
     @Override
     public String getMarkerIconName() {

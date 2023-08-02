@@ -412,7 +412,7 @@ public class ConsumeLevelComponent extends Component {
 
     public String getCountString() {
         Integer currentCountMax = levelCounts.get(this.level);
-        return "(" + this.count + "/" + (currentCountMax != null ? currentCountMax + ")" : "?)");
+        return "(" + this.count + "/" + (Optional.ofNullable(currentCountMax).map(countMax -> countMax + ")").orElse("?)"));
     }
 
     public int getLevel() {

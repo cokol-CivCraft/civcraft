@@ -38,7 +38,6 @@ import java.util.HashSet;
 public class TradeShip extends WaterStructure {
 
     private int upgradeLevel = 1;
-    private final int tickLevel = 1;
 
     public HashSet<BlockCoord> goodsDepositPoints = new HashSet<>();
     public HashSet<BlockCoord> goodsWithdrawPoints = new HashSet<>();
@@ -355,7 +354,7 @@ public class TradeShip extends WaterStructure {
         try {
             return this.getConsumeComponent().getLevel();
         } catch (Exception e) {
-            return tickLevel;
+            return 1;
         }
     }
 

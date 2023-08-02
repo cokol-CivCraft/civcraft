@@ -215,16 +215,6 @@ public class AdminCommand extends CommandBase {
         Player player = getPlayer();
         Town town = getNamedTown(2);
 
-//		if (args.length > 2) {
-//			try {
-//				player = CivGlobal.getPlayer(args[2]);
-//			} catch (CivException e) {
-//				throw new CivException("Player "+args[2]+" is not online.");
-//			}
-//		} else {
-//			player = getPlayer();
-//		}
-
         Class<?> c;
         try {
             c = Class.forName(unit.class_name);

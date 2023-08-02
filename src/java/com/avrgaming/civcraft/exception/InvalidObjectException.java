@@ -17,11 +17,14 @@
  */
 package com.avrgaming.civcraft.exception;
 
+import java.io.Serial;
+
 public class InvalidObjectException extends Exception {
 
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 1259447410311608050L;
 
     public InvalidObjectException(String message) {
