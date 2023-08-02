@@ -7,7 +7,7 @@ import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.Town;
-import com.avrgaming.civcraft.structure.wonders.Wonder;
+import com.avrgaming.civcraft.structure.wonders.*;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.util.BlockCoord;
 import org.bukkit.Location;
@@ -73,16 +73,68 @@ public abstract class MetaStructure extends Buildable {
             CivLog.info(TABLE_NAME + " table OK!");
         }
     }
+
     public static MetaStructure newStructOrWonder(ResultSet rs) throws CivException, SQLException {
-        ConfigBuildableInfo info = CivSettings.wonders.get(rs.getString("type_id"));
-        if (info == null) {
-            info = CivSettings.structures.get(rs.getString("type_id"));
-        }
-        if (info.isWonder) {
-            return Wonder.newWonder(rs);
-        } else {
-            return Structure.newStructure(rs);
-        }
+        String id = rs.getString("type_id");
+        MetaStructure structure = switch (id) {
+            case "w_pyramid" -> new TheGreatPyramid(rs);
+            case "w_greatlibrary" -> new GreatLibrary(rs);
+            case "w_hanginggardens" -> new TheHangingGardens(rs);
+            case "w_colossus" -> new TheColossus(rs);
+            case "w_notre_dame" -> new NotreDame(rs);
+            case "w_chichen_itza" -> new ChichenItza(rs);
+            case "w_council_of_eight" -> new CouncilOfEight(rs);
+            case "w_colosseum" -> new Colosseum(rs);
+            case "w_globe_theatre" -> new GlobeTheatre(rs);
+            case "w_great_lighthouse" -> new GreatLighthouse(rs);
+            case "w_mother_tree" -> new MotherTree(rs);
+            case "w_grand_ship_ingermanland" -> new GrandShipIngermanland(rs);
+            case "s_bank" -> new Bank(rs);
+            case "s_trommel" -> new Trommel(rs);
+            case "ti_fish_hatchery" -> new FishHatchery(rs);
+            case "ti_trade_ship" -> new TradeShip(rs);
+            case "ti_quarry" -> new Quarry(rs);
+            case "s_mob_grinder" -> new MobGrinder(rs);
+            case "s_store" -> new Store(rs);
+            case "s_stadium" -> new Stadium(rs);
+            case "ti_hospital" -> new Hospital(rs);
+            case "s_grocer" -> new Grocer(rs);
+            case "s_broadcast_tower" -> new BroadcastTower(rs);
+            case "s_library" -> new Library(rs);
+            case "s_university" -> new University(rs);
+            case "s_school" -> new School(rs);
+            case "s_research_lab" -> new ResearchLab(rs);
+            case "s_blacksmith" -> new Blacksmith(rs);
+            case "s_granary" -> new Granary(rs);
+            case "ti_cottage" -> new Cottage(rs);
+            case "s_monument" -> new Monument(rs);
+            case "s_temple" -> new Temple(rs);
+            case "ti_mine" -> new Mine(rs);
+            case "ti_farm" -> new Farm(rs);
+            case "ti_trade_outpost" -> new TradeOutpost(rs);
+            case "ti_fishing_boat" -> new FishingBoat(rs);
+            case "s_townhall" -> new TownHall(rs);
+            case "s_capitol" -> new Capitol(rs);
+            case "s_arrowship" -> new ArrowShip(rs);
+            case "s_arrowtower" -> new ArrowTower(rs);
+            case "s_cannonship" -> new CannonShip(rs);
+            case "s_cannontower" -> new CannonTower(rs);
+            case "s_scoutship" -> new ScoutShip(rs);
+            case "s_scouttower" -> new ScoutTower(rs);
+            case "s_shipyard" -> new Shipyard(rs);
+            case "s_barracks" -> new Barracks(rs);
+            case "ti_windmill" -> new Windmill(rs);
+            case "s_museum" -> new Museum(rs);
+            case "s_market" -> new Market(rs);
+            case "s_stable" -> new Stable(rs);
+            case "ti_pasture" -> new Pasture(rs);
+            case "ti_lighthouse" -> new Lighthouse(rs);
+            case "s_teslatower" -> new TeslaTower(rs);
+            default -> new Structure(rs);
+        };
+
+        structure.loadSettings();
+        return structure;
     }
 
     public static MetaStructure newStructOrWonder(Location center, ConfigBuildableInfo info, Town town) throws CivException {

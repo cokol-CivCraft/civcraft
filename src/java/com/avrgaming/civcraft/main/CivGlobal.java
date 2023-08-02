@@ -163,7 +163,6 @@ public class CivGlobal {
         loadResidents();
         loadPermissionGroups();
         loadTownChunks();
-        loadWonders();
         loadStructures();
 //        loadWallBlocks();
 //        loadRoadBlocks();
@@ -552,38 +551,18 @@ public class CivGlobal {
 
             while (rs.next()) {
                 try {
-                    Structure struct = (Structure) MetaStructure.newStructOrWonder(rs);
-                    structures.put(struct.getCorner(), struct);
+                    MetaStructure struct = MetaStructure.newStructOrWonder(rs);
+                    if (struct instanceof Wonder) {
+                        wonders.put(struct.getCorner(), (Wonder) struct);
+                    } else {
+                        structures.put(struct.getCorner(), (Structure) struct);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
 
             CivLog.info("Loaded " + structures.size() + " Structures");
-        } finally {
-            SQLController.close(rs, ps, context);
-        }
-    }
-
-    public static void loadWonders() throws SQLException {
-        Connection context = null;
-        ResultSet rs = null;
-        PreparedStatement ps = null;
-
-        try {
-            context = SQLController.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + Wonder.TABLE_NAME);
-            rs = ps.executeQuery();
-
-            while (rs.next()) {
-                try {
-                    Wonder wonder = (Wonder) MetaStructure.newStructOrWonder(rs);
-                    wonders.put(wonder.getCorner(), wonder);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
             CivLog.info("Loaded " + wonders.size() + " Wonders");
         } finally {
             SQLController.close(rs, ps, context);

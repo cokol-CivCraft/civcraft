@@ -58,7 +58,7 @@ public class Structure extends MetaStructure {
      * or result set is not null (structure being loaded)
      */
 
-    private void loadComponents() {
+    public void loadComponents() {
         for (Component comp : this.attachedComponents) {
             comp.onLoad();
         }
@@ -68,58 +68,6 @@ public class Structure extends MetaStructure {
         for (Component comp : this.attachedComponents) {
             comp.onSave();
         }
-    }
-
-    public static Structure newStructure(ResultSet rs) throws CivException, SQLException {
-        String id = rs.getString("type_id");
-        Structure struct = switch (id) {
-            case "s_bank" -> new Bank(rs);
-            case "s_trommel" -> new Trommel(rs);
-            case "ti_fish_hatchery" -> new FishHatchery(rs);
-            case "ti_trade_ship" -> new TradeShip(rs);
-            case "ti_quarry" -> new Quarry(rs);
-            case "s_mob_grinder" -> new MobGrinder(rs);
-            case "s_store" -> new Store(rs);
-            case "s_stadium" -> new Stadium(rs);
-            case "ti_hospital" -> new Hospital(rs);
-            case "s_grocer" -> new Grocer(rs);
-            case "s_broadcast_tower" -> new BroadcastTower(rs);
-            case "s_library" -> new Library(rs);
-            case "s_university" -> new University(rs);
-            case "s_school" -> new School(rs);
-            case "s_research_lab" -> new ResearchLab(rs);
-            case "s_blacksmith" -> new Blacksmith(rs);
-            case "s_granary" -> new Granary(rs);
-            case "ti_cottage" -> new Cottage(rs);
-            case "s_monument" -> new Monument(rs);
-            case "s_temple" -> new Temple(rs);
-            case "ti_mine" -> new Mine(rs);
-            case "ti_farm" -> new Farm(rs);
-            case "ti_trade_outpost" -> new TradeOutpost(rs);
-            case "ti_fishing_boat" -> new FishingBoat(rs);
-            case "s_townhall" -> new TownHall(rs);
-            case "s_capitol" -> new Capitol(rs);
-            case "s_arrowship" -> new ArrowShip(rs);
-            case "s_arrowtower" -> new ArrowTower(rs);
-            case "s_cannonship" -> new CannonShip(rs);
-            case "s_cannontower" -> new CannonTower(rs);
-            case "s_scoutship" -> new ScoutShip(rs);
-            case "s_scouttower" -> new ScoutTower(rs);
-            case "s_shipyard" -> new Shipyard(rs);
-            case "s_barracks" -> new Barracks(rs);
-            case "ti_windmill" -> new Windmill(rs);
-            case "s_museum" -> new Museum(rs);
-            case "s_market" -> new Market(rs);
-            case "s_stable" -> new Stable(rs);
-            case "ti_pasture" -> new Pasture(rs);
-            case "ti_lighthouse" -> new Lighthouse(rs);
-            case "s_teslatower" -> new TeslaTower(rs);
-            default -> new Structure(rs);
-        };
-
-        struct.loadSettings();
-        struct.loadComponents();
-        return struct;
     }
 
     public static Structure newStructure(Location center, String id, Town town) throws CivException {
@@ -467,6 +415,7 @@ public class Structure extends MetaStructure {
         }
 
         super.loadSettings();
+        this.loadComponents();
     }
 
 }
