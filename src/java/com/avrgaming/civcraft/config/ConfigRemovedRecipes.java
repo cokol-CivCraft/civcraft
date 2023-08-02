@@ -13,14 +13,14 @@ public class ConfigRemovedRecipes {
     public int data;
 
 
-    public static void removeRecipes(FileConfiguration cfg, HashMap<Material, ConfigRemovedRecipes> removedRecipies) {
+    public static void removeRecipes(FileConfiguration cfg, HashMap<Material, ConfigRemovedRecipes> removedRecipes) {
         List<Map<?, ?>> configMaterials = cfg.getMapList("removed_recipes");
         for (Map<?, ?> b : configMaterials) {
             ConfigRemovedRecipes item = new ConfigRemovedRecipes();
             item.type_id = Material.valueOf((String) b.get("type_id"));
             item.data = (Integer) b.get("data");
 
-            removedRecipies.put(item.type_id, item);
+            removedRecipes.put(item.type_id, item);
 
             ItemStack is = new ItemStack(item.type_id, 1, (short) item.data);
             List<Recipe> backup = new ArrayList<>();
