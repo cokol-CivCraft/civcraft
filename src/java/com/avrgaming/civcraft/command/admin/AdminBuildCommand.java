@@ -224,7 +224,7 @@ public class AdminBuildCommand extends CommandBase {
 
             while (rs.next()) {
                 try {
-                    Structure structure = Structure.newStructure(rs);
+                    Buildable structure = Structure.newStructOrWonder(rs);
                     struct = CivGlobal.getStructure(structure.getCorner());
                 } catch (Exception e) {
                     e.printStackTrace();

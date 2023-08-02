@@ -198,6 +198,18 @@ public class Structure extends Buildable {
         }
     }
 
+    public static Buildable newStructOrWonder(ResultSet rs) throws CivException, SQLException {
+        ConfigBuildableInfo info = CivSettings.wonders.get(rs.getString("type_id"));
+        if (info == null) {
+            info = CivSettings.structures.get(rs.getString("type_id"));
+        }
+        if (info.isWonder) {
+            return Wonder.newWonder(rs);
+        } else {
+            return Structure.newStructure(rs);
+        }
+    }
+
 
     public static void init() throws SQLException {
         if (!SQLController.hasTable(TABLE_NAME)) {
