@@ -63,6 +63,10 @@ public class Structure extends MetaStructure {
 
     public Structure(ResultSet rs) throws SQLException, CivException {
         this.load(rs);
+
+        if (this.hitpoints == 0) {
+            this.delete();
+        }
     }
 
     /*
@@ -217,14 +221,8 @@ public class Structure extends MetaStructure {
         this.setTown(CivGlobal.getTownFromId(rs.getInt("town_id")));
 
         if (this.getTown() == null) {
-            //if (CivGlobal.testFileFlag("cleanupDatabase")) {
-            //CivLog.info("CLEANING");
             this.delete();
-            //}
-            //		CivLog.warning("Coudln't find town ID:"+rs.getInt("town_id")+ " for structure "+this.getDisplayName()+" ID:"+this.getId());
             throw new CivException("Coudln't find town ID:" + rs.getInt("town_id") + " for structure " + this.getDisplayName() + " ID:" + this.getId());
-            //	SQLController.deleteNamedObject(this, TABLE_NAME);
-            //return;
         }
 
         this.setCorner(new BlockCoord(rs.getString("cornerBlockHash")));

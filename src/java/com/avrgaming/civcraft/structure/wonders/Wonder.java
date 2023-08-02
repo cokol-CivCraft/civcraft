@@ -57,7 +57,6 @@ public abstract class Wonder extends MetaStructure {
     protected BonusGoodie goodie = null;
 
     public Wonder(ResultSet rs) throws SQLException, CivException {
-        this.dir = BlockFace.SOUTH;
         this.load(rs);
 
         if (this.hitpoints == 0) {
@@ -95,10 +94,8 @@ public abstract class Wonder extends MetaStructure {
                     "`complete` bool NOT NULL DEFAULT '0'," +
                     "`builtBlockCount` int(11) DEFAULT NULL, " +
                     "`cornerBlockHash` mediumtext DEFAULT NULL," +
-                    "`template_name` mediumtext DEFAULT NULL, " +
-                    "`template_x` int(11) DEFAULT NULL, " +
-                    "`template_y` int(11) DEFAULT NULL, " +
-                    "`template_z` int(11) DEFAULT NULL, " +
+                    "`template_name` mediumtext DEFAULT NULL," +
+                    "`direction` mediumtext DEFAULT NULL," +
                     "`hitpoints` int(11) DEFAULT '100'," +
                     "PRIMARY KEY (`id`)" + ")";
 
@@ -115,17 +112,16 @@ public abstract class Wonder extends MetaStructure {
         this.setId(rs.getInt("id"));
         this.info = CivSettings.wonders.get(rs.getString("type_id"));
         this.setTown(CivGlobal.getTownFromId(rs.getInt("town_id")));
+
         if (this.getTown() == null) {
-            //CivLog.warning("Coudln't find town ID:"+rs.getInt("town_id")+ " for wonder "+this.getDisplayName()+" ID:"+this.getId());
-            throw new CivException("Coudln't find town ID:" + rs.getInt("town_id") + " for wonder " + this.getDisplayName() + " ID:" + this.getId());
+            this.delete();
+            throw new CivException("Coudln't find town ID:" + rs.getInt("town_id") + " for structure " + this.getDisplayName() + " ID:" + this.getId());
         }
 
         this.setCorner(new BlockCoord(rs.getString("cornerBlockHash")));
         this.hitpoints = rs.getInt("hitpoints");
         this.setTemplateName(rs.getString("template_name"));
-        this.setTemplateX(rs.getInt("template_x"));
-        this.setTemplateY(rs.getInt("template_y"));
-        this.setTemplateZ(rs.getInt("template_z"));
+        this.dir = BlockFace.valueOf(rs.getString("direction"));
         this.setComplete(rs.getBoolean("complete"));
         this.setBuiltBlockCount(rs.getInt("builtBlockCount"));
 
@@ -157,9 +153,7 @@ public abstract class Wonder extends MetaStructure {
         hashmap.put("cornerBlockHash", this.getCorner().toString());
         hashmap.put("hitpoints", this.getHitpoints());
         hashmap.put("template_name", this.getSavedTemplatePath());
-        hashmap.put("template_x", this.getTemplateX());
-        hashmap.put("template_y", this.getTemplateY());
-        hashmap.put("template_z", this.getTemplateZ());
+        hashmap.put("direction", this.dir.toString());
         SQLController.updateNamedObject(this, hashmap, TABLE_NAME);
     }
 
