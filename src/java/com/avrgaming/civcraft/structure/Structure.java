@@ -19,6 +19,7 @@ package com.avrgaming.civcraft.structure;
 
 import com.avrgaming.civcraft.components.Component;
 import com.avrgaming.civcraft.config.CivSettings;
+import com.avrgaming.civcraft.config.ConfigBuildableInfo;
 import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.exception.CivException;
@@ -28,6 +29,7 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.StructureSign;
 import com.avrgaming.civcraft.object.Town;
+import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.util.BlockCoord;
 import org.bukkit.ChatColor;
@@ -186,6 +188,14 @@ public class Structure extends Buildable {
         struct.saveComponents();
 
         return struct;
+    }
+
+    public static Buildable newStructOrWonder(Location center, ConfigBuildableInfo info, Town town) throws CivException {
+        if (info.isWonder) {
+            return Wonder.newWonder(center, info.id, town);
+        } else {
+            return Structure.newStructure(center, info.id, town);
+        }
     }
 
 

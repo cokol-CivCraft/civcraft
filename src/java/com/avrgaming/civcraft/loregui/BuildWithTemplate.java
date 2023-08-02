@@ -28,12 +28,7 @@ public class BuildWithTemplate extends GuiAction {
 
         String theme = LoreGuiItem.getActionData(stack, "theme");
         try {
-            Buildable struct;
-            if (resident.pendingBuildable.info().isWonder) {
-                struct = Wonder.newWonder(player.getLocation(), resident.pendingBuildable.info().id, resident.pendingBuildable.town());
-            } else {
-                struct = Structure.newStructure(player.getLocation(), resident.pendingBuildable.info().id, resident.pendingBuildable.town());
-            }
+            Buildable struct = Structure.newStructOrWonder(player.getLocation(), resident.pendingBuildable.info(), resident.pendingBuildable.town());
             if (theme == null) {
                 /* Use the default template. */
                 Template tpl = new Template();

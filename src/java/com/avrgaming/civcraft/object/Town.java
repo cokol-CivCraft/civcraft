@@ -207,10 +207,10 @@ public class Town extends SQLObject {
         }
     }
 
-	@Override
-	public void load(ResultSet rs) throws SQLException, InvalidNameException, CivException {
-		this.setId(rs.getInt("id"));
-		this.setName(rs.getString("name"));
+    @Override
+    public void load(ResultSet rs) throws SQLException, InvalidNameException, CivException {
+        this.setId(rs.getInt("id"));
+        this.setName(rs.getString("name"));
         this.setLevel(rs.getInt("level"));
         this.granaryResources = rs.getString("granaryResources");
         this.setCiv(CivGlobal.getCivFromId(rs.getInt("civ_id")));
@@ -919,15 +919,9 @@ public class Town extends SQLObject {
 
             try {
 
-                if (capitol) {
-                    ConfigBuildableInfo buildableInfo = CivSettings.structures.get("s_capitol");
-                    newTown.getTreasury().deposit(buildableInfo.cost);
-                    newTown.buildStructure(player, buildableInfo.id, loc, resident.desiredTemplate);
-                } else {
-                    ConfigBuildableInfo buildableInfo = CivSettings.structures.get("s_townhall");
-                    newTown.getTreasury().deposit(buildableInfo.cost);
-                    newTown.buildStructure(player, buildableInfo.id, loc, resident.desiredTemplate);
-                }
+                ConfigBuildableInfo buildableInfo = CivSettings.structures.get(capitol ? "s_capitol" : "s_townhall");
+                newTown.getTreasury().deposit(buildableInfo.cost);
+                newTown.buildStructure(player, buildableInfo, loc, resident.desiredTemplate);
             } catch (CivException e) {
                 civ.removeTown(newTown);
                 newTown.delete();
@@ -1469,13 +1463,13 @@ public class Town extends SQLObject {
         this.save();
     }
 
-    public void buildWonder(Player player, String id, Location center, Template tpl) throws CivException {
+    public void buildWonder(Player player, ConfigBuildableInfo info, Location center, Template tpl) throws CivException {
 
         if (!center.getWorld().getName().equals("world")) {
             throw new CivException(CivSettings.localize.localizedString("town_buildwonder_NotOverworld"));
         }
 
-        Wonder wonder = Wonder.newWonder(center, id, this);
+        Wonder wonder = Wonder.newWonder(center, info.id, this);
 
         if (!this.hasUpgrade(wonder.getRequiredUpgrade())) {
             throw new CivException(CivSettings.localize.localizedString("town_buildwonder_errorMissingUpgrade"));
@@ -1491,7 +1485,7 @@ public class Town extends SQLObject {
 
         wonder.canBuildHere(center, Structure.MIN_DISTANCE);
 
-        if (!Wonder.isWonderAvailable(id)) {
+        if (!Wonder.isWonderAvailable(info.id)) {
             throw new CivException(CivSettings.localize.localizedString("town_buildwonder_errorBuiltElsewhere"));
         }
 
@@ -1499,7 +1493,7 @@ public class Town extends SQLObject {
             /* Check for a wonder already in this civ. */
             for (Town town : this.getCiv().getTowns()) {
                 for (Wonder w : town.getWonders()) {
-                    if (w.getConfigId().equals(id)) {
+                    if (w.getConfigId().equals(info.id)) {
                         throw new CivException(CivSettings.localize.localizedString("town_buildwonder_errorLimit1Casual"));
                     }
                 }
@@ -1542,13 +1536,13 @@ public class Town extends SQLObject {
         this.save();
     }
 
-    public void buildStructure(Player player, String id, Location center, Template tpl) throws CivException {
+    public void buildStructure(Player player, ConfigBuildableInfo info, Location center, Template tpl) throws CivException {
 
 //		if (!center.getWorld().getName().equals("world")) {
 //			throw new CivException("Cannot build structures in the overworld ... for now.");
 //		}
 
-        Structure struct = Structure.newStructure(center, id, this);
+        Structure struct = Structure.newStructure(center, info.id, this);
 
         if (!this.hasUpgrade(struct.getRequiredUpgrade())) {
             throw new CivException(CivSettings.localize.localizedString("town_buildwonder_errorMissingUpgrade"));
@@ -1565,7 +1559,7 @@ public class Town extends SQLObject {
         struct.canBuildHere(center, Structure.MIN_DISTANCE);
 
         if (struct.getLimit() != 0) {
-            if (getStructureTypeCount(id) >= struct.getLimit()) {
+            if (getStructureTypeCount(info.id) >= struct.getLimit()) {
                 throw new CivException(CivSettings.localize.localizedString("var_town_structure_errorLimitMet", struct.getLimit(), struct.getDisplayName()));
             }
         }

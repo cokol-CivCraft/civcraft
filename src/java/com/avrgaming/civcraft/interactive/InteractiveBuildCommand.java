@@ -90,10 +90,10 @@ public class InteractiveBuildCommand implements InteractiveResponse {
 
                 try {
                     if (buildable instanceof Wonder) {
-                        town.buildWonder(player, buildable.getConfigId(), center, tpl);
+                        town.buildWonder(player, buildable.info, center, tpl);
                         player.playSound(player.getLocation(), Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 0.9f, 0.9f);
                     } else {
-                        town.buildStructure(player, buildable.getConfigId(), center, tpl);
+                        town.buildStructure(player, buildable.info, center, tpl);
                         player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.9f, 0.9f);
                     }
                     resident.clearInteractiveMode();
