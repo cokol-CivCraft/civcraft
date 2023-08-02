@@ -22,31 +22,20 @@ import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class ConfigCampUpgrade {
-
-    public String id;
-    public String name;
-    public double cost;
-    public String action;
-    public String require_upgrade = null;
-
-    public static HashMap<String, Integer> categories = new HashMap<>();
+public record ConfigCampUpgrade(String id, String name, double cost, String action, String require_upgrade) {
 
     public static void loadConfig(FileConfiguration cfg, Map<String, ConfigCampUpgrade> upgrades) {
         upgrades.clear();
-        List<Map<?, ?>> culture_levels = cfg.getMapList("upgrades");
-        for (Map<?, ?> level : culture_levels) {
-            ConfigCampUpgrade upgrade = new ConfigCampUpgrade();
-
-            upgrade.id = (String) level.get("id");
-            upgrade.name = (String) level.get("name");
-            upgrade.cost = (Double) level.get("cost");
-            upgrade.action = (String) level.get("action");
-            upgrade.require_upgrade = (String) level.get("require_upgrade");
+        for (Map<?, ?> level : cfg.getMapList("upgrades")) {
+            ConfigCampUpgrade upgrade = new ConfigCampUpgrade(
+                    (String) level.get("id"),
+                    (String) level.get("name"),
+                    (Double) level.get("cost"),
+                    (String) level.get("action"),
+                    (String) level.get("require_upgrade")
+            );
             upgrades.put(upgrade.id, upgrade);
         }
         CivLog.info("Loaded " + upgrades.size() + " camp upgrades.");

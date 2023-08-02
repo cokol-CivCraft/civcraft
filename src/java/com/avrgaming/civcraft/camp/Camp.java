@@ -295,7 +295,7 @@ public class Camp extends Buildable {
     public String getUpgradeSaveString() {
         StringBuilder out = new StringBuilder();
         for (ConfigCampUpgrade upgrade : this.upgrades.values()) {
-            out.append(upgrade.id).append(",");
+            out.append(upgrade.id()).append(",");
         }
 
         return out.toString();
@@ -1238,16 +1238,16 @@ public class Camp extends Buildable {
     public void purchaseUpgrade(ConfigCampUpgrade upgrade) throws CivException {
         Resident owner = this.getOwner();
 
-        if (!owner.getTreasury().hasEnough(upgrade.cost)) {
-            throw new CivException(CivSettings.localize.localizedString("var_camp_ownerMissingCost", upgrade.cost, CivSettings.CURRENCY_NAME));
+        if (!owner.getTreasury().hasEnough(upgrade.cost())) {
+            throw new CivException(CivSettings.localize.localizedString("var_camp_ownerMissingCost", upgrade.cost(), CivSettings.CURRENCY_NAME));
         }
 
-        this.upgrades.put(upgrade.id, upgrade);
+        this.upgrades.put(upgrade.id(), upgrade);
         upgrade.processAction(this);
 
 
         this.reprocessCommandSigns();
-        owner.getTreasury().withdraw(upgrade.cost);
+        owner.getTreasury().withdraw(upgrade.cost());
         this.save();
     }
 

@@ -724,11 +724,11 @@ public class CivSettings {
                 continue;
             }
 
-            if (name.equalsIgnoreCase(upgrade.name)) {
+            if (name.equalsIgnoreCase(upgrade.name())) {
                 return upgrade;
             }
 
-            String loweredUpgradeName = upgrade.name.toLowerCase();
+            String loweredUpgradeName = upgrade.name().toLowerCase();
             String loweredName = name.toLowerCase();
 
             if (loweredUpgradeName.contains(loweredName)) {
