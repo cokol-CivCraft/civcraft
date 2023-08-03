@@ -2,7 +2,6 @@
   <configuration default="false" name="prepere run" type="KotlinStandaloneScriptRunConfigurationType" activateToolWindowBeforeRun="false">
     <module name="civcraft" />
     <shortenClasspath name="NONE" />
-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     <option name="filePath" value="$PROJECT_DIR$/prepere_run.kts" />
     <method v="2">
       <option name="Make" enabled="true" />
