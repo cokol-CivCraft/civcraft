@@ -19,6 +19,7 @@ package com.avrgaming.civcraft.config;
 
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.Town;
+import com.avrgaming.civcraft.structure.StructuresTypes;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.*;
@@ -53,6 +54,7 @@ public class ConfigBuildableInfo {
     public boolean water_structure = false;
     public boolean ignore_floating = false;
     public List<HashMap<String, String>> components = new LinkedList<>();
+    private StructuresTypes type;
 
     public boolean isAvailable(Town town) {
         if (
@@ -91,6 +93,11 @@ public class ConfigBuildableInfo {
                 ConfigBuildableInfo sinfo = new ConfigBuildableInfo();
 
                 sinfo.id = (String) obj.get("id");
+                String type = (String) obj.get("type");
+                if (type == null) {
+                    type = "base";
+                }
+                sinfo.type = StructuresTypes.valueOf(type.toUpperCase());
                 sinfo.template_base_name = (String) obj.get("template");
                 sinfo.templateYShift = (Integer) obj.get("template_y_shift");
                 sinfo.displayName = (String) obj.get("displayName");
@@ -150,6 +157,11 @@ public class ConfigBuildableInfo {
                 ConfigBuildableInfo sinfo = new ConfigBuildableInfo();
 
                 sinfo.id = (String) obj.get("id");
+                String type = (String) obj.get("type");
+                if (type == null) {
+                    type = "base";
+                }
+                sinfo.type = StructuresTypes.valueOf(type.toUpperCase());
                 sinfo.template_base_name = (String) obj.get("template");
                 sinfo.templateYShift = (Integer) obj.get("template_y_shift");
                 sinfo.displayName = (String) obj.get("displayName");

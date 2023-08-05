@@ -117,6 +117,9 @@ grocer_levels:
     item:
       ==: org.bukkit.inventory.ItemStack
       type: COOKED_FISH
+    itemId: 350
+    itemData: 0
+    amount: 1
     price: 8.0
 
   - level: 2
@@ -124,6 +127,9 @@ grocer_levels:
     item:
       ==: org.bukkit.inventory.ItemStack
       type: COOKED_CHICKEN
+    itemId: 366
+    itemData: 0
+    amount: 1
     price: 15.0
 
   - level: 3
@@ -131,6 +137,9 @@ grocer_levels:
     item:
       ==: org.bukkit.inventory.ItemStack
       type: COOKED_RABBIT
+    itemId: 320
+    itemData: 0
+    amount: 1
     price: 20.0
 
   - level: 4
@@ -138,6 +147,9 @@ grocer_levels:
     item:
       ==: org.bukkit.inventory.ItemStack
       type: GOLDEN_CARROT
+    itemId: 396
+    itemData: 0
+    amount: 1
     price: 30.0
 ################# Blacksmith Settings #################
 blacksmith:
@@ -547,6 +559,7 @@ road:
 
 structures:
   - id: s_townhall
+    type: town_hall
     template: town_hall
     template_y_shift: 0
     displayName: Town Hall
@@ -571,6 +584,7 @@ structures:
         value: '25.0'
 
   - id: s_capitol
+    type: capitol
     template: capitol
     template_y_shift: 0
     displayName: Capitol
@@ -595,6 +609,7 @@ structures:
         value: '50.0'
 
   - id: s_lighthouse
+    type: lighthouse
     template: lighthouse
     template_y_shift: -1
     displayName: Lighthouse
@@ -619,6 +634,7 @@ structures:
         value: '200'
 
   - id: s_museum
+    type: museum
     template: museum
     template_y_shift: -1
     displayName: Museum
@@ -643,6 +659,7 @@ structures:
         value: '300.0'
 
   - id: s_stadium
+    type: stadium
     template: stadium
     template_y_shift: 0
     displayName: Stadium
@@ -667,6 +684,7 @@ structures:
         value: '2.0'
 
   - id: ti_hospital
+    type: hospital
     template: hospital
     template_y_shift: 0
     displayName: Hospital
@@ -684,6 +702,7 @@ structures:
     tile_improvement: true
 
   - id: s_bank
+    type: bank
     template: bank
     template_y_shift: 0
     displayName: Bank
@@ -692,7 +711,7 @@ structures:
     effect_event:
     check_event:
     update_event:
-    limit: 1
+    limit: 10
     onBuild_event:
     cost: 2250.0
     upkeep: 100.0
@@ -701,6 +720,7 @@ structures:
     max_hitpoints: 200
 
   - id: s_trommel
+    type: trommel
     template: trommel
     template_y_shift: 0
     displayName: Trommel
@@ -719,6 +739,7 @@ structures:
     max_hitpoints: 200
 
   - id: ti_fish_hatchery
+    type: fish_hatchery
     template: fish_hatchery
     template_y_shift: 0
     displayName: Fish Hatchery
@@ -738,6 +759,7 @@ structures:
     max_hitpoints: 100
 
   - id: ti_quarry
+    type: quarry
     template: quarry
     template_y_shift: -30
     displayName: quarry
@@ -757,6 +779,7 @@ structures:
     max_hitpoints: 100
 
   - id: s_mob_grinder
+    type: mob_grinder
     template: mob_grinder
     template_y_shift: -1
     displayName: Mob Grinder
@@ -775,6 +798,7 @@ structures:
     max_hitpoints: 200
 
   - id: s_store
+    type: store
     template: store
     template_y_shift: 0
     displayName: Store
@@ -792,6 +816,7 @@ structures:
     max_hitpoints: 200
 
   - id: s_library
+    type: library
     template: library
     template_y_shift: 0
     displayName: Library
@@ -822,6 +847,7 @@ structures:
         value: '2.0'
 
   - id: s_university
+    type: university
     template: university
     template_y_shift: 0
     displayName: University
@@ -848,6 +874,7 @@ structures:
         value: '0.01'
 
   - id: s_school
+    type: school
     template: school
     template_y_shift: -1
     displayName: Public School
@@ -879,6 +906,7 @@ structures:
         value: '2.5'
 
   - id: s_research_lab
+    type: research_lab
     template: research_lab
     template_y_shift: 0
     displayName: Research Lab
@@ -906,6 +934,7 @@ structures:
         value: '0.01'
 
   - id: s_grocer
+    type: grocer
     template: grocer
     template_y_shift: 0
     displayName: Grocer
@@ -923,6 +952,7 @@ structures:
     max_hitpoints: 200
 
   - id: s_blacksmith
+    type: blacksmith
     template: blacksmith
     template_y_shift: -2
     displayName: Blacksmith
@@ -958,6 +988,7 @@ structures:
         goods: 'good_copper,good_oil,good_silver'
 
   - id: s_granary
+    type: granary
     template: granary
     template_y_shift: 0
     displayName: Granary
@@ -975,6 +1006,7 @@ structures:
     max_hitpoints: 50
 
   - id: ti_cottage
+    type: cottage
     template: cottage
     template_y_shift: 0
     displayName: Cottage
@@ -999,6 +1031,7 @@ structures:
       - name: 'ConsumeLevelComponent'
 
   - id: s_temple
+    type: temple
     template: temple
     template_y_shift: 0
     displayName: Temple
@@ -1030,6 +1063,7 @@ structures:
         value: '16.0'
 
   - id: s_monument
+    type: monument
     template: monument
     template_y_shift: -2
     displayName: Monument
@@ -1060,6 +1094,7 @@ structures:
         value: '7.5'
 
   - id: s_shipyard
+    type: shipyard
     template: shipyard
     template_y_shift: -3
     displayName: Shipyard
@@ -1084,6 +1119,7 @@ structures:
         value: '200'
 
   - id: ti_mine
+    type: mine
     template: mine
     template_y_shift: -6
     displayName: Mine
@@ -1109,6 +1145,7 @@ structures:
       - name: 'ConsumeLevelComponent'
 
   - id: ti_trade_outpost
+    type: trade_outpost
     template: trade_outpost
     template_y_shift: 0
     displayName: Trade Outpost
@@ -1133,6 +1170,7 @@ structures:
         value: '1.75'
 
   - id: ti_fishing_boat
+    type: fishing_boat
     template: fishingboats
     template_y_shift: -3
     displayName: Fishing Boat
@@ -1163,6 +1201,7 @@ structures:
         value: '1.25'
 
   - id: ti_trade_ship
+    type: trade_ship
     template: trade_ship
     template_y_shift: -5
     displayName: Trade Ship
@@ -1206,6 +1245,7 @@ structures:
       - name: 'TradeLevelComponent'
 
   - id: ti_farm
+    type: farm
     template: farm
     template_y_shift: -1
     displayName: Farm
@@ -1232,6 +1272,7 @@ structures:
         value: '1.5'
 
   - id: ti_pasture
+    type: pasture
     template: pasture
     template_y_shift: -2
     displayName: Pasture
@@ -1250,6 +1291,7 @@ structures:
     points: 1000
 
   - id: s_arrowship
+    type: arrow_ship
     template: arrow_ship
     template_y_shift: -5
     displayName: Arrow Ship
@@ -1272,6 +1314,7 @@ structures:
     ignore_floating: true
 
   - id: s_arrowtower
+    type: arrow_tower
     template: arrow_tower
     template_y_shift: 0
     displayName: Arrow Tower
@@ -1291,6 +1334,7 @@ structures:
     strategic: true
 
   - id: s_cannonship
+    type: cannon_ship
     template: cannon_ship
     template_y_shift: -5
     displayName: Cannon Ship
@@ -1313,6 +1357,7 @@ structures:
     ignore_floating: true
 
   - id: s_cannontower
+    type: cannon_tower
     template: cannon_tower
     template_y_shift: 0
     displayName: Cannon Tower
@@ -1332,6 +1377,7 @@ structures:
     strategic: true
 
   - id: s_teslatower
+    type: tesla_tower
     template: tesla_tower
     template_y_shift: 0
     displayName: Tesla Tower
@@ -1351,6 +1397,7 @@ structures:
     strategic: true
 
   - id: s_broadcast_tower
+    type: broadcast_tower
     template: broadcast_tower
     template_y_shift: -1
     displayName: Broadcast Tower
@@ -1373,6 +1420,7 @@ structures:
         value: '200.0'
 
   - id: s_scoutship
+    type: scout_ship
     template: scout_ship
     template_y_shift: -5
     displayName: Scout Ship
@@ -1395,6 +1443,7 @@ structures:
     ignore_floating: true
 
   - id: s_scouttower
+    type: scout_tower
     template: scout_tower
     template_y_shift: 0
     displayName: Scout Tower
@@ -1414,6 +1463,7 @@ structures:
     strategic: true
 
   - id: s_barracks
+    type: barracks
     template: barracks
     template_y_shift: 0
     displayName: Barracks
@@ -1435,6 +1485,7 @@ structures:
         value: '-1.0'
 
   - id: ti_windmill
+    type: windmill
     template: windmill
     template_y_shift: 0
     displayName: Windmill
@@ -1453,6 +1504,7 @@ structures:
     max_hitpoints: 350
 
   - id: s_market
+    type: market
     template: market
     template_y_shift: 0
     displayName: Market
@@ -1479,6 +1531,7 @@ structures:
         value: '0.1'
 
   - id: s_stable
+    type: stable
     template: stable
     template_y_shift: -2
     displayName: Stable

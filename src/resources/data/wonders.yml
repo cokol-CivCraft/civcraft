@@ -10,6 +10,7 @@
 #  Any option for structures is also available for wonders.
 wonders:
   - id: w_pyramid
+    type: the_great_pyramid
     template: the_great_pyramid
     template_y_shift: 0
     displayName: The Great Pyramid
@@ -34,6 +35,7 @@ wonders:
         value: '250.0'
   
   - id: w_greatlibrary
+    type: great_library
     template: the_great_library
     template_y_shift: 0
     displayName: The Great Library
@@ -53,6 +55,7 @@ wonders:
     regen_rate: 6
   
   - id: w_hanginggardens
+    type: the_hanging_gardens
     template: the_hanging_gardens
     template_y_shift: 0
     displayName: The Hanging Gardens
@@ -72,6 +75,7 @@ wonders:
     regen_rate: 6
 
   - id: w_colossus
+    type: the_colossus
     template: the_colossus
     template_y_shift: 0
     displayName: The Colossus
@@ -90,6 +94,7 @@ wonders:
     regen_rate: 6
 
   - id: w_notre_dame
+    type: notre_dame
     template: notre_dame
     template_y_shift: 0
     displayName: Notre Dame
@@ -113,6 +118,7 @@ wonders:
         value: '500.0'
 
   - id: w_chichen_itza
+    type: chichen_itza
     template: chichen_itza
     template_y_shift: 0
     displayName: Chichen Itza
@@ -131,6 +137,7 @@ wonders:
     regen_rate: 6
   
   - id: w_council_of_eight
+    type: council_of_eight
     template: council_of_eight
     template_y_shift: 0
     displayName: Council Of Eight
@@ -149,6 +156,7 @@ wonders:
     regen_rate: 6
 
   - id: w_colosseum
+    type: colosseum
     template: colosseum
     template_y_shift: -1
     displayName: Colosseum
@@ -168,6 +176,7 @@ wonders:
     national_wonder: true
 
   - id: w_globe_theatre
+    type: globe_theatre
     template: globe_theatre
     template_y_shift: -1
     displayName: Globe Theatre
@@ -186,6 +195,7 @@ wonders:
     regen_rate: 6
 
   - id: w_great_lighthouse
+    type: great_lighthouse
     template: great_lighthouse
     template_y_shift: 0
     displayName: Great Lighthouse
@@ -204,6 +214,7 @@ wonders:
     regen_rate: 6
 
   - id: w_mother_tree
+    type: mother_tree
     template: mother_tree
     template_y_shift: 0
     displayName: Mother Tree
@@ -222,6 +233,7 @@ wonders:
     regen_rate: 6
 
   - id: w_grand_ship_ingermanland
+    type: grand_ship_ingermanland
     template: grand_ship_ingermanland
     template_y_shift: -8
     displayName: 'Grand Ship Ingermanland'
@@ -283,7 +295,7 @@ wonder_buffs:
    - id: w_chichen_itza
      buffs:
        - buff_chichen_itza_tower_hp
-       - buff_chichen_itza_regen_rate
+         - buff_chichen_itza_regen_rate
        - buff_chichen_itza_cp_bonus_hp
 
    - id: w_colosseum
