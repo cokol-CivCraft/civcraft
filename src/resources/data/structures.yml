@@ -577,6 +577,7 @@ structures:
     max_hitpoints: 5000
     points: 190000
     regen_rate: 6
+    national_wonder: true
     components:
       - name: 'AttributeStatic'
         type: 'direct'
@@ -602,6 +603,7 @@ structures:
     points: 220000
     max_hitpoints: 5000
     regen_rate: 6
+    national_wonder: true
 
   - id: w_hanginggardens
     type: the_hanging_gardens
@@ -622,6 +624,7 @@ structures:
     points: 220000
     max_hitpoints: 5000
     regen_rate: 6
+    national_wonder: true
 
   - id: w_colossus
     type: the_colossus
@@ -641,6 +644,7 @@ structures:
     points: 235000
     max_hitpoints: 5000
     regen_rate: 6
+    national_wonder: true
 
   - id: w_notre_dame
     type: notre_dame
@@ -660,6 +664,7 @@ structures:
     points: 275000
     max_hitpoints: 5000
     regen_rate: 6
+    national_wonder: true
     components:
       - name: 'AttributeStatic'
         type: 'direct'
@@ -684,6 +689,7 @@ structures:
     points: 250000
     max_hitpoints: 5000
     regen_rate: 6
+    national_wonder: true
 
   - id: w_council_of_eight
     type: council_of_eight
@@ -703,6 +709,7 @@ structures:
     points: 250000
     max_hitpoints: 5000
     regen_rate: 6
+    national_wonder: true
 
   - id: w_colosseum
     type: colosseum
@@ -742,6 +749,7 @@ structures:
     points: 250000
     max_hitpoints: 5000
     regen_rate: 6
+    national_wonder: true
 
   - id: w_great_lighthouse
     type: great_lighthouse
@@ -761,6 +769,7 @@ structures:
     points: 250000
     max_hitpoints: 5000
     regen_rate: 6
+    national_wonder: true
 
   - id: w_mother_tree
     type: mother_tree
@@ -780,6 +789,7 @@ structures:
     points: 250000
     max_hitpoints: 5000
     regen_rate: 6
+    national_wonder: true
 
   - id: w_grand_ship_ingermanland
     type: grand_ship_ingermanland
@@ -800,6 +810,8 @@ structures:
     points: 500000
     max_hitpoints: 2000
     regen_rate: 2
+    national_wonder: true
+
     onwater: true
   - id: s_townhall
     type: town_hall
