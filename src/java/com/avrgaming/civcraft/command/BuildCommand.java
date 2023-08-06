@@ -26,7 +26,6 @@ import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.structure.Structure;
-import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.threading.tasks.BuildAsyncTask;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.war.War;
@@ -200,9 +199,6 @@ public class BuildCommand extends CommandBase {
         CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_build_listHeader"));
         Town town = getSelectedTown();
         for (ConfigBuildableInfo sinfo : CivSettings.structures.values()) {
-            if (sinfo.isWonder) {
-                continue;
-            }
             if (!sinfo.isAvailable(town)) {
                 continue;
             }
@@ -221,39 +217,8 @@ public class BuildCommand extends CommandBase {
         }
     }
 
-    public void list_available_wonders() throws CivException {
-        CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_build_listWondersHeader"));
-        Town town = getSelectedTown();
-        for (ConfigBuildableInfo sinfo : CivSettings.structures.values()) {
-            if (!sinfo.isWonder) {
-                continue;
-            }
-            if (!sinfo.isAvailable(town)) {
-                continue;
-            }
-            String leftString;
-            if (sinfo.limit == 0) {
-                leftString = CivSettings.localize.localizedString("Unlimited");
-            } else {
-                leftString = String.valueOf(sinfo.limit - town.getStructureTypeCount(sinfo.id));
-            }
-
-            if (Wonder.isWonderAvailable(sinfo.id)) {
-                CivMessage.send(sender, ChatColor.LIGHT_PURPLE + sinfo.displayName + " " +
-                        ChatColor.YELLOW +
-                        CivSettings.localize.localizedString("Cost") + " " + sinfo.cost + " " +
-                        CivSettings.localize.localizedString("Upkeep") + " " + sinfo.upkeep + " " + CivSettings.localize.localizedString("Hammers") + " " + sinfo.hammer_cost + " " +
-                        CivSettings.localize.localizedString("Remaining") + " " + leftString);
-            } else {
-                Wonder wonder = CivGlobal.getWonderByConfigId(sinfo.id);
-                CivMessage.send(sender, ChatColor.GRAY + sinfo.displayName + " Cost: " + sinfo.cost + " - " + CivSettings.localize.localizedString("var_cmd_build_listWonderAlreadyBuild", wonder.getTown().getName(), wonder.getTown().getCiv().getName()));
-            }
-        }
-    }
-
     public void list_cmd() throws CivException {
         this.list_available_structures();
-        this.list_available_wonders();
     }
 
     @Override

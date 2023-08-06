@@ -117,9 +117,12 @@ public class ConfigBuildableInfo {
                 sinfo.destroyable = (Boolean) obj.get("destroyable");
                 sinfo.allow_outside_town = (Boolean) obj.get("allow_outside_town");
                 sinfo.regenRate = (Integer) obj.get("regen_rate");
-                sinfo.isWonder = false;
                 sinfo.points = (Integer) obj.get("points");
                 sinfo.water_structure = Optional.ofNullable((Boolean) obj.get("onwater")).orElse(false);
+                sinfo.nationalWonder = (Boolean) obj.get("national_wonder");
+                if (sinfo.nationalWonder == null) {
+                    sinfo.nationalWonder = false;
+                }
                 @SuppressWarnings("unchecked")
                 List<Map<?, ?>> comps = (List<Map<?, ?>>) obj.get("components");
                 if (comps != null) {
@@ -181,7 +184,6 @@ public class ConfigBuildableInfo {
                 sinfo.destroyable = (Boolean) obj.get("destroyable");
                 sinfo.allow_outside_town = (Boolean) obj.get("allow_outside_town");
                 sinfo.regenRate = (Integer) obj.get("regen_rate");
-                sinfo.isWonder = true;
                 sinfo.points = (Integer) obj.get("points");
                 sinfo.water_structure = Optional.ofNullable((Boolean) obj.get("onwater")).orElse(false);
                 sinfo.nationalWonder = (Boolean) obj.get("national_wonder");
