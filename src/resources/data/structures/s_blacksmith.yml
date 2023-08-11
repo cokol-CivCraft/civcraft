@@ -1,0 +1,34 @@
+type: blacksmith
+template: blacksmith
+template_y_shift: -2
+displayName: Blacksmith
+require_upgrade:
+require_tech: 'tech_blacksmithing'
+effect_event:
+check_event:
+update_event:
+onBuild_event:
+limit: 1
+cost: 32000.0
+upkeep: 2000.0
+hammer_cost: 1500.0
+points: 10000
+max_hitpoints: 350
+components:
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'UNHAPPINESS'
+    value: '3.0'
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'GROWTH'
+    value: '-0.2'
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'HAMMERS'
+    value: '50.0'
+  - name: 'AttributeTradeGood'
+    type: 'direct'
+    attribute: 'HAMMERS'
+    value: '100.0'
+    goods: 'good_copper,good_oil,good_silver'

@@ -1,0 +1,18 @@
+type: great_library
+template: the_great_library
+template_y_shift: 0
+displayName: The Great Library
+require_tech: 'tech_great_library'
+require_upgrade:
+check_event:
+effect_event:
+update_event:
+onBuild_event:
+limit: 1
+cost: 500000.0
+upkeep: 0.0
+# 168 = one week
+hammer_cost: 448000.0
+points: 220000
+max_hitpoints: 5000
+regen_rate: 6

@@ -1,0 +1,29 @@
+type: fishing_boat
+template: fishingboats
+template_y_shift: -3
+displayName: Fishing Boat
+require_upgrade:
+require_tech: 'tech_trade'
+require_structure: 's_shipyard'
+effect_event:
+check_event:
+update_event:
+onBuild_event: build_trade_outpost
+limit: 0
+cost: 25000.0
+upkeep: 500.0
+hammer_cost: 2000.0
+tile_improvement: true
+points: 3000
+max_hitpoints: 500
+ignore_floating: true
+onwater: true
+components:
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'HAMMERS'
+    value: '50'
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'FAITH'
+    value: '1.25'

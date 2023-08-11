@@ -1,0 +1,25 @@
+type: market
+template: market
+template_y_shift: 0
+displayName: Market
+require_upgrade:
+require_tech: 'tech_commerce'
+effect_event:
+check_event:
+update_event:
+onBuild_event:
+limit: 0
+cost: 10000.0
+upkeep: 1250.0
+tile_improvement: false
+hammer_cost: 2600.0
+points: 3500
+max_hitpoints: 200
+components:
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'HAPPINESS'
+    value: '1.0'
+  - name: 'AttributeRate'
+    attribute: 'TRADE'
+    value: '0.1'

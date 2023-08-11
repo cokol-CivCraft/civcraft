@@ -1,0 +1,17 @@
+type: pasture
+template: pasture
+template_y_shift: -2
+displayName: Pasture
+require_upgrade:
+require_tech: 'tech_hunting'
+effect_event:
+check_event:
+update_event:
+onBuild_event:
+limit: 0
+cost: 2500.0
+upkeep: 500.0
+hammer_cost: 1000.0
+tile_improvement: true
+max_hitpoints: 500
+points: 1000

@@ -1,0 +1,16 @@
+type: hospital
+template: hospital
+template_y_shift: 0
+displayName: Hospital
+require_tech: 'tech_biology'
+require_structure:
+allow_outside_town: false
+effect_event:
+limit: 1
+cost: 75000.0
+upkeep: 1000.0
+hammer_cost: 5000.0
+points: 5000
+max_hitpoints: 2000
+ignore_floating: false
+tile_improvement: true

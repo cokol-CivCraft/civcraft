@@ -1,0 +1,42 @@
+type: trade_ship
+template: trade_ship
+template_y_shift: -5
+displayName: Trade Ship
+require_upgrade:
+require_tech: 'tech_exploration'
+require_structure: 's_shipyard'
+effect_event: process_trade_ship
+check_event:
+update_event:
+onBuild_event:
+limit: 1
+cost: 50000.0
+upkeep: 1000.0
+hammer_cost: 2000.0
+tile_improvement: true
+points: 3000
+max_hitpoints: 500
+ignore_floating: true
+onwater: true
+components:
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'HAPPINESS'
+    value: '2.0'
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'CULTURE'
+    value: '100.0'
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'GROWTH'
+    value: '100.0'
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'FAITH'
+    value: '4.0'
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'HAMMERS'
+    value: '100'
+  - name: 'TradeLevelComponent'

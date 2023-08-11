@@ -1,0 +1,18 @@
+type: fish_hatchery
+template: fish_hatchery
+template_y_shift: 0
+displayName: Fish Hatchery
+require_upgrade:
+require_tech: 'tech_automation'
+effect_event:
+check_event:
+update_event: fish_hatchery_process
+onBuild_event:
+limit: 0
+allow_outside_town: true
+tile_improvement: true
+cost: 10000.0
+upkeep: 5000.0
+hammer_cost: 5000.0
+points: 1500
+max_hitpoints: 100

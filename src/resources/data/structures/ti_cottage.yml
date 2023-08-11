@@ -1,0 +1,23 @@
+type: cottage
+template: cottage
+template_y_shift: 0
+displayName: Cottage
+require_upgrade:
+require_tech: 'tech_advanced_masonry'
+effect_event: generate_coins
+check_event:
+update_event:
+onBuild_event:
+limit: 0
+cost: 5000.0
+upkeep: 1000.0
+hammer_cost: 1400.0
+tile_improvement: true
+points: 1000
+max_hitpoints: 100
+components:
+  # - name: 'AttributeBiomeRadiusPerLevel'
+  #   attribute: 'COINS'
+  #   biomes: 'DESERT:5,BEACH:5,RIVER:5,JUNGLE:5'
+  #   base_value: '15.0'
+  - name: 'ConsumeLevelComponent'

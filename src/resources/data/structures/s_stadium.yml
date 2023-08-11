@@ -1,0 +1,23 @@
+type: stadium
+template: stadium
+template_y_shift: 0
+displayName: Stadium
+require_tech: 'tech_refrigeration'
+require_structure:
+effect_event:
+limit: 1
+cost: 100000.0
+upkeep: 2000.0
+hammer_cost: 7000.0
+points: 9000
+max_hitpoints: 1000
+ignore_floating: false
+components:
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'UNHAPPINESS'
+    value: '-2.0'
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'HAPPINESS'
+    value: '2.0'

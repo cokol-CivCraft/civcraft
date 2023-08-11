@@ -1,0 +1,16 @@
+type: grocer
+template: grocer
+template_y_shift: 0
+displayName: Grocer
+require_upgrade:
+require_tech: 'tech_hunting'
+effect_event:
+check_event:
+update_event:
+onBuild_event:
+limit: 1
+cost: 1500.0
+upkeep: 150.0
+hammer_cost: 900.0
+points: 2500
+max_hitpoints: 200

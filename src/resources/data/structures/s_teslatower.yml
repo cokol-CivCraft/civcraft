@@ -1,0 +1,18 @@
+type: tesla_tower
+template: tesla_tower
+template_y_shift: 0
+displayName: Tesla Tower
+require_upgrade:
+require_tech: 'tech_electricity'
+effect_event:
+check_event:
+update_event:
+onBuild_event:
+limit: 1
+cost: 350000.0
+upkeep: 4500.0
+hammer_cost: 7500.0
+max_hitpoints: 1000
+points: 20000
+allow_outside_town: true
+strategic: true

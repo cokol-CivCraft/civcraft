@@ -1,0 +1,23 @@
+type: museum
+template: museum
+template_y_shift: -1
+displayName: Museum
+require_tech: 'tech_archaeology'
+require_structure:
+effect_event:
+limit: 1
+cost: 75000.0
+upkeep: 1000.0
+hammer_cost: 3600.0
+points: 8000
+max_hitpoints: 1000
+ignore_floating: false
+components:
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'HAPPINESS'
+    value: '1.0'
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'CULTURE'
+    value: '300.0'

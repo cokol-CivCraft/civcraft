@@ -1,0 +1,17 @@
+type: windmill
+template: windmill
+template_y_shift: 0
+displayName: Windmill
+require_upgrade:
+require_tech: 'tech_automation'
+effect_event:
+check_event:
+update_event:
+onBuild_event:
+limit: 0
+cost: 25000.0
+upkeep: 2500.0
+tile_improvement: true
+hammer_cost: 3000.0
+points: 5000
+max_hitpoints: 350

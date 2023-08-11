@@ -1,0 +1,18 @@
+type: cannon_tower
+template: cannon_tower
+template_y_shift: 0
+displayName: Cannon Tower
+require_upgrade:
+require_tech: 'tech_advanced_artillery'
+effect_event:
+check_event:
+update_event:
+onBuild_event:
+limit: 1
+cost: 250000.0
+upkeep: 3500.0
+hammer_cost: 5000.0
+max_hitpoints: 1000
+points: 10000
+allow_outside_town: true
+strategic: true

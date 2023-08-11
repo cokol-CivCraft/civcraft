@@ -1,0 +1,17 @@
+type: great_lighthouse
+template: great_lighthouse
+template_y_shift: 0
+displayName: Great Lighthouse
+require_tech: 'tech_great_lighthouse'
+require_upgrade:
+check_event:
+effect_event:
+update_event:
+onBuild_event:
+limit: 1
+cost: 800000.0
+upkeep: 0.0
+hammer_cost: 550000.0
+points: 250000
+max_hitpoints: 5000
+regen_rate: 6

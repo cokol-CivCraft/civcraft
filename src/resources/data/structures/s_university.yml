@@ -1,0 +1,25 @@
+type: university
+template: university
+template_y_shift: 0
+displayName: University
+require_upgrade:
+require_tech: 'tech_education'
+effect_event:
+check_event:
+update_event:
+onBuild_event:
+limit: 1
+cost: 25000.0
+upkeep: 1000.0
+hammer_cost: 3000.0
+points: 5000
+max_hitpoints: 500
+components:
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'BEAKERS'
+    value: '100.0'
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'BEAKERBOOST'
+    value: '0.01'

@@ -1,0 +1,23 @@
+type: lighthouse
+template: lighthouse
+template_y_shift: -1
+displayName: Lighthouse
+require_tech: 'tech_exploration'
+require_structure: 's_shipyard'
+effect_event:
+limit: 1
+cost: 50000.0
+upkeep: 1000.0
+hammer_cost: 3000.0
+points: 5000
+max_hitpoints: 500
+ignore_floating: false
+components:
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'GROWTH'
+    value: '200.0'
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'HAMMERS'
+    value: '200'

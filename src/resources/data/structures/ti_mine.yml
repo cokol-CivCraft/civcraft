@@ -1,0 +1,24 @@
+type: mine
+template: mine
+template_y_shift: -6
+displayName: Mine
+require_upgrade:
+require_tech: 'tech_productivity'
+effect_event: process_mine
+check_event:
+update_event:
+onBuild_event:
+limit: 0
+cost: 25000.0
+upkeep: 1500.0
+tile_improvement: true
+hammer_cost: 900.0
+points: 6200
+max_hitpoints: 300
+allow_outside_town: false
+components:
+  - name: 'AttributeBiomeRadiusPerLevel'
+    attribute: 'HAMMERS'
+    biomes: 'EXTREME_HILLS:3,SMALL_MOUNTAINS:3,ICE_MOUNTAINS:3,DESERT_HILLS:1,FOREST_HILLS:1,TAGIA_HILLS:1,JUNGLE_HILLS:1'
+    base_value: '7.0'
+  - name: 'ConsumeLevelComponent'

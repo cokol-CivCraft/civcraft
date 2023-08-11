@@ -1,0 +1,21 @@
+type: stable
+template: stable
+template_y_shift: -2
+displayName: Stable
+require_upgrade:
+require_tech: 'tech_global_trade'
+effect_event:
+check_event:
+update_event:
+limit: 1
+onBuild_event:
+cost: 5000.0
+upkeep: 750.0
+hammer_cost: 1200.0
+points: 750
+max_hitpoints: 300
+components:
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'HAMMERS'
+    value: '50.0'

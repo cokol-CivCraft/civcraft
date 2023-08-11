@@ -1,0 +1,26 @@
+type: research_lab
+template: research_lab
+template_y_shift: 0
+displayName: Research Lab
+require_upgrade:
+require_structure: 's_school'
+require_tech: 'tech_plastics'
+effect_event:
+check_event:
+update_event:
+onBuild_event:
+limit: 1
+cost: 100000.0
+upkeep: 2000.0
+hammer_cost: 10000.0
+points: 10000
+max_hitpoints: 1000
+components:
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'BEAKERS'
+    value: '300.0'
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'BEAKERBOOST'
+    value: '0.01'

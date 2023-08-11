@@ -1,0 +1,23 @@
+type: the_great_pyramid
+template: the_great_pyramid
+template_y_shift: 0
+displayName: The Great Pyramid
+require_tech: 'tech_great_pyramid'
+require_upgrade:
+check_event:
+effect_event:
+update_event:
+onBuild_event:
+limit: 1
+cost: 750000.0
+upkeep: 0.0
+# 168 = one week
+hammer_cost: 508000.0
+max_hitpoints: 5000
+points: 190000
+regen_rate: 6
+components:
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'FAITH'
+    value: '250.0'

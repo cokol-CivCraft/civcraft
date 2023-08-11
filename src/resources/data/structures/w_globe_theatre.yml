@@ -1,0 +1,17 @@
+type: globe_theatre
+template: globe_theatre
+template_y_shift: -1
+displayName: Globe Theatre
+require_tech: 'tech_globe_theatre'
+require_upgrade:
+check_event:
+effect_event:
+update_event:
+onBuild_event:
+limit: 1
+cost: 800000.0
+upkeep: 0.0
+hammer_cost: 550000.0
+points: 250000
+max_hitpoints: 5000
+regen_rate: 6

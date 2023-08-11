@@ -1,0 +1,16 @@
+type: granary
+template: granary
+template_y_shift: 0
+displayName: Granary
+require_upgrade:
+require_tech: 'tech_pottery'
+effect_event:
+check_event:
+update_event:
+onBuild_event:
+limit: 3
+cost: 2500.0
+upkeep: 1500.0
+hammer_cost: 500.0
+points: 2000
+max_hitpoints: 50

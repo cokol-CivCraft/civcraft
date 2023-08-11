@@ -1,0 +1,17 @@
+type: mob_grinder
+template: mob_grinder
+template_y_shift: -1
+displayName: Mob Grinder
+require_upgrade:
+require_tech: 'tech_advanced_hunting'
+effect_event:
+check_event:
+update_event: mobGrinder_process
+onBuild_event:
+limit: 1
+allow_outside_town: false
+cost: 10000.0
+upkeep: 1500.0
+hammer_cost: 7500.0
+points: 3000
+max_hitpoints: 200

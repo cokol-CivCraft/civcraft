@@ -1,0 +1,29 @@
+type: library
+template: library
+template_y_shift: 0
+displayName: Library
+require_upgrade:
+require_tech: 'tech_productivity'
+effect_event:
+check_event:
+update_event:
+onBuild_event:
+limit: 1
+cost: 5000.0
+upkeep: 500.0
+hammer_cost: 1500.0
+points: 5000
+max_hitpoints: 250
+components:
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'BEAKERS'
+    value: '100.0'
+  - name: 'AttributeBiome'
+    biomes: 'OCEAN,TAGIA,DESERT'
+    attribute: 'BEAKERS'
+    value: '0.05'
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'FAITH'
+    value: '2.0'

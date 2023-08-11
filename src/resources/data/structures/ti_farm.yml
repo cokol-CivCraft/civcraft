@@ -1,0 +1,25 @@
+type: farm
+template: farm
+template_y_shift: -1
+displayName: Farm
+require_upgrade:
+require_tech: 'tech_agriculture'
+effect_event:
+check_event:
+update_event:
+onBuild_event: build_farm
+limit: 0
+cost: 2500.0
+upkeep: 500.0
+hammer_cost: 800.0
+tile_improvement: true
+max_hitpoints: 50
+points: 3000
+destroyable: true
+ignore_floating: true
+components:
+  - name: 'ActivateOnBiome'
+    effect: 'THIS'
+    attribute: 'GROWTH'
+    biomes: 'PLAINS'
+    value: '1.5'

@@ -1,0 +1,18 @@
+type: scout_tower
+template: scout_tower
+template_y_shift: 0
+displayName: Scout Tower
+require_upgrade:
+require_tech: 'tech_masonry'
+effect_event:
+check_event:
+update_event:
+onBuild_event:
+limit: 4
+cost: 15000.0
+upkeep: 800.0
+hammer_cost: 1500.0
+max_hitpoints: 500
+points: 3000
+allow_outside_town: true
+strategic: true

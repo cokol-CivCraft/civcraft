@@ -1,0 +1,30 @@
+type: school
+template: school
+template_y_shift: -1
+displayName: Public School
+require_upgrade:
+require_structure: 's_university'
+require_tech: 'tech_scientific_method'
+effect_event:
+check_event:
+update_event:
+onBuild_event:
+limit: 1
+cost: 50000.0
+upkeep: 1500.0
+hammer_cost: 5000.0
+points: 8000
+max_hitpoints: 500
+components:
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'BEAKERS'
+    value: '100.0'
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'BEAKERBOOST'
+    value: '0.01'
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'FAITH'
+    value: '2.5'

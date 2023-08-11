@@ -1,0 +1,18 @@
+type: colosseum
+template: colosseum
+template_y_shift: -1
+displayName: Colosseum
+require_tech: 'tech_colosseum'
+require_upgrade:
+check_event:
+effect_event:
+update_event:
+onBuild_event:
+limit: 1
+cost: 100000.0
+upkeep: 0.0
+hammer_cost: 80000.0
+points: 100000
+max_hitpoints: 1000
+regen_rate: 1
+national_wonder: true

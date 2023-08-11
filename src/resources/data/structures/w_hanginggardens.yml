@@ -1,0 +1,18 @@
+type: the_hanging_gardens
+template: the_hanging_gardens
+template_y_shift: 0
+displayName: The Hanging Gardens
+require_tech: 'tech_hanging_gardens'
+require_upgrade:
+check_event:
+effect_event:
+update_event:
+onBuild_event:
+limit: 1
+cost: 1000000.0
+upkeep: 0.0
+# 336 = two weeks
+hammer_cost: 666000.0
+points: 220000
+max_hitpoints: 5000
+regen_rate: 6

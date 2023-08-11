@@ -1,0 +1,29 @@
+type: monument
+template: monument
+template_y_shift: -2
+displayName: Monument
+require_upgrade:
+require_tech: 'tech_religion'
+effect_event: generate_culture:400
+check_event:
+update_event:
+onBuild_event:
+limit: 1
+cost: 15000.0
+upkeep: 1500.0
+hammer_cost: 2000.0
+points: 1500
+max_hitpoints: 250
+components:
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'HAPPINESS'
+    value: '3.0'
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'CULTURE'
+    value: '200.0'
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'FAITH'
+    value: '7.5'

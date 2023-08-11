@@ -1,0 +1,17 @@
+type: trommel
+template: trommel
+template_y_shift: 0
+displayName: Trommel
+require_upgrade:
+require_tech: 'tech_mining'
+effect_event:
+check_event:
+update_event: trommel_process
+onBuild_event:
+limit: 0
+allow_outside_town: true
+cost: 5000.0
+upkeep: 1000.0
+hammer_cost: 800.0
+points: 1500
+max_hitpoints: 200

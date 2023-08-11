@@ -1,0 +1,23 @@
+type: shipyard
+template: shipyard
+template_y_shift: -3
+displayName: Shipyard
+require_upgrade:
+require_tech: 'tech_sailing'
+effect_event:
+check_event:
+update_event:
+onBuild_event:
+limit: 1
+cost: 35000.0
+upkeep: 1500.0
+hammer_cost: 2000.0
+points: 7000
+max_hitpoints: 300
+ignore_floating: true
+onwater: true
+components:
+  - name: 'AttributeStatic'
+    type: 'direct'
+    attribute: 'HAMMERS'
+    value: '200'
