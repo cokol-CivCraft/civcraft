@@ -42,9 +42,9 @@ public class BuildPreviewAsyncTask extends CivAsyncTask {
      * thread to build individual blocks.
      */
 
-    public Template tpl;
-    public Block centerBlock;
-    public UUID playerUUID;
+    public final Template tpl;
+    public final Block centerBlock;
+    public final UUID playerUUID;
     public Boolean aborted = false;
     public ReentrantLock lock = new ReentrantLock();
     private final int blocksPerStep;

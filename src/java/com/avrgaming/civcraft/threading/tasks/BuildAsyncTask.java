@@ -302,7 +302,7 @@ public class BuildAsyncTask extends CivAsyncTask {
             return false; //We are completed, other wonders are not already built.
         }
 
-        return (!Wonder.isWonderAvailable(buildable.getConfigId()));
+        return !Wonder.isWonderAvailable(buildable.getConfigId());
     }
 
     private void processWonderAbort() {
@@ -322,7 +322,7 @@ public class BuildAsyncTask extends CivAsyncTask {
             @Override
             public void run() {
                 //Remove build task from town..
-                buildable.getTown().build_tasks.remove(this);
+                buildable.getTown().build_tasks.remove(BuildAsyncTask.this);
                 buildable.unbindStructureBlocks();
 
                 //remove wonder from town.
@@ -345,17 +345,15 @@ public class BuildAsyncTask extends CivAsyncTask {
     }
 
     public double setExtraHammers(double extra_hammers) {
-
-        double leftover_hammers = 0.0;
         //Get the total number of blocks represented by the extra hammers.
         synchronized (this) {
             this.extra_blocks = (int) (buildable.getBlocksPerHammer() * extra_hammers);
             int blocks_left = buildable.getTotalBlockCount() - buildable.getBuiltBlockCount();
             if (this.extra_blocks > blocks_left) {
-                leftover_hammers = (this.extra_blocks - blocks_left) / buildable.getBlocksPerHammer();
+                return (this.extra_blocks - blocks_left) / buildable.getBlocksPerHammer();
             }
         }
-        return leftover_hammers;
+        return 0;
     }
 
     public void abort() {

@@ -24,10 +24,10 @@ import org.bukkit.Chunk;
 
 public class ChunkGenerateTask implements Runnable {
 
-    int startX;
-    int startZ;
-    int stopX;
-    int stopZ;
+    final int startX;
+    final int startZ;
+    final int stopX;
+    final int stopZ;
 
     public ChunkGenerateTask(int startx, int startz, int stopx, int stopz) {
         this.startX = startx;

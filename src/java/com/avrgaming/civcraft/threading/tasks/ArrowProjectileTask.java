@@ -20,7 +20,6 @@ package com.avrgaming.civcraft.threading.tasks;
 import com.avrgaming.civcraft.cache.ArrowFiredCache;
 import com.avrgaming.civcraft.cache.CivCache;
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import org.bukkit.entity.Arrow;
 import org.bukkit.util.Vector;
 
@@ -29,15 +28,11 @@ import java.util.Calendar;
 
 public class ArrowProjectileTask implements Runnable {
 
-    private double homing_stop_distance = 0;
+    private final double square_homing_stop_distance;
 
     public ArrowProjectileTask() {
-        try {
-            homing_stop_distance = CivSettings.getDouble(CivSettings.warConfig, "arrow_tower.homing_stop_distance");
-            homing_stop_distance *= homing_stop_distance; //Square it now and compare agaisnts distanceSquared.
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-        }
+        double homing_stop_distance = CivSettings.warConfig.getDouble("arrow_tower.homing_stop_distance", 10);
+        square_homing_stop_distance = homing_stop_distance * homing_stop_distance; //Square it now and compare agaisnts distanceSquared.
     }
 
     @Override
@@ -64,7 +59,7 @@ public class ArrowProjectileTask implements Runnable {
                 continue;
             }
 
-            if (distance > homing_stop_distance) {
+            if (distance > square_homing_stop_distance) {
                 afc.setTarget(afc.getTargetEntity().getLocation().add(0, 1, 0));
             }
 
