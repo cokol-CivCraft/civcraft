@@ -43,12 +43,8 @@ import com.avrgaming.civcraft.sessiondb.SessionEntry;
 import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.structure.TownHall;
 import com.avrgaming.civcraft.template.Template;
-import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.BuildPreviewAsyncTask;
-import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.CallbackInterface;
-import com.avrgaming.civcraft.util.PlayerBlockChangeUtil;
-import com.avrgaming.civcraft.util.SimpleBlock;
+import com.avrgaming.civcraft.util.*;
 import gpl.InventorySerializer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -867,7 +863,7 @@ public class Resident extends SQLObject {
 
     public void startPreviewTask(Template tpl, Block block, UUID uuid) {
         this.previewTask = new BuildPreviewAsyncTask(tpl, block, uuid);
-        TaskMaster.asyncTask(previewTask, 0);
+        BukkitObjects.scheduleSyncRepeatingTask(previewTask, 0, 1);
     }
 
     public void undoPreview() {
