@@ -46,7 +46,6 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -115,7 +114,6 @@ public class BonusGoodie extends LoreItem {
      * Bonus goodies are loaded as the trade outposts are loaded.
      */
     public BonusGoodie(TradeOutpost outpost) throws SQLException, CivException {
-        Connection context = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
 
@@ -123,8 +121,7 @@ public class BonusGoodie extends LoreItem {
             String outpost_location = outpost.getCorner().toString();
             this.config = outpost.getGood().getInfo();
 
-            context = SQLController.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + BonusGoodie.TABLE_NAME + " WHERE `outpost_location`  = ?");
+            ps = SQLController.getGameConnection().prepareStatement("SELECT * FROM " + SQLController.tb_prefix + BonusGoodie.TABLE_NAME + " WHERE `outpost_location`  = ?");
             ps.setString(1, outpost_location);
             rs = ps.executeQuery();
 
@@ -138,7 +135,7 @@ public class BonusGoodie extends LoreItem {
             }
 
         } finally {
-            SQLController.close(rs, ps, context);
+            SQLController.close(rs, ps);
         }
     }
 

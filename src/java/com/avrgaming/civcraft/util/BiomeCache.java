@@ -59,7 +59,7 @@ public class BiomeCache {
 
             CivLog.info("Loaded " + count + " Biome Cache Entries");
         } finally {
-            SQLController.close(rs, ps, context);
+            SQLController.close(rs, ps);
         }
 
         CivLog.info("==================================================");
@@ -67,24 +67,18 @@ public class BiomeCache {
 
     public static void saveBiomeInfo(CultureChunk cc) {
         TaskMaster.asyncTask(() -> {
-            Connection context = null;
 
-            try {
-                context = SQLController.getGameConnection();
-                PreparedStatement ps = context.prepareStatement("INSERT INTO `" + SQLController.tb_prefix + TABLE_NAME + "` (`key`, `value`) VALUES (?, ?)" +
-                        " ON DUPLICATE KEY UPDATE `value` = ?");
+            try (PreparedStatement ps = SQLController.getGameConnection().prepareStatement("INSERT INTO `" + SQLController.tb_prefix + TABLE_NAME + "` (`key`, `value`) VALUES (?, ?)" +
+                    " ON DUPLICATE KEY UPDATE `value` = ?")) {
                 ps.setString(1, cc.getChunkCoord().toString());
                 ps.setString(2, cc.getBiome().name());
                 ps.setString(3, cc.getBiome().name());
 
-                int rs = ps.executeUpdate();
-                if (rs == 0) {
+                if (ps.executeUpdate() == 0) {
                     CivLog.error("Couldn't update biome cache for key:" + cc.getChunkCoord().toString() + " with value: " + cc.getBiome().name());
                 }
-
             } catch (SQLException e) {
                 e.printStackTrace();
-            } finally {
             }
         }, 0);
     }

@@ -23,7 +23,6 @@ import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.randomevents.RandomEventTimer;
 import com.avrgaming.civcraft.threading.TaskMaster;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -127,14 +126,12 @@ public class EventTimer {
     }
 
     public void load(String timerName, EventInterface eventFunction, Calendar start) throws SQLException {
-        Connection context = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
 
         try {
             String query = "SELECT * FROM `" + SQLController.tb_prefix + TABLE_NAME + "` WHERE `name` = ?";
-            context = SQLController.getGameConnection();
-            ps = context.prepareStatement(query);
+            ps = SQLController.getGameConnection().prepareStatement(query);
             ps.setString(1, timerName);
             rs = ps.executeQuery();
 
@@ -156,7 +153,7 @@ public class EventTimer {
             }
             register();
         } finally {
-            SQLController.close(rs, ps, context);
+            SQLController.close(rs, ps);
         }
     }
 
@@ -184,14 +181,12 @@ public class EventTimer {
     }
 
     public void saveNow() throws SQLException {
-        Connection context = null;
         PreparedStatement ps = null;
 
         try {
             String query = "INSERT INTO `" + SQLController.tb_prefix + TABLE_NAME + "` (`name`, `nextEvent`, `lastEvent`) " +
                     "VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `nextEvent`=?, `lastEvent`=?";
-            context = SQLController.getGameConnection();
-            ps = context.prepareStatement(query);
+            ps = SQLController.getGameConnection().prepareStatement(query);
 
             ps.setString(1, this.name);
             ps.setLong(2, next.getTime().getTime());
@@ -204,7 +199,7 @@ public class EventTimer {
                 throw new SQLException("Could not execute SQLController code:" + query);
             }
         } finally {
-            SQLController.close(null, ps, context);
+            SQLController.close(null, ps);
         }
 
     }

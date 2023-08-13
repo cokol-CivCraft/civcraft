@@ -34,7 +34,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -213,14 +212,12 @@ public class AdminBuildCommand extends CommandBase {
 
         String id = args[2];
 
-        Connection context = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
         Structure struct = null;
 
         try {
-            context = SQLController.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + Structure.TABLE_NAME + " WHERE id = " + id);
+            ps = SQLController.getGameConnection().prepareStatement("SELECT * FROM " + SQLController.tb_prefix + Structure.TABLE_NAME + " WHERE id = " + id);
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -236,7 +233,7 @@ public class AdminBuildCommand extends CommandBase {
             e.printStackTrace();
             throw new CivException(e.getMessage());
         } finally {
-            SQLController.close(rs, ps, context);
+            SQLController.close(rs, ps);
         }
 
 

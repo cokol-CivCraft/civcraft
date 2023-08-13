@@ -22,7 +22,6 @@ import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.Town;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -70,14 +69,12 @@ public class ScoreManager {
     }
 
     public static void UpdateScore(Civilization civ, int points) throws SQLException {
-        Connection global_context = null;
         PreparedStatement s = null;
 
         try {
-            global_context = SQLController.getGameConnection();
             String query = "INSERT INTO `" + CIV_TABLE_NAME + "` (`local_id`, `local_name`, `local_capitol_name`, `points`) " +
                     "VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE `local_name`=?, `local_capitol_name`=?, `points`=?";
-            s = global_context.prepareStatement(query);
+            s = SQLController.getGameConnection().prepareStatement(query);
 
             s.setInt(1, civ.getId());
             s.setString(2, civ.getName());
@@ -93,19 +90,17 @@ public class ScoreManager {
             }
 
         } finally {
-            SQLController.close(null, s, global_context);
+            SQLController.close(null, s);
         }
     }
 
     public static void UpdateScore(Town town, int points) throws SQLException {
-        Connection global_context = null;
         PreparedStatement s = null;
 
         try {
-            global_context = SQLController.getGameConnection();
             String query = "INSERT INTO `" + TOWN_TABLE_NAME + "` (`local_id`, `local_name`, `local_civ_name`, `points`) " +
                     "VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE `local_name`=?, `local_civ_name`=?, `points`=?";
-            s = global_context.prepareStatement(query);
+            s = SQLController.getGameConnection().prepareStatement(query);
 
             s.setInt(1, town.getId());
             s.setString(2, town.getName());
@@ -121,7 +116,7 @@ public class ScoreManager {
             }
 
         } finally {
-            SQLController.close(null, s, global_context);
+            SQLController.close(null, s);
         }
     }
 }

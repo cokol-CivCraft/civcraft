@@ -24,7 +24,6 @@ import com.avrgaming.civcraft.sessiondb.SessionAsyncRequest.Database;
 import com.avrgaming.civcraft.sessiondb.SessionAsyncRequest.Operation;
 import com.avrgaming.civcraft.structure.Buildable;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -91,10 +90,8 @@ public class SessionDatabase {
     }
 
     public ArrayList<SessionEntry> lookup(String key) {
-        Connection cntx = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
-        String code;
         ArrayList<SessionEntry> retList;
 
         try {
@@ -106,11 +103,10 @@ public class SessionDatabase {
 
             // Couldnt find in cache, attempt DB lookup.
             retList = new ArrayList<>();
-            code = "SELECT * FROM `" + tb_prefix + "SESSIONS` WHERE `key` = ?";
+            String code = "SELECT * FROM `" + tb_prefix + "SESSIONS` WHERE `key` = ?";
 
             try {
-                cntx = SQLController.getGameConnection();
-                ps = cntx.prepareStatement(code);
+                ps = SQLController.getGameConnection().prepareStatement(code);
                 ps.setString(1, key);
 
                 rs = ps.executeQuery();
@@ -152,7 +148,7 @@ public class SessionDatabase {
 
             return retList;
         } finally {
-            SQLController.close(rs, ps, cntx);
+            SQLController.close(rs, ps);
         }
     }
 

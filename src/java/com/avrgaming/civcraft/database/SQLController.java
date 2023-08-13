@@ -115,80 +115,70 @@ public class SQLController {
 
     }
 
-    public static Connection getGameConnection() throws SQLException {
+    public static Connection getGameConnection() {
         return gameDatabase.getConnection();
     }
 
     public static boolean hasTable(String name) throws SQLException {
-        Connection context = null;
         ResultSet result = null;
 
         try {
-            context = getGameConnection();
-            DatabaseMetaData dbm = context.getMetaData();
+            DatabaseMetaData dbm = getGameConnection().getMetaData();
             String[] types = {"TABLE"};
 
             result = dbm.getTables(null, null, SQLController.tb_prefix + name, types);
             return result.next();
         } finally {
-            SQLController.close(result, null, context);
+            SQLController.close(result, null);
         }
     }
 
     public static boolean hasGlobalTable(String name) throws SQLException {
-        Connection context = null;
         ResultSet result = null;
 
         try {
-            context = getGameConnection();
-            DatabaseMetaData dbm = context.getMetaData();
+            DatabaseMetaData dbm = getGameConnection().getMetaData();
             String[] types = {"TABLE"};
 
             result = dbm.getTables(null, null, name, types);
             return result.next();
 
         } finally {
-            SQLController.close(result, null, context);
+            SQLController.close(result, null);
         }
     }
 
     public static boolean hasColumn(String tablename, String columnName) throws SQLException {
-        Connection context = null;
         ResultSet result = null;
 
         try {
-            context = getGameConnection();
-            DatabaseMetaData dbm = context.getMetaData();
+            DatabaseMetaData dbm = getGameConnection().getMetaData();
             result = dbm.getColumns(null, null, SQLController.tb_prefix + tablename, columnName);
             return result.next();
         } finally {
-            SQLController.close(result, null, context);
+            SQLController.close(result, null);
         }
     }
 
     public static void addColumn(String tablename, String columnDef) throws SQLException {
-        Connection context = null;
         PreparedStatement ps = null;
 
         try {
             String table_alter = "ALTER TABLE " + SQLController.tb_prefix + tablename + " ADD " + columnDef;
-            context = getGameConnection();
-            ps = context.prepareStatement(table_alter);
+            ps = getGameConnection().prepareStatement(table_alter);
             ps.execute();
             CivLog.info("\tADDED:" + columnDef);
         } finally {
-            SQLController.close(null, ps, context);
+            SQLController.close(null, ps);
         }
 
     }
 
     public static boolean hasGlobalColumn(String tablename, String columnName) throws SQLException {
-        Connection global_context = null;
         ResultSet rs = null;
 
         try {
-            global_context = getGameConnection();
-            DatabaseMetaData dbm = global_context.getMetaData();
+            DatabaseMetaData dbm = getGameConnection().getMetaData();
             rs = dbm.getColumns(null, null, tablename, columnName);
 
             try {
@@ -198,22 +188,20 @@ public class SQLController {
             }
 
         } finally {
-            SQLController.close(rs, null, global_context);
+            SQLController.close(rs, null);
         }
     }
 
     public static void addGlobalColumn(String tablename, String columnDef) throws SQLException {
-        Connection global_context = null;
         PreparedStatement ps = null;
 
         try {
-            global_context = SQLController.getGameConnection();
             String table_alter = "ALTER TABLE " + tablename + " ADD " + columnDef;
-            ps = global_context.prepareStatement(table_alter);
+            ps = SQLController.getGameConnection().prepareStatement(table_alter);
             ps.execute();
             CivLog.info("\tADDED GLOBAL:" + columnDef);
         } finally {
-            SQLController.close(null, ps, global_context);
+            SQLController.close(null, ps);
         }
     }
 
@@ -240,7 +228,6 @@ public class SQLController {
 
 
     public static void update(HashMap<String, Object> hashmap, String keyname, String tablename) throws SQLException {
-        Connection context = null;
         PreparedStatement ps = null;
 
         try {
@@ -262,8 +249,7 @@ public class SQLController {
 
             sql.append(where);
 
-            context = SQLController.getGameConnection();
-            ps = context.prepareStatement(sql.toString());
+            ps = SQLController.getGameConnection().prepareStatement(sql.toString());
 
             int i = 1;
             for (Object value : values) {
@@ -291,7 +277,7 @@ public class SQLController {
                 insertNow(hashmap, tablename);
             }
         } finally {
-            SQLController.close(null, ps, context);
+            SQLController.close(null, ps);
         }
     }
 
@@ -300,7 +286,6 @@ public class SQLController {
     }
 
     public static int insertNow(HashMap<String, Object> hashmap, String tablename) throws SQLException {
-        Connection context = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
 
@@ -326,8 +311,7 @@ public class SQLController {
             sql += keycodes;
             sql += valuecodes;
 
-            context = SQLController.getGameConnection();
-            ps = context.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps = SQLController.getGameConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             int i = 1;
             for (Object value : values) {
@@ -368,41 +352,37 @@ public class SQLController {
             return id;
 
         } finally {
-            SQLController.close(rs, ps, context);
+            SQLController.close(rs, ps);
         }
     }
 
 
     public static void deleteNamedObject(SQLObject obj, String tablename) throws SQLException {
-        Connection context = null;
         PreparedStatement ps = null;
 
         try {
             String sql = "DELETE FROM " + SQLController.tb_prefix + tablename + " WHERE `id` = ?";
-            context = SQLController.getGameConnection();
-            ps = context.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps = SQLController.getGameConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, obj.getId());
             ps.execute();
             ps.close();
             obj.setDeleted(true);
         } finally {
-            SQLController.close(null, ps, context);
+            SQLController.close(null, ps);
         }
     }
 
     public static void deleteByName(String name, String tablename) throws SQLException {
-        Connection context = null;
         PreparedStatement ps = null;
 
         try {
             String sql = "DELETE FROM " + SQLController.tb_prefix + tablename + " WHERE `name` = ?";
-            context = SQLController.getGameConnection();
-            ps = context.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps = SQLController.getGameConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, name);
             ps.execute();
             ps.close();
         } finally {
-            SQLController.close(null, ps, context);
+            SQLController.close(null, ps);
         }
     }
 
@@ -414,33 +394,29 @@ public class SQLController {
     }
 
     public static void makeTable(String table_create) throws SQLException {
-        Connection context = null;
         PreparedStatement ps = null;
 
         try {
-            context = SQLController.getGameConnection();
-            ps = context.prepareStatement(table_create);
+            ps = SQLController.getGameConnection().prepareStatement(table_create);
             ps.execute();
         } finally {
-            SQLController.close(null, ps, context);
+            SQLController.close(null, ps);
         }
 
     }
 
     public static void makeGlobalTable(String table_create) throws SQLException {
-        Connection context = null;
         PreparedStatement ps = null;
 
         try {
-            context = getGameConnection();
-            ps = context.prepareStatement(table_create);
+            ps = getGameConnection().prepareStatement(table_create);
             ps.execute();
         } finally {
-            SQLController.close(null, ps, context);
+            SQLController.close(null, ps);
         }
     }
 
-    public static void close(ResultSet rs, PreparedStatement ps, Connection context) {
+    public static void close(ResultSet rs, PreparedStatement ps) {
         if (rs != null) {
             try {
                 rs.close();

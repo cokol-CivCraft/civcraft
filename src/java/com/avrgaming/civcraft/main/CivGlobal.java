@@ -58,7 +58,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -252,13 +251,11 @@ public class CivGlobal {
     }
 
     private static void loadTeams() throws SQLException {
-        Connection context = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
 
         try {
-            context = SQLController.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + ArenaTeam.TABLE_NAME);
+            ps = SQLController.getGameConnection().prepareStatement("SELECT * FROM " + SQLController.tb_prefix + ArenaTeam.TABLE_NAME);
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -274,18 +271,16 @@ public class CivGlobal {
 
             CivLog.info("Loaded " + ArenaTeam.arenaTeams.size() + " Arena Teams");
         } finally {
-            SQLController.close(rs, ps, context);
+            SQLController.close(rs, ps);
         }
     }
 
     private static void loadTradeGoodies() throws SQLException {
-        Connection context = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
 
         try {
-            context = SQLController.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + TradeGood.TABLE_NAME);
+            ps = SQLController.getGameConnection().prepareStatement("SELECT * FROM " + SQLController.tb_prefix + TradeGood.TABLE_NAME);
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -300,7 +295,7 @@ public class CivGlobal {
 
             CivLog.info("Loaded " + tradeGoods.size() + " Trade Goods");
         } finally {
-            SQLController.close(rs, ps, context);
+            SQLController.close(rs, ps);
         }
     }
 
@@ -348,13 +343,11 @@ public class CivGlobal {
     }
 
     private static void loadCivs() throws SQLException {
-        Connection context = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
 
         try {
-            context = SQLController.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + Civilization.TABLE_NAME);
+            ps = SQLController.getGameConnection().prepareStatement("SELECT * FROM " + SQLController.tb_prefix + Civilization.TABLE_NAME);
             rs = ps.executeQuery();
             int count = 0;
 
@@ -378,19 +371,17 @@ public class CivGlobal {
             }
             CivLog.info("Loaded " + count + " Civs");
         } finally {
-            SQLController.close(rs, ps, context);
+            SQLController.close(rs, ps);
         }
 
     }
 
     private static void loadRelations() throws SQLException {
-        Connection context = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
 
         try {
-            context = SQLController.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + Relation.TABLE_NAME);
+            ps = SQLController.getGameConnection().prepareStatement("SELECT * FROM " + SQLController.tb_prefix + Relation.TABLE_NAME);
             rs = ps.executeQuery();
             int count = 0;
 
@@ -405,18 +396,16 @@ public class CivGlobal {
 
             CivLog.info("Loaded " + count + " Relations");
         } finally {
-            SQLController.close(rs, ps, context);
+            SQLController.close(rs, ps);
         }
     }
 
     public static void loadPermissionGroups() throws SQLException {
-        Connection context = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
 
         try {
-            context = SQLController.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + PermissionGroup.TABLE_NAME);
+            ps = SQLController.getGameConnection().prepareStatement("SELECT * FROM " + SQLController.tb_prefix + PermissionGroup.TABLE_NAME);
             rs = ps.executeQuery();
             int count = 0;
 
@@ -431,18 +420,16 @@ public class CivGlobal {
 
             CivLog.info("Loaded " + count + " PermissionGroups");
         } finally {
-            SQLController.close(rs, ps, context);
+            SQLController.close(rs, ps);
         }
     }
 
     public static void loadResidents() throws SQLException {
-        Connection context = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
 
         try {
-            context = SQLController.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + Resident.TABLE_NAME);
+            ps = SQLController.getGameConnection().prepareStatement("SELECT * FROM " + SQLController.tb_prefix + Resident.TABLE_NAME);
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -457,18 +444,16 @@ public class CivGlobal {
 
             CivLog.info("Loaded " + residents.size() + " Residents");
         } finally {
-            SQLController.close(rs, ps, context);
+            SQLController.close(rs, ps);
         }
     }
 
     public static void loadTowns() throws SQLException {
-        Connection context = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
 
         try {
-            context = SQLController.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + Town.TABLE_NAME);
+            ps = SQLController.getGameConnection().prepareStatement("SELECT * FROM " + SQLController.tb_prefix + Town.TABLE_NAME);
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -484,18 +469,16 @@ public class CivGlobal {
             WarRegen.restoreBlocksFor(WarCamp.RESTORE_NAME);
             CivLog.info("Loaded " + towns.size() + " Towns");
         } finally {
-            SQLController.close(rs, ps, context);
+            SQLController.close(rs, ps);
         }
     }
 
     public static void loadCamps() throws SQLException {
-        Connection context = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
 
         try {
-            context = SQLController.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + Camp.TABLE_NAME);
+            ps = SQLController.getGameConnection().prepareStatement("SELECT * FROM " + SQLController.tb_prefix + Camp.TABLE_NAME);
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -507,20 +490,18 @@ public class CivGlobal {
                 }
             }
         } finally {
-            SQLController.close(rs, ps, context);
+            SQLController.close(rs, ps);
         }
 
         CivLog.info("Loaded " + camps.size() + " Camps");
     }
 
     public static void loadTownChunks() throws SQLException {
-        Connection context = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
 
         try {
-            context = SQLController.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + TownChunk.TABLE_NAME);
+            ps = SQLController.getGameConnection().prepareStatement("SELECT * FROM " + SQLController.tb_prefix + TownChunk.TABLE_NAME);
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -535,18 +516,16 @@ public class CivGlobal {
 
             CivLog.info("Loaded " + townChunks.size() + " TownChunks");
         } finally {
-            SQLController.close(rs, ps, context);
+            SQLController.close(rs, ps);
         }
     }
 
     public static void loadStructures() throws SQLException {
-        Connection context = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
 
         try {
-            context = SQLController.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + Structure.TABLE_NAME);
+            ps = SQLController.getGameConnection().prepareStatement("SELECT * FROM " + SQLController.tb_prefix + Structure.TABLE_NAME);
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -565,18 +544,16 @@ public class CivGlobal {
             CivLog.info("Loaded " + structures.size() + " Structures");
             CivLog.info("Loaded " + wonders.size() + " Wonders");
         } finally {
-            SQLController.close(rs, ps, context);
+            SQLController.close(rs, ps);
         }
     }
 
     public static void loadRandomEvents() throws SQLException {
-        Connection context = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
 
         try {
-            context = SQLController.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + RandomEvent.TABLE_NAME);
+            ps = SQLController.getGameConnection().prepareStatement("SELECT * FROM " + SQLController.tb_prefix + RandomEvent.TABLE_NAME);
             rs = ps.executeQuery();
 
             int count = 0;
@@ -591,18 +568,16 @@ public class CivGlobal {
 
             CivLog.info("Loaded " + count + " Active Random Events");
         } finally {
-            SQLController.close(rs, ps, context);
+            SQLController.close(rs, ps);
         }
     }
 
     public static void loadProtectedBlocks() throws SQLException {
-        Connection context = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
 
         try {
-            context = SQLController.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + ProtectedBlock.TABLE_NAME);
+            ps = SQLController.getGameConnection().prepareStatement("SELECT * FROM " + SQLController.tb_prefix + ProtectedBlock.TABLE_NAME);
             rs = ps.executeQuery();
 
             int count = 0;
@@ -618,7 +593,7 @@ public class CivGlobal {
 
             CivLog.info("Loaded " + count + " Protected Blocks");
         } finally {
-            SQLController.close(rs, ps, context);
+            SQLController.close(rs, ps);
         }
     }
     public static Player getPlayer(Resident resident) throws CivException {

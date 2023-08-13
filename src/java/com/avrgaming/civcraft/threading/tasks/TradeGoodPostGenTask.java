@@ -35,7 +35,6 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -52,19 +51,11 @@ public class TradeGoodPostGenTask implements Runnable {
     }
 
     public void deleteAllTradeGoodiesFromDB() {
-        /* Delete all existing trade goods from DB. */
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            try {
-                conn = SQLController.getGameConnection();
-                String code = "TRUNCATE TABLE " + TradeGood.TABLE_NAME;
-                ps = conn.prepareStatement(code);
-                ps.execute();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
-        } finally {
+        String code = "TRUNCATE TABLE " + TradeGood.TABLE_NAME;
+        try (PreparedStatement ps = SQLController.getGameConnection().prepareStatement(code)) {
+            ps.execute();
+        } catch (SQLException e1) {
+            e1.printStackTrace();
         }
 
     }

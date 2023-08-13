@@ -30,7 +30,7 @@ public class ConnectionPool {
         }
     }
 
-    public Connection getConnection() throws SQLException {
+    public Connection getConnection() {
         return connection;
     }
 }

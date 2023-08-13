@@ -21,55 +21,51 @@ public class SessionDBAsyncTimer implements Runnable {
         Connection globalConnection = null;
 
         for (int i = 0; i < UPDATE_AMOUNT; i++) {
+            lock.lock();
             try {
-                lock.lock();
-                try {
-                    SessionAsyncRequest request = requestQueue.poll();
-                    if (request == null) {
+                SessionAsyncRequest request = requestQueue.poll();
+                if (request == null) {
+                    return;
+                }
+
+                Connection cntx;
+                switch (request.database) {
+                    case GAME -> {
+                        if (gameConnection == null || gameConnection.isClosed()) {
+                            gameConnection = SQLController.getGameConnection();
+                        }
+                        cntx = gameConnection;
+                    }
+                    case GLOBAL -> {
+                        if (globalConnection == null || globalConnection.isClosed()) {
+                            globalConnection = SQLController.getGameConnection();
+                        }
+                        cntx = globalConnection;
+                    }
+                    default -> {
                         return;
                     }
-
-                    Connection cntx;
-                    switch (request.database) {
-                        case GAME -> {
-                            if (gameConnection == null || gameConnection.isClosed()) {
-                                gameConnection = SQLController.getGameConnection();
-                            }
-                            cntx = gameConnection;
-                        }
-                        case GLOBAL -> {
-                            if (globalConnection == null || globalConnection.isClosed()) {
-                                globalConnection = SQLController.getGameConnection();
-                            }
-                            cntx = globalConnection;
-                        }
-                        default -> {
-                            return;
-                        }
-                    }
-
-                    switch (request.op) {
-                        case ADD -> performAdd(request, cntx);
-                        case DELETE -> performDelete(request, cntx);
-                        case DELETE_ALL -> performDeleteAll(request, cntx);
-                        case UPDATE -> performUpdate(request, cntx);
-                        case UPDATE_INSERT -> performUpdateInsert(request, cntx);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    lock.unlock();
                 }
+
+                switch (request.op) {
+                    case ADD -> performAdd(request, cntx);
+                    case DELETE -> performDelete(request, cntx);
+                    case DELETE_ALL -> performDeleteAll(request, cntx);
+                    case UPDATE -> performUpdate(request, cntx);
+                    case UPDATE_INSERT -> performUpdateInsert(request, cntx);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             } finally {
+                lock.unlock();
             }
         }
 
     }
 
     public void performAdd(SessionAsyncRequest request, Connection cntx) throws Exception {
-        String code;
 
-        code = "INSERT INTO `" + request.tb_prefix + "SESSIONS` (`request_id`, `key`, `value`, `time`, `civ_id`, `town_id`, `struct_id`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String code = "INSERT INTO `" + request.tb_prefix + "SESSIONS` (`request_id`, `key`, `value`, `time`, `civ_id`, `town_id`, `struct_id`) VALUES (?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement s = cntx.prepareStatement(code, Statement.RETURN_GENERATED_KEYS);
         s.setNull(1, Types.INTEGER);
         s.setString(2, request.entry.key);

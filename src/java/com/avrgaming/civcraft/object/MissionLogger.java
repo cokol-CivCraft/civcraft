@@ -21,7 +21,6 @@ import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -75,15 +74,13 @@ public class MissionLogger {
     }
 
     public static ArrayList<String> getMissionLogs(Town town) {
-        Connection context = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
 
 
         ArrayList<String> out = new ArrayList<>();
         try {
-            context = SQLController.getGameConnection();
-            ps = context.prepareStatement("SELECT * FROM " + SQLController.tb_prefix + TABLE_NAME + " WHERE `town_id` = ?");
+            ps = SQLController.getGameConnection().prepareStatement("SELECT * FROM " + SQLController.tb_prefix + TABLE_NAME + " WHERE `town_id` = ?");
             ps.setInt(1, town.getId());
             rs = ps.executeQuery();
 
@@ -103,7 +100,7 @@ public class MissionLogger {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            SQLController.close(rs, ps, context);
+            SQLController.close(rs, ps);
         }
 
         return out;

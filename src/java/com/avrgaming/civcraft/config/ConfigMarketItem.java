@@ -31,7 +31,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -152,13 +151,11 @@ public class ConfigMarketItem {
 	}
 	
 	public void load() throws SQLException {
-		Connection context = null;
-		ResultSet rs = null;
+        ResultSet rs = null;
 		PreparedStatement ps = null;
 		try {
             String query = "SELECT * FROM `" + SQLController.tb_prefix + TABLE_NAME + "` WHERE `ident` = ?;";
-            context = SQLController.getGameConnection();
-            ps = context.prepareStatement(query);
+            ps = SQLController.getGameConnection().prepareStatement(query);
             ps.setString(1, getIdent());
             rs = ps.executeQuery();
 
@@ -190,19 +187,17 @@ public class ConfigMarketItem {
 			}
 			
 		} finally {
-            SQLController.close(rs, ps, context);
+            SQLController.close(rs, ps);
 		}
 	}
 	
 	public void saveItemNow() throws SQLException {
-		Connection context = null;
-		PreparedStatement ps = null;
+        PreparedStatement ps = null;
 		
 		try {
             String query = "INSERT INTO `" + SQLController.tb_prefix + TABLE_NAME + "` (`ident`, `buy_value`, `buy_bulk`, `sell_value`, `sell_bulk`, `bought`, `sold`, `last_action`, `buysell`) " +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `buy_value`=?, `buy_bulk`=?, `sell_value`=?, `sell_bulk`=?, `bought`=?, `sold`=?, `last_action`=?, `buysell`=?";
-            context = SQLController.getGameConnection();
-            ps = context.prepareStatement(query);
+            ps = SQLController.getGameConnection().prepareStatement(query);
 			
 			ps.setString(1, getIdent());
 			ps.setInt(2, buy_value);
@@ -227,7 +222,7 @@ public class ConfigMarketItem {
                 throw new SQLException("Could not execute SQLController code:" + query);
 			}
 		} finally {
-            SQLController.close(null, ps, context);
+            SQLController.close(null, ps);
 		}
 	}
 
