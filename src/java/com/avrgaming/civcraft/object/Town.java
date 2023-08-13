@@ -2560,18 +2560,16 @@ public class Town extends SQLObject {
     }
 
     public AttrSource getFaithRate() {
-        ConfigHappinessState state = this.getHappinessState();
-        double rate = state.culture_rate;
         HashMap<String, Double> rates = new HashMap<>();
-        rates.put("Happiness", rate);
-// TODO for Pashkov: ПЕРЕПИШИ К ЧЕРТЯМ РЕЙТИНГИ СТАТИСТИК пожалуйста :3
-// TODO: я не понимаю как оно считает, и почему вообще рейтинг друг на друга умножается, а не в общую сумму идёт
-        // я подозреваю что у нас будут баги с %
-        double govrate = getGovernment().culture_rate;
-        rate *= govrate;
-        rates.put("Government", govrate);
 
-        double techs = 0.0;
+        double happiness = this.getHappinessState().culture_rate;
+        rates.put("Happiness", happiness);
+
+        // я подозреваю что у нас будут баги с %
+        double government = getGovernment().culture_rate;
+        rates.put("Government", government);
+
+        double techs = 0.0; //todo: это надо в конфиги вынести
         if (this.hasTechnology("tech_religion")) {
             techs += 0.1;
         }
@@ -2588,7 +2586,6 @@ public class Town extends SQLObject {
             techs += 0.15;
         }
         rates.put("Technologies", techs);
-        rate += techs;
 
         double wonders = 0.0;
         if (this.getCiv().hasWonder("w_notre_dame") || this.getCiv().hasWonder("w_mother_tree")) {
@@ -2601,9 +2598,9 @@ public class Town extends SQLObject {
             wonders += this.getGlobeTradeBuff(Attribute.TypeKeys.FAITH);
         }
         wonders += this.getBuffManager().getEffectiveDouble("wonder_trade_notre_dame");
+
         rates.put("Wonders", wonders);
-        rate += wonders;
-        return new AttrSource(rates, rate, null);
+        return new AttrSource(rates, happiness * government + techs + wonders, null);
     }
 
 
