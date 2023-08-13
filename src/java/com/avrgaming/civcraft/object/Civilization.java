@@ -152,42 +152,13 @@ public class Civilization extends SQLObject {
         if (!SQLController.hasTable(TABLE_NAME)) {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
-                    "`name` VARCHAR(64) NOT NULL," +
-                    "`leaderName` mediumtext," +
-                    "`capitolName` mediumtext," +
-                    "`debt` float NOT NULL DEFAULT '0'," +
-                    "`coins` double DEFAULT 0," +
-                    "`daysInDebt` int NOT NULL DEFAULT '0'," +
-                    "`techs` mediumtext DEFAULT NULL," +
-                    "`motd` mediumtext DEFAULT NULL," +
-                    "`researchTech` mediumtext DEFAULT NULL," +
-                    "`researchProgress` float NOT NULL DEFAULT 0," +
-                    "`researched` mediumtext DEFAULT NULL, " +
-                    "`government_id` mediumtext DEFAULT NULL," +
-                    "`religion_id` mediumtext DEFAULT NULL," +
-                    "`color` int(11) DEFAULT 0," +
-                    //"`taxrate` float NOT NULL DEFAULT 0," +
-                    "`science_percentage` float NOT NULL DEFAULT 0," +
-                    "`leaderGroupName` mediumtext DEFAULT NULL," +
-                    "`advisersGroupName` mediumtext DEFAULT NULL," +
-                    "`lastUpkeepTick` mediumtext DEFAULT NULL," +
-                    "`lastTaxesTick` mediumtext DEFAULT NULL," +
-                    "`adminCiv` boolean DEFAULT false," +
-                    "`conquered` boolean DEFAULT false," +
-                    "`conquered_date` long," +
-                    "`created_date` long," +
                     "`nbt` BLOB" +
-                    "UNIQUE KEY (`name`), " +
                     "PRIMARY KEY (`id`)" + ")";
 
             SQLController.makeTable(table_create);
             CivLog.info("Created " + TABLE_NAME + " table");
         } else {
             CivLog.info(TABLE_NAME + " table OK!");
-            SQLController.makeCol("conquered", "booelan", TABLE_NAME);
-            SQLController.makeCol("conquered_date", "long", TABLE_NAME);
-            SQLController.makeCol("created_date", "long", TABLE_NAME);
-            SQLController.makeCol("motd", "mediumtext", TABLE_NAME);
             SQLController.makeCol("nbt", "BLOB", TABLE_NAME);
         }
     }
@@ -262,64 +233,36 @@ public class Civilization extends SQLObject {
         NBTTagCompound nbt = new NBTTagCompound();
 
         nbt.setString("name", this.getName());
-        hashmap.put("name", this.getName());
         nbt.setString("leaderName", this.getLeader().getUUIDString());
-        hashmap.put("leaderName", this.getLeader().getUUIDString());
 
-        hashmap.put("capitolName", this.capitolName);
         nbt.setString("capitolName", this.capitolName);
-        hashmap.put("leaderGroupName", this.getLeaderGroupName());
         nbt.setString("leaderGroupName", this.getLeaderGroupName());
-        hashmap.put("advisersGroupName", this.getAdvisersGroupName());
         nbt.setString("advisersGroupName", this.getAdvisersGroupName());
-        hashmap.put("debt", this.getTreasury().getDebt());
         nbt.setDouble("debt", this.getTreasury().getDebt());
-        hashmap.put("coins", this.getTreasury().getBalance());
         nbt.setDouble("coins", this.getTreasury().getBalance());
-        hashmap.put("daysInDebt", this.daysInDebt);
         nbt.setInt("daysInDebt", this.daysInDebt);
-        hashmap.put("science_percentage", this.getSciencePercentage());
         nbt.setDouble("science_percentage", this.getSciencePercentage());
-        hashmap.put("color", this.getColor());
         nbt.setInt("color", this.getColor());
-        hashmap.put("religion_id", this.getReligion().id);
         nbt.setString("religion_id", this.getReligion().id);
         //hashmap.put("taxrate", this.getIncomeTaxRate());
         if (this.getResearchTech() != null) {
-            hashmap.put("researchTech", this.getResearchTech().id);
             nbt.setString("researchTech", this.getResearchTech().id);
-        } else {
-            hashmap.put("researchTech", null);
         }
-        hashmap.put("researchProgress", this.getResearchProgress());
         nbt.setDouble("researchProgress", this.getResearchProgress());
-        hashmap.put("government_id", this.getGovernment().id);
         nbt.setString("government_id", this.getGovernment().id);
-        hashmap.put("lastUpkeepTick", this.saveKeyValueString(this.lastUpkeepPaidMap));
         nbt.setString("lastUpkeepTick", this.saveKeyValueString(this.lastUpkeepPaidMap));
-        hashmap.put("lastTaxesTick", this.saveKeyValueString(this.lastTaxesPaidMap));
         nbt.setString("lastTaxesTick", this.saveKeyValueString(this.lastTaxesPaidMap));
-        hashmap.put("researched", this.saveResearchedTechs());
         nbt.setString("researched", this.saveResearchedTechs());
-        hashmap.put("adminCiv", this.adminCiv);
         nbt.setBoolean("adminCiv", this.adminCiv);
-        hashmap.put("conquered", this.conquered);
         nbt.setBoolean("conquered", this.conquered);
         if (this.conquer_date != null) {
-            hashmap.put("conquered_date", this.conquer_date.getTime());
             nbt.setLong("conquered_date", this.conquer_date.getTime());
-        } else {
-            hashmap.put("conquered_date", null);
         }
 
         if (this.messageOfTheDay != null) {
-            hashmap.put("motd", this.messageOfTheDay);
             nbt.setString("motd", this.messageOfTheDay);
-        } else {
-            hashmap.put("motd", null);
         }
 
-        hashmap.put("created_date", this.created_date.getTime());
         nbt.setLong("created_date", this.created_date.getTime());
 
         var data = new ByteArrayOutputStream();
