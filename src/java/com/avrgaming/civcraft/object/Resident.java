@@ -34,17 +34,17 @@ import com.avrgaming.civcraft.interactive.InteractiveResponse;
 import com.avrgaming.civcraft.items.units.Unit;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.lorestorage.LoreGuiItem;
-import com.avrgaming.civcraft.main.CivData;
-import com.avrgaming.civcraft.main.CivGlobal;
-import com.avrgaming.civcraft.main.CivLog;
-import com.avrgaming.civcraft.main.CivMessage;
+import com.avrgaming.civcraft.main.*;
 import com.avrgaming.civcraft.permission.PermissionGroup;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
 import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.structure.TownHall;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.threading.tasks.BuildPreviewAsyncTask;
-import com.avrgaming.civcraft.util.*;
+import com.avrgaming.civcraft.util.BlockCoord;
+import com.avrgaming.civcraft.util.CallbackInterface;
+import com.avrgaming.civcraft.util.PlayerBlockChangeUtil;
+import com.avrgaming.civcraft.util.SimpleBlock;
 import gpl.InventorySerializer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -863,7 +863,7 @@ public class Resident extends SQLObject {
 
     public void startPreviewTask(Template tpl, Block block, UUID uuid) {
         this.previewTask = new BuildPreviewAsyncTask(tpl, block, uuid);
-        BukkitObjects.scheduleSyncRepeatingTask(previewTask, 0, 1);
+        previewTask.runTaskTimer(CivCraft.getPlugin(), 0, previewTask.period);
     }
 
     public void undoPreview() {
@@ -873,12 +873,7 @@ public class Resident extends SQLObject {
         }
 
         if (this.previewTask != null) {
-            previewTask.lock.lock();
-            try {
-                previewTask.aborted = true;
-            } finally {
-                previewTask.lock.unlock();
-            }
+            previewTask.cancel();
         }
 
         try {

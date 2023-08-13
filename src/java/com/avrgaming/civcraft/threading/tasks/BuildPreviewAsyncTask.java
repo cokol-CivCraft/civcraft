@@ -31,7 +31,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
-import java.util.concurrent.locks.ReentrantLock;
 
 
 public class BuildPreviewAsyncTask extends BukkitRunnable {
@@ -45,10 +44,8 @@ public class BuildPreviewAsyncTask extends BukkitRunnable {
     public final Template tpl;
     public final Block centerBlock;
     public final UUID playerUUID;
-    public Boolean aborted = false;
-    public ReentrantLock lock = new ReentrantLock();
     private final int blocksPerStep;
-    private final int speed;
+    public final int period;
     private final Resident resident;
     private int block_num = 0;
 
@@ -57,8 +54,8 @@ public class BuildPreviewAsyncTask extends BukkitRunnable {
         centerBlock = center;
         this.playerUUID = playerUUID;
         resident = CivGlobal.getResidentViaUUID(playerUUID);
-        this.blocksPerStep = 100;
-        this.speed = 600;
+        this.blocksPerStep = 3;
+        this.period = 3;
     }
 
     public Player getPlayer() throws CivException {
@@ -71,33 +68,26 @@ public class BuildPreviewAsyncTask extends BukkitRunnable {
 
     @Override
     public void run() {
-
-        try {
+        for (int i = 0; i < blocksPerStep; i++) {
             int y = block_num / tpl.size_x / tpl.size_z;
+            int z = block_num / tpl.size_x % tpl.size_z;
+            int x = block_num % tpl.size_x;
+
             if (y >= tpl.size_y) {
                 this.cancel();
                 return;
             }
-            int z = block_num / tpl.size_x % tpl.size_z;
-            int x = block_num % tpl.size_x;
 
-            Block b = centerBlock.getRelative(x, y, z);
+            Block block = centerBlock.getRelative(x, y, z);
 
-
-            lock.lock();
             try {
-                if (aborted) {
-                    return;
-                }
-
-                ItemManager.sendBlockChange(getPlayer(), b.getLocation(), tpl.blocks[x][y][z].getMaterialData());
-                resident.previewUndo.put(new BlockCoord(b.getLocation()), new SimpleBlock(b.getState().getData()));
-                block_num++;
-            } finally {
-                lock.unlock();
+                ItemManager.sendBlockChange(getPlayer(), block.getLocation(), tpl.blocks[x][y][z].getMaterialData());
+            } catch (CivException e) {
+                this.cancel();
+                return;
             }
-        } catch (CivException e) {
-            //abort task.
+            resident.previewUndo.put(new BlockCoord(block.getLocation()), new SimpleBlock(block.getState().getData()));
+            block_num++;
         }
     }
 
