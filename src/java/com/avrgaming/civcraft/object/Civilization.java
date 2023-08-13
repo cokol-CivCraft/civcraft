@@ -49,6 +49,8 @@ import com.avrgaming.civcraft.util.DateUtil;
 import com.avrgaming.civcraft.util.ItemManager;
 import net.minecraft.server.v1_12_R1.NBTCompressedStreamTools;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
+import net.minecraft.server.v1_12_R1.NBTTagList;
+import net.minecraft.server.v1_12_R1.NBTTagString;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -253,9 +255,16 @@ public class Civilization extends SQLObject {
         nbt.setString("lastUpkeepTick", this.saveKeyValueString(this.lastUpkeepPaidMap));
         nbt.setString("lastTaxesTick", this.saveKeyValueString(this.lastTaxesPaidMap));
         nbt.setString("researched", this.saveResearchedTechs());
-        nbt.setBoolean("adminCiv", this.adminCiv);
-        nbt.setBoolean("conquered", this.conquered);
-        if (this.conquer_date != null) {
+        NBTTagList researched_techs_list = new NBTTagList();
+        for (ConfigTech tech : this.techs.values()) {
+            researched_techs_list.add(new NBTTagString(tech.id));
+        }
+        nbt.set("researched_techs", researched_techs_list);
+        if (this.adminCiv) {
+            nbt.setBoolean("adminCiv", true);
+        }
+        if (this.conquered) {
+            nbt.setBoolean("conquered", true);
             nbt.setLong("conquered_date", this.conquer_date.getTime());
         }
 
