@@ -47,6 +47,8 @@ import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.DateUtil;
 import com.avrgaming.civcraft.util.ItemManager;
+import net.minecraft.server.v1_12_R1.NBTCompressedStreamTools;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -54,6 +56,8 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -171,6 +175,7 @@ public class Civilization extends SQLObject {
                     "`conquered` boolean DEFAULT false," +
                     "`conquered_date` long," +
                     "`created_date` long," +
+                    "`nbt` BLOB" +
                     "UNIQUE KEY (`name`), " +
                     "PRIMARY KEY (`id`)" + ")";
 
@@ -182,6 +187,7 @@ public class Civilization extends SQLObject {
             SQLController.makeCol("conquered_date", "long", TABLE_NAME);
             SQLController.makeCol("created_date", "long", TABLE_NAME);
             SQLController.makeCol("motd", "mediumtext", TABLE_NAME);
+            SQLController.makeCol("nbt", "BLOB", TABLE_NAME);
         }
     }
 
@@ -217,7 +223,7 @@ public class Civilization extends SQLObject {
         }
 
         String motd = rs.getString("motd");
-        if (motd == null || motd == "") {
+        if (motd == null || motd.isEmpty()) {
             this.messageOfTheDay = null; //Forever in the past.
         } else {
             this.messageOfTheDay = motd;
@@ -249,48 +255,79 @@ public class Civilization extends SQLObject {
     @Override
     public void saveNow() throws SQLException {
         HashMap<String, Object> hashmap = new HashMap<>();
+        NBTTagCompound nbt = new NBTTagCompound();
+
+        nbt.setString("name", this.getName());
         hashmap.put("name", this.getName());
+        nbt.setString("leaderName", this.getLeader().getUUIDString());
         hashmap.put("leaderName", this.getLeader().getUUIDString());
 
         hashmap.put("capitolName", this.capitolName);
+        nbt.setString("capitolName", this.capitolName);
         hashmap.put("leaderGroupName", this.getLeaderGroupName());
+        nbt.setString("leaderGroupName", this.getLeaderGroupName());
         hashmap.put("advisersGroupName", this.getAdvisersGroupName());
+        nbt.setString("advisersGroupName", this.getAdvisersGroupName());
         hashmap.put("debt", this.getTreasury().getDebt());
+        nbt.setDouble("debt", this.getTreasury().getDebt());
         hashmap.put("coins", this.getTreasury().getBalance());
+        nbt.setDouble("coins", this.getTreasury().getBalance());
         hashmap.put("daysInDebt", this.daysInDebt);
+        nbt.setInt("daysInDebt", this.daysInDebt);
         hashmap.put("science_percentage", this.getSciencePercentage());
+        nbt.setDouble("science_percentage", this.getSciencePercentage());
         hashmap.put("color", this.getColor());
+        nbt.setInt("color", this.getColor());
         hashmap.put("religion_id", this.getReligion().id);
+        nbt.setString("religion_id", this.getReligion().id);
         //hashmap.put("taxrate", this.getIncomeTaxRate());
         if (this.getResearchTech() != null) {
             hashmap.put("researchTech", this.getResearchTech().id);
+            nbt.setString("researchTech", this.getResearchTech().id);
         } else {
             hashmap.put("researchTech", null);
         }
         hashmap.put("researchProgress", this.getResearchProgress());
+        nbt.setDouble("researchProgress", this.getResearchProgress());
         hashmap.put("government_id", this.getGovernment().id);
+        nbt.setString("government_id", this.getGovernment().id);
         hashmap.put("lastUpkeepTick", this.saveKeyValueString(this.lastUpkeepPaidMap));
+        nbt.setString("lastUpkeepTick", this.saveKeyValueString(this.lastUpkeepPaidMap));
         hashmap.put("lastTaxesTick", this.saveKeyValueString(this.lastTaxesPaidMap));
+        nbt.setString("lastTaxesTick", this.saveKeyValueString(this.lastTaxesPaidMap));
         hashmap.put("researched", this.saveResearchedTechs());
+        nbt.setString("researched", this.saveResearchedTechs());
         hashmap.put("adminCiv", this.adminCiv);
+        nbt.setBoolean("adminCiv", this.adminCiv);
         hashmap.put("conquered", this.conquered);
+        nbt.setBoolean("conquered", this.conquered);
         if (this.conquer_date != null) {
             hashmap.put("conquered_date", this.conquer_date.getTime());
+            nbt.setLong("conquered_date", this.conquer_date.getTime());
         } else {
             hashmap.put("conquered_date", null);
         }
 
         if (this.messageOfTheDay != null) {
             hashmap.put("motd", this.messageOfTheDay);
+            nbt.setString("motd", this.messageOfTheDay);
         } else {
             hashmap.put("motd", null);
         }
 
         if (this.created_date != null) {
             hashmap.put("created_date", this.created_date.getTime());
+            nbt.setLong("created_date", this.created_date.getTime());
         } else {
             hashmap.put("created_date", null);
         }
+        var data = new ByteArrayOutputStream();
+        try {
+            NBTCompressedStreamTools.a(nbt, data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        hashmap.put("nbt", data.toByteArray());
 
         SQLController.updateNamedObject(this, hashmap, TABLE_NAME);
     }
