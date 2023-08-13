@@ -61,21 +61,6 @@ public class SessionDBAsyncTimer implements Runnable {
                     lock.unlock();
                 }
             } finally {
-                try {
-                    if (gameConnection != null) {
-                        gameConnection.close();
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    if (globalConnection != null) {
-                        globalConnection.close();
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
             }
         }
 

@@ -65,21 +65,6 @@ public class TradeGoodPostGenTask implements Runnable {
                 e1.printStackTrace();
             }
         } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            if (ps != null) {
-                try {
-                    ps.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
 
     }

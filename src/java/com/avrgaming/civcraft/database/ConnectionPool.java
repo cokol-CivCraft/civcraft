@@ -9,6 +9,7 @@ public class ConnectionPool {
     private final String dbcUrl;
     private final String user;
     private final String pass;
+    private final Connection connection;
 
     public static void init() throws ClassNotFoundException {
         /* Load any dependent classes. */
@@ -22,9 +23,14 @@ public class ConnectionPool {
         this.dbcUrl = dbcUrl;
         this.user = user;
         this.pass = pass;
+        try {
+            this.connection = DriverManager.getConnection(dbcUrl, user, pass);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(dbcUrl, user, pass);
+        return connection;
     }
 }

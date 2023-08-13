@@ -456,14 +456,6 @@ public class SQLController {
                 e.printStackTrace();
             }
         }
-
-        if (context != null) {
-            try {
-                context.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
 }

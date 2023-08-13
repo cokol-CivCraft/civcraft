@@ -210,9 +210,6 @@ public class Resident extends SQLObject {
         int campID = rs.getInt("camp_id");
         this.lastIP = rs.getString("last_ip");
         this.debugTown = rs.getString("debug_town");
-        this.nativeTown = CivGlobal.getTownFromId(rs.getInt("nativetown_id"));
-        assert nativeTown != null;
-        LoadNativeCiv(nativeTown.getId());
 
         if (rs.getString("uuid").equalsIgnoreCase("UNKNOWN")) {
             this.uid = null;

@@ -85,13 +85,6 @@ public class BiomeCache {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                if (context != null) {
-                    try {
-                        context.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
         }, 0);
     }
