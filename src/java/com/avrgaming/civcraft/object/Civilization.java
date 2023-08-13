@@ -56,6 +56,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -194,27 +195,35 @@ public class Civilization extends SQLObject {
     @Override
     public void load(ResultSet rs) throws SQLException, InvalidNameException {
         this.setId(rs.getInt("id"));
-        this.setName(rs.getString("name"));
+        var data = new ByteArrayInputStream(rs.getBytes("nbt"));
+        NBTTagCompound nbt;
+        try {
+            nbt = NBTCompressedStreamTools.a(data);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        this.setName(nbt.getString("name"));
         //		Resident res = CivGlobal.getResidentViaUUID(UUID.fromString(resUUID));
-        leaderName = rs.getString("leaderName");
+        leaderName = nbt.getString("leaderName");
 
 
-        capitolName = rs.getString("capitolName");
-        setLeaderGroupName(rs.getString("leaderGroupName"));
-        setAdvisersGroupName(rs.getString("advisersGroupName"));
-        daysInDebt = rs.getInt("daysInDebt");
-        this.color = rs.getInt("color");
-        this.setResearchTech(CivSettings.techs.get(rs.getString("researchTech")));
-        this.setResearchProgress(rs.getDouble("researchProgress"));
-        this.setGovernment(rs.getString("government_id"));
-        this.loadKeyValueString(rs.getString("lastUpkeepTick"), this.lastUpkeepPaidMap);
-        this.loadKeyValueString(rs.getString("lastTaxesTick"), this.lastTaxesPaidMap);
-        this.setSciencePercentage(rs.getDouble("science_percentage"));
-        this.setCivReligion(CivSettings.religions.get(rs.getString("religion_id")));
-        this.loadResearchedTechs(rs.getString("researched"));
-        this.adminCiv = rs.getBoolean("adminCiv");
-        this.conquered = rs.getBoolean("conquered");
-        long ctime = rs.getLong("conquered_date");
+        capitolName = nbt.getString("capitolName");
+        setLeaderGroupName(nbt.getString("leaderGroupName"));
+        setAdvisersGroupName(nbt.getString("advisersGroupName"));
+        daysInDebt = nbt.getInt("daysInDebt");
+        this.color = nbt.getInt("color");
+        this.setResearchTech(CivSettings.techs.get(nbt.getString("researchTech")));
+        this.setResearchProgress(nbt.getDouble("researchProgress"));
+        this.setGovernment(nbt.getString("government_id"));
+        this.loadKeyValueString(nbt.getString("lastUpkeepTick"), this.lastUpkeepPaidMap);
+        this.loadKeyValueString(nbt.getString("lastTaxesTick"), this.lastTaxesPaidMap);
+        this.setSciencePercentage(nbt.getDouble("science_percentage"));
+        this.setCivReligion(CivSettings.religions.get(nbt.getString("religion_id")));
+        this.loadResearchedTechs(nbt.getString("researched"));
+        this.adminCiv = nbt.getBoolean("adminCiv");
+        this.conquered = nbt.getBoolean("conquered");
+        long ctime = nbt.getLong("conquered_date");
         this.incomeTaxRate = loadIncomeTaxRate();
         if (ctime == 0) {
             this.conquer_date = null;
@@ -222,23 +231,18 @@ public class Civilization extends SQLObject {
             this.conquer_date = new Date(ctime);
         }
 
-        String motd = rs.getString("motd");
-        if (motd == null || motd.isEmpty()) {
+        String motd = nbt.getString("motd");
+        if (motd.isEmpty()) {
             this.messageOfTheDay = null; //Forever in the past.
         } else {
             this.messageOfTheDay = motd;
         }
 
-        ctime = rs.getLong("created_date");
-        if (ctime == 0) {
-            this.created_date = new Date(0); //Forever in the past.
-        } else {
-            this.created_date = new Date(ctime);
-        }
+        this.created_date = new Date(nbt.getLong("created_date"));
 
         this.setTreasury(CivGlobal.createEconObject(this));
-        this.getTreasury().setBalance(rs.getDouble("coins"), false);
-        this.getTreasury().setDebt(rs.getDouble("debt"));
+        this.getTreasury().setBalance(nbt.getDouble("coins"), false);
+        this.getTreasury().setDebt(nbt.getDouble("debt"));
 
         for (ConfigTech tech : this.getTechs()) {
             if (tech.era > this.getCurrentEra()) {
@@ -315,12 +319,9 @@ public class Civilization extends SQLObject {
             hashmap.put("motd", null);
         }
 
-        if (this.created_date != null) {
-            hashmap.put("created_date", this.created_date.getTime());
-            nbt.setLong("created_date", this.created_date.getTime());
-        } else {
-            hashmap.put("created_date", null);
-        }
+        hashmap.put("created_date", this.created_date.getTime());
+        nbt.setLong("created_date", this.created_date.getTime());
+
         var data = new ByteArrayOutputStream();
         try {
             NBTCompressedStreamTools.a(nbt, data);
