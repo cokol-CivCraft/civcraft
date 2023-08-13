@@ -193,7 +193,15 @@ public class Civilization extends SQLObject {
         this.loadKeyValueString(nbt.getString("lastTaxesTick"), this.lastTaxesPaidMap);
         this.setSciencePercentage(nbt.getDouble("science_percentage"));
         this.setCivReligion(CivSettings.religions.get(nbt.getString("religion_id")));
-        this.loadResearchedTechs(nbt.getString("researched"));
+        NBTTagList researched_techs_list = nbt.getList("researched_techs", new NBTTagString("").getTypeId());
+        for (int i = 0; i < researched_techs_list.size(); i++) {
+            ConfigTech t = CivSettings.techs.get(researched_techs_list.getString(i));
+            if (t == null) {
+                continue;
+            }
+            CivGlobal.researchedTechs.add(t.id.toLowerCase());
+            this.techs.put(t.id, t);
+        }
         this.adminCiv = nbt.getBoolean("adminCiv");
         this.conquered = nbt.getBoolean("conquered");
         long ctime = nbt.getLong("conquered_date");
@@ -254,7 +262,6 @@ public class Civilization extends SQLObject {
         nbt.setString("government_id", this.getGovernment().id);
         nbt.setString("lastUpkeepTick", this.saveKeyValueString(this.lastUpkeepPaidMap));
         nbt.setString("lastTaxesTick", this.saveKeyValueString(this.lastTaxesPaidMap));
-        nbt.setString("researched", this.saveResearchedTechs());
         NBTTagList researched_techs_list = new NBTTagList();
         for (ConfigTech tech : this.techs.values()) {
             researched_techs_list.add(new NBTTagString(tech.id));
@@ -283,32 +290,6 @@ public class Civilization extends SQLObject {
         hashmap.put("nbt", data.toByteArray());
 
         SQLController.updateNamedObject(this, hashmap, TABLE_NAME);
-    }
-
-    private void loadResearchedTechs(String techstring) {
-        if (techstring == null || techstring.isEmpty()) {
-            return;
-        }
-
-        String[] techs = techstring.split(",");
-
-        for (String tech : techs) {
-            ConfigTech t = CivSettings.techs.get(tech);
-            if (t != null) {
-                CivGlobal.researchedTechs.add(t.id.toLowerCase());
-                this.techs.put(tech, t);
-            }
-        }
-    }
-
-    private String saveResearchedTechs() {
-        StringBuilder out = new StringBuilder();
-
-        for (ConfigTech tech : this.techs.values()) {
-            out.append(tech.id).append(",");
-        }
-
-        return out.toString();
     }
 
     public double loadIncomeTaxRate() {
