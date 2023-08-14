@@ -20,14 +20,12 @@ package com.avrgaming.civcraft.config;
 import com.avrgaming.civcraft.main.CivLog;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.List;
 import java.util.Map;
 
 public record ConfigHemisphere(String id, int x_min, int x_max, int z_min, int z_max) {
     public static void loadConfig(FileConfiguration cfg, Map<String, ConfigHemisphere> hemis) {
         hemis.clear();
-        List<Map<?, ?>> configHemis = cfg.getMapList("hemispheres");
-        for (Map<?, ?> b : configHemis) {
+        for (Map<?, ?> b : cfg.getMapList("hemispheres")) {
             ConfigHemisphere buff = new ConfigHemisphere(
                     (String) b.get("id"),
                     (Integer) b.get("x_min"),

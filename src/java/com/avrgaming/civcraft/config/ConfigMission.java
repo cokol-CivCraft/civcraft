@@ -37,24 +37,10 @@ public class ConfigMission {
     public Integer length;
     public Double compromise_chance;
 
-    public ConfigMission() {
-    }
-
-    public ConfigMission(ConfigMission mission) {
-        this.id = mission.id;
-        this.name = mission.name;
-        this.description = mission.description;
-        this.cost = mission.cost;
-        this.range = mission.range;
-        this.cooldown = mission.cooldown;
-        this.intel = mission.intel;
-    }
-
     @SuppressWarnings("unchecked")
     public static void loadConfig(FileConfiguration cfg, Map<String, ConfigMission> missions) {
         missions.clear();
-        List<Map<?, ?>> configMissions = cfg.getMapList("missions");
-        for (Map<?, ?> b : configMissions) {
+        for (Map<?, ?> b : cfg.getMapList("missions")) {
             ConfigMission mission = new ConfigMission();
             mission.id = (String) b.get("id");
             mission.name = (String) b.get("name");

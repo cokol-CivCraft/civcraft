@@ -200,7 +200,7 @@ public class TownInfoCommand extends CommandBase {
 
         out.add(CivMessage.buildSmallTitle(CivSettings.localize.localizedString("Total")));
         ConfigHappinessState state = town.getHappinessState();
-        out.add(ChatColor.GREEN + df.format(town.getHappinessPercentage() * 100) + "%" + ChatColor.DARK_GREEN + " " + CivSettings.localize.localizedString("cmd_town_info_happinessState") + " " + state.color + state.name);
+        out.add(ChatColor.GREEN + df.format(town.getHappinessPercentage() * 100) + "%" + ChatColor.DARK_GREEN + " " + CivSettings.localize.localizedString("cmd_town_info_happinessState") + " " + state.color() + state.name());
         CivMessage.send(sender, out);
 
 
@@ -620,7 +620,7 @@ public class TownInfoCommand extends CommandBase {
 //					CivColor.LightGreen+df.format(town.getHappinessPercentage()*100)+"%");
             info.put(CivSettings.localize.localizedString("Happiness"), ChatColor.GREEN + df.format(Math.floor(town.getHappinessPercentage() * 100)) + "%");
             ConfigHappinessState state = town.getHappinessState();
-            info.put(CivSettings.localize.localizedString("State"), state.color + state.name);
+            info.put(CivSettings.localize.localizedString("State"), state.color() + state.name());
             CivMessage.send(sender, parent.makeInfoString(info, ChatColor.DARK_GREEN, ChatColor.GREEN));
 
 

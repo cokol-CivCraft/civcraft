@@ -7,27 +7,16 @@ import org.bukkit.configuration.file.FileConfiguration;
 import java.util.List;
 import java.util.Map;
 
-public class ConfigHappinessState {
-    public final int level;
-    public final String name;
-    public final ChatColor color;
-    public final double amount;
-    public final double beaker_rate;
-    public final double coin_rate;
-    public final double culture_rate;
-    public final double hammer_rate;
-
-    public ConfigHappinessState(int level, String name, ChatColor color, double amount, double beakerRate, double coinRate, double cultureRate, double hammerRate) {
-        this.level = level;
-        this.name = name;
-        this.color = color;
-        this.amount = amount;
-        beaker_rate = beakerRate;
-        coin_rate = coinRate;
-        culture_rate = cultureRate;
-        hammer_rate = hammerRate;
-    }
-
+public record ConfigHappinessState(
+        int level,
+        String name,
+        ChatColor color,
+        double amount,
+        double beaker_rate,
+        double coin_rate,
+        double culture_rate,
+        double hammer_rate
+) {
     public static void loadConfig(FileConfiguration cfg, Map<Integer, ConfigHappinessState> happiness_states) {
         happiness_states.clear();
         List<Map<?, ?>> list = cfg.getMapList("happiness.states");

@@ -518,7 +518,7 @@ public class MissionBook extends UnitItemMaterial {
 			SimpleDateFormat sdf = new SimpleDateFormat("M/dd h:mm:ss a z");
 			out += CivSettings.localize.localizedString("Time")+" "+sdf.format(new Date())+"\n";
             out += (CivSettings.localize.localizedString("Treasury") + " " + tc.getTown().getTreasury().getBalance() + "\n");
-            out += (CivSettings.localize.localizedString("cmd_town_happiness") + " " + tc.getTown().getHappinessPercentage()) + " " + "(" + tc.getTown().getHappinessState().name + ")";
+            out += (CivSettings.localize.localizedString("cmd_town_happiness") + " " + tc.getTown().getHappinessPercentage()) + " " + "(" + tc.getTown().getHappinessState().name() + ")";
             out += (CivSettings.localize.localizedString("Hammers") + " " + tc.getTown().getHammers().total + "\n");
 			out += (CivSettings.localize.localizedString("Culture")+" "+tc.getTown().getCulture().total+"\n");
             out += (CivSettings.localize.localizedString("cmd_town_growth") + " " + tc.getTown().getGrowth().total + "\n");

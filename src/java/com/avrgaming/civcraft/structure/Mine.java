@@ -129,7 +129,7 @@ public class Mine extends Structure {
         int level = getLevel();
 
         ConfigMineLevel lvl = CivSettings.mineLevels.get(level);
-        return lvl.hammers;
+        return lvl.hammers();
     }
 
     public int getLevel() {
@@ -154,7 +154,7 @@ public class Mine extends Structure {
         int level = getLevel();
 
         ConfigMineLevel lvl = CivSettings.mineLevels.get(level);
-        return lvl.count;
+        return lvl.count();
     }
 
     public Result getLastResult() {

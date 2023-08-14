@@ -530,7 +530,7 @@ public class Town extends SQLObject {
         rate = newRate;
 
         ConfigHappinessState state = CivSettings.getHappinessState(this.getHappinessPercentage());
-        newRate = rate * state.culture_rate;
+        newRate = rate * state.culture_rate();
         rates.put("Happiness", newRate - rate);
         rate = newRate;
 
@@ -656,7 +656,7 @@ public class Town extends SQLObject {
         ConfigHappinessState state = CivSettings.getHappinessState(this.getHappinessPercentage());
 
         /* Happiness */
-        double newRate = rate * state.hammer_rate;
+        double newRate = rate * state.hammer_rate();
         rates.put("Happiness", newRate - rate);
         rate = newRate;
 
@@ -1816,7 +1816,7 @@ public class Town extends SQLObject {
         rate += additional;
 
         /* Adjust for happiness state. */
-        rate *= this.getHappinessState().coin_rate;
+        rate *= this.getHappinessState().coin_rate();
         return rate;
     }
 
@@ -1884,7 +1884,7 @@ public class Town extends SQLObject {
         rate += additional;
 
         /* Adjust for happiness state. */
-        rate *= this.getHappinessState().coin_rate;
+        rate *= this.getHappinessState().coin_rate();
         return rate;
     }
 
@@ -2547,7 +2547,7 @@ public class Town extends SQLObject {
     public AttrSource getFaithRate() {
         HashMap<String, Double> rates = new HashMap<>();
 
-        double happiness = this.getHappinessState().culture_rate;
+        double happiness = this.getHappinessState().culture_rate();
         rates.put("Happiness", happiness);
 
         // я подозреваю что у нас будут баги с %
@@ -2594,7 +2594,7 @@ public class Town extends SQLObject {
         HashMap<String, Double> rates = new HashMap<>();
 
         ConfigHappinessState state = this.getHappinessState();
-        double newRate = rate * state.beaker_rate;
+        double newRate = rate * state.beaker_rate();
         rates.put("Happiness", newRate - rate);
         rate = newRate;
 

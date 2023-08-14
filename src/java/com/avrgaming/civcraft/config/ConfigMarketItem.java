@@ -35,7 +35,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ConfigMarketItem {
@@ -72,7 +71,6 @@ public class ConfigMarketItem {
 
     public static void loadConfig(FileConfiguration cfg, Map<Integer, ConfigMarketItem> items) {
         items.clear();
-        List<Map<?, ?>> culture_levels = cfg.getMapList("items");
 
         try {
             STEP = CivSettings.getInteger(CivSettings.marketConfig, "step");
@@ -83,8 +81,8 @@ public class ConfigMarketItem {
             e.printStackTrace();
         }
 
-		
-		for (Map<?, ?> level : culture_levels) {
+
+        for (Map<?, ?> level : cfg.getMapList("items")) {
 			
 			ConfigMarketItem item = new ConfigMarketItem();
 			item.id = (Integer)level.get("id");
@@ -93,14 +91,14 @@ public class ConfigMarketItem {
 			item.data = (Integer)level.get("data");
 			
 			item.inital_value = (Integer)level.get("value");
-			
-			if (level.get("custom_id") != null) {
+
+            if (level.get("custom_id") != null) {
 				item.custom_id = (String)level.get("custom_id");
 			} else {
 				item.custom_id = null;
 			}
-			
-			if (level.get("step") != null) {
+
+            if (level.get("step") != null) {
 				item.step = (Integer)level.get("step");
 			} else {
 				item.step = STEP;

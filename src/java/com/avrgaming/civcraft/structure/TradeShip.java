@@ -375,7 +375,7 @@ public class TradeShip extends WaterStructure {
         int level = getLevel();
 
         ConfigMineLevel lvl = CivSettings.mineLevels.get(level);
-        return lvl.count;
+        return lvl.count();
     }
 
     public Result getLastResult() {
