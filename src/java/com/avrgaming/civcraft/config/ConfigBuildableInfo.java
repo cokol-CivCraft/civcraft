@@ -56,7 +56,7 @@ public class ConfigBuildableInfo {
     public boolean water_structure = false;
     public boolean ignore_floating = false;
     public List<HashMap<String, String>> components = new LinkedList<>();
-    public StructuresTypes type; // todo: unused
+    public StructuresTypes type;
 
     public boolean isAvailable(Town town) {
         if (
