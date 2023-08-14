@@ -55,6 +55,7 @@ import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -208,12 +209,21 @@ public class Town extends SQLObject {
     @Override
     public void load(ResultSet rs) throws SQLException, InvalidNameException, CivException {
         this.setId(rs.getInt("id"));
-        this.setName(rs.getString("name"));
-        this.setLevel(rs.getInt("level"));
-        this.granaryResources = rs.getString("granaryResources");
-        this.setCiv(CivGlobal.getCivFromId(rs.getInt("civ_id")));
+        var data = new ByteArrayInputStream(rs.getBytes("nbt"));
+        NBTTagCompound nbt;
+        try {
+            nbt = NBTCompressedStreamTools.a(data);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        this.setName(nbt.getString("name"));
+        this.setLevel(nbt.getInt("level"));
+        if (!nbt.getString("granaryResources").isEmpty()) {
+            this.granaryResources = nbt.getString("granaryResources");
+        }
+        this.setCiv(CivGlobal.getCivFromId(nbt.getInt("civ_id")));
 
-        int motherCivId = rs.getInt("mother_civ_id");
+        int motherCivId = nbt.getInt("mother_civ_id");
         if (motherCivId != 0) {
             Civilization mother = CivGlobal.getConqueredCivFromId(motherCivId);
             if (mother == null) {
@@ -228,39 +238,34 @@ public class Town extends SQLObject {
         }
 
         if (this.getCiv() == null) {
-            CivLog.error("TOWN:" + this.getName() + " WITHOUT A CIV, id was:" + rs.getInt("civ_id"));
+            CivLog.error("TOWN:" + this.getName() + " WITHOUT A CIV, id was:" + nbt.getInt("civ_id"));
             //this.delete();
             CivGlobal.orphanTowns.add(this);
             throw new CivException("Failed to load town, bad data.");
         }
-        this.setDaysInDebt(rs.getInt("daysInDebt"));
-        this.setUpgradesFromString(rs.getString("upgrades"));
+        this.setDaysInDebt(nbt.getInt("daysInDebt"));
+        this.setUpgradesFromString(nbt.getString("upgrades"));
 
         //this.setHomeChunk(rs.getInt("homechunk_id"));
-        this.setExtraHammers(rs.getDouble("extra_hammers"));
-        this.setAccumulatedCulture(rs.getInt("culture"));
+        this.setExtraHammers(nbt.getDouble("extra_hammers"));
+        this.setAccumulatedCulture(nbt.getInt("culture"));
 
         defaultGroupName = "residents";
         mayorGroupName = "mayors";
         assistantGroupName = "assistants";
 
         this.setTreasury(CivGlobal.createEconObject(this));
-        this.getTreasury().setBalance(rs.getDouble("coins"), false);
-        this.setDebt(rs.getDouble("debt"));
+        this.getTreasury().setBalance(nbt.getDouble("coins"), false);
+        this.setDebt(nbt.getDouble("debt"));
 
-        String outlawRaw = rs.getString("outlaws");
+        String outlawRaw = nbt.getString("outlaws");
         if (outlawRaw != null) {
             String[] outlaws = outlawRaw.split(",");
 
             this.outlaws.addAll(Arrays.asList(outlaws));
         }
 
-        long ctime = rs.getLong("created_date");
-        if (ctime == 0) {
-            this.setCreated(new Date(0)); //Forever in the past.
-        } else {
-            this.setCreated(new Date(ctime));
-        }
+        this.setCreated(new Date(nbt.getLong("created_date")));
 
         this.getCiv().addTown(this);
     }
