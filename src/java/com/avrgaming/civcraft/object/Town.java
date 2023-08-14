@@ -177,26 +177,7 @@ public class Town extends SQLObject {
         if (!SQLController.hasTable(TABLE_NAME)) {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
-                    "`name` VARCHAR(64) NOT NULL," +
-                    "`civ_id` int(11) NOT NULL DEFAULT 0," +
-                    "`master_civ_id` int(11) NOT NULL DEFAULT 0," + //XXX no longer used.
-                    "`mother_civ_id` int(11) NOT NULL DEFAULT 0," +
-                    "`defaultGroupName` mediumtext DEFAULT NULL," +
-                    "`mayorGroupName` mediumtext DEFAULT NULL," +
-                    "`assistantGroupName` mediumtext DEFAULT NULL," +
-                    "`upgrades` mediumtext DEFAULT NULL," +
-                    "`level` int(11) DEFAULT 1," +
-                    "`debt` double DEFAULT 0," +
-                    "`granaryResources` mediumtext DEFAULT NULL," +
-                    "`coins` double DEFAULT 0," +
-                    "`daysInDebt` int(11) DEFAULT 0," +
-                    "`extra_hammers` double DEFAULT 0," +
-                    "`culture` int(11) DEFAULT 0," +
-                    "`created_date` long," +
-                    "`outlaws` mediumtext DEFAULT NULL," +
-                    "`dbg_civ_name` mediumtext DEFAULT NULL," +
                     "`nbt` BLOB," +
-                    "UNIQUE KEY (`name`), " +
                     "PRIMARY KEY (`id`)" + ")";
 
             SQLController.makeTable(table_create);
@@ -281,53 +262,34 @@ public class Town extends SQLObject {
         NBTTagCompound nbt = new NBTTagCompound();
 
         nbt.setString("name", this.getName());
-        hashmap.put("name", this.getName());
         nbt.setInt("civ_id", this.getCiv().getId());
-        hashmap.put("civ_id", this.getCiv().getId());
 
         if (this.motherCiv != null) {
             nbt.setInt("mother_civ_id", this.motherCiv.getId());
-            hashmap.put("mother_civ_id", this.motherCiv.getId());
-        } else {
-            hashmap.put("mother_civ_id", 0);
         }
 
-        hashmap.put("defaultGroupName", this.getDefaultGroupName());
         nbt.setString("defaultGroupName", this.getDefaultGroupName());
-        hashmap.put("mayorGroupName", this.getMayorGroupName());
         nbt.setString("mayorGroupName", this.getMayorGroupName());
-        hashmap.put("assistantGroupName", this.getAssistantGroupName());
         nbt.setString("assistantGroupName", this.getAssistantGroupName());
-        hashmap.put("level", this.getLevel());
         nbt.setInt("level", this.getLevel());
-        hashmap.put("debt", this.getTreasury().getDebt());
         nbt.setDouble("debt", this.getTreasury().getDebt());
-        hashmap.put("daysInDebt", this.getDaysInDebt());
         nbt.setInt("daysInDebt", this.getDaysInDebt());
-        hashmap.put("extra_hammers", this.getExtraHammers());
         nbt.setDouble("extra_hammers", this.getExtraHammers());
-        hashmap.put("culture", this.getAccumulatedCulture());
         nbt.setInt("culture", this.getAccumulatedCulture());
-        hashmap.put("upgrades", this.getUpgradesString());
         nbt.setString("upgrades", this.getUpgradesString());
-        hashmap.put("coins", this.getTreasury().getBalance());
         nbt.setDouble("coins", this.getTreasury().getBalance());
-        hashmap.put("dbg_civ_name", this.getCiv().getName());
         nbt.setString("dbg_civ_name", this.getCiv().getName());
-        hashmap.put("granaryResources", this.granaryResources);
+
         if (granaryResources != null) {
             nbt.setString("granaryResources", this.granaryResources);
         }
 
-
-        hashmap.put("created_date", this.created_date.getTime());
         nbt.setLong("created_date", this.created_date.getTime());
 
         StringBuilder outlaws = new StringBuilder();
         for (String outlaw : this.outlaws) {
             outlaws.append(outlaw).append(",");
         }
-        hashmap.put("outlaws", outlaws.toString());
         nbt.setString("outlaws", outlaws.toString());
         var data = new ByteArrayOutputStream();
         try {
