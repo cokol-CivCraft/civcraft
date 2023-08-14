@@ -45,6 +45,8 @@ import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.DateUtil;
 import com.avrgaming.civcraft.util.ItemFrameStorage;
 import com.avrgaming.civcraft.war.War;
+import net.minecraft.server.v1_12_R1.NBTCompressedStreamTools;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -53,6 +55,8 @@ import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -157,7 +161,7 @@ public class Town extends SQLObject {
      */
     public static final int ATTR_TIMEOUT_SECONDS = 5;
 
-    static class AttrCache {
+    public static class AttrCache {
         public Date lastUpdate;
         public AttrSource sources;
     }
@@ -190,6 +194,7 @@ public class Town extends SQLObject {
                     "`created_date` long," +
                     "`outlaws` mediumtext DEFAULT NULL," +
                     "`dbg_civ_name` mediumtext DEFAULT NULL," +
+                    "`nbt` BLOB," +
                     "UNIQUE KEY (`name`), " +
                     "PRIMARY KEY (`id`)" + ")";
 
@@ -197,13 +202,6 @@ public class Town extends SQLObject {
             CivLog.info("Created " + TABLE_NAME + " table");
         } else {
             CivLog.info(TABLE_NAME + " table OK!");
-
-            //Check for new columns and update the table if we dont have them.
-            SQLController.makeCol("outlaws", "mediumtext", TABLE_NAME);
-            SQLController.makeCol("daysInDebt", "int(11)", TABLE_NAME);
-            SQLController.makeCol("mother_civ_id", "int(11)", TABLE_NAME);
-            SQLController.makeCol("dbg_civ_name", "mediumtext", TABLE_NAME);
-            SQLController.makeCol("created_date", "long", TABLE_NAME);
         }
     }
 
@@ -275,40 +273,64 @@ public class Town extends SQLObject {
     @Override
     public void saveNow() throws SQLException {
         HashMap<String, Object> hashmap = new HashMap<>();
+        NBTTagCompound nbt = new NBTTagCompound();
 
+        nbt.setString("name", this.getName());
         hashmap.put("name", this.getName());
+        nbt.setInt("civ_id", this.getCiv().getId());
         hashmap.put("civ_id", this.getCiv().getId());
 
         if (this.motherCiv != null) {
+            nbt.setInt("mother_civ_id", this.motherCiv.getId());
             hashmap.put("mother_civ_id", this.motherCiv.getId());
         } else {
             hashmap.put("mother_civ_id", 0);
         }
 
         hashmap.put("defaultGroupName", this.getDefaultGroupName());
+        nbt.setString("defaultGroupName", this.getDefaultGroupName());
         hashmap.put("mayorGroupName", this.getMayorGroupName());
+        nbt.setString("mayorGroupName", this.getMayorGroupName());
         hashmap.put("assistantGroupName", this.getAssistantGroupName());
+        nbt.setString("assistantGroupName", this.getAssistantGroupName());
         hashmap.put("level", this.getLevel());
+        nbt.setInt("level", this.getLevel());
         hashmap.put("debt", this.getTreasury().getDebt());
+        nbt.setDouble("debt", this.getTreasury().getDebt());
         hashmap.put("daysInDebt", this.getDaysInDebt());
+        nbt.setInt("daysInDebt", this.getDaysInDebt());
         hashmap.put("extra_hammers", this.getExtraHammers());
+        nbt.setDouble("extra_hammers", this.getExtraHammers());
         hashmap.put("culture", this.getAccumulatedCulture());
+        nbt.setInt("culture", this.getAccumulatedCulture());
         hashmap.put("upgrades", this.getUpgradesString());
+        nbt.setString("upgrades", this.getUpgradesString());
         hashmap.put("coins", this.getTreasury().getBalance());
+        nbt.setDouble("coins", this.getTreasury().getBalance());
         hashmap.put("dbg_civ_name", this.getCiv().getName());
+        nbt.setString("dbg_civ_name", this.getCiv().getName());
         hashmap.put("granaryResources", this.granaryResources);
-
-        if (this.created_date != null) {
-            hashmap.put("created_date", this.created_date.getTime());
-        } else {
-            hashmap.put("created_date", null);
+        if (granaryResources != null) {
+            nbt.setString("granaryResources", this.granaryResources);
         }
+
+
+        hashmap.put("created_date", this.created_date.getTime());
+        nbt.setLong("created_date", this.created_date.getTime());
 
         StringBuilder outlaws = new StringBuilder();
         for (String outlaw : this.outlaws) {
             outlaws.append(outlaw).append(",");
         }
         hashmap.put("outlaws", outlaws.toString());
+        nbt.setString("outlaws", outlaws.toString());
+        var data = new ByteArrayOutputStream();
+        try {
+            NBTCompressedStreamTools.a(nbt, data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        hashmap.put("nbt", data.toByteArray());
 
         SQLController.updateNamedObject(this, hashmap, TABLE_NAME);
     }
@@ -330,10 +352,8 @@ public class Town extends SQLObject {
         }
 
         /* Remove all structures in the town. */
-        if (this.structures != null) {
-            for (Structure struct : this.structures.values()) {
-                struct.deleteSkipUndo();
-            }
+        for (Structure struct : this.structures.values()) {
+            struct.deleteSkipUndo();
         }
 
         /* Remove all town chunks. */
@@ -343,18 +363,16 @@ public class Town extends SQLObject {
             }
         }
 
-        if (this.wonders != null) {
-            for (Wonder wonder : wonders.values()) {
-                wonder.unbindStructureBlocks();
-                try {
-                    wonder.undoFromTemplate();
-                } catch (CivException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                    wonder.fancyDestroyStructureBlocks();
-                }
-                wonder.delete();
+        for (Wonder wonder : wonders.values()) {
+            wonder.unbindStructureBlocks();
+            try {
+                wonder.undoFromTemplate();
+            } catch (CivException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                wonder.fancyDestroyStructureBlocks();
             }
+            wonder.delete();
         }
 
         if (this.cultureChunks != null) {
@@ -3289,9 +3307,8 @@ public class Town extends SQLObject {
     public Granary getFreeGranary() {
         for (int i = 0; i < granaryAL.size(); i++) {
             Granary g = getGranary(i);
-            ArrayList<StructureChest> aa = g.getAllChestsById(1);
             int full = 0;
-            for (StructureChest ab : aa) {
+            for (StructureChest ab : g.getAllChestsById(1)) {
                 Chest chest = (Chest) ab.getCoord().getBlock().getState();
                 if (chest.getBlockInventory().firstEmpty() < 0) {
                     full++;
