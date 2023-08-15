@@ -34,7 +34,6 @@ import java.util.concurrent.locks.ReentrantLock;
 public class SyncBuildUpdateTask implements Runnable {
 
     public static int UPDATE_LIMIT = Integer.MAX_VALUE;
-    public static final int QUEUE_SIZE = 4096;
 
     //	public static BlockingQueue<SimpleBlock> updateBlocks = new ArrayBlockingQueue<SimpleBlock>(QUEUE_SIZE);
     private static final Queue<SimpleBlock> updateBlocks = new LinkedList<>();

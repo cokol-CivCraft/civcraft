@@ -42,7 +42,6 @@ public class CannonExplosionProjectile {
     int speed = 6;
     int damage = 40;
     int splash = 30;
-    Buildable buildable;
     PlayerProximityComponent proximityComponent;
 
     public CannonExplosionProjectile(Buildable buildable, Location target) {
@@ -63,12 +62,11 @@ public class CannonExplosionProjectile {
 
     public boolean advance() {
         Vector dir = getVectorBetween(target, loc).normalize();
-        double distance = loc.distanceSquared(target);
         dir.multiply(speed);
 
         loc.add(dir);
         loc.getWorld().createExplosion(loc, 0.0f, false);
-        distance = loc.distanceSquared(target);
+        double distance = loc.distanceSquared(target);
         BlockCoord center = proximityComponent.getCenter();
         center.setFromLocation(loc);
 
@@ -148,7 +146,6 @@ public class CannonExplosionProjectile {
                     Block block = loc.getWorld().getBlockAt(loc.getBlockX() + x, loc.getBlockY() + y, loc.getBlockZ() + z);
                     if (block.getType() == Material.AIR) {
                         block.setType(Material.FIRE);
-                        block.setData((byte) 0, true);
                     }
                 }
             }

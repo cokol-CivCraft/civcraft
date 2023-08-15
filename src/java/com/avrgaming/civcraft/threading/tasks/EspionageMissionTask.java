@@ -35,23 +35,20 @@ import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public class EspionageMissionTask implements Runnable {
 
-    ConfigMission mission;
-    String playerName;
-    Town target;
-    int secondsLeft;
-    Location startLocation;
+    private final ConfigMission mission;
+    private final String playerName;
+    private final Town target;
+    private int secondsLeft;
 
 
-    public EspionageMissionTask(ConfigMission mission, String playerName, Location startLocation, Town target, int seconds) {
+    public EspionageMissionTask(ConfigMission mission, String playerName, Town target, int seconds) {
         this.mission = mission;
         this.playerName = playerName;
         this.target = target;
-        this.startLocation = startLocation;
         this.secondsLeft = seconds;
     }
     @SuppressWarnings("BusyWait")

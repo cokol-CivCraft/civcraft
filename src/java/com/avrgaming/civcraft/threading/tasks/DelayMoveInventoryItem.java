@@ -29,10 +29,15 @@ public class DelayMoveInventoryItem implements Runnable {
      * event complete, and then issue another action to move the item back.
      */
 
-    public int fromSlot;
-    public int toSlot;
-    public Inventory inv;
-    public String playerName;
+    public final int fromSlot;
+    public final int toSlot;
+    public final Inventory inv;
+
+    public DelayMoveInventoryItem(int fromSlot, int toSlot, Inventory inv) {
+        this.fromSlot = fromSlot;
+        this.toSlot = toSlot;
+        this.inv = inv;
+    }
 
     @Override
     public void run() {

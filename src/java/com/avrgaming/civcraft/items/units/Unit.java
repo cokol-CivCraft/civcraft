@@ -34,12 +34,6 @@ public abstract class Unit {
     public static Spy SPY_UNIT;
     public static Settler SETTLER_UNIT;
     public static ArrayList<MissionBook> SPY_MISSIONS = new ArrayList<>();
-    public static MissionBook SPY_INVESTIGATE_TOWN;
-    public static MissionBook SPY_STEAL_TREASURY;
-    public static MissionBook SPY_SUBVERT_GOVERNMENT;
-    public static MissionBook SPY_POISON_GRANARY;
-    public static MissionBook SPY_PIRATE;
-    public static MissionBook SPY_SABOTAGE;
 
     public static void init() {
 
@@ -58,14 +52,6 @@ public abstract class Unit {
         }
 
         SETTLER_UNIT = new Settler("u_settler", CivSettings.units.get("u_settler"));
-    }
-
-    public Unit() {
-    }
-
-
-    public Unit(Inventory inv) {
-
     }
 
 

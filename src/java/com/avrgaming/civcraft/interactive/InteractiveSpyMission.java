@@ -88,7 +88,7 @@ public class InteractiveSpyMission implements InteractiveResponse {
         }
 
         if (!TaskMaster.hasTask("missiondelay:" + playerName)) {
-            TaskMaster.asyncTask("missiondelay:" + playerName, (new EspionageMissionTask(mission, playerName, playerLocation, target, mission.length)), 0);
+            TaskMaster.asyncTask("missiondelay:" + playerName, (new EspionageMissionTask(mission, playerName, target, mission.length)), 0);
         } else {
             CivMessage.sendError(player, CivSettings.localize.localizedString("interactive_spy_waiting"));
         }

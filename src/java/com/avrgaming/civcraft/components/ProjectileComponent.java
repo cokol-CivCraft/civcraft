@@ -42,7 +42,7 @@ public abstract class ProjectileComponent extends Component {
     protected double min_range;
     protected Buildable buildable;
     protected PlayerProximityComponent proximityComponent;
-    private Location turretCenter;
+    private final Location turretCenter;
 
     private final HashSet<BlockCoord> turrets = new HashSet<>();
 
@@ -254,10 +254,6 @@ public abstract class ProjectileComponent extends Component {
 
     public Location getTurretCenter() {
         return turretCenter;
-    }
-
-    public void setTurretCenter(Location turretCenter) {
-        this.turretCenter = turretCenter;
     }
 
 }

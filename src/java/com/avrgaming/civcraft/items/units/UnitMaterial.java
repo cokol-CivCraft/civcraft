@@ -319,12 +319,7 @@ public class UnitMaterial extends LoreMaterial {
             // Reposition item to the last quickbar slot
             if (event.getSlot() != LAST_SLOT) {
 
-                DelayMoveInventoryItem task = new DelayMoveInventoryItem();
-                task.fromSlot = event.getSlot();
-                task.toSlot = LAST_SLOT;
-                task.inv = toInv;
-                task.playerName = player.getName();
-                TaskMaster.syncTask(task);
+                TaskMaster.syncTask(new DelayMoveInventoryItem(event.getSlot(), LAST_SLOT, toInv));
             }
 
             onItemToPlayer(player, stack);
@@ -397,12 +392,7 @@ public class UnitMaterial extends LoreMaterial {
                     return;
                 }
 
-                DelayMoveInventoryItem task = new DelayMoveInventoryItem();
-                task.fromSlot = event.getSlot();
-                task.toSlot = LAST_SLOT;
-                task.inv = toInv;
-                task.playerName = player.getName();
-                TaskMaster.syncTask(task);
+                TaskMaster.syncTask(new DelayMoveInventoryItem(event.getSlot(), LAST_SLOT, toInv));
 
                 onItemToPlayer(player, droppedStack);
                 onItemFromPlayer(player, pickedStack);

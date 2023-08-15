@@ -49,10 +49,6 @@ public class Cannon extends Buildable {
     private final Vector direction = new Vector(0, 0, 0);
     public static final String RESTORE_NAME = "special:Cannons";
     public static final double STEP = 1.0f;
-    public static final byte WALLSIGN_EAST = 0x5;
-    public static final byte WALLSIGN_WEST = 0x4;
-    public static final byte WALLSIGN_NORTH = 0x2;
-    public static final byte WALLSIGN_SOUTH = 0x3;
     public BlockFace signDirection;
     public static final double minAngle = -35.0f;
     public static final double maxAngle = 35.0f;

@@ -50,7 +50,6 @@ public class Defense extends ItemComponent {
     @Override
     public void onDefense(EntityDamageByEntityEvent event, ItemStack stack) {
         Resident resident = CivGlobal.getResident(((Player) event.getEntity()));
-        Player player = (Player) event.getEntity();
         double defValue = this.getDouble("value");
 
         /* Try to get any extra defense enhancements from this item. */

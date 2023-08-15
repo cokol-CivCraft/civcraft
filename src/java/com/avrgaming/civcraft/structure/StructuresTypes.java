@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@SuppressWarnings("unused")
 public enum StructuresTypes {
     BASE(Structure::new, Structure::new),
     THE_GREAT_PYRAMID(TheGreatPyramid::new, TheGreatPyramid::new),

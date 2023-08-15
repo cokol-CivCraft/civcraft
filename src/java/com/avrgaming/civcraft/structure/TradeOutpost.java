@@ -158,8 +158,8 @@ public class TradeOutpost extends Structure {
         /* Place the sign. */
         Block b = centerLoc.getBlock().getRelative(1, 2, 0);
         b.setType(Material.WALL_SIGN);
-        b.setData((byte) (int) CivData.DATA_SIGN_EAST);
         Sign s = (Sign) b.getState();
+        s.setData(new org.bukkit.material.Sign(CivData.DATA_SIGN_EAST));
         s.setLine(0, good.getInfo().name);
         s.update();
         StructureBlock sb = new StructureBlock(new BlockCoord(b), this);
@@ -200,14 +200,6 @@ public class TradeOutpost extends Structure {
 
     public void setGood(TradeGood good) {
         this.good = good;
-    }
-
-    public BonusGoodie getGoodie() {
-        return goodie;
-    }
-
-    public void setGoodie(BonusGoodie goodie) {
-        this.goodie = goodie;
     }
 
     @Override

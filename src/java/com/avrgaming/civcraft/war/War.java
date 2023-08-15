@@ -223,7 +223,7 @@ public class War {
             War.repositionPlayers(CivSettings.localize.localizedString("war_wartimeBeginOutOfPosition"));
             //War.vassalTownsWithNoTownHalls();
             War.resetTownClaimFlags();
-            WarAntiCheat.kickUnvalidatedPlayers();
+            //!ACManager.isEnabled()) {
 
             /* Put a flag on the filesystem to prevent cron reboots. */
             File file = new File("wartime");

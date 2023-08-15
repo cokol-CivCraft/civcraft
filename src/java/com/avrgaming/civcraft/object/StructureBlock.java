@@ -30,7 +30,6 @@ public class StructureBlock implements BuildableDamageBlock {
     private BlockCoord coord = null;
     private Buildable owner = null;
     private boolean damageable = true;
-    private boolean alwaysDamage = false;
 
     /* This is a block that can be damaged. */
     public StructureBlock(BlockCoord coord, Buildable owner) {
@@ -112,9 +111,6 @@ public class StructureBlock implements BuildableDamageBlock {
                     // Make sure we are at war with this civilization.
                     // Cant be at war with our own, will be false if our own structure.
                     if (civ.getDiplomacyManager().atWarWith(this.getCiv())) {
-                        if (this.alwaysDamage) {
-                            return true;
-                        }
 
                         if (!this.isDamageable()) {
                             CivMessage.sendError(player, CivSettings.localize.localizedString("structBlock_error1"));
@@ -128,13 +124,5 @@ public class StructureBlock implements BuildableDamageBlock {
             }
         }
         return false;
-    }
-
-    public boolean isAlwaysDamage() {
-        return alwaysDamage;
-    }
-
-    public void setAlwaysDamage(boolean alwaysDamage) {
-        this.alwaysDamage = alwaysDamage;
     }
 }
