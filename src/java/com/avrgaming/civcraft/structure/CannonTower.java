@@ -58,10 +58,8 @@ public class CannonTower extends Structure {
     @Override
     public int getMaxHitPoints() {
         double rate = 1;
-        if (this.getTown().getBuffManager().hasBuff("buff_chichen_itza_tower_hp")) {
             rate += this.getTown().getBuffManager().getEffectiveDouble("buff_chichen_itza_tower_hp");
             rate += this.getTown().getBuffManager().getEffectiveDouble(Buff.BARRICADE);
-        }
         return (int) (info.max_hp * rate);
     }
 

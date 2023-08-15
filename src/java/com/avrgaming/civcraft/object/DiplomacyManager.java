@@ -22,10 +22,7 @@ import com.avrgaming.civcraft.object.Relation.Status;
 import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.*;
 
 public class DiplomacyManager {
 
@@ -194,6 +191,16 @@ public class DiplomacyManager {
         }
 
         return atWarWith(resident.getTown().getCiv());
+    }
+
+    public ArrayList<Civilization> getAllies() {
+        ArrayList<Civilization> allies = new ArrayList<>();
+        for (Relation r : this.getRelations()) {
+            if (r.getStatus() == Status.ALLY && r.getOtherCiv().getDiplomacyManager() != this) {
+                allies.add(r.getOtherCiv());
+            }
+        }
+        return allies;
     }
 
     public Relation.Status getRelationStatus(Player player) {

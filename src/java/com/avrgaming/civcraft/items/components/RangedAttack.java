@@ -47,7 +47,7 @@ public class RangedAttack extends ItemComponent {
     public void onRangedAttack(EntityDamageByEntityEvent event, ItemStack inHand) {
         AttributeUtil attrs = new AttributeUtil(inHand);
         double dmg = this.getDouble("value");
-
+        Player pp = null;
         if (event.getDamager() instanceof Arrow arrow) {
             if (arrow.getShooter() instanceof Player attacker) {
                 if (Unit.isWearingAnyMetal(attacker)) {
@@ -57,7 +57,11 @@ public class RangedAttack extends ItemComponent {
                 }
             }
         }
-
+        if (event.getDamager() instanceof Arrow arrow) {
+            if (arrow.getShooter() instanceof Player p) {
+                pp = p;
+            }
+        }
         double extraAtt = 0.0;
         for (LoreEnhancement enh : attrs.getEnhancements()) {
             if (enh instanceof LoreEnhancementAttack) {
@@ -65,6 +69,11 @@ public class RangedAttack extends ItemComponent {
             }
         }
         dmg += extraAtt;
+        assert pp != null;
+        Resident r = CivGlobal.getResident(pp);
+        if (r != null && r.getCiv().hasWonder("w_himeji_castle")) {
+            dmg += 2;
+        }
 
 
         Vector vel = event.getDamager().getVelocity();
@@ -86,11 +95,7 @@ public class RangedAttack extends ItemComponent {
             }
         }
 
-        if (totalDmg < 0.5) {
-            totalDmg = 0.5;
-        }
-
-        event.setDamage(totalDmg);
+        event.setDamage(Math.max(totalDmg, 0.5));
     }
 
 

@@ -3,7 +3,7 @@ package com.avrgaming.civcraft.util;
 import java.util.Collection;
 import java.util.LinkedList;
 
-public class Paginator {
+public class Paginator { // PAGENATOR?
     public LinkedList<Object> page = new LinkedList<>();
     public boolean hasNextPage = false;
     public boolean hasPrevPage = false;

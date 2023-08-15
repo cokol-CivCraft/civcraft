@@ -32,7 +32,6 @@ import com.avrgaming.civcraft.object.StructureSign;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
 import com.avrgaming.civcraft.threading.tasks.NotificationTask;
-import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.BukkitObjects;
 import com.avrgaming.civcraft.util.TimeTools;
 import gpl.AttributeUtil;
@@ -64,7 +63,6 @@ public class Blacksmith extends Structure {
 
     private final NonMemberFeeComponent nonMemberFeeComponent;
 
-    public static HashMap<BlockCoord, Blacksmith> blacksmithAnvils = new HashMap<>();
 
     protected Blacksmith(Location center, String id, Town town)
             throws CivException {
@@ -153,10 +151,10 @@ public class Blacksmith extends Structure {
 
     public void saveItem(ItemStack item, String key) {
 
-        StringBuilder value = new StringBuilder(item.getTypeId() + ":");
+        StringBuilder value = new StringBuilder(item.getType() + ":");
 
         for (Enchantment e : item.getEnchantments().keySet()) {
-            value.append(e.getId()).append(",").append(item.getEnchantmentLevel(e));
+            value.append(e.getName()).append(",").append(item.getEnchantmentLevel(e));
             value.append(":");
         }
 

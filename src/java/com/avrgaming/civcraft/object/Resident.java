@@ -75,6 +75,7 @@ public class Resident extends SQLObject {
     private boolean titleAPI = true;
     private int respawntime;
     private Civilization nativeCiv;
+    private Player player;
 
     private boolean usesAntiCheat = false;
 
@@ -90,7 +91,7 @@ public class Resident extends SQLObject {
     private boolean dontSaveTown = false;
     private String timezone;
 
-    private boolean banned = false;
+    private final boolean banned = false;
 
     private long registered;
     private long lastOnline;
@@ -151,6 +152,7 @@ public class Resident extends SQLObject {
     public Resident(UUID uid, String name) throws InvalidNameException {
         this.setName(name);
         this.uid = uid;
+        this.player = Bukkit.getPlayer(uid);
         this.treasury = CivGlobal.createEconObject(this);
         setTimezoneToServerDefault();
         loadSettings();
@@ -900,11 +902,15 @@ public class Resident extends SQLObject {
 
     @SuppressWarnings("unused")
     public boolean isBanned() {
-        return banned;
+        return this.getPlayer().isBanned();
     }
 
-    public void setBanned(boolean banned) {
-        this.banned = banned;
+    public void setBanned(boolean banned, String reason, Date expires, String bannedBy) {
+        if (banned) {
+            Bukkit.getBanList(BanList.Type.NAME).addBan(this.getPlayer().getName(), reason, expires, bannedBy);
+        } else {
+            Bukkit.getBanList(BanList.Type.NAME).pardon(this.getPlayer().getName());
+        }
     }
 
     public double getSpyExposure() {
@@ -932,16 +938,7 @@ public class Resident extends SQLObject {
         /* Test the block beneath us for a road, if so, set the road flag. */
         BlockCoord feet = new BlockCoord(coord);
         feet.setY(feet.getY() - 1);
-//        RoadBlock rb = CivGlobal.getRoadBlock(feet);
 
-        //			if (player.hasPotionEffect(PotionEffectType.SPEED)) {
-        //				player.removePotionEffect(PotionEffectType.SPEED);
-        //			}
-        //			if (!player.hasPotionEffect(PotionEffectType.SPEED)) {
-        //				CivLog.debug("setting effect.");
-        //				player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 5, 5));
-        //			}
-//        onRoad = rb != null;
         onRoad = false;
     }
 
@@ -993,11 +990,6 @@ public class Resident extends SQLObject {
                 cleanupCooldown();
                 return;
             }
-
-//			if (oldCiv == town.getCiv()) {
-//				/* We're rejoining the old civ, allow it. */
-//				return;
-//			}
 
             /* Check if cooldown is expired. */
             Date now = new Date();
@@ -1472,4 +1464,7 @@ public class Resident extends SQLObject {
     }
 
 
+    public Player getPlayer() {
+        return player;
+    }
 }

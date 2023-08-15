@@ -84,12 +84,20 @@ public class Capitol extends TownHall {
 
     }
 
+    public StructureSign getRespawnSign() {
+        return respawnSign;
+    }
+
     @Override
     public void processSignAction(Player player, StructureSign sign, PlayerInteractEvent event) {
         //int special_id = Integer.valueOf(sign.getAction());
         Resident resident = CivGlobal.getResident(player);
         if (resident == null) {
             return;
+        }
+        if (!War.isWarTime() && sign.getAction().equalsIgnoreCase("respawn")) {
+            player.teleport(this.getRandomRevivePoint().getLocation());
+            CivMessage.sendSuccess(player, "capitol_leave_warroom");
         }
 
         if (!War.isWarTime()) {
@@ -121,6 +129,7 @@ public class Capitol extends TownHall {
                     return;
                 }
                 RespawnLocationHolder holder = getSelectedHolder();
+
                 int respawnTimeSeconds = this.getRespawnTime();
                 Date now = new Date();
                 if (resident.getLastKilledTime() != null) {

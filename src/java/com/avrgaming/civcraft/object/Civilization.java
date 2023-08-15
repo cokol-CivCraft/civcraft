@@ -610,32 +610,6 @@ public class Civilization extends SQLObject {
         return this.towns.values();
     }
 
-//	public Collection<Town> getEffectiveTowns() {
-//		// Gets all towns in this civ, plus any towns from our vassals
-//		// or towns in liberation mode.
-//		
-//		ArrayList<Town> effectiveTowns = new ArrayList<Town>();
-//		for (Town t : this.towns.values()) {
-//			effectiveTowns.add(t);
-//		}
-//		
-//		for (Relation relation : this.getDiplomacyManager().getRelations()) {
-//			if (relation.getStatus().equals(Relation.Status.VASSAL)) {
-//				for (Town t : relation.getOtherCiv().getTowns()) {
-//					effectiveTowns.add(t);
-//				}
-//			}
-//		}
-//		
-//		for (Town t : CivGlobal.getTowns()) {
-//			if (t.isInLiberationMode() && t.getLiberationCiv() == this) {
-//				effectiveTowns.add(t);
-//			}
-//		}
-//		
-//		return effectiveTowns;
-//	}
-
     public double getWarUpkeep() {
         double upkeep = 0;
         boolean doublePenalty = false;
@@ -1325,7 +1299,7 @@ public class Civilization extends SQLObject {
                     CultureChunk cc = CivGlobal.getCultureChunk(coord);
                     if (cc != null && cc.getCiv() != this &&
                             cc.getCiv().getDiplomacyManager().atWarWith(this)) {
-                        CivMessage.send(player, ChatColor.DARK_PURPLE + reason);
+                        CivMessage.send(player, ChatColor.LIGHT_PURPLE + reason);
                         player.teleport(revive.getLocation());
                     }
 
@@ -1333,22 +1307,6 @@ public class Civilization extends SQLObject {
                 } catch (CivException e) {
                     // player not online....
                 }
-/*				} else {
-//					// use player spawn point instead.
-//					Player player;
-//					try {
-//						player = CivGlobal.getPlayer(resident);
-//
-//						if (player.getBedSpawnLocation() != null) {
-//							player.teleport(player.getBedSpawnLocation());
-//							CivMessage.send(player, CivColor.Purple+reason);
-//						} else {
-//							player.gets
-//						}
-//					} catch (CivException e) {
-//						// player not online
-//					}
-//				} */
             }
         }
     }
@@ -1880,8 +1838,46 @@ public class Civilization extends SQLObject {
         return false;
     }
 
+    public Wonder getWonder(String id) {
+        for (Town t : this.getTowns()) {
+            for (Wonder w : t.getWonders()) {
+                if (w.getConfigId().equalsIgnoreCase(id)) {
+                    return w;
+                }
+            }
+        }
+        return null;
+    }
+
     public boolean hasEnlightenment() {
         return this.hasTechnology("tech_enlightenment");
+    }
+
+    public int getTownIndex(Town t) {
+        int i = 0;
+        if (t.isCapitol()) {
+            return 0;
+        }
+        for (Town town : this.getTowns()) {
+            if (town.equals(t)) {
+                return i;
+            } else {
+                i++;
+            }
+        }
+        return i;
+    }
+
+    public Town getTownByIndex(int index) {
+        int i = 0;
+        for (Town t : this.getTowns()) {
+            if (i == index) {
+                return t;
+            } else {
+                i++;
+            }
+        }
+        return null;
     }
 
 }

@@ -74,6 +74,7 @@ public class CivCommand extends CommandBase {
         register_sub("i", this::info_cmd, null);
         register_sub("w", this::withdraw_cmd, null);
         register_sub("d", this::deposit_cmd, null);
+        register_sub("room", this::room_cmd, "Teleports you to your warroom");
     }
 
     public void location_cmd() throws CivException {
@@ -245,6 +246,13 @@ public class CivCommand extends CommandBase {
         town.getTreasury().withdraw(revolutionFee);
         CivMessage.global(String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_civ_revolutionSuccess1", motherCiv.getName()));
 
+    }
+
+    public void room_cmd() throws CivException {
+        this.validLeader();
+        Civilization c = this.getSenderCiv();
+        Player p = getPlayer();
+        p.teleport(c.getCapitolStructure().getRespawnSign().getCoord().getLocation());
     }
 
 

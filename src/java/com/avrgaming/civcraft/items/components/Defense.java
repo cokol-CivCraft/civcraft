@@ -87,12 +87,7 @@ public class Defense extends ItemComponent {
         }
 
         damage -= defValue;
-        if (damage < 0.5) {
-            /* Always do at least 0.5 damage. */
-            damage = 0.5;
-        }
-
-        event.setDamage(damage);
+        event.setDamage(Math.max(damage, 0.5));
     }
 
 }

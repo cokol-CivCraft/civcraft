@@ -345,6 +345,15 @@ public class MultiInventory {
         return array;
     }
 
+    public boolean isFull() {
+        for (Inventory i : this.invs) {
+            if (i.firstEmpty() >= 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public int getInventoryCount() {
         return this.invs.size();

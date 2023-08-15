@@ -33,3 +33,32 @@ enchants:
     description: '% chance to do extra damage to a structure.'
     enchant_id: 'LoreEnhancementPunchout'
 
+  - id: 'ench_respiration'
+    name: 'Respiration'
+    cost: 25000.0
+    description: 'placeholder'
+    enchant_id: 'OXYGEN'
+
+  - id: 'ench_aqua'
+    name: 'Aqua Affinity'
+    cost: 25000.0
+    description: 'placeholder'
+    enchant_id: 'WATER_WORKER'
+
+  - id: 'ench_depth'
+    name: 'Depth Strider'
+    cost: 35000.0
+    description: 'placeholder'
+    enchant_id: 'DEPTH_STRIDER'
+
+  - id: 'ench_'
+    name: ''
+    cost:
+    description: 'placeholder'
+    enchant_id: ''
+
+  # - id: 'ench_'
+  #   name: ''
+  #   cost: 0
+  #   description: 'placeholder'
+  #   enchant_id: ''

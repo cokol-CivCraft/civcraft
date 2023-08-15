@@ -43,8 +43,6 @@ public class Arena {
 
     int teamCount = 0;
 
-    public static int nextInstanceID = 0;
-
     public Arena(ConfigArena a) throws CivException {
         this.config = a;
 

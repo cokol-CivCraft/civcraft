@@ -31,7 +31,7 @@ public class ArrowFiredCache {
     private Entity targetEntity;
     private Arrow arrow;
     private UUID uuid;
-    private Calendar expired;
+    private final Calendar expired;
     private boolean hit = false;
 
     public ArrowFiredCache(ProjectileArrowComponent tower, Entity targetEntity, Arrow arrow) {
@@ -95,12 +95,6 @@ public class ArrowFiredCache {
     public Calendar getExpired() {
         return expired;
     }
-
-
-    public void setExpired(Calendar expired) {
-        this.expired = expired;
-    }
-
 
     public boolean isHit() {
         return hit;
