@@ -19,7 +19,6 @@ package com.avrgaming.civcraft.config;
 
 import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.lorestorage.LoreMaterial;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
@@ -27,6 +26,7 @@ import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.MultiInventory;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -53,7 +53,7 @@ public class ConfigMarketItem {
     private int bought;
     private int sold;
     private int buysell_count = 0;
-    private boolean stackable = true;
+    private boolean stackable;
     private int step;
 
     public static int BASE_ITEM_AMOUNT = 1;
@@ -72,50 +72,33 @@ public class ConfigMarketItem {
     public static void loadConfig(FileConfiguration cfg, Map<Integer, ConfigMarketItem> items) {
         items.clear();
 
-        try {
-            STEP = CivSettings.getInteger(CivSettings.marketConfig, "step");
-            STEP_COUNT = CivSettings.getInteger(CivSettings.marketConfig, "step_count");
-            RATE = CivSettings.getDouble(CivSettings.marketConfig, "rate");
-        } catch (InvalidConfiguration e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        STEP = CivSettings.marketConfig.getInt("step", 1);
+        STEP_COUNT = CivSettings.marketConfig.getInt("step_count", 256);
+        RATE = CivSettings.marketConfig.getDouble("rate", 0.15);
+
+
+        for (String id : cfg.getConfigurationSection("items").getKeys(false)) {
+            ConfigurationSection level = cfg.getConfigurationSection("items").getConfigurationSection(id);
+            ConfigMarketItem item = new ConfigMarketItem();
+
+            item.id = Integer.parseInt(id);
+            item.name = level.getString("name");
+            item.type_id = Material.getMaterial(level.getInt("type_id"));
+            item.data = level.getInt("data");
+            new ItemStack(item.type_id, 1, (short) item.data);
+            item.inital_value = level.getInt("value");
+            item.custom_id = level.getString("custom_id");
+            item.step = level.getInt("step", STEP);
+            item.stackable = level.getBoolean("stackable", true);
+
+            items.put(item.id, item);
         }
+        CivLog.info("Loaded " + items.size() + " market items.");
+    }
 
+    public static final String TABLE_NAME = "MARKET_ITEMS";
 
-        for (Map<?, ?> level : cfg.getMapList("items")) {
-			
-			ConfigMarketItem item = new ConfigMarketItem();
-			item.id = (Integer)level.get("id");
-			item.name = (String)level.get("name");
-			item.type_id = Material.getMaterial((Integer)level.get("type_id"));
-			item.data = (Integer)level.get("data");
-			
-			item.inital_value = (Integer)level.get("value");
-
-            if (level.get("custom_id") != null) {
-				item.custom_id = (String)level.get("custom_id");
-			} else {
-				item.custom_id = null;
-			}
-
-            if (level.get("step") != null) {
-				item.step = (Integer)level.get("step");
-			} else {
-				item.step = STEP;
-			}
-			
-			Boolean stackable = (Boolean)level.get("stackable");
-			if (stackable != null && !stackable) {
-				item.stackable = false;
-			}
-			
-			items.put(item.id, item);
-		}
-		CivLog.info("Loaded "+items.size()+" market items.");
-	}
-	
-	public static final String TABLE_NAME = "MARKET_ITEMS";
-	public static void init() throws SQLException {
+    public static void init() throws SQLException {
         if (!SQLController.hasTable(TABLE_NAME)) {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`ident` VARCHAR(64) NOT NULL," +
@@ -131,27 +114,27 @@ public class ConfigMarketItem {
 
             SQLController.makeTable(table_create);
             CivLog.info("Created " + TABLE_NAME + " table");
-		} else {
-			CivLog.info(TABLE_NAME+" table OK!");
-		}
-		
-		for (ConfigMarketItem item : CivSettings.marketItems.values()) {
-			item.load();
-		}
-	}
-	
-	private String getIdent() {
-		if (this.custom_id == null) {
-			return type_id+":"+data;
-		} else {
-			return this.custom_id;
-		}
-	}
-	
-	public void load() throws SQLException {
+        } else {
+            CivLog.info(TABLE_NAME + " table OK!");
+        }
+
+        for (ConfigMarketItem item : CivSettings.marketItems.values()) {
+            item.load();
+        }
+    }
+
+    private String getIdent() {
+        if (this.custom_id == null) {
+            return type_id + ":" + data;
+        } else {
+            return this.custom_id;
+        }
+    }
+
+    public void load() throws SQLException {
         ResultSet rs = null;
-		PreparedStatement ps = null;
-		try {
+        PreparedStatement ps = null;
+        try {
             String query = "SELECT * FROM `" + SQLController.tb_prefix + TABLE_NAME + "` WHERE `ident` = ?;";
             ps = SQLController.getGameConnection().prepareStatement(query);
             ps.setString(1, getIdent());
@@ -163,66 +146,66 @@ public class ConfigMarketItem {
                 this.sell_value = rs.getInt("sell_value");
                 this.sell_bulk = rs.getInt("sell_bulk");
                 this.bought = rs.getInt("bought");
-				this.sold = rs.getInt("sold");
-				this.lastaction = LastAction.valueOf(rs.getString("last_action"));
-				this.buysell_count = rs.getInt("buysell");
-			} else {
-				this.bought = 0;
-				this.sold = 0;
-				this.buy_bulk = 1;
-				this.sell_bulk = 1;
-				this.buy_value = this.inital_value + (int) ((double) this.inital_value * RATE);
-				this.sell_value = this.inital_value;
-				if (sell_value < inital_value) {
-					sell_value = inital_value;
-				}
+                this.sold = rs.getInt("sold");
+                this.lastaction = LastAction.valueOf(rs.getString("last_action"));
+                this.buysell_count = rs.getInt("buysell");
+            } else {
+                this.bought = 0;
+                this.sold = 0;
+                this.buy_bulk = 1;
+                this.sell_bulk = 1;
+                this.buy_value = this.inital_value + (int) ((double) this.inital_value * RATE);
+                this.sell_value = this.inital_value;
+                if (sell_value < inital_value) {
+                    sell_value = inital_value;
+                }
 
-				if (buy_value == sell_value) {
-					buy_value++;
-				}
+                if (buy_value == sell_value) {
+                    buy_value++;
+                }
 
-				this.saveItemNow();
-			}
-			
-		} finally {
+                this.saveItemNow();
+            }
+
+        } finally {
             SQLController.close(rs, ps);
-		}
-	}
-	
-	public void saveItemNow() throws SQLException {
+        }
+    }
+
+    public void saveItemNow() throws SQLException {
         PreparedStatement ps = null;
-		
-		try {
+
+        try {
             String query = "INSERT INTO `" + SQLController.tb_prefix + TABLE_NAME + "` (`ident`, `buy_value`, `buy_bulk`, `sell_value`, `sell_bulk`, `bought`, `sold`, `last_action`, `buysell`) " +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `buy_value`=?, `buy_bulk`=?, `sell_value`=?, `sell_bulk`=?, `bought`=?, `sold`=?, `last_action`=?, `buysell`=?";
             ps = SQLController.getGameConnection().prepareStatement(query);
-			
-			ps.setString(1, getIdent());
-			ps.setInt(2, buy_value);
-			ps.setInt(3, buy_bulk);
-			ps.setInt(4, sell_value);
-			ps.setInt(5, sell_bulk);
-			ps.setInt(6, bought);
-			ps.setInt(7, sold);
-			ps.setString(8, lastaction.toString());
-			ps.setInt(9, buysell_count);
-			ps.setInt(10, buy_value);
-			ps.setInt(11, buy_bulk);
-			ps.setInt(12, sell_value);
-			ps.setInt(13, sell_bulk);
-			ps.setInt(14, bought);
-			ps.setInt(15, sold);
-			ps.setString(16, lastaction.toString());
-			ps.setInt(17, buysell_count);
-	
-			int rs = ps.executeUpdate();
-			if (rs == 0) {
+
+            ps.setString(1, getIdent());
+            ps.setInt(2, buy_value);
+            ps.setInt(3, buy_bulk);
+            ps.setInt(4, sell_value);
+            ps.setInt(5, sell_bulk);
+            ps.setInt(6, bought);
+            ps.setInt(7, sold);
+            ps.setString(8, lastaction.toString());
+            ps.setInt(9, buysell_count);
+            ps.setInt(10, buy_value);
+            ps.setInt(11, buy_bulk);
+            ps.setInt(12, sell_value);
+            ps.setInt(13, sell_bulk);
+            ps.setInt(14, bought);
+            ps.setInt(15, sold);
+            ps.setString(16, lastaction.toString());
+            ps.setInt(17, buysell_count);
+
+            int rs = ps.executeUpdate();
+            if (rs == 0) {
                 throw new SQLException("Could not execute SQLController code:" + query);
-			}
-		} finally {
+            }
+        } finally {
             SQLController.close(null, ps);
-		}
-	}
+        }
+    }
 
     public void save() {
         class SyncTask implements Runnable {
@@ -357,22 +340,22 @@ public class ConfigMarketItem {
                 buy_value++;
             }
 
-			//buy_value -= STEP;
-			//sell_value = buy_value - (PRICE_DIFF*2);
+            //buy_value -= STEP;
+            //sell_value = buy_value - (PRICE_DIFF*2);
 
-			if (sell_value < this.step) {
-				//buy_value = STEP + (PRICE_DIFF*2);
-				sell_value = this.step;
-				buy_value = this.step * 2;
-			}
-			if (sell_value < inital_value) {
-				sell_value = inital_value; // планируется добавить минимальную цену не в единицу.
-			}
-			this.lastaction = LastAction.SELL;
-			buysell_count = 0;
-		}
-		this.save();
-	}
+            if (sell_value < this.step) {
+                //buy_value = STEP + (PRICE_DIFF*2);
+                sell_value = this.step;
+                buy_value = this.step * 2;
+            }
+            if (sell_value < inital_value) {
+                sell_value = inital_value; // планируется добавить минимальную цену не в единицу.
+            }
+            this.lastaction = LastAction.SELL;
+            buysell_count = 0;
+        }
+        this.save();
+    }
 
     public boolean isStackable() {
         return this.stackable;
