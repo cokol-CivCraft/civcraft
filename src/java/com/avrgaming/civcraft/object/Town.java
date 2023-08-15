@@ -385,13 +385,6 @@ public class Town extends SQLObject {
             this.baseHammers = CivSettings.getDouble(CivSettings.townConfig, "town.base_hammer_rate");
             this.setBaseGrowth(CivSettings.getDouble(CivSettings.townConfig, "town.base_growth_rate"));
 
-//			this.happyCoinRate = new AttributeComponent();
-//			this.happyCoinRate.setSource("Happiness");
-//			this.happyCoinRate.setAttrKey(Attribute.TypeKeys.COINS.name());
-//			this.happyCoinRate.setType(AttributeType.RATE);
-//			this.happyCoinRate.setOwnerKey(this.getName());
-//			this.happyCoinRate.registerComponent();
-
         } catch (InvalidConfiguration e) {
             e.printStackTrace();
         }
@@ -492,15 +485,6 @@ public class Town extends SQLObject {
     }
 
     public void setLevel(int level) {
-
-//		TownHall townhall = this.getTownHall();
-//		if (townhall != null) {
-//			if (townhall.nextGoodieFramePoint.size() > 0 &&
-//					townhall.nextGoodieFramePoint.size() > 0) {
-//				townhall.createGoodieItemFrame(townhall.nextGoodieFramePoint.get(0), level, 
-//						townhall.nextGoodieFrameDirection.get(0));
-//			}
-//		}
 
         this.level = level;
     }
@@ -1003,10 +987,6 @@ public class Town extends SQLObject {
     }
 
     public String getDefaultGroupName() {
-//		if (this.defaultGroup == null) {
-//			return "none";
-//		}
-//		return this.defaultGroup.getName();
         return "residents";
     }
 
@@ -1032,17 +1012,9 @@ public class Town extends SQLObject {
 
     public String getMayorGroupName() {
         return "mayors";
-//		if (this.mayorGroup == null) {
-//			return "none";
-//		}
-//		return this.mayorGroup.getName();
     }
 
     public String getAssistantGroupName() {
-//		if (this.assistantGroup == null) {
-//			return "none";
-//		}
-//		return this.assistantGroup.getName();	
         return "assistants";
     }
 
@@ -1181,9 +1153,9 @@ public class Town extends SQLObject {
     public String getPvpString() {
         if (!this.getCiv().getDiplomacyManager().isAtWar()) {
             if (pvp) {
-                return ChatColor.RED + "[PvP]";
+                return ChatColor.GOLD + "[PvP]";
             } else {
-                return ChatColor.AQUA + "[No PvP]";
+                return ChatColor.DARK_AQUA + "[No PvP]";
             }
         } else {
             return ChatColor.DARK_RED + "[WAR-PvP]";
@@ -1510,9 +1482,6 @@ public class Town extends SQLObject {
 
     public void buildStructure(Player player, ConfigBuildableInfo info, Location center, Template tpl) throws CivException {
 
-//		if (!center.getWorld().getName().equals("world")) {
-//			throw new CivException("Cannot build structures in the overworld ... for now.");
-//		}
 
         Structure struct = (Structure) MetaStructure.newStructOrWonder(center, info, this);
 
@@ -1582,8 +1551,6 @@ public class Town extends SQLObject {
         this.getTreasury().withdraw(cost);
         CivMessage.sendTown(this, ChatColor.YELLOW + CivSettings.localize.localizedString("var_town_buildwonder_success", struct.getDisplayName()));
 
-        //	try {
-        //this.save();
 
         /* Good needs to be saved after structure to get proper structure id.*/
         if (struct instanceof TradeOutpost outpost) {
@@ -1660,11 +1627,6 @@ public class Town extends SQLObject {
 //                !(this.lastBuildableBuilt instanceof Road)) {
         throw new CivException(CivSettings.localize.localizedString("town_undo_notRoadOrWall"));
 //        }
-//
-//        this.lastBuildableBuilt.processUndo();
-//        this.structures.remove(this.lastBuildableBuilt.getCorner());
-//        removeBuildTask(lastBuildableBuilt);
-//        this.lastBuildableBuilt = null;
     }
 
     private void removeBuildTask(Buildable lastBuildableBuilt) {
@@ -1921,29 +1883,6 @@ public class Town extends SQLObject {
     public Collection<BonusGoodie> getBonusGoodies() {
         return this.bonusGoodies.values();
     }
-	
-/*	public HashSet<BonusGoodie> getEffectiveBonusGoodies() {
-		HashSet<BonusGoodie> returnList = new HashSet<BonusGoodie>();
-		for (BonusGoodie goodie : getBonusGoodies()) {
-			//CivLog.debug("hash:"+goodie.hashCode());
-			if (!goodie.isStackable()) {
-				boolean skip = false;
-				for (BonusGoodie existing : returnList) {
-					if (existing.getDisplayName().equals(goodie.getDisplayName())) {
-						skip = true;
-						break;
-					}
-				}
-				
-				if (skip) {
-					continue;
-				}
-			}
-		
-			returnList.add(goodie);
-		}		
-		return returnList;
-	}*/
 
     public void removeUpgrade(ConfigTownUpgrade upgrade) {
         this.upgrades.remove(upgrade.id);
@@ -2273,14 +2212,6 @@ public class Town extends SQLObject {
     }
 
     public double getOutpostUpkeep() {
-//		double outpost_upkeep;
-//		try {
-//			outpost_upkeep = CivSettings.getDouble(CivSettings.townConfig, "town.outpost_upkeep");
-//		} catch (InvalidConfiguration e) {
-//			e.printStackTrace();
-//			return 0.0;
-//		}
-        //return outpost_upkeep*outposts.size();
         return 0;
     }
 
@@ -2687,30 +2618,6 @@ public class Town extends SQLObject {
 
         beakers += wondersTrade;
         sources.put("Goodies/Wonders", wondersTrade);
-
-    /*    double education = 0.0;
-        for (Structure struct : this.structures.values()) {
-            for (Component comp : struct.attachedComponents) {
-                if (comp instanceof AttributeBase) {
-                    AttributeBase as = (AttributeBase) comp;
-                    if (as.getString("attribute").equalsIgnoreCase("BEAKERBOOST")) {
-                        double boostPerRes = as.getGenerated();
-                        int maxBoost = 0;
-
-                        if (struct instanceof University) {
-                            maxBoost = 5;
-                        } else if (struct instanceof School || struct instanceof ResearchLab) {
-                            maxBoost = 10;
-                        }
-                        int resCount = Math.min(this.getResidentCount(), maxBoost);
-                        education += (boostPerRes * resCount);
-                    }
-                }
-            }
-        }
-        double educationBeakers = (beakers * education);
-        beakers += educationBeakers;
-        sources.put("Education", educationBeakers); */
 
         /* Make sure we never give out negative beakers. */
         beakers = max(beakers, 0);
@@ -3247,16 +3154,11 @@ public class Town extends SQLObject {
         return granaryAL;
     }
 
-    public void saveGranaryResources(int i1, int i2, int i3, int i4, int i5, int i6) {
+    public void saveGranaryResources(double i1, double i2, double i3, double i4, double i5, double i6) {
         String s = granaryResources;
-        if (s != null) {
+        if (s != null && s != "") {
             String[] c = s.split("/");
-            int iron = Integer.parseInt(c[0]);
-            int gold = Integer.parseInt(c[1]);
-            int diamond = Integer.parseInt(c[2]);
-            int emerald = Integer.parseInt(c[3]);
-            int tungsten = Integer.parseInt(c[4]);
-            int chromium = Integer.parseInt(c[5]);
+            double iron = Double.parseDouble(c[0]), gold = Double.parseDouble(c[1]), diamond = Double.parseDouble(c[2]), emerald = Double.parseDouble(c[3]), tungsten = Double.parseDouble(c[4]), chromium = Double.parseDouble(c[5]);
             iron += i1;
             gold += i2;
             diamond += i3;
@@ -3298,66 +3200,21 @@ public class Town extends SQLObject {
 
     public double getGlobeTradeBuff(Attribute.TypeKeys ab) {
         double globeTrade = 0.0;
-        int i = 0, ii = 0;
-        if (this.getBuffManager().hasBuff("wonder_trade_globe_theatre")) {
-            for (Relation r : this.getCiv().getDiplomacyManager().getRelations()) {
-                if (r.getStatus().equals(Relation.Status.ALLY) && r.getOtherCiv() != this.getCiv()) {
-                    Civilization allyCiv = r.getOtherCiv();
-                    for (Town tt : this.getCiv().getTowns()) {
-                        if (!tt.equals(this)) {
-                            i++;
-                        } else {
-                            for (Town t : allyCiv.getTowns()) {
-                                if (ii == i) {
-                                    switch (ab) {
-                                        case BEAKERS ->
-                                                globeTrade += t.getBeakerRate().total *= this.getBuffManager().getEffectiveDouble("wonder_trade_globe_theatre");
-                                        case HAMMERS ->
-                                                globeTrade += t.getHammerRate().total *= this.getBuffManager().getEffectiveDouble("wonder_trade_globe_theatre");
-                                        case FAITH ->
-                                                globeTrade += t.getFaithRate().total *= this.getBuffManager().getEffectiveDouble("wonder_trade_globe_theatre");
-                                        case GROWTH ->
-                                                globeTrade += t.getGrowthRate().total *= this.getBuffManager().getEffectiveDouble("wonder_trade_globe_theatre");
-                                        case COINS ->
-                                                globeTrade += t.getCultureRate().total *= this.getBuffManager().getEffectiveDouble("wonder_trade_globe_theatre");
-                                    }
-                                }
-                                ii++;
-                            }
-                        }
-                    }
-                }
-                if (r.getStatus().equals(Relation.Status.ALLY) && r.getCiv() != this.getCiv()) {
-                    Civilization allyCiv = r.getCiv();
-                    for (Town tt : this.getCiv().getTowns()) {
-                        if (!tt.equals(this)) {
-                            i++;
-                        } else {
-                            for (Town t : allyCiv.getTowns()) {
-                                if (ii == i) {
-                                    switch (ab) {
-                                        case BEAKERS ->
-                                                globeTrade += t.getBeakerRate().total *= this.getBuffManager().getEffectiveDouble("wonder_trade_globe_theatre");
-                                        case HAMMERS ->
-                                                globeTrade += t.getHammerRate().total *= this.getBuffManager().getEffectiveDouble("wonder_trade_globe_theatre");
-                                        case FAITH ->
-                                                globeTrade += t.getFaithRate().total *= this.getBuffManager().getEffectiveDouble("wonder_trade_globe_theatre");
-                                        case GROWTH ->
-                                                globeTrade += t.getGrowthRate().total *= this.getBuffManager().getEffectiveDouble("wonder_trade_globe_theatre");
-                                        case COINS ->
-                                                globeTrade += t.getCultureRate().total *= this.getBuffManager().getEffectiveDouble("wonder_trade_globe_theatre");
-                                        default -> {
-                                        }
-                                    }
-                                }
-                                ii++;
-                            }
-                        }
-                    }
+        double modifier = this.getBuffManager().getEffectiveDouble("wonder_trade_globe_theatre");
+        int i = this.getCiv().getTownIndex(this);
+        for (Civilization allyCiv : this.getCiv().getDiplomacyManager().getAllies()) {
+            Town t = allyCiv.getTownByIndex(i);
+            switch (ab) {
+                case BEAKERS -> globeTrade += t.getBeakerRate().total;
+                case HAMMERS -> globeTrade += t.getHammerRate().total;
+                case FAITH -> globeTrade += t.getFaithRate().total;
+                case GROWTH -> globeTrade += t.getGrowthRate().total;
+                case COINS -> globeTrade += t.getCultureRate().total;
+                default -> {
                 }
             }
         }
-        return globeTrade;
+        return globeTrade * modifier;
     }
 
 

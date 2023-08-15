@@ -43,7 +43,7 @@ public class Hospital extends Structure {
                         continue;
                     }
 
-                    if (player.getFoodLevel() < 10.0) {
+                    if (player.getFoodLevel() < 19.0) {
                         player.setFoodLevel(player.getFoodLevel() + 1);
                     }
                 } catch (CivException e) {

@@ -103,7 +103,7 @@ public class Bank extends Structure {
     }
 
     private String getNonResidentFeeString() {
-        return CivSettings.localize.localizedString("bank_sign_fee") + " " + ((int) (this.nonMemberFeeComponent.getFeeRate() * 100) + "%");
+        return CivSettings.localize.localizedString("bank_sign_fee") + " " + ((int) (this.getNonMemberFeeComponent().getFeeRate() * 100) + "%");
     }
 
     private String getSignItemPrice(int signId) {

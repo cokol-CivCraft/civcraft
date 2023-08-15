@@ -272,7 +272,7 @@ public class ArenaManager implements Runnable {
             return null;
         }
 
-        World world = createArenaWorld(arena, instanceWorldName);
+        World world = createArenaWorld(instanceWorldName);
         createArenaControlPoints(arena, world, activeArena);
 
         activeArenas.put(instanceWorldName, activeArena);
@@ -371,7 +371,7 @@ public class ArenaManager implements Runnable {
 
     }
 
-    private static World createArenaWorld(ConfigArena arena, String name) {
+    private static World createArenaWorld(String name) {
         World world = Bukkit.getServer().getWorld(name);
         if (world != null) {
             return world;

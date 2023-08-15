@@ -31,6 +31,7 @@ import com.avrgaming.civcraft.object.Buff;
 import com.avrgaming.civcraft.object.StructureChest;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
+import com.avrgaming.civcraft.structure.wonders.TheHangingGardens;
 import com.avrgaming.civcraft.threading.CivAsyncTask;
 import com.avrgaming.civcraft.util.MultiInventory;
 import org.bukkit.ChatColor;
@@ -113,14 +114,29 @@ public class Cottage extends Structure {
 
         /* Build a multi-inv from granaries. */
         MultiInventory multiInv = new MultiInventory();
-
+        if (this.getCiv().hasWonder("w_hanginggardens")) {
+            TheHangingGardens thg = (TheHangingGardens) this.getCiv().getWonder("w_hanginggardens");
+            try {
+                for (StructureChest c : thg.getAllChestsById(1)) {
+                    task.syncLoadChunk(c.getCoord().getWorldname(), c.getCoord().getX(), c.getCoord().getZ());
+                    Inventory tmp;
+                    try {
+                        tmp = task.getChestInventory(c.getCoord().getWorldname(), c.getCoord().getX(), c.getCoord().getY(), c.getCoord().getZ(), true);
+                        multiInv.addInventory(tmp);
+                    } catch (CivTaskAbortException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         for (Structure struct : this.getTown().getStructures()) {
             if (struct instanceof Granary) {
-                ArrayList<StructureChest> chests = struct.getAllChestsById(1);
 
                 // Make sure the chunk is loaded and add it to the inventory.
                 try {
-                    for (StructureChest c : chests) {
+                    for (StructureChest c : struct.getAllChestsById(1)) {
                         task.syncLoadChunk(c.getCoord().getWorldname(), c.getCoord().getX(), c.getCoord().getZ());
                         Inventory tmp;
                         try {

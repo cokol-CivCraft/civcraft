@@ -18,11 +18,6 @@ public class BroadcastTower extends Structure {
         super(rs);
     }
 
-    @Override
-    public void loadSettings() {
-        super.loadSettings();
-
-    }
 
     @Override
     public void onLoad() {

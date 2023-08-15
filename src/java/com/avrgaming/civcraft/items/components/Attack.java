@@ -80,12 +80,7 @@ public class Attack extends ItemComponent {
                 dmg = dmg / 2;
             }
         }
-
-        if (dmg < 0.5) {
-            dmg = 0.5;
-        }
-
-        event.setDamage(dmg);
+        event.setDamage(Math.max(dmg, 0.5));
     }
 
 }

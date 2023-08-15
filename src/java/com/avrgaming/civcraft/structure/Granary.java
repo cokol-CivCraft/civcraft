@@ -23,6 +23,7 @@ import com.avrgaming.civcraft.lorestorage.LoreMaterial;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.StructureChest;
 import com.avrgaming.civcraft.object.Town;
+import com.avrgaming.civcraft.structure.wonders.TheHangingGardens;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.MultiInventory;
 import com.avrgaming.civcraft.util.SimpleBlock;
@@ -38,6 +39,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Granary extends Structure {
+    private final MultiInventory dest_inv = new MultiInventory();
     private double iron = 0.0;
     private double gold = 0.0;
     private double diamond = 0.0;
@@ -78,8 +80,28 @@ public class Granary extends Structure {
         this.chromium += i6;
     }
 
+    private boolean initWonder() {
+        if (this.getCiv().hasWonder("w_hanginggardens")) {
+            TheHangingGardens thg = (TheHangingGardens) this.getCiv().getWonder("w_hanginggardens");
+            for (StructureChest sch : thg.getAllChestsById(1)) {
+                Chest ch = (Chest) sch.getCoord().getBlock().getState();
+                Inventory tmp = ch.getBlockInventory();
+                dest_inv.addInventory(tmp);
+            }
+        }
+        return !dest_inv.isFull();
+    }
+
+    public boolean initGranary() {
+        for (StructureChest sch : this.getAllChestsById(1)) {
+            Chest ch = (Chest) sch.getCoord().getBlock().getState();
+            Inventory tmp = ch.getBlockInventory();
+            dest_inv.addInventory(tmp);
+        }
+        return dest_inv.isFull();
+    }
+
     public void spawnResources() {
-        int full = 0;
         ArrayList<ItemStack> newItems = new ArrayList<>();
         int spawnIron = (int) Math.min(64, iron);
         int spawnGold = (int) Math.min(64, gold);
@@ -87,21 +109,6 @@ public class Granary extends Structure {
         int spawnEmerald = (int) Math.min(64, emerald);
         int spawnTungsten = (int) Math.min(64, tungsten);
         int spawnChromium = (int) Math.min(64, chromium);
-        for (StructureChest sch : this.getAllChestsById(1)) {
-            Chest ch = (Chest) sch.getCoord().getBlock().getState();
-            if (ch.getBlockInventory().firstEmpty() == -1) {
-                full++;
-            }
-        }
-        if (full == 2) {
-            return;
-        }
-        MultiInventory dest_inv = new MultiInventory();
-        for (StructureChest sch : this.getAllChestsById(1)) {
-            Chest ch = (Chest) sch.getCoord().getBlock().getState();
-            Inventory tmp = ch.getBlockInventory();
-            dest_inv.addInventory(tmp);
-        }
         ItemStack ir = new ItemStack(Material.IRON_INGOT, spawnIron);
         ItemStack gd = new ItemStack(Material.GOLD_INGOT, spawnGold);
         ItemStack dm = new ItemStack(Material.DIAMOND, spawnDiamond);
@@ -114,15 +121,19 @@ public class Granary extends Structure {
         newItems.add(em);
         newItems.add(tu);
         newItems.add(chr);
-        for (ItemStack newItem : newItems) {
-            dest_inv.addItemStack(newItem);
+        if (initGranary() || initWonder()) {
+            for (ItemStack newItem : newItems) {
+                dest_inv.addItemStack(newItem);
+            }
+            this.iron -= spawnIron;
+            this.gold -= spawnGold;
+            this.diamond -= spawnDiamond;
+            this.emerald -= spawnEmerald;
+            this.tungsten -= spawnTungsten;
+            this.chromium -= spawnChromium;
+        } else {
+            this.getTown().saveGranaryResources(this.iron, this.gold, this.diamond, this.emerald, this.tungsten, this.chromium);
         }
-        this.iron -= spawnIron;
-        this.gold -= spawnGold;
-        this.diamond -= spawnDiamond;
-        this.emerald -= spawnEmerald;
-        this.tungsten -= spawnTungsten;
-        this.chromium -= spawnChromium;
     }
 
     public String getResources() {

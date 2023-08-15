@@ -20,8 +20,11 @@ package com.avrgaming.civcraft.structure.wonders;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.object.Civilization;
+import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
+import com.avrgaming.civcraft.war.War;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -96,6 +99,20 @@ public class TheColossus extends Wonder {
         this.addBuffToTown(this.getTown(), "buff_colossus_reduce_upkeep");
         this.addBuffToTown(this.getTown(), "buff_colossus_coins_from_culture");
 
+    }
+
+    @Override
+    public void onUpdate() {
+        super.onUpdate();
+        Player p;
+        if (War.isWarTime()) {
+            for (Resident r : this.getCiv().getOnlineResidents()) {
+                p = r.getPlayer();
+                if (CivGlobal.getCultureChunk(p.getLocation()) != null && CivGlobal.getCultureChunk(p.getLocation()).getCiv().getDiplomacyManager().isHostileWith(r)) {
+                    p.setHealth(p.getHealth() + 0.33);
+                }
+            }
+        }
     }
 
 }
