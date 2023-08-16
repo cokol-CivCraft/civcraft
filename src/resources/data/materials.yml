@@ -77,6 +77,9 @@ materials:
   mat_carved_leather:
     item_id: 334
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: LEATHER
     name: 'T1 Carved Leather'
     craftable: true
     shaped: false
@@ -90,6 +93,9 @@ materials:
   mat_refined_stone:
     item_id: 1
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: STONE
     name: 'T1 Refined Stone'
     craftable: true
     shaped: false
@@ -103,6 +109,9 @@ materials:
   mat_refined_stone_alt0:
     item_id: 1
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: STONE
     name: 'T1 Refined Stone'
     craftable: true
     shaped: false
@@ -116,6 +125,9 @@ materials:
   mat_refined_stone_alt1:
     item_id: 1
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: STONE
     name: 'T1 Refined Stone'
     craftable: true
     shaped: false
@@ -129,6 +141,9 @@ materials:
   mat_refined_stone_alt2:
     item_id: 1
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: STONE
     name: 'T1 Refined Stone'
     craftable: true
     shaped: false
@@ -155,6 +170,9 @@ materials:
   mat_refined_feathers:
     item_id: 406
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: QUARTZ
     name: 'T1 Packed Feathers'
     craftable: true
     shaped: false
@@ -168,6 +186,9 @@ materials:
   mat_crafted_string:
     item_id: 287
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: STRING
     name: 'T1 Crafted String'
     craftable: true
     shaped: false
@@ -181,6 +202,9 @@ materials:
   mat_refined_slime:
     item_id: 341
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: SLIME_BALL
     name: 'T1 Refined Slime'
     craftable: true
     shaped: false
@@ -208,6 +232,9 @@ materials:
   mat_crafted_reeds:
     item_id: 338
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: SUGAR_CANE
     name: 'T1 Crafted Reeds'
     craftable: true
     shaped: false
@@ -236,6 +263,9 @@ materials:
   mat_crafted_sticks:
     item_id: 280
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: STICK
     name: 'T1 Crafted Sticks'
     craftable: true
     shaped: false
@@ -249,6 +279,9 @@ materials:
   mat_refined_sulphur:
     item_id: 289
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: SULPHUR
     name: 'T1 Refined Sulphur'
     craftable: true
     shaped: false
@@ -261,6 +294,9 @@ materials:
   mat_compacted_sand:
     item_id: 24
     item_data: 1
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: SANDSTONE
     name: 'T1 Compacted Sand'
     craftable: true
     shaped: false
@@ -274,6 +310,9 @@ materials:
   mat_forged_clay:
     item_id: 336
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: CLAY_BRICK
     name: 'T1 Forged Clay'
     craftable: true
     shaped: false
@@ -287,6 +326,9 @@ materials:
   mat_refined_sugar:
     item_id: 353
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: SUGAR
     name: 'T1 Refined Sugar'
     craftable: true
     shaped: false
@@ -300,6 +342,9 @@ materials:
   mat_refined_wart:
     item_id: 372
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: NETHER_STALK
     name: 'T1 Refined Wart'
     craftable: true
     shaped: false
@@ -313,6 +358,9 @@ materials:
   mat_forged_chromium:
     item_id: 265
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: IRON_INGOT
     name: 'T1 Forged Chromium'
     craftable: true
     shaped: false
@@ -327,6 +375,9 @@ materials:
   mat_forged_tungsten:
     item_id: 133
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: EMERALD_BLOCK
     name: 'T1 Forged Tungsten'
     craftable: true
     shaped: false
@@ -341,6 +392,9 @@ materials:
   mat_refined_wood:
     item_id: 126
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: WOOD_STEP
     name: 'T1 Refined Wood'
     craftable: true
     shaped: false
@@ -354,6 +408,9 @@ materials:
   mat_refined_wood_alt2:
     item_id: 126
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: WOOD_STEP
     name: 'T1 Refined Wood'
     craftable: true
     shaped: false
@@ -411,6 +468,9 @@ materials:
   mat_crafted_leather:
     item_id: 31
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: DEAD_BUSH
     name: 'T2 Crafted Leather'
     craftable: true
     shaped: false
@@ -431,6 +491,9 @@ materials:
   mat_decorative_jewels:
     item_id: 372
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: NETHER_STALK
     name: 'T2 Decorative Jewels'
     craftable: true
     shaped: false
@@ -446,6 +509,9 @@ materials:
   mat_crushed_stone:
     item_id: 44
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: STEP
     name: 'T2 Crushed Stone'
     craftable: true
     shaped: false
@@ -463,6 +529,9 @@ materials:
   mat_jewelry_grade_gold:
     item_id: 322
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: GOLDEN_APPLE
     name: 'T2 Jewelry Grade Gold'
     craftable: true
     shaped: false
@@ -478,6 +547,9 @@ materials:
   mat_milled_lumber:
     item_id: 53
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: WOOD_STAIRS
     name: 'T2 Milled Lumber'
     craftable: true
     shaped: false
@@ -494,6 +566,9 @@ materials:
   mat_woven_mesh_patch:
     item_id: 358
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: MAP
     name: 'T2 Woven Mesh Patch'
     craftable: true
     shaped: false
@@ -518,6 +593,9 @@ materials:
   mat_steel_ingot:
     item_id: 265
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: IRON_INGOT
     name: 'T2 Steel Ingot'
     craftable: true
     shaped: false
@@ -540,6 +618,9 @@ materials:
   mat_varnish:
     item_id: 384
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: EXP_BOTTLE
     name: 'T2 Varnish'
     craftable: true
     shaped: false
@@ -566,6 +647,9 @@ materials:
   mat_sticky_resin:
     item_id: 374
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: GLASS_BOTTLE
     name: 'T2 Sticky Resin'
     craftable: true
     shaped: false
@@ -591,6 +675,9 @@ materials:
   mat_clay_molding:
     item_id: 45
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: BRICK
     name: 'T2 Clay Molding'
     craftable: true
     shaped: false
@@ -616,6 +703,9 @@ materials:
   mat_chromium_ingot:
     item_id: 399
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: NETHER_STAR
     name: 'T2 Chromium Ingot'
     craftable: true
     shaped: false
@@ -643,6 +733,9 @@ materials:
   mat_aged_wood_stave:
     item_id: 280
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: STICK
     name: 'T2 Aged Wood Stave'
     craftable: true
     shaped: false
@@ -667,6 +760,9 @@ materials:
   mat_woven_threading:
     item_id: 420
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: LEASH
     name: 'T2 Woven Threading'
     craftable: true
     shaped: false
@@ -689,6 +785,9 @@ materials:
   mat_steel_sword_blade:
     item_id: 265
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: IRON_INGOT
     name: 'T2 Steel Sword Blade'
     craftable: true
     shaped: false
@@ -707,6 +806,9 @@ materials:
   mat_steel_sword_hilt:
     item_id: 280
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: STICK
     name: 'T2 Steel Sword Hilt'
     craftable: true
     shaped: false
@@ -733,6 +835,9 @@ materials:
   mat_steel_plate:
     item_id: 148
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: IRON_PLATE
     name: 'T2 Steel Plate'
     craftable: true
     shaped: false
@@ -860,6 +965,9 @@ materials:
   mat_longbow_stave:
     item_id: 280
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: STICK
     name: 'T3 Longbow Stave'
     craftable: true
     shaped: false
@@ -1003,6 +1111,9 @@ materials:
   mat_masonry_mortar:
     item_id: 45
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: BRICK
     name: 'T3 Masonry Mortar'
     craftable: true
     shaped: false
@@ -1023,6 +1134,9 @@ materials:
   mat_royal_crown:
     item_id: 314
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: GOLD_HELMET
     name: 'Royal Crown'
     craftable: true
     shaped: false
@@ -1087,6 +1201,9 @@ materials:
   mat_chieftains_headdress:
     item_id: 302
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: CHAINMAIL_HELMET
     name: 'Chieftains Headdress'
     craftable: true
     shaped: false
@@ -1123,6 +1240,9 @@ materials:
   mat_carbide_steel_sword_hilt:
     item_id: 280
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: STICK
     name: 'T3 Carbide Steel Sword Hilt'
     craftable: true
     shaped: false
@@ -1150,6 +1270,9 @@ materials:
   mat_carbide_steel_sword_blade:
     item_id: 265
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: IRON_INGOT
     name: 'T3 Carbide Steel Sword Blade'
     craftable: true
     shaped: false
@@ -1172,6 +1295,9 @@ materials:
   mat_carbide_steel_plate:
     item_id: 265
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: IRON_INGOT
     name: 'T3 Carbide Steel Plate'
     craftable: true
     shaped: false
@@ -1199,6 +1325,9 @@ materials:
   mat_artisan_leather:
     item_id: 31
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: DEAD_BUSH
     name: 'T4 Artisan Leather'
     craftable: true
     shaped: false
@@ -1265,6 +1394,9 @@ materials:
   mat_tungsten_sword_hilt:
     item_id: 280
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: STICK
     name: 'T4 Tungsten Sword Hilt'
     craftable: true
     shaped: false
@@ -1291,6 +1423,9 @@ materials:
   mat_composite_bow_stave:
     item_id: 280
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: STICK
     name: 'T4 Composite Bow Stave'
     craftable: true
     shaped: false
@@ -1367,6 +1502,9 @@ materials:
   mat_found_civ:
     item_id: 369
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: BLAZE_ROD
     name: 'Founding Civilization Flag'
     craftable: true
     shaped: true
@@ -1450,6 +1588,9 @@ materials:
   mat_build_cannon:
     item_id: 154
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: HOPPER
     name: 'War Cannon'
     craftable: true
     shaped: true
@@ -1477,6 +1618,9 @@ materials:
   mat_wood_sword:
     item_id: 268
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: WOOD_SWORD
     name: 'Training Sword'
     craftable: true
     shaped: true
@@ -1503,6 +1647,9 @@ materials:
   mat_leather_helmet:
     item_id: 298
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: LEATHER_HELMET
     name: 'Leather Helmet'
     craftable: true
     shaped: true
@@ -1524,6 +1671,9 @@ materials:
   mat_leather_chestplate:
     item_id: 299
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: LEATHER_CHESTPLATE
     name: 'Leather Jacket'
     craftable: true
     shaped: true
@@ -1545,6 +1695,9 @@ materials:
   mat_leather_leggings:
     item_id: 300
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: LEATHER_LEGGINGS
     name: 'Leather Pants'
     craftable: true
     shaped: true
@@ -1566,6 +1719,9 @@ materials:
   mat_leather_boots:
     item_id: 301
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: LEATHER_BOOTS
     name: 'Leather Moccasins'
     craftable: true
     shaped: true
@@ -1589,6 +1745,9 @@ materials:
   mat_refined_leather_helmet:
     item_id: 298
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: LEATHER_HELMET
     name: 'Refined Leather Cap'
     craftable: true
     required_techs: 'tech_leather_refinement'
@@ -1617,6 +1776,9 @@ materials:
   mat_refined_leather_chestplate:
     item_id: 299
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: LEATHER_CHESTPLATE
     name: 'Refined Leather Chestplate'
     craftable: true
     required_techs: 'tech_leather_refinement'
@@ -1645,6 +1807,9 @@ materials:
   mat_refined_leather_leggings:
     item_id: 300
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: LEATHER_LEGGINGS
     name: 'Refined Leather Leggings'
     craftable: true
     required_techs: 'tech_leather_refinement'
@@ -1673,6 +1838,9 @@ materials:
   mat_refined_leather_boots:
     item_id: 301
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: LEATHER_BOOTS
     name: 'Refined Leather Moccasins'
     craftable: true
     required_techs: 'tech_leather_refinement'
@@ -1703,6 +1871,9 @@ materials:
   mat_hardened_leather_helmet:
     item_id: 298
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: LEATHER_HELMET
     name: 'Hardened Leather Cap'
     craftable: true
     required_techs: 'tech_tanning'
@@ -1731,6 +1902,9 @@ materials:
   mat_hardened_leather_chestplate:
     item_id: 299
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: LEATHER_CHESTPLATE
     name: 'Hardened Leather Jacket'
     craftable: true
     required_techs: 'tech_tanning'
@@ -1759,6 +1933,9 @@ materials:
   mat_hardened_leather_leggings:
     item_id: 300
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: LEATHER_LEGGINGS
     name: 'Hardened Leather Pants'
     craftable: true
     required_techs: 'tech_tanning'
@@ -1787,6 +1964,9 @@ materials:
   mat_hardened_leather_boots:
     item_id: 301
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: LEATHER_BOOTS
     name: 'Hardened Leather Moccasins'
     craftable: true
     required_techs: 'tech_tanning'
@@ -1817,6 +1997,9 @@ materials:
   mat_composite_leather_helmet:
     item_id: 298
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: LEATHER_HELMET
     name: 'Composite Leather Cap'
     craftable: true
     required_techs: 'tech_composites'
@@ -1845,6 +2028,9 @@ materials:
   mat_composite_leather_chestplate:
     item_id: 299
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: LEATHER_CHESTPLATE
     name: 'Composite Leather Jacket'
     craftable: true
     required_techs: 'tech_composites'
@@ -1873,6 +2059,9 @@ materials:
   mat_composite_leather_leggings:
     item_id: 300
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: LEATHER_LEGGINGS
     name: 'Composite Leather Pants'
     craftable: true
     required_techs: 'tech_composites'
@@ -1901,6 +2090,9 @@ materials:
   mat_composite_leather_boots:
     item_id: 301
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: LEATHER_BOOTS
     name: 'Composite Leather Moccasins'
     craftable: true
     required_techs: 'tech_composites'
@@ -1931,6 +2123,9 @@ materials:
   mat_hunting_bow:
     item_id: 261
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: BOW
     name: 'Hunting Bow'
     craftable: true
     required_techs: 'tech_archery'
@@ -1958,6 +2153,9 @@ materials:
   mat_recurve_bow:
     item_id: 261
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: BOW
     name: 'Recurve Bow'
     craftable: true
     required_techs: 'tech_fletching'
@@ -1987,6 +2185,9 @@ materials:
   mat_longbow:
     item_id: 261
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: BOW
     name: 'Longbow'
     craftable: true
     required_techs: 'tech_tillering'
@@ -2016,6 +2217,9 @@ materials:
   mat_marksmen_bow:
     item_id: 261
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: BOW
     name: 'Marksmen Bow'
     craftable: true
     required_techs: 'tech_laminates'
@@ -2047,6 +2251,9 @@ materials:
   mat_stone_sword:
     item_id: 272
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: STONE_SWORD
     name: 'Stone Shank'
     craftable: true
     shaped: true
@@ -2075,6 +2282,9 @@ materials:
   mat_iron_sword:
     item_id: 267
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: IRON_SWORD
     name: 'Iron Shortsword'
     craftable: true
     required_techs: 'tech_metal_casting'
@@ -2102,6 +2312,9 @@ materials:
   mat_iron_helmet:
     item_id: 306
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: IRON_HELMET
     name: 'Iron Helmet'
     craftable: true
     required_techs: 'tech_blacksmithing'
@@ -2126,6 +2339,9 @@ materials:
   mat_iron_chestplate:
     item_id: 307
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: IRON_CHESTPLATE
     name: 'Iron Chestplate'
     craftable: true
     required_techs: 'tech_blacksmithing'
@@ -2150,6 +2366,9 @@ materials:
   mat_iron_leggings:
     item_id: 308
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: IRON_LEGGINGS
     name: 'Iron Leggings'
     craftable: true
     required_techs: 'tech_blacksmithing'
@@ -2175,6 +2394,9 @@ materials:
   mat_iron_boots:
     item_id: 309
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: IRON_BOOTS
     name: 'Iron Boots'
     craftable: true
     required_techs: 'tech_blacksmithing'
@@ -2202,6 +2424,9 @@ materials:
   mat_steel_helmet:
     item_id: 302
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: CHAINMAIL_HELMET
     name: 'Steel Helmet'
     craftable: true
     required_techs: 'tech_alloys'
@@ -2227,6 +2452,9 @@ materials:
   mat_steel_boots:
     item_id: 305
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: CHAINMAIL_BOOTS
     name: 'Steel Assault Boots'
     craftable: true
     required_techs: 'tech_alloys'
@@ -2252,6 +2480,9 @@ materials:
   mat_steel_chestplate:
     item_id: 303
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: CHAINMAIL_CHESTPLATE
     name: 'Steel Chestplate'
     craftable: true
     required_techs: 'tech_alloys'
@@ -2277,6 +2508,9 @@ materials:
   mat_steel_leggings:
     item_id: 304
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: CHAINMAIL_LEGGINGS
     name: 'Steel Leggings'
     craftable: true
     required_techs: 'tech_alloys'
@@ -2302,6 +2536,9 @@ materials:
   mat_steel_sword:
     item_id: 267
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: IRON_SWORD
     name: 'Steel Longsword'
     craftable: true
     required_techs: 'tech_sword_smithing'
@@ -2362,6 +2599,9 @@ materials:
   mat_carbide_steel_helmet:
     item_id: 314
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: GOLD_HELMET
     name: 'Carbide Steel Helmet'
     craftable: true
     required_techs: 'tech_chemical_bonding'
@@ -2387,6 +2627,9 @@ materials:
   mat_carbide_steel_chestplate:
     item_id: 315
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: GOLD_CHESTPLATE
     name: 'Carbide Steel Chestplate'
     craftable: true
     required_techs: 'tech_chemical_bonding'
@@ -2412,6 +2655,9 @@ materials:
   mat_carbide_steel_leggings:
     item_id: 316
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: GOLD_LEGGINGS
     name: 'Carbide Steel leggings'
     craftable: true
     required_techs: 'tech_chemical_bonding'
@@ -2437,6 +2683,9 @@ materials:
   mat_carbide_steel_boots:
     item_id: 317
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: GOLD_BOOTS
     name: 'Carbide Steel Boots'
     craftable: true
     required_techs: 'tech_chemical_bonding'
@@ -2494,6 +2743,9 @@ materials:
   mat_tungsten_boots:
     item_id: 313
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: DIAMOND_BOOTS
     name: 'Tungsten Boots'
     craftable: true
     required_techs: 'tech_forging'
@@ -2519,6 +2771,9 @@ materials:
   mat_tungsten_chestplate:
     item_id: 311
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: DIAMOND_CHESTPLATE
     name: 'Tungsten Chestplate'
     craftable: true
     required_techs: 'tech_forging'
@@ -2544,6 +2799,9 @@ materials:
   mat_tungsten_leggings:
     item_id: 312
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: DIAMOND_LEGGINGS
     name: 'Tungsten Leggings'
     craftable: true
     required_techs: 'tech_forging'
@@ -2569,6 +2827,9 @@ materials:
   mat_tungsten_helmet:
     item_id: 310
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: DIAMOND_HELMET
     name: 'Tungsten Helmet'
     craftable: true
     required_techs: 'tech_forging'
@@ -2598,6 +2859,9 @@ materials:
   mat_arena_leather_boots_two:
     item_id: 301
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: LEATHER_BOOTS
     name: 'Boots of Iron Valor'
     craftable: false
     required_techs:
@@ -2617,6 +2881,9 @@ materials:
   mat_arena_leather_leggings_two:
     item_id: 300
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: LEATHER_LEGGINGS
     name: 'Leggings of Iron Valor'
     craftable: false
     required_techs:
@@ -2636,6 +2903,9 @@ materials:
   mat_arena_leather_chestplate_two:
     item_id: 299
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: LEATHER_CHESTPLATE
     name: 'Armor of Iron Valor'
     craftable: false
     required_techs:
@@ -2655,6 +2925,9 @@ materials:
   mat_arena_leather_helmet_two:
     item_id: 298
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: LEATHER_HELMET
     name: 'Hachigane'
     craftable: false
     required_techs:
@@ -2674,6 +2947,9 @@ materials:
   mat_arena_iron_chestplate_two:
     item_id: 307
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: IRON_CHESTPLATE
     name: 'Armor of Babel'
     craftable: false
     required_techs:
@@ -2690,6 +2966,9 @@ materials:
   mat_arena_iron_helmet_two:
     item_id: 306
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: IRON_HELMET
     name: 'Helmet of Babel'
     craftable: false
     required_techs:
@@ -2706,6 +2985,9 @@ materials:
   mat_arena_iron_leggings_two:
     item_id: 308
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: IRON_LEGGINGS
     name: 'White-Soul Leggings'
     craftable: false
     required_techs:
@@ -2722,6 +3004,9 @@ materials:
   mat_arena_iron_boots_two:
     item_id: 309
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: IRON_BOOTS
     name: 'White-Soul Boots'
     craftable: false
     required_techs:
@@ -2739,6 +3024,9 @@ materials:
   mat_arena_iron_helmet:
     item_id: 314
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: GOLD_HELMET
     name: 'Soul Helmet'
     craftable: false
     required_techs:
@@ -2755,6 +3043,9 @@ materials:
   mat_arena_iron_chestplate:
     item_id: 315
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: GOLD_CHESTPLATE
     name: 'Soul Chestplate'
     craftable: false
     required_techs:
@@ -2771,6 +3062,9 @@ materials:
   mat_arena_iron_leggings:
     item_id: 316
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: GOLD_LEGGINGS
     name: 'Soul Leggings'
     craftable: false
     required_techs:
@@ -2787,6 +3081,9 @@ materials:
   mat_arena_iron_boots:
     item_id: 317
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: GOLD_BOOTS
     name: 'Soul Boots'
     craftable: false
     required_techs:
@@ -2819,6 +3116,9 @@ materials:
   mat_arena_iron_sword_two:
     item_id: 267
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: IRON_SWORD
     name: 'Storm Ruler'
     craftable: false
     required_techs:
@@ -2851,6 +3151,9 @@ materials:
   mat_arena_hunting_bow:
     item_id: 261
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: BOW
     name: 'Hans Machine gun'
     craftable: false
     required_techs:
@@ -2867,6 +3170,9 @@ materials:
   mat_arena_hunting_bow_two:
     item_id: 261
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: BOW
     name: 'Mad Bow JubJub'
     craftable: false
     required_techs:
@@ -2883,6 +3189,9 @@ materials:
   mat_arena_leather_boots:
     item_id: 301
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: LEATHER_BOOTS
     name: 'Black-Soul Boots'
     craftable: false
     required_techs:
@@ -2902,6 +3211,9 @@ materials:
   mat_arena_leather_leggings:
     item_id: 300
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: LEATHER_LEGGINGS
     name: 'Black-Soul Leggings'
     craftable: false
     required_techs:
@@ -2921,6 +3233,9 @@ materials:
   mat_arena_leather_chestplate:
     item_id: 299
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: LEATHER_CHESTPLATE
     name: 'Black-Soul Chestplate'
     craftable: false
     required_techs:
@@ -2940,6 +3255,9 @@ materials:
   mat_arena_leather_helmet:
     item_id: 298
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: LEATHER_HELMET
     name: 'Mystery of the night sky'
     craftable: false
     required_techs:
@@ -3858,6 +4176,14 @@ materials:
   mat_cow_egg:
     item_id: 383
     item_data: 92
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: MONSTER_EGG
+      meta:
+        ==: ItemMeta
+        meta-type: SPAWN_EGG
+        internal: H4sIAAAAAAAA/+NiYOBi4HTNK8ksqQxJTOdgYMpMYeDNzcxLTS5KTCuxSs4vZ2AAACcOilwlAAAA
+        id: cow
     name: 'Cow Egg'
     shaped: true
     tradeable: true
@@ -3880,6 +4206,14 @@ materials:
   mat_cow_egg_2:
     item_id: 383
     item_data: 92
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: MONSTER_EGG
+      meta:
+        ==: ItemMeta
+        meta-type: SPAWN_EGG
+        internal: H4sIAAAAAAAA/+NiYOBi4HTNK8ksqQxJTOdgYMpMYeDNzcxLTS5KTCuxSs4vZ2AAACcOilwlAAAA
+        id: cow
     name: 'Cow Egg 2'
     shaped: true
     tradeable: true
@@ -3903,6 +4237,14 @@ materials:
   mat_cow_egg_3:
     item_id: 383
     item_data: 92
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: MONSTER_EGG
+      meta:
+        ==: ItemMeta
+        meta-type: SPAWN_EGG
+        internal: H4sIAAAAAAAA/+NiYOBi4HTNK8ksqQxJTOdgYMpMYeDNzcxLTS5KTCuxSs4vZ2AAACcOilwlAAAA
+        id: cow
     name: 'Cow Egg 3'
     shaped: true
     craftable: true
@@ -3926,6 +4268,14 @@ materials:
   mat_cow_egg_4:
     item_id: 383
     item_data: 92
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: MONSTER_EGG
+      meta:
+        ==: ItemMeta
+        meta-type: SPAWN_EGG
+        internal: H4sIAAAAAAAA/+NiYOBi4HTNK8ksqQxJTOdgYMpMYeDNzcxLTS5KTCuxSs4vZ2AAACcOilwlAAAA
+        id: cow
     name: 'Cow Egg 4'
     shaped: true
     craftable: true
@@ -3949,6 +4299,14 @@ materials:
   mat_sheep_egg:
     item_id: 383
     item_data: 91
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: MONSTER_EGG
+      meta:
+        ==: ItemMeta
+        meta-type: SPAWN_EGG
+        internal: H4sIAAAAAAAA/+NiYOBi4HTNK8ksqQxJTOdgYMpMYeDPzcxLTS5KTCuxKs5ITS1gYAAAYb2CQScAAAA=
+        id: sheep
     name: 'Sheep Egg'
     shaped: true
     tradeable: true
@@ -3971,6 +4329,14 @@ materials:
   mat_sheep_egg_2:
     item_id: 383
     item_data: 91
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: MONSTER_EGG
+      meta:
+        ==: ItemMeta
+        meta-type: SPAWN_EGG
+        internal: H4sIAAAAAAAA/+NiYOBi4HTNK8ksqQxJTOdgYMpMYeDPzcxLTS5KTCuxKs5ITS1gYAAAYb2CQScAAAA=
+        id: sheep
     name: 'Sheep Egg 2'
     shaped: true
     tradeable: true
@@ -3994,6 +4360,14 @@ materials:
   mat_sheep_egg_3:
     item_id: 383
     item_data: 91
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: MONSTER_EGG
+      meta:
+        ==: ItemMeta
+        meta-type: SPAWN_EGG
+        internal: H4sIAAAAAAAA/+NiYOBi4HTNK8ksqQxJTOdgYMpMYeDPzcxLTS5KTCuxKs5ITS1gYAAAYb2CQScAAAA=
+        id: sheep
     name: 'Sheep Egg 3'
     shaped: true
     craftable: true
@@ -4017,6 +4391,14 @@ materials:
   mat_sheep_egg_4:
     item_id: 383
     item_data: 91
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: MONSTER_EGG
+      meta:
+        ==: ItemMeta
+        meta-type: SPAWN_EGG
+        internal: H4sIAAAAAAAA/+NiYOBi4HTNK8ksqQxJTOdgYMpMYeDPzcxLTS5KTCuxKs5ITS1gYAAAYb2CQScAAAA=
+        id: sheep
     name: 'Sheep Egg 4'
     shaped: true
     craftable: true
@@ -4040,6 +4422,14 @@ materials:
   mat_chicken_egg:
     item_id: 383
     item_data: 93
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: MONSTER_EGG
+      meta:
+        ==: ItemMeta
+        meta-type: SPAWN_EGG
+        internal: H4sIAAAAAAAA/+NiYOBi4HTNK8ksqQxJTOdgYMpMYRDMzcxLTS5KTCuxSs7ITM5OzWNgAAB4qmmVKQAAAA==
+        id: chicken
     name: 'Chicken Egg'
     shaped: true
     tradeable: true
@@ -4062,6 +4452,14 @@ materials:
   mat_chicken_egg_2:
     item_id: 383
     item_data: 93
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: MONSTER_EGG
+      meta:
+        ==: ItemMeta
+        meta-type: SPAWN_EGG
+        internal: H4sIAAAAAAAA/+NiYOBi4HTNK8ksqQxJTOdgYMpMYRDMzcxLTS5KTCuxSs7ITM5OzWNgAAB4qmmVKQAAAA==
+        id: chicken
     name: 'Chicken Egg 2'
     shaped: true
     tradeable: true
@@ -4085,6 +4483,14 @@ materials:
   mat_chicken_egg_3:
     item_id: 383
     item_data: 93
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: MONSTER_EGG
+      meta:
+        ==: ItemMeta
+        meta-type: SPAWN_EGG
+        internal: H4sIAAAAAAAA/+NiYOBi4HTNK8ksqQxJTOdgYMpMYRDMzcxLTS5KTCuxSs7ITM5OzWNgAAB4qmmVKQAAAA==
+        id: chicken
     name: 'Chicken Egg 3'
     shaped: true
     craftable: true
@@ -4108,6 +4514,14 @@ materials:
   mat_chicken_egg_4:
     item_id: 383
     item_data: 93
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: MONSTER_EGG
+      meta:
+        ==: ItemMeta
+        meta-type: SPAWN_EGG
+        internal: H4sIAAAAAAAA/+NiYOBi4HTNK8ksqQxJTOdgYMpMYRDMzcxLTS5KTCuxSs7ITM5OzWNgAAB4qmmVKQAAAA==
+        id: chicken
     name: 'Chicken Egg 4'
     shaped: true
     craftable: true
@@ -4131,6 +4545,14 @@ materials:
   mat_rabbit_egg:
     item_id: 383
     item_data: 101
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: MONSTER_EGG
+      meta:
+        ==: ItemMeta
+        meta-type: SPAWN_EGG
+        internal: H4sIAAAAAAAA/+NiYOBi4HTNK8ksqQxJTOdgYMpMYRDIzcxLTS5KTCuxKkpMSsosYWAAAEbg1TAoAAAA
+        id: rabbit
     name: 'Rabbit Egg'
     shaped: true
     tradeable: true
@@ -4153,6 +4575,14 @@ materials:
   mat_rabbit_egg_2:
     item_id: 383
     item_data: 101
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: MONSTER_EGG
+      meta:
+        ==: ItemMeta
+        meta-type: SPAWN_EGG
+        internal: H4sIAAAAAAAA/+NiYOBi4HTNK8ksqQxJTOdgYMpMYRDIzcxLTS5KTCuxKkpMSsosYWAAAEbg1TAoAAAA
+        id: rabbit
     name: 'Rabbit Egg 2'
     shaped: true
     tradeable: true
@@ -4176,6 +4606,14 @@ materials:
   mat_rabbit_egg_3:
     item_id: 383
     item_data: 101
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: MONSTER_EGG
+      meta:
+        ==: ItemMeta
+        meta-type: SPAWN_EGG
+        internal: H4sIAAAAAAAA/+NiYOBi4HTNK8ksqQxJTOdgYMpMYRDIzcxLTS5KTCuxKkpMSsosYWAAAEbg1TAoAAAA
+        id: rabbit
     name: 'Rabbit Egg 3'
     shaped: true
     craftable: true
@@ -4199,6 +4637,14 @@ materials:
   mat_rabbit_egg_4:
     item_id: 383
     item_data: 101
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: MONSTER_EGG
+      meta:
+        ==: ItemMeta
+        meta-type: SPAWN_EGG
+        internal: H4sIAAAAAAAA/+NiYOBi4HTNK8ksqQxJTOdgYMpMYRDIzcxLTS5KTCuxKkpMSsosYWAAAEbg1TAoAAAA
+        id: rabbit
     name: 'Rabbit Egg 4'
     shaped: true
     craftable: true
@@ -4247,6 +4693,9 @@ materials:
   mat_mercury:
     item_id: 362
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: MELON_SEEDS
     name: 'Mercury'
     shaped: false
     craftable: true
@@ -4295,6 +4744,9 @@ materials:
   mat_common_attack_catalyst:
     item_id: 340
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: BOOK
     name: 'Common Attack Catalyst'
     craftable: true
     shaped: true
@@ -4326,6 +4778,9 @@ materials:
   mat_common_defense_catalyst:
     item_id: 340
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: BOOK
     name: 'Common Defense Catalyst'
     craftable: true
     shaped: true
@@ -4359,6 +4814,9 @@ materials:
   mat_uncommon_attack_catalyst:
     item_id: 387
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: WRITTEN_BOOK
     name: 'Uncommon Attack Catalyst'
     craftable: true
     shaped: true
@@ -4391,6 +4849,9 @@ materials:
   mat_uncommon_defense_catalyst:
     item_id: 387
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: WRITTEN_BOOK
     name: 'Uncommon Defense Catalyst'
     craftable: true
     shaped: true
@@ -4426,6 +4887,9 @@ materials:
   mat_rare_attack_catalyst:
     item_id: 387
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: WRITTEN_BOOK
     name: 'Rare Attack Catalyst'
     craftable: true
     shaped: true
@@ -4458,6 +4922,9 @@ materials:
   mat_rare_defense_catalyst:
     item_id: 387
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: WRITTEN_BOOK
     name: 'Rare Defense Catalyst'
     craftable: true
     shaped: true
@@ -4492,6 +4959,9 @@ materials:
   mat_legendary_attack_catalyst:
     item_id: 369
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: BLAZE_ROD
     name: 'Legendary Attack Catalyst'
     craftable: true
     shaped: true
@@ -4524,6 +4994,9 @@ materials:
   mat_legendary_defense_catalyst:
     item_id: 369
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: BLAZE_ROD
     name: 'Legendary Defense Catalyst'
     craftable: true
     shaped: true
@@ -4558,6 +5031,9 @@ materials:
   mat_tutorial_book:
     item_id: 340
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: BOOK
     name: 'CivCraft Info'
     craftable: false
     shaped: false
@@ -4567,6 +5043,9 @@ materials:
   mat_vanilla_hopper:
     item_id: 154
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: HOPPER
     name: 'Hopper'
     craftable: true
     shaped: true
@@ -4657,6 +5136,9 @@ materials:
   mat_vanilla_lead:
     item_id: 420
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: LEASH
     name: 'Lead'
     craftable: true
     vanilla: true
@@ -5015,6 +5497,9 @@ materials:
   mat_vanilla_TNT:
     item_id: 46
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: TNT
     name: 'TNT'
     craftable: true
     vanilla: true
@@ -5034,6 +5519,9 @@ materials:
   mat_vanilla_ender_chest:
     item_id: 130
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: ENDER_CHEST
     name: 'Ender Chest'
     craftable: true
     shaped: true
@@ -5061,10 +5549,13 @@ materials:
   mat_pond_scum:
     item_id: 351
     item_data: 2
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: INK_SACK
+      damage: 2
     name: 'Pond Scum'
     shaped: true
     craftable: false
-    shiny: false
     tradeable: true
     tradeValue: 0.1
     category: '<lightpurple>Fishing Junk'
@@ -5074,10 +5565,12 @@ materials:
   mat_tangled_string:
     item_id: 30
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: WEB
     name: 'Tangled String'
     shaped: true
     craftable: false
-    shiny: false
     tradeable: true
     tradeValue: 0.1
     category: '<lightpurple>Fishing Junk'
@@ -5087,10 +5580,13 @@ materials:
   mat_seaweed:
     item_id: 31
     item_data: 1
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: LONG_GRASS
+      damage: 1
     name: 'Seaweed'
     shaped: true
     craftable: false
-    shiny: false
     tradeable: true
     tradeValue: 0.1
     category: '<lightpurple>Fishing Junk'
@@ -5100,10 +5596,12 @@ materials:
   mat_minnows:
     item_id: 362
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: MELON_SEEDS
     name: 'Minnows'
     shaped: true
     craftable: false
-    shiny: false
     tradeable: true
     tradeValue: 0.5
     category: '<lightpurple>Fishing Junk'
@@ -5113,10 +5611,12 @@ materials:
   mat_tadpole:
     item_id: 375
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: SPIDER_EYE
     name: 'Tadpole'
     shaped: true
     craftable: false
-    shiny: false
     tradeable: true
     tradeValue: 0.2
     category: '<lightpurple>Fishing Junk'
@@ -5126,6 +5626,9 @@ materials:
   mat_fish_brown_trout:
     item_id: 349
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: RAW_FISH
     name: 'Brown Trout'
     shaped: true
     craftable: false
@@ -5139,6 +5642,10 @@ materials:
   mat_fish_brook_trout:
     item_id: 349
     item_data: 1
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: RAW_FISH
+      damage: 1
     name: 'Brook Trout'
     shaped: true
     craftable: false
@@ -5152,6 +5659,10 @@ materials:
   mat_fish_cutthroat_trout:
     item_id: 349
     item_data: 1
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: RAW_FISH
+      damage: 1
     name: 'Cutthroat Trout'
     shaped: true
     craftable: false
@@ -5165,6 +5676,10 @@ materials:
   mat_fish_rainbow_trout:
     item_id: 349
     item_data: 1
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: RAW_FISH
+      damage: 1
     name: 'Rainbow Trout'
     shaped: true
     craftable: false
@@ -5191,6 +5706,10 @@ materials:
   mat_fish_pacific_ocean_perch:
     item_id: 349
     item_data: 1
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: RAW_FISH
+      damage: 1
     name: 'Pacific Ocean Perch'
     shaped: true
     craftable: false
@@ -5204,6 +5723,10 @@ materials:
   mat_fish_acadian_redfish:
     item_id: 349
     item_data: 2
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: RAW_FISH
+      damage: 2
     name: 'Acadian Redfish'
     shaped: true
     craftable: false
@@ -5217,6 +5740,9 @@ materials:
   mat_fish_widow_rockfish:
     item_id: 349
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: RAW_FISH
     name: 'Widow Rockfish'
     shaped: true
     craftable: false
@@ -5269,6 +5795,9 @@ materials:
   mat_fish_geoduck:
     item_id: 414
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: RABBIT_FOOT
     name: 'Geoduck'
     shaped: true
     craftable: false
@@ -5282,6 +5811,9 @@ materials:
   mat_fish_atlantic_cod:
     item_id: 350
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: COOKED_FISH
     name: 'Atlantic Cod'
     shaped: true
     craftable: false
@@ -5295,6 +5827,10 @@ materials:
   mat_fish_pacific_cod:
     item_id: 349
     item_data: 1
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: RAW_FISH
+      damage: 1
     name: 'Pacific Cod'
     shaped: true
     craftable: false
@@ -5308,6 +5844,10 @@ materials:
   mat_fish_lingcod:
     item_id: 350
     item_data: 1
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: COOKED_FISH
+      damage: 1
     name: 'Lingcod'
     shaped: true
     craftable: false
@@ -5321,6 +5861,9 @@ materials:
   mat_fish_sablefish:
     item_id: 349
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: RAW_FISH
     name: 'Sablefish'
     shaped: true
     craftable: false
@@ -5334,6 +5877,10 @@ materials:
   mat_fish_arrowtooth_flounder:
     item_id: 349
     item_data: 3
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: RAW_FISH
+      damage: 3
     name: 'Arrowtooth Flounder'
     shaped: true
     craftable: false
@@ -5347,6 +5894,10 @@ materials:
   mat_fish_summer_flounder:
     item_id: 349
     item_data: 3
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: RAW_FISH
+      damage: 3
     name: 'Summer Flounder'
     shaped: true
     craftable: false
@@ -5360,6 +5911,10 @@ materials:
   mat_fish_winter_flounder:
     item_id: 349
     item_data: 3
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: RAW_FISH
+      damage: 3
     name: 'Winter Flounder'
     shaped: true
     craftable: false
@@ -5373,6 +5928,10 @@ materials:
   mat_fish_yellowtail_flounder:
     item_id: 349
     item_data: 3
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: RAW_FISH
+      damage: 3
     name: 'Yellowtail Flounder'
     shaped: true
     craftable: false
@@ -5386,6 +5945,10 @@ materials:
   mat_fish_gag_grouper:
     item_id: 349
     item_data: 1
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: RAW_FISH
+      damage: 1
     name: 'Gag Grouper'
     shaped: true
     craftable: false
@@ -5399,6 +5962,10 @@ materials:
   mat_fish_red_grouper:
     item_id: 349
     item_data: 2
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: RAW_FISH
+      damage: 2
     name: 'Red Grouper'
     shaped: true
     craftable: false
@@ -5412,6 +5979,9 @@ materials:
   mat_fish_black_sea_bass:
     item_id: 349
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: RAW_FISH
     name: 'Black Sea Bass'
     shaped: true
     craftable: false
@@ -5425,6 +5995,9 @@ materials:
   mat_fish_wreckfish:
     item_id: 350
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: COOKED_FISH
     name: 'Wreckfish'
     shaped: true
     craftable: false
@@ -5438,10 +6011,12 @@ materials:
   mat_fish_fish:
     item_id: 349
     item_data: 0
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: RAW_FISH
     name: 'Fish'
     shaped: true
     craftable: false
-    shiny: false
     tradeable: true
     tradeValue: 5.0
     category: '<lightgreen>Fish Tier 1'
@@ -5451,10 +6026,13 @@ materials:
   mat_fish_salmon:
     item_id: 349
     item_data: 1
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: RAW_FISH
+      damage: 1
     name: 'Salmon'
     shaped: true
     craftable: false
-    shiny: false
     tradeable: true
     tradeValue: 5.0
     category: '<lightgreen>Fish Tier 1'
@@ -5464,10 +6042,13 @@ materials:
   mat_fish_clownfish:
     item_id: 349
     item_data: 2
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: RAW_FISH
+      damage: 2
     name: 'Clownfish'
     shaped: true
     craftable: false
-    shiny: false
     tradeable: true
     tradeValue: 5.0
     category: '<lightgreen>Fish Tier 1'
@@ -5477,10 +6058,13 @@ materials:
   mat_fish_pufferfish:
     item_id: 349
     item_data: 3
+    item:
+      ==: org.bukkit.inventory.ItemStack
+      type: RAW_FISH
+      damage: 3
     name: 'Pufferfish'
     shaped: true
     craftable: false
-    shiny: false
     tradeable: true
     tradeValue: 5.0
     category: '<lightgreen>Fish Tier 1'

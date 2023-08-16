@@ -60,7 +60,7 @@ public abstract class LoreMaterial {
     private String name;
 
     public static Map<String, LoreMaterial> materialMap = new HashMap<>();
-    public static final String MID_TAG = ChatColor.BLACK + "MID";
+//    public static final String MID_TAG = ChatColor.BLACK + "MID";
 
     public LoreMaterial(String id, Material material, short damage) {
         this.id = id;

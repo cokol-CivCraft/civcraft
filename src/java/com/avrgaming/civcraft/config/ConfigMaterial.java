@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
@@ -49,6 +50,9 @@ public class ConfigMaterial {
             mat.id = id;
             mat.item_id = Material.getMaterial(data.getInt("item_id"));
             mat.item_data = data.getInt("item_data");
+            if (!(data.get("item") instanceof ItemStack)) {
+                CivLog.info("not found item in " + mat.id);
+            }
             mat.name = CivColor.colorize(data.getString("name"));
 
 
