@@ -6,6 +6,7 @@ import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.util.CivColor;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -36,22 +37,22 @@ public class ConfigMaterial {
     public int amount = 1;
     public double tradeValue = 0;
 
-    @SuppressWarnings("unchecked")
     public static void loadConfig(FileConfiguration cfg, Map<String, ConfigMaterial> materials) {
         materials.clear();
-        List<Map<?, ?>> configMaterials = cfg.getMapList("materials");
-        for (Map<?, ?> b : configMaterials) {
+
+        ConfigurationSection materials_items = cfg.getConfigurationSection("materials");
+        for (String id : materials_items.getKeys(false)) {
             ConfigMaterial mat = new ConfigMaterial();
+            ConfigurationSection data = materials_items.getConfigurationSection(id);
 
             /* Mandatory Settings */
-            mat.id = (String) b.get("id");
-            mat.item_id = Material.getMaterial((Integer) b.get("item_id"));
-            mat.item_data = (Integer) b.get("item_data");
-            mat.name = (String) b.get("name");
-            mat.name = CivColor.colorize(mat.name);
+            mat.id = id;
+            mat.item_id = Material.getMaterial(data.getInt("item_id"));
+            mat.item_data = data.getInt("item_data");
+            mat.name = CivColor.colorize(data.getString("name"));
 
 
-            String category = (String) b.get("category");
+            String category = data.getString("category");
             if (category != null) {
                 mat.category = CivColor.colorize(category);
                 mat.categoryCivColortripped = CivColor.stripTags(category);
@@ -70,33 +71,28 @@ public class ConfigMaterial {
 
             }
 
-            /* Optional Lore */
-            List<?> configLore = (List<?>) b.get("lore");
-
-            mat.craftable = Optional.ofNullable((Boolean) b.get("craftable")).orElse(false);
-            mat.shaped = Optional.ofNullable((Boolean) b.get("shaped")).orElse(false);
-            mat.shiny = Optional.ofNullable((Boolean) b.get("shiny")).orElse(false);
-            mat.tradeable = Optional.ofNullable((Boolean) b.get("tradeable")).orElse(false);
-            mat.tradeValue = Optional.ofNullable((Double) b.get("tradeValue")).orElse(0d);
-            mat.vanilla = Optional.ofNullable((Boolean) b.get("vanilla")).orElse(false);
-            mat.amount = Optional.ofNullable((Integer) b.get("amount")).orElse(1);
-            mat.required_tech = (String) b.get("required_techs");
+            mat.craftable = data.getBoolean("craftable");
+            mat.shaped = data.getBoolean("shaped");
+            mat.shiny = data.getBoolean("shiny");
+            mat.tradeable = data.getBoolean("tradeable");
+            mat.tradeValue = data.getDouble("tradeValue", 0);
+            mat.vanilla = data.getBoolean("vanilla");
+            mat.amount = data.getInt("amount", 1);
+            mat.required_tech = data.getString("required_techs");
 
 
-            List<Map<?, ?>> comps = (List<Map<?, ?>>) b.get("components");
-            if (comps != null) {
-                for (Map<?, ?> compObj : comps) {
+            for (Map<?, ?> compObj : data.getMapList("components")) {
 
-                    HashMap<String, String> compMap = new HashMap<>();
-                    for (Object key : compObj.keySet()) {
-                        compMap.put((String) key, (String) compObj.get(key));
-                    }
-                    mat.components.add(compMap);
+                HashMap<String, String> compMap = new HashMap<>();
+                for (Object key : compObj.keySet()) {
+                    compMap.put((String) key, (String) compObj.get(key));
                 }
+                mat.components.add(compMap);
             }
 
-            List<Map<?, ?>> configIngredients = (List<Map<?, ?>>) b.get("ingredients");
-            if (configIngredients != null) {
+
+            List<Map<?, ?>> configIngredients = data.getMapList("ingredients");
+            if (!configIngredients.isEmpty()) {
                 mat.ingredients = new HashMap<>();
 
                 for (Map<?, ?> ingred : configIngredients) {
@@ -108,8 +104,7 @@ public class ConfigMaterial {
                             (String) ingred.get("letter"),
                             Optional.ofNullable((Boolean) ingred.get("ignore_data")).orElse(false)
                     );
-                    String key;
-                    key = Objects.requireNonNullElseGet(ingredient.custom_id(), () -> "mc_" + ingredient.type_id());
+                    String key = Objects.requireNonNullElseGet(ingredient.custom_id(), () -> "mc_" + ingredient.type_id());
 
                     mat.ingredients.put(key, ingredient);
                     //ConfigIngredient.ingredientMap.put(ingredient.custom_id, ingredient);
@@ -118,20 +113,17 @@ public class ConfigMaterial {
 
             if (mat.shaped) {
                 /* Optional shape argument. */
-                List<?> configShape = (List<?>) b.get("shape");
 
-                if (configShape != null) {
-                    String[] shape = new String[configShape.size()];
+                String[] shape = new String[data.getList("shape", new ArrayList<>()).size()];
 
-                    int i = 0;
-                    for (Object obj : configShape) {
-                        if (obj instanceof String) {
-                            shape[i] = (String) obj;
-                            i++;
-                        }
+                int i = 0;
+                for (Object obj : data.getList("shape", new ArrayList<>())) {
+                    if (obj instanceof String) {
+                        shape[i] = (String) obj;
+                        i++;
                     }
-                    mat.shape = shape;
                 }
+                mat.shape = shape;
             }
 
 

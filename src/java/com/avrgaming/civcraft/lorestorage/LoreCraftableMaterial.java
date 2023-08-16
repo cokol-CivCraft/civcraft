@@ -699,7 +699,12 @@ public class LoreCraftableMaterial extends LoreMaterial {
 //	public abstract void onInteractEntity(PlayerInteractEntityEvent event);
 //	public abstract void onBlockPlaced(BlockPlaceEvent event);
 
-    public record ConfigIngredient(Material type_id, int data, String custom_id, int count, String letter,
-                                   boolean ignore_data) {
+    public record ConfigIngredient(
+            Material type_id,
+            int data,
+            String custom_id,
+            int count,
+            String letter,
+            boolean ignore_data) {
     }
 }
