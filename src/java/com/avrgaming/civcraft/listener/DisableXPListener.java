@@ -44,7 +44,7 @@ public class DisableXPListener implements Listener {
         }
 
         Block block1 = event.getClickedBlock();
-        if (event.getClickedBlock() == null || block1.getTypeId() == Material.AIR.getId()) {
+        if (event.getClickedBlock() == null || block1.getType() == Material.AIR) {
             return;
         }
 

@@ -1,5 +1,6 @@
 package com.avrgaming.civcraft.util;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -28,11 +29,10 @@ public class ItemManager {
         player.sendBlockChange(loc, materialData.getItemType(), materialData.getData());
     }
 
-    @SuppressWarnings("deprecation")
     public static ItemStack spawnPlayerHead(String playerName, String itemDisplayName) {
-        ItemStack skull = new ItemStack(Material.SKULL_ITEM.getId(), 1, (short) 3);
+        ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
         SkullMeta meta = (SkullMeta) skull.getItemMeta();
-        meta.setOwner(playerName);
+        meta.setOwningPlayer(Bukkit.getOfflinePlayer(playerName));
         meta.setDisplayName(itemDisplayName);
         skull.setItemMeta(meta);
         return skull;
