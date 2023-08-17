@@ -75,7 +75,7 @@ materials:
 
   # Checked 10/8/13
   mat_carved_leather:
-    item_id: 334
+    item_id: LEATHER
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -85,13 +85,13 @@ materials:
     shaped: false
     category: '<lightgreen>Tier 1 Materials'
     ingredients:
-      - type_id: 334
+      - type_id: LEATHER
         data: 0
         count: 9
 
   # Checked 10/8/13
   mat_refined_stone:
-    item_id: 1
+    item_id: STONE
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -101,13 +101,13 @@ materials:
     shaped: false
     category: '<lightgreen>Tier 1 Materials'
     ingredients:
-      - type_id: 4
+      - type_id: COBBLESTONE
         data: -1
         count: 9
   
   # Checked 10/8/13 delete?
   mat_refined_stone_alt0:
-    item_id: 1
+    item_id: STONE
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -123,7 +123,7 @@ materials:
 
   # Checked 10/8/13
   mat_refined_stone_alt1:
-    item_id: 1
+    item_id: STONE
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -139,7 +139,7 @@ materials:
 
   # Checked 10/8/13
   mat_refined_stone_alt2:
-    item_id: 1
+    item_id: STONE
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -162,13 +162,13 @@ materials:
   #          shaped: false
   #          category: '<lightgreen>Tier 1 Materials'
   #          ingredients:
-  #              - type_id: 266
+  #              - type_id: GOLD_INGOT
   #                data: 0
   #                count: 9
 
   # Checked 10/8/13
   mat_refined_feathers:
-    item_id: 406
+    item_id: QUARTZ
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -184,7 +184,7 @@ materials:
   
   # Checked 10/8/13
   mat_crafted_string:
-    item_id: 287
+    item_id: STRING
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -194,7 +194,7 @@ materials:
     shaped: false
     category: '<lightgreen>Tier 1 Materials'
     ingredients:
-      - type_id: 287
+      - type_id: STRING
         data: 0
         count: 9
 
@@ -224,13 +224,13 @@ materials:
   #          shaped: false
   #          category: '<lightgreen>Tier 1 Materials'
   #          ingredients:
-  #              - type_id: 265
+  #              - type_id: IRON_INGOT
   #                data: 0
   #                count: 9
 
   # Checked 10/8/13
   mat_crafted_reeds:
-    item_id: 338
+    item_id: SUGAR_CANE
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -242,7 +242,7 @@ materials:
     tradeValue: 0.5
     category: '<lightgreen>Tier 1 Materials'
     ingredients:
-      - type_id: 338
+      - type_id: SUGAR_CANE
         data: 0
         count: 9
   
@@ -261,7 +261,7 @@ materials:
 
   # Checked 10/8/13
   mat_crafted_sticks:
-    item_id: 280
+    item_id: STICK
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -271,13 +271,13 @@ materials:
     shaped: false
     category: '<lightgreen>Tier 1 Materials'
     ingredients:
-      - type_id: 280
+      - type_id: STICK
         data: 0
         count: 9
 
   # Checked 10/8/13
   mat_refined_sulphur:
-    item_id: 289
+    item_id: SULPHUR
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -287,7 +287,7 @@ materials:
     shaped: false
     category: '<lightgreen>Tier 1 Materials'
     ingredients:
-      - type_id: 289
+      - type_id: SULPHUR
         data: 0
         count: 9
 
@@ -302,7 +302,7 @@ materials:
     shaped: false
     category: '<lightgreen>Tier 1 Materials'
     ingredients:
-      - type_id: 12
+      - type_id: SAND
         data: -1
         count: 9
 
@@ -366,7 +366,7 @@ materials:
     shaped: false
     category: '<lightgreen>Tier 1 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_chromium_ore'
         count: 9
@@ -383,7 +383,7 @@ materials:
     shaped: false
     category: '<lightgreen>Tier 1 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_tungsten_ore'
         count: 9
@@ -422,14 +422,14 @@ materials:
     
     # Replaced by diamond block
     #        mat_refined_diamonds:
-    #          item_id: 351
+    #          item_id: INK_SACK
     #          item_data: 12
     #          name: 'Refined Diamonds'
     #          craftable: true
     #          shaped: false
     #          category: '<lightgreen>Tier 1 Materials'
     #          ingredients:
-    #              - type_id: 264 
+    #              - type_id: DIAMOND 
     #                data: 0
     #                count: 9
 
@@ -478,11 +478,11 @@ materials:
     tradeValue: 1.0
     category: '<lightblue>Tier 2 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_carved_leather'
         data: 0
         count: 1
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_crafted_string'
         data: 0
         count: 1
@@ -501,7 +501,7 @@ materials:
     tradeValue: 1.0
     category: '<lightblue>Tier 2 Materials'
     ingredients:
-      - type_id: 57
+      - type_id: DIAMOND_BLOCK
         data: 0
         count: 2
 
@@ -519,7 +519,7 @@ materials:
     tradeValue: 1.0
     category: '<lightblue>Tier 2 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_refined_stone'
         data: 0
         count: 9
@@ -539,7 +539,7 @@ materials:
     tradeValue: 1400.0
     category: '<lightblue>Tier 2 Materials'
     ingredients:
-      - type_id: 41
+      - type_id: COBBLESTONE1
         data: 0
         count: 9
 
@@ -557,7 +557,7 @@ materials:
     tradeValue: 1.0
     category: '<lightblue>Tier 2 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_refined_wood'
         data: 0
         count: 9
@@ -576,15 +576,15 @@ materials:
     tradeValue: 1.0
     category: '<lightblue>Tier 2 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_crafted_string'
         data: 0
         count: 3
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_crafted_reeds'
         data: 0
         count: 3
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_refined_slime'
         data: 0
         count: 1
@@ -603,13 +603,13 @@ materials:
     tradeValue: 400.0
     category: '<lightblue>Tier 2 Materials'
     ingredients:
-      - type_id: 42
+      - type_id: COBBLESTONE2
         data: 0
         count: 3
-      - type_id: 173
+      - type_id: COAL_BLOCK
         data: 0
         count: 3
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_refined_sulphur'
         data: 0
         count: 1
@@ -630,15 +630,15 @@ materials:
     components:
       - name: 'NoRightClick'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_refined_slime'
         data: 0
         count: 1
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_refined_sugar'
         data: 0
         count: 1
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_refined_wart'
         data: 0
         count: 2
@@ -659,15 +659,15 @@ materials:
     components:
       - name: 'NoRightClick'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_refined_slime'
         data: 0
         count: 2
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_refined_sugar'
         data: 0
         count: 1
-      - type_id: 281
+      - type_id: BOWL
         data: 0
         count: 1
 
@@ -685,15 +685,15 @@ materials:
     tradeValue: 1.0
     category: '<lightblue>Tier 2 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_forged_clay'
         data: 0
         count: 3
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_crafted_reeds'
         data: 0
         count: 2
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_crafted_sticks'
         data: 0
         count: 3
@@ -701,7 +701,7 @@ materials:
 
   # Checked 10/8/13
   mat_chromium_ingot:
-    item_id: 399
+    item_id: NETHER_STAR
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -713,25 +713,25 @@ materials:
     tradeValue: 2.0
     category: '<lightblue>Tier 2 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_forged_chromium'
         data: 0
         count: 2
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_refined_sulphur'
         data: 0
         count: 2
-      - type_id: 173
+      - type_id: COAL_BLOCK
         data: 0
         count: 3
-      - type_id: 264
+      - type_id: DIAMOND
         data: 0
         count: 1
 
 
   # Checked 10/8/13
   mat_aged_wood_stave:
-    item_id: 280
+    item_id: STICK
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -743,15 +743,15 @@ materials:
     tradeValue: 1.0
     category: '<lightblue>Tier 2 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_crafted_sticks'
         data: 0
         count: 3
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_crafted_reeds'
         data: 0
         count: 2
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_crafted_string'
         data: 0
         count: 2
@@ -772,11 +772,11 @@ materials:
     components:
       - name: 'NoRightClick'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_crafted_string'
         data: 0
         count: 4
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_refined_slime'
         data: 0
         count: 1
@@ -793,18 +793,18 @@ materials:
     shaped: false
     category: '<lightblue>Tier 2 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_steel_ingot'
         data: 0
         count: 2
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_clay_steel_cast'
         data: 0
         count: 1
   
   # Checked 10/8/13
   mat_steel_sword_hilt:
-    item_id: 280
+    item_id: STICK
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -814,19 +814,19 @@ materials:
     shaped: false
     category: '<lightblue>Tier 2 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_steel_ingot'
         data: 0
         count: 2
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_varnish'
         data: 0
         count: 2
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_leather_straps'
         data: 0
         count: 2
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_sticky_resin'
         data: 0
         count: 1
@@ -845,15 +845,15 @@ materials:
     tradeValue: 400.0
     category: '<lightblue>Tier 2 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_steel_ingot'
         data: 0
         count: 1
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_varnish'
         data: 0
         count: 1
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_clay_molding'
         data: 0
         count: 1
@@ -874,11 +874,11 @@ materials:
     shaped: false
     category: '<lightpurple>Tier 3 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_crafted_leather'
         data: 0
         count: 3
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_varnish'
         data: 0
         count: 2
@@ -896,26 +896,26 @@ materials:
     components:
       - name: 'NoRightClick'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_clay_molding'
         data: 0
         count: 2
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_sticky_resin'
         data: 0
         count: 1
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_crafted_sticks'
         data: 0
         count: 2
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_crafted_reeds'
         data: 0
         count: 2
 
   # Checked 10/8/13
   mat_reinforced_braid:
-    item_id: 287
+    item_id: STRING
     item_data: 0
     name: 'T3 Reinforced Braid'
     craftable: true
@@ -924,15 +924,15 @@ materials:
     tradeValue: 5.0
     category: '<lightpurple>Tier 3 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_woven_threading'
         data: 0
         count: 2
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_sticky_resin'
         data: 0
         count: 2
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_varnish'
         data: 0
         count: 1
@@ -948,22 +948,22 @@ materials:
     tradeValue: 800.0
     category: '<lightpurple>Tier 3 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_steel_ingot'
         data: 0
         count: 2
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_chromium_ingot'
         data: 0
         count: 1
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_varnish'
         data: 0
         count: 1
   
   # Checked 10/8/13
   mat_longbow_stave:
-    item_id: 280
+    item_id: STICK
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -973,11 +973,11 @@ materials:
     shaped: false
     category: '<lightpurple>Tier 3 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_aged_wood_stave'
         data: 0
         count: 1
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_sticky_resin'
         data: 0
         count: 1
@@ -993,22 +993,22 @@ materials:
     tradeValue: 5.0
     category: '<lightpurple>Tier 3 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_woven_mesh_patch'
         data: 0
         count: 4
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_refined_feathers'
         data: 0
         count: 2
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_leather_straps'
         data: 0
         count: 3
     
     # Checked 10/8/13
   mat_carbide_molding:
-    item_id: 380
+    item_id: CAULDRON_ITEM
     item_data: 0
     name: 'T3 Carbide Molding'
     craftable: true
@@ -1019,22 +1019,22 @@ materials:
     components:
       - name: 'NoRightClick'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_clay_molding'
         data: 0
         count: 2
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_varnish'
         data: 0
         count: 2
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_sticky_resin'
         data: 0
         count: 1
   
   # Checked 10/8/13
   mat_smithy_resin:
-    item_id: 378
+    item_id: MAGMA_CREAM
     item_data: 0
     name: 'T3 Smithy Resin'
     craftable: true
@@ -1043,21 +1043,21 @@ materials:
     tradeValue: 5.0
     category: '<lightpurple>Tier 3 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_sticky_resin'
         data: 0
         count: 2
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_refined_sulphur'
         data: 0
         count: 2
-      - type_id: 173
+      - type_id: COAL_BLOCK
         data: 0
         count: 1
   
   # Checked 10/8/13
   mat_tungsten_ingot:
-    item_id: 368
+    item_id: ENDER_PEARL
     item_data: 0
     name: 'T3 Tungsten Ingot'
     craftable: true
@@ -1068,21 +1068,21 @@ materials:
     components:
       - name: 'NoRightClick'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_forged_tungsten'
         data: 0
         count: 5
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_chromium_ingot'
         data: 0
         count: 2
-      - type_id: 173
+      - type_id: COAL_BLOCK
         data: 0
         count: 2
   
   # Checked 10/8/13
   mat_clay_tungsten_casting:
-    item_id: 368
+    item_id: ENDER_PEARL
     item_data: 0
     name: 'T3 Clay Tungsten Casting'
     craftable: true
@@ -1093,15 +1093,15 @@ materials:
     components:
       - name: 'NoRightClick'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_clay_molding'
         data: 0
         count: 2
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_sticky_resin'
         data: 0
         count: 1
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_crafted_reeds'
         data: 0
         count: 2
@@ -1121,11 +1121,11 @@ materials:
     tradeValue: 5.0
     category: '<lightpurple>Tier 3 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_sticky_resin'
         data: 0
         count: 2
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_clay_molding'
         data: 0
         count: 2
@@ -1144,15 +1144,15 @@ materials:
     components:
       - name: 'NoDurability'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_jewelry_grade_gold'
         data: 0
         count: 3
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_decorative_jewels'
         data: 0
         count: 2
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_proof_of_leadership'
         data: 0
         count: 1
@@ -1167,7 +1167,7 @@ materials:
     components:
       - name: 'Tagged'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_badge_of_leadership'
         data: 0
         count: 4
@@ -1182,7 +1182,7 @@ materials:
     components:
       - name: 'Tagged'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_token_of_leadership'
         data: 0
         count: 9
@@ -1211,11 +1211,11 @@ materials:
     components:
       - name: 'NoDurability'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_refined_feathers'
         data: 0
         count: 2
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_carved_leather'
         data: 0
         count: 2
@@ -1231,14 +1231,14 @@ materials:
     tradeValue: 5.0
     category: '<lightpurple>Tier 3 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_crushed_stone'
         data: 0
         count: 9
   
   # Checked 10/8/13
   mat_carbide_steel_sword_hilt:
-    item_id: 280
+    item_id: STICK
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -1248,19 +1248,19 @@ materials:
     shaped: false
     category: '<lightpurple>Tier 3 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_clay_steel_cast'
         data: 0
         count: 1
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_smithy_resin'
         data: 0
         count: 1
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_carbide_steel_ingot'
         data: 0
         count: 1
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_reinforced_braid'
         data: 0
         count: 1
@@ -1278,15 +1278,15 @@ materials:
     shaped: false
     category: '<lightpurple>Tier 3 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_clay_steel_cast'
         data: 0
         count: 1
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_carbide_steel_ingot'
         data: 0
         count: 4
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_smithy_resin'
         data: 0
         count: 2
@@ -1305,15 +1305,15 @@ materials:
     tradeValue: 800.0
     category: '<lightpurple>Tier 3 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_sticky_resin'
         data: 0
         count: 2
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_clay_molding'
         data: 0
         count: 1
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_carbide_steel_ingot'
         data: 0
         count: 1
@@ -1335,11 +1335,11 @@ materials:
     tradeValue: 10.0
     category: '<gold>Tier 4 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_leather_straps'
         data: 0
         count: 2
-      - type_id: 5
+      - type_id: WOOD
         custom_id: 'mat_reinforced_braid'
         data: 0
         count: 2
@@ -1355,15 +1355,15 @@ materials:
     tradeValue: 10.0
     category: '<gold>Tier 4 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_clay_tungsten_casting'
         data: 0
         count: 1
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_smithy_resin'
         data: 0
         count: 2
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_tungsten_ingot'
         data: 0
         count: 1
@@ -1377,22 +1377,22 @@ materials:
     shaped: false
     category: '<gold>Tier 4 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_clay_tungsten_casting'
         data: 0
         count: 3
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_smithy_resin'
         data: 0
         count: 3
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_tungsten_ingot'
         data: 0
         count: 3
   
   # Checked 10/8/13
   mat_tungsten_sword_hilt:
-    item_id: 280
+    item_id: STICK
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -1402,26 +1402,26 @@ materials:
     shaped: false
     category: '<gold>Tier 4 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_clay_tungsten_casting'
         data: 0
         count: 2
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_smithy_resin'
         data: 0
         count: 2
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_tungsten_ingot'
         data: 0
         count: 2
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_artisan_leather'
         data: 0
         count: 2
   
   # Checked 10/8/13
   mat_composite_bow_stave:
-    item_id: 280
+    item_id: STICK
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -1431,40 +1431,40 @@ materials:
     shaped: false
     category: '<gold>Tier 4 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_longbow_stave'
         data: 0
         count: 2
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_leather_straps'
         data: 0
         count: 2
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_reinforced_braid'
         data: 0
         count: 2
   
   # Checked 10/8/13
   mat_composite_bow_string:
-    item_id: 287
+    item_id: STRING
     item_data: 0
     name: 'T4 Composite Bow String'
     craftable: true
     shaped: false
     category: '<gold>Tier 4 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_smithy_resin'
         data: 0
         count: 3
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_reinforced_braid'
         data: 0
         count: 3
   
   # Checked 10/8/13 RJ
   mat_cannon_wheel:
-    item_id: 163
+    item_id: ACACIA_STAIRS
     item_data: 0
     name: 'T4 Cannon Wheel'
     craftable: true
@@ -1473,13 +1473,13 @@ materials:
     tradeValue: 10.0
     category: '<gold>Tier 3 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_milled_lumber'
         data: 0
         count: 9
 
   mat_cannon_barrel_part:
-    item_id: 171
+    item_id: CARPET
     item_data: 15
     name: 'T4 Cannon Barrel Part'
     craftable: true
@@ -1488,7 +1488,7 @@ materials:
     tradeValue: 10.0
     category: '<gold>Tier 3 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_steel_ingot'
         letter: 'p'
@@ -1500,7 +1500,7 @@ materials:
   # Special Recipes  ===========================================            
   # Checked 10/8/13
   mat_found_civ:
-    item_id: 369
+    item_id: BLAZE_ROD
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -1512,15 +1512,15 @@ materials:
     components:
       - name: 'FoundCivilization'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_masonry_mortar'
         letter: 'm'
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_royal_crown'
         letter: 'r'
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_compacted_stone'
         letter: 's'
@@ -1533,7 +1533,7 @@ materials:
     # XXX mat ID hard coded for camp refund. with /camp undo 
   # Checked 10/8/13
   mat_found_camp:
-    item_id: 324
+    item_id: WOOD_DOOR
     item_data: 0
     name: 'Camp'
     craftable: true
@@ -1542,14 +1542,14 @@ materials:
     components:
       - name: 'FoundCamp'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_milled_lumber'
         letter: 'l'
-      - type_id: 173
+      - type_id: COAL_BLOCK
         data: 0
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_chieftains_headdress'
         letter: 'h'
@@ -1559,7 +1559,7 @@ materials:
       - "ccc"
 
   mat_found_warcamp:
-    item_id: 7
+    item_id: BEDROCK
     item_data: 0
     name: 'War Camp'
     craftable: true
@@ -1568,15 +1568,15 @@ materials:
     components:
       - name: 'FoundWarCamp'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_masonry_mortar'
         letter: 'm'
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_milled_lumber'
         letter: 'l'
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_compacted_stone'
         letter: 'c'
@@ -1586,7 +1586,7 @@ materials:
       - "ccc"
 
   mat_build_cannon:
-    item_id: 154
+    item_id: HOPPER
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -1599,11 +1599,11 @@ materials:
       - name: 'BuildCannon'
       - name: 'NoRightClick'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_cannon_barrel_part'
         letter: 'p'
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_cannon_wheel'
         letter: 'w'
@@ -1616,7 +1616,7 @@ materials:
   
   # Checked 10/8/13
   mat_wood_sword:
-    item_id: 268
+    item_id: WOOD_SWORD
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -1632,10 +1632,10 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 5
+      - type_id: WOOD
         data: -1
         letter: 'p'
-      - type_id: 280
+      - type_id: STICK
         data: 0
         letter: 's'
     shape:
@@ -1645,7 +1645,7 @@ materials:
   
   # Checked 10/8/13
   mat_leather_helmet:
-    item_id: 298
+    item_id: LEATHER_HELMET
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -1659,7 +1659,7 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 334
+      - type_id: LEATHER
         data: 0
         letter: 'l'
     shape:
@@ -1669,7 +1669,7 @@ materials:
   
   # Checked 10/8/13
   mat_leather_chestplate:
-    item_id: 299
+    item_id: LEATHER_CHESTPLATE
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -1683,7 +1683,7 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 334
+      - type_id: LEATHER
         data: 0
         letter: 'l'
     shape:
@@ -1693,7 +1693,7 @@ materials:
   
   # Checked 10/8/13
   mat_leather_leggings:
-    item_id: 300
+    item_id: LEATHER_LEGGINGS
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -1707,7 +1707,7 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 334
+      - type_id: LEATHER
         data: 0
         letter: 'l'
     shape:
@@ -1717,7 +1717,7 @@ materials:
   
   # Checked 10/8/13
   mat_leather_boots:
-    item_id: 301
+    item_id: LEATHER_BOOTS
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -1731,7 +1731,7 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 334
+      - type_id: LEATHER
         data: 0
         letter: 'l'
     shape:
@@ -1743,7 +1743,7 @@ materials:
   
   # Checked 10/8/13
   mat_refined_leather_helmet:
-    item_id: 298
+    item_id: LEATHER_HELMET
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -1763,7 +1763,7 @@ materials:
         value: '0.1'
       - name: 'NoCauldronWash'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_carved_leather'
         letter: 'c'
@@ -1774,7 +1774,7 @@ materials:
   
   # Checked 10/8/13
   mat_refined_leather_chestplate:
-    item_id: 299
+    item_id: LEATHER_CHESTPLATE
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -1794,7 +1794,7 @@ materials:
         value: '0.1'
       - name: 'NoCauldronWash'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_carved_leather'
         letter: 'c'
@@ -1805,7 +1805,7 @@ materials:
   
   # Checked 10/8/13
   mat_refined_leather_leggings:
-    item_id: 300
+    item_id: LEATHER_LEGGINGS
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -1825,7 +1825,7 @@ materials:
         value: '0.1'
       - name: 'NoCauldronWash'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_carved_leather'
         letter: 'c'
@@ -1836,7 +1836,7 @@ materials:
   
   # Checked 10/8/13
   mat_refined_leather_boots:
-    item_id: 301
+    item_id: LEATHER_BOOTS
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -1856,7 +1856,7 @@ materials:
         value: '0.1'
       - name: 'NoCauldronWash'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_carved_leather'
         letter: 'c'
@@ -1869,7 +1869,7 @@ materials:
   
   # Checked 10/8/13
   mat_hardened_leather_helmet:
-    item_id: 298
+    item_id: LEATHER_HELMET
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -1889,7 +1889,7 @@ materials:
         value: '0.1'
       - name: 'NoCauldronWash'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_leather_straps'
         letter: 'l'
@@ -1900,7 +1900,7 @@ materials:
   
   # Checked 10/8/13
   mat_hardened_leather_chestplate:
-    item_id: 299
+    item_id: LEATHER_CHESTPLATE
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -1920,7 +1920,7 @@ materials:
         value: '0.1'
       - name: 'NoCauldronWash'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_leather_straps'
         letter: 'l'
@@ -1931,7 +1931,7 @@ materials:
   
   # Checked 10/8/13
   mat_hardened_leather_leggings:
-    item_id: 300
+    item_id: LEATHER_LEGGINGS
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -1951,7 +1951,7 @@ materials:
         value: '0.1'
       - name: 'NoCauldronWash'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_leather_straps'
         letter: 'l'
@@ -1962,7 +1962,7 @@ materials:
   
   # Checked 10/8/13
   mat_hardened_leather_boots:
-    item_id: 301
+    item_id: LEATHER_BOOTS
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -1982,7 +1982,7 @@ materials:
         value: '0.1'
       - name: 'NoCauldronWash'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_leather_straps'
         letter: 'l'
@@ -1995,7 +1995,7 @@ materials:
   
   # Checked 10/8/13
   mat_composite_leather_helmet:
-    item_id: 298
+    item_id: LEATHER_HELMET
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2015,7 +2015,7 @@ materials:
         value: '0.1'
       - name: 'NoCauldronWash'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_artisan_leather'
         letter: 'a'
@@ -2026,7 +2026,7 @@ materials:
   
   # Checked 10/8/13
   mat_composite_leather_chestplate:
-    item_id: 299
+    item_id: LEATHER_CHESTPLATE
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2046,7 +2046,7 @@ materials:
         value: '0.1'
       - name: 'NoCauldronWash'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_artisan_leather'
         letter: 'a'
@@ -2057,7 +2057,7 @@ materials:
   
   # Checked 10/8/13
   mat_composite_leather_leggings:
-    item_id: 300
+    item_id: LEATHER_LEGGINGS
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2077,7 +2077,7 @@ materials:
         value: '0.1'
       - name: 'NoCauldronWash'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_artisan_leather'
         letter: 'a'
@@ -2088,7 +2088,7 @@ materials:
   
   # Checked 10/8/13
   mat_composite_leather_boots:
-    item_id: 301
+    item_id: LEATHER_BOOTS
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2108,7 +2108,7 @@ materials:
         value: '0.1'
       - name: 'NoCauldronWash'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_artisan_leather'
         letter: 'a'
@@ -2121,7 +2121,7 @@ materials:
   
   # Checked 10/8/13
   mat_hunting_bow:
-    item_id: 261
+    item_id: BOW
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2138,10 +2138,10 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 287
+      - type_id: STRING
         data: 0
         letter: 's'
-      - type_id: 280
+      - type_id: STICK
         data: 0
         letter: 'w'
     shape:
@@ -2151,7 +2151,7 @@ materials:
   
   # Checked 10/8/13
   mat_recurve_bow:
-    item_id: 261
+    item_id: BOW
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2168,11 +2168,11 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_aged_wood_stave'
         letter: 'a'
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_crafted_string'
         letter: 's'
@@ -2183,7 +2183,7 @@ materials:
   
   # Checked 10/8/13
   mat_longbow:
-    item_id: 261
+    item_id: BOW
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2200,11 +2200,11 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_longbow_stave'
         letter: 'l'
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_reinforced_braid'
         letter: 'b'
@@ -2215,7 +2215,7 @@ materials:
   
   # Checked 10/8/13
   mat_marksmen_bow:
-    item_id: 261
+    item_id: BOW
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2232,11 +2232,11 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_composite_bow_stave'
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_composite_bow_string'
         letter: 's'
@@ -2249,7 +2249,7 @@ materials:
   
   # Checked 10/8/13
   mat_stone_sword:
-    item_id: 272
+    item_id: STONE_SWORD
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2265,10 +2265,10 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 4
+      - type_id: COBBLESTONE
         data: 0
         letter: 'c'
-      - type_id: 280
+      - type_id: STICK
         data: 0
         letter: 's'
     shape:
@@ -2280,7 +2280,7 @@ materials:
   
   # Checked 10/8/13
   mat_iron_sword:
-    item_id: 267
+    item_id: IRON_SWORD
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2297,10 +2297,10 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 265
+      - type_id: IRON_INGOT
         data: 0
         letter: 'i'
-      - type_id: 280
+      - type_id: STICK
         data: 0
         letter: 's'
     shape:
@@ -2310,7 +2310,7 @@ materials:
   
   # Checked 10/8/13
   mat_iron_helmet:
-    item_id: 306
+    item_id: IRON_HELMET
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2327,7 +2327,7 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 265
+      - type_id: IRON_INGOT
         data: 0
         letter: 'i'
     shape:
@@ -2337,7 +2337,7 @@ materials:
   
   # Checked 10/8/13
   mat_iron_chestplate:
-    item_id: 307
+    item_id: IRON_CHESTPLATE
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2354,7 +2354,7 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 265
+      - type_id: IRON_INGOT
         data: 0
         letter: 'i'
     shape:
@@ -2364,7 +2364,7 @@ materials:
   
   # Checked 10/8/13
   mat_iron_leggings:
-    item_id: 308
+    item_id: IRON_LEGGINGS
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2381,7 +2381,7 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 265
+      - type_id: IRON_INGOT
         data: 0
 
         letter: 'i'
@@ -2392,7 +2392,7 @@ materials:
   
   # Checked 10/8/13
   mat_iron_boots:
-    item_id: 309
+    item_id: IRON_BOOTS
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2409,7 +2409,7 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 265
+      - type_id: IRON_INGOT
         data: 0
         letter: 'i'
     shape:
@@ -2422,7 +2422,7 @@ materials:
   
   # Checked 10/8/13
   mat_steel_helmet:
-    item_id: 302
+    item_id: CHAINMAIL_HELMET
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2439,7 +2439,7 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_steel_plate'
         letter: 's'
@@ -2450,7 +2450,7 @@ materials:
   
   # Checked 10/8/13
   mat_steel_boots:
-    item_id: 305
+    item_id: CHAINMAIL_BOOTS
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2467,7 +2467,7 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_steel_plate'
         letter: 's'
@@ -2478,7 +2478,7 @@ materials:
   
   # Checked 10/8/13
   mat_steel_chestplate:
-    item_id: 303
+    item_id: CHAINMAIL_CHESTPLATE
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2495,7 +2495,7 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_steel_plate'
         letter: 's'
@@ -2506,7 +2506,7 @@ materials:
   
   # Checked 10/8/13
   mat_steel_leggings:
-    item_id: 304
+    item_id: CHAINMAIL_LEGGINGS
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2523,7 +2523,7 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_steel_plate'
         letter: 's'
@@ -2534,7 +2534,7 @@ materials:
   
   # Checked 10/8/13
   mat_steel_sword:
-    item_id: 267
+    item_id: IRON_SWORD
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2551,11 +2551,11 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_steel_sword_blade'
         letter: 'b'
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_steel_sword_hilt'
         letter: 'h'
@@ -2568,7 +2568,7 @@ materials:
   
   # Checked 10/8/13
   mat_carbide_steel_sword:
-    item_id: 283
+    item_id: GOLD_SWORD
     item_data: 0
     name: 'Carbide Steel sword'
     craftable: true
@@ -2582,11 +2582,11 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_carbide_steel_sword_blade'
         letter: 'b'
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_carbide_steel_sword_hilt'
         letter: 'h'
@@ -2597,7 +2597,7 @@ materials:
   
   # Checked 10/8/13
   mat_carbide_steel_helmet:
-    item_id: 314
+    item_id: GOLD_HELMET
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2614,7 +2614,7 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_carbide_steel_plate'
         letter: 'c'
@@ -2625,7 +2625,7 @@ materials:
   
   # Checked 10/8/13
   mat_carbide_steel_chestplate:
-    item_id: 315
+    item_id: GOLD_CHESTPLATE
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2642,7 +2642,7 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_carbide_steel_plate'
         letter: 'c'
@@ -2653,7 +2653,7 @@ materials:
   
   # Checked 10/8/13
   mat_carbide_steel_leggings:
-    item_id: 316
+    item_id: GOLD_LEGGINGS
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2670,7 +2670,7 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_carbide_steel_plate'
         letter: 'c'
@@ -2681,7 +2681,7 @@ materials:
   
   # Checked 10/8/13
   mat_carbide_steel_boots:
-    item_id: 317
+    item_id: GOLD_BOOTS
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2698,7 +2698,7 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_carbide_steel_plate'
         letter: 'c'
@@ -2712,7 +2712,7 @@ materials:
   
   # Checked 10/8/13
   mat_tungsten_sword:
-    item_id: 276
+    item_id: DIAMOND_SWORD
     item_data: 0
     name: 'Tungsten Broadsword'
     craftable: true
@@ -2726,11 +2726,11 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_tungsten_sword_blade'
         letter: 'b'
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_tungsten_sword_hilt'
         letter: 'h'
@@ -2741,7 +2741,7 @@ materials:
   
   # Checked 10/8/13
   mat_tungsten_boots:
-    item_id: 313
+    item_id: DIAMOND_BOOTS
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2758,7 +2758,7 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_tungsten_plate'
         letter: 't'
@@ -2769,7 +2769,7 @@ materials:
   
   # Checked 10/8/13
   mat_tungsten_chestplate:
-    item_id: 311
+    item_id: DIAMOND_CHESTPLATE
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2786,7 +2786,7 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_tungsten_plate'
         letter: 't'
@@ -2797,7 +2797,7 @@ materials:
   
   # Checked 10/8/13
   mat_tungsten_leggings:
-    item_id: 312
+    item_id: DIAMOND_LEGGINGS
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2814,7 +2814,7 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_tungsten_plate'
         letter: 't'
@@ -2825,7 +2825,7 @@ materials:
   
   # Checked 10/8/13
   mat_tungsten_helmet:
-    item_id: 310
+    item_id: DIAMOND_HELMET
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2842,7 +2842,7 @@ materials:
       - name: 'DurabilityOnDeath'
         value: '0.1'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_tungsten_plate'
         letter: 't'
@@ -2857,7 +2857,7 @@ materials:
   
   # Checked 10/8/13
   mat_arena_leather_boots_two:
-    item_id: 301
+    item_id: LEATHER_BOOTS
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2879,7 +2879,7 @@ materials:
   
   # Checked 10/8/13
   mat_arena_leather_leggings_two:
-    item_id: 300
+    item_id: LEATHER_LEGGINGS
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2901,7 +2901,7 @@ materials:
   
   # Checked 10/8/13
   mat_arena_leather_chestplate_two:
-    item_id: 299
+    item_id: LEATHER_CHESTPLATE
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2923,7 +2923,7 @@ materials:
   
   # Checked 10/8/13
   mat_arena_leather_helmet_two:
-    item_id: 298
+    item_id: LEATHER_HELMET
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2945,7 +2945,7 @@ materials:
   
   # Checked 10/8/13
   mat_arena_iron_chestplate_two:
-    item_id: 307
+    item_id: IRON_CHESTPLATE
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2964,7 +2964,7 @@ materials:
   
   # Checked 10/8/13
   mat_arena_iron_helmet_two:
-    item_id: 306
+    item_id: IRON_HELMET
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -2983,7 +2983,7 @@ materials:
   
   # Checked 10/8/13
   mat_arena_iron_leggings_two:
-    item_id: 308
+    item_id: IRON_LEGGINGS
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -3002,7 +3002,7 @@ materials:
   
   # Checked 10/8/13
   mat_arena_iron_boots_two:
-    item_id: 309
+    item_id: IRON_BOOTS
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -3022,7 +3022,7 @@ materials:
   
   # Checked 10/8/13
   mat_arena_iron_helmet:
-    item_id: 314
+    item_id: GOLD_HELMET
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -3041,7 +3041,7 @@ materials:
   
   # Checked 10/8/13
   mat_arena_iron_chestplate:
-    item_id: 315
+    item_id: GOLD_CHESTPLATE
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -3060,7 +3060,7 @@ materials:
   
   # Checked 10/8/13
   mat_arena_iron_leggings:
-    item_id: 316
+    item_id: GOLD_LEGGINGS
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -3079,7 +3079,7 @@ materials:
   
   # Checked 10/8/13
   mat_arena_iron_boots:
-    item_id: 317
+    item_id: GOLD_BOOTS
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -3098,7 +3098,7 @@ materials:
   
   # Checked 10/8/13
   mat_arena_iron_sword:
-    item_id: 283
+    item_id: GOLD_SWORD
     item_data: 0
     name: 'Kishingatana'
     craftable: false
@@ -3114,7 +3114,7 @@ materials:
   
   # Checked 10/8/13
   mat_arena_iron_sword_two:
-    item_id: 267
+    item_id: IRON_SWORD
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -3133,7 +3133,7 @@ materials:
   
   # Checked 10/8/13
   mat_arena_iron_axe:
-    item_id: 286
+    item_id: GOLD_AXE
     item_data: 0
     name: 'Mirandas axe'
     craftable: false
@@ -3149,7 +3149,7 @@ materials:
   
   # Checked 10/8/13
   mat_arena_hunting_bow:
-    item_id: 261
+    item_id: BOW
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -3168,7 +3168,7 @@ materials:
   
   # Checked 10/8/13
   mat_arena_hunting_bow_two:
-    item_id: 261
+    item_id: BOW
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -3187,7 +3187,7 @@ materials:
   
   # Checked 10/8/13
   mat_arena_leather_boots:
-    item_id: 301
+    item_id: LEATHER_BOOTS
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -3209,7 +3209,7 @@ materials:
   
   # Checked 10/8/13
   mat_arena_leather_leggings:
-    item_id: 300
+    item_id: LEATHER_LEGGINGS
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -3231,7 +3231,7 @@ materials:
   
   # Checked 10/8/13
   mat_arena_leather_chestplate:
-    item_id: 299
+    item_id: LEATHER_CHESTPLATE
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -3253,7 +3253,7 @@ materials:
   
   # Checked 10/8/13
   mat_arena_leather_helmet:
-    item_id: 298
+    item_id: LEATHER_HELMET
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -3283,16 +3283,16 @@ materials:
     craftable: true
     category: '<lightgreen>Tier 1 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_chromium_ore'
         data: 0
         count: 2
-      - type_id: 265
+      - type_id: IRON_INGOT
         data: 0
         count: 2
 
   mat_metallic_crystal_1:
-    item_id: 399
+    item_id: NETHER_STAR
     item_data: 0
     name: 'T1 Common Metallic Crystal'
     shaped: false
@@ -3301,7 +3301,7 @@ materials:
     components:
       - name: 'NoRightClick'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_metallic_crystal_fragment_1'
         data: 0
         count: 9
@@ -3314,16 +3314,16 @@ materials:
     craftable: true
     category: '<lightblue>Tier 2 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_forged_chromium'
         data: 0
         count: 1
-      - type_id: 42
+      - type_id: COBBLESTONE2
         data: 0
         count: 1
 
   mat_metallic_crystal_2:
-    item_id: 399
+    item_id: NETHER_STAR
     item_data: 0
     name: 'T2 Uncommon Metallic Crystal'
     shaped: false
@@ -3332,7 +3332,7 @@ materials:
     components:
       - name: 'NoRightClick'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_metallic_crystal_fragment_2'
         data: 0
         count: 9
@@ -3345,16 +3345,16 @@ materials:
     craftable: true
     category: '<lightpurple>Tier 3 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_forged_chromium'
         data: 0
         count: 2
-      - type_id: 42
+      - type_id: COBBLESTONE2
         data: 0
         count: 2
 
   mat_metallic_crystal_3:
-    item_id: 399
+    item_id: NETHER_STAR
     item_data: 0
     name: 'T3 Rare Metallic Crystal'
     shaped: false
@@ -3363,7 +3363,7 @@ materials:
     components:
       - name: 'NoRightClick'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_metallic_crystal_fragment_3'
         data: 0
         count: 9
@@ -3376,16 +3376,16 @@ materials:
     craftable: true
     category: '<gold>Tier 4 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_forged_chromium'
         data: 0
         count: 3
-      - type_id: 42
+      - type_id: COBBLESTONE2
         data: 0
         count: 6
 
   mat_metallic_crystal_4:
-    item_id: 399
+    item_id: NETHER_STAR
     item_data: 0
     name: 'T4 Legendary Metallic Crystal'
     shaped: false
@@ -3394,13 +3394,13 @@ materials:
     components:
       - name: 'NoRightClick'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_metallic_crystal_fragment_4'
         data: 0
         count: 9
 
   mat_ionic_crystal_fragment_1:
-    item_id: 377
+    item_id: BLAZE_POWDER
     item_data: 0
     name: 'Common Ionic Crystal Fragment'
     shaped: false
@@ -3409,16 +3409,16 @@ materials:
       - name: 'NoRightClick'
     category: '<lightgreen>Tier 1 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_tungsten_ore'
         data: 0
         count: 2
-      - type_id: 266
+      - type_id: GOLD_INGOT
         data: 0
         count: 2
 
   mat_ionic_crystal_1:
-    item_id: 378
+    item_id: MAGMA_CREAM
     item_data: 0
     name: 'T1 Common Ionic Crystal'
     shaped: false
@@ -3427,14 +3427,14 @@ materials:
     components:
       - name: 'NoRightClick'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_ionic_crystal_fragment_1'
         data: 0
         count: 9
 
 
   mat_ionic_crystal_fragment_2:
-    item_id: 377
+    item_id: BLAZE_POWDER
     item_data: 0
     name: 'Uncommon Ionic Crystal Fragment'
     shaped: false
@@ -3443,16 +3443,16 @@ materials:
       - name: 'NoRightClick'
     category: '<lightblue>Tier 2 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_forged_tungsten'
         data: 0
         count: 1
-      - type_id: 41
+      - type_id: GOLD_BLOCK
         data: 0
         count: 1
 
   mat_ionic_crystal_2:
-    item_id: 378
+    item_id: MAGMA_CREAM
     item_data: 0
     name: 'T2 Uncommon Ionic Crystal'
     shaped: false
@@ -3461,13 +3461,13 @@ materials:
     components:
       - name: 'NoRightClick'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_ionic_crystal_fragment_2'
         data: 0
         count: 9
 
   mat_ionic_crystal_fragment_3:
-    item_id: 377
+    item_id: BLAZE_POWDER
     item_data: 0
     name: 'Rare Ionic Crystal Fragment'
     shaped: false
@@ -3476,16 +3476,16 @@ materials:
       - name: 'NoRightClick'
     category: '<lightpurple>Tier 3 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_forged_tungsten'
         data: 0
         count: 2
-      - type_id: 41
+      - type_id: COBBLESTONE1
         data: 0
         count: 2
 
   mat_ionic_crystal_3:
-    item_id: 378
+    item_id: MAGMA_CREAM
     item_data: 0
     name: 'T3 Rare Ionic Crystal'
     shaped: false
@@ -3494,13 +3494,13 @@ materials:
     components:
       - name: 'NoRightClick'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_ionic_crystal_fragment_3'
         data: 0
         count: 9
 
   mat_ionic_crystal_fragment_4:
-    item_id: 377
+    item_id: BLAZE_POWDER
     item_data: 0
     name: 'Legendary Ionic Crystal Fragment'
     shaped: false
@@ -3509,16 +3509,16 @@ materials:
       - name: 'NoRightClick'
     category: '<gold>Tier 4 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_forged_tungsten'
         data: 0
         count: 3
-      - type_id: 41
+      - type_id: COBBLESTONE1
         data: 0
         count: 3
 
   mat_ionic_crystal_4:
-    item_id: 378
+    item_id: MAGMA_CREAM
     item_data: 0
     name: 'T4 Legendary Ionic Crystal'
     shaped: false
@@ -3527,13 +3527,13 @@ materials:
     components:
       - name: 'NoRightClick'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_ionic_crystal_fragment_4'
         data: 0
         count: 9
   # Hostile Mob Eggs (Metallic)
   mat_creeper_egg:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 50
     name: 'Creeper Egg'
     shaped: true
@@ -3542,10 +3542,10 @@ materials:
     tradeValue: 10.0
     category: '<lightgreen>Eggs Tier 1'
     ingredients:
-      - type_id: 289
+      - type_id: SULPHUR
         data: 0
         letter: 't'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_ionic_crystal_fragment_1'
         data: 0
         letter: 'c'
@@ -3555,7 +3555,7 @@ materials:
       - "ttt"
 
   mat_creeper_egg_2:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 50
     name: 'Creeper Egg 2'
     shaped: true
@@ -3564,11 +3564,11 @@ materials:
     craftable: true
     category: '<lightblue>Eggs Tier 2'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_creeper_egg'
         data: 0
         letter: 'e'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_ionic_crystal_1'
         data: 0
         letter: 'c'
@@ -3578,7 +3578,7 @@ materials:
       - " c "
 
   mat_creeper_egg_3:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 50
     name: 'Creeper Egg 3'
     shaped: true
@@ -3587,11 +3587,11 @@ materials:
     craftable: true
     category: '<lightpurple>Eggs Tier 3'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_creeper_egg_2'
         data: 0
         letter: 'e'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_ionic_crystal_2'
         data: 0
         letter: 'c'
@@ -3601,7 +3601,7 @@ materials:
       - " c "
 
   mat_creeper_egg_4:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 50
     name: 'Creeper Egg 4'
     shaped: true
@@ -3610,11 +3610,11 @@ materials:
     craftable: true
     category: '<gold>Eggs Tier 4'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_creeper_egg_3'
         data: 0
         letter: 'e'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_ionic_crystal_3'
         data: 0
         letter: 'c'
@@ -3624,7 +3624,7 @@ materials:
       - " c "
 
   mat_skeleton_egg:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 51
     name: 'Skeleton Egg'
     shaped: true
@@ -3633,10 +3633,10 @@ materials:
     craftable: true
     category: '<lightgreen>Eggs Tier 1'
     ingredients:
-      - type_id: 352
+      - type_id: BONE
         data: 0
         letter: 't'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_ionic_crystal_fragment_1'
         data: 0
         letter: 'c'
@@ -3646,7 +3646,7 @@ materials:
       - "ttt"
 
   mat_skeleton_egg_2:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 51
     name: 'Skeleton Egg 2'
     shaped: true
@@ -3655,11 +3655,11 @@ materials:
     craftable: true
     category: '<lightblue>Eggs Tier 2'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_skeleton_egg'
         data: 0
         letter: 'e'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_ionic_crystal_1'
         data: 0
         letter: 'c'
@@ -3669,7 +3669,7 @@ materials:
       - " c "
 
   mat_skeleton_egg_3:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 51
     name: 'Skeleton Egg 3'
     shaped: true
@@ -3678,11 +3678,11 @@ materials:
     craftable: true
     category: '<lightpurple>Eggs Tier 3'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_skeleton_egg_2'
         data: 0
         letter: 'e'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_ionic_crystal_2'
         data: 0
         letter: 'c'
@@ -3692,7 +3692,7 @@ materials:
       - " c "
 
   mat_skeleton_egg_4:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 51
     name: 'Skeleton Egg 4'
     shaped: true
@@ -3701,11 +3701,11 @@ materials:
     craftable: true
     category: '<gold>Eggs Tier 4'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_skeleton_egg_3'
         data: 0
         letter: 'e'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_ionic_crystal_3'
         data: 0
         letter: 'c'
@@ -3715,7 +3715,7 @@ materials:
       - " c "
 
   mat_spider_egg:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 52
     name: 'Spider Egg'
     shaped: true
@@ -3724,10 +3724,10 @@ materials:
     craftable: true
     category: '<lightgreen>Eggs Tier 1'
     ingredients:
-      - type_id: 375
+      - type_id: SPIDER_EYE
         data: 0
         letter: 't'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_metallic_crystal_fragment_1'
         data: 0
         letter: 'c'
@@ -3737,7 +3737,7 @@ materials:
       - "ttt"
 
   mat_spider_egg_2:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 52
     name: 'Spider Egg 2'
     shaped: true
@@ -3746,11 +3746,11 @@ materials:
     craftable: true
     category: '<lightblue>Eggs Tier 2'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_metallic_crystal_1'
         data: 0
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_spider_egg'
         data: 0
         letter: 'e'
@@ -3760,7 +3760,7 @@ materials:
       - " c "
 
   mat_spider_egg_3:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 52
     name: 'Spider Egg 3'
     shaped: true
@@ -3769,11 +3769,11 @@ materials:
     craftable: true
     category: '<lightpurple>Eggs Tier 3'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_metallic_crystal_2'
         data: 0
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_spider_egg_2'
         data: 0
         letter: 'e'
@@ -3783,7 +3783,7 @@ materials:
       - " c "
 
   mat_spider_egg_4:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 52
     name: 'Spider Egg 4'
     shaped: true
@@ -3792,11 +3792,11 @@ materials:
     craftable: true
     category: '<gold>Eggs Tier 4'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_metallic_crystal_3'
         data: 0
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_spider_egg_3'
         data: 0
         letter: 'e'
@@ -3806,7 +3806,7 @@ materials:
       - " c "
 
   mat_zombie_egg:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 54
     name: 'Zombie Egg'
     shaped: true
@@ -3815,10 +3815,10 @@ materials:
     craftable: true
     category: '<lightgreen>Eggs Tier 1'
     ingredients:
-      - type_id: 367
+      - type_id: ROTTEN_FLESH
         data: 0
         letter: 't'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_metallic_crystal_fragment_1'
         data: 0
         letter: 'c'
@@ -3828,7 +3828,7 @@ materials:
       - "ttt"
 
   mat_zombie_egg_2:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 54
     name: 'Zombie Egg 2'
     shaped: true
@@ -3837,11 +3837,11 @@ materials:
     craftable: true
     category: '<lightblue>Eggs Tier 2'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_metallic_crystal_1'
         data: 0
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_zombie_egg'
         data: 0
         letter: 'e'
@@ -3851,7 +3851,7 @@ materials:
       - " c "
 
   mat_zombie_egg_3:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 54
     name: 'Zombie Egg 3'
     shaped: true
@@ -3860,11 +3860,11 @@ materials:
     craftable: true
     category: '<lightpurple>Eggs Tier 3'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_metallic_crystal_2'
         data: 0
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_zombie_egg_2'
         data: 0
         letter: 'e'
@@ -3874,7 +3874,7 @@ materials:
       - " c "
 
   mat_zombie_egg_4:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 54
     name: 'Zombie Egg 4'
     shaped: true
@@ -3883,11 +3883,11 @@ materials:
     craftable: true
     category: '<gold>Eggs Tier 4'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_metallic_crystal_3'
         data: 0
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_zombie_egg_3'
         data: 0
         letter: 'e'
@@ -3897,7 +3897,7 @@ materials:
       - " c "
 
   mat_slime_egg:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 55
     name: 'Slime Egg'
     shaped: true
@@ -3906,11 +3906,11 @@ materials:
     craftable: true
     category: '<lightgreen>Eggs Tier 1'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_vanilla_slime'
         data: 0
         letter: 't'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_metallic_crystal_fragment_1'
         data: 0
         letter: 'c'
@@ -3920,7 +3920,7 @@ materials:
       - "ttt"
 
   mat_slime_egg_2:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 55
     name: 'Slime Egg 2'
     shaped: true
@@ -3929,11 +3929,11 @@ materials:
     craftable: true
     category: '<lightblue>Eggs Tier 2'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_metallic_crystal_1'
         data: 0
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_slime_egg'
         data: 0
         letter: 'e'
@@ -3943,7 +3943,7 @@ materials:
       - " c "
 
   mat_slime_egg_3:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 55
     name: 'Slime Egg 3'
     shaped: true
@@ -3952,11 +3952,11 @@ materials:
     tradeValue: 2500.0
     category: '<lightpurple>Eggs Tier 3'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_metallic_crystal_2'
         data: 0
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_slime_egg_2'
         data: 0
         letter: 'e'
@@ -3966,7 +3966,7 @@ materials:
       - " c "
 
   mat_slime_egg_4:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 55
     name: 'Slime Egg 4'
     shaped: true
@@ -3975,11 +3975,11 @@ materials:
     tradeValue: 5000.0
     category: '<gold>Eggs Tier 4'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_metallic_crystal_3'
         data: 0
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_slime_egg_3'
         data: 0
         letter: 'e'
@@ -3989,7 +3989,7 @@ materials:
       - " c "
 
   mat_enderman_egg:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 58
     name: 'Enderman Egg'
     shaped: true
@@ -3998,11 +3998,11 @@ materials:
     craftable: true
     category: '<lightgreen>Eggs Tier 1'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_ender_pearl'
         data: 0
         letter: 't'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_ionic_crystal_fragment_1'
         data: 0
         letter: 'c'
@@ -4012,7 +4012,7 @@ materials:
       - " t "
 
   mat_enderman_egg_2:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 58
     name: 'Enderman Egg 2'
     shaped: true
@@ -4021,11 +4021,11 @@ materials:
     craftable: true
     category: '<lightblue>Eggs Tier 2'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_ionic_crystal_1'
         data: 0
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_enderman_egg'
         data: 0
         letter: 'e'
@@ -4035,7 +4035,7 @@ materials:
       - " c "
 
   mat_enderman_egg_3:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 58
     name: 'Enderman Egg 3'
     shaped: true
@@ -4044,11 +4044,11 @@ materials:
     tradeValue: 2500.0
     category: '<lightpurple>Eggs Tier 3'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_ionic_crystal_2'
         data: 0
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_enderman_egg_2'
         data: 0
         letter: 'e'
@@ -4058,7 +4058,7 @@ materials:
       - " c "
 
   mat_enderman_egg_4:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 58
     name: 'Enderman Egg 4'
     shaped: true
@@ -4067,11 +4067,11 @@ materials:
     tradeValue: 5000.0
     category: '<gold>Eggs Tier 4'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_ionic_crystal_3'
         data: 0
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_enderman_egg_3'
         data: 0
         letter: 'e'
@@ -4083,7 +4083,7 @@ materials:
   # Passive Mob Eggs (Ionic)
 
   mat_pig_egg:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 90
     name: 'Pig Egg'
     shaped: true
@@ -4092,10 +4092,10 @@ materials:
     craftable: true
     category: '<lightgreen>Eggs Tier 1'
     ingredients:
-      - type_id: 320
+      - type_id: GRILLED_PORK
         data: 0
         letter: 't'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_ionic_crystal_fragment_1'
         data: 0
         letter: 'c'
@@ -4105,7 +4105,7 @@ materials:
       - "ttt"
 
   mat_pig_egg_2:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 90
     name: 'Pig Egg 2'
     shaped: true
@@ -4114,11 +4114,11 @@ materials:
     craftable: true
     category: '<lightgreen>Eggs Tier 2'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_ionic_crystal_1'
         data: 0
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_pig_egg'
         data: 0
         letter: 'e'
@@ -4128,7 +4128,7 @@ materials:
       - " c "
 
   mat_pig_egg_3:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 90
     name: 'Pig Egg 3'
     shaped: true
@@ -4137,11 +4137,11 @@ materials:
     tradeValue: 500.0
     category: '<lightgreen>Eggs Tier 3'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_ionic_crystal_2'
         data: 0
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_pig_egg_2'
         data: 0
         letter: 'e'
@@ -4151,7 +4151,7 @@ materials:
       - " c "
 
   mat_pig_egg_4:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 90
     name: 'Pig Egg 4'
     shaped: true
@@ -4160,11 +4160,11 @@ materials:
     tradeValue: 1000.0
     category: '<lightgreen>Eggs Tier 4'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_ionic_crystal_3'
         data: 0
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_pig_egg_3'
         data: 0
         letter: 'e'
@@ -4174,7 +4174,7 @@ materials:
       - " c "
 
   mat_cow_egg:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 92
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -4191,10 +4191,10 @@ materials:
     craftable: true
     category: '<lightgreen>Eggs Tier 1'
     ingredients:
-      - type_id: 364
+      - type_id: COOKED_BEEF
         data: 0
         letter: 't'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_ionic_crystal_fragment_1'
         data: 0
         letter: 'c'
@@ -4204,7 +4204,7 @@ materials:
       - "ttt"
 
   mat_cow_egg_2:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 92
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -4221,11 +4221,11 @@ materials:
     craftable: true
     category: '<lightgreen>Eggs Tier 2'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_ionic_crystal_1'
         data: 0
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_cow_egg'
         data: 0
         letter: 'e'
@@ -4235,7 +4235,7 @@ materials:
       - " c "
 
   mat_cow_egg_3:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 92
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -4252,11 +4252,11 @@ materials:
     tradeValue: 500.0
     category: '<lightgreen>Eggs Tier 3'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_ionic_crystal_2'
         data: 0
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_cow_egg_2'
         data: 0
         letter: 'e'
@@ -4266,7 +4266,7 @@ materials:
       - " c "
 
   mat_cow_egg_4:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 92
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -4283,11 +4283,11 @@ materials:
     tradeValue: 1000.0
     category: '<lightgreen>Eggs Tier 4'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_ionic_crystal_3'
         data: 0
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_cow_egg_3'
         data: 0
         letter: 'e'
@@ -4297,7 +4297,7 @@ materials:
       - " c "
 
   mat_sheep_egg:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 91
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -4314,10 +4314,10 @@ materials:
     craftable: true
     category: '<lightgreen>Eggs Tier 1'
     ingredients:
-      - type_id: 424
+      - type_id: COBBLESTONE24
         data: 0
         letter: 't'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_metallic_crystal_fragment_1'
         data: 0
         letter: 'c'
@@ -4327,7 +4327,7 @@ materials:
       - "ttt"
 
   mat_sheep_egg_2:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 91
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -4344,11 +4344,11 @@ materials:
     craftable: true
     category: '<lightgreen>Eggs Tier 2'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_metallic_crystal_1'
         data: 0
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_sheep_egg'
         data: 0
         letter: 'e'
@@ -4358,7 +4358,7 @@ materials:
       - " c "
 
   mat_sheep_egg_3:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 91
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -4375,11 +4375,11 @@ materials:
     tradeValue: 500.0
     category: '<lightgreen>Eggs Tier 3'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_metallic_crystal_2'
         data: 0
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_sheep_egg_2'
         data: 0
         letter: 'e'
@@ -4389,7 +4389,7 @@ materials:
       - " c "
 
   mat_sheep_egg_4:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 91
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -4406,11 +4406,11 @@ materials:
     tradeValue: 1000.0
     category: '<lightgreen>Eggs Tier 4'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_metallic_crystal_3'
         data: 0
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_sheep_egg_3'
         data: 0
         letter: 'e'
@@ -4420,7 +4420,7 @@ materials:
       - " c "
 
   mat_chicken_egg:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 93
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -4437,10 +4437,10 @@ materials:
     craftable: true
     category: '<lightgreen>Eggs Tier 1'
     ingredients:
-      - type_id: 366
+      - type_id: COOKED_BEEF
         data: 0
         letter: 't'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_metallic_crystal_fragment_1'
         data: 0
         letter: 'c'
@@ -4450,7 +4450,7 @@ materials:
       - "ttt"
 
   mat_chicken_egg_2:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 93
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -4467,11 +4467,11 @@ materials:
     craftable: true
     category: '<lightgreen>Eggs Tier 2'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_metallic_crystal_1'
         data: 0
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_chicken_egg'
         data: 0
         letter: 'e'
@@ -4481,7 +4481,7 @@ materials:
       - " c "
 
   mat_chicken_egg_3:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 93
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -4498,11 +4498,11 @@ materials:
     tradeValue: 500.0
     category: '<lightgreen>Eggs Tier 3'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_metallic_crystal_2'
         data: 0
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_chicken_egg_2'
         data: 0
         letter: 'e'
@@ -4512,7 +4512,7 @@ materials:
       - " c "
 
   mat_chicken_egg_4:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 93
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -4529,11 +4529,11 @@ materials:
     tradeValue: 1000.0
     category: '<lightgreen>Eggs Tier 4'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_metallic_crystal_3'
         data: 0
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_chicken_egg_3'
         data: 0
         letter: 'e'
@@ -4543,7 +4543,7 @@ materials:
       - " c "
 
   mat_rabbit_egg:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 101
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -4560,10 +4560,10 @@ materials:
     craftable: true
     category: '<lightgreen>Eggs Tier 1'
     ingredients:
-      - type_id: 412
+      - type_id: COBBLESTONE12
         data: 0
         letter: 't'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_metallic_crystal_fragment_1'
         data: 0
         letter: 'c'
@@ -4573,7 +4573,7 @@ materials:
       - "ttt"
 
   mat_rabbit_egg_2:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 101
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -4590,11 +4590,11 @@ materials:
     craftable: true
     category: '<lightgreen>Eggs Tier 2'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_metallic_crystal_1'
         data: 0
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_rabbit_egg'
         data: 0
         letter: 'e'
@@ -4604,7 +4604,7 @@ materials:
       - " c "
 
   mat_rabbit_egg_3:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 101
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -4621,11 +4621,11 @@ materials:
     tradeValue: 500.0
     category: '<lightgreen>Eggs Tier 3'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_metallic_crystal_2'
         data: 0
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_rabbit_egg_2'
         data: 0
         letter: 'e'
@@ -4635,7 +4635,7 @@ materials:
       - " c "
 
   mat_rabbit_egg_4:
-    item_id: 383
+    item_id: MONSTER_EGG
     item_data: 101
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -4652,11 +4652,11 @@ materials:
     tradeValue: 1000.0
     category: '<lightgreen>Eggs Tier 4'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_metallic_crystal_3'
         data: 0
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_rabbit_egg_3'
         data: 0
         letter: 'e'
@@ -4667,7 +4667,7 @@ materials:
   
   # hardcoded pufferfish to give more mercury and clowfish to give bath.
   #        mat_vanilla_clownfish'
-  #         item_id: 349
+  #         item_id: RAW_FISH
   #          item_data: 2
   #          name: 'Clownfish'
   #          shaped: false
@@ -4679,7 +4679,7 @@ materials:
   #                amount: '1'
   
   #        mat_vanilla_pufferfish'
-  #          item_id: 349
+  #          item_id: RAW_FISH
   #          item_data: 3
   #          name: 'Pufferfish'
   #          shaped: false
@@ -4691,7 +4691,7 @@ materials:
   #                amount: '4'
 
   mat_mercury:
-    item_id: 362
+    item_id: MELON_SEEDS
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -4701,18 +4701,18 @@ materials:
     craftable: true
     category: '<lightgreen>Tier 1 Materials'
     ingredients:
-      - type_id: 41
+      - type_id: COBBLESTONE1
         data: 0
         count: 1
-      - type_id: 42
+      - type_id: COBBLESTONE2
         data: 0
         count: 1
-      - type_id: 133
+      - type_id: EMERALD_BLOCK
         data: 0
         count: 1
 
   mat_mercury_bath:
-    item_id: 368
+    item_id: ENDER_PEARL
     item_data: 0
     name: 'T2 Mercury Bath'
     shaped: false
@@ -4721,7 +4721,7 @@ materials:
     components:
       - name: 'NoRightClick'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_mercury'
         data: 0
         count: 9
@@ -4736,13 +4736,13 @@ materials:
     components:
       - name: 'NoRightClick'
     ingredients:
-      - type_id: 57
+      - type_id: DIAMOND_BLOCK
         data: 0
         count: 3
   
   # --======================= Catalysts ====================================
   mat_common_attack_catalyst:
-    item_id: 340
+    item_id: BOOK
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -4759,14 +4759,14 @@ materials:
         chance: '50'
         amount: '1'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_metallic_crystal_1'
         letter: 'c'
-      - type_id: 57
+      - type_id: DIAMOND_BLOCK
         data: 0
         letter: 'd'
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_mercury_bath'
         letter: 'm'
@@ -4776,7 +4776,7 @@ materials:
       - "mmm"
 
   mat_common_defense_catalyst:
-    item_id: 340
+    item_id: BOOK
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -4793,14 +4793,14 @@ materials:
         chance: '66'
         amount: '0.25'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_ionic_crystal_1'
         letter: 'c'
-      - type_id: 57
+      - type_id: DIAMOND_BLOCK
         data: 0
         letter: 'd'
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_mercury_bath'
         letter: 'm'
@@ -4812,7 +4812,7 @@ materials:
   #  Uncommon Defense and Attack catalysts
 
   mat_uncommon_attack_catalyst:
-    item_id: 387
+    item_id: WRITTEN_BOOK
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -4829,15 +4829,15 @@ materials:
         chance: '50'
         amount: '1'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_metallic_crystal_2'
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_industrial_diamond'
         letter: 'd'
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_mercury_bath'
         letter: 'm'
@@ -4847,7 +4847,7 @@ materials:
       - "mmm"
 
   mat_uncommon_defense_catalyst:
-    item_id: 387
+    item_id: WRITTEN_BOOK
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -4864,15 +4864,15 @@ materials:
         chance: '66'
         amount: '0.25'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_ionic_crystal_2'
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_industrial_diamond'
         letter: 'd'
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_mercury_bath'
         letter: 'm'
@@ -4885,7 +4885,7 @@ materials:
 
 
   mat_rare_attack_catalyst:
-    item_id: 387
+    item_id: WRITTEN_BOOK
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -4902,15 +4902,15 @@ materials:
         chance: '50'
         amount: '1'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_metallic_crystal_3'
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_industrial_diamond'
         letter: 'd'
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_mercury_bath'
         letter: 'm'
@@ -4920,7 +4920,7 @@ materials:
       - "mmm"
 
   mat_rare_defense_catalyst:
-    item_id: 387
+    item_id: WRITTEN_BOOK
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -4937,15 +4937,15 @@ materials:
         chance: '66'
         amount: '0.25'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_ionic_crystal_3'
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_industrial_diamond'
         letter: 'd'
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_mercury_bath'
         letter: 'm'
@@ -4957,7 +4957,7 @@ materials:
   # Legendary Defense and Attack Catalysts
 
   mat_legendary_attack_catalyst:
-    item_id: 369
+    item_id: BLAZE_ROD
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -4974,15 +4974,15 @@ materials:
         chance: '50'
         amount: '1'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_metallic_crystal_4'
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_industrial_diamond'
         letter: 'd'
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_mercury_bath'
         letter: 'm'
@@ -4992,7 +4992,7 @@ materials:
       - "mmm"
 
   mat_legendary_defense_catalyst:
-    item_id: 369
+    item_id: BLAZE_ROD
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -5009,15 +5009,15 @@ materials:
         chance: '66'
         amount: '0.25'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_ionic_crystal_4'
         letter: 'c'
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_industrial_diamond'
         letter: 'd'
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_mercury_bath'
         letter: 'm'
@@ -5029,7 +5029,7 @@ materials:
   #  Special Item Recipes -------------------------------------------------
 
   mat_tutorial_book:
-    item_id: 340
+    item_id: BOOK
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -5041,7 +5041,7 @@ materials:
       - name: 'TutorialBook'
 
   mat_vanilla_hopper:
-    item_id: 154
+    item_id: HOPPER
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -5054,11 +5054,11 @@ materials:
     components:
       - name: 'AllowBlockPlace'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_steel_ingot'
         data: 0
         letter: 's'
-      - type_id: 54
+      - type_id: CHEST
         data: 0
         letter: 'c'
     shape:
@@ -5067,7 +5067,7 @@ materials:
       - " s "
 
   mat_ender_pearl:
-    item_id: 368
+    item_id: ENDER_PEARL
     item_data: 0
     name: 'Ender Pearl'
     craftable: false
@@ -5076,7 +5076,7 @@ materials:
     components:
       - name: 'NoRightClick'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_ender_pearl'
         data: 0
         count: 9
@@ -5089,11 +5089,11 @@ materials:
     shaped: false
     category: '<lightgreen>Tier 1 Materials'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_refined_sugar'
         data: 0
         count: 3
-      - type_id: 352
+      - type_id: BONE
         data: 0
         count: 2
 
@@ -5105,11 +5105,11 @@ materials:
     vanilla: true
     shaped: true
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_vanilla_slime'
         data: 0
         letter: 's'
-      - type_id: 33
+      - type_id: PISTON_BASE
         data: 0
         letter: 'p'
     shape:
@@ -5118,18 +5118,18 @@ materials:
       - " p "
 
   mat_vanilla_magma_cream:
-    item_id: 378
+    item_id: MAGMA_CREAM
     item_data: 0
     name: 'Magma Cream'
     craftable: true
     vanilla: true
     shaped: false
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_vanilla_slime'
         data: 0
         count: 1
-      - type_id: 377
+      - type_id: BLAZE_POWDER
         data: 0
         count: 1
 
@@ -5145,11 +5145,11 @@ materials:
     shaped: true
     amount: 2
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_vanilla_slime'
         data: 0
         letter: 'l'
-      - type_id: 287
+      - type_id: STRING
         data: 0
         letter: 's'
     shape:
@@ -5170,10 +5170,10 @@ materials:
       - name: 'RepairCost'
         value: '100.0'
     ingredients:
-      - type_id: 280 #stick
+      - type_id: STICK #stick
         data: 0
         letter: 's'
-      - type_id: 4
+      - type_id: COBBLESTONE
         data: 0
         letter: 'm'
     shape:
@@ -5182,7 +5182,7 @@ materials:
       - " s "
 
   mat_vanilla_iron_pickaxe:
-    item_id: 257
+    item_id: IRON_PICKAXE
     item_data: 0
     name: 'Iron Pickaxe'
     craftable: true
@@ -5194,10 +5194,10 @@ materials:
       - name: 'RepairCost'
         value: '1000.0'
     ingredients:
-      - type_id: 280 #stick
+      - type_id: STICK #stick
         data: 0
         letter: 's'
-      - type_id: 265
+      - type_id: IRON_INGOT
         data: 0
         letter: 'm'
     shape:
@@ -5206,7 +5206,7 @@ materials:
       - " s "
 
   mat_vanilla_gold_pickaxe:
-    item_id: 285
+    item_id: GOLD_PICKAXE
     item_data: 0
     name: 'Gold Pickaxe'
     craftable: true
@@ -5218,10 +5218,10 @@ materials:
       - name: 'RepairCost'
         value: '500.0'
     ingredients:
-      - type_id: 280 #stick
+      - type_id: STICK #stick
         data: 0
         letter: 's'
-      - type_id: 266
+      - type_id: GOLD_INGOT
         data: 0
         letter: 'm'
     shape:
@@ -5230,7 +5230,7 @@ materials:
       - " s "
 
   mat_vanilla_diamond_pickaxe:
-    item_id: 278
+    item_id: DIAMOND_PICKAXE
     item_data: 0
     name: 'Diamond Pickaxe'
     craftable: true
@@ -5242,10 +5242,10 @@ materials:
       - name: 'RepairCost'
         value: '2000.0'
     ingredients:
-      - type_id: 280 #stick
+      - type_id: STICK #stick
         data: 0
         letter: 's'
-      - type_id: 264
+      - type_id: DIAMOND
         data: 0
         letter: 'm'
     shape:
@@ -5254,7 +5254,7 @@ materials:
       - " s "
 
   mat_vanilla_iron_shovel:
-    item_id: 256
+    item_id: IRON_SPADE
     item_data: 0
     name: 'Iron Shovel'
     craftable: true
@@ -5266,10 +5266,10 @@ materials:
       - name: 'RepairCost'
         value: '200.0'
     ingredients:
-      - type_id: 280 #stick
+      - type_id: STICK #stick
         data: 0
         letter: 's'
-      - type_id: 265
+      - type_id: IRON_INGOT
         data: 0
         letter: 'm'
     shape:
@@ -5278,7 +5278,7 @@ materials:
       - " s "
 
   mat_vanilla_gold_shovel:
-    item_id: 284
+    item_id: GOLD_SPADE
     item_data: 0
     name: 'Gold Shovel'
     craftable: true
@@ -5290,10 +5290,10 @@ materials:
       - name: 'RepairCost'
         value: '100.0'
     ingredients:
-      - type_id: 280 #stick
+      - type_id: STICK #stick
         data: 0
         letter: 's'
-      - type_id: 266
+      - type_id: GOLD_INGOT
         data: 0
         letter: 'm'
     shape:
@@ -5302,7 +5302,7 @@ materials:
       - " s "
 
   mat_vanilla_diamond_shovel:
-    item_id: 277
+    item_id: DIAMOND_SPADE
     item_data: 0
     name: 'Diamond Shovel'
     craftable: true
@@ -5314,10 +5314,10 @@ materials:
       - name: 'RepairCost'
         value: '500.0'
     ingredients:
-      - type_id: 280 #stick
+      - type_id: STICK #stick
         data: 0
         letter: 's'
-      - type_id: 264
+      - type_id: DIAMOND
         data: 0
         letter: 'm'
     shape:
@@ -5325,7 +5325,7 @@ materials:
       - " s "
       - " s "
   mat_vanilla_iron_axe:
-    item_id: 258
+    item_id: IRON_AXE
     item_data: 0
     name: 'Iron Axe'
     craftable: true
@@ -5337,10 +5337,10 @@ materials:
       - name: 'RepairCost'
         value: '400.0'
     ingredients:
-      - type_id: 280 #stick
+      - type_id: STICK #stick
         data: 0
         letter: 's'
-      - type_id: 265
+      - type_id: IRON_INGOT
         data: 0
         letter: 'm'
     shape:
@@ -5349,7 +5349,7 @@ materials:
       - " s "
 
   mat_vanilla_gold_axe:
-    item_id: 286
+    item_id: GOLD_AXE
     item_data: 0
     name: 'Gold Axe'
     craftable: true
@@ -5361,10 +5361,10 @@ materials:
       - name: 'RepairCost'
         value: '200.0'
     ingredients:
-      - type_id: 280 #stick
+      - type_id: STICK #stick
         data: 0
         letter: 's'
-      - type_id: 266
+      - type_id: GOLD_INGOT
         data: 0
         letter: 'm'
     shape:
@@ -5373,7 +5373,7 @@ materials:
       - " s "
 
   mat_vanilla_diamond_axe:
-    item_id: 279
+    item_id: DIAMOND_AXE
     item_data: 0
     name: 'Diamond Axe'
     craftable: true
@@ -5385,10 +5385,10 @@ materials:
       - name: 'RepairCost'
         value: '1000.0'
     ingredients:
-      - type_id: 280 #stick
+      - type_id: STICK #stick
         data: 0
         letter: 's'
-      - type_id: 264
+      - type_id: DIAMOND
         data: 0
         letter: 'm'
     shape:
@@ -5397,7 +5397,7 @@ materials:
       - " s "
 
   mat_vanilla_iron_hoe:
-    item_id: 292
+    item_id: IRON_HOE
     item_data: 0
     name: 'Iron Hoe'
     craftable: true
@@ -5410,10 +5410,10 @@ materials:
       - name: 'RepairCost'
         value: '400.0'
     ingredients:
-      - type_id: 280 #stick
+      - type_id: STICK #stick
         data: 0
         letter: 's'
-      - type_id: 265
+      - type_id: IRON_INGOT
         data: 0
         letter: 'm'
     shape:
@@ -5422,7 +5422,7 @@ materials:
       - " s "
 
   mat_vanilla_gold_hoe:
-    item_id: 294
+    item_id: GOLD_HOE
     item_data: 0
     name: 'Gold Hoe'
     craftable: true
@@ -5435,10 +5435,10 @@ materials:
       - name: 'RepairCost'
         value: '200.0'
     ingredients:
-      - type_id: 280 #stick
+      - type_id: STICK #stick
         data: 0
         letter: 's'
-      - type_id: 266
+      - type_id: GOLD_INGOT
         data: 0
         letter: 'm'
     shape:
@@ -5447,7 +5447,7 @@ materials:
       - " s "
 
   mat_vanilla_diamond_hoe:
-    item_id: 293
+    item_id: DIAMOND_HOE
     item_data: 0
     name: 'Diamond Hoe'
     craftable: true
@@ -5460,10 +5460,10 @@ materials:
       - name: 'RepairCost'
         value: '500.0'
     ingredients:
-      - type_id: 280 #stick
+      - type_id: STICK #stick
         data: 0
         letter: 's'
-      - type_id: 264
+      - type_id: DIAMOND
         data: 0
         letter: 'm'
     shape:
@@ -5472,21 +5472,21 @@ materials:
       - " s "
 
   mat_vanilla_dispenser:
-    item_id: 23
+    item_id: DISPENSER
     item_data: 0
     name: 'Dispenser'
     craftable: true
     vanilla: true
     shaped: true
     ingredients:
-      - type_id: 331 #redstone
+      - type_id: REDSTONE #redstone
         data: 0
         letter: 'r'
-      - type_id: 0
+      - type_id: AIR
         data: 0
         custom_id: 'mat_hunting_bow'
         letter: 'b'
-      - type_id: 4 #cobblestone
+      - type_id: COBBLESTONE #cobblestone
         data: 0
         letter: 'c'
     shape:
@@ -5495,7 +5495,7 @@ materials:
       - "crc"
 
   mat_vanilla_TNT:
-    item_id: 46
+    item_id: TNT
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -5508,16 +5508,16 @@ materials:
     components:
       - name: 'AllowBlockPlace'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_refined_sulphur'
         data: 0
         count: 1
-      - type_id: 12
+      - type_id: SAND
         data: -1
         count: 8
 
   mat_vanilla_ender_chest:
-    item_id: 130
+    item_id: ENDER_CHEST
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -5529,15 +5529,15 @@ materials:
     components:
       - name: 'AllowBlockPlace'
     ingredients:
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_tungsten_plate'
         data: 0
         letter: 'p'
-      - type_id: 0
+      - type_id: AIR
         custom_id: 'mat_artisan_leather'
         data: 0
         letter: 'l'
-      - type_id: 54 #chest
+      - type_id: CHEST #chest
         data: 0
         letter: 'c'
     shape:
@@ -5547,7 +5547,7 @@ materials:
   
   #---- Fish (new for 1.75) ----
   mat_pond_scum:
-    item_id: 351
+    item_id: INK_SACK
     item_data: 2
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -5594,7 +5594,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_minnows:
-    item_id: 362
+    item_id: MELON_SEEDS
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -5609,7 +5609,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_tadpole:
-    item_id: 375
+    item_id: SPIDER_EYE
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -5624,7 +5624,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_fish_brown_trout:
-    item_id: 349
+    item_id: RAW_FISH
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -5640,7 +5640,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_fish_brook_trout:
-    item_id: 349
+    item_id: RAW_FISH
     item_data: 1
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -5657,7 +5657,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_fish_cutthroat_trout:
-    item_id: 349
+    item_id: RAW_FISH
     item_data: 1
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -5674,7 +5674,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_fish_rainbow_trout:
-    item_id: 349
+    item_id: RAW_FISH
     item_data: 1
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -5691,7 +5691,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_fish_atlantic_striped_bass:
-    item_id: 350
+    item_id: COOKED_FISH
     item_data: 0
     name: 'Atlantic Striped Bass'
     shaped: true
@@ -5704,7 +5704,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_fish_pacific_ocean_perch:
-    item_id: 349
+    item_id: RAW_FISH
     item_data: 1
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -5721,7 +5721,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_fish_acadian_redfish:
-    item_id: 349
+    item_id: RAW_FISH
     item_data: 2
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -5738,7 +5738,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_fish_widow_rockfish:
-    item_id: 349
+    item_id: RAW_FISH
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -5767,7 +5767,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_fish_ocean_quahog:
-    item_id: 289
+    item_id: SULPHUR
     item_data: 0
     name: 'Ocean Quahog'
     shaped: true
@@ -5809,7 +5809,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_fish_atlantic_cod:
-    item_id: 350
+    item_id: COOKED_FISH
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -5825,7 +5825,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_fish_pacific_cod:
-    item_id: 349
+    item_id: RAW_FISH
     item_data: 1
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -5842,7 +5842,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_fish_lingcod:
-    item_id: 350
+    item_id: COOKED_FISH
     item_data: 1
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -5859,7 +5859,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_fish_sablefish:
-    item_id: 349
+    item_id: RAW_FISH
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -5875,7 +5875,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_fish_arrowtooth_flounder:
-    item_id: 349
+    item_id: RAW_FISH
     item_data: 3
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -5892,7 +5892,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_fish_summer_flounder:
-    item_id: 349
+    item_id: RAW_FISH
     item_data: 3
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -5909,7 +5909,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_fish_winter_flounder:
-    item_id: 349
+    item_id: RAW_FISH
     item_data: 3
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -5926,7 +5926,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_fish_yellowtail_flounder:
-    item_id: 349
+    item_id: RAW_FISH
     item_data: 3
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -5943,7 +5943,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_fish_gag_grouper:
-    item_id: 349
+    item_id: RAW_FISH
     item_data: 1
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -5960,7 +5960,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_fish_red_grouper:
-    item_id: 349
+    item_id: RAW_FISH
     item_data: 2
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -5977,7 +5977,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_fish_black_sea_bass:
-    item_id: 349
+    item_id: RAW_FISH
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -5993,7 +5993,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_fish_wreckfish:
-    item_id: 350
+    item_id: COOKED_FISH
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -6009,7 +6009,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_fish_fish:
-    item_id: 349
+    item_id: RAW_FISH
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -6024,7 +6024,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_fish_salmon:
-    item_id: 349
+    item_id: RAW_FISH
     item_data: 1
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -6040,7 +6040,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_fish_clownfish:
-    item_id: 349
+    item_id: RAW_FISH
     item_data: 2
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -6056,7 +6056,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_fish_pufferfish:
-    item_id: 349
+    item_id: RAW_FISH
     item_data: 3
     item:
       ==: org.bukkit.inventory.ItemStack

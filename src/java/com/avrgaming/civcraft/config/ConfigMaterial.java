@@ -48,7 +48,7 @@ public class ConfigMaterial {
 
             /* Mandatory Settings */
             mat.id = id;
-            mat.item_id = Material.getMaterial(data.getInt("item_id"));
+            mat.item_id = Material.getMaterial(data.getString("item_id"));
             mat.item_data = data.getInt("item_data");
             if (!(data.get("item") instanceof ItemStack)) {
                 CivLog.info("not found item in " + mat.id);
@@ -101,7 +101,7 @@ public class ConfigMaterial {
 
                 for (Map<?, ?> ingred : configIngredients) {
                     LoreCraftableMaterial.ConfigIngredient ingredient = new LoreCraftableMaterial.ConfigIngredient(
-                            Material.getMaterial((Integer) ingred.get("type_id")),
+                            Material.getMaterial((String) ingred.get("type_id")),
                             Optional.ofNullable((Integer) ingred.get("data")).orElse(0),
                             (String) ingred.get("custom_id"),
                             Optional.ofNullable((Integer) ingred.get("count")).orElse(1),
