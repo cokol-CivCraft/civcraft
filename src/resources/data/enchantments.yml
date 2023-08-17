@@ -51,12 +51,6 @@ enchants:
     description: 'placeholder'
     enchant_id: 'DEPTH_STRIDER'
 
-  - id: 'ench_'
-    name: ''
-    cost:
-    description: 'placeholder'
-    enchant_id: ''
-
   # - id: 'ench_'
   #   name: ''
   #   cost: 0

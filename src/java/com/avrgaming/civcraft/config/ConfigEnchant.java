@@ -20,7 +20,6 @@ package com.avrgaming.civcraft.config;
 import com.avrgaming.civcraft.main.CivLog;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.List;
 import java.util.Map;
 
 public class ConfigEnchant {
@@ -41,8 +40,7 @@ public class ConfigEnchant {
 
     public static void loadConfig(FileConfiguration cfg, Map<String, ConfigEnchant> enchant_map) {
         enchant_map.clear();
-        List<Map<?, ?>> techs = cfg.getMapList("enchants");
-        for (Map<?, ?> level : techs) {
+        for (Map<?, ?> level : cfg.getMapList("enchants")) {
             ConfigEnchant enchant = new ConfigEnchant(
                     (String) level.get("id"),
                     (String) level.get("name"),

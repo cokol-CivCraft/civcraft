@@ -292,7 +292,7 @@ materials:
         count: 9
 
   mat_compacted_sand:
-    item_id: 24
+    item_id: SANDSTONE
     item_data: 1
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -308,7 +308,7 @@ materials:
 
   # Checked 10/8/13
   mat_forged_clay:
-    item_id: 336
+    item_id: CLAY_BRICK
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -318,13 +318,13 @@ materials:
     shaped: false
     category: '<lightgreen>Tier 1 Materials'
     ingredients:
-      - type_id: 337
+      - type_id: CLAY_BALL
         data: 0
         count: 9
 
   # Checked 10/8/13
   mat_refined_sugar:
-    item_id: 353
+    item_id: SUGAR
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -334,13 +334,13 @@ materials:
     shaped: false
     category: '<lightgreen>Tier 1 Materials'
     ingredients:
-      - type_id: 353
+      - type_id: SUGAR
         data: 0
         count: 9
 
   # Checked 10/8/13
   mat_refined_wart:
-    item_id: 372
+    item_id: NETHER_STALK
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -350,7 +350,7 @@ materials:
     shaped: false
     category: '<lightgreen>Tier 1 Materials'
     ingredients:
-      - type_id: 372
+      - type_id: NETHER_STALK
         data: 0
         count: 9
   
@@ -416,7 +416,7 @@ materials:
     shaped: false
     category: '<lightgreen>Tier 1 Materials'
     ingredients:
-      - type_id: 162
+      - type_id: LOG_2
         data: -1
         count: 9
     
@@ -436,7 +436,7 @@ materials:
     # XXX Statically coded to drop from lapis.        
   # Checked 10/8/13
   mat_tungsten_ore:
-    item_id: 385
+    item_id: FIREBALL
     item_data: 0
     tradeable: true
     tradeValue: 0.5
@@ -450,7 +450,7 @@ materials:
     # XXX Statically coded to drop from trommel 
   # Checked 10/8/13
   mat_chromium_ore:
-    item_id: 370
+    item_id: GHAST_TEAR
     item_data: 0
     tradeable: true
     tradeValue: 0.1
@@ -489,7 +489,7 @@ materials:
 
   # Checked 10/8/13
   mat_decorative_jewels:
-    item_id: 372
+    item_id: NETHER_STALK
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -507,7 +507,7 @@ materials:
 
   # Checked 10/8/13
   mat_crushed_stone:
-    item_id: 44
+    item_id: STEP
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -527,7 +527,7 @@ materials:
 
   # Checked 10/8/13
   mat_jewelry_grade_gold:
-    item_id: 322
+    item_id: GOLDEN_APPLE
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -539,13 +539,13 @@ materials:
     tradeValue: 1400.0
     category: '<lightblue>Tier 2 Materials'
     ingredients:
-      - type_id: COBBLESTONE1
+      - type_id: GOLD_BLOCK
         data: 0
         count: 9
 
   # Checked 10/8/13
   mat_milled_lumber:
-    item_id: 53
+    item_id: WOOD_STAIRS
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -564,7 +564,7 @@ materials:
 
   # Checked 10/8/13
   mat_woven_mesh_patch:
-    item_id: 358
+    item_id: MAP
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -603,7 +603,7 @@ materials:
     tradeValue: 400.0
     category: '<lightblue>Tier 2 Materials'
     ingredients:
-      - type_id: COBBLESTONE2
+      - type_id: COBBLESTONE
         data: 0
         count: 3
       - type_id: COAL_BLOCK
@@ -616,7 +616,7 @@ materials:
 
   # Checked 10/8/13
   mat_varnish:
-    item_id: 384
+    item_id: EXP_BOTTLE
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -645,7 +645,7 @@ materials:
 
   # Changed 10/02/2016 (Item ID to Glass bottle instead of stew)
   mat_sticky_resin:
-    item_id: 374
+    item_id: GLASS_BOTTLE
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -673,7 +673,7 @@ materials:
 
   # Checked 10/8/13
   mat_clay_molding:
-    item_id: 45
+    item_id: BRICK
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -833,7 +833,7 @@ materials:
 
   # Checked 10/8/13
   mat_steel_plate:
-    item_id: 148
+    item_id: IRON_PLATE
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -865,7 +865,7 @@ materials:
 
   # Checked 10/8/13
   mat_leather_straps:
-    item_id: 32
+    item_id: DEAD_BUSH
     item_data: 0
     name: 'T3 Leather Straps'
     craftable: true
@@ -885,7 +885,7 @@ materials:
 
   # Checked 10/8/13
   mat_clay_steel_cast:
-    item_id: 343
+    item_id: POWERED_MINECART
     item_data: 0
     name: 'T3 Clay Steel Casting'
     craftable: true
@@ -1109,7 +1109,7 @@ materials:
   
   # Checked 10/8/13
   mat_masonry_mortar:
-    item_id: 45
+    item_id: BRICK
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -3318,7 +3318,7 @@ materials:
         custom_id: 'mat_forged_chromium'
         data: 0
         count: 1
-      - type_id: COBBLESTONE2
+      - type_id: COBBLESTONE
         data: 0
         count: 1
 
@@ -3349,7 +3349,7 @@ materials:
         custom_id: 'mat_forged_chromium'
         data: 0
         count: 2
-      - type_id: COBBLESTONE2
+      - type_id: IRON_BLOCK
         data: 0
         count: 2
 
@@ -3380,7 +3380,7 @@ materials:
         custom_id: 'mat_forged_chromium'
         data: 0
         count: 3
-      - type_id: COBBLESTONE2
+      - type_id: IRON_BLOCK
         data: 0
         count: 6
 
@@ -3480,7 +3480,7 @@ materials:
         custom_id: 'mat_forged_tungsten'
         data: 0
         count: 2
-      - type_id: COBBLESTONE1
+      - type_id: GOLD_BLOCK
         data: 0
         count: 2
 
@@ -3513,7 +3513,7 @@ materials:
         custom_id: 'mat_forged_tungsten'
         data: 0
         count: 3
-      - type_id: COBBLESTONE1
+      - type_id: GOLD_BLOCK
         data: 0
         count: 3
 
@@ -4314,7 +4314,7 @@ materials:
     craftable: true
     category: '<lightgreen>Eggs Tier 1'
     ingredients:
-      - type_id: COBBLESTONE24
+      - type_id: COBBLESTONE
         data: 0
         letter: 't'
       - type_id: AIR
@@ -4560,7 +4560,7 @@ materials:
     craftable: true
     category: '<lightgreen>Eggs Tier 1'
     ingredients:
-      - type_id: COBBLESTONE12
+      - type_id: COOKED_RABBIT
         data: 0
         letter: 't'
       - type_id: AIR
@@ -4701,10 +4701,10 @@ materials:
     craftable: true
     category: '<lightgreen>Tier 1 Materials'
     ingredients:
-      - type_id: COBBLESTONE1
+      - type_id: GOLD_BLOCK
         data: 0
         count: 1
-      - type_id: COBBLESTONE2
+      - type_id: IRON_BLOCK
         data: 0
         count: 1
       - type_id: EMERALD_BLOCK
@@ -5754,7 +5754,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_fish_atlantic_surfclam:
-    item_id: 353
+    item_id: SUGAR
     item_data: 0
     name: 'Atlantic Surf Clam'
     shaped: true
@@ -5780,7 +5780,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_fish_northern_quahog:
-    item_id: 337
+    item_id: CLAY_BALL
     item_data: 0
     name: 'Northern Quahog'
     shaped: true

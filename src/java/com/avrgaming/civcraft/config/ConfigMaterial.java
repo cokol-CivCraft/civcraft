@@ -9,7 +9,6 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
@@ -50,8 +49,8 @@ public class ConfigMaterial {
             mat.id = id;
             mat.item_id = Material.getMaterial(data.getString("item_id"));
             mat.item_data = data.getInt("item_data");
-            if (!(data.get("item") instanceof ItemStack)) {
-                CivLog.info("not found item in " + mat.id);
+            if (mat.item_id == null) {
+                CivLog.info("not found item_id in " + mat.id);
             }
             mat.name = CivColor.colorize(data.getString("name"));
 
@@ -108,6 +107,9 @@ public class ConfigMaterial {
                             (String) ingred.get("letter"),
                             Optional.ofNullable((Boolean) ingred.get("ignore_data")).orElse(false)
                     );
+                    if (ingredient.type_id() == null) {
+                        CivLog.info("not found type_id in " + mat.id);
+                    }
                     String key = Objects.requireNonNullElseGet(ingredient.custom_id(), () -> "mc_" + ingredient.type_id());
 
                     mat.ingredients.put(key, ingredient);

@@ -8,14 +8,14 @@
 # This is a list of items and which techs they are craftable at
 items:
   - id: IRON_BARDING
-      name: 'Iron Horse Armor'
-      require_tech: 'tech_global_trade'
+    name: 'Iron Horse Armor'
+    require_tech: 'tech_global_trade'
   - id: GOLD_BARDING
-      name: 'Gold Horse Armor'
-      require_tech: 'tech_global_trade'
+    name: 'Gold Horse Armor'
+    require_tech: 'tech_global_trade'
   - id: DIAMOND_BARDING
-      name: 'Diamond Horse Armor'
-      require_tech: 'tech_global_trade'
+    name: 'Diamond Horse Armor'
+    require_tech: 'tech_global_trade'
 
 potions:
   - name: 'Fire Resist'
