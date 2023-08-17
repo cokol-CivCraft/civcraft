@@ -117,7 +117,7 @@ materials:
     shaped: false
     category: '<lightgreen>Tier 1 Materials'
     ingredients:
-      - type_id: 1
+      - type_id: STONE
         data: 1
         count: 9
 
@@ -133,7 +133,7 @@ materials:
     shaped: false
     category: '<lightgreen>Tier 1 Materials'
     ingredients:
-      - type_id: 1
+      - type_id: STONE
         data: 3
         count: 9
 
@@ -149,7 +149,7 @@ materials:
     shaped: false
     category: '<lightgreen>Tier 1 Materials'
     ingredients:
-      - type_id: 1
+      - type_id: STONE
         data: 5
         count: 9
   
@@ -178,7 +178,7 @@ materials:
     shaped: false
     category: '<lightgreen>Tier 1 Materials'
     ingredients:
-      - type_id: 288
+      - type_id: FEATHER
         data: 0
         count: 9
   
@@ -200,7 +200,7 @@ materials:
 
   # Checked 10/8/13
   mat_refined_slime:
-    item_id: 341
+    item_id: SLIME_BALL
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -210,14 +210,14 @@ materials:
     shaped: false
     category: '<lightgreen>Tier 1 Materials'
     ingredients:
-      - type_id: 341
+      - type_id: SLIME_BALL
         custom_id: 'mat_vanilla_slime'
         data: 0
         count: 2
   
   # Replaced with block of iron
   #        mat_forged_iron_ingot'
-  #          item_id: 265
+  #          item_id: IRON_INGOT
   #          item_data: 0
   #          name: 'Forged Iron Ingot'
   #          craftable: true
@@ -356,7 +356,7 @@ materials:
   
   # Checked 10/8/13
   mat_forged_chromium:
-    item_id: 265
+    item_id: IRON_INGOT
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -373,7 +373,7 @@ materials:
 
   # Checked 10/8/13
   mat_forged_tungsten:
-    item_id: 133
+    item_id: EMERALD_BLOCK
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -390,7 +390,7 @@ materials:
 
   # Checked 10/8/13
   mat_refined_wood:
-    item_id: 126
+    item_id: WOOD_STEP
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -400,13 +400,13 @@ materials:
     shaped: false
     category: '<lightgreen>Tier 1 Materials'
     ingredients:
-      - type_id: 17
+      - type_id: LOG
         data: -1
         count: 9
 
   # # Checked 10/8/13
   mat_refined_wood_alt2:
-    item_id: 126
+    item_id: WOOD_STEP
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -466,7 +466,7 @@ materials:
 
   # Checked 10/8/13
   mat_crafted_leather:
-    item_id: 31
+    item_id: LONG_GRASS
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -591,7 +591,7 @@ materials:
 
   # Checked 10/8/13
   mat_steel_ingot:
-    item_id: 265
+    item_id: IRON_INGOT
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -758,7 +758,7 @@ materials:
 
   # Checked 10/8/13
   mat_woven_threading:
-    item_id: 420
+    item_id: LEASH
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -783,7 +783,7 @@ materials:
 
   # Checked 10/8/13
   mat_steel_sword_blade:
-    item_id: 265
+    item_id: IRON_INGOT
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -939,7 +939,7 @@ materials:
 
   # Checked 10/8/13
   mat_carbide_steel_ingot:
-    item_id: 318
+    item_id: FLINT
     item_data: 0
     name: 'T3 Carbide Steel Ingot'
     craftable: true
@@ -984,7 +984,7 @@ materials:
 
   # Checked 10/8/13
   mat_feathered_lining:
-    item_id: 288
+    item_id: FEATHER
     item_data: 0
     name: 'T3 Feathered Lining'
     craftable: true
@@ -1132,7 +1132,7 @@ materials:
   
   # Checked 10/8/13
   mat_royal_crown:
-    item_id: 314
+    item_id: GOLD_HELMET
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -1158,7 +1158,7 @@ materials:
         count: 1
 
   mat_proof_of_leadership:
-    item_id: 347
+    item_id: WATCH
     item_data: 0
     name: 'Proof Of Leadership'
     craftable: true
@@ -1173,7 +1173,7 @@ materials:
         count: 4
 
   mat_badge_of_leadership:
-    item_id: 421
+    item_id: NAME_TAG
     item_data: 0
     name: 'Badge Of Leadership'
     craftable: true
@@ -1188,7 +1188,7 @@ materials:
         count: 9
 
   mat_token_of_leadership:
-    item_id: 370
+    item_id: GHAST_TEAR
     item_data: 0
     name: 'Token Of Leadership'
     craftable: false
@@ -1199,7 +1199,7 @@ materials:
   
   # Checked 10/8/13
   mat_chieftains_headdress:
-    item_id: 302
+    item_id: CHAINMAIL_HELMET
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -1222,7 +1222,7 @@ materials:
   
   # Checked 10/8/13
   mat_compacted_stone:
-    item_id: 98
+    item_id: SMOOTH_BRICK
     item_data: 0
     name: 'T3 Compacted Stone'
     craftable: true
@@ -1268,7 +1268,7 @@ materials:
   
   # Checked 10/8/13
   mat_carbide_steel_sword_blade:
-    item_id: 265
+    item_id: IRON_INGOT
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -1293,7 +1293,7 @@ materials:
   
   # Checked 10/8/13
   mat_carbide_steel_plate:
-    item_id: 265
+    item_id: IRON_INGOT
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -1323,7 +1323,7 @@ materials:
   
   # Checked 10/8/13
   mat_artisan_leather:
-    item_id: 31
+    item_id: LONG_GRASS
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -1346,7 +1346,7 @@ materials:
   
   # Checked 10/8/13
   mat_tungsten_plate:
-    item_id: 405
+    item_id: NETHER_BRICK_ITEM
     item_data: 0
     name: 'T4 Tungsten Plate'
     craftable: true
@@ -1370,7 +1370,7 @@ materials:
   
   # Checked 10/8/13
   mat_tungsten_sword_blade:
-    item_id: 57
+    item_id: DIAMOND_BLOCK
     item_data: 0
     name: 'T4 Tungsten Sword Blade'
     craftable: true
@@ -3276,7 +3276,7 @@ materials:
   
   # Catalyst/Crystal ingredients
   mat_metallic_crystal_fragment_1:
-    item_id: 370
+    item_id: GHAST_TEAR
     item_data: 0
     name: 'Common Metallic Crystal Fragment'
     shaped: false
@@ -3307,7 +3307,7 @@ materials:
         count: 9
 
   mat_metallic_crystal_fragment_2:
-    item_id: 370
+    item_id: GHAST_TEAR
     item_data: 0
     name: 'Uncommon Metallic Crystal Fragment'
     shaped: false
@@ -3338,7 +3338,7 @@ materials:
         count: 9
 
   mat_metallic_crystal_fragment_3:
-    item_id: 370
+    item_id: GHAST_TEAR
     item_data: 0
     name: 'Rare Metallic Crystal Fragment'
     shaped: false
@@ -3369,7 +3369,7 @@ materials:
         count: 9
 
   mat_metallic_crystal_fragment_4:
-    item_id: 370
+    item_id: GHAST_TEAR
     item_data: 0
     name: 'Legendary Metallic Crystal Fragment'
     shaped: false
@@ -4727,7 +4727,7 @@ materials:
         count: 9
 
   mat_industrial_diamond:
-    item_id: 264
+    item_id: DIAMOND
     item_data: 0
     name: 'T2 Industrial Diamond'
     shaped: false
@@ -5082,7 +5082,7 @@ materials:
         count: 9
 
   mat_vanilla_slime:
-    item_id: 341
+    item_id: SLIME_BALL
     item_data: 0
     name: 'T1 SlimeBall'
     craftable: true
@@ -5098,7 +5098,7 @@ materials:
         count: 2
 
   mat_vanilla_sticky_piston:
-    item_id: 29
+    item_id: PISTON_STICKY_BASE
     item_data: 0
     name: 'Sticky Piston'
     craftable: true
@@ -5134,7 +5134,7 @@ materials:
         count: 1
 
   mat_vanilla_lead:
-    item_id: 420
+    item_id: LEASH
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -5158,7 +5158,7 @@ materials:
       - "  s"
 
   mat_vanilla_stone_pickaxe:
-    item_id: 274
+    item_id: STONE_PICKAXE
     item_data: 0
     name: 'Stone Pickaxe'
     craftable: true
@@ -5563,7 +5563,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_tangled_string:
-    item_id: 30
+    item_id: WEB
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -5578,7 +5578,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_seaweed:
-    item_id: 31
+    item_id: LONG_GRASS
     item_data: 1
     item:
       ==: org.bukkit.inventory.ItemStack
@@ -5793,7 +5793,7 @@ materials:
       - name: 'NoRightClick'
 
   mat_fish_geoduck:
-    item_id: 414
+    item_id: RABBIT_FOOT
     item_data: 0
     item:
       ==: org.bukkit.inventory.ItemStack
