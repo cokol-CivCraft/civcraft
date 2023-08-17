@@ -379,7 +379,6 @@ public class Blacksmith extends Structure {
      * leftovers and place them back in the sessionDB.
      * If there are no leftovers, delete the sessionDB entry.
      */
-    @SuppressWarnings("deprecation")
     public void withdrawSmelt(Player player) throws CivException {
 
         String key = getkey(player, this, "smelt");
@@ -400,7 +399,7 @@ public class Blacksmith extends Structure {
 
         for (SessionEntry se : entries) {
             String[] split = se.value.split(":");
-            Material itemId = Material.getMaterial(Integer.parseInt(split[0]));
+            Material itemId = Material.getMaterial(split[0]);
             double amount = Double.parseDouble(split[1]);
             long now = System.currentTimeMillis();
             int secondsBetween = CivGlobal.getSecondsBetween(se.time, now);

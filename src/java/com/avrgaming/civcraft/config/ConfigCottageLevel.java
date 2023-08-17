@@ -57,7 +57,7 @@ public class ConfigCottageLevel {
             consumes_list = new HashMap<>();
             for (Object consume : consumes) {
                 String[] split = ((String) consume).split(",");
-                consumes_list.put(Material.getMaterial(Integer.parseInt(split[0])), Integer.valueOf(split[1]));
+                consumes_list.put(Material.getMaterial(split[0]), Integer.valueOf(split[1]));
             }
 
 

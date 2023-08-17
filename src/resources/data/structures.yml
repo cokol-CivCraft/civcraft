@@ -160,49 +160,49 @@ blacksmith:
 cottage_levels:
   - level: 1
     consumes:
-      - 297,1
-      - 391,1
+      - BREAD,1
+      - CARROT_ITEM,1
     count: 24
     coins: 140.0
 
   - level: 2
     consumes:
-      - 297,2
-      - 391,2
-      - 392,1
+      - BREAD,2
+      - CARROT_ITEM,2
+      - POTATO_ITEM,1
     count: 48
     coins: 390.0
 
   - level: 3
     consumes:
-      - 297,2
-      - 391,3
-      - 392,2
+      - BREAD,2
+      - CARROT_ITEM,3
+      - POTATO_ITEM,2
     count: 96
     coins: 445.0
 
   - level: 4
     consumes:
-      - 297,3
-      - 391,4
-      - 392,3
+      - BREAD,3
+      - CARROT_ITEM,4
+      - POTATO_ITEM,3
     count: 120
     coins: 580.0
 
   - level: 5
     consumes:
-      - 297,4
-      - 391,5
-      - 392,4
+      - BREAD,4
+      - CARROT_ITEM,5
+      - POTATO_ITEM,4
     count: 144
     coins: 825.0
 
   - level: 6
     consumes:
-      - 297,5
-      - 391,6
-      - 392,6
-      - 319,1
+      - BREAD,5
+      - CARROT_ITEM,6
+      - POTATO_ITEM,6
+      - PORK,1
     count: 288
     coins: 1070.0
 ################# Temple Settings #################
@@ -220,31 +220,31 @@ temple_levels:
   - level: 1
     culture: 100.00
     consumes:
-      - 423,2
+      - MUTTON,2
     count: 24
 
   - level: 2
     culture: 200.00
     consumes:
-      - 423,4
+      - MUTTON,4
     count: 48
 
   - level: 3
     culture: 300.00
     consumes:
-      - 423,6
+      - MUTTON,6
     count: 96
 
   - level: 4
     culture: 400.00
     consumes:
-      - 423,8
+      - MUTTON,8
     count: 120
 
   - level: 5
     culture: 500.00
     consumes:
-      - 423,10
+      - MUTTON,10
     count: 144
 
 ################# Mine Settings #################
@@ -425,61 +425,61 @@ stable_items:
   - name: 'Horse'
     cost: 5000.0
     store_id: 0
-    item_id: 0
+    item_id: AIR
     horse_id: 1
 
   - name: 'Trusty Steed'
     cost: 10000.0
     store_id: 0
-    item_id: 0
+    item_id: AIR
     horse_id: 2
 
   - name: 'Thoroughbred'
     cost: 50000.0
     store_id: 0
-    item_id: 0
+    item_id: AIR
     horse_id: 3
 
   - name: 'Mule'
     cost: 2500.0
     store_id: 1
-    item_id: 0
+    item_id: AIR
     horse_id: 4
 
   - name: 'War Horse'
     cost: 100000.0
     store_id: 0
-    item_id: 0
+    item_id: AIR
     horse_id: 5
 
   - name: 'Saddle'
     cost: 2000.0
     store_id: 2
-    item_id: 329
+    item_id: SADDLE
     horse_id: 0
 
   - name: 'Name Tag'
     cost: 10000.0
     store_id: 2
-    item_id: 421
+    item_id: NAME_TAG
     horse_id: 0
 
   - name: 'Iron Horse Armor'
     cost: 20000.0
     store_id: 2
-    item_id: 417
+    item_id: IRON_BARDING
     horse_id: 0
 
   - name: 'Gold Horse Armor'
     cost: 50000.0
     store_id: 2
-    item_id: 418
+    item_id: GOLD_BARDING
     horse_id: 0
 
   - name: 'Diamond Horse Armor'
     cost: 100000.0
     store_id: 2
-    item_id: 419
+    item_id: DIAMOND_BARDING
     horse_id: 0
 
 stable_horses:

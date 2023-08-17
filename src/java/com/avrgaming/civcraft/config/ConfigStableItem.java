@@ -46,7 +46,7 @@ public class ConfigStableItem {
                     (String) level.get("name"),
                     (Double) level.get("cost"),
                     (Integer) level.get("store_id"),
-                    Material.getMaterial((Integer) level.get("item_id")),
+                    Material.getMaterial((String) level.get("item_id")),
                     (Integer) level.get("horse_id")
             );
 

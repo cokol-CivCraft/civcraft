@@ -7,13 +7,13 @@
 # ---- Tech restricted items
 # This is a list of items and which techs they are craftable at
 items:
-    - id: 417
+  - id: IRON_BARDING
       name: 'Iron Horse Armor'
       require_tech: 'tech_global_trade'
-    - id: 418
+  - id: GOLD_BARDING
       name: 'Gold Horse Armor'
       require_tech: 'tech_global_trade'
-    - id: 419
+  - id: DIAMOND_BARDING
       name: 'Diamond Horse Armor'
       require_tech: 'tech_global_trade'
 

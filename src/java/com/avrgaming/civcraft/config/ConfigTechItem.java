@@ -28,17 +28,17 @@ public class ConfigTechItem {
     public final String name;
     public final String require_tech;
 
-    public ConfigTechItem(Material id, String name, String requireTech) {
+    public ConfigTechItem(Material id, String name, String require_tech) {
         this.id = id;
         this.name = name;
-        require_tech = requireTech;
+        this.require_tech = require_tech;
     }
 
     public static void loadConfig(FileConfiguration cfg, Map<Material, ConfigTechItem> tech_maps) {
         tech_maps.clear();
         for (Map<?, ?> confTech : cfg.getMapList("items")) {
             ConfigTechItem tech = new ConfigTechItem(
-                    Material.getMaterial((Integer) confTech.get("id")),
+                    Material.getMaterial((String) confTech.get("id")),
                     (String) confTech.get("name"),
                     (String) confTech.get("require_tech")
             );

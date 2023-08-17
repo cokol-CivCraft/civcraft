@@ -49,17 +49,15 @@ public class ConfigTempleLevel {
 
     public static void loadConfig(FileConfiguration cfg, Map<Integer, ConfigTempleLevel> temple_levels) {
         temple_levels.clear();
-        List<Map<?, ?>> temple_list = cfg.getMapList("temple_levels");
-        Map<Material, Integer> consumes_list;
-        for (Map<?, ?> cl : temple_list) {
+        for (Map<?, ?> cl : cfg.getMapList("temple_levels")) {
             List<?> consumes = (List<?>) cl.get("consumes");
             if (consumes == null) {
                 continue;
             }
-            consumes_list = new HashMap<>();
+            Map<Material, Integer> consumes_list = new HashMap<>();
             for (Object consume : consumes) {
                 String[] split = ((String) consume).split(",");
-                consumes_list.put(Material.getMaterial(Integer.parseInt(split[0])), Integer.valueOf(split[1]));
+                consumes_list.put(Material.getMaterial(split[0]), Integer.valueOf(split[1]));
             }
 
 

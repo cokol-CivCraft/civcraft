@@ -128,126 +128,126 @@ land_goods:
       name: Pelts
       value: 250.0
       buffs: 'buff_monopoly, buff_fine_art'
-      material: 334 # leather
+      material: LEATHER
       material_data: 0
      
     - id: 'good_horses'
       name: Horses
       value: 250.0
       buffs: 'buff_advanced_tooling, buff_year_of_plenty'
-      material: 329 # saddle
+      material: SADDLE
       material_data: 0 
 
     - id: 'good_oil'
       name: Oil
       value: 375.0
       buffs: 'buff_advanced_tooling, buff_extraction, buff_fire_bomb'
-      material: 351 # ink sack
+      material: INK_SACK
       material_data: 0
 
     - id: 'good_papyrus'
       name: Papyrus
       value: 125.0
       buffs: 'buff_innovation'
-      material: 351 # Ink sack
+      material: INK_SACK
       material_data: 2 # green
 
     - id: 'good_silver'
       name: Silver
       value: 125.0
       buffs: 'buff_barter, buff_hedonism'
-      material: 265 # iron ingot
+      material: IRON_INGOT
       material_data: 0
 
     - id: 'good_poison_ivy'
       name: "Poison Ivy"
       value: 375.0
       buffs: 'buff_espionage, buff_sabotage, buff_dirty_money'
-      material: 106 # vines
+      material: VINE
       material_data: 0
 
     - id: 'good_ivory'
       name: Ivory
       value: 250.0
       buffs: 'buff_fine_art, buff_monopoly'
-      material: 406 # nether quartz
+      material: QUARTZ
       material_data: 0
 
     - id: 'good_incense'
       name: Incense
       value: 250.0
       buffs: 'buff_fine_art, buff_innovation'
-      material: 362 # melon seed
+      material: MELON_SEEDS
       material_data: 0
     
     - id: 'good_herbs'
       name: Herbs
       value: 250.0
       buffs: 'buff_medicine, buff_year_of_plenty'
-      material: 31 # tall grass
+      material: LONG_GRASS
       material_data: 2 # fern
 
     - id: 'good_hemlock'
       name: Hemlock
       value: 375.0
       buffs: 'buff_espionage, buff_sabotage, buff_dirty_money'
-      material: 31 # tall grass
+      material: LONG_GRASS
       material_data: 0
 
     - id: 'good_guarana'
       name: Guarana
       value: 375.0
       buffs: 'buff_extraction, buff_rush, buff_medicine'
-      material: 351 # ink sack
+      material: INK_SACK
       material_data: 1 # red
 
     - id: 'good_grapes'
       name: Grapes
       value: 125.0
       buffs: 'buff_year_of_plenty, buff_hedonism'
-      material: 372 # nether wart seed
+      material: NETHER_STALK
       material_data: 0
 
     - id: 'good_gems'
       name: Gems
       value: 375.0
       buffs: 'buff_barter, buff_greed, buff_monopoly'
-      material: 388 # emerald
+      material: EMERALD
       material_data: 0
     
     - id: 'good_olives'
       name: Olives
       value: 125.0
       buffs: 'buff_hedonism'
-      material: 375 # seeds
+      material: SPIDER_EYE
       material_data: 0
 
     - id: 'good_cotton'
       name: Cotton
       value: 125.0
       buffs: 'buff_fine_art'
-      material: 387 # string
+      material: WRITTEN_BOOK
       material_data: 0
 
     - id: 'good_corn'
       name: Corn
       value: 125.0
       buffs: 'buff_year_of_plenty'
-      material: 371 # gold nugget
+      material: GOLD_NUGGET
       material_data: 0
 
     - id: 'good_copper'
       name: Copper
       value: 125.0
       buffs: 'buff_advanced_tooling'
-      material: 369 # blaze rod
+      material: BLAZE_ROD
       material_data: 0
 
     - id: 'good_coffee'
       name: Coffee
       value: 375.0
       buffs: 'buff_innovation, buff_extraction, buff_rush'
-      material: 372 # nether wart seed
+      material: NETHER_STALK
       material_data: 0
       hemispheres: 'hemi_northwest'
 
@@ -255,28 +255,28 @@ land_goods:
       name: Limestone
       value: 250.0
       buffs: 'buff_construction, buff_barricade'
-      material: 351 # light grey dye
+      material: INK_SACK
       material_data: 7
     
     - id: 'good_tobacco'
       name: Tobacco
       value: 375.0
       buffs: 'buff_fine_art, buff_greed, buff_monopoly'
-      material: 338 # sugar canes
+      material: MINECART
       material_data: 0
 
     - id: 'good_spice'
       name: Spice
       value: 125.0
       buffs: 'buff_preservative'
-      material: 295 # seeds
+      material: SEEDS
       material_data: 0
 
     - id: 'good_Marble'
       name: Marble
       value: 250.0
       buffs: 'buff_fine_art, buff_construction'
-      material: 155 # quartz block
+      material: QUARTZ_BLOCK
       material_data: 0
     
 water_goods: 
@@ -284,42 +284,42 @@ water_goods:
       name: Crabs
       value: 250.0
       buffs: 'buff_year_of_plenty, buff_fishing'
-      material: 376 # fermented spider eye
+      material: FERMENTED_SPIDER_EYE
       material_data: 0
 
     - id: 'good_salmon'
       name: Salmon
       value: 250.0
       buffs: 'buff_year_of_plenty, buff_fishing'
-      material: 350 # cooked fish
+      material: COOKED_FISH
       material_data: 0
 
     - id: 'good_pearls'
       name: Pearls
       value: 375.0
       buffs: 'buff_monopoly, buff_greed'
-      material: 332 # Snow ball
+      material: SNOW_BALL
       material_data: 0
     
     - id: 'good_whale'
       name: Whale
       value: 500.0
       buffs: 'buff_innovation, buff_advanced_tooling, buff_fine_art, buff_extraction'
-      material: 345 # compass
+      material: COMPASS
       material_data: 0
 
     - id: 'good_shrimp'
       name: Shrimp
       value: 250.0
       buffs: 'buff_year_of_plenty, buff_fishing'
-      material: 375 # Spider Eye
+      material: SPIDER_EYE
       material_data: 0 
 
     - id: 'good_tuna'
       name: Tuna
       value: 250.0
       buffs: 'buff_year_of_plenty, buff_fishing'
-      material: 349 # fish
+      material: RAW_FISH
       material_data: 0
       
 
