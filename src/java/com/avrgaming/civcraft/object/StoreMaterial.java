@@ -26,7 +26,7 @@ public class StoreMaterial {
     public double price;
 
     public StoreMaterial(String strtype, String strdata, String strname, String strprice) {
-        type = Material.getMaterial(Integer.parseInt(strtype));
+        type = Material.getMaterial(strtype);
         data = Integer.valueOf(strdata).byteValue();
         name = strname;
         price = Double.parseDouble(strprice);

@@ -343,7 +343,7 @@ upgrades:
    #
     - id: 'upgrade_store_material_soul_sand'
       name: 'Stock Store with Soul Sand'
-      action: 'set_store_material, 88, 0, Soul Sand, 320'
+      action: 'set_store_material, SOUL_SAND, 0, Soul Sand, 320'
       cost: 350.0
       require_upgrade:
       require_tech:
@@ -352,7 +352,7 @@ upgrades:
 
     - id: 'upgrade_store_material_netherrack'
       name: 'Stock Store with Netherrack'
-      action: 'set_store_material, 87, 0, Netherrack, 320'
+      action: 'set_store_material, NETHERRACK, 0, Netherrack, 320'
       cost: 350.0
       require_upgrade:
       require_tech:
@@ -363,7 +363,7 @@ upgrades:
     # XXX This is the Single bricks. 
     - id: 'upgrade_store_material_nether_brick'
       name: 'Stock Store with Nether Brick'
-      action: 'set_store_material, 405, 0, Nether Brick, 250'
+      action: 'set_store_material, NETHER_BRICK_ITEM, 0, Nether Brick, 250'
       cost: 350.0
       require_upgrade:
       require_tech:
@@ -372,7 +372,7 @@ upgrades:
     
     - id: 'upgrade_store_material_quartz'
       name: 'Stock Store with Quartz'
-      action: 'set_store_material, 406, 0, Quartz, 320'
+      action: 'set_store_material, QUARTZ, 0, Quartz, 320'
       cost: 350.0
       require_upgrade:
       require_tech:
@@ -381,7 +381,7 @@ upgrades:
     
     - id: 'upgrade_store_material_blaze_rod'
       name: 'Stock Store with Blaze Rod'
-      action: 'set_store_material, 369, 0, Blaze Rod, 3000'
+      action: 'set_store_material, BLAZE_ROD, 0, Blaze Rod, 3000'
       cost: 350.0
       require_upgrade:
       require_tech:
@@ -390,7 +390,7 @@ upgrades:
    
     - id: 'upgrade_store_material_magma_cream'
       name: 'Stock Store with Magma Cream'
-      action: 'set_store_material, 378, 0, Magma Cream, 4500'
+      action: 'set_store_material, MAGMA_CREAM, 0, Magma Cream, 4500'
       cost: 350.0
       require_tech:
       require_structure: 's_store'
@@ -398,7 +398,7 @@ upgrades:
  
     - id: 'upgrade_store_material_glowstone_dust'
       name: 'Stock Store with Glowstone Dust'
-      action: 'set_store_material, 348, 0, Glowstone Dust, 2500'
+      action: 'set_store_material, GLOWSTONE_DUST, 0, Glowstone Dust, 2500'
       cost: 350.0
       require_upgrade:
       require_tech:

@@ -83,7 +83,7 @@ public class ConfigMarketItem {
 
             item.id = Integer.parseInt(id);
             item.name = level.getString("name");
-            item.type_id = Material.getMaterial(level.getInt("type_id"));
+            item.type_id = Material.getMaterial(level.getString("type_id"));
             item.data = level.getInt("data");
             new ItemStack(item.type_id, 1, (short) item.data);
             item.inital_value = level.getInt("value");

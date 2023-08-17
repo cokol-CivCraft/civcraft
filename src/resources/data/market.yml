@@ -17,87 +17,87 @@ rate: 0.15
 items:
   0:
     name: 'Cobblestone'
-    type_id: 4
+    type_id: COBBLESTONE
     data: 0
     value: 1
 
   1:
     name: 'Clay'
-    type_id: 337
+    type_id: CLAY_BALL
     data: 0
     value: 1
 
   2:
     name: 'Coal'
-    type_id: 263
+    type_id: COAL
     data: 0
     value: 1
 
   3:
     name: 'Flint'
-    type_id: 318
+    type_id: FLINT
     data: 0
     value: 1
 
   4:
     name: 'CraftedReed'
     custom_id: 'mat_crafted_reeds'
-    type_id: 0
+    type_id: AIR
     data: 0
     value: 1
 # Shelf 1 right side, front 5-9
   5:
     name: 'String'
-    type_id: 287
+    type_id: STRING
     data: 0
     value: 1
 
   6:
     name: 'Leather'
-    type_id: 334
+    type_id: LEATHER
     data: 0
     value: 1
 
   7:
     name: 'Feather'
-    type_id: 288
+    type_id: FEATHER
     data: 0
     value: 1
 
   8:
     name: 'Nether Wart'
-    type_id: 372
+    type_id: NETHER_STALK
     data: 0
     value: 1
 
   9:
     name: 'Bones'
-    type_id: 352
+    type_id: BONE
     data: 0
     value: 20
 
 # Shelf 1 right side, back 10-14
   10:
     name: 'Wood Oak'
-    type_id: 17
+    type_id: LOG
     data: 0
     value: 1
 
   11:
     name: 'Wood Spruce'
-    type_id: 17
+    type_id: LOG
     data: 1
     value: 1
 
   12:
     name: 'Wood Birch'
-    type_id: 17
+    type_id: LOG
     data: 2
     value: 1
 
   13:
     name: 'Wood Jungle'
-    type_id: 17
+    type_id: LOG
     data: 3
     value: 1
 
@@ -106,62 +106,62 @@ items:
 # Shelf 1 left side, back 15-19
   15:
     name: 'Tungsten Ore'
-    type_id: 0
+    type_id: AIR
     data: 0
     custom_id: 'mat_tungsten_ore'
     value: 1
 
   16:
     name: 'Chromium Ore'
-    type_id: 0
+    type_id: AIR
     data: 0
     custom_id: 'mat_chromium_ore'
     value: 1
 
   17:
     name: 'Gunpowder'
-    type_id: 289
+    type_id: SULPHUR
     data: 0
     value: 50
 
   18:
     name: 'Gravel'
-    type_id: 13
+    type_id: GRAVEL
     data: 0
     value: 1
 
 # Shelf 2 left side, front 20-24
   20:
     name: 'Pond Scum'
-    type_id: 0
+    type_id: AIR
     data: 0
     custom_id: 'mat_pond_scum'
     value: 1
 
   21:
     name: 'Tangled String'
-    type_id: 0
+    type_id: AIR
     data: 0
     custom_id: 'mat_tangled_string'
     value: 1
 
   22:
     name: 'Seaweed'
-    type_id: 0
+    type_id: AIR
     data: 0
     custom_id: 'mat_seaweed'
     value: 1
 
   23:
     name: 'Minnows'
-    type_id: 0
+    type_id: AIR
     data: 0
     custom_id: 'mat_minnows'
     value: 1
 
   24:
     name: 'Tadpole'
-    type_id: 0
+    type_id: AIR
     data: 0
     custom_id: 'mat_tadpole'
     value: 1
@@ -169,69 +169,69 @@ items:
 # Shelf 2 right side, front 25-29
   25:
     name: 'Wood Acacia'
-    type_id: 162
+    type_id: LOG_2
     data: 0
     value: 1
 
   26:
     name: 'Wood Dark Oak'
-    type_id: 162
+    type_id: LOG_2
     data: 1
     value: 1
 
 # Shelf 2 right side, back 30-34
   30:
     name: 'Stone Brick'
-    type_id: 98
+    type_id: SMOOTH_BRICK
     data: 0
     value: 1
 
   31:
     name: 'Mossy Brick'
-    type_id: 98
+    type_id: SMOOTH_BRICK
     data: 1
     value: 1
 
   32:
     name: 'Cracked Brick'
-    type_id: 98
+    type_id: SMOOTH_BRICK
     data: 2
     value: 1
 
   33:
     name: 'Chiseled Brick'
-    type_id: 98
+    type_id: SMOOTH_BRICK
     data: 3
     value: 1
     
 # Shelf 2 left side, back 35-39
   35:
     name: 'Sponge'
-    type_id: 19
+    type_id: SPONGE
     data: 0
     value: 3
 
   36:
     name: 'Prismarine'
-    type_id: 168
+    type_id: PRISMARINE
     data: 0
     value: 1
 
   37:
     name: 'Prismarine Brick'
-    type_id: 168
+    type_id: PRISMARINE
     data: 1
     value: 1
 
   38:
     name: 'Dark Prismarine'
-    type_id: 168
+    type_id: PRISMARINE
     data: 2
     value: 1
 
   39:
     name: 'Sea Lantern'
-    type_id: 169
+    type_id: SEA_LANTERN
     data: 0
     value: 50
 
@@ -239,25 +239,25 @@ items:
 # Shelf 3 right side, front 45-49
   45:
     name: 'Polished Granite'
-    type_id: 1
+    type_id: STONE
     data: 2
     value: 1
 
   46:
     name: 'Polished Diorite'
-    type_id: 1
+    type_id: STONE
     data: 4
     value: 1
 
   47:
     name: 'Polished Andersite'
-    type_id: 1
+    type_id: STONE
     data: 6
     value: 1
 
   48:
     name: 'Lapis Block'
-    type_id: 22
+    type_id: LAPIS_BLOCK
     data: 0
     value: 1
 
@@ -270,100 +270,100 @@ items:
 # Shelf 3 right side, back 50-54
   50:
     name: 'White Wool'
-    type_id: 35
+    type_id: WOOL
     data: 0
     value: 1
 
   51:
     name: 'Orange Wool'
-    type_id: 35
+    type_id: WOOL
     data: 1
     value: 1
 
   52:
     name: 'Magenta Wool'
-    type_id: 35
+    type_id: WOOL
     data: 2
     value: 1
 
   53:
     name: 'Light Blue Wool'
-    type_id: 35
+    type_id: WOOL
     data: 3
     value: 1
 
   54:
     name: 'Yellow Wool'
-    type_id: 35
+    type_id: WOOL
     data: 4
     value: 1
 
 # Shelf 3 left side, back 55-59
   55:
     name: 'Lime Wool'
-    type_id: 35
+    type_id: WOOL
     data: 5
     value: 1
 
   56:
     name: 'Pink Wool'
-    type_id: 35
+    type_id: WOOL
     data: 6
     value: 1
 
   57:
     name: 'Gray Wool'
-    type_id: 35
+    type_id: WOOL
     data: 7
     value: 1
 
   58:
     name: 'Light Gray Wool'
-    type_id: 35
+    type_id: WOOL
     data: 8
     value: 1
 
   59:
     name: 'Cyan Wool'
-    type_id: 35
+    type_id: WOOL
     data: 9
     value: 1
 
 # Shelf 4 left side, front 60-64
   60:
     name: 'Purple Wool'
-    type_id: 35
+    type_id: WOOL
     data: 10
     value: 1
 
   61:
     name: 'Blue Wool'
-    type_id: 35
+    type_id: WOOL
     data: 11
     value: 1
 
   62:
     name: 'Brown Wool'
-    type_id: 35
+    type_id: WOOL
     data: 12
     value: 1
 
   63:
     name: 'Green Wool'
-    type_id: 35
+    type_id: WOOL
     data: 13
     value: 1
 
   64:
     name: 'Red Wool'
-    type_id: 35
+    type_id: WOOL
     data: 14
     value: 1
 
 # Shelf 4 right side, front 65-69
   65:
     name: 'Black Wool'
-    type_id: 35
+    type_id: WOOL
     data: 15
     value: 1
 
@@ -380,14 +380,14 @@ items:
 # Floor 1 Right side Side-Front Corner 94-97
   94:
     name: 'Crystal Fragment'
-    type_id: 0
+    type_id: AIR
     data: 0
     custom_id: 'mat_metallic_crystal_fragment_1'
     value: 10
 
   95:
     name: 'Ionic Fragment'
-    type_id: 0
+    type_id: AIR
     data: 0
     custom_id: 'mat_ionic_crystal_fragment_1'
     value: 10
@@ -395,28 +395,28 @@ items:
 # Floor 2 Right side Rear 102-105
   102:
     name: 'T1 Cow Egg'
-    type_id: 0
+    type_id: AIR
     data: 0
     custom_id: 'mat_cow_egg'
     value: 10
 
   103:
     name: 'T1 Chicken Egg'
-    type_id: 0
+    type_id: AIR
     data: 0
     custom_id: 'mat_chicken_egg'
     value: 10
 
   104:
     name: 'T1 Pig Egg'
-    type_id: 0
+    type_id: AIR
     data: 0
     custom_id: 'mat_pig_egg'
     value: 10
 
   105:
     name: 'T1 Sheep Egg'
-    type_id: 0
+    type_id: AIR
     data: 0
     custom_id: 'mat_sheep_egg'
     value: 10
@@ -424,94 +424,94 @@ items:
 # Floor 2 Right side Middle 106-109
   106:
     name: 'T1 Rabbit Egg'
-    type_id: 0
+    type_id: AIR
     data: 0
     custom_id: 'mat_rabbit_egg'
     value: 10
 
   107:
     name: 'T1 Creeper Egg'
-    type_id: 0
+    type_id: AIR
     data: 0
     custom_id: 'mat_creeper_egg'
     value: 10
 
   108:
     name: 'T1 Enderman Egg'
-    type_id: 0
+    type_id: AIR
     data: 0
     custom_id: 'mat_enderman_egg'
     value: 10
 
   109:
     name: 'T1 Zombie Egg'
-    type_id: 0
+    type_id: AIR
     data: 0
     custom_id: 'mat_zombie_egg'
     value: 10
 # Floor 2 Right side Forward 110-113
   110:
     name: 'T1 Skeleton Egg'
-    type_id: 0
+    type_id: AIR
     data: 0
     custom_id: 'mat_skeleton_egg'
     value: 10
 
   111:
     name: 'T1 Spider Egg'
-    type_id: 0
+    type_id: AIR
     data: 0
     custom_id: 'mat_spider_egg'
     value: 10
 
   112:
     name: 'T1 Slime Egg'
-    type_id: 0
+    type_id: AIR
     data: 0
     custom_id: 'mat_slime_egg'
     value: 10
 
   # 113:
   #   name: ''
-  #   type_id: 0
+  #   type_id: AIR
   #   data: 0
   #   value: 1
 
 # Floor 2 Right side Wall-Front Corner 114-117
   114:
     name: 'Oak Sapling'
-    type_id: 6
+    type_id: SAPLING
     data: 0
     value: 1
 
   115:
     name: 'Spruce Sapling'
-    type_id: 6
+    type_id: SAPLING
     data: 1
     value: 1
 
   116:
     name: 'Birch Sapling'
-    type_id: 6
+    type_id: SAPLING
     data: 2
     value: 1
 
   117:
     name: 'Jungle Sapling'
-    type_id: 6
+    type_id: SAPLING
     data: 3
     value: 1
 
 # Floor 2 Right side Front Corner 118-121
   118:
     name: 'Acacia Sapling'
-    type_id: 6
+    type_id: SAPLING
     data: 4
     value: 1
 
   119:
     name: 'Dark Oak Sapling'
-    type_id: 6
+    type_id: SAPLING
     data: 5
     value: 1
 
@@ -519,74 +519,74 @@ items:
 # Floor 2 Left side Front Corner 122-125
   122:
     name: 'Bread'
-    type_id: 297
+    type_id: BREAD
     data: 0
     value: 12
 
   123:
     name: 'Carrots'
-    type_id: 391
+    type_id: CARROT_ITEM
     data: 0
     value: 8
 
   124:
     name: 'Potato'
-    type_id: 392
+    type_id: POTATO_ITEM
     data: 0
     value: 8
 
   125:
     name: 'Pumpkin'
-    type_id: 86
+    type_id: PUMPKIN
     data: 0
     value: 4
 # Floor 2 Left side Wall-Front Corner 126-129
   126:
     name: 'Melon'
-    type_id: 103
+    type_id: MELON_BLOCK
     data: 0
     value: 3
 
   127:
     name: 'Raw Mutton'
-    type_id: 423
+    type_id: MUTTON
     data: 0
     value: 5
 
   128:
     name: 'Raw Fish'
-    type_id: 349
+    type_id: RAW_FISH
     data: 0
     value: 5
 
   129:
     name: 'Raw Salmon'
-    type_id: 349
+    type_id: RAW_FISH
     data: 1
     value: 5
 
 # Floor 2 Left side Forward 130-133
   130:
     name: 'Raw Beef'
-    type_id: 363
+    type_id: RAW_BEEF
     data: 0
     value: 5
 
   131:
     name: 'Raw Porkchop'
-    type_id: 319
+    type_id: PORK
     data: 0
     value: 5
 
   132:
     name: 'Raw Chicken'
-    type_id: 365
+    type_id: RAW_CHICKEN
     data: 0
     value: 5
 
   133:
     name: 'Raw Rabbit'
-    type_id: 411
+    type_id: RABBIT
     data: 0
     value: 5
 

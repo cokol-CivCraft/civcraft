@@ -29,7 +29,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ConfigTownUpgrade {
@@ -46,8 +45,7 @@ public class ConfigTownUpgrade {
 
     public static void loadConfig(FileConfiguration cfg, Map<String, ConfigTownUpgrade> upgrades) {
         upgrades.clear();
-        List<Map<?, ?>> culture_levels = cfg.getMapList("upgrades");
-        for (Map<?, ?> level : culture_levels) {
+        for (Map<?, ?> level : cfg.getMapList("upgrades")) {
             ConfigTownUpgrade town_upgrade = new ConfigTownUpgrade();
 
             town_upgrade.id = (String) level.get("id");
