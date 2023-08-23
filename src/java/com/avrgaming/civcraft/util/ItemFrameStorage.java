@@ -71,18 +71,18 @@ public class ItemFrameStorage {
     }
 
     public ItemFrameStorage(Location location, BlockFace blockface) {
-        CivLog.debug("world: " + location.getWorld().toString());
-        CivLog.debug("Entity: " + EntityType.ITEM_FRAME);
-        CivLog.debug("location: " + location);
-        CivLog.debug("Blockface: " + blockface.toString());
-        ItemFrame frame = (ItemFrame) location.getWorld().spawnEntity(location, EntityType.ITEM_FRAME);
-        CivLog.debug("ID: " + frame.getUniqueId());
-        //frame.setItem(new ItemStack(Material.BAKED_POTATO));
-
-        this.frameID = frame.getUniqueId();
-        this.location = frame.getLocation();
-        this.attachedBlock = new BlockCoord(location);
-        CivGlobal.addProtectedItemFrame(this);
+        CivLog.info("world: " + location.getWorld().toString());
+        CivLog.info("Entity: " + EntityType.ITEM_FRAME);
+        CivLog.info("location: " + location);
+        CivLog.info("Blockface: " + blockface.toString());
+//        ItemFrame frame = (ItemFrame) location.getWorld().spawnEntity(location, EntityType.ITEM_FRAME);
+//        CivLog.debug("ID: " + frame.getUniqueId());
+//        //frame.setItem(new ItemStack(Material.BAKED_POTATO));
+//
+//        this.frameID = frame.getUniqueId();
+//        this.location = frame.getLocation();
+//        this.attachedBlock = new BlockCoord(location);
+//        CivGlobal.addProtectedItemFrame(this);
 
     }
 
