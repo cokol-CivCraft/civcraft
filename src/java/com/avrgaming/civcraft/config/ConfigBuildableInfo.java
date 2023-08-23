@@ -21,6 +21,7 @@ import com.avrgaming.civcraft.main.CivCraft;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.structure.StructuresTypes;
+import org.apache.commons.io.FilenameUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -95,7 +96,7 @@ public class ConfigBuildableInfo {
 
             ConfigBuildableInfo sinfo = new ConfigBuildableInfo();
 
-            sinfo.id = config_file.getName();
+            sinfo.id = FilenameUtils.removeExtension(config_file.getName());
 
             sinfo.type = StructuresTypes.valueOf(config.getString("type", "base").toUpperCase());
             sinfo.template_base_name = config.getString("template");

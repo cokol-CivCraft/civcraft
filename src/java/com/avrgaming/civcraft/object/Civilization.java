@@ -154,7 +154,7 @@ public class Civilization extends SQLObject {
         if (!SQLController.hasTable(TABLE_NAME)) {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
-                    "`nbt` BLOB" +
+                    "`nbt` BLOB," +
                     "PRIMARY KEY (`id`)" + ")";
 
             SQLController.makeTable(table_create);
