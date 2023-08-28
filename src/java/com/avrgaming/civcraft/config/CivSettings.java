@@ -32,7 +32,6 @@ import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.randomevents.ConfigRandomEvent;
 import com.avrgaming.civcraft.template.Template;
 import localize.Localize;
-import org.apache.commons.io.FileUtils;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -280,23 +279,19 @@ public class CivSettings {
     }
 
     private static void initRestrictedUndoBlocks() {
-        restrictedUndoBlocks.add(Material.CROPS);
+        restrictedUndoBlocks.add(Material.WHEAT);
         restrictedUndoBlocks.add(Material.CARROT);
         restrictedUndoBlocks.add(Material.POTATO);
         restrictedUndoBlocks.add(Material.REDSTONE);
         restrictedUndoBlocks.add(Material.REDSTONE_WIRE);
-        restrictedUndoBlocks.add(Material.REDSTONE_TORCH_OFF);
-        restrictedUndoBlocks.add(Material.REDSTONE_TORCH_ON);
-        restrictedUndoBlocks.add(Material.DIODE_BLOCK_OFF);
-        restrictedUndoBlocks.add(Material.DIODE_BLOCK_ON);
-        restrictedUndoBlocks.add(Material.REDSTONE_COMPARATOR_OFF);
-        restrictedUndoBlocks.add(Material.REDSTONE_COMPARATOR_ON);
-        restrictedUndoBlocks.add(Material.REDSTONE_COMPARATOR);
+        restrictedUndoBlocks.add(Material.REDSTONE_TORCH);
+        restrictedUndoBlocks.add(Material.REPEATER);
+        restrictedUndoBlocks.add(Material.COMPARATOR);
         restrictedUndoBlocks.add(Material.STRING);
         restrictedUndoBlocks.add(Material.TRIPWIRE);
-        restrictedUndoBlocks.add(Material.SUGAR_CANE_BLOCK);
+        restrictedUndoBlocks.add(Material.SUGAR_CANE);
         restrictedUndoBlocks.add(Material.BEETROOT_SEEDS);
-        restrictedUndoBlocks.add(Material.LONG_GRASS);
+        restrictedUndoBlocks.add(Material.TALL_GRASS);
         restrictedUndoBlocks.add(Material.RED_ROSE);
         restrictedUndoBlocks.add(Material.RED_MUSHROOM);
         restrictedUndoBlocks.add(Material.DOUBLE_PLANT);
@@ -452,7 +447,7 @@ public class CivSettings {
         restrictedSpawns.put(EntityType.ENDERMAN, 0);
         restrictedSpawns.put(EntityType.GHAST, 0);
         restrictedSpawns.put(EntityType.GIANT, 0);
-        restrictedSpawns.put(EntityType.PIG_ZOMBIE, 0);
+        restrictedSpawns.put(EntityType.ZOMBIFIED_PIGLIN, 0);
         restrictedSpawns.put(EntityType.SILVERFISH, 0);
         restrictedSpawns.put(EntityType.SKELETON, 0);
         restrictedSpawns.put(EntityType.SLIME, 0);
@@ -474,15 +469,15 @@ public class CivSettings {
         restrictedItems.put(Material.BUCKET, 0);
         restrictedItems.put(Material.WATER_BUCKET, 0);
         restrictedItems.put(Material.LAVA_BUCKET, 0);
-        restrictedItems.put(Material.CAKE_BLOCK, 0);
+        restrictedItems.put(Material.CAKE, 0);
         restrictedItems.put(Material.CAULDRON, 0);
-        restrictedItems.put(Material.DIODE, 0);
-        restrictedItems.put(Material.INK_SACK, 0);
+        restrictedItems.put(Material.REPEATER, 0);
+        restrictedItems.put(Material.INK_SAC, 0);
         restrictedItems.put(Material.ITEM_FRAME, 0);
         restrictedItems.put(Material.PAINTING, 0);
         restrictedItems.put(Material.SHEARS, 0);
-        restrictedItems.put(Material.STATIONARY_LAVA, 0);
-        restrictedItems.put(Material.STATIONARY_WATER, 0);
+        restrictedItems.put(Material.LAVA, 0);
+        restrictedItems.put(Material.WATER, 0);
         restrictedItems.put(Material.TNT, 0);
     }
 
@@ -491,40 +486,32 @@ public class CivSettings {
         switchItems.add(Material.ANVIL);
         switchItems.add(Material.BEACON);
         switchItems.add(Material.BREWING_STAND);
-        switchItems.add(Material.BURNING_FURNACE);
-        switchItems.add(Material.CAKE_BLOCK);
+        switchItems.add(Material.CAKE);
         switchItems.add(Material.CAULDRON);
         switchItems.add(Material.CHEST);
         switchItems.add(Material.TRAPPED_CHEST);
-        switchItems.add(Material.COMMAND);
-        switchItems.add(Material.DIODE);
-        switchItems.add(Material.DIODE_BLOCK_OFF);
-        switchItems.add(Material.DIODE_BLOCK_ON);
+        switchItems.add(Material.COMMAND_BLOCK);
+        switchItems.add(Material.REPEATER);
         switchItems.add(Material.DISPENSER);
-        switchItems.add(Material.FENCE_GATE);
+        switchItems.add(Material.OAK_FENCE_GATE);
         switchItems.add(Material.FURNACE);
         switchItems.add(Material.JUKEBOX);
         switchItems.add(Material.LEVER);
         //	switchItems.add(Material.LOCKED_CHEST);
         switchItems.add(Material.STONE_BUTTON);
-        switchItems.add(Material.STONE_PLATE);
+        switchItems.add(Material.STONE_PRESSURE_PLATE);
         switchItems.add(Material.IRON_DOOR);
         switchItems.add(Material.TNT);
-        switchItems.add(Material.TRAP_DOOR);
-        switchItems.add(Material.WOOD_DOOR);
-        switchItems.add(Material.WOODEN_DOOR);
-        switchItems.add(Material.WOOD_PLATE);
+        switchItems.add(Material.OAK_TRAPDOOR);
+        switchItems.add(Material.OAK_DOOR);
+        switchItems.add(Material.OAK_PRESSURE_PLATE);
         //switchItems.put(Material.WOOD_BUTTON, 0); //intentionally left out
 
         // 1.5 additions.
         switchItems.add(Material.HOPPER);
         switchItems.add(Material.HOPPER_MINECART);
         switchItems.add(Material.DROPPER);
-        switchItems.add(Material.REDSTONE_COMPARATOR);
-        switchItems.add(Material.REDSTONE_COMPARATOR_ON);
-        switchItems.add(Material.REDSTONE_COMPARATOR_OFF);
-        switchItems.add(Material.GOLD_PLATE);
-        switchItems.add(Material.IRON_PLATE);
+        switchItems.add(Material.COMPARATOR);
         switchItems.add(Material.IRON_TRAPDOOR);
 
         // 1.6 additions.
@@ -548,7 +535,7 @@ public class CivSettings {
          * by specific events such as portal or fire creation.
          */
         blockPlaceExceptions.put(Material.FIRE, 0);
-        blockPlaceExceptions.put(Material.PORTAL, 0);
+        blockPlaceExceptions.put(Material.NETHER_PORTAL, 0);
     }
 
     public static String getStringBase(String path) throws InvalidConfiguration {

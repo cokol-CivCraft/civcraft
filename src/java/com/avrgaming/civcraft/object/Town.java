@@ -45,8 +45,8 @@ import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.DateUtil;
 import com.avrgaming.civcraft.util.ItemFrameStorage;
 import com.avrgaming.civcraft.war.War;
-import net.minecraft.server.v1_12_R1.NBTCompressedStreamTools;
-import net.minecraft.server.v1_12_R1.NBTTagCompound;
+import net.minecraft.nbt.NBTCompressedStreamTools;
+import net.minecraft.nbt.NBTTagCompound;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -261,36 +261,36 @@ public class Town extends SQLObject {
         HashMap<String, Object> hashmap = new HashMap<>();
         NBTTagCompound nbt = new NBTTagCompound();
 
-        nbt.setString("name", this.getName());
-        nbt.setInt("civ_id", this.getCiv().getId());
+        nbt.a("name", this.getName());
+        nbt.a("civ_id", this.getCiv().getId());
 
         if (this.motherCiv != null) {
-            nbt.setInt("mother_civ_id", this.motherCiv.getId());
+            nbt.a("mother_civ_id", this.motherCiv.getId());
         }
 
-        nbt.setString("defaultGroupName", this.getDefaultGroupName());
-        nbt.setString("mayorGroupName", this.getMayorGroupName());
-        nbt.setString("assistantGroupName", this.getAssistantGroupName());
-        nbt.setInt("level", this.getLevel());
-        nbt.setDouble("debt", this.getTreasury().getDebt());
-        nbt.setInt("daysInDebt", this.getDaysInDebt());
-        nbt.setDouble("extra_hammers", this.getExtraHammers());
-        nbt.setInt("culture", this.getAccumulatedCulture());
-        nbt.setString("upgrades", this.getUpgradesString());
-        nbt.setDouble("coins", this.getTreasury().getBalance());
-        nbt.setString("dbg_civ_name", this.getCiv().getName());
+        nbt.a("defaultGroupName", this.getDefaultGroupName());
+        nbt.a("mayorGroupName", this.getMayorGroupName());
+        nbt.a("assistantGroupName", this.getAssistantGroupName());
+        nbt.a("level", this.getLevel());
+        nbt.a("debt", this.getTreasury().getDebt());
+        nbt.a("daysInDebt", this.getDaysInDebt());
+        nbt.a("extra_hammers", this.getExtraHammers());
+        nbt.a("culture", this.getAccumulatedCulture());
+        nbt.a("upgrades", this.getUpgradesString());
+        nbt.a("coins", this.getTreasury().getBalance());
+        nbt.a("dbg_civ_name", this.getCiv().getName());
 
         if (granaryResources != null) {
-            nbt.setString("granaryResources", this.granaryResources);
+            nbt.a("granaryResources", this.granaryResources);
         }
 
-        nbt.setLong("created_date", this.created_date.getTime());
+        nbt.a("created_date", this.created_date.getTime());
 
         StringBuilder outlaws = new StringBuilder();
         for (String outlaw : this.outlaws) {
             outlaws.append(outlaw).append(",");
         }
-        nbt.setString("outlaws", outlaws.toString());
+        nbt.a("outlaws", outlaws.toString());
         var data = new ByteArrayOutputStream();
         try {
             NBTCompressedStreamTools.a(nbt, data);

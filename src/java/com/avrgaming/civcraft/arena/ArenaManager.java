@@ -14,7 +14,6 @@ import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.TimeTools;
-import org.apache.commons.io.FileUtils;
 import org.bukkit.*;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Sign;
@@ -259,11 +258,7 @@ public class ArenaManager implements Runnable {
 
         File destFolder = new File(instanceWorldName);
 
-        try {
-            FileUtils.deleteDirectory(destFolder);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        destFolder.delete();
 
         try {
             copyFolder(srcFolder, destFolder);
@@ -321,11 +316,7 @@ public class ArenaManager implements Runnable {
         activeArenas.remove(instanceName);
         Bukkit.getServer().unloadWorld(instanceName, false);
 
-        try {
-            FileUtils.deleteDirectory(new File(instanceName));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new File(instanceName).delete();
     }
 
     private static void createArenaControlPoints(ConfigArena arena, World world, Arena activeArena) {
@@ -346,8 +337,8 @@ public class ArenaManager implements Runnable {
             Location loc = coord.getCenteredLocation();
             loc.setWorld(world);
 
-            if (loc.getBlock().getType().equals(Material.SIGN_POST) ||
-                    loc.getBlock().getType().equals(Material.WALL_SIGN)) {
+            if (loc.getBlock().getType().equals(Material.OAK_SIGN) ||
+                    loc.getBlock().getType().equals(Material.OAK_WALL_SIGN)) {
                 Sign sign = (Sign) loc.getBlock().getState();
                 sign.setLine(0, "");
                 sign.setLine(1, "Respawn");

@@ -71,19 +71,19 @@ public class LoreGuiItemListener implements Listener {
         }
 
         if (event.getRawSlot() < event.getView().getTopInventory().getSize()) {
-            if (guiInventories.containsKey(event.getView().getTopInventory().getName())) {
+            if (guiInventories.containsKey(event.getView().getTitle())) {
                 event.setCancelled(true);
             }
         } else if (event.isShiftClick()) {
-            if (guiInventories.containsKey(event.getView().getTopInventory().getName())) {
+            if (guiInventories.containsKey(event.getView().getTitle())) {
                 event.setCancelled(true);
             }
         }
 
     }
 
-    public static boolean isGUIInventory(Inventory inv) {
-        return guiInventories.containsKey(inv.getName());
+    public static boolean isGUIInventory(String title) {
+        return guiInventories.containsKey(title);
     }
 
     @EventHandler(priority = EventPriority.LOW)
@@ -94,7 +94,7 @@ public class LoreGuiItemListener implements Listener {
 
         for (int slot : event.getRawSlots()) {
             if (slot < event.getView().getTopInventory().getSize()) {
-                if (guiInventories.containsKey(event.getView().getTopInventory().getName())) {
+                if (guiInventories.containsKey(event.getView().getTitle())) {
                     event.setCancelled(true);
                     return;
                 }

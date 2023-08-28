@@ -7,7 +7,7 @@ import com.avrgaming.civcraft.loreenhancements.*;
 import com.avrgaming.civcraft.main.CivCraft;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.BuildableDamageBlock;
-import com.mysql.jdbc.StringUtils;
+import com.mysql.cj.util.StringUtils;
 import gpl.AttributeUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

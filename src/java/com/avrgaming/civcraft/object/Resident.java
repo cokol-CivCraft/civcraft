@@ -1060,18 +1060,18 @@ public class Resident extends SQLObject {
              */
 
             /* Top part which is for the other resident. */
-            ItemStack signStack = LoreGuiItem.build("", Material.WOOL, CivData.DATA_WOOL_WHITE, "");
+            ItemStack signStack = LoreGuiItem.build("", Material.WHITE_WOOL, CivData.DATA_WOOL_WHITE, "");
             int start = 0;
             for (int i = start; i < (9 + start); i++) {
                 if ((i - start) == 8) {
                     ItemStack guiStack = LoreGuiItem.build(resident.getName() + " Confirm",
-                            Material.WOOL, CivData.DATA_WOOL_RED,
+                            Material.RED_WOOL, CivData.DATA_WOOL_RED,
                             ChatColor.GREEN + CivSettings.localize.localizedString("var_resident_tradeWait1", ChatColor.AQUA + resident.getName()),
                             ChatColor.GRAY + " " + CivSettings.localize.localizedString("resident_tradeWait2"));
                     inv.setItem(i, guiStack);
                 } else if ((i - start) == 7) {
                     ItemStack guiStack = LoreGuiItem.build(CivSettings.CURRENCY_NAME + " " + CivSettings.localize.localizedString("resident_tradeOffered"),
-                            Material.NETHER_BRICK_ITEM, 0,
+                            Material.NETHER_BRICK, 0,
                             ChatColor.YELLOW + "0 " + CivSettings.CURRENCY_NAME);
                     inv.setItem(i, guiStack);
                 } else {
@@ -1083,13 +1083,13 @@ public class Resident extends SQLObject {
             for (int i = start; i < (9 + start); i++) {
                 if ((i - start) == 8) {
                     ItemStack guiStack = LoreGuiItem.build(CivSettings.localize.localizedString("resident_tradeYourConfirm"),
-                            Material.WOOL, CivData.DATA_WOOL_RED,
+                            Material.RED_WOOL, CivData.DATA_WOOL_RED,
                             ChatColor.GOLD + CivSettings.localize.localizedString("resident_tradeClicktoConfirm"));
                     inv.setItem(i, guiStack);
 
                 } else if ((i - start) == 0) {
                     ItemStack guiStack = LoreGuiItem.build(CivSettings.localize.localizedString("resident_tradeRemove") + " " + CivSettings.CURRENCY_NAME,
-                            Material.NETHER_BRICK_ITEM, 0,
+                            Material.NETHER_BRICK, 0,
                             ChatColor.GOLD + CivSettings.localize.localizedString("resident_tradeRemove100") + " " + CivSettings.CURRENCY_NAME,
                             ChatColor.GOLD + CivSettings.localize.localizedString("resident_tradeRemove1000") + " " + CivSettings.CURRENCY_NAME);
                     inv.setItem(i, guiStack);
@@ -1101,7 +1101,7 @@ public class Resident extends SQLObject {
                     inv.setItem(i, guiStack);
                 } else if ((i - start) == 7) {
                     ItemStack guiStack = LoreGuiItem.build(CivSettings.CURRENCY_NAME + " " + CivSettings.localize.localizedString("resident_tradeOffered"),
-                            Material.NETHER_BRICK_ITEM, 0,
+                            Material.NETHER_BRICK, 0,
                             ChatColor.YELLOW + "0 " + CivSettings.CURRENCY_NAME);
                     inv.setItem(i, guiStack);
                 } else {

@@ -1,6 +1,6 @@
 package com.avrgaming.civcraft.util;
 
-import com.mysql.jdbc.StringUtils;
+import com.mysql.cj.util.StringUtils;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import java.util.Collection;

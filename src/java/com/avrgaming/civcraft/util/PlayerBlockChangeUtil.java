@@ -2,7 +2,7 @@ package com.avrgaming.civcraft.util;
 
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivGlobal;
-import net.minecraft.server.v1_12_R1.PacketPlayOutMultiBlockChange;
+import net.minecraft.network.protocol.game.PacketPlayOutMultiBlockChange;
 import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
 

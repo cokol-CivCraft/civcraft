@@ -24,7 +24,7 @@ import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.threading.TaskMaster;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -46,7 +46,7 @@ public class InteractiveCapitolName implements InteractiveResponse {
             return;
         }
 
-        if (!StringUtils.isAlpha(message) || !StringUtils.isAsciiPrintable(message)) {
+        if (!message.isBlank() || !StringUtils.isAsciiPrintable(message)) {
             CivMessage.send(player, String.valueOf(ChatColor.RED) + ChatColor.BOLD + CivSettings.localize.localizedString("interactive_capitol_invalidname"));
             return;
         }

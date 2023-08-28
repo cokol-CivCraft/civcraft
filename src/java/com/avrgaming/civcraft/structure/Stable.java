@@ -42,7 +42,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.craftbukkit.v1_12_R1.util.HashTreeSet;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -51,6 +50,7 @@ import org.bukkit.inventory.ItemStack;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -63,7 +63,7 @@ public class Stable extends Structure {
     private BlockCoord muleSpawnCoord;
     private final NonMemberFeeComponent nonMemberFeeComponent;
 
-    public HashTreeSet<ChunkCoord> chunks = new HashTreeSet<>();
+    public HashSet<ChunkCoord> chunks = new HashSet<>();
     public static Map<ChunkCoord, Stable> stableChunks = new ConcurrentHashMap<>();
 
     public Stable(ResultSet rs) throws SQLException, CivException {
@@ -218,7 +218,7 @@ public class Stable extends Structure {
             public void process(Player player) {
 
                 Resident resident = CivGlobal.getResident(player);
-                if ((item_id == Material.IRON_BARDING || item_id == Material.GOLD_BARDING || item_id == Material.DIAMOND_BARDING) && !getCiv().hasTechnology("tech_military_science")) {
+                if ((item_id == Material.IRON_HORSE_ARMOR || item_id == Material.GOLDEN_HORSE_ARMOR || item_id == Material.DIAMOND_HORSE_ARMOR) && !getCiv().hasTechnology("tech_military_science")) {
                     CivMessage.sendError(player, CivSettings.localize.localizedString("stable_missingTech_MilitaryScience"));
                     return;
                 }
@@ -243,7 +243,7 @@ public class Stable extends Structure {
                     paid = cost;
                 }
 
-                HashMap<Integer, ItemStack> leftovers = player.getInventory().addItem(new ItemStack(item_id, 1, (short) 0));
+                HashMap<Integer, ItemStack> leftovers = player.getInventory().addItem(new ItemStack(item_id, 1));
                 if (!leftovers.isEmpty()) {
                     for (ItemStack stack : leftovers.values()) {
                         player.getWorld().dropItem(player.getLocation(), stack);

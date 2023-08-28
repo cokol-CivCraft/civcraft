@@ -1,6 +1,6 @@
 package com.avrgaming.civcraft.util;
 
-import org.apache.commons.lang.Validate;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
@@ -12,8 +12,7 @@ public final class ArrayWrapper<E> {
         setArray(elements);
     }
 
-    public void setArray(E[] array) {
-        Validate.notNull(array, "The array must not be null.");
+    public void setArray(@NotNull E[] array) {
         this._array = array;
     }
 

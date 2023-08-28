@@ -23,7 +23,6 @@ import com.avrgaming.civcraft.config.ConfigTownUpgrade;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Town;
-import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 
 public class TownUpgradeCommand extends CommandBase {
@@ -77,7 +76,7 @@ public class TownUpgradeCommand extends CommandBase {
             CivMessage.send(sender, "- " + ChatColor.GOLD + CivSettings.localize.localizedString("cmd_town_upgrade_listAllHeading") + " " +
                     ChatColor.AQUA + "(" + ConfigTownUpgrade.getAvailableCategoryCount("all", town) + ")");
             for (String category : ConfigTownUpgrade.categories.keySet()) {
-                CivMessage.send(sender, "- " + ChatColor.GOLD + WordUtils.capitalize(category) +
+                CivMessage.send(sender, "- " + ChatColor.GOLD + category.toUpperCase() +
                         ChatColor.AQUA + " (" + ConfigTownUpgrade.getAvailableCategoryCount(category, town) + ")");
             }
             return;

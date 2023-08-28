@@ -51,7 +51,7 @@ public class LoreEnhancementArenaItem extends LoreEnhancement implements Listene
     /* Listeners for Arena Items */
     @EventHandler(priority = EventPriority.LOWEST)
     public void onInteract(InventoryOpenEvent event) {
-        if (LoreGuiItemListener.isGUIInventory(event.getInventory())) {
+        if (LoreGuiItemListener.isGUIInventory(event.getView().getTitle())) {
             return;
         }
 
@@ -99,7 +99,7 @@ public class LoreEnhancementArenaItem extends LoreEnhancement implements Listene
     /* Listeners for Arena Items */
     @EventHandler(priority = EventPriority.LOWEST)
     public void onInteract(InventoryCloseEvent event) {
-        if (LoreGuiItemListener.isGUIInventory(event.getInventory())) {
+        if (LoreGuiItemListener.isGUIInventory(event.getView().getTitle())) {
             return;
         }
 

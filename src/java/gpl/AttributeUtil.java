@@ -6,11 +6,12 @@ import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
-import net.minecraft.server.v1_12_R1.*;
+import net.minecraft.nbt.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_20_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
@@ -122,20 +123,20 @@ public class AttributeUtil {
         }
         
         public double getAmount() {
-            return data.getDouble("Amount");
+            return data.k("Amount");
         }
  
         public void setAmount(double amount) {
-            data.setDouble("Amount", amount);
+            data.a("Amount", amount);
         }
  
         public Operation getOperation() {
             return Operation.fromId(data.getInt("Operation"));
         }
- 
-        public void setOperation(@Nonnull Operation operation) {
+
+        public void setOperation(@NotNull Operation operation) {
             Preconditions.checkNotNull(operation, "operation cannot be NULL.");
-            data.setInt("Operation", operation.getId());
+            data.a("Operation", operation.getId());
         }
  
         public AttributeType getAttributeType() {
@@ -144,7 +145,7 @@ public class AttributeUtil {
  
         public void setAttributeType(@Nonnull AttributeType type) {
             Preconditions.checkNotNull(type, "type cannot be NULL.");
-            data.setString("AttributeName", type.minecraftId());
+            data.a("AttributeName", type.minecraftId());
         }
  
         public String getName() {
@@ -152,7 +153,7 @@ public class AttributeUtil {
         }
  
         public void setName(@Nonnull String name) {
-            data.setString("Name", name);
+            data.a("Name", name);
         }
  
         public UUID getUUID() {
@@ -160,8 +161,8 @@ public class AttributeUtil {
         }
  
         public void setUUID(@Nonnull UUID id) {
-            data.setLong("UUIDLeast", id.getLeastSignificantBits());
-            data.setLong("UUIDMost", id.getMostSignificantBits());
+            data.a("UUIDLeast", id.getLeastSignificantBits());
+            data.a("UUIDMost", id.getMostSignificantBits());
         }
  
         /**
@@ -211,7 +212,7 @@ public class AttributeUtil {
     }
     
     // This may be modified
-    public net.minecraft.server.v1_12_R1.ItemStack nmsStack;
+    public net.minecraft.world.item.ItemStack nmsStack;
     
     private NBTTagCompound parent;
     private NBTTagList attributes;
@@ -233,11 +234,11 @@ public class AttributeUtil {
       //  }
         
         // Load NBT
-        if (nmsStack.getTag() == null) {
-        	parent = new NBTTagCompound();        	
-            nmsStack.setTag(parent);
+        if (nmsStack.v() == null) {
+        	parent = new NBTTagCompound();
+            nmsStack.c(parent);
         } else {
-            parent = nmsStack.getTag();
+            parent = nmsStack.v();
         }
         
         // Load attribute list
@@ -246,7 +247,7 @@ public class AttributeUtil {
         } else {
         	/* No attributes on this item detected. */
             attributes = new NBTTagList();
-            parent.set("AttributeModifiers", attributes);
+            parent.a("AttributeModifiers", attributes);
         }
     }
     
@@ -256,10 +257,10 @@ public class AttributeUtil {
      */
     public ItemStack getStack() {
     	if (nmsStack == null) {
-            return new ItemStack(Material.WOOL, 0, (short)0);
+            return new ItemStack(Material.WHITE_WOOL);
         }
-    	
-    	if (nmsStack.getTag() != null) {
+
+        if (nmsStack.v() != null) {
             if (attributes.isEmpty()) {
     			parent.remove("AttributeModifiers");
     		}
@@ -306,13 +307,13 @@ public class AttributeUtil {
     public void removeAll() {
     	 attributes = new NBTTagList();
     	 if (parent != null) {
-    		 parent.set("AttributeModifiers", attributes);
+             parent.a("AttributeModifiers", attributes);
     	 }
     }
     
     
     public void clear() {
-        parent.set("AttributeModifiers", attributes = new NBTTagList());
+        parent.a("AttributeModifiers", attributes = new NBTTagList());
     }
     
     /**
@@ -365,10 +366,10 @@ public class AttributeUtil {
     	NBTTagList loreList = displayCompound.getList("Lore", NBTStaticHelper.TAG_STRING);
     	if (loreList == null) {
     		loreList = new NBTTagList();
-    	} 
-    	
-    	loreList.add(new NBTTagString(str));
-    	displayCompound.set("Lore", loreList);
+    	}
+
+        loreList.add(NBTTagString.a(str));
+        displayCompound.a("Lore", loreList);
     	nmsStack.getTag().set("display", displayCompound);    	 
     }
     
@@ -447,9 +448,9 @@ public class AttributeUtil {
     	if (key != null) {
     		_setEnhancementData(enhCompound, key, value);
     	}
-    	enhCompound.set("name", new NBTTagString(enhancementName));
-    	
-    	compound.set(enhancementName, enhCompound);
+        enhCompound.a("name", NBTTagString.a(enhancementName));
+
+        compound.a(enhancementName, enhCompound);
     	nmsStack.getTag().set("item_enhancements", compound);
     }
     
@@ -460,8 +461,8 @@ public class AttributeUtil {
     	if (key.equalsIgnoreCase("name")) {
     		throw new IllegalArgumentException();
     	}
-    	
-    	enhCompound.set(key, new NBTTagString(value));
+
+        enhCompound.a(key, NBTTagString.a(value));
     }
     
 
@@ -550,8 +551,8 @@ public class AttributeUtil {
     	if (civcraftCompound == null) {
     		civcraftCompound = new NBTTagCompound();
     	}
-    	
-    	civcraftCompound.set(key, new NBTTagString(value));
+
+        civcraftCompound.a(key, NBTTagString.a(value));
     	nmsStack.getTag().set("civcraft", civcraftCompound);
     }
     
@@ -604,8 +605,8 @@ public class AttributeUtil {
 		if (displayCompound == null) {
     		displayCompound = new NBTTagCompound();
     	}
-		
-		displayCompound.set("Name", new NBTTagString(ChatColor.RESET+name));
+
+        displayCompound.a("Name", NBTTagString.a(ChatColor.RESET + name));
     	nmsStack.getTag().set("display", displayCompound);    	 
 	}
 	

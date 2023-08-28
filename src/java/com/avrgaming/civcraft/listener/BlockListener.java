@@ -43,16 +43,11 @@ import com.avrgaming.civcraft.util.ItemFrameStorage;
 import com.avrgaming.civcraft.war.War;
 import com.avrgaming.civcraft.war.WarRegen;
 import gpl.HorseModifier;
-import net.minecraft.server.v1_12_R1.*;
-import org.bukkit.Chunk;
+import net.minecraft.nbt.NBTTagCompound;
 import org.bukkit.*;
-import org.bukkit.Material;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -379,9 +374,7 @@ public class BlockListener implements Listener {
             return;
         }
         /* prevent ender dragons from breaking blocks. */
-        if (event.getEntityType().equals(EntityType.COMPLEX_PART)) {
-            event.setCancelled(true);
-        } else if (event.getEntityType().equals(EntityType.ENDER_DRAGON)) {
+        if (event.getEntityType().equals(EntityType.ENDER_DRAGON)) {
             event.setCancelled(true);
         }
 
@@ -429,10 +422,10 @@ public class BlockListener implements Listener {
     };
 
     public BlockCoord generatesCobble(Material id, Block b) {
-        Material mirrorID1 = (id == Material.WATER || id == Material.STATIONARY_WATER ? Material.LAVA : Material.WATER);
-        Material mirrorID2 = (id == Material.WATER || id == Material.STATIONARY_WATER ? Material.STATIONARY_LAVA : Material.STATIONARY_WATER);
-        Material mirrorID3 = (id == Material.WATER || id == Material.STATIONARY_WATER ? Material.LAVA : Material.STATIONARY_WATER);
-        Material mirrorID4 = (id == Material.WATER || id == Material.STATIONARY_WATER ? Material.STATIONARY_LAVA : Material.WATER);
+        Material mirrorID1 = (id == Material.WATER ? Material.LAVA : Material.WATER);
+        Material mirrorID2 = (id == Material.WATER ? Material.LAVA : Material.WATER);
+        Material mirrorID3 = (id == Material.WATER ? Material.LAVA : Material.WATER);
+        Material mirrorID4 = (id == Material.WATER ? Material.LAVA : Material.WATER);
         for (BlockFace face : faces) {
             Block r = b.getRelative(face, 1);
             if (r.getType() == mirrorID1 || r.getType() == mirrorID2 ||
@@ -448,10 +441,7 @@ public class BlockListener implements Listener {
     public void OnBlockFromToEvent(BlockFromToEvent event) {
         /* Disable cobblestone generators. */
         Material id = event.getBlock().getType();
-        if (id != Material.WATER &&
-                id != Material.STATIONARY_WATER &&
-                id != Material.LAVA &&
-                id != Material.STATIONARY_LAVA) {
+        if (id != Material.WATER && id != Material.LAVA) {
             return;
         }
         Block b = event.getToBlock();
@@ -772,9 +762,7 @@ public class BlockListener implements Listener {
                         item == Material.LAVA_BUCKET ||
                         item == Material.FLINT_AND_STEEL ||
                         item == Material.WATER ||
-                        item == Material.STATIONARY_WATER ||
                         item == Material.LAVA ||
-                        item == Material.STATIONARY_LAVA ||
                         item == Material.FIRE) {
                     event.setCancelled(true);
                 }
@@ -792,7 +780,7 @@ public class BlockListener implements Listener {
                 }
             }
 
-            if (event.getItem().getType().equals(Material.INK_SACK) && event.getItem().getDurability() == 15) {
+            if (event.getItem().getType().equals(Material.INK_SAC) && event.getItem().getDurability() == 15) {
                 Block clickedBlock = event.getClickedBlock();
                 if (clickedBlock.getType() == Material.WHEAT ||
                         clickedBlock.getType() == Material.CARROT ||
@@ -808,7 +796,7 @@ public class BlockListener implements Listener {
 
         // prevent players trampling crops
         if ((event.getAction() == Action.PHYSICAL)) {
-            if ((soilBlock.getType() == Material.SOIL) || (soilBlock.getType() == Material.CROPS)) {
+            if ((soilBlock.getType() == Material.FARMLAND) || (soilBlock.getType() == Material.WHEAT)) {
                 //CivLog.debug("no crop cancel.");
                 event.setCancelled(true);
                 return;
@@ -936,7 +924,7 @@ public class BlockListener implements Listener {
                 if (tc.getTown().getCiv().getDiplomacyManager().atWarWith(resident.getTown().getCiv())) {
 
                     switch (event.getClickedBlock().getType()) {
-                        case WOODEN_DOOR, IRON_DOOR, SPRUCE_DOOR, BIRCH_DOOR, JUNGLE_DOOR, ACACIA_DOOR, DARK_OAK_DOOR, ACACIA_FENCE_GATE, BIRCH_FENCE_GATE, DARK_OAK_FENCE_GATE, FENCE_GATE, SPRUCE_FENCE_GATE, JUNGLE_FENCE_GATE -> {
+                        case OAK_DOOR, IRON_DOOR, SPRUCE_DOOR, BIRCH_DOOR, JUNGLE_DOOR, ACACIA_DOOR, DARK_OAK_DOOR, ACACIA_FENCE_GATE, BIRCH_FENCE_GATE, DARK_OAK_FENCE_GATE, FENCE_GATE, SPRUCE_FENCE_GATE, JUNGLE_FENCE_GATE -> {
                             return;
                         }
                         default -> {
@@ -1022,7 +1010,7 @@ public class BlockListener implements Listener {
                     }
                 }
                 case PIG -> {
-                    if (inHand.getType().equals(Material.CARROT_ITEM)) {
+                    if (inHand.getType().equals(Material.CARROT)) {
                         denyBreeding = true;
                     }
                 }
@@ -1035,7 +1023,7 @@ public class BlockListener implements Listener {
                     }
                 }
                 case CHICKEN -> {
-                    if (inHand.getType().equals(Material.SEEDS) ||
+                    if (inHand.getType().equals(Material.WHEAT_SEEDS) ||
                             inHand.getType().equals(Material.MELON_SEEDS) ||
                             inHand.getType().equals(Material.PUMPKIN_SEEDS)) {
                         denyBreeding = true;

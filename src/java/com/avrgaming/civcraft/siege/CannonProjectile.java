@@ -15,7 +15,7 @@ import com.avrgaming.civcraft.threading.tasks.FireWorkTask;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.EntityProximity;
 import com.avrgaming.civcraft.war.WarRegen;
-import net.minecraft.server.v1_12_R1.EntityPlayer;
+import net.minecraft.server.level.EntityPlayer;
 import org.bukkit.*;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.block.Block;

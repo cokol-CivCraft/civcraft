@@ -14,7 +14,7 @@ import com.avrgaming.civcraft.randomevents.components.HammerRate;
 import com.avrgaming.civcraft.randomevents.components.Happiness;
 import com.avrgaming.civcraft.randomevents.components.Unhappiness;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
-import com.mysql.jdbc.StringUtils;
+import com.mysql.cj.util.StringUtils;
 import org.bukkit.ChatColor;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 

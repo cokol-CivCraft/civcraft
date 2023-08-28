@@ -77,7 +77,7 @@ public class TutorialRecipe extends ShowRecipe {
             recInv.setItem(LoreGuiItem.MAX_INV_SIZE - 1, backButton);
         }
 
-        LoreGuiItemListener.guiInventories.put(recInv.getName(), recInv);
+        LoreGuiItemListener.guiInventories.put(title, recInv);
         buildCraftTableBorder(recInv);
         buildInfoBar(craftMat, recInv, player);
         player.openInventory(recInv);

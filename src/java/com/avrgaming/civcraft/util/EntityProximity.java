@@ -1,18 +1,15 @@
 package com.avrgaming.civcraft.util;
 
-import net.minecraft.server.v1_12_R1.AxisAlignedBB;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
 import org.bukkit.entity.Entity;
+import org.bukkit.util.BoundingBox;
 
 import java.util.LinkedList;
-import java.util.List;
 
 public class EntityProximity {
 
 
-    /*
+    /**
      * Use a NMS method to grab an axis aligned bounding box around an area to
      * determine which entities are within this radius.
      * Optionally provide an entity that is exempt from these checks.
@@ -25,21 +22,11 @@ public class EntityProximity {
         double y = loc.getY() + 0.5;
         double z = loc.getZ() + 0.5;
 
-        CraftWorld craftWorld = (CraftWorld) loc.getWorld();
-        AxisAlignedBB bb = new AxisAlignedBB(x - radius, y - radius, z - radius, x + radius, y + radius, z + radius);
+        BoundingBox bb = new BoundingBox(x - radius, y - radius, z - radius, x + radius, y + radius, z + radius);
 
-        List<net.minecraft.server.v1_12_R1.Entity> eList;
-        if (exempt != null) {
-            eList = craftWorld.getHandle().getEntities(((CraftEntity) exempt).getHandle(), bb);
-        } else {
-            eList = craftWorld.getHandle().getEntities(null, bb);
-        }
-
-        for (net.minecraft.server.v1_12_R1.Entity e : eList) {
-
-
+        for (Entity e : loc.getWorld().getNearbyEntities(bb).stream().filter(entity -> entity == exempt).toList()) {
             if (filter == null || (filter.isInstance(e))) {
-                entities.add(e.getBukkitEntity());
+                entities.add(e);
             }
         }
 

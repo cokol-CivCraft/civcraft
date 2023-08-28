@@ -32,9 +32,9 @@ import com.avrgaming.civcraft.threading.sync.SyncBuildUpdateTask;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.SimpleBlock;
-import net.minecraft.server.v1_12_R1.BlockPosition;
-import net.minecraft.server.v1_12_R1.EnumBlockRotation;
-import net.minecraft.server.v1_12_R1.IBlockData;
+import net.minecraft.core.BlockPosition;
+import net.minecraft.world.level.block.EnumBlockRotation;
+import net.minecraft.world.level.block.state.IBlockData;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -74,37 +74,34 @@ public class Template {
     public static HashSet<Material> attachableTypes = new HashSet<>();
 
     public static void initAttachableTypes() {
-        attachableTypes.add(Material.SAPLING);
-        attachableTypes.add(Material.BED);
-        attachableTypes.add(Material.BED_BLOCK);
+        attachableTypes.add(Material.OAK_SAPLING);
+        attachableTypes.add(Material.RED_BED);
         attachableTypes.add(Material.POWERED_RAIL);
         attachableTypes.add(Material.DETECTOR_RAIL);
-        attachableTypes.add(Material.LONG_GRASS);
+        attachableTypes.add(Material.TALL_GRASS);
         attachableTypes.add(Material.DEAD_BUSH);
-        attachableTypes.add(Material.YELLOW_FLOWER);
-        attachableTypes.add(Material.RED_ROSE);
+        attachableTypes.add(Material.DANDELION);
+        attachableTypes.add(Material.POPPY);
         attachableTypes.add(Material.BROWN_MUSHROOM);
         attachableTypes.add(Material.RED_MUSHROOM);
         attachableTypes.add(Material.TORCH);
         attachableTypes.add(Material.REDSTONE_WIRE);
         attachableTypes.add(Material.WHEAT);
         attachableTypes.add(Material.LADDER);
-        attachableTypes.add(Material.RAILS);
+        attachableTypes.add(Material.RAIL);
         attachableTypes.add(Material.LEVER);
-        attachableTypes.add(Material.STONE_PLATE);
-        attachableTypes.add(Material.WOOD_PLATE);
-        attachableTypes.add(Material.REDSTONE_TORCH_ON);
-        attachableTypes.add(Material.REDSTONE_TORCH_OFF);
+        attachableTypes.add(Material.STONE_PRESSURE_PLATE);
+        attachableTypes.add(Material.OAK_PRESSURE_PLATE);
+        attachableTypes.add(Material.REDSTONE_TORCH);
         attachableTypes.add(Material.STONE_BUTTON);
         attachableTypes.add(Material.CACTUS);
         attachableTypes.add(Material.SUGAR_CANE);
-        attachableTypes.add(Material.DIODE_BLOCK_OFF);
-        attachableTypes.add(Material.DIODE_BLOCK_ON);
-        attachableTypes.add(Material.TRAP_DOOR);
+        attachableTypes.add(Material.REPEATER);
+        attachableTypes.add(Material.OAK_TRAPDOOR);
         attachableTypes.add(Material.PUMPKIN_STEM);
         attachableTypes.add(Material.MELON_STEM);
         attachableTypes.add(Material.VINE);
-        attachableTypes.add(Material.WATER_LILY);
+        attachableTypes.add(Material.LILY_PAD);
         attachableTypes.add(Material.BREWING_STAND);
         attachableTypes.add(Material.COCOA);
         attachableTypes.add(Material.TRIPWIRE);
@@ -112,12 +109,11 @@ public class Template {
         attachableTypes.add(Material.FLOWER_POT);
         attachableTypes.add(Material.CARROT);
         attachableTypes.add(Material.POTATO);
-        attachableTypes.add(Material.WOOD_BUTTON);
+        attachableTypes.add(Material.OAK_BUTTON);
         attachableTypes.add(Material.ANVIL);
-        attachableTypes.add(Material.GOLD_PLATE);
-        attachableTypes.add(Material.IRON_PLATE);
-        attachableTypes.add(Material.REDSTONE_COMPARATOR_ON);
-        attachableTypes.add(Material.REDSTONE_COMPARATOR_OFF);
+        attachableTypes.add(Material.HEAVY_WEIGHTED_PRESSURE_PLATE);
+        attachableTypes.add(Material.LIGHT_WEIGHTED_PRESSURE_PLATE);
+        attachableTypes.add(Material.COMPARATOR);
         attachableTypes.add(Material.DAYLIGHT_DETECTOR);
         attachableTypes.add(Material.ACTIVATOR_RAIL);
     }
@@ -427,13 +423,13 @@ public class Template {
 
     private EnumBlockRotation getRotation() {
         if (dir == null) {
-            return EnumBlockRotation.NONE;
+            return EnumBlockRotation.a;
         }
         return switch (dir) {
-            case EAST -> EnumBlockRotation.COUNTERCLOCKWISE_90;
-            case NORTH -> EnumBlockRotation.CLOCKWISE_180;
-            case WEST -> EnumBlockRotation.CLOCKWISE_90;
-            default -> EnumBlockRotation.NONE;
+            case EAST -> EnumBlockRotation.d;
+            case NORTH -> EnumBlockRotation.c;
+            case WEST -> EnumBlockRotation.b;
+            default -> EnumBlockRotation.a;
         };
     }
 
@@ -450,9 +446,9 @@ public class Template {
 
         String[] split = line.split(";");
         BlockPosition size = new BlockPosition(Integer.parseInt(split[0]), Integer.parseInt(split[1]), Integer.parseInt(split[2])).a(getRotation());
-        size_x = abs(size.getX());
-        size_y = abs(size.getY());
-        size_z = abs(size.getZ());
+        size_x = abs(size.u());
+        size_y = abs(size.v());
+        size_z = abs(size.w());
         getTemplateBlocks(reader, size_x, size_y, size_z);
         this.filepath = filepath;
         reader.close();
@@ -482,14 +478,14 @@ public class Template {
                     Integer.parseInt(locationSplit[2])
             ).a(getRotation());
             BlockPosition correction = new BlockPosition(1, 0, 1).a(getRotation());
-            int blockX = pos.getX() - (correction.getX() - 1) / 2 * (regionX - 1);
-            int blockY = pos.getY();
-            int blockZ = pos.getZ() - (correction.getZ() - 1) / 2 * (regionZ - 1);
+            int blockX = pos.u() - (correction.u() - 1) / 2 * (regionX - 1);
+            int blockY = pos.v();
+            int blockZ = pos.w() - (correction.w() - 1) / 2 * (regionZ - 1);
 
             // Parse type
             String[] typeSplit = type.split(":");
 
-            net.minecraft.server.v1_12_R1.Block var1 = net.minecraft.server.v1_12_R1.Block.REGISTRY.getId(Integer.parseInt(typeSplit[0]));
+            net.minecraft.server.v1_12_R1.Block var1 = REGISTRY.getId(Integer.parseInt(typeSplit[0]));
             IBlockData var2 = var1.fromLegacyData(Integer.parseInt(typeSplit[1])).a(getRotation());
 
             SimpleBlock block = new SimpleBlock(Material.getMaterial(Integer.parseInt(typeSplit[0])), var2.getBlock().toLegacyData(var2));
@@ -500,7 +496,7 @@ public class Template {
             }
 
             // look for signs.
-            if (block.getType().getData() == Material.WALL_SIGN.getData() && locTypeSplit.length > 2) {
+            if (block.getType().getData() == Material.OAK_WALL_SIGN.getData() && locTypeSplit.length > 2) {
 
                 // The first character on special signs needs to be a /.
                 if (locTypeSplit[2] != null && !locTypeSplit[2].isEmpty() && locTypeSplit[2].charAt(0) == '/') {

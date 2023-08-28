@@ -26,10 +26,10 @@ public class ShowRecipe extends GuiAction {
     }
 
 
-    public ItemStack getIngredItem(LoreCraftableMaterial.ConfigIngredient ingred, Inventory recInv) {
+    public org.bukkit.inventory.ItemStack getIngredItem(LoreCraftableMaterial.ConfigIngredient ingred, Inventory recInv) {
         String name;
         String message;
-        ItemStack entryStack;
+        org.bukkit.inventory.ItemStack entryStack;
         if (ingred.custom_id() == null) {
             name = new MaterialData(ingred.type_id(), (byte) ingred.data()).toString();
             message = "Vanilla Item";
@@ -56,9 +56,8 @@ public class ShowRecipe extends GuiAction {
 
     public void buildCraftTableBorder(Inventory recInv) {
         int offset = 2;
-        ItemStack stack;
 
-        stack = LoreGuiItem.build("Craft Table Border", Material.WORKBENCH, 0, "");
+        org.bukkit.inventory.ItemStack stack = LoreGuiItem.build("Craft Table Border", Material.CRAFTING_TABLE, 0, "");
 
         for (int y = 0; y <= 4; y++) {
             for (int x = 0; x <= 4; x++) {
@@ -71,7 +70,7 @@ public class ShowRecipe extends GuiAction {
 
     public void buildInfoBar(LoreCraftableMaterial craftMat, Inventory recInv, Player player) {
         int offset = 0;
-        ItemStack stack = null;
+        org.bukkit.inventory.ItemStack stack = null;
 
         if (craftMat.getConfigMaterial().required_tech != null) {
             Resident resident = CivGlobal.getResident(player);
@@ -156,7 +155,7 @@ public class ShowRecipe extends GuiAction {
         String backInventory = LoreGuiItem.getActionData(stack, "backInventory");
         if (backInventory != null) {
             Inventory inv = LoreGuiItemListener.guiInventories.get(backInventory);
-            ItemStack backButton = LoreGuiItem.build(CivSettings.localize.localizedString("loreGui_recipes_back"), Material.MAP, 0, CivSettings.localize.localizedString("loreGui_recipes_back"));
+            org.bukkit.inventory.ItemStack backButton = LoreGuiItem.build(CivSettings.localize.localizedString("loreGui_recipes_back"), Material.MAP, 0, CivSettings.localize.localizedString("loreGui_recipes_back"));
             backButton = LoreGuiItem.setAction(backButton, GuiActions.OpenInventory);
             backButton = LoreGuiItem.setActionData(backButton, "invType", "showGuiInv");
             backButton = LoreGuiItem.setActionData(backButton, "invName", inv.getName());
@@ -164,7 +163,7 @@ public class ShowRecipe extends GuiAction {
         } else {
             ConfigMaterialCategory cat = ConfigMaterialCategory.getCategory(craftMat.getConfigMaterial().categoryCivColortripped);
             if (cat != null) {
-                ItemStack backButton = LoreGuiItem.build(CivSettings.localize.localizedString("loreGui_recipes_back"), Material.MAP, 0, CivSettings.localize.localizedString("loreGui_recipes_backMsg") + " " + cat.name);
+                org.bukkit.inventory.ItemStack backButton = LoreGuiItem.build(CivSettings.localize.localizedString("loreGui_recipes_back"), Material.MAP, 0, CivSettings.localize.localizedString("loreGui_recipes_backMsg") + " " + cat.name);
                 backButton = LoreGuiItem.setAction(backButton, GuiActions.OpenInventory);
                 backButton = LoreGuiItem.setActionData(backButton, "invType", "showGuiInv");
                 backButton = LoreGuiItem.setActionData(backButton, "invName", cat.name + " Recipes");
@@ -172,7 +171,7 @@ public class ShowRecipe extends GuiAction {
             }
         }
 
-        LoreGuiItemListener.guiInventories.put(recInv.getName(), recInv);
+        LoreGuiItemListener.guiInventories.put(title, recInv);
         buildCraftTableBorder(recInv);
         buildInfoBar(craftMat, recInv, player);
         player.openInventory(recInv);

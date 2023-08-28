@@ -27,9 +27,20 @@
     <orderEntry type="library" name="Vault" level="project" />
     <orderEntry type="library" name="WorldBorder" level="project" />
     <orderEntry type="library" name="EssentialsX-2.20.0" level="project" />
-    <orderEntry type="library" name="spigot-1.12.2" level="project" />
+    <orderEntry type="library" name="spigot-1.20.1" level="project" />
     <orderEntry type="library" name="TitleAPI-1.8.1" level="project" />
-    <orderEntry type="library" name="mysql.connector.j" level="application" />
     <orderEntry type="library" name="jolbox.bonecp" level="application" />
+    <orderEntry type="library" name="spigotmc.spigot.api" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/annotations/24.0.0/annotations-24.0.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="apache.commons.lang3" level="project" />
+    <orderEntry type="library" name="mysql.connector.j" level="project" />
   </component>
 </module>
