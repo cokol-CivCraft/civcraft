@@ -17,7 +17,7 @@ public class ConfigRemovedRecipes {
         List<Map<?, ?>> configMaterials = cfg.getMapList("removed_recipes");
         for (Map<?, ?> b : configMaterials) {
             ConfigRemovedRecipes item = new ConfigRemovedRecipes();
-            item.type_id = Material.valueOf((String) b.get("type_id"));
+            item.type_id = Optional.ofNullable(Material.getMaterial((String) b.get("type_id"), true)).orElse(Material.STONE);
             item.data = (Integer) b.get("data");
 
             removedRecipes.put(item.type_id, item);

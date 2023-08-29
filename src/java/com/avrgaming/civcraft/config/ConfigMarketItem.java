@@ -36,6 +36,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class ConfigMarketItem {
     public int id;
@@ -83,9 +84,8 @@ public class ConfigMarketItem {
 
             item.id = Integer.parseInt(id);
             item.name = level.getString("name");
-            item.type_id = Material.getMaterial(level.getString("type_id"));
+            item.type_id = Optional.ofNullable(Material.getMaterial(level.getString("type_id"), true)).orElse(Material.STONE);
             item.data = level.getInt("data");
-            new ItemStack(item.type_id, 1, (short) item.data);
             item.inital_value = level.getInt("value");
             item.custom_id = level.getString("custom_id");
             item.step = level.getInt("step", STEP);
