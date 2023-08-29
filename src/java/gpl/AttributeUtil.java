@@ -6,14 +6,12 @@ import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
-import net.minecraft.nbt.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_20_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.ConcurrentMap;
@@ -142,8 +140,8 @@ public class AttributeUtil {
         public AttributeType getAttributeType() {
             return AttributeType.fromId(data.getString("AttributeName").replace("\"", ""));
         }
- 
-        public void setAttributeType(@Nonnull AttributeType type) {
+
+        public void setAttributeType(@NotNull AttributeType type) {
             Preconditions.checkNotNull(type, "type cannot be NULL.");
             data.a("AttributeName", type.minecraftId());
         }
@@ -151,16 +149,16 @@ public class AttributeUtil {
         public String getName() {
             return data.getString("Name").replace("\"", "");
         }
- 
-        public void setName(@Nonnull String name) {
+
+        public void setName(@NotNull String name) {
             data.a("Name", name);
         }
  
         public UUID getUUID() {
             return new UUID(data.getLong("UUIDMost"), data.getLong("UUIDLeast"));
         }
- 
-        public void setUUID(@Nonnull UUID id) {
+
+        public void setUUID(@NotNull UUID id) {
             data.a("UUIDLeast", id.getLeastSignificantBits());
             data.a("UUIDMost", id.getMostSignificantBits());
         }

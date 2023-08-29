@@ -47,10 +47,7 @@ import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.DateUtil;
 import com.avrgaming.civcraft.util.ItemManager;
-import net.minecraft.nbt.NBTCompressedStreamTools;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
+import net.minecraft.nbt.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -169,30 +166,30 @@ public class Civilization extends SQLObject {
     public void load(ResultSet rs) throws SQLException, InvalidNameException {
         this.setId(rs.getInt("id"));
         var data = new ByteArrayInputStream(rs.getBytes("nbt"));
-        NBTTagCompound nbt;
+        CompoundTag nbt;
         try {
             nbt = NBTCompressedStreamTools.a(data);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        this.setName(nbt.l("name"));
+        this.setName(nbt.getString("name"));
         //		Resident res = CivGlobal.getResidentViaUUID(UUID.fromString(resUUID));
-        leaderName = nbt.l("leaderName");
+        leaderName = nbt.getString("leaderName");
 
 
-        capitolName = nbt.l("capitolName");
-        setLeaderGroupName(nbt.l("leaderGroupName"));
-        setAdvisersGroupName(nbt.l("advisersGroupName"));
+        capitolName = nbt.getString("capitolName");
+        setLeaderGroupName(nbt.getString("leaderGroupName"));
+        setAdvisersGroupName(nbt.getString("advisersGroupName"));
         daysInDebt = nbt.h("daysInDebt");
         this.color = nbt.h("color");
-        this.setResearchTech(CivSettings.techs.get(nbt.l("researchTech")));
-        this.setResearchProgress(nbt.k("researchProgress"));
-        this.setGovernment(nbt.l("government_id"));
-        this.loadKeyValueString(nbt.l("lastUpkeepTick"), this.lastUpkeepPaidMap);
-        this.loadKeyValueString(nbt.l("lastTaxesTick"), this.lastTaxesPaidMap);
-        this.setSciencePercentage(nbt.k("science_percentage"));
-        this.setCivReligion(CivSettings.religions.get(nbt.l("religion_id")));
+        this.setResearchTech(CivSettings.techs.get(nbt.getString("researchTech")));
+        this.setResearchProgress(nbt.getDouble("researchProgress"));
+        this.setGovernment(nbt.getString("government_id"));
+        this.loadKeyValueString(nbt.getString("lastUpkeepTick"), this.lastUpkeepPaidMap);
+        this.loadKeyValueString(nbt.getString("lastTaxesTick"), this.lastTaxesPaidMap);
+        this.setSciencePercentage(nbt.getDouble("science_percentage"));
+        this.setCivReligion(CivSettings.religions.get(nbt.getString("religion_id")));
         NBTTagList researched_techs_list = (NBTTagList) nbt.c("researched_techs");
         for (int i = 0; i < researched_techs_list.size(); i++) {
             ConfigTech t = CivSettings.techs.get(researched_techs_list.j(i));
@@ -240,12 +237,12 @@ public class Civilization extends SQLObject {
     @Override
     public void saveNow() throws SQLException {
         HashMap<String, Object> hashmap = new HashMap<>();
-        NBTTagCompound nbt = new NBTTagCompound();
+        CompoundTag nbt = new NBTTagCompound();
 
-        nbt.a("name", this.getName());
-        nbt.a("leaderName", this.getLeader().getUUIDString());
+        nbt.putString("name", this.getName());
+        nbt.putString("leaderName", this.getLeader().getUUIDString());
 
-        nbt.a("capitolName", this.capitolName);
+        nbt.putString("capitolName", this.capitolName);
         nbt.a("leaderGroupName", this.getLeaderGroupName());
         nbt.a("advisersGroupName", this.getAdvisersGroupName());
         nbt.a("debt", this.getTreasury().getDebt());

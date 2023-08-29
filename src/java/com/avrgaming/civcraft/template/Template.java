@@ -32,9 +32,6 @@ import com.avrgaming.civcraft.threading.sync.SyncBuildUpdateTask;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.SimpleBlock;
-import net.minecraft.core.BlockPosition;
-import net.minecraft.world.level.block.EnumBlockRotation;
-import net.minecraft.world.level.block.state.IBlockData;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -48,8 +45,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
-
-import static java.lang.Math.abs;
 
 public class Template {
     /* Handles the processing of CivTemplates which store cubiods of blocks for later use. */

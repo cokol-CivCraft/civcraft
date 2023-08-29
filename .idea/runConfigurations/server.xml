@@ -2,7 +2,7 @@
   <configuration default="false" name="server" type="JarApplication">
     <option name="JAR_PATH" value="$PROJECT_DIR$/lib/spigot-1.12.2.jar" />
     <option name="VM_PARAMETERS" value="-Dlog4j.debug=true" />
-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
+    <option name="WORKING_DIRECTORY" value="D:\Users\dimon\PycharmProjects\civcraft\run" />
     <option name="ALTERNATIVE_JRE_PATH" />
     <method v="2">
       <option name="BuildArtifacts" enabled="true">
