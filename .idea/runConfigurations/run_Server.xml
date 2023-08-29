@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="run Server" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="ru.pashkovd.civcraft_test.Main" />
+    <module name="civcraft.test" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
