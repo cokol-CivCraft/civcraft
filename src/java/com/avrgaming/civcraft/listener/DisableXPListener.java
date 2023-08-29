@@ -50,7 +50,7 @@ public class DisableXPListener implements Listener {
 
         Block block = event.getClickedBlock();
 
-        if (block.getType().equals(Material.ENCHANTMENT_TABLE)) {
+        if (block.getType().equals(Material.ENCHANTING_TABLE)) {
             CivMessage.sendError(event.getPlayer(), CivSettings.localize.localizedString("customItem_enchantTableDisabled"));
             event.setCancelled(true);
         }

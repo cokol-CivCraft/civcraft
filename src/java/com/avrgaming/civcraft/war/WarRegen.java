@@ -79,7 +79,7 @@ public class WarRegen {
                     inv = ((Dispenser) blk.getState()).getInventory();
                     str += blockInventoryString(inv);
                 }
-                case BURNING_FURNACE, FURNACE -> {
+                case FURNACE -> {
                     inv = ((Furnace) blk.getState()).getInventory();
                     str += blockInventoryString(inv);
                 }
@@ -91,7 +91,7 @@ public class WarRegen {
                     inv = ((Hopper) blk.getState()).getInventory();
                     str += blockInventoryString(inv);
                 }
-                case SIGN, SIGN_POST, WALL_SIGN -> {
+                case OAK_SIGN, OAK_WALL_SIGN -> {
                     Sign sign = (Sign) blk.getState();
                     str += blockSignString(sign);
                 }
@@ -106,8 +106,8 @@ public class WarRegen {
     private static void restoreBlockFromString(String line) {
         String[] split = line.split(":");
 
-        int type = Integer.parseInt(split[0]);
-        byte data = Byte.parseByte(split[1]);
+//        int type = Integer.parseInt(split[0]); /TODO:
+//        byte data = Byte.parseByte(split[1]);
         int x = Integer.parseInt(split[2]);
         int y = Integer.parseInt(split[3]);
         int z = Integer.parseInt(split[4]);
@@ -115,8 +115,8 @@ public class WarRegen {
 
         Block block = BukkitObjects.getWorld(world).getBlockAt(x, y, z);
 
-        block.setTypeId(type);
-        block.setData((byte) (int) data, false);
+        block.setType(Material.PURPLE_CONCRETE);
+//        block.setData(data, false);
 
         // End of basic block info, try to get more now.
         Inventory inv = null;
@@ -129,7 +129,7 @@ public class WarRegen {
                 inv = ((Dispenser) block.getState()).getInventory();
                 InventorySerializer.StringToInventory(inv, split[6]);
             }
-            case BURNING_FURNACE, FURNACE -> {
+            case FURNACE -> {
                 inv = ((Furnace) block.getState()).getInventory();
                 InventorySerializer.StringToInventory(inv, split[6]);
             }
@@ -141,7 +141,7 @@ public class WarRegen {
                 inv = ((Hopper) block.getState()).getInventory();
                 InventorySerializer.StringToInventory(inv, split[6]);
             }
-            case SIGN, SIGN_POST, WALL_SIGN -> {
+            case OAK_SIGN, OAK_WALL_SIGN -> {
                 Sign sign = (Sign) block.getState();
                 String[] messages = split[6].split(",");
                 for (int i = 0; i < 4; i++) {
@@ -161,7 +161,7 @@ public class WarRegen {
     public static void explodeThisBlock(Block blk, String file) {
 
         switch (blk.getType()) {
-            case SIGN_POST, TNT, WALL_SIGN -> {
+            case OAK_SIGN, TNT, OAK_WALL_SIGN -> {
                 return;
             }
             default -> {
@@ -173,7 +173,7 @@ public class WarRegen {
         switch (blk.getType()) {
             case TRAPPED_CHEST, CHEST -> ((Chest) blk.getState()).getBlockInventory().clear();
             case DISPENSER -> ((Dispenser) blk.getState()).getInventory().clear();
-            case BURNING_FURNACE, FURNACE -> ((Furnace) blk.getState()).getInventory().clear();
+            case FURNACE -> ((Furnace) blk.getState()).getInventory().clear();
             case DROPPER -> ((Dropper) blk.getState()).getInventory().clear();
             case HOPPER -> ((Hopper) blk.getState()).getInventory().clear();
             default -> {
@@ -181,7 +181,6 @@ public class WarRegen {
         }
 
         blk.setType(Material.AIR);
-        blk.setData((byte) 0x0, true);
 
     }
 
@@ -192,7 +191,7 @@ public class WarRegen {
         switch (blk.getType()) {
             case TRAPPED_CHEST, CHEST -> ((Chest) blk.getState()).getBlockInventory().clear();
             case DISPENSER -> ((Dispenser) blk.getState()).getInventory().clear();
-            case BURNING_FURNACE, FURNACE -> ((Furnace) blk.getState()).getInventory().clear();
+            case FURNACE -> ((Furnace) blk.getState()).getInventory().clear();
             case DROPPER -> ((Dropper) blk.getState()).getInventory().clear();
             case HOPPER -> ((Hopper) blk.getState()).getInventory().clear();
             default -> {
@@ -200,8 +199,6 @@ public class WarRegen {
         }
 
         blk.setType(Material.AIR);
-        blk.setData((byte) 0x0, true);
-
     }
 
     public static boolean canPlaceThisBlock(Block blk) {

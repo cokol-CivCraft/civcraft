@@ -106,7 +106,7 @@ public class RecoverStructuresAsyncTask implements Runnable {
         // XXX shouldn't broken structures be mostly air anyway?
 
         ignoreBlocks.add(Material.OBSIDIAN);
-        ignoreBlocks.add(Material.FENCE);
+        ignoreBlocks.add(Material.OAK_FENCE);
         ignoreBlocks.add(Material.LADDER);
 
         ArrayList<Structure> repairStructures = new ArrayList<>();

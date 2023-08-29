@@ -30,8 +30,6 @@ import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.SimpleBlock;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -177,17 +175,14 @@ public class Market extends Structure {
     }
 
     private void buildSign(String action, Integer id, BlockCoord absCoord, ConfigMarketItem item, SimpleBlock commandBlock) {
-        Block b = absCoord.getBlock();
-
-        b.setType(Material.WALL_SIGN);
-        b.setData((byte) commandBlock.getData());
+        commandBlock.setTo(absCoord);
 
         StructureSign structSign = CivGlobal.getStructureSign(absCoord);
         if (structSign == null) {
             structSign = new StructureSign(absCoord, this);
         }
 
-        structSign.setDirection(b.getState().getRawData());
+        structSign.setDirection(absCoord.getBlock().getState().getRawData());
         structSign.setType(String.valueOf(id));
         structSign.setAction(action);
 

@@ -20,7 +20,6 @@ package com.avrgaming.civcraft.structure;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.items.BonusGoodie;
-import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.object.StructureBlock;
 import com.avrgaming.civcraft.object.Town;
@@ -148,7 +147,6 @@ public class TradeOutpost extends Structure {
         for (int i = 0; i < 3; i++) {
             Block b = centerLoc.getBlock().getRelative(0, i, 0);
             b.setType(Material.BEDROCK);
-            b.setData((byte) 0);
 
             StructureBlock sb = new StructureBlock(new BlockCoord(b), this);
             this.addStructureBlock(sb.getCoord(), false);
@@ -157,9 +155,11 @@ public class TradeOutpost extends Structure {
 
         /* Place the sign. */
         Block b = centerLoc.getBlock().getRelative(1, 2, 0);
-        b.setType(Material.WALL_SIGN);
+        b.setType(Material.OAK_WALL_SIGN);
         Sign s = (Sign) b.getState();
-        s.setData(new org.bukkit.material.Sign(CivData.DATA_SIGN_EAST));
+        org.bukkit.block.data.type.Sign s1 = (org.bukkit.block.data.type.Sign) s.getBlockData();
+        s1.setRotation(BlockFace.EAST);
+        s.setBlockData(s1);
         s.setLine(0, good.getInfo().name);
         s.update();
         StructureBlock sb = new StructureBlock(new BlockCoord(b), this);

@@ -68,7 +68,7 @@ public class WarListener implements Listener {
             return;
         }
         switch (event.getBlock().getType()) {
-            case DIRT, GRASS, SAND, GRAVEL, TORCH, REDSTONE_TORCH_OFF, REDSTONE_TORCH_ON, REDSTONE, TNT, LADDER, VINE, IRON_BLOCK, GOLD_BLOCK, DIAMOND_BLOCK, EMERALD_BLOCK -> {
+            case DIRT, GRASS, SAND, GRAVEL, TORCH, REDSTONE_TORCH, REDSTONE, TNT, LADDER, VINE, IRON_BLOCK, GOLD_BLOCK, DIAMOND_BLOCK, EMERALD_BLOCK -> {
                 return;
             }
             default -> {
@@ -104,7 +104,7 @@ public class WarListener implements Listener {
             return;
         }
         switch (event.getBlock().getType()) {
-            case DIRT, GRASS, SAND, GRAVEL, TORCH, REDSTONE_TORCH_OFF, REDSTONE_TORCH_ON, REDSTONE, TNT, LADDER, VINE -> {
+            case DIRT, GRASS, SAND, GRAVEL, TORCH, REDSTONE_TORCH, REDSTONE, TNT, LADDER, VINE -> {
                 if (event.getBlock().getLocation().subtract(0, 1, 0).getBlock().getType() != Material.AIR) {
                     return;
                 }

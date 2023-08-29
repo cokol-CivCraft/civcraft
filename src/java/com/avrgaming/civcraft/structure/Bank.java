@@ -194,7 +194,7 @@ public class Bank extends Structure {
             if (LoreMaterial.isCustom(player.getInventory().getItemInMainHand())) {
                 throw new CivException(CivSettings.localize.localizedString("bank_invalidItem"));
             }
-            player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADING, 1.1f, 1.1f);
+            player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_TRADE, 1.1f, 1.1f);
             switch (sign.getAction()) {
                 case "iron" -> exchange_for_coins(resident, Material.IRON_INGOT, CivSettings.iron_rate);
                 case "gold" -> exchange_for_coins(resident, Material.GOLD_INGOT, CivSettings.gold_rate);

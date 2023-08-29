@@ -77,7 +77,7 @@ public class CivData {
 
     public static boolean isDoor(Material i) {
         return switch (i) {
-            case ACACIA_DOOR, DARK_OAK_DOOR, WOOD_DOOR, BIRCH_DOOR, IRON_DOOR, JUNGLE_DOOR, SPRUCE_DOOR -> true;
+            case ACACIA_DOOR, DARK_OAK_DOOR, OAK_DOOR, BIRCH_DOOR, IRON_DOOR, JUNGLE_DOOR, SPRUCE_DOOR -> true;
             default -> false;
         };
     }
@@ -169,7 +169,7 @@ public class CivData {
                 hasAir = true;
             }
 
-            if ((nextBs.getType() == Material.MELON_BLOCK &&
+            if ((nextBs.getType() == Material.MELON &&
                     bs.getType() == Material.MELON_STEM) ||
                     (nextBs.getType() == Material.PUMPKIN &&
                             bs.getType() == Material.PUMPKIN_STEM)) {
@@ -196,7 +196,7 @@ public class CivData {
     public static boolean canGrow(BlockSnapshot bs) {
         return switch (bs.getType()) {
             case WHEAT, CARROT, POTATO -> bs.getData() != 0x7;
-            case NETHER_WARTS -> bs.getData() != 0x3;
+            case NETHER_WART -> bs.getData() != 0x3;
             case COCOA -> (bs.getData() & 0xC) != 0x8;
             case MELON_STEM, PUMPKIN_STEM -> canGrowFromStem(bs);
             default -> false;

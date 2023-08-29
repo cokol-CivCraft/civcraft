@@ -371,7 +371,7 @@ public class UnitMaterial extends LoreMaterial {
                               ItemStack droppedStack, ItemStack pickedStack) {
 
         // Prevent stacking items
-        if (droppedStack.getTypeId() == pickedStack.getTypeId()) {
+        if (droppedStack.getType() == pickedStack.getType()) {
             event.setCancelled(true);
             event.setResult(Result.DENY);
             Player player = getPlayer(event);

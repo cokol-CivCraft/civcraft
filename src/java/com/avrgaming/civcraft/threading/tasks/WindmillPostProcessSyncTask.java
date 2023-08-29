@@ -23,7 +23,6 @@ import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.MultiInventory;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.block.Block;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -60,15 +59,12 @@ public class WindmillPostProcessSyncTask implements Runnable {
                     if (breadCount > 0) {
                         /* bread seed */
                         try {
-                            source_inv.removeItem(Material.SEEDS, 1, true);
+                            source_inv.removeItem(Material.WHEAT_SEEDS, 1, true);
                         } catch (CivException e) {
                             e.printStackTrace();
                         }
                         breadCount--;
-                        Block block = coord.getBlock();
-                        block.setType(Material.WHEAT);
-                        Block block1 = coord.getBlock();
-                        block1.setData((byte) 0, true);
+                        coord.getBlock().setType(Material.WHEAT);
                         coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
                         continue;
                     }
@@ -76,15 +72,12 @@ public class WindmillPostProcessSyncTask implements Runnable {
                     if (carrotCount > 0) {
                         /* carrots */
                         try {
-                            source_inv.removeItem(Material.CARROT_ITEM, 1, true);
+                            source_inv.removeItem(Material.CARROT, 1, true);
                         } catch (CivException e) {
                             e.printStackTrace();
                         }
                         carrotCount--;
-                        Block block = coord.getBlock();
-                        block.setType(Material.CARROT);
-                        Block block1 = coord.getBlock();
-                        block1.setData((byte) 0, true);
+                        coord.getBlock().setType(Material.CARROT);
                         coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
 
                         continue;
@@ -94,15 +87,12 @@ public class WindmillPostProcessSyncTask implements Runnable {
                     if (potatoCount > 0) {
                         /* potatoes */
                         try {
-                            source_inv.removeItem(Material.POTATO_ITEM, 1, true);
+                            source_inv.removeItem(Material.POTATO, 1, true);
                         } catch (CivException e) {
                             e.printStackTrace();
                         }
                         potatoCount--;
-                        Block block = coord.getBlock();
-                        block.setType(Material.POTATO);
-                        Block block1 = coord.getBlock();
-                        block1.setData((byte) 0, true);
+                        coord.getBlock().setType(Material.POTATO);
                         coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
 
                         continue;
@@ -113,15 +103,12 @@ public class WindmillPostProcessSyncTask implements Runnable {
             if (breadCount > 0) {
                 /* bread seed */
                 try {
-                    source_inv.removeItem(Material.SEEDS, 1, true);
+                    source_inv.removeItem(Material.WHEAT_SEEDS, 1, true);
                 } catch (CivException e) {
                     e.printStackTrace();
                 }
                 breadCount--;
-                Block block = coord.getBlock();
-                block.setType(Material.WHEAT);
-                Block block1 = coord.getBlock();
-                block1.setData((byte) 0, true);
+                coord.getBlock().setType(Material.WHEAT);
                 coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
 
                 continue;
@@ -129,15 +116,12 @@ public class WindmillPostProcessSyncTask implements Runnable {
             if (carrotCount > 0) {
                 /* carrots */
                 try {
-                    source_inv.removeItem(Material.CARROT_ITEM, 1, true);
+                    source_inv.removeItem(Material.CARROT, 1, true);
                 } catch (CivException e) {
                     e.printStackTrace();
                 }
                 carrotCount--;
-                Block block = coord.getBlock();
-                block.setType(Material.CARROT);
-                Block block1 = coord.getBlock();
-                block1.setData((byte) 0, true);
+                coord.getBlock().setType(Material.CARROT);
                 coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
 
                 continue;
@@ -145,15 +129,12 @@ public class WindmillPostProcessSyncTask implements Runnable {
             if (potatoCount > 0) {
                 /* potatoes */
                 try {
-                    source_inv.removeItem(Material.POTATO_ITEM, 1, true);
+                    source_inv.removeItem(Material.POTATO, 1, true);
                 } catch (CivException e) {
                     e.printStackTrace();
                 }
                 potatoCount--;
-                Block block = coord.getBlock();
-                block.setType(Material.POTATO);
-                Block block1 = coord.getBlock();
-                block1.setData((byte) 0, true);
+                coord.getBlock().setType(Material.POTATO);
                 coord.getBlock().getWorld().playSound(coord.getLocation(), Sound.ITEM_HOE_TILL, 1.2f, 1.2f);
             }
 

@@ -71,9 +71,9 @@ public class UpdateTechBar extends CivAsyncTask {
                     }
 
                     if (i <= blockCount) {
-                        sb = new SimpleBlock(Material.WOOL, CivData.DATA_WOOL_GREEN);
+                        sb = new SimpleBlock(Material.GREEN_WOOL, 0);
                     } else {
-                        sb = new SimpleBlock(Material.WOOL, CivData.DATA_WOOL_BLACK);
+                        sb = new SimpleBlock(Material.BLACK_WOOL, 0);
                     }
                     sb.x = bcoord.getX();
                     sb.y = bcoord.getY();
@@ -93,7 +93,7 @@ public class UpdateTechBar extends CivAsyncTask {
                         continue;
                     }
 
-                    sb = new SimpleBlock(Material.WOOL, CivData.DATA_WOOL_BLACK);
+                    sb = new SimpleBlock(Material.BLACK_WOOL, CivData.DATA_WOOL_BLACK);
                     sb.x = bcoord.getX();
                     sb.y = bcoord.getY();
                     sb.z = bcoord.getZ();
@@ -105,7 +105,7 @@ public class UpdateTechBar extends CivAsyncTask {
 
             if (townhall.getTechnameSign() != null) {
                 BlockCoord bcoord = townhall.getTechnameSign();
-                sb = new SimpleBlock(Material.WALL_SIGN, townhall.getTechnameSignData());
+                sb = new SimpleBlock(Material.OAK_WALL_SIGN, townhall.getTechnameSignData());
                 sb.x = bcoord.getX();
                 sb.y = bcoord.getY();
                 sb.z = bcoord.getZ();
@@ -128,7 +128,7 @@ public class UpdateTechBar extends CivAsyncTask {
 
             if (townhall.getTechdataSign() != null) {
                 BlockCoord bcoord = townhall.getTechdataSign();
-                sb = new SimpleBlock(Material.WALL_SIGN, townhall.getTechdataSignData());
+                sb = new SimpleBlock(Material.OAK_WALL_SIGN, townhall.getTechdataSignData());
                 sb.x = bcoord.getX();
                 sb.y = bcoord.getY();
                 sb.z = bcoord.getZ();

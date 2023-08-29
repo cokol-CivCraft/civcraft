@@ -32,6 +32,8 @@ import com.avrgaming.civcraft.threading.sync.SyncBuildUpdateTask;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ItemManager;
 import com.avrgaming.civcraft.util.SimpleBlock;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Rotation;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -45,6 +47,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
+
+import static java.lang.Math.abs;
 
 public class Template {
     /* Handles the processing of CivTemplates which store cubiods of blocks for later use. */
@@ -313,7 +317,7 @@ public class Template {
             for (int y = 0; y < this.size_y; y++) {
                 for (int z = 0; z < this.size_z; z++) {
                     Block b = center.getBlock().getRelative(x, y, z);
-                    writer.write(x + ":" + y + ":" + z + "," + b.getTypeId() + ":" + b.getData());
+                    writer.write(x + ":" + y + ":" + z + "," + b.getType() + ":" + b.getData());
                     if (b.getState() instanceof Sign) {
                         writer.write("," + String.join(",", ((Sign) b.getState()).getLines()));
                     }
@@ -416,15 +420,15 @@ public class Template {
         return tpl;
     }
 
-    private EnumBlockRotation getRotation() {
+    private net.minecraft.world.level.block.Rotation getRotation() {
         if (dir == null) {
-            return EnumBlockRotation.a;
+            return net.minecraft.world.level.block.Rotation.NONE;
         }
         return switch (dir) {
-            case EAST -> EnumBlockRotation.d;
-            case NORTH -> EnumBlockRotation.c;
-            case WEST -> EnumBlockRotation.b;
-            default -> EnumBlockRotation.a;
+            case EAST -> Rotation.COUNTERCLOCKWISE_90;
+            case NORTH -> Rotation.CLOCKWISE_180;
+            case WEST -> Rotation.CLOCKWISE_90;
+            default -> net.minecraft.world.level.block.Rotation.NONE;
         };
     }
 
@@ -440,10 +444,10 @@ public class Template {
         }
 
         String[] split = line.split(";");
-        BlockPosition size = new BlockPosition(Integer.parseInt(split[0]), Integer.parseInt(split[1]), Integer.parseInt(split[2])).a(getRotation());
-        size_x = abs(size.u());
-        size_y = abs(size.v());
-        size_z = abs(size.w());
+        BlockPos size = new BlockPos(Integer.parseInt(split[0]), Integer.parseInt(split[1]), Integer.parseInt(split[2])).rotate(getRotation());
+        size_x = abs(size.getX());
+        size_y = abs(size.getY());
+        size_z = abs(size.getZ());
         getTemplateBlocks(reader, size_x, size_y, size_z);
         this.filepath = filepath;
         reader.close();
@@ -467,24 +471,24 @@ public class Template {
             //Parse location
             String[] locationSplit = location.split(":");
 
-            BlockPosition pos = new BlockPosition(
+            BlockPos pos = new BlockPos(
                     Integer.parseInt(locationSplit[0]),
                     Integer.parseInt(locationSplit[1]),
                     Integer.parseInt(locationSplit[2])
-            ).a(getRotation());
-            BlockPosition correction = new BlockPosition(1, 0, 1).a(getRotation());
-            int blockX = pos.u() - (correction.u() - 1) / 2 * (regionX - 1);
-            int blockY = pos.v();
-            int blockZ = pos.w() - (correction.w() - 1) / 2 * (regionZ - 1);
-
-            // Parse type
-            String[] typeSplit = type.split(":");
-
-            net.minecraft.server.v1_12_R1.Block var1 = REGISTRY.getId(Integer.parseInt(typeSplit[0]));
-            IBlockData var2 = var1.fromLegacyData(Integer.parseInt(typeSplit[1])).a(getRotation());
-
-            SimpleBlock block = new SimpleBlock(Material.getMaterial(Integer.parseInt(typeSplit[0])), var2.getBlock().toLegacyData(var2));
-
+            ).rotate(getRotation());
+            BlockPos correction = new BlockPos(1, 0, 1).rotate(getRotation());
+            int blockX = pos.getX() - (correction.getX() - 1) / 2 * (regionX - 1);
+            int blockY = pos.getY();
+            int blockZ = pos.getZ() - (correction.getZ() - 1) / 2 * (regionZ - 1);
+//
+//            // Parse type
+//            String[] typeSplit = type.split(":");
+//
+//            net.minecraft.server.v1_12_R1.Block var1 = REGISTRY.getId(Integer.parseInt(typeSplit[0]));
+//            IBlockData var2 = var1.fromLegacyData(Integer.parseInt(typeSplit[1])).a(getRotation());
+//
+//            SimpleBlock block = new SimpleBlock(Material.getMaterial(Integer.parseInt(typeSplit[0])), var2.getBlock().toLegacyData(var2));
+            SimpleBlock block = new SimpleBlock(Material.AIR.getNewData((byte) 0));
 
             if (CivData.isDoor(block.getType())) {
                 this.doorRelativeLocations.add(new BlockCoord("", blockX, blockY, blockZ));

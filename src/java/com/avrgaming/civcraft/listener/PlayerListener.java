@@ -381,7 +381,7 @@ public class PlayerListener implements Listener {
                 event.getContents().contains(Material.GHAST_TEAR) ||
                 event.getContents().contains(Material.FERMENTED_SPIDER_EYE) ||
                 event.getContents().contains(Material.BLAZE_POWDER) ||
-                event.getContents().contains(Material.SULPHUR)) {
+                event.getContents().contains(Material.GUNPOWDER)) {
             event.setCancelled(true);
         }
 

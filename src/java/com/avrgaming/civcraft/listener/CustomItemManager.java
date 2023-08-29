@@ -43,7 +43,6 @@ import gpl.HorseModifier;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -77,9 +76,7 @@ public class CustomItemManager implements Listener {
 
             event.setCancelled(true);
 
-            Block block = event.getBlock();
-            block.setType(Material.AIR);
-            block.setData((byte) 0);
+            event.getBlock().setType(Material.AIR);
 
             try {
                 Random rand = new Random();
@@ -197,7 +194,7 @@ public class CustomItemManager implements Listener {
     }
 
     private static String isCustomDrop(ItemStack stack) {
-        if (stack == null || stack.getTypeId() != 166) {
+        if (stack == null || stack.getType() != Material.BARRIER) {
             return null;
         }
 
@@ -541,9 +538,7 @@ public class CustomItemManager implements Listener {
         /* Remove any vanilla item IDs that can't be crafted from vanilla drops. */
         LinkedList<ItemStack> removed = new LinkedList<>();
         for (ItemStack stack : event.getDrops()) {
-            Integer key = stack.getTypeId();
-
-            if (CivSettings.removedRecipies.containsKey(key)) {
+            if (CivSettings.removedRecipies.containsKey(stack.getType())) {
                 if (!LoreMaterial.isCustom(stack)) {
                     removed.add(stack);
                 }
@@ -593,9 +588,9 @@ public class CustomItemManager implements Listener {
                 event.getItem().remove();
                 event.setCancelled(true);
             }
-        } else if (stack4.getType() == Material.RAW_FISH
+        } else if (stack4.getType() == Material.COD
                 && ItemManager.getData(event.getItem().getItemStack()) ==
-                new MaterialData(Material.RAW_FISH, (byte) CivData.CLOWNFISH).getData()) {
+                new MaterialData(Material.COD, (byte) CivData.CLOWNFISH).getData()) {
             LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(event.getItem().getItemStack());
             if (craftMat == null) {
                 /* Found a vanilla clownfish. */
@@ -608,8 +603,8 @@ public class CustomItemManager implements Listener {
                 event.setCancelled(true);
             }
         } else {
-            if (stack4.getType() == Material.RAW_FISH && ItemManager.getData(event.getItem().getItemStack()) ==
-                    new MaterialData(Material.RAW_FISH, (byte) CivData.PUFFERFISH).getData()) {
+            if (stack4.getType() == Material.COD && ItemManager.getData(event.getItem().getItemStack()) ==
+                    new MaterialData(Material.COD, (byte) CivData.PUFFERFISH).getData()) {
                 LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(event.getItem().getItemStack());
                 if (craftMat == null) {
                     /* Found a vanilla pufferfish. */
@@ -647,8 +642,8 @@ public class CustomItemManager implements Listener {
         }
 
         ItemStack stack1 = event.getCurrentItem();
-        if (stack1.getType() == Material.RAW_FISH && ItemManager.getData(event.getCurrentItem()) ==
-                new MaterialData(Material.RAW_FISH, (byte) CivData.CLOWNFISH).getData()) {
+        if (stack1.getType() == Material.COD && ItemManager.getData(event.getCurrentItem()) ==
+                new MaterialData(Material.COD, (byte) CivData.CLOWNFISH).getData()) {
             LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(event.getCurrentItem());
             if (craftMat == null) {
                 /* Found a vanilla slime ball. */
@@ -660,8 +655,8 @@ public class CustomItemManager implements Listener {
         }
 
         ItemStack stack = event.getCurrentItem();
-        if (stack.getType() == Material.RAW_FISH && ItemManager.getData(event.getCurrentItem()) ==
-                new MaterialData(Material.RAW_FISH, (byte) CivData.PUFFERFISH).getData()) {
+        if (stack.getType() == Material.COD && ItemManager.getData(event.getCurrentItem()) ==
+                new MaterialData(Material.COD, (byte) CivData.PUFFERFISH).getData()) {
             LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(event.getCurrentItem());
             if (craftMat == null) {
                 /* Found a vanilla slime ball. */
@@ -825,7 +820,7 @@ public class CustomItemManager implements Listener {
             return false;
         }
 
-        ConfigRemovedRecipes removed = CivSettings.removedRecipies.get(stack.getTypeId());
+        ConfigRemovedRecipes removed = CivSettings.removedRecipies.get(stack.getType());
         if (removed == null && !stack.getType().equals(Material.ENCHANTED_BOOK)) {
             /* Check for badly enchanted tools */
             if (stack.containsEnchantment(Enchantment.FIRE_ASPECT) &&
@@ -887,7 +882,7 @@ public class CustomItemManager implements Listener {
                 continue;
             }
 
-            ConfigRemovedRecipes removed = CivSettings.removedRecipies.get(stack.getTypeId());
+            ConfigRemovedRecipes removed = CivSettings.removedRecipies.get(stack.getType());
             if (removed == null && !stack.getType().equals(Material.ENCHANTED_BOOK)) {
                 /* Not in removed list, so allow it. */
                 continue;

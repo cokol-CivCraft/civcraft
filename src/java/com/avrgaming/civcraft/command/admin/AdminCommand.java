@@ -139,17 +139,17 @@ public class AdminCommand extends CommandBase {
             for (ConfigMaterialCategory cat : ConfigMaterialCategory.getCategories()) {
                 Material identifier;
                 if (cat.name.contains("Fish")) {
-                    identifier = Material.RAW_FISH;
+                    identifier = Material.COD;
                 } else if (cat.name.contains("Catalyst")) {
                     identifier = Material.BOOK;
                 } else if (cat.name.contains("Gear")) {
                     identifier = Material.IRON_SWORD;
                 } else if (cat.name.contains("Materials")) {
-                    identifier = Material.WOOD_STEP;
+                    identifier = Material.OAK_STAIRS;
                 } else if (cat.name.contains("Tools")) {
-                    identifier = Material.IRON_SPADE;
+                    identifier = Material.IRON_SHOVEL;
                 } else if (cat.name.contains("Eggs")) {
-                    identifier = Material.MONSTER_EGG;
+                    identifier = Material.GHAST_SPAWN_EGG;
                 } else {
                     identifier = Material.WRITTEN_BOOK;
                 }
@@ -171,7 +171,7 @@ public class AdminCommand extends CommandBase {
                     stack = LoreGuiItem.asGuiItem(stack);
                     stack = LoreGuiItem.setAction(stack, GuiActions.SpawnItem);
                     inv.addItem(stack);
-                    LoreGuiItemListener.guiInventories.put(inv.getName(), inv);
+                    LoreGuiItemListener.guiInventories.put(cat.name + " Spawn", inv);
                 }
             }
 
@@ -230,7 +230,7 @@ public class AdminCommand extends CommandBase {
     }
 
     public void server_cmd() {
-        CivMessage.send(sender, Bukkit.getServerName());
+        CivMessage.send(sender, Bukkit.getServer().getName());
     }
 
     public void recover_cmd() {

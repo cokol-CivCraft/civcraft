@@ -156,7 +156,7 @@ public class GreatLibrary extends Wonder {
             }
             case "3" -> {
                 switch (hand.getType()) {
-                    case WOOD_PICKAXE, STONE_PICKAXE, IRON_PICKAXE, DIAMOND_PICKAXE, GOLD_PICKAXE -> {
+                    case WOODEN_PICKAXE, STONE_PICKAXE, IRON_PICKAXE, DIAMOND_PICKAXE, GOLDEN_PICKAXE -> {
                         configEnchant = CivSettings.enchants.get("ench_punchout");
                         if (!LoreMaterial.isCustom(hand)) {
                             CivMessage.sendError(player, CivSettings.localize.localizedString("library_enchant_nonEnchantable"));

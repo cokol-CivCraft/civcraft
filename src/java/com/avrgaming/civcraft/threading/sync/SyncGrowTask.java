@@ -87,7 +87,9 @@ public class SyncGrowTask implements Runnable {
                                     block.setType(growBlock.getMaterial());
                                 }
                                 Block block = growBlock.bcoord.getBlock();
-                                block.setData((byte) growBlock.data);
+                                var data = block.getState();
+                                data.setRawData((byte) growBlock.data);
+                                data.update(true, false);
                                 request.result = true;
                             }
 

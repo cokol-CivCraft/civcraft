@@ -93,7 +93,7 @@ public class BiomeCache {
             cc.setBiome(chunk.getWorld().getBiome((chunk.getX() * 16), (chunk.getZ() * 16)));
             BiomeCache.saveBiomeInfo(cc);
         });
-        return Biome.HELL;
+        return Biome.NETHER_WASTES;
 
     }
 

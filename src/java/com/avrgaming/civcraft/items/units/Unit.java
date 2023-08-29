@@ -242,25 +242,25 @@ public abstract class Unit {
     public static boolean isWearingAnyGold(Player player) {
 
         if (player.getEquipment().getBoots() != null) {
-            if (player.getEquipment().getBoots().getType().equals(Material.GOLD_BOOTS)) {
+            if (player.getEquipment().getBoots().getType().equals(Material.GOLDEN_BOOTS)) {
                 return true;
             }
         }
 
         if (player.getEquipment().getChestplate() != null) {
-            if (player.getEquipment().getChestplate().getType().equals(Material.GOLD_CHESTPLATE)) {
+            if (player.getEquipment().getChestplate().getType().equals(Material.GOLDEN_CHESTPLATE)) {
                 return true;
             }
         }
 
         if (player.getEquipment().getHelmet() != null) {
-            if (player.getEquipment().getHelmet().getType().equals(Material.GOLD_HELMET)) {
+            if (player.getEquipment().getHelmet().getType().equals(Material.GOLDEN_HELMET)) {
                 return true;
             }
         }
 
         if (player.getEquipment().getLeggings() != null) {
-            return player.getEquipment().getLeggings().getType().equals(Material.GOLD_LEGGINGS);
+            return player.getEquipment().getLeggings().getType().equals(Material.GOLDEN_LEGGINGS);
         }
 
         return false;

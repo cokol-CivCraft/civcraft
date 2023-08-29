@@ -30,7 +30,7 @@ public class ItemManager {
     }
 
     public static ItemStack spawnPlayerHead(String playerName, String itemDisplayName) {
-        ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+        ItemStack skull = new ItemStack(Material.PLAYER_HEAD, 1, (short) 3);
         SkullMeta meta = (SkullMeta) skull.getItemMeta();
         meta.setOwningPlayer(Bukkit.getOfflinePlayer(playerName));
         meta.setDisplayName(itemDisplayName);

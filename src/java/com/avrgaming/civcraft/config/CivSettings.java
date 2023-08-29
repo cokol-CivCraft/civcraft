@@ -32,6 +32,7 @@ import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.randomevents.ConfigRandomEvent;
 import com.avrgaming.civcraft.template.Template;
 import localize.Localize;
+import org.apache.commons.io.FileUtils;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -292,17 +293,15 @@ public class CivSettings {
         restrictedUndoBlocks.add(Material.SUGAR_CANE);
         restrictedUndoBlocks.add(Material.BEETROOT_SEEDS);
         restrictedUndoBlocks.add(Material.TALL_GRASS);
-        restrictedUndoBlocks.add(Material.RED_ROSE);
+        restrictedUndoBlocks.add(Material.POPPY);
         restrictedUndoBlocks.add(Material.RED_MUSHROOM);
-        restrictedUndoBlocks.add(Material.DOUBLE_PLANT);
-        restrictedUndoBlocks.add(Material.CAKE_BLOCK);
+        restrictedUndoBlocks.add(Material.PEONY);
+        restrictedUndoBlocks.add(Material.CAKE);
         restrictedUndoBlocks.add(Material.CACTUS);
-        restrictedUndoBlocks.add(Material.PISTON_BASE);
-        restrictedUndoBlocks.add(Material.PISTON_EXTENSION);
-        restrictedUndoBlocks.add(Material.PISTON_MOVING_PIECE);
-        restrictedUndoBlocks.add(Material.PISTON_STICKY_BASE);
+        restrictedUndoBlocks.add(Material.PISTON);
+        restrictedUndoBlocks.add(Material.PISTON_HEAD);
         restrictedUndoBlocks.add(Material.TRIPWIRE_HOOK);
-        restrictedUndoBlocks.add(Material.SAPLING);
+        restrictedUndoBlocks.add(Material.OAK_SAPLING);
         restrictedUndoBlocks.add(Material.PUMPKIN_STEM);
         restrictedUndoBlocks.add(Material.MELON_STEM);
 
@@ -312,11 +311,9 @@ public class CivSettings {
         playerEntityWeapons.add(EntityType.PLAYER);
         playerEntityWeapons.add(EntityType.ARROW);
         playerEntityWeapons.add(EntityType.SPECTRAL_ARROW);
-        playerEntityWeapons.add(EntityType.TIPPED_ARROW);
         playerEntityWeapons.add(EntityType.EGG);
         playerEntityWeapons.add(EntityType.SNOWBALL);
         playerEntityWeapons.add(EntityType.SPLASH_POTION);
-        playerEntityWeapons.add(EntityType.LINGERING_POTION);
         playerEntityWeapons.add(EntityType.FISHING_HOOK);
     }
 

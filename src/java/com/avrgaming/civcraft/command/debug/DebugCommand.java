@@ -947,8 +947,10 @@ public class DebugCommand extends CommandBase {
 
             BlockCoord bcoord = sign.getCoord();
             Block block = bcoord.getBlock();
-            block.getState().setData(new org.bukkit.material.Sign(Material.WALL_SIGN));
-            block.setData((byte) sign.getDirection());
+            block.setType(Material.OAK_WALL_SIGN);
+            var data = block.getState();
+            data.setRawData((byte) sign.getDirection());
+            data.update(true, false);
 
             Sign s = (Sign) block.getState();
             String[] lines = sign.getText().split("\n");

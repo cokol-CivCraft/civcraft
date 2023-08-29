@@ -2,10 +2,12 @@ package gpl;
 
 import com.avrgaming.civcraft.main.CivCraft;
 import com.avrgaming.civcraft.main.CivLog;
-import net.minecraft.world.entity.EntityInsentient;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -96,12 +98,12 @@ public class HorseModifier {
     	if (!isHorse(entity)) {
     		return;
     	}
-    	
-    	EntityInsentient nmsEntity = (EntityInsentient) ((CraftLivingEntity) entity).getHandle();
-    	AttributeInstance attributes = nmsEntity.getAttributeInstance(GenericAttributes.MOVEMENT_SPEED);
-    	AttributeModifier modifier = new AttributeModifier(movementSpeedUID, "civcraft horse movement speed", amount, 0);
-    	attributes.b(modifier); //remove the modifier, adding a duplicate causes errors
-    	attributes.a(modifier); //add the modifier
+
+        LivingEntity nmsEntity = (LivingEntity) ((CraftLivingEntity) entity).getHandle();
+        AttributeInstance attributes = nmsEntity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
+        AttributeModifier modifier = new AttributeModifier(movementSpeedUID, "civcraft horse movement speed", amount, AttributeModifier.Operation.ADD_NUMBER);
+        attributes.removeModifier(modifier); //remove the modifier, adding a duplicate causes errors
+        attributes.addModifier(modifier); //add the modifier
   
     	//done??
     }
@@ -120,11 +122,14 @@ public class HorseModifier {
     		CivLog.debug("Player tried using Horse that isn't a Horse? Error in HorseModifier.java.");
     		return false;
     	}
-    	
-    	EntityInsentient nmsEntity = (EntityInsentient) ((CraftLivingEntity) entity).getHandle();
-    	AttributeInstance attributes = nmsEntity.getAttributeInstance(GenericAttributes.MOVEMENT_SPEED);
 
-        return attributes.a(movementSpeedUID) != null;
+        AttributeInstance attributes = entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
+        for (AttributeModifier a : attributes.getModifiers()) {
+            if (a.getUniqueId() == movementSpeedUID) {
+                return true;
+            }
+        }
+        return false;
 
         //	AttributeModifier modifier = new AttributeModifier(movementSpeedUID, "civcraft horse movement speed", amount, 1);
     	//attributes.b(modifier); //remove the modifier, adding a duplicate causes errors

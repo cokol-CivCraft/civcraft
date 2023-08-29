@@ -94,7 +94,7 @@ public class FarmChunk {
         Block beneath = block.getRelative(0, -1, 0);
 
         if (beneath != null) {
-            if (beneath.getType() == Material.SOIL) {
+            if (beneath.getType() == Material.FARMLAND) {
                 return beneath.getData() != 0x0;
             }
         }
@@ -140,7 +140,7 @@ public class FarmChunk {
             freeBlock = nextBlock;
         }
 
-        if ((nextBlock.getType() == Material.MELON_BLOCK &&
+        if ((nextBlock.getType() == Material.MELON &&
                 bs.getType() == Material.MELON_STEM) ||
                 (nextBlock.getType() == Material.PUMPKIN &&
                         bs.getType() == Material.PUMPKIN_STEM)) {
@@ -152,7 +152,7 @@ public class FarmChunk {
         }
 
         if (bs.getType() == Material.MELON_STEM) {
-            addGrowBlock("world", growMe.getX() + xOff, growMe.getY(), growMe.getZ() + zOff, Material.MELON_BLOCK, 0x0, true);
+            addGrowBlock("world", growMe.getX() + xOff, growMe.getY(), growMe.getZ() + zOff, Material.MELON, 0x0, true);
         } else {
             addGrowBlock("world", growMe.getX() + xOff, growMe.getY(), growMe.getZ() + zOff, Material.PUMPKIN, 0x0, true);
         }
@@ -177,7 +177,7 @@ public class FarmChunk {
                     addGrowBlock("world", growMe.getX(), growMe.getY(), growMe.getZ(), bs.getType(), bs.getData() + 0x1, false);
                 }
             }
-            case NETHER_WARTS -> {
+            case NETHER_WART -> {
                 if (bs.getData() < 0x3) {
                     addGrowBlock("world", growMe.getX(), growMe.getY(), growMe.getZ(), bs.getType(), bs.getData() + 0x1, false);
                 }

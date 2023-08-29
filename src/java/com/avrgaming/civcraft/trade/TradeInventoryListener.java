@@ -195,7 +195,7 @@ public class TradeInventoryListener implements Listener {
         ItemStack guiStack;
         if (pair.coins == 0) {
             guiStack = LoreGuiItem.build(CivSettings.CURRENCY_NAME + " " + CivSettings.localize.localizedString("resident_tradeOffered"),
-                    Material.NETHER_BRICK_ITEM, 0,
+                    Material.NETHER_BRICK, 0,
                     ChatColor.YELLOW + "0 " + CivSettings.CURRENCY_NAME);
         } else {
             guiStack = LoreGuiItem.build(CivSettings.CURRENCY_NAME + " " + CivSettings.localize.localizedString("resident_tradeOffered"),
@@ -213,12 +213,12 @@ public class TradeInventoryListener implements Listener {
     public void markTradeValid(TradeInventoryPair pair) {
         pair.valid = true;
         ItemStack guiStack = LoreGuiItem.build(CivSettings.localize.localizedString("resident_tradeYourConfirm"),
-                Material.WOOL, CivData.DATA_WOOL_GREEN,
+                Material.GREEN_WOOL, CivData.DATA_WOOL_GREEN,
                 ChatColor.GOLD + CivSettings.localize.localizedString("resident_tradeClicktoUnConfirm"));
         pair.inv.setItem(MY_SLOT_BUTTON, guiStack);
 
         guiStack = LoreGuiItem.build("Your Confirm",
-                Material.WOOL, CivData.DATA_WOOL_GREEN,
+                Material.GREEN_WOOL, CivData.DATA_WOOL_GREEN,
                 CivSettings.localize.localizedString("var_resident_hasConfirmedTrade", (ChatColor.AQUA + pair.otherResident.getName() + ChatColor.GREEN)));
         pair.otherInv.setItem(OTHER_SLOT_BUTTON, guiStack);
 
@@ -227,13 +227,13 @@ public class TradeInventoryListener implements Listener {
     public void markTradeInvalid(TradeInventoryPair pair) {
         pair.valid = false;
         ItemStack guiStack = LoreGuiItem.build(CivSettings.localize.localizedString("resident_tradeYourConfirm"),
-                Material.WOOL, CivData.DATA_WOOL_RED,
+                Material.RED_WOOL, CivData.DATA_WOOL_RED,
                 ChatColor.GOLD + CivSettings.localize.localizedString("resident_tradeClicktoConfirm"));
 
         pair.inv.setItem(MY_SLOT_BUTTON, guiStack);
 
         ItemStack guiStack2 = LoreGuiItem.build(pair.otherResident.getName() + " " + CivSettings.localize.localizedString("resident_tradeNotconfirmed"),
-                Material.WOOL, CivData.DATA_WOOL_RED,
+                Material.RED_WOOL, CivData.DATA_WOOL_RED,
                 ChatColor.GREEN + CivSettings.localize.localizedString("var_resident_hasNotConfirmedTrade1", ChatColor.AQUA + pair.otherResident.getName()),
                 ChatColor.GRAY + CivSettings.localize.localizedString("resident_hasNotConfirmedTrade1"));
         pair.otherInv.setItem(OTHER_SLOT_BUTTON, guiStack2);
@@ -259,9 +259,9 @@ public class TradeInventoryListener implements Listener {
             return;
         }
 
-        if (!savedTradeInventory.getName().equals(event.getInventory().getName())) {
-            return;
-        }
+//        if (!savedTradeInventory.getName().equals(event.getInventory().getName())) { /TODO:
+//            return;
+//        }
 
         /* Check to see if we've clicked on a button. */
         if (event.getRawSlot() == MY_SLOT_BUTTON) {
@@ -490,9 +490,9 @@ public class TradeInventoryListener implements Listener {
             return;
         }
 
-        if (!savedTradeInventory.getName().equals(event.getInventory().getName())) {
-            return;
-        }
+//        if (!savedTradeInventory.getName().equals(event.getInventory().getName())) { /TODO:
+//            return;
+//        }
 
         for (int slot : event.getRawSlots()) {
             if (!handleSlotChange(slot, pair)) {
@@ -524,9 +524,9 @@ public class TradeInventoryListener implements Listener {
             return;
         }
 
-        if (!savedTradeInventory.getName().equals(event.getInventory().getName())) {
-            return;
-        }
+//        if (!savedTradeInventory.getName().equals(event.getInventory().getName())) { /TODO:
+//            return;
+//        }
 
         /* Refund anything in our slots. */
         for (int i = MY_SLOTS_START; i < MY_SLOTS_END; i++) {

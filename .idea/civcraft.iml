@@ -42,5 +42,7 @@
     <orderEntry type="library" name="apache.commons.lang3" level="project" />
     <orderEntry type="library" name="mysql.connector.j" level="project" />
     <orderEntry type="library" name="spigotmc.spigot" level="project" />
+    <orderEntry type="library" name="yaml.snakeyaml" level="project" />
+    <orderEntry type="library" name="spigotmc.spigot1" level="project" />
   </component>
 </module>

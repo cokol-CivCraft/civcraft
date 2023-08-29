@@ -24,6 +24,7 @@ import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.Resident;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -45,10 +46,10 @@ public class GivePlayerStartingKit implements Runnable {
 
                 ItemStack stack;
                 try {
-                    int type = Integer.parseInt(split[0]);
+//                    int type = Integer.parseInt(split[0]); TODO:
                     int amount = Integer.parseInt(split[1]);
 
-                    stack = new ItemStack(type, amount);
+                    stack = new ItemStack(Material.AIR, amount);
 
 
                 } catch (NumberFormatException e) {

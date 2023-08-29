@@ -117,7 +117,7 @@ public abstract class Buildable extends SQLObject {
 
     public boolean isOnWater(Biome b) {
         return switch (b) {
-            case BEACHES, COLD_BEACH, STONE_BEACH, RIVER, FROZEN_RIVER, OCEAN, DEEP_OCEAN, FROZEN_OCEAN, SWAMPLAND, MUTATED_SWAMPLAND ->
+            case BEACH, SNOWY_BEACH, MANGROVE_SWAMP, SWAMP, FROZEN_OCEAN, DEEP_OCEAN, OCEAN, FROZEN_RIVER, RIVER, STONY_SHORE ->
                     true;
             default -> false;
         };
@@ -877,7 +877,7 @@ public abstract class Buildable extends SQLObject {
                         tpl.blocks[x][y][z].setTo(b);
                     }
 
-                    if (b.getType() == Material.WALL_SIGN || b.getType() == Material.SIGN_POST) {
+                    if (b.getType() == Material.OAK_WALL_SIGN || b.getType() == Material.OAK_SIGN) {
                         Sign s2 = (Sign) b.getState();
                         s2.setLine(0, tpl.blocks[x][y][z].message[0]);
                         s2.setLine(1, tpl.blocks[x][y][z].message[1]);
@@ -1160,7 +1160,7 @@ public abstract class Buildable extends SQLObject {
                     continue;
                 }
                 switch (coord.getBlock().getType()) {
-                    case AIR, CHEST, SIGN_POST, WALL_SIGN -> {
+                    case AIR, CHEST, OAK_SIGN, OAK_WALL_SIGN -> {
                         continue;
                     }
                 }
@@ -1394,9 +1394,9 @@ public abstract class Buildable extends SQLObject {
 
     public static double getReinforcementValue(Material material) {
         return switch (material) {
-            case STATIONARY_WATER, WATER, STATIONARY_LAVA, LAVA, AIR, WEB -> 0;
+            case WATER, LAVA, AIR, COBWEB -> 0;
             case IRON_BLOCK, EMERALD_BLOCK, DIAMOND_BLOCK, GOLD_BLOCK, LAPIS_BLOCK -> 4;
-            case SMOOTH_BRICK -> 3;
+            case STONE_BRICKS -> 3;
             case STONE, COAL_BLOCK, REDSTONE_BLOCK, NETHER_WART_BLOCK -> 2;
             case GRAVEL -> 1.25;
             case OBSIDIAN -> 8;

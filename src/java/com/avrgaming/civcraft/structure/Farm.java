@@ -89,7 +89,7 @@ public class Farm extends Structure {
         return switch (b.getType()) {
             //case BROWNMUSHROOM:
             //case REDMUSHROOM:
-            case COCOA, MELON_BLOCK, MELON_STEM, PUMPKIN, PUMPKIN_STEM, WHEAT, CARROT, POTATO, NETHER_WARTS ->
+            case COCOA, MELON, MELON_STEM, PUMPKIN, PUMPKIN_STEM, WHEAT, CARROT, POTATO, NETHER_WART ->
                 //	case SUGARCANE:
                     true;
             default -> false;

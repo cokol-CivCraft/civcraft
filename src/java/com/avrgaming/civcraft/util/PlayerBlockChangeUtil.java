@@ -2,14 +2,12 @@ package com.avrgaming.civcraft.util;
 
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivGlobal;
-import net.minecraft.network.protocol.game.PacketPlayOutMultiBlockChange;
 import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Optional;
-import java.util.TreeMap;
 
 public class PlayerBlockChangeUtil {
     /*
@@ -28,7 +26,7 @@ public class PlayerBlockChangeUtil {
     HashMap<String, HashMap<ChunkCoord, LinkedList<SimpleBlock>>> blocksInChunkToUpdate = new HashMap<>();
 
 
-    TreeMap<String, PacketPlayOutMultiBlockChange> preparedPackets = new TreeMap<>();
+//    TreeMap<String, PacketPlayOutMultiBlockChange> preparedPackets = new TreeMap<>();
     //private static ReentrantLock taskLock = new ReentrantLock();
 
 

@@ -23,7 +23,6 @@ import com.avrgaming.civcraft.util.TimeTools;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -141,68 +140,41 @@ public class TradeShip extends WaterStructure {
                 }
                 case "/outSign" -> {
                     int ID = Integer.parseInt(sb.keyvalues.get("id"));
-                    if (this.getLevel() >= (ID * 2) + 1) {
-                        Block block = absCoord.getBlock();
-                        block.setType(Material.WALL_SIGN);
-                        Block block1 = absCoord.getBlock();
-                        block1.setData((byte) sb.getData());
+                    sb.setTo(absCoord);
+                    Sign sign = (Sign) absCoord.getBlock().getState();
+                    sign.setLine(0, CivSettings.localize.localizedString("tradeship_sign_output_line0"));
 
-                        Sign sign = (Sign) absCoord.getBlock().getState();
-                        sign.setLine(0, CivSettings.localize.localizedString("tradeship_sign_output_line0"));
+                    if (this.getLevel() >= (ID * 2) + 1) {
                         sign.setLine(1, String.valueOf(ID + 1));
                         sign.setLine(2, "");
                         sign.setLine(3, "");
-                        sign.update();
                     } else {
-                        Block block = absCoord.getBlock();
-                        block.setType(Material.WALL_SIGN);
-                        Block block1 = absCoord.getBlock();
-                        block1.setData((byte) sb.getData());
-
-                        Sign sign = (Sign) absCoord.getBlock().getState();
-                        sign.setLine(0, CivSettings.localize.localizedString("tradeship_sign_output_line0"));
                         sign.setLine(1, CivSettings.localize.localizedString("tradeship_sign_output_notupgraded_line1"));
                         sign.setLine(2, (CivSettings.localize.localizedString("var_tradeship_sign_output_notupgraded_line2", ((ID * 2) + 1))));
                         sign.setLine(3, CivSettings.localize.localizedString("tradeship_sign_output_notupgraded_line3"));
-                        sign.update();
                     }
+                    sign.update();
                     this.addStructureBlock(absCoord, false);
                 }
                 case "/in" -> {
                     int ID = Integer.parseInt(sb.keyvalues.get("id"));
+                    sb.setTo(absCoord);
+                    Sign sign = (Sign) absCoord.getBlock().getState();
+                    sign.setLine(0, CivSettings.localize.localizedString("tradeship_sign_input_line0"));
                     if (ID == 0) {
-                        Block block = absCoord.getBlock();
-                        block.setType(Material.WALL_SIGN);
-                        Block block1 = absCoord.getBlock();
-                        block1.setData((byte) sb.getData());
-
-                        Sign sign = (Sign) absCoord.getBlock().getState();
-                        sign.setLine(0, CivSettings.localize.localizedString("tradeship_sign_input_line0"));
                         sign.setLine(1, "1");
                         sign.setLine(2, "2");
-                        sign.setLine(3, "");
-                        sign.update();
                     } else {
-                        Block block = absCoord.getBlock();
-                        block.setType(Material.WALL_SIGN);
-                        Block block1 = absCoord.getBlock();
-                        block1.setData((byte) sb.getData());
-
-                        Sign sign = (Sign) absCoord.getBlock().getState();
-                        sign.setLine(0, CivSettings.localize.localizedString("tradeship_sign_input_line0"));
                         sign.setLine(1, "3");
                         sign.setLine(2, "4");
-                        sign.setLine(3, "");
-                        sign.update();
                     }
+                    sign.setLine(3, "");
+                    sign.update();
                     this.addStructureBlock(absCoord, false);
                 }
                 default -> {
                     /* Unrecognized command... treat as a literal sign. */
-                    Block block = absCoord.getBlock();
-                    block.setType(Material.WALL_SIGN);
-                    Block block1 = absCoord.getBlock();
-                    block1.setData((byte) sb.getData());
+                    sb.setTo(absCoord);
 
                     Sign sign = (Sign) absCoord.getBlock().getState();
                     sign.setLine(0, sb.message[0]);

@@ -148,7 +148,7 @@ public class QuarryAsyncTask extends CivAsyncTask {
                 }
                 int modifier = checkDigSpeed(stack);
 
-                if (stack.getType() == Material.WOOD_PICKAXE) {
+                if (stack.getType() == Material.WOODEN_PICKAXE) {
                     try {
                         short damage = stack.getDurability();
                         this.updateInventory(Action.REMOVE, source_inv, stack);
@@ -282,7 +282,7 @@ public class QuarryAsyncTask extends CivAsyncTask {
                     }
                     break;
                 }
-                if (stack.getType() == Material.GOLD_PICKAXE) {
+                if (stack.getType() == Material.GOLDEN_PICKAXE) {
                     try {
                         short damage = stack.getDurability();
                         this.updateInventory(Action.REMOVE, source_inv, stack);

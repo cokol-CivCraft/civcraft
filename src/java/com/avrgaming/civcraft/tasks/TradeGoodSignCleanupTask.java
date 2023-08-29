@@ -79,14 +79,12 @@ public class TradeGoodSignCleanupTask implements Runnable {
             while (bcoord2.getY() < 256) {
                 Block top = world.getBlockAt(bcoord2.getX(), bcoord2.getY(), bcoord2.getZ());
                 top.setType(Material.AIR);
-                top.setData((byte) 0, true);
                 bcoord2.setY(bcoord2.getY() + 1);
                 for (BlockFace face : new BlockFace[]{BlockFace.NORTH, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST}) {
                     Block block = top.getRelative(face);
-                    if (block.getType() == Material.WALL_SIGN || block.getType() == Material.SIGN_POST) {
+                    if (block.getType() == Material.OAK_WALL_SIGN || block.getType() == Material.OAK_SIGN) {
                         count++;
                         block.setType(Material.AIR);
-                        block.setData((byte) 0, true);
                     }
                 }
 

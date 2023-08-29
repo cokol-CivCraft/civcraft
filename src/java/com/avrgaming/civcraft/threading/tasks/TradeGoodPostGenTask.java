@@ -147,13 +147,11 @@ public class TradeGoodPostGenTask implements Runnable {
                         break;
                     }
                     top.setType(Material.AIR);
-                    top.setData((byte) 0, true);
                     bcoord2.setY(bcoord2.getY() - 1);
                     for (BlockFace face : new BlockFace[]{BlockFace.NORTH, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST}) {
                         Block block = top.getRelative(face);
-                        if (block.getType() == Material.WALL_SIGN) {
+                        if (block.getType() == Material.OAK_WALL_SIGN) {
                             block.setType(Material.AIR);
-                            top.setData((byte) 0, true);
                         }
                     }
 
@@ -164,7 +162,7 @@ public class TradeGoodPostGenTask implements Runnable {
 
                 // Determine if we should be a water good.
                 ConfigTradeGood good;
-                if (world.getBlockAt(centerX, centerY - 1, centerZ).getType() == Material.STATIONARY_WATER ||
+                if (world.getBlockAt(centerX, centerY - 1, centerZ).getType() == Material.WATER ||
                         world.getBlockAt(centerX, centerY - 1, centerZ).getType() == Material.WATER) {
                     good = pick.waterPick;
                 } else {

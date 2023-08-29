@@ -89,7 +89,8 @@ public class TemplateStream {
             block = blocks.get(currentBlockCount);
         } else {
             /* allocate a new one and add to cache. */
-            block = new SimpleBlock(Material.getMaterial(Integer.parseInt(typeSplit[0])), Integer.parseInt(typeSplit[1]));
+//            block = new SimpleBlock(Material.getMaterial(Integer.parseInt(typeSplit[0])), Integer.parseInt(typeSplit[1]));
+            block = new SimpleBlock(Material.AIR.getNewData((byte) 0));
             blocks.add(block);
         }
         currentBlockCount++;
@@ -161,7 +162,9 @@ public class TemplateStream {
             bcoord.setY(bcoord.getY() + block.y);
             bcoord.setZ(bcoord.getZ() + block.z);
             bcoord.getBlock().setType(block.getType());
-            bcoord.getBlock().setData((byte) block.getData());
+            var data = bcoord.getBlock().getState();
+            data.setData(block.getMaterialData());
+            data.update(true, false);
         }
 
     }

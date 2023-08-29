@@ -79,7 +79,6 @@ public class CivGlobal {
     private static final Map<String, Civilization> adminCivs = new ConcurrentHashMap<>();
     private static final Map<ChunkCoord, TownChunk> townChunks = new ConcurrentHashMap<>();
     private static final Map<ChunkCoord, CultureChunk> cultureChunks = new ConcurrentHashMap<>();
-    private static final Map<ChunkCoord, Boolean> persistChunks = new ConcurrentHashMap<>();
     private static final Map<BlockCoord, Structure> structures = new ConcurrentHashMap<>();
     private static final Map<BlockCoord, Wonder> wonders = new ConcurrentHashMap<>();
     private static final Map<BlockCoord, StructureBlock> structureBlocks = new ConcurrentHashMap<>();
@@ -831,25 +830,6 @@ public class CivGlobal {
         TaskMaster.asyncTask("culture-process", new CultureProcessAsyncTask(), 0);
     }
 
-    public static void addPersistChunk(Location location, boolean b) {
-        ChunkCoord coord = new ChunkCoord(location);
-        persistChunks.put(coord, b);
-    }
-
-    public static boolean isPersistChunk(Location location) {
-        ChunkCoord coord = new ChunkCoord(location);
-        return persistChunks.get(coord);
-    }
-
-    public static Boolean isPersistChunk(Chunk chunk) {
-        ChunkCoord coord = new ChunkCoord(chunk.getWorld().getName(), chunk.getX(), chunk.getZ());
-        return persistChunks.get(coord);
-    }
-
-    public static void addPersistChunk(String worldname, int x, int z, boolean b) {
-        ChunkCoord coord = new ChunkCoord(worldname, x, z);
-        persistChunks.put(coord, b);
-    }
 
     public static Location getLocationFromHash(String hash) {
         String[] split = hash.split(",");
@@ -1295,7 +1275,7 @@ public class CivGlobal {
     public static boolean willInstantBreak(Material type) {
 
         return switch (type) {
-            case BED_BLOCK, BROWN_MUSHROOM, CROPS, DEAD_BUSH, DIODE, DIODE_BLOCK_OFF, DIODE_BLOCK_ON, FIRE, FLOWER_POT, FLOWER_POT_ITEM, GLASS, GRASS, LEAVES, LEVER, LONG_GRASS, MELON_STEM, NETHER_STALK, NETHER_WARTS, PUMPKIN_STEM, REDSTONE, REDSTONE_TORCH_OFF, REDSTONE_TORCH_ON, REDSTONE_WIRE, SAPLING, SKULL, SKULL_ITEM, SNOW, SUGAR_CANE_BLOCK, THIN_GLASS, TNT, TORCH, TRIPWIRE, TRIPWIRE_HOOK, VINE, WATER_LILY, YELLOW_FLOWER ->
+            case RED_BED, BROWN_MUSHROOM, WHEAT, DEAD_BUSH, REPEATER, FIRE, FLOWER_POT, GLASS, GRASS, OAK_LEAVES, LEVER, TALL_GRASS, MELON_STEM, NETHER_WART, PUMPKIN_STEM, REDSTONE, REDSTONE_TORCH, REDSTONE_WIRE, OAK_SAPLING, SKELETON_SKULL, SNOW, SUGAR_CANE, GLASS_PANE, TNT, TORCH, TRIPWIRE, TRIPWIRE_HOOK, VINE, LILY_PAD, DANDELION ->
                     true;
             default -> false;
         };

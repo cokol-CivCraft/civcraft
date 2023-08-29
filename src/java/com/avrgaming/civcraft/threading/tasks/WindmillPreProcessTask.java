@@ -88,9 +88,9 @@ public class WindmillPreProcessTask extends CivAsyncTask {
             }
 
             switch (stack.getType()) {
-                case SEEDS -> breadCount += stack.getAmount();
-                case CARROT_ITEM -> carrotCount += stack.getAmount();
-                case POTATO_ITEM -> potatoCount += stack.getAmount();
+                case WHEAT_SEEDS -> breadCount += stack.getAmount();
+                case CARROT -> carrotCount += stack.getAmount();
+                case POTATO -> potatoCount += stack.getAmount();
                 default -> {
                 }
             }
@@ -112,7 +112,7 @@ public class WindmillPreProcessTask extends CivAsyncTask {
                     for (int y = 0; y < 255; y++) {
 
 
-                        if (snapshot.getBlockType(x, y, z) == Material.SOIL) {
+                        if (snapshot.getBlockType(x, y, z) == Material.FARMLAND) {
                             if (snapshot.getBlockType(x, y + 1, z) == Material.AIR) {
                                 int blockx = (snapshot.getX() * 16) + x;
                                 int blocky = y + 1;

@@ -139,7 +139,7 @@ public class FishHatchery extends Structure {
             } catch (IllegalStateException ignored) {
 
             } finally {
-                biome = Biome.BIRCH_FOREST_HILLS;
+                biome = Biome.BIRCH_FOREST;
             }
         }
         return biome;

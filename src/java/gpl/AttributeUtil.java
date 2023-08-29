@@ -6,6 +6,10 @@ import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_20_R1.inventory.CraftItemStack;
@@ -105,27 +109,27 @@ public class AttributeUtil {
     }
  
     public static class Attribute {
-        private final NBTTagCompound data;
+        private final CompoundTag data;
  
         private Attribute(Builder builder) {
-            data = new NBTTagCompound();
+            data = new CompoundTag();
             setAmount(builder.amount);
             setOperation(builder.operation);
             setAttributeType(builder.type);
             setName(builder.name);
             setUUID(builder.uuid);
         }
-        
-        private Attribute(NBTTagCompound data) {
+
+        private Attribute(CompoundTag data) {
             this.data = data;
         }
         
         public double getAmount() {
-            return data.k("Amount");
+            return data.getDouble("Amount");
         }
  
         public void setAmount(double amount) {
-            data.a("Amount", amount);
+            data.putDouble("Amount", amount);
         }
  
         public Operation getOperation() {
@@ -134,7 +138,7 @@ public class AttributeUtil {
 
         public void setOperation(@NotNull Operation operation) {
             Preconditions.checkNotNull(operation, "operation cannot be NULL.");
-            data.a("Operation", operation.getId());
+            data.putInt("Operation", operation.getId());
         }
  
         public AttributeType getAttributeType() {
@@ -143,7 +147,7 @@ public class AttributeUtil {
 
         public void setAttributeType(@NotNull AttributeType type) {
             Preconditions.checkNotNull(type, "type cannot be NULL.");
-            data.a("AttributeName", type.minecraftId());
+            data.putString("AttributeName", type.minecraftId());
         }
  
         public String getName() {
@@ -151,7 +155,7 @@ public class AttributeUtil {
         }
 
         public void setName(@NotNull String name) {
-            data.a("Name", name);
+            data.putString("Name", name);
         }
  
         public UUID getUUID() {
@@ -159,8 +163,8 @@ public class AttributeUtil {
         }
 
         public void setUUID(@NotNull UUID id) {
-            data.a("UUIDLeast", id.getLeastSignificantBits());
-            data.a("UUIDMost", id.getMostSignificantBits());
+            data.putLong("UUIDLeast", id.getLeastSignificantBits());
+            data.putLong("UUIDMost", id.getMostSignificantBits());
         }
  
         /**
@@ -211,9 +215,9 @@ public class AttributeUtil {
     
     // This may be modified
     public net.minecraft.world.item.ItemStack nmsStack;
-    
-    private NBTTagCompound parent;
-    private NBTTagList attributes;
+
+    private CompoundTag parent;
+    private ListTag attributes;
     
     public AttributeUtil(ItemStack stack) {
         // Create a CraftItemStack (under the hood)
@@ -232,20 +236,20 @@ public class AttributeUtil {
       //  }
         
         // Load NBT
-        if (nmsStack.v() == null) {
-        	parent = new NBTTagCompound();
-            nmsStack.c(parent);
+        if (nmsStack.getTag() == null) {
+            parent = new CompoundTag();
+            nmsStack.setTag(parent);
         } else {
-            parent = nmsStack.v();
+            parent = nmsStack.getTag();
         }
         
         // Load attribute list
-        if (parent.hasKey("AttributeModifiers")) {
+        if (parent.contains("AttributeModifiers")) {
             attributes = parent.getList("AttributeModifiers", NBTStaticHelper.TAG_COMPOUND);
         } else {
         	/* No attributes on this item detected. */
-            attributes = new NBTTagList();
-            parent.a("AttributeModifiers", attributes);
+            attributes = new ListTag();
+            parent.put("AttributeModifiers", attributes);
         }
     }
     
@@ -258,7 +262,7 @@ public class AttributeUtil {
             return new ItemStack(Material.WHITE_WOOL);
         }
 
-        if (nmsStack.v() != null) {
+        if (nmsStack.getTag() != null) {
             if (attributes.isEmpty()) {
     			parent.remove("AttributeModifiers");
     		}
@@ -303,43 +307,35 @@ public class AttributeUtil {
     }
     
     public void removeAll() {
-    	 attributes = new NBTTagList();
+        attributes = new ListTag();
     	 if (parent != null) {
-             parent.a("AttributeModifiers", attributes);
+             parent.put("AttributeModifiers", attributes);
     	 }
     }
     
     
     public void clear() {
-        parent.a("AttributeModifiers", attributes = new NBTTagList());
+        parent.put("AttributeModifiers", attributes = new ListTag());
     }
-    
-    /**
-     * Retrieve the attribute at a given index.
-     * @param index - the index to look up.
-     * @return The attribute at that index.
-     */
-    public Attribute get(int index) {
-        return new Attribute(attributes.get(index));
-    }
+
  
     // We can't make Attributes itself iterable without splitting it up into separate classes
     public Iterable<Attribute> values() {
-        final List<NBTBase> list = getList();
+        final List<Tag> list = getList();
 
         return () -> {
             // Generics disgust me sometimes
             return Iterators.transform(
-                    list.iterator(), data -> new Attribute((NBTTagCompound) data));
+                    list.iterator(), data -> new Attribute((CompoundTag) data));
         };
     }
  
     @SuppressWarnings("unchecked")
-    private <T> List<T> getList() {
+    private List<Tag> getList() {
         try {
-            Field listField = NBTTagList.class.getDeclaredField("list");
+            Field listField = ListTag.class.getDeclaredField("list");
             listField.setAccessible(true);
-            return (List<T>) listField.get(attributes);
+            return (List<Tag>) listField.get(attributes);
             
         } catch (Exception e) {
             throw new RuntimeException("Unable to access reflection.", e);
@@ -352,23 +348,16 @@ public class AttributeUtil {
     	}
     	
     	if (nmsStack.getTag() == null) {
-    		nmsStack.setTag(new NBTTagCompound());
+            nmsStack.setTag(new CompoundTag());
     	}
     	//this.lore.add(str);
-    	NBTTagCompound displayCompound = nmsStack.getTag().getCompound("display");
-    
-    	if (displayCompound == null) {
-    		displayCompound = new NBTTagCompound();
-    	}
-    	
-    	NBTTagList loreList = displayCompound.getList("Lore", NBTStaticHelper.TAG_STRING);
-    	if (loreList == null) {
-    		loreList = new NBTTagList();
-    	}
+        CompoundTag displayCompound = nmsStack.getTag().getCompound("display");
 
-        loreList.add(NBTTagString.a(str));
-        displayCompound.a("Lore", loreList);
-    	nmsStack.getTag().set("display", displayCompound);    	 
+        ListTag loreList = displayCompound.getList("Lore", NBTStaticHelper.TAG_STRING);
+
+        loreList.add(StringTag.valueOf(str));
+        displayCompound.put("Lore", loreList);
+        nmsStack.getTag().put("display", displayCompound);
     }
     
     public String[] getLore() {
@@ -379,14 +368,14 @@ public class AttributeUtil {
     	if (nmsStack.getTag() == null) {
     		return null;
     	}
-    	
-    	NBTTagCompound displayCompound = nmsStack.getTag().getCompound("display");
+
+        CompoundTag displayCompound = nmsStack.getTag().getCompound("display");
     	
     	if (displayCompound == null) {
     		return null;
     	}
 
-    	NBTTagList loreList = displayCompound.getList("Lore", NBTStaticHelper.TAG_STRING);
+        ListTag loreList = displayCompound.getList("Lore", NBTStaticHelper.TAG_STRING);
     	if (loreList == null) {
     		return null;
     	}
@@ -411,56 +400,56 @@ public class AttributeUtil {
     
     public void setLore(String[] strings) {
     	//this.lore.add(str);
-    	NBTTagCompound displayCompound = nmsStack.getTag().getCompound("display");
+        CompoundTag displayCompound = nmsStack.getTag().getCompound("display");
     
     	if (displayCompound == null) {
-    		displayCompound = new NBTTagCompound();
+            displayCompound = new CompoundTag();
     	}
-    	
-    	NBTTagList loreList = new NBTTagList();
+
+        ListTag loreList = new ListTag();
     	
     	for (String str : strings) {
-        	loreList.add(new NBTTagString(str));
+            loreList.add(StringTag.valueOf(str));
     	}
-    	
-    	displayCompound.set("Lore", loreList);
-    	nmsStack.getTag().set("display", displayCompound);    	 
+
+        displayCompound.put("Lore", loreList);
+        nmsStack.getTag().put("display", displayCompound);
     }
     
     public void addEnhancement(String enhancementName, String key, String value) {
     	if (enhancementName.equalsIgnoreCase("name")) {
     		throw new IllegalArgumentException();
     	}
-    	
-    	NBTTagCompound compound = nmsStack.getTag().getCompound("item_enhancements");
+
+        CompoundTag compound = nmsStack.getTag().getCompound("item_enhancements");
     	
     	if (compound == null) {
-    		compound = new NBTTagCompound();
+            compound = new CompoundTag();
     	}
-    	
-    	NBTTagCompound enhCompound = compound.getCompound(enhancementName);
+
+        CompoundTag enhCompound = compound.getCompound(enhancementName);
     	if (enhCompound == null) {
-    		enhCompound = new NBTTagCompound();
+            enhCompound = new CompoundTag();
     	}
     	
     	if (key != null) {
     		_setEnhancementData(enhCompound, key, value);
     	}
-        enhCompound.a("name", NBTTagString.a(enhancementName));
+        enhCompound.putString("name", enhancementName);
 
-        compound.a(enhancementName, enhCompound);
-    	nmsStack.getTag().set("item_enhancements", compound);
+        compound.put(enhancementName, enhCompound);
+        nmsStack.getTag().put("item_enhancements", compound);
     }
     
 //	not used yet...
 
 
-    private void _setEnhancementData(NBTTagCompound enhCompound, String key, String value) {
+    private void _setEnhancementData(CompoundTag enhCompound, String key, String value) {
     	if (key.equalsIgnoreCase("name")) {
     		throw new IllegalArgumentException();
     	}
 
-        enhCompound.a(key, NBTTagString.a(value));
+        enhCompound.put(key, StringTag.valueOf(value));
     }
     
 
@@ -473,11 +462,11 @@ public class AttributeUtil {
 		if (!hasEnhancement(enhName)) {
 			return null;
 		}
-    	
-		NBTTagCompound compound = nmsStack.getTag().getCompound("item_enhancements");
-		NBTTagCompound enhCompound = compound.getCompound(enhName);
-		
-		if (!enhCompound.hasKey(key)) {
+
+        CompoundTag compound = nmsStack.getTag().getCompound("item_enhancements");
+        CompoundTag enhCompound = compound.getCompound(enhName);
+
+        if (!enhCompound.contains(key)) {
 			return null;
 		}
 				
@@ -491,16 +480,16 @@ public class AttributeUtil {
             return returnList;
         }
 
-        NBTTagCompound compound = nmsStack.getTag().getCompound("item_enhancements");
+        CompoundTag compound = nmsStack.getTag().getCompound("item_enhancements");
 
-        for (String keyObj : compound.c()) {
+        for (String keyObj : compound.getAllKeys()) {
             if (keyObj == null) {
                 continue;
             }
 
             Object obj = compound.get(keyObj);
 
-            if (obj instanceof NBTTagCompound enhCompound) {
+            if (obj instanceof CompoundTag enhCompound) {
                 String name = enhCompound.getString("name").replace("\"", "");
 
                 LoreEnhancement enh = LoreEnhancement.enhancements.get(name);
@@ -514,12 +503,12 @@ public class AttributeUtil {
 	}
 	
     public boolean hasEnhancement(String enhName) {
-    	NBTTagCompound compound = nmsStack.getTag().getCompound("item_enhancements");
+        CompoundTag compound = nmsStack.getTag().getCompound("item_enhancements");
     	if (compound == null) {
     		return false;
     	}
-    	
-    	return compound.hasKey(enhName);
+
+        return compound.contains(enhName);
 	}
     
 	public boolean hasEnhancements() {
@@ -530,8 +519,8 @@ public class AttributeUtil {
 		if (nmsStack.getTag() == null) {
 			return false;
 		}
-		
-		return nmsStack.getTag().hasKey("item_enhancements");
+
+        return nmsStack.getTag().contains("item_enhancements");
 	}
     
     public void setCivCraftProperty(String key, String value) {
@@ -541,30 +530,26 @@ public class AttributeUtil {
     	}
     	
     	if (nmsStack.getTag() == null) {
-    		nmsStack.setTag(new NBTTagCompound());
-    	}
-    	
-    	NBTTagCompound civcraftCompound = nmsStack.getTag().getCompound("civcraft");
-    	
-    	if (civcraftCompound == null) {
-    		civcraftCompound = new NBTTagCompound();
+            nmsStack.setTag(new CompoundTag());
     	}
 
-        civcraftCompound.a(key, NBTTagString.a(value));
-    	nmsStack.getTag().set("civcraft", civcraftCompound);
+        CompoundTag civcraftCompound = nmsStack.getTag().getCompound("civcraft");
+
+        civcraftCompound.putString(key, value);
+        nmsStack.getTag().put("civcraft", civcraftCompound);
     }
     
     public String getCivCraftProperty(String key) {
     	if (nmsStack == null) {
     		return null;
     	}
-    	NBTTagCompound civcraftCompound = nmsStack.getTag().getCompound("civcraft");
+        CompoundTag civcraftCompound = nmsStack.getTag().getCompound("civcraft");
     	
     	if (civcraftCompound == null) {
     		return null;
     	}
-    	
-    	NBTTagString strTag = (NBTTagString) civcraftCompound.get(key);
+
+        StringTag strTag = (StringTag) civcraftCompound.get(key);
     	if (strTag == null) {
     		return null;
     	}
@@ -576,8 +561,8 @@ public class AttributeUtil {
 		if (nmsStack == null) {
     		return;
     	}
-    
-		NBTTagCompound civcraftCompound = nmsStack.getTag().getCompound("civcraft");
+
+        CompoundTag civcraftCompound = nmsStack.getTag().getCompound("civcraft");
     	if (civcraftCompound == null) {
     		return;
     	}
@@ -595,24 +580,24 @@ public class AttributeUtil {
     	}
     	
     	if (nmsStack.getTag() == null) {
-    		nmsStack.setTag(new NBTTagCompound());
-    	}
-		
-    	NBTTagCompound displayCompound = nmsStack.getTag().getCompound("display");
-    	
-		if (displayCompound == null) {
-    		displayCompound = new NBTTagCompound();
+            nmsStack.setTag(new CompoundTag());
     	}
 
-        displayCompound.a("Name", NBTTagString.a(ChatColor.RESET + name));
-    	nmsStack.getTag().set("display", displayCompound);    	 
+        CompoundTag displayCompound = nmsStack.getTag().getCompound("display");
+    	
+		if (displayCompound == null) {
+            displayCompound = new CompoundTag();
+    	}
+
+        displayCompound.putString("Name", ChatColor.RESET + name);
+        nmsStack.getTag().put("display", displayCompound);
 	}
 	
 	public String getName() {
-    	NBTTagCompound displayCompound = nmsStack.getTag().getCompound("display");
+        CompoundTag displayCompound = nmsStack.getTag().getCompound("display");
     	
 		if (displayCompound == null) {
-    		displayCompound = new NBTTagCompound();
+            displayCompound = new CompoundTag();
     	}
 
         String name = displayCompound.getString("Name");
@@ -622,40 +607,40 @@ public class AttributeUtil {
 
 
 	public void setColor(Long long1) {
-    	NBTTagCompound displayCompound = nmsStack.getTag().getCompound("display");
+        CompoundTag displayCompound = nmsStack.getTag().getCompound("display");
     	
 		if (displayCompound == null) {
-    		displayCompound = new NBTTagCompound();
+            displayCompound = new CompoundTag();
     	}
-				
-		displayCompound.set("color", new NBTTagInt(long1.intValue()));
-    	nmsStack.getTag().set("display", displayCompound); 
+
+        displayCompound.putInt("color", long1.intValue());
+        nmsStack.getTag().put("display", displayCompound);
 	}
 	
 	public void setSkullOwner(String string) {
 		if (nmsStack == null) {
 			return;
 		}
-		
-		NBTTagCompound skullCompound = nmsStack.getTag().getCompound("SkullOwner");
+
+        CompoundTag skullCompound = nmsStack.getTag().getCompound("SkullOwner");
 		if (skullCompound == null) {
-			skullCompound = new NBTTagCompound();
+            skullCompound = new CompoundTag();
 		}
-		
-		skullCompound.set("Name", new NBTTagString(string));
-		nmsStack.getTag().set("SkullOwner", skullCompound);		
+
+        skullCompound.putString("Name", string);
+        nmsStack.getTag().put("SkullOwner", skullCompound);
 	}
 	
 	public void setHideFlag(int flags) {
 		if (nmsStack == null) {
 			return;
 		}
-		
-		nmsStack.getTag().setInt("HideFlags", flags);
+
+        nmsStack.getTag().putInt("HideFlags", flags);
 	}
 	
 	public int getColor() {
-    	NBTTagCompound displayCompound = nmsStack.getTag().getCompound("display");
+        CompoundTag displayCompound = nmsStack.getTag().getCompound("display");
     	if (displayCompound == null) {
     		return 0;
     	}
@@ -671,13 +656,13 @@ public class AttributeUtil {
 		if (nmsStack.getTag() == null) {
 			return false;
 		}
-		
-    	NBTTagCompound displayCompound = nmsStack.getTag().getCompound("display");
+
+        CompoundTag displayCompound = nmsStack.getTag().getCompound("display");
     	if (displayCompound == null) {
     		return false;
     	}
-    	
-    	return displayCompound.hasKey("color");
+
+        return displayCompound.contains("color");
 	}
 	
 	
@@ -695,8 +680,8 @@ public class AttributeUtil {
 		if (nmsStack == null) {
     		return;
     	}
-    
-		NBTTagCompound civcraftCompound = nmsStack.getTag().getCompound("civcraft");
+
+        CompoundTag civcraftCompound = nmsStack.getTag().getCompound("civcraft");
     	if (civcraftCompound == null) {
     		return;
     	}
@@ -712,8 +697,8 @@ public class AttributeUtil {
 		if (nmsStack.getTag() == null) {
 			return false;
 		}
-		
-        return nmsStack.getTag().hasKey("civ_enhancements");
+
+        return nmsStack.getTag().contains("civ_enhancements");
 	}
 
 	public void addLore(String[] lore) {

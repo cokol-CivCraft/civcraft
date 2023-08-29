@@ -43,11 +43,16 @@ import com.avrgaming.civcraft.util.ItemFrameStorage;
 import com.avrgaming.civcraft.war.War;
 import com.avrgaming.civcraft.war.WarRegen;
 import gpl.HorseModifier;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.phys.AABB;
 import org.bukkit.*;
 import org.bukkit.FireworkEffect.Type;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.craftbukkit.v1_20_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_20_R1.entity.CraftEntity;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -62,7 +67,6 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
-import org.bukkit.event.world.ChunkUnloadEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 import org.bukkit.potion.PotionEffect;
@@ -739,7 +743,7 @@ public class BlockListener implements Listener {
             }
         }
 
-        if (event.getItem().getType() == Material.INK_SACK) {
+        if (event.getItem().getType() == Material.INK_SAC) {
             //if (event.getItem().getDurability() == 15) {
             event.setCancelled(true);
             //}
@@ -924,7 +928,7 @@ public class BlockListener implements Listener {
                 if (tc.getTown().getCiv().getDiplomacyManager().atWarWith(resident.getTown().getCiv())) {
 
                     switch (event.getClickedBlock().getType()) {
-                        case OAK_DOOR, IRON_DOOR, SPRUCE_DOOR, BIRCH_DOOR, JUNGLE_DOOR, ACACIA_DOOR, DARK_OAK_DOOR, ACACIA_FENCE_GATE, BIRCH_FENCE_GATE, DARK_OAK_FENCE_GATE, FENCE_GATE, SPRUCE_FENCE_GATE, JUNGLE_FENCE_GATE -> {
+                        case OAK_DOOR, IRON_DOOR, SPRUCE_DOOR, BIRCH_DOOR, JUNGLE_DOOR, ACACIA_DOOR, DARK_OAK_DOOR, ACACIA_FENCE_GATE, BIRCH_FENCE_GATE, DARK_OAK_FENCE_GATE, OAK_FENCE_GATE, SPRUCE_FENCE_GATE, JUNGLE_FENCE_GATE -> {
                             return;
                         }
                         default -> {
@@ -1032,7 +1036,7 @@ public class BlockListener implements Listener {
                 case RABBIT -> {
                     if (inHand.getType().equals(Material.CARROT) ||
                             inHand.getType().equals(Material.GOLDEN_CARROT) ||
-                            inHand.getType().equals(Material.YELLOW_FLOWER)) {
+                            inHand.getType().equals(Material.DANDELION)) {
                         denyBreeding = true;
                     }
                 }
@@ -1049,8 +1053,8 @@ public class BlockListener implements Listener {
                     event.setCancelled(true);
                 } else {
                     int loveTicks;
-                    NBTTagCompound tag = new NBTTagCompound();
-                    ((CraftEntity) event.getRightClicked()).getHandle().c(tag);
+                    CompoundTag tag = new CompoundTag();
+                    ((CraftEntity) event.getRightClicked()).getHandle().save(tag);
                     loveTicks = tag.getInt("InLove");
 
                     if (loveTicks == 0) {
@@ -1125,14 +1129,6 @@ public class BlockListener implements Listener {
         }
 
 
-    }
-
-    @EventHandler(priority = EventPriority.HIGH)
-    public void onChunkUnloadEvent(ChunkUnloadEvent event) {
-        Boolean persist = CivGlobal.isPersistChunk(event.getChunk());
-        if (persist != null && persist) {
-            event.setCancelled(true);
-        }
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -1222,7 +1218,7 @@ public class BlockListener implements Listener {
                 event.setCancelled(true);
                 return;
             }
-            NBTTagCompound compound = new NBTTagCompound();
+            CompoundTag compound = new CompoundTag();
             if (compound.getBoolean("IsChickenJockey")) {
                 event.setCancelled(true);
                 return;
@@ -1358,8 +1354,7 @@ public class BlockListener implements Listener {
                 entityName = shooter.getCustomName();
             }
             if (entityName != null && entityName.endsWith(" Ruffian")) {
-                EntityInsentient nmsEntity = (EntityInsentient) ((CraftLivingEntity) shooter).getHandle();
-                AttributeInstance attribute = nmsEntity.getAttributeInstance(GenericAttributes.ATTACK_DAMAGE);
+                AttributeInstance attribute = shooter.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
                 double damage = attribute.getValue();
 
                 class RuffianProjectile {
@@ -1435,24 +1430,24 @@ public class BlockListener implements Listener {
 
                         CraftWorld craftWorld = (CraftWorld) attacker.getWorld();
 
-                        AxisAlignedBB bb = AxisAlignedBB(x - (double) radius, y - (double) radius, z - (double) radius, x + (double) radius, y + (double) radius, z + (double) radius);
+                        AABB bb = new AABB(x - (double) radius, y - (double) radius, z - (double) radius, x + (double) radius, y + (double) radius, z + (double) radius);
 
-                        List<net.minecraft.server.v1_12_R1.Entity> entities = craftWorld.getHandle().getEntities(((CraftEntity) attacker).getHandle(), bb);
+                        List<net.minecraft.world.entity.Entity> entities = craftWorld.getHandle().getEntities(((CraftEntity) attacker).getHandle(), bb, (te) -> true);
 
-                        for (net.minecraft.server.v1_12_R1.Entity e : entities) {
-                            if (e instanceof EntityPlayer) {
-                                EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(attacker, ((EntityPlayer) e).getBukkitEntity(), DamageCause.ENTITY_ATTACK, damage);
+                        for (net.minecraft.world.entity.Entity e : entities) {
+                            if (e instanceof net.minecraft.world.entity.player.Player) {
+                                EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(attacker, ((net.minecraft.world.entity.player.Player) e).getBukkitEntity(), DamageCause.ENTITY_ATTACK, damage);
                                 Bukkit.getServer().getPluginManager().callEvent(event);
-                                e.damageEntity(DamageSource.GENERIC, (float) event.getDamage());
+                                ((net.minecraft.world.entity.player.Player) e).hurt(e.damageSources().generic(), (float) event.getDamage());
                             }
                         }
 
                     }
 
 
-                    private AxisAlignedBB AxisAlignedBB(double d, double e,
+                    private AABB AABB(double d, double e,
                                                         double f, double g, double h, double i) {
-                        return new AxisAlignedBB(d, e, f, g, h, i);
+                        return new AABB(d, e, f, g, h, i);
 //						return null;
                     }
 
@@ -1561,7 +1556,7 @@ public class BlockListener implements Listener {
 
         CampBlock cb = CivGlobal.getCampBlock(bcoord);
         if (cb != null) {
-            if (event.getBlock().getType() == Material.WOOD_DOOR ||
+            if (event.getBlock().getType() == Material.OAK_DOOR ||
                     event.getBlock().getType() == Material.IRON_DOOR ||
                     event.getBlock().getType() == Material.SPRUCE_DOOR ||
                     event.getBlock().getType() == Material.BIRCH_DOOR ||

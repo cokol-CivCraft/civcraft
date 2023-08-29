@@ -168,7 +168,7 @@ public class Civilization extends SQLObject {
         var data = new ByteArrayInputStream(rs.getBytes("nbt"));
         CompoundTag nbt;
         try {
-            nbt = NBTCompressedStreamTools.a(data);
+            nbt = NbtIo.readCompressed(data);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -181,8 +181,8 @@ public class Civilization extends SQLObject {
         capitolName = nbt.getString("capitolName");
         setLeaderGroupName(nbt.getString("leaderGroupName"));
         setAdvisersGroupName(nbt.getString("advisersGroupName"));
-        daysInDebt = nbt.h("daysInDebt");
-        this.color = nbt.h("color");
+        daysInDebt = nbt.getInt("daysInDebt");
+        this.color = nbt.getInt("color");
         this.setResearchTech(CivSettings.techs.get(nbt.getString("researchTech")));
         this.setResearchProgress(nbt.getDouble("researchProgress"));
         this.setGovernment(nbt.getString("government_id"));
@@ -190,18 +190,18 @@ public class Civilization extends SQLObject {
         this.loadKeyValueString(nbt.getString("lastTaxesTick"), this.lastTaxesPaidMap);
         this.setSciencePercentage(nbt.getDouble("science_percentage"));
         this.setCivReligion(CivSettings.religions.get(nbt.getString("religion_id")));
-        NBTTagList researched_techs_list = (NBTTagList) nbt.c("researched_techs");
+        ListTag researched_techs_list = nbt.getList("researched_techs", Tag.TAG_STRING);
         for (int i = 0; i < researched_techs_list.size(); i++) {
-            ConfigTech t = CivSettings.techs.get(researched_techs_list.j(i));
+            ConfigTech t = CivSettings.techs.get(researched_techs_list.getString(i));
             if (t == null) {
                 continue;
             }
             CivGlobal.researchedTechs.add(t.id.toLowerCase());
             this.techs.put(t.id, t);
         }
-        this.adminCiv = nbt.q("adminCiv");
-        this.conquered = nbt.q("conquered");
-        long ctime = nbt.i("conquered_date");
+        this.adminCiv = nbt.getBoolean("adminCiv");
+        this.conquered = nbt.getBoolean("conquered");
+        long ctime = nbt.getLong("conquered_date");
         this.incomeTaxRate = loadIncomeTaxRate();
         if (ctime == 0) {
             this.conquer_date = null;
@@ -209,18 +209,18 @@ public class Civilization extends SQLObject {
             this.conquer_date = new Date(ctime);
         }
 
-        String motd = nbt.l("motd");
+        String motd = nbt.getString("motd");
         if (motd.isEmpty()) {
             this.messageOfTheDay = null; //Forever in the past.
         } else {
             this.messageOfTheDay = motd;
         }
 
-        this.created_date = new Date(nbt.i("created_date"));
+        this.created_date = new Date(nbt.getLong("created_date"));
 
         this.setTreasury(CivGlobal.createEconObject(this));
-        this.getTreasury().setBalance(nbt.k("coins"), false);
-        this.getTreasury().setDebt(nbt.k("debt"));
+        this.getTreasury().setBalance(nbt.getDouble("coins"), false);
+        this.getTreasury().setDebt(nbt.getDouble("debt"));
 
         for (ConfigTech tech : this.getTechs()) {
             if (tech.era > this.getCurrentEra()) {
@@ -237,50 +237,50 @@ public class Civilization extends SQLObject {
     @Override
     public void saveNow() throws SQLException {
         HashMap<String, Object> hashmap = new HashMap<>();
-        CompoundTag nbt = new NBTTagCompound();
+        CompoundTag nbt = new CompoundTag();
 
         nbt.putString("name", this.getName());
         nbt.putString("leaderName", this.getLeader().getUUIDString());
 
         nbt.putString("capitolName", this.capitolName);
-        nbt.a("leaderGroupName", this.getLeaderGroupName());
-        nbt.a("advisersGroupName", this.getAdvisersGroupName());
-        nbt.a("debt", this.getTreasury().getDebt());
-        nbt.a("coins", this.getTreasury().getBalance());
-        nbt.a("daysInDebt", this.daysInDebt);
-        nbt.a("science_percentage", this.getSciencePercentage());
-        nbt.a("color", this.getColor());
-        nbt.a("religion_id", this.getReligion().id);
+        nbt.putString("leaderGroupName", this.getLeaderGroupName());
+        nbt.putString("advisersGroupName", this.getAdvisersGroupName());
+        nbt.putDouble("debt", this.getTreasury().getDebt());
+        nbt.putDouble("coins", this.getTreasury().getBalance());
+        nbt.putInt("daysInDebt", this.daysInDebt);
+        nbt.putDouble("science_percentage", this.getSciencePercentage());
+        nbt.putInt("color", this.getColor());
+        nbt.putString("religion_id", this.getReligion().id);
         //hashmap.put("taxrate", this.getIncomeTaxRate());
         if (this.getResearchTech() != null) {
-            nbt.a("researchTech", this.getResearchTech().id);
+            nbt.putString("researchTech", this.getResearchTech().id);
         }
-        nbt.a("researchProgress", this.getResearchProgress());
-        nbt.a("government_id", this.getGovernment().id);
-        nbt.a("lastUpkeepTick", this.saveKeyValueString(this.lastUpkeepPaidMap));
-        nbt.a("lastTaxesTick", this.saveKeyValueString(this.lastTaxesPaidMap));
-        NBTTagList researched_techs_list = new NBTTagList();
+        nbt.putDouble("researchProgress", this.getResearchProgress());
+        nbt.putString("government_id", this.getGovernment().id);
+        nbt.putString("lastUpkeepTick", this.saveKeyValueString(this.lastUpkeepPaidMap));
+        nbt.putString("lastTaxesTick", this.saveKeyValueString(this.lastTaxesPaidMap));
+        ListTag researched_techs_list = new ListTag();
         for (ConfigTech tech : this.techs.values()) {
-            researched_techs_list.add(NBTTagString.a(tech.id));
+            researched_techs_list.add(StringTag.valueOf(tech.id));
         }
-        nbt.a("researched_techs", researched_techs_list);
+        nbt.put("researched_techs", researched_techs_list);
         if (this.adminCiv) {
-            nbt.a("adminCiv", true);
+            nbt.putBoolean("adminCiv", true);
         }
         if (this.conquered) {
-            nbt.a("conquered", true);
-            nbt.a("conquered_date", this.conquer_date.getTime());
+            nbt.putBoolean("conquered", true);
+            nbt.putLong("conquered_date", this.conquer_date.getTime());
         }
 
         if (this.messageOfTheDay != null) {
-            nbt.a("motd", this.messageOfTheDay);
+            nbt.putString("motd", this.messageOfTheDay);
         }
 
-        nbt.a("created_date", this.created_date.getTime());
+        nbt.putLong("created_date", this.created_date.getTime());
 
         var data = new ByteArrayOutputStream();
         try {
-            NBTCompressedStreamTools.a(nbt, data);
+            NbtIo.writeCompressed(nbt, data);
         } catch (IOException e) {
             e.printStackTrace();
         }

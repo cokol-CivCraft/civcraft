@@ -15,10 +15,10 @@ import com.avrgaming.civcraft.threading.tasks.FireWorkTask;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.EntityProximity;
 import com.avrgaming.civcraft.war.WarRegen;
-import net.minecraft.server.level.EntityPlayer;
 import org.bukkit.*;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -152,7 +152,7 @@ public class CannonProjectile {
         }
 
         /* Instantly kill any players caught in the blast. */
-        LinkedList<Entity> players = EntityProximity.getNearbyEntities(null, loc, yield, EntityPlayer.class);
+        LinkedList<Entity> players = EntityProximity.getNearbyEntities(null, loc, yield, CraftPlayer.class);
         for (Entity e : players) {
             Player player = (Player) e;
             player.damage(playerDamage);

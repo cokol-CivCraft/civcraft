@@ -377,9 +377,9 @@ public class TradeLevelComponent extends Component {
                     default -> {
                         int emeraldRand = (rand.nextInt(4)) + 1;
                         if (emeraldRand >= 3) {
-                            newItems.add(new ItemStack(Material.SULPHUR, 3, (short) 0));
+                            newItems.add(new ItemStack(Material.GUNPOWDER, 3));
                         } else {
-                            newItems.add(new ItemStack(Material.EMERALD, 1, (short) 0));
+                            newItems.add(new ItemStack(Material.EMERALD));
                         }
                     }
                 }
@@ -408,9 +408,9 @@ public class TradeLevelComponent extends Component {
                     default -> {
                         int diamondRand = (rand.nextInt(4)) + 1;
                         if (diamondRand >= 3) {
-                            newItems.add(new ItemStack(Material.SULPHUR, 2, (short) 0));
+                            newItems.add(new ItemStack(Material.GUNPOWDER, 2));
                         } else {
-                            newItems.add(new ItemStack(Material.DIAMOND, 1, (short) 0));
+                            newItems.add(new ItemStack(Material.DIAMOND, 1));
                         }
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_metallic_crystal_fragment_3"), (rand.nextInt(3)) + 1));
                         newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_fragment_3"), (rand.nextInt(3)) + 1));
@@ -437,7 +437,7 @@ public class TradeLevelComponent extends Component {
                     default -> {
                         int goldRand = (rand.nextInt(4)) + 1;
                         if (goldRand >= 3) {
-                            newItems.add(new ItemStack(Material.SULPHUR, 2, (short) 0));
+                            newItems.add(new ItemStack(Material.GUNPOWDER, 2, (short) 0));
                         } else {
                             newItems.add(new ItemStack(Material.GOLD_INGOT, 1, (short) 0));
                         }
@@ -466,9 +466,9 @@ public class TradeLevelComponent extends Component {
                     default -> {
                         int ironRand = (rand.nextInt(4)) + 1;
                         if (ironRand >= 3) {
-                            newItems.add(new ItemStack(Material.SULPHUR, 1, (short) 0));
+                            newItems.add(new ItemStack(Material.GUNPOWDER));
                         } else {
-                            newItems.add(new ItemStack(Material.IRON_INGOT, 1, (short) 0));
+                            newItems.add(new ItemStack(Material.IRON_INGOT));
                         }
                     }
                 }

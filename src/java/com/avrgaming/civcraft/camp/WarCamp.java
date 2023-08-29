@@ -301,7 +301,7 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
                         if (nextBlock.getType() != tpl.blocks[x][y][z].getType()) {
                             /* XXX Save it as a war block so it's automatically removed when war time ends. */
                             WarRegen.saveBlock(nextBlock, WarCamp.RESTORE_NAME, false);
-                            nextBlock.setData(tpl.blocks[x][y][z].getMaterialData().getData()); //TODO
+                            nextBlock.setBlockData(tpl.blocks[x][y][z].getType().createBlockData()); //TODO
                         }
 
                         if (nextBlock.getType() != Material.AIR) {
@@ -372,8 +372,7 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
         //for (int i = 0; i < 1; i++) {
         Block b = centerLoc.getBlock();
         WarRegen.saveBlock(b, WarCamp.RESTORE_NAME, false);
-        b.setType(Material.FENCE);
-        b.setData((byte) 0);
+        b.setType(Material.OAK_FENCE);
 
         StructureBlock sb = new StructureBlock(new BlockCoord(b), this);
         this.addStructureBlock(sb.getCoord(), true);

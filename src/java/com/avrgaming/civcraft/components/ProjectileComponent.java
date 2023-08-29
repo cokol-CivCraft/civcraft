@@ -25,10 +25,8 @@ import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.BlockCoord;
-import net.minecraft.world.phys.Vec3D;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_20_R1.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -137,10 +135,12 @@ public abstract class ProjectileComponent extends Component {
     }
 
     private boolean canSee(Player player, Location loc2) {
-        Location loc1 = player.getLocation();
-        Vec3D vec1 = new Vec3D(loc1.getX(), loc1.getY() + player.getEyeHeight(), loc1.getZ());
-        Vec3D vec2 = new Vec3D(loc2.getX(), loc2.getY(), loc2.getZ());
-        return ((CraftWorld) loc1.getWorld()).getHandle().rayTrace(vec1, vec2) == null;
+        return true;
+        // TODO
+//        Location loc1 = player.getLocation();
+//        Vec3D vec1 = new Vec3D(loc1.getX(), loc1.getY() + player.getEyeHeight(), loc1.getZ());
+//        Vec3D vec2 = new Vec3D(loc2.getX(), loc2.getY(), loc2.getZ());
+//        return ((CraftWorld) loc1.getWorld()).getHandle().rayTrace(vec1, vec2) == null;
     }
 
     protected Location adjustTurretLocation(Location turretLoc, Location playerLoc) {

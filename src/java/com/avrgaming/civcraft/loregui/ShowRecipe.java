@@ -43,7 +43,7 @@ public class ShowRecipe extends GuiAction {
             if (cmat.isCraftable()) {
                 message = CivSettings.localize.localizedString("loreGui_recipes_clickForRecipe");
                 entryStack = LoreGuiItem.setAction(entryStack, GuiActions.ShowRecipe);
-                entryStack = LoreGuiItem.setActionData(entryStack, "backInventory", recInv.getName());
+                entryStack = LoreGuiItem.setActionData(entryStack, "backInventory", "recInv.getName()"); // TODO:
             } else {
                 message = CivSettings.localize.localizedString("loreGui_recipes_notCraftable");
             }
@@ -158,7 +158,7 @@ public class ShowRecipe extends GuiAction {
             org.bukkit.inventory.ItemStack backButton = LoreGuiItem.build(CivSettings.localize.localizedString("loreGui_recipes_back"), Material.MAP, 0, CivSettings.localize.localizedString("loreGui_recipes_back"));
             backButton = LoreGuiItem.setAction(backButton, GuiActions.OpenInventory);
             backButton = LoreGuiItem.setActionData(backButton, "invType", "showGuiInv");
-            backButton = LoreGuiItem.setActionData(backButton, "invName", inv.getName());
+            backButton = LoreGuiItem.setActionData(backButton, "invName", backInventory);
             recInv.setItem(LoreGuiItem.MAX_INV_SIZE - 1, backButton);
         } else {
             ConfigMaterialCategory cat = ConfigMaterialCategory.getCategory(craftMat.getConfigMaterial().categoryCivColortripped);

@@ -56,7 +56,7 @@ public class MarkerPlacementManager implements Listener {
         playersInPlacementMode.put(player.getName(), structure);
         markers.put(player.getName(), new ArrayList<>());
 
-        ItemStack stack = new ItemStack(Material.REDSTONE_TORCH_OFF, 2, (short) 0);
+        ItemStack stack = new ItemStack(Material.REDSTONE_TORCH, 2);
         ItemMeta meta = stack.getItemMeta();
         meta.setDisplayName(Objects.requireNonNullElse(markerName, "Marker"));
         stack.setItemMeta(meta);

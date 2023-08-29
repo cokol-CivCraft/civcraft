@@ -91,7 +91,7 @@ public class TradeGoodPopulator extends BlockPopulator {
         }
 
         Block signBlock = top.getRelative(direction);
-        signBlock.setType(Material.WALL_SIGN);
+        signBlock.setType(Material.OAK_WALL_SIGN);
         //TODO make sign a structure sign?
         //          Civ.protectedBlockTable.put(Civ.locationHash(signBlock.getLocation()),
         //          		new ProtectedBlock(signBlock, null, null, null, ProtectedBlock.Type.TRADE_MARKER));
@@ -175,8 +175,7 @@ public class TradeGoodPopulator extends BlockPopulator {
 
             // Determine if we should be a water good.
             ConfigTradeGood good;
-            if (world.getBlockAt(centerX, centerY - 1, centerZ).getType() == Material.STATIONARY_WATER ||
-                    world.getBlockAt(centerX, centerY - 1, centerZ).getType() == Material.WATER) {
+            if (world.getBlockAt(centerX, centerY - 1, centerZ).getType() == Material.WATER) {
                 good = pick.waterPick;
             } else {
                 good = pick.landPick;

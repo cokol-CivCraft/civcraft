@@ -440,8 +440,8 @@ public class Camp extends Buildable {
                         CivGlobal.vanillaGrowthLocations.add(absCoord);
 
                         Block b = absCoord.getBlock();
-                        if (b.getType() != Material.SOIL) {
-                            b.setType(Material.SOIL);
+                        if (b.getType() != Material.FARMLAND) {
+                            b.setType(Material.FARMLAND);
                         }
 
                         this.addCampBlock(absCoord, true);
@@ -504,8 +504,8 @@ public class Camp extends Buildable {
                     this.doors.add(absCoord);
                     Block doorBlock = absCoord.getBlock();
                     Block doorBlock2 = absCoord.getBlock().getRelative(0, 1, 0);
-                    doorBlock.getState().setData(new Door(Material.WOODEN_DOOR, ((org.bukkit.material.Sign) sb.getMaterialData()).getFacing()));
-                    doorBlock2.getState().setData(new Door(Material.WOODEN_DOOR, false));
+                    doorBlock.getState().setData(new Door(Material.OAK_DOOR, ((org.bukkit.material.Sign) sb.getMaterialData()).getFacing()));
+                    doorBlock2.getState().setData(new Door(Material.OAK_DOOR, false));
                     this.addCampBlock(new BlockCoord(doorBlock));
                     this.addCampBlock(new BlockCoord(doorBlock2));
                 }
@@ -971,8 +971,8 @@ public class Camp extends Buildable {
 
             Block block4 = coord.getBlock();
             if (block4.getType() == Material.CHEST ||
-                    block4.getType() == Material.SIGN_POST ||
-                    block4.getType() == Material.WALL_SIGN) {
+                    block4.getType() == Material.OAK_SIGN ||
+                    block4.getType() == Material.OAK_WALL_SIGN) {
                 continue;
             }
 
@@ -1018,7 +1018,7 @@ public class Camp extends Buildable {
         Location centerLoc = absCoord.getLocation();
 
         /* Build the bedrock tower. */
-        centerLoc.getBlock().setType(Material.FENCE);
+        centerLoc.getBlock().setType(Material.OAK_FENCE);
 
         StructureBlock sb = new StructureBlock(new BlockCoord(centerLoc.getBlock()), this);
         this.addCampBlock(sb.getCoord());
