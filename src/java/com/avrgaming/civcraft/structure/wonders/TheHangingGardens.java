@@ -75,10 +75,10 @@ public class TheHangingGardens extends Wonder {
     public void onUpdate() {
         super.onUpdate();
 
-        for (Town t : this.getTown().getCiv().getTowns()) {
-            for (Resident res : t.getResidents()) {
+        for (Town town : this.getTown().getCiv().getTowns()) {
+            for (Resident resident : town.getResidents()) {
                 try {
-                    Player player = CivGlobal.getPlayer(res);
+                    Player player = CivGlobal.getPlayer(resident);
 
                     if (player.isDead() || !player.isValid()) {
                         continue;

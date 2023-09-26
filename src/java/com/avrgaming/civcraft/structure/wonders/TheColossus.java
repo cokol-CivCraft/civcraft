@@ -33,8 +33,7 @@ import java.util.TreeMap;
 
 public class TheColossus extends Wonder {
 
-    public TheColossus(Location center, String id, Town town)
-            throws CivException {
+    public TheColossus(Location center, String id, Town town) throws CivException {
         super(center, id, town);
     }
 
@@ -104,13 +103,13 @@ public class TheColossus extends Wonder {
     @Override
     public void onUpdate() {
         super.onUpdate();
-        Player p;
-        if (War.isWarTime()) {
-            for (Resident r : this.getCiv().getOnlineResidents()) {
-                p = r.getPlayer();
-                if (CivGlobal.getCultureChunk(p.getLocation()) != null && CivGlobal.getCultureChunk(p.getLocation()).getCiv().getDiplomacyManager().isHostileWith(r)) {
-                    p.setHealth(p.getHealth() + 0.33);
-                }
+        if (!War.isWarTime()) {
+            return;
+        }
+        for (Resident resident : this.getCiv().getOnlineResidents()) {
+            Player player = resident.getPlayer();
+            if (CivGlobal.getCultureChunk(player.getLocation()) != null && CivGlobal.getCultureChunk(player.getLocation()).getCiv().getDiplomacyManager().isHostileWith(resident)) {
+                player.setHealth(player.getHealth() + 0.33);
             }
         }
     }

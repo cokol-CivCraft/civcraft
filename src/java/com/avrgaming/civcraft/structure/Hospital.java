@@ -26,28 +26,30 @@ public class Hospital extends Structure {
     public void onUpdate() {
         super.onUpdate();
 
-        for (Town t : this.getTown().getCiv().getTowns()) {
-            for (Resident res : t.getResidents()) {
+        for (Town town : this.getTown().getCiv().getTowns()) {
+            for (Resident resident : town.getResidents()) {
+                Player player;
                 try {
-                    Player player = CivGlobal.getPlayer(res);
-
-                    if (player.isDead() || !player.isValid() || !player.isOnline()) {
-                        continue;
-                    }
-                    if (player.getFoodLevel() >= 20) {
-                        continue;
-                    }
-
-                    TownChunk tc = CivGlobal.getTownChunk(player.getLocation());
-                    if (tc == null || tc.getTown() != this.getTown()) {
-                        continue;
-                    }
-
-                    if (player.getFoodLevel() < 19.0) {
-                        player.setFoodLevel(player.getFoodLevel() + 1);
-                    }
+                    player = CivGlobal.getPlayer(resident);
                 } catch (CivException e) {
                     //Player not online;
+                    continue;
+                }
+
+                if (player.isDead() || !player.isValid() || !player.isOnline()) {
+                    continue;
+                }
+                if (player.getFoodLevel() >= 20) {
+                    continue;
+                }
+
+                TownChunk tc = CivGlobal.getTownChunk(player.getLocation());
+                if (tc == null || tc.getTown() != this.getTown()) {
+                    continue;
+                }
+
+                if (player.getFoodLevel() < 19.0) {
+                    player.setFoodLevel(player.getFoodLevel() + 1);
                 }
 
             }

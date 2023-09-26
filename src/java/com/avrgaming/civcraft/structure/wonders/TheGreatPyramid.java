@@ -28,10 +28,7 @@ import java.sql.SQLException;
 import java.util.TreeMap;
 
 public class TheGreatPyramid extends Wonder {
-
-
-    public TheGreatPyramid(Location center, String id, Town town)
-            throws CivException {
+    public TheGreatPyramid(Location center, String id, Town town)throws CivException {
         super(center, id, town);
     }
 
@@ -41,11 +38,10 @@ public class TheGreatPyramid extends Wonder {
 
     private Civilization calculateNearestCivilization() {
         TreeMap<Double, Civilization> civMaps = CivGlobal.findNearestCivilizations(this.getTown());
-        Civilization nearestCiv = null;
         if (!civMaps.isEmpty()) {
-            nearestCiv = civMaps.firstEntry().getValue();
+            return civMaps.firstEntry().getValue();
         }
-        return nearestCiv;
+        return null;
     }
 
     @Override

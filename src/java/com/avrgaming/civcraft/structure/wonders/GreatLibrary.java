@@ -39,8 +39,7 @@ import java.sql.SQLException;
 
 public class GreatLibrary extends Wonder {
 
-    public GreatLibrary(Location center, String id, Town town)
-            throws CivException {
+    public GreatLibrary(Location center, String id, Town town) throws CivException {
         super(center, id, town);
     }
 

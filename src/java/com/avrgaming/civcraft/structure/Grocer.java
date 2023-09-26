@@ -113,7 +113,7 @@ public class Grocer extends Structure {
 
     @Override
     public void updateSignText() {
-        int count = 0;
+        int count;
 
         for (count = 0; count < level; count++) {
             StructureSign sign = getSignFromSpecialId(count);

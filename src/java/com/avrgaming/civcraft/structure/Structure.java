@@ -78,37 +78,39 @@ public class Structure extends MetaStructure {
     public void deleteSkipUndo() throws SQLException {
         super.delete();
 
-        if (this.getTown() != null) {
-            /* Release trade goods if we are a trade outpost. */
-            if (this instanceof TradeOutpost outpost) {
-                //TODO move to trade outpost delete..
+        if (this.getTown() == null) {
+            SQLController.deleteNamedObject(this, TABLE_NAME);
+        }
+        /* Release trade goods if we are a trade outpost. */
+        if (this instanceof TradeOutpost outpost) {
+            //TODO move to trade outpost delete..
 
-                if (outpost.getGood() != null) {
-                    outpost.getGood().setStruct(null);
-                    outpost.getGood().setTown(null);
-                    outpost.getGood().setCiv(null);
-                    outpost.getGood().save();
-                }
+            if (outpost.getGood() != null) {
+                outpost.getGood().setStruct(null);
+                outpost.getGood().setTown(null);
+                outpost.getGood().setCiv(null);
+                outpost.getGood().save();
             }
+        }
 
 //            if (!(this instanceof Wall || this instanceof Road)) {
-            CivLog.debug("Delete with Undo! " + this.getDisplayName());
-            /* Remove StructureSigns */
-            for (StructureSign sign : this.getSigns()) {
-                sign.delete();
-            }
-            try {
-                this.undoFromTemplate();
-            } catch (CivException e1) {
-                e1.printStackTrace();
-                this.fancyDestroyStructureBlocks();
-            }
-            CivGlobal.removeStructure(this);
-            this.getTown().removeStructure(this);
-            this.unbindStructureBlocks();
-            if (this instanceof Farm farm) {
-                farm.removeFarmChunk();
-            }
+        CivLog.debug("Delete with Undo! " + this.getDisplayName());
+        /* Remove StructureSigns */
+        for (StructureSign sign : this.getSigns()) {
+            sign.delete();
+        }
+        try {
+            this.undoFromTemplate();
+        } catch (CivException e1) {
+            e1.printStackTrace();
+            this.fancyDestroyStructureBlocks();
+        }
+        CivGlobal.removeStructure(this);
+        this.getTown().removeStructure(this);
+        this.unbindStructureBlocks();
+        if (this instanceof Farm farm) {
+            farm.removeFarmChunk();
+        }
 //            } else {
 //                CivLog.debug("Delete skip Undo! " + this.getDisplayName());
 //                CivGlobal.removeStructure(this);
@@ -124,7 +126,6 @@ public class Structure extends MetaStructure {
 //            }
 
 
-        }
         SQLController.deleteNamedObject(this, TABLE_NAME);
     }
 
@@ -133,30 +134,31 @@ public class Structure extends MetaStructure {
     public void delete() throws SQLException {
         super.delete();
 
-        if (this.getTown() != null) {
-            /* Release trade goods if we are a trade outpost. */
-            if (this instanceof TradeOutpost outpost) {
-                //TODO move to trade outpost delete..
-
-                if (outpost.getGood() != null) {
-                    outpost.getGood().setStruct(null);
-                    outpost.getGood().setTown(null);
-                    outpost.getGood().setCiv(null);
-                    outpost.getGood().save();
-                }
-            }
-
-            try {
-                this.undoFromTemplate();
-            } catch (CivException e1) {
-                e1.printStackTrace();
-                this.fancyDestroyStructureBlocks();
-            }
-
-            CivGlobal.removeStructure(this);
-            this.getTown().removeStructure(this);
-            this.unbindStructureBlocks();
+        if (this.getTown() == null) {
+            SQLController.deleteNamedObject(this, TABLE_NAME);
         }
+        /* Release trade goods if we are a trade outpost. */
+        if (this instanceof TradeOutpost outpost) {
+            //TODO move to trade outpost delete..
+
+            if (outpost.getGood() != null) {
+                outpost.getGood().setStruct(null);
+                outpost.getGood().setTown(null);
+                outpost.getGood().setCiv(null);
+                outpost.getGood().save();
+            }
+        }
+
+        try {
+            this.undoFromTemplate();
+        } catch (CivException e1) {
+            e1.printStackTrace();
+            this.fancyDestroyStructureBlocks();
+        }
+
+        CivGlobal.removeStructure(this);
+        this.getTown().removeStructure(this);
+        this.unbindStructureBlocks();
 
         SQLController.deleteNamedObject(this, TABLE_NAME);
     }

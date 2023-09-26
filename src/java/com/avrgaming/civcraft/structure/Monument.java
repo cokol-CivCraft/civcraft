@@ -26,8 +26,7 @@ import java.sql.SQLException;
 
 public class Monument extends Structure {
 
-    protected Monument(Location center, String id, Town town)
-            throws CivException {
+    protected Monument(Location center, String id, Town town)throws CivException {
         super(center, id, town);
     }
 

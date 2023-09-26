@@ -93,13 +93,14 @@ public abstract class Wonder extends MetaStructure {
         }
 
         for (Wonder wonder : CivGlobal.getWonders()) {
-            if (wonder.getConfigId().equals(configId)) {
-                if (wonder.isNationalWonder()) {
-                    return true;
-                }
-                if (wonder.isComplete()) {
-                    return false;
-                }
+            if (!wonder.getConfigId().equals(configId)) {
+                continue;
+            }
+            if (wonder.isNationalWonder()) {
+                return true;
+            }
+            if (wonder.isComplete()) {
+                return false;
             }
         }
 
@@ -173,17 +174,18 @@ public abstract class Wonder extends MetaStructure {
     }
 
     public void onDestroy() {
-        if (!CivGlobal.isCasualMode()) {
-            //can be overriden in subclasses.
-            CivMessage.global(CivSettings.localize.localizedString("var_wonder_destroyed", this.getDisplayName(), this.getTown().getName()));
-            try {
-                this.getTown().removeWonder(this);
-                this.fancyDestroyStructureBlocks();
-                this.unbindStructureBlocks();
-                this.delete();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        if (CivGlobal.isCasualMode()) {
+            return;
+        }
+        //can be overriden in subclasses.
+        CivMessage.global(CivSettings.localize.localizedString("var_wonder_destroyed", this.getDisplayName(), this.getTown().getName()));
+        try {
+            this.getTown().removeWonder(this);
+            this.fancyDestroyStructureBlocks();
+            this.unbindStructureBlocks();
+            this.delete();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -241,8 +243,8 @@ public abstract class Wonder extends MetaStructure {
     }
 
     protected void addBuffToCiv(Civilization civ, String id) {
-        for (Town t : civ.getTowns()) {
-            addBuffToTown(t, id);
+        for (Town town : civ.getTowns()) {
+            addBuffToTown(town, id);
         }
     }
 
@@ -251,8 +253,8 @@ public abstract class Wonder extends MetaStructure {
     }
 
     protected void removeBuffFromCiv(Civilization civ, String id) {
-        for (Town t : civ.getTowns()) {
-            removeBuffFromTown(t, id);
+        for (Town town : civ.getTowns()) {
+            removeBuffFromTown(town, id);
         }
     }
 
@@ -262,8 +264,8 @@ public abstract class Wonder extends MetaStructure {
 
     public void processCoinsFromCulture() {
         int cultureCount = 0;
-        for (Town t : this.getCiv().getTowns()) {
-            cultureCount += t.getCultureChunks().size();
+        for (Town town : this.getCiv().getTowns()) {
+            cultureCount += town.getCultureChunks().size();
         }
 
         double coinsPerCulture = Double.parseDouble(CivSettings.buffs.get("buff_colossus_coins_from_culture").value);

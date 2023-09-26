@@ -80,14 +80,12 @@ public class Temple extends Structure {
 
         MultiInventory multiInv = new MultiInventory();
 
-        ArrayList<StructureChest> chests = this.getAllChestsById(1);
-
         // Make sure the chest is loaded and add it to the multi inv.
-        for (StructureChest c : chests) {
-            task.syncLoadChunk(c.getCoord().getWorldname(), c.getCoord().getX(), c.getCoord().getZ());
+        for (StructureChest chest : this.getAllChestsById(1)) {
+            task.syncLoadChunk(chest.getCoord().getWorldname(), chest.getCoord().getX(), chest.getCoord().getZ());
             Inventory tmp;
             try {
-                tmp = task.getChestInventory(c.getCoord().getWorldname(), c.getCoord().getX(), c.getCoord().getY(), c.getCoord().getZ(), true);
+                tmp = task.getChestInventory(chest.getCoord().getWorldname(), chest.getCoord().getX(), chest.getCoord().getY(), chest.getCoord().getZ(), true);
             } catch (CivTaskAbortException e) {
                 return Result.STAGNATE;
             }
@@ -134,7 +132,7 @@ public class Temple extends Structure {
             }
         }
 
-        ConfigTempleLevel lvl = null;
+        ConfigTempleLevel lvl;
         if (result == Result.LEVELUP) {
             lvl = CivSettings.templeLevels.get(getConsumeComponent().getLevel() - 1);
         } else {
@@ -182,9 +180,7 @@ public class Temple extends Structure {
     }
 
     public void delevel() {
-        int currentLevel = getLevel();
-
-        if (currentLevel > 1) {
+        if (getLevel() > 1) {
             getConsumeComponent().setLevel(getLevel() - 1);
             getConsumeComponent().setCount(0);
             getConsumeComponent().onSave();

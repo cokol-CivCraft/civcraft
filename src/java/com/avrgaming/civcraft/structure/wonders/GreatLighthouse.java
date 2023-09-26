@@ -13,8 +13,7 @@ public class GreatLighthouse extends Wonder {
         super(rs);
     }
 
-    public GreatLighthouse(Location center, String id, Town town)
-            throws CivException {
+    public GreatLighthouse(Location center, String id, Town town) throws CivException {
         super(center, id, town);
     }
 

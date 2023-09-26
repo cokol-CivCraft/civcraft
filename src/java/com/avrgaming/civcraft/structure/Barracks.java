@@ -483,19 +483,19 @@ public class Barracks extends Structure {
         if (this.getTrainingUnit() == null) {
             return;
         }
-        String key = getSessionKey();
+        String sessionKey = getSessionKey();
         String value = this.getTrainingUnit().id + ":" + this.currentHammers;
-        ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(key);
+        ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(sessionKey);
 
         if (entries != null && !entries.isEmpty()) {
-            CivGlobal.getSessionDB().update(entries.get(0).request_id, key, value);
+            CivGlobal.getSessionDB().update(entries.get(0).request_id, sessionKey, value);
 
             /* delete any bad extra entries. */
             for (SessionEntry bad_entry : entries) {
-                CivGlobal.getSessionDB().delete(bad_entry.request_id, key);
+                CivGlobal.getSessionDB().delete(bad_entry.request_id, sessionKey);
             }
         } else {
-            this.sessionAdd(key, value);
+            this.sessionAdd(sessionKey, value);
         }
 
         lastSave = new Date();

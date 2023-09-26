@@ -97,8 +97,7 @@ public class Library extends Structure {
         return "Fee: " + ((int) (getNonResidentFee() * 100) + "%");
     }
 
-    protected Library(Location center, String id, Town town)
-            throws CivException {
+    protected Library(Location center, String id, Town town) throws CivException {
         super(center, id, town);
         nonMemberFeeComponent = new NonMemberFeeComponent(this);
         nonMemberFeeComponent.onSave();
@@ -122,8 +121,7 @@ public class Library extends Structure {
 
     private StructureSign getSignFromSpecialId(int special_id) {
         for (StructureSign sign : getSigns()) {
-            int id = Integer.parseInt(sign.getAction());
-            if (id == special_id) {
+            if (Integer.parseInt(sign.getAction()) == special_id) {
                 return sign;
             }
         }
@@ -183,10 +181,10 @@ public class Library extends Structure {
     public ItemStack addEnchantment(ItemStack item, LibraryEnchantment ench) {
         if (ench.enchant != null) {
             item.addUnsafeEnchantment(ench.enchant, ench.level);
+            return item;
         } else {
-            item = LoreMaterial.addEnhancement(item, ench.enhancement);
+            return LoreMaterial.addEnhancement(item, ench.enhancement);
         }
-        return item;
     }
 
     public void add_enchantment_to_tool(Player player, StructureSign sign, PlayerInteractEvent event) throws CivException {
@@ -210,8 +208,8 @@ public class Library extends Structure {
         Resident resident;
 
         resident = CivGlobal.getResident(player.getName());
-        Town t = resident.getTown();
-        if (t == this.getTown()) {
+        Town town = resident.getTown();
+        if (town == this.getTown()) {
             // Pay no taxes! You're a member.
             payToTown = 0;
         }

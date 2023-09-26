@@ -43,8 +43,7 @@ public class University extends Structure {
 
     @Override
     public void updateSignText() {
-        int count = 0;
-        for (; count < getSigns().size(); count++) {
+        for (int count = 0; count < getSigns().size(); count++) {
             StructureSign sign = getSignFromSpecialId(count);
             if (sign == null) {
                 CivLog.error("University sign was null");

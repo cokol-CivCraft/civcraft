@@ -135,14 +135,13 @@ public class Store extends Structure {
 
 
     public void sign_buy_material(Player player, String itemName, Material id, byte data, int amount, double price) {
-        Resident resident;
         int payToTown = (int) Math.round(price * this.getNonResidentFee());
         try {
 
-            resident = CivGlobal.getResident(player.getName());
-            Town t = resident.getTown();
+            Resident resident = CivGlobal.getResident(player.getName());
+            Town town = resident.getTown();
 
-            if (t == this.getTown()) {
+            if (town == this.getTown()) {
                 // Pay no taxes! You're a member.
                 resident.buyItem(itemName, id, data, price, amount);
                 CivMessage.send(player, ChatColor.GREEN + CivSettings.localize.localizedString("var_market_buy", amount, itemName, price, CivSettings.CURRENCY_NAME));

@@ -142,10 +142,8 @@ public class TradeShip extends WaterStructure {
                 case "/outSign" -> {
                     int ID = Integer.parseInt(sb.keyvalues.get("id"));
                     if (this.getLevel() >= (ID * 2) + 1) {
-                        Block block = absCoord.getBlock();
-                        block.setType(Material.WALL_SIGN);
-                        Block block1 = absCoord.getBlock();
-                        block1.setData((byte) sb.getData());
+                        absCoord.getBlock().setType(Material.WALL_SIGN);
+                        absCoord.getBlock().setData((byte) sb.getData());
 
                         Sign sign = (Sign) absCoord.getBlock().getState();
                         sign.setLine(0, CivSettings.localize.localizedString("tradeship_sign_output_line0"));
@@ -154,10 +152,8 @@ public class TradeShip extends WaterStructure {
                         sign.setLine(3, "");
                         sign.update();
                     } else {
-                        Block block = absCoord.getBlock();
-                        block.setType(Material.WALL_SIGN);
-                        Block block1 = absCoord.getBlock();
-                        block1.setData((byte) sb.getData());
+                        absCoord.getBlock().setType(Material.WALL_SIGN);
+                        absCoord.getBlock().setData((byte) sb.getData());
 
                         Sign sign = (Sign) absCoord.getBlock().getState();
                         sign.setLine(0, CivSettings.localize.localizedString("tradeship_sign_output_line0"));
@@ -170,39 +166,26 @@ public class TradeShip extends WaterStructure {
                 }
                 case "/in" -> {
                     int ID = Integer.parseInt(sb.keyvalues.get("id"));
-                    if (ID == 0) {
-                        Block block = absCoord.getBlock();
-                        block.setType(Material.WALL_SIGN);
-                        Block block1 = absCoord.getBlock();
-                        block1.setData((byte) sb.getData());
+                    absCoord.getBlock().setType(Material.WALL_SIGN);
+                    absCoord.getBlock().setData((byte) sb.getData());
+                    Sign sign = (Sign) absCoord.getBlock().getState();
+                    sign.setLine(0, CivSettings.localize.localizedString("tradeship_sign_input_line0"));
 
-                        Sign sign = (Sign) absCoord.getBlock().getState();
-                        sign.setLine(0, CivSettings.localize.localizedString("tradeship_sign_input_line0"));
+                    if (ID == 0) {
                         sign.setLine(1, "1");
                         sign.setLine(2, "2");
-                        sign.setLine(3, "");
-                        sign.update();
                     } else {
-                        Block block = absCoord.getBlock();
-                        block.setType(Material.WALL_SIGN);
-                        Block block1 = absCoord.getBlock();
-                        block1.setData((byte) sb.getData());
-
-                        Sign sign = (Sign) absCoord.getBlock().getState();
-                        sign.setLine(0, CivSettings.localize.localizedString("tradeship_sign_input_line0"));
                         sign.setLine(1, "3");
                         sign.setLine(2, "4");
-                        sign.setLine(3, "");
-                        sign.update();
                     }
+                    sign.setLine(3, "");
+                    sign.update();
                     this.addStructureBlock(absCoord, false);
                 }
                 default -> {
                     /* Unrecognized command... treat as a literal sign. */
-                    Block block = absCoord.getBlock();
-                    block.setType(Material.WALL_SIGN);
-                    Block block1 = absCoord.getBlock();
-                    block1.setData((byte) sb.getData());
+                    absCoord.getBlock().setType(Material.WALL_SIGN);
+                    absCoord.getBlock().setData((byte) sb.getData());
 
                     Sign sign = (Sign) absCoord.getBlock().getState();
                     sign.setLine(0, sb.message[0]);
@@ -219,10 +202,9 @@ public class TradeShip extends WaterStructure {
 
 
     public TradeShipResults consume(CivAsyncTask task) throws InterruptedException {
-        TradeShipResults tradeResult;
         //Look for the TradeShip chests.
         if (this.goodsDepositPoints.isEmpty() || this.goodsWithdrawPoints.isEmpty()) {
-            tradeResult = new TradeShipResults();
+            TradeShipResults tradeResult = new TradeShipResults();
             tradeResult.setResult(Result.STAGNATE);
             return tradeResult;
         }
@@ -234,7 +216,7 @@ public class TradeShip extends WaterStructure {
             try {
                 tmp = task.getChestInventory(bcoord.getWorldname(), bcoord.getX(), bcoord.getY(), bcoord.getZ(), true);
             } catch (CivTaskAbortException e) {
-                tradeResult = new TradeShipResults();
+                TradeShipResults tradeResult = new TradeShipResults();
                 tradeResult.setResult(Result.STAGNATE);
                 return tradeResult;
             }
@@ -242,13 +224,13 @@ public class TradeShip extends WaterStructure {
         }
 
         if (mInv.getInventoryCount() == 0) {
-            tradeResult = new TradeShipResults();
+            TradeShipResults tradeResult = new TradeShipResults();
             tradeResult.setResult(Result.STAGNATE);
             return tradeResult;
         }
         getConsumeComponent().setSource(mInv);
         getConsumeComponent().setConsumeRate(1.0);
-
+        TradeShipResults tradeResult;
         try {
             tradeResult = getConsumeComponent().processConsumption(this.getUpgradeLvl() - 1);
             getConsumeComponent().onSave();
@@ -264,8 +246,7 @@ public class TradeShip extends WaterStructure {
     public void process_trade_ship(CivAsyncTask task) throws InterruptedException, InvalidConfiguration {
         TradeShipResults tradeResult = this.consume(task);
 
-        Result result = tradeResult.getResult();
-        switch (result) {
+        switch (tradeResult.getResult()) {
             case STAGNATE ->
                     CivMessage.sendTown(getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_tradeship_stagnated", getConsumeComponent().getLevel(), ChatColor.GREEN + getConsumeComponent().getCountString()));
             case GROW ->

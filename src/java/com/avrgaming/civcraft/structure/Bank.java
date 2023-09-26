@@ -107,24 +107,16 @@ public class Bank extends Structure {
     }
 
     private String getSignItemPrice(int signId) {
-        double itemPrice;
-        if (signId == IRON_SIGN) {
-            itemPrice = CivSettings.iron_rate;
-        } else if (signId == IRON_BLOCK_SIGN) {
-            itemPrice = CivSettings.iron_rate * 9;
-        } else if (signId == GOLD_SIGN) {
-            itemPrice = CivSettings.gold_rate;
-        } else if (signId == GOLD_BLOCK_SIGN) {
-            itemPrice = CivSettings.gold_rate * 9;
-        } else if (signId == DIAMOND_SIGN) {
-            itemPrice = CivSettings.diamond_rate;
-        } else if (signId == DIAMOND_BLOCK_SIGN) {
-            itemPrice = CivSettings.diamond_rate * 9;
-        } else if (signId == EMERALD_SIGN) {
-            itemPrice = CivSettings.emerald_rate;
-        } else {
-            itemPrice = CivSettings.emerald_rate * 9;
-        }
+        double itemPrice = switch (signId) {
+            case IRON_SIGN -> CivSettings.iron_rate;
+            case IRON_BLOCK_SIGN -> CivSettings.iron_rate * 9;
+            case GOLD_SIGN -> CivSettings.gold_rate;
+            case GOLD_BLOCK_SIGN -> CivSettings.gold_rate * 9;
+            case DIAMOND_SIGN -> CivSettings.diamond_rate;
+            case DIAMOND_BLOCK_SIGN -> CivSettings.diamond_rate * 9;
+            case EMERALD_SIGN -> CivSettings.emerald_rate;
+            default -> CivSettings.emerald_rate * 9;
+        };
 
 
         String out = "1 = ";
@@ -134,22 +126,17 @@ public class Bank extends Structure {
     }
 
     public void exchange_for_coins(Resident resident, Material itemId, double coins) throws CivException {
-        double exchange_rate = 0.0;
-        String itemName;
         Player player = CivGlobal.getPlayer(resident);
 
-        if (itemId == Material.IRON_INGOT || itemId == Material.IRON_BLOCK)
-            itemName = CivSettings.localize.localizedString("bank_itemName_iron");
-        else if (itemId == Material.GOLD_INGOT || itemId == Material.GOLD_BLOCK)
-            itemName = CivSettings.localize.localizedString("bank_itemName_gold");
-        else if (itemId == Material.DIAMOND || itemId == Material.DIAMOND_BLOCK)
-            itemName = CivSettings.localize.localizedString("bank_itemName_diamond");
-        else if (itemId == Material.EMERALD || itemId == Material.EMERALD_BLOCK)
-            itemName = CivSettings.localize.localizedString("bank_itemName_emerald");
-        else
-            itemName = CivSettings.localize.localizedString("bank_itemName_stuff");
+        String itemName = switch (itemId) {
+            case IRON_INGOT, IRON_BLOCK -> CivSettings.localize.localizedString("bank_itemName_iron");
+            case GOLD_INGOT, GOLD_BLOCK -> CivSettings.localize.localizedString("bank_itemName_gold");
+            case DIAMOND, DIAMOND_BLOCK -> CivSettings.localize.localizedString("bank_itemName_diamond");
+            case EMERALD, EMERALD_BLOCK -> CivSettings.localize.localizedString("bank_itemName_emerald");
+            default -> CivSettings.localize.localizedString("bank_itemName_stuff");
+        };
 
-        exchange_rate = getBankExchangeRate();
+        double exchange_rate = getBankExchangeRate();
         int count = resident.takeItemsInHand(new MaterialData(itemId));
         if (count == 0) {
             throw new CivException(CivSettings.localize.localizedString("var_bank_notEnoughInHand", itemName));

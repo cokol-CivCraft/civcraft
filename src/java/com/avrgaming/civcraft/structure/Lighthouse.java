@@ -24,9 +24,7 @@ public class Lighthouse extends Structure {
     public double getHammersPerTile() {
         AttributeBiomeRadiusPerLevel attrBiome = (AttributeBiomeRadiusPerLevel) this.getComponent("AttributeBiomeBase");
         double base = attrBiome.getBaseValue();
-
-        double rate = 1;
-        rate += this.getTown().getBuffManager().getEffectiveDouble(Buff.ADVANCED_TOOLING);
+        double rate = 1 + this.getTown().getBuffManager().getEffectiveDouble(Buff.ADVANCED_TOOLING);
         return (rate * base);
     }
 

@@ -127,20 +127,21 @@ public class FishHatchery extends Structure {
     }
 
     public Biome getBiome() {
-        if (biome == null) {
-            try {
-                World world = Bukkit.getWorld("world");
-                BlockCoord block = this.getCenterLocation();
-                Chunk chunk = world.getChunkAt(block.getX(), block.getZ());
-                ChunkCoord coord = new ChunkCoord(chunk);
-                CultureChunk cc = new CultureChunk(this.getTown(), coord);
-                biome = cc.getBiome();
-                this.setBiome(cc.getBiome());
-            } catch (IllegalStateException ignored) {
+        if (biome != null) {
+            return biome;
+        }
+        try {
+            World world = Bukkit.getWorld("world");
+            BlockCoord block = this.getCenterLocation();
+            Chunk chunk = world.getChunkAt(block.getX(), block.getZ());
+            ChunkCoord coord = new ChunkCoord(chunk);
+            CultureChunk cc = new CultureChunk(this.getTown(), coord);
+            biome = cc.getBiome();
+            this.setBiome(cc.getBiome());
+        } catch (IllegalStateException ignored) {
 
-            } finally {
-                biome = Biome.BIRCH_FOREST_HILLS;
-            }
+        } finally {
+            biome = Biome.BIRCH_FOREST_HILLS;
         }
         return biome;
     }

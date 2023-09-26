@@ -53,8 +53,7 @@ public class TradeOutpost extends Structure {
     protected BonusGoodie goodie = null;
 
 
-    protected TradeOutpost(Location center, String id, Town town)
-            throws CivException {
+    protected TradeOutpost(Location center, String id, Town town) throws CivException {
         super(center, id, town);
         loadSettings();
     }
@@ -148,7 +147,6 @@ public class TradeOutpost extends Structure {
         for (int i = 0; i < 3; i++) {
             Block b = centerLoc.getBlock().getRelative(0, i, 0);
             b.setType(Material.BEDROCK);
-            b.setData((byte) 0);
 
             StructureBlock sb = new StructureBlock(new BlockCoord(b), this);
             this.addStructureBlock(sb.getCoord(), false);
@@ -248,23 +246,24 @@ public class TradeOutpost extends Structure {
          * */
         try {
             this.goodie = new BonusGoodie(this);
-
-            if (this.goodie.getFrame() == null) {
-                //goodie not in a frame, skip it.
-                return;
-            }
-
-            TownHall townhall = this.goodie.getFrame().getTown().getTownHall();
-            if (townhall != null) {
-                for (ItemFrameStorage ifs : townhall.getGoodieFrames()) {
-                    if (ifs.getFrameID() == this.goodie.getFrame().getFrameID()) {
-                        townhall.getTown().loadGoodiePlaceIntoFrame(townhall, goodie);
-                    }
-                }
-            }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new CivException(CivSettings.localize.localizedString("internalDatabaseException"));
+        }
+
+        if (this.goodie.getFrame() == null) {
+            //goodie not in a frame, skip it.
+            return;
+        }
+
+        TownHall townhall = this.goodie.getFrame().getTown().getTownHall();
+        if (townhall == null) {
+            return;
+        }
+        for (ItemFrameStorage ifs : townhall.getGoodieFrames()) {
+            if (ifs.getFrameID() == this.goodie.getFrame().getFrameID()) {
+                townhall.getTown().loadGoodiePlaceIntoFrame(townhall, goodie);
+            }
         }
     }
 
@@ -284,9 +283,7 @@ public class TradeOutpost extends Structure {
                 continue;
             }
 
-            Block block1 = coord.getBlock();
-            Block block2 = coord.getBlock();
-            if (block2.getType() == Material.BEDROCK || block1.getType() == Material.AIR) {
+            if (coord.getBlock().getType() == Material.BEDROCK || coord.getBlock().getType() == Material.AIR) {
                 //Be a bit more careful not to destroy any of the item frames..
                 continue;
             }

@@ -207,12 +207,10 @@ public class Market extends Structure {
 
     @Override
     public void onPostBuild(BlockCoord absCoord, SimpleBlock commandBlock) {
-        Integer id;
-        ConfigMarketItem item;
         switch (commandBlock.command.toLowerCase().trim()) {
             case "/sellbig" -> {
-                id = Integer.valueOf(commandBlock.keyvalues.get("id"));
-                item = CivSettings.marketItems.get(id);
+                Integer id = Integer.valueOf(commandBlock.keyvalues.get("id"));
+                ConfigMarketItem item = CivSettings.marketItems.get(id);
                 if (item != null) {
                     if (item.isStackable()) {
                         buildSign("sellbig", id, absCoord, item, commandBlock);
@@ -220,22 +218,22 @@ public class Market extends Structure {
                 }
             }
             case "/sell" -> {
-                id = Integer.valueOf(commandBlock.keyvalues.get("id"));
-                item = CivSettings.marketItems.get(id);
+                Integer id = Integer.valueOf(commandBlock.keyvalues.get("id"));
+                ConfigMarketItem item = CivSettings.marketItems.get(id);
                 if (item != null) {
                     buildSign("sell", id, absCoord, item, commandBlock);
                 }
             }
             case "/buy" -> {
-                id = Integer.valueOf(commandBlock.keyvalues.get("id"));
-                item = CivSettings.marketItems.get(id);
+                Integer id = Integer.valueOf(commandBlock.keyvalues.get("id"));
+                ConfigMarketItem item = CivSettings.marketItems.get(id);
                 if (item != null) {
                     buildSign("buy", id, absCoord, item, commandBlock);
                 }
             }
             case "/buybig" -> {
-                id = Integer.valueOf(commandBlock.keyvalues.get("id"));
-                item = CivSettings.marketItems.get(id);
+                Integer id = Integer.valueOf(commandBlock.keyvalues.get("id"));
+                ConfigMarketItem item = CivSettings.marketItems.get(id);
                 if (item != null) {
                     if (item.isStackable()) {
                         buildSign("buybig", id, absCoord, item, commandBlock);

@@ -72,14 +72,12 @@ public class Mine extends Structure {
 
         MultiInventory multiInv = new MultiInventory();
 
-        ArrayList<StructureChest> chests = this.getAllChestsById(0);
-
         // Make sure the chest is loaded and add it to the multi inv.
-        for (StructureChest c : chests) {
-            task.syncLoadChunk(c.getCoord().getWorldname(), c.getCoord().getX(), c.getCoord().getZ());
+        for (StructureChest chest : this.getAllChestsById(0)) {
+            task.syncLoadChunk(chest.getCoord().getWorldname(), chest.getCoord().getX(), chest.getCoord().getZ());
             Inventory tmp;
             try {
-                tmp = task.getChestInventory(c.getCoord().getWorldname(), c.getCoord().getX(), c.getCoord().getY(), c.getCoord().getZ(), true);
+                tmp = task.getChestInventory(chest.getCoord().getWorldname(), chest.getCoord().getX(), chest.getCoord().getY(), chest.getCoord().getZ(), true);
             } catch (CivTaskAbortException e) {
                 return Result.STAGNATE;
             }
@@ -98,11 +96,12 @@ public class Mine extends Structure {
     }
 
     public void process_mine(CivAsyncTask task) {
-        Result result = null;
+        Result result;
         try {
             result = this.consume(task);
         } catch (InterruptedException e) {
             e.printStackTrace();
+            return;
         }
         switch (result) {
             case STARVE ->
@@ -126,10 +125,8 @@ public class Mine extends Structure {
         if (!this.isComplete()) {
             return 0.0;
         }
-        int level = getLevel();
 
-        ConfigMineLevel lvl = CivSettings.mineLevels.get(level);
-        return lvl.hammers();
+        return CivSettings.mineLevels.get(getLevel()).hammers();
     }
 
     public int getLevel() {
@@ -151,10 +148,7 @@ public class Mine extends Structure {
     }
 
     public int getMaxCount() {
-        int level = getLevel();
-
-        ConfigMineLevel lvl = CivSettings.mineLevels.get(level);
-        return lvl.count();
+        return CivSettings.mineLevels.get(getLevel()).count();
     }
 
     public Result getLastResult() {

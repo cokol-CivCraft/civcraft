@@ -28,8 +28,7 @@ import java.sql.SQLException;
 
 public class ChichenItza extends Wonder {
 
-    public ChichenItza(Location center, String id, Town town)
-            throws CivException {
+    public ChichenItza(Location center, String id, Town town) throws CivException {
         super(center, id, town);
     }
 
@@ -43,8 +42,8 @@ public class ChichenItza extends Wonder {
         removeBuffFromCiv(this.getCiv(), "buff_chichen_itza_regen_rate");
         removeBuffFromTown(this.getTown(), "buff_chichen_itza_cp_bonus_hp");
         //This is where the Itza's buff to CP is removed
-        for (ControlPoint cp : this.getTown().getTownHall().getControlPoints().values()) {
-            cp.setMaxHitpoints((cp.getMaxHitpoints() - (int) this.getTown().getBuffManager().getEffectiveDouble("buff_chichen_itza_cp_bonus_hp")));
+        for (ControlPoint controlPoint : this.getTown().getTownHall().getControlPoints().values()) {
+            controlPoint.setMaxHitpoints((controlPoint.getMaxHitpoints() - (int) this.getTown().getBuffManager().getEffectiveDouble("buff_chichen_itza_cp_bonus_hp")));
         }
     }
 
@@ -54,8 +53,8 @@ public class ChichenItza extends Wonder {
         addBuffToCiv(this.getCiv(), "buff_chichen_itza_regen_rate");
         addBuffToTown(this.getTown(), "buff_chichen_itza_cp_bonus_hp");
         //This is where the Itza's buff to CP applies
-        for (ControlPoint cp : this.getTown().getTownHall().getControlPoints().values()) {
-            cp.setMaxHitpoints((cp.getMaxHitpoints() + (int) this.getTown().getBuffManager().getEffectiveDouble("buff_chichen_itza_cp_bonus_hp")));
+        for (ControlPoint controlPoint : this.getTown().getTownHall().getControlPoints().values()) {
+            controlPoint.setMaxHitpoints((controlPoint.getMaxHitpoints() + (int) this.getTown().getBuffManager().getEffectiveDouble("buff_chichen_itza_cp_bonus_hp")));
         }
     }
 
