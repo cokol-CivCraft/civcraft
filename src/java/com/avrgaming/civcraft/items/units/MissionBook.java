@@ -524,7 +524,7 @@ public class MissionBook extends UnitItemMaterial {
             out += (CivSettings.localize.localizedString("cmd_town_growth") + " " + tc.getTown().getGrowth().total + "\n");
             out += (CivSettings.localize.localizedString("BeakersCiv") + " " + tc.getTown().getCiv().getBeakers() + "\n");
 			if (tc.getTown().getCiv().getResearchTech() != null) {
-				out += (CivSettings.localize.localizedString("Researching")+" "+tc.getTown().getCiv().getResearchTech().name+"\n");
+                out += (CivSettings.localize.localizedString("Researching") + " " + tc.getTown().getCiv().getResearchTech().name() + "\n");
 			} else {
 				out += (CivSettings.localize.localizedString("ResearchingNothing")+"\n");
 			}

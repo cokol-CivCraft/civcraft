@@ -115,7 +115,7 @@ public class UpdateTechBar extends CivAsyncTask {
                 sb.message[0] = CivSettings.localize.localizedString("Researching");
                 sb.message[1] = "";
                 if (civ.getResearchTech() != null) {
-                    sb.message[2] = civ.getResearchTech().name;
+                    sb.message[2] = civ.getResearchTech().name();
                 } else {
                     sb.message[2] = CivSettings.localize.localizedString("Nothing");
                 }

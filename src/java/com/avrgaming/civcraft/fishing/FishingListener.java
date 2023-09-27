@@ -61,13 +61,11 @@ public class FishingListener implements Listener {
             CivMessage.send(event.getPlayer(), ChatColor.GREEN + CivSettings.localize.localizedString("var_fishing_success", ChatColor.LIGHT_PURPLE + stack.getType().name().replace("_", " ").toLowerCase()));
         } else {
             LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterialFromId(d.craftMatId);
-            if (craftMat != null) {
-                stack = LoreCraftableMaterial.spawn(craftMat);
-                CivMessage.send(event.getPlayer(), ChatColor.GREEN + CivSettings.localize.localizedString("var_fishing_success", ChatColor.LIGHT_PURPLE + craftMat.getName()));
-            } else {
-                stack = null;
+            if (craftMat == null) {
                 return;
             }
+            stack = LoreCraftableMaterial.spawn(craftMat);
+            CivMessage.send(event.getPlayer(), ChatColor.GREEN + CivSettings.localize.localizedString("var_fishing_success", ChatColor.LIGHT_PURPLE + craftMat.getName()));
         }
         for (ItemStack is : player.getInventory().addItem(stack).values()) {
             player.getWorld().dropItem(player.getLocation(), is);

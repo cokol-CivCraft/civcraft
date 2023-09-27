@@ -266,14 +266,14 @@ public class AdminCivCommand extends CommandBase {
             throw new CivException(CivSettings.localize.localizedString("adcmd_civ_giveTechInvalid") + args[2]);
         }
 
-        if (civ.hasTechnology(tech.id)) {
-            throw new CivException(CivSettings.localize.localizedString("var_adcmd_civ_giveTechAlreadyhas", civ.getName(), tech.id));
+        if (civ.hasTechnology(tech.id())) {
+            throw new CivException(CivSettings.localize.localizedString("var_adcmd_civ_giveTechAlreadyhas", civ.getName(), tech.id()));
         }
 
         civ.addTech(tech);
         civ.save();
 
-        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_giveTechSuccess", tech.name, civ.getName()));
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_giveTechSuccess", tech.name(), civ.getName()));
 
     }
 

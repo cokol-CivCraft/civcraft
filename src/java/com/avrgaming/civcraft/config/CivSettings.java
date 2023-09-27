@@ -753,7 +753,7 @@ public class CivSettings {
 
     public static ConfigTech getTechByName(String techname) {
         for (ConfigTech tech : techs.values()) {
-            if (tech.name.equalsIgnoreCase(techname)) {
+            if (tech.name().equalsIgnoreCase(techname)) {
                 return tech;
             }
         }

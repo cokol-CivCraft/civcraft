@@ -67,7 +67,7 @@ public class CivResearchCommand extends CommandBase {
         }
 
         if (!civ.getTreasury().hasEnough(tech.getAdjustedTechCost(civ))) {
-            throw new CivException(CivSettings.localize.localizedString("var_cmd_civ_research_NotEnough1", CivSettings.CURRENCY_NAME, tech.name));
+            throw new CivException(CivSettings.localize.localizedString("var_cmd_civ_research_NotEnough1", CivSettings.CURRENCY_NAME, tech.name()));
         }
 
         if (!tech.isAvailable(civ)) {
@@ -76,7 +76,7 @@ public class CivResearchCommand extends CommandBase {
 
         if (civ.getResearchTech() != null) {
             civ.setResearchProgress(0);
-            CivMessage.send(sender, ChatColor.RED + CivSettings.localize.localizedString("var_cmd_civ_research_lostProgress1", civ.getResearchTech().name));
+            CivMessage.send(sender, ChatColor.RED + CivSettings.localize.localizedString("var_cmd_civ_research_lostProgress1", civ.getResearchTech().name()));
             civ.setResearchTech(null);
         }
 
@@ -84,7 +84,7 @@ public class CivResearchCommand extends CommandBase {
         if (sender instanceof Player p) {
             p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.1f, 1.0f);
         }
-        CivMessage.sendCiv(civ, CivSettings.localize.localizedString("var_cmd_civ_research_start", tech.name));
+        CivMessage.sendCiv(civ, CivSettings.localize.localizedString("var_cmd_civ_research_start", tech.name()));
     }
 
     public void finished_cmd() throws CivException {
@@ -93,7 +93,7 @@ public class CivResearchCommand extends CommandBase {
         CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_civ_research_finishedHeading"));
         StringBuilder out = new StringBuilder();
         for (ConfigTech tech : civ.getTechs()) {
-            out.append(tech.name).append(", ");
+            out.append(tech.name()).append(", ");
         }
         CivMessage.send(sender, out.toString());
     }
@@ -129,7 +129,7 @@ public class CivResearchCommand extends CommandBase {
         if (sender instanceof Player p) {
             p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.1f, 1.0f);
         }
-        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_civ_research_start", tech.name));
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_civ_research_start", tech.name()));
     }
 
     public void progress_cmd() throws CivException {
@@ -139,7 +139,7 @@ public class CivResearchCommand extends CommandBase {
 
         if (civ.getResearchTech() != null) {
             int percentageComplete = (int) ((civ.getResearchProgress() / civ.getResearchTech().getAdjustedBeakerCost(civ)) * 100);
-            CivMessage.send(sender, CivSettings.localize.localizedString("var_cmd_civ_research_current", civ.getResearchTech().name, percentageComplete, (civ.getResearchProgress() + " / " + civ.getResearchTech().getAdjustedBeakerCost(civ))));
+            CivMessage.send(sender, CivSettings.localize.localizedString("var_cmd_civ_research_current", civ.getResearchTech().name(), percentageComplete, (civ.getResearchProgress() + " / " + civ.getResearchTech().getAdjustedBeakerCost(civ))));
         } else {
             CivMessage.send(sender, CivSettings.localize.localizedString("cmd_civ_research_NotAnything"));
         }
@@ -152,7 +152,7 @@ public class CivResearchCommand extends CommandBase {
 
         CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_civ_research_Available"));
         for (ConfigTech tech : techs) {
-            CivMessage.send(sender, tech.name + ChatColor.GRAY + " " + CivSettings.localize.localizedString("Cost") + " " +
+            CivMessage.send(sender, tech.name() + ChatColor.GRAY + " " + CivSettings.localize.localizedString("Cost") + " " +
                     ChatColor.YELLOW + tech.getAdjustedTechCost(civ) + ChatColor.GRAY + " " + CivSettings.localize.localizedString("Beakers") + " " +
                     ChatColor.YELLOW + tech.getAdjustedBeakerCost(civ));
         }

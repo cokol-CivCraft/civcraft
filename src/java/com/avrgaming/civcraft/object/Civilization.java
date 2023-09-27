@@ -195,12 +195,12 @@ public class Civilization extends SQLObject {
         this.setCivReligion(CivSettings.religions.get(nbt.getString("religion_id")));
         NBTTagList researched_techs_list = nbt.getList("researched_techs", new NBTTagString("").getTypeId());
         for (int i = 0; i < researched_techs_list.size(); i++) {
-            ConfigTech t = CivSettings.techs.get(researched_techs_list.getString(i));
-            if (t == null) {
+            ConfigTech tech = CivSettings.techs.get(researched_techs_list.getString(i));
+            if (tech == null) {
                 continue;
             }
-            CivGlobal.researchedTechs.add(t.id.toLowerCase());
-            this.techs.put(t.id, t);
+            CivGlobal.researchedTechs.add(tech.id().toLowerCase());
+            this.techs.put(tech.id(), tech);
         }
         this.adminCiv = nbt.getBoolean("adminCiv");
         this.conquered = nbt.getBoolean("conquered");
@@ -226,8 +226,8 @@ public class Civilization extends SQLObject {
         this.getTreasury().setDebt(nbt.getDouble("debt"));
 
         for (ConfigTech tech : this.getTechs()) {
-            if (tech.era > this.getCurrentEra()) {
-                this.setCurrentEra(tech.era);
+            if (tech.era() > this.getCurrentEra()) {
+                this.setCurrentEra(tech.era());
             }
         }
     }
@@ -256,7 +256,7 @@ public class Civilization extends SQLObject {
         nbt.setString("religion_id", this.getReligion().id);
         //hashmap.put("taxrate", this.getIncomeTaxRate());
         if (this.getResearchTech() != null) {
-            nbt.setString("researchTech", this.getResearchTech().id);
+            nbt.setString("researchTech", this.getResearchTech().id());
         }
         nbt.setDouble("researchProgress", this.getResearchProgress());
         nbt.setString("government_id", this.getGovernment().id);
@@ -264,7 +264,7 @@ public class Civilization extends SQLObject {
         nbt.setString("lastTaxesTick", this.saveKeyValueString(this.lastTaxesPaidMap));
         NBTTagList researched_techs_list = new NBTTagList();
         for (ConfigTech tech : this.techs.values()) {
-            researched_techs_list.add(new NBTTagString(tech.id));
+            researched_techs_list.add(new NBTTagString(tech.id()));
         }
         nbt.set("researched_techs", researched_techs_list);
         if (this.adminCiv) {
@@ -345,13 +345,13 @@ public class Civilization extends SQLObject {
         return techs.containsKey(configId);
     }
 
-    public void addTech(ConfigTech t) {
-        if (t.era > this.getCurrentEra()) {
-            this.setCurrentEra(t.era);
+    public void addTech(ConfigTech tech) {
+        if (tech.era() > this.getCurrentEra()) {
+            this.setCurrentEra(tech.era());
         }
 
-        CivGlobal.researchedTechs.add(t.id.toLowerCase());
-        techs.put(t.id, t);
+        CivGlobal.researchedTechs.add(tech.id().toLowerCase());
+        techs.put(tech.id(), tech);
 
         for (Town town : this.getTowns()) {
             town.onTechUpdate();
@@ -360,7 +360,7 @@ public class Civilization extends SQLObject {
     }
 
     public void removeTech(ConfigTech t) {
-        removeTech(t.id);
+        removeTech(t.id());
     }
 
     public void removeTech(String configId) {
@@ -991,7 +991,7 @@ public class Civilization extends SQLObject {
         setResearchProgress(getResearchProgress() + beakers);
 
         if (getResearchProgress() >= getResearchTech().getAdjustedBeakerCost(this)) {
-            CivMessage.sendCiv(this, CivSettings.localize.localizedString("var_civ_research_Discovery", getResearchTech().name));
+            CivMessage.sendCiv(this, CivSettings.localize.localizedString("var_civ_research_Discovery", getResearchTech().name()));
             this.addTech(this.getResearchTech());
             this.setResearchProgress(0);
             this.setResearchTech(null);
@@ -1005,7 +1005,7 @@ public class Civilization extends SQLObject {
         if ((percentageComplete % 10) == 0) {
 
             if (percentageComplete != lastTechPercentage) {
-                CivMessage.sendCiv(this, CivSettings.localize.localizedString("var_civ_research_currentProgress", getResearchTech().name, percentageComplete));
+                CivMessage.sendCiv(this, CivSettings.localize.localizedString("var_civ_research_currentProgress", getResearchTech().name(), percentageComplete));
                 lastTechPercentage = percentageComplete;
                 for (Player p : this.getOnlinePlayers()) {
                     CivMessage.sendActionBar(p, CivData.getStringForBar(CivData.TaskType.TECH, percentageComplete, 100));
@@ -1020,7 +1020,7 @@ public class Civilization extends SQLObject {
 
     public void startTechnologyResearch(ConfigTech tech) throws CivException {
         if (this.getResearchTech() != null) {
-            throw new CivException(CivSettings.localize.localizedString("var_civ_research_switchAlert1", this.getResearchTech().name));
+            throw new CivException(CivSettings.localize.localizedString("var_civ_research_switchAlert1", this.getResearchTech().name()));
         }
         double cost = tech.getAdjustedTechCost(this);
 
@@ -1028,7 +1028,7 @@ public class Civilization extends SQLObject {
             throw new CivException(CivSettings.localize.localizedString("var_civ_research_notEnoughMoney", cost, CivSettings.CURRENCY_NAME));
         }
 
-        if (this.hasTech(tech.id)) {
+        if (this.hasTech(tech.id())) {
             throw new CivException(CivSettings.localize.localizedString("civ_research_alreadyDone"));
         }
 
@@ -1357,8 +1357,8 @@ public class Civilization extends SQLObject {
     public int getTechScore() {
         int points = 0;
         // Count technologies.
-        for (ConfigTech t : this.getTechs()) {
-            points += t.points;
+        for (ConfigTech tech : this.getTechs()) {
+            points += tech.points();
         }
         return points;
     }

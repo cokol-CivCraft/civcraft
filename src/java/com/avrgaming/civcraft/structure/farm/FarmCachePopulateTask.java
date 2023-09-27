@@ -35,10 +35,10 @@ public class FarmCachePopulateTask implements Runnable {
 		if (!CivGlobal.growthEnabled) {
 			return;
 		}
-		
-		for (FarmChunk fc : farms) {
+
+		for (FarmChunk farmChunk : farms) {
 			try {
-				fc.populateCropLocationCache();
+				farmChunk.populateCropLocationCache();
 			} catch (Exception e){
 				e.printStackTrace();
 			}

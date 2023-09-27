@@ -27,24 +27,15 @@ import org.bukkit.configuration.file.FileConfiguration;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class ConfigTech {
-    public final String id;
-    public final String name;
-    public final double beaker_cost;
-    public final double cost;
-    public final String require_techs;
-    public final int era;
-    public final Integer points;
-
-    public ConfigTech(String id, String name, double beakerCost, double cost, String requireTechs, int era, Integer points) {
-        this.id = id;
-        this.name = name;
-        beaker_cost = beakerCost;
-        this.cost = cost;
-        require_techs = requireTechs;
-        this.era = era;
-        this.points = points;
-    }
+public record ConfigTech(
+        String id,
+        String name,
+        double beakerCost,
+        double cost,
+        String requireTechs,
+        int era,
+        Integer points
+) {
 
     public static void loadConfig(FileConfiguration cfg, Map<String, ConfigTech> tech_maps) {
         tech_maps.clear();
@@ -70,7 +61,7 @@ public class ConfigTech {
     }
 
     public double getAdjustedBeakerCost(Civilization civ) {
-        return Math.floor(this.beaker_cost * Math.max(1.0 - eraRate(civ), .01));
+        return Math.floor(this.beakerCost * Math.max(1.0 - eraRate(civ), .01));
     }
 
     public double getAdjustedTechCost(Civilization civ) {
@@ -104,11 +95,11 @@ public class ConfigTech {
             return true;
         }
 
-        if (require_techs == null || require_techs.isEmpty()) {
+        if (requireTechs == null || requireTechs.isEmpty()) {
             return true;
         }
 
-        for (String reqTech : require_techs.split(":")) {
+        for (String reqTech : requireTechs.split(":")) {
             if (!civ.hasTechnology(reqTech)) {
                 return false;
             }

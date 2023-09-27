@@ -256,14 +256,14 @@ public class Stable extends Structure {
         }
 
         for (ConfigStableItem item : CivSettings.stableItems) {
-            SignSelectionComponent comp = signSelectors.get(item.store_id);
+            SignSelectionComponent comp = signSelectors.get(item.storeId());
             if (comp == null) {
                 continue;
             }
-            if (item.item_id == Material.AIR) {
-                comp.addItem(new String[]{ChatColor.GREEN + item.name, CivSettings.localize.localizedString("stable_sign_buyFor"), String.valueOf(item.cost), CivSettings.localize.localizedString("Fee:") + this.nonMemberFeeComponent.getFeeString()}, new buyHorseAction(item.horse_id, item.cost));
+            if (item.material() == Material.AIR) {
+                comp.addItem(new String[]{ChatColor.GREEN + item.name(), CivSettings.localize.localizedString("stable_sign_buyFor"), String.valueOf(item.cost()), CivSettings.localize.localizedString("Fee:") + this.nonMemberFeeComponent.getFeeString()}, new buyHorseAction(item.horseId(), item.cost()));
             } else {
-                comp.addItem(new String[]{ChatColor.GREEN + item.name, CivSettings.localize.localizedString("stable_sign_buyFor"), String.valueOf(item.cost), CivSettings.localize.localizedString("Fee:") + this.nonMemberFeeComponent.getFeeString()}, new buyItemAction(item.item_id, item.cost));
+                comp.addItem(new String[]{ChatColor.GREEN + item.name(), CivSettings.localize.localizedString("stable_sign_buyFor"), String.valueOf(item.cost()), CivSettings.localize.localizedString("Fee:") + this.nonMemberFeeComponent.getFeeString()}, new buyItemAction(item.material(), item.cost()));
             }
         }
     }

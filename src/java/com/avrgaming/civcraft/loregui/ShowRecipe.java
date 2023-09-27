@@ -79,9 +79,9 @@ public class ShowRecipe extends GuiAction {
             if (tech != null) {
 
                 if (resident.hasTown() && resident.getCiv().hasTechnology(craftMat.getConfigMaterial().required_tech)) {
-                    stack = LoreGuiItem.build(CivSettings.localize.localizedString("loreGui_recipes_requiredTech"), Material.EMERALD_BLOCK, 0, tech.name);
+                    stack = LoreGuiItem.build(CivSettings.localize.localizedString("loreGui_recipes_requiredTech"), Material.EMERALD_BLOCK, 0, tech.name());
                 } else {
-                    stack = LoreGuiItem.build(CivSettings.localize.localizedString("loreGui_recipes_requiredTech"), Material.REDSTONE_BLOCK, 0, tech.name);
+                    stack = LoreGuiItem.build(CivSettings.localize.localizedString("loreGui_recipes_requiredTech"), Material.REDSTONE_BLOCK, 0, tech.name());
                 }
             }
 

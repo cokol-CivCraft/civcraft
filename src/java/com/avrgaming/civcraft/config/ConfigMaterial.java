@@ -175,7 +175,7 @@ public class ConfigMaterial {
             tech = tech.replace(" ", "");
             ConfigTech technology = CivSettings.techs.get(tech);
             if (technology != null) {
-                out.append(technology.name).append(", ");
+                out.append(technology.name()).append(", ");
             }
         }
 

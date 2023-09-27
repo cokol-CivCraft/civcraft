@@ -24,20 +24,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import java.util.Map;
 import java.util.Set;
 
-public class ConfigStableItem {
-    public final String name;
-    public final double cost;
-    public final int store_id;
-    public final Material item_id;
-    public final int horse_id;
-
-    public ConfigStableItem(String name, double cost, int storeId, Material itemId, int horseId) {
-        this.name = name;
-        this.cost = cost;
-        store_id = storeId;
-        item_id = itemId;
-        horse_id = horseId;
-    }
+public record ConfigStableItem(String name, double cost, int storeId, Material material, int horseId) {
 
     public static void loadConfig(FileConfiguration cfg, Set<ConfigStableItem> items) {
         items.clear();
