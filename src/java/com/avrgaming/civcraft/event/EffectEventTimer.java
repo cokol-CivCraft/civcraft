@@ -155,9 +155,9 @@ public class EffectEventTimer extends CivAsyncTask {
 				e.printStackTrace();
 				return;
 			}
-			if (town.getFreeGranary() != null) {
-				Granary g = town.getFreeGranary();
-				g.spawnResources();
+			Granary granary = town.getFreeGranary();
+			if (granary != null) {
+				granary.spawnResources();
 			}
 
 			cultureGenerated = Math.round(cultureGenerated);

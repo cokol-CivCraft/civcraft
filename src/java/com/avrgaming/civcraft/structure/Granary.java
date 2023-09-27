@@ -17,13 +17,10 @@
  */
 package com.avrgaming.civcraft.structure;
 
-import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.lorestorage.LoreMaterial;
-import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.StructureChest;
 import com.avrgaming.civcraft.object.Town;
-import com.avrgaming.civcraft.structure.wonders.TheHangingGardens;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.MultiInventory;
 import com.avrgaming.civcraft.util.SimpleBlock;
@@ -31,7 +28,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Chest;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.sql.ResultSet;
@@ -47,13 +43,22 @@ public class Granary extends Structure {
     private double tungsten = 0.0;
     private double chromium = 0.0;
 
-    protected Granary(Location center, String id, Town town)
-            throws CivException {
+    protected Granary(Location center, String id, Town town) throws CivException {
         super(center, id, town);
     }
 
     public Granary(ResultSet rs) throws SQLException, CivException {
         super(rs);
+    }
+
+    public boolean isFree() {
+        for (StructureChest ab : getAllChestsById(1)) {
+            Chest chest = (Chest) ab.getCoord().getBlock().getState();
+            if (chest.getBlockInventory().firstEmpty() >= 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -63,30 +68,24 @@ public class Granary extends Structure {
 
     @Override
     public void onDestroy() {
-        //can be overriden in subclasses.
-        CivMessage.global(CivSettings.localize.localizedString("var_buildable_destroyedAlert", this.getDisplayName(), this.getTown().getName()));
-        this.hitpoints = 0;
         this.getTown().removeGranary(this);
-        this.fancyDestroyStructureBlocks();
-        this.save();
+        super.onDestroy();
     }
 
-    public void putResources(double i1, double i2, double i3, double i4, double i5, double i6) {
-        this.iron += i1;
-        this.gold += i2;
-        this.diamond += i3;
-        this.emerald += i4;
-        this.tungsten += i5;
-        this.chromium += i6;
+    public void putResources(double iron, double gold, double diamond, double emerald, double tungsten, double chromium) {
+        this.iron += iron;
+        this.gold += gold;
+        this.diamond += diamond;
+        this.emerald += emerald;
+        this.tungsten += tungsten;
+        this.chromium += chromium;
     }
 
     private boolean initWonder() {
         if (this.getCiv().hasWonder("w_hanginggardens")) {
-            TheHangingGardens thg = (TheHangingGardens) this.getCiv().getWonder("w_hanginggardens");
-            for (StructureChest sch : thg.getAllChestsById(1)) {
-                Chest ch = (Chest) sch.getCoord().getBlock().getState();
-                Inventory tmp = ch.getBlockInventory();
-                dest_inv.addInventory(tmp);
+            for (StructureChest sch : this.getCiv().getWonder("w_hanginggardens").getAllChestsById(1)) {
+                Chest chest = (Chest) sch.getCoord().getBlock().getState();
+                dest_inv.addInventory(chest.getBlockInventory());
             }
         }
         return !dest_inv.isFull();
@@ -95,33 +94,28 @@ public class Granary extends Structure {
     public boolean initGranary() {
         for (StructureChest sch : this.getAllChestsById(1)) {
             Chest ch = (Chest) sch.getCoord().getBlock().getState();
-            Inventory tmp = ch.getBlockInventory();
-            dest_inv.addInventory(tmp);
+            dest_inv.addInventory(ch.getBlockInventory());
         }
         return dest_inv.isFull();
     }
 
     public void spawnResources() {
-        ArrayList<ItemStack> newItems = new ArrayList<>();
         int spawnIron = (int) Math.min(64, iron);
         int spawnGold = (int) Math.min(64, gold);
         int spawnDiamond = (int) Math.min(64, diamond);
         int spawnEmerald = (int) Math.min(64, emerald);
         int spawnTungsten = (int) Math.min(64, tungsten);
         int spawnChromium = (int) Math.min(64, chromium);
-        ItemStack ir = new ItemStack(Material.IRON_INGOT, spawnIron);
-        ItemStack gd = new ItemStack(Material.GOLD_INGOT, spawnGold);
-        ItemStack dm = new ItemStack(Material.DIAMOND, spawnDiamond);
-        ItemStack em = new ItemStack(Material.EMERALD, spawnEmerald);
-        ItemStack tu = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_ore"), spawnTungsten);
-        ItemStack chr = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_chromium_ore"), spawnChromium);
-        newItems.add(ir);
-        newItems.add(gd);
-        newItems.add(dm);
-        newItems.add(em);
-        newItems.add(tu);
-        newItems.add(chr);
-        if (initGranary() || initWonder()) {
+        ArrayList<ItemStack> newItems = new ArrayList<>();
+        newItems.add(new ItemStack(Material.IRON_INGOT, spawnIron));
+        newItems.add(new ItemStack(Material.GOLD_INGOT, spawnGold));
+        newItems.add(new ItemStack(Material.DIAMOND, spawnDiamond));
+        newItems.add(new ItemStack(Material.EMERALD, spawnEmerald));
+        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_ore"), spawnTungsten));
+        newItems.add(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_chromium_ore"), spawnChromium));
+        if (!initGranary() && !initWonder()) {
+            this.getTown().saveGranaryResources(this.iron, this.gold, this.diamond, this.emerald, this.tungsten, this.chromium);
+        } else {
             for (ItemStack newItem : newItems) {
                 dest_inv.addItemStack(newItem);
             }
@@ -131,8 +125,6 @@ public class Granary extends Structure {
             this.emerald -= spawnEmerald;
             this.tungsten -= spawnTungsten;
             this.chromium -= spawnChromium;
-        } else {
-            this.getTown().saveGranaryResources(this.iron, this.gold, this.diamond, this.emerald, this.tungsten, this.chromium);
         }
     }
 

@@ -516,7 +516,7 @@ public class Template {
                                 continue;
                             }
 
-                            String[] keyvalue = locTypeSplit[i].split(":");
+                            String[] keyvalue = locTypeSplit[i].split(":", 2);
                             if (keyvalue.length < 2) {
                                 CivLog.warning("Invalid keyvalue:" + locTypeSplit[i] + " in template:" + this.filepath);
                                 continue;

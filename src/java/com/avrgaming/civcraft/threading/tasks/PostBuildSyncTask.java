@@ -61,8 +61,6 @@ public class PostBuildSyncTask implements Runnable {
         /* These block coords do not point to a location in the world, just a location in the template. */
         for (BlockCoord relativeCoord : tpl.commandBlockRelativeLocations) {
             SimpleBlock sb = tpl.blocks[relativeCoord.getX()][relativeCoord.getY()][relativeCoord.getZ()];
-            StructureSign structSign;
-            Block block;
             BlockCoord absCoord = new BlockCoord(buildable.getCorner().getBlock().getRelative(relativeCoord.getX(), relativeCoord.getY(), relativeCoord.getZ()));
 
             if (!(sb.getMaterialData() instanceof Sign)) {
@@ -162,7 +160,7 @@ public class PostBuildSyncTask implements Runnable {
                     }
                 }
                 case "/sign" -> {
-                    structSign = CivGlobal.getStructureSign(absCoord);
+                    StructureSign structSign = CivGlobal.getStructureSign(absCoord);
                     if (structSign == null) {
                         structSign = new StructureSign(absCoord, buildable);
                     }
@@ -187,7 +185,7 @@ public class PostBuildSyncTask implements Runnable {
                     CivGlobal.addStructureChest(structChest);
 
                     /* Convert sign data to chest data.*/
-                    block = absCoord.getBlock();
+                    Block block = absCoord.getBlock();
                     if (block.getType() != Material.CHEST) {
                         block.getState().setData(new org.bukkit.material.Chest(((Sign) sb.getMaterialData()).getFacing()));
                     }

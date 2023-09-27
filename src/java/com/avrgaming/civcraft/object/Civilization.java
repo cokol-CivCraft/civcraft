@@ -85,8 +85,8 @@ public class Civilization extends SQLObject {
 
     /* Strings used for reverse lookups. */
     private String leaderName;
-    private String leaderGroupName;
-    private String advisersGroupName;
+    private String leaderGroupName = "leaders";
+    private String advisersGroupName = "advisers";
     private String capitolName;
     private ConfigReligion civReligion;
     private final ConcurrentHashMap<String, Town> towns = new ConcurrentHashMap<>();

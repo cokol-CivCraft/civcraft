@@ -285,8 +285,19 @@ public class Cottage extends Structure {
     }
 
     public void generateResources(int cottageLevel, double multiplier) {
-        double iron = 0.5, gold = 0.25, diamond = 0.18, emerald = 0.075, tungsten = 0.15, chromium = 0.12;
-        this.getTown().getFreeGranary().putResources(iron * cottageLevel * multiplier, gold * cottageLevel * multiplier, diamond * cottageLevel * multiplier, emerald * cottageLevel * multiplier, tungsten * cottageLevel * multiplier, chromium * cottageLevel * multiplier);
+        double iron = 0.5;
+        double gold = 0.25;
+        double diamond = 0.18;
+        double emerald = 0.075;
+        double tungsten = 0.15;
+        double chromium = 0.12;
+        this.getTown().getFreeGranary().putResources(
+                iron * cottageLevel * multiplier,
+                gold * cottageLevel * multiplier,
+                diamond * cottageLevel * multiplier,
+                emerald * cottageLevel * multiplier,
+                tungsten * cottageLevel * multiplier,
+                chromium * cottageLevel * multiplier);
     }
 
     public int getMaxCount() {

@@ -51,7 +51,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -3174,17 +3173,9 @@ public class Town extends SQLObject {
     }
 
     public Granary getFreeGranary() {
-        for (int i = 0; i < granaryAL.size(); i++) {
-            Granary g = getGranary(i);
-            int full = 0;
-            for (StructureChest ab : g.getAllChestsById(1)) {
-                Chest chest = (Chest) ab.getCoord().getBlock().getState();
-                if (chest.getBlockInventory().firstEmpty() < 0) {
-                    full++;
-                }
-            }
-            if (full < 2) {
-                return g;
+        for (Granary granary : getGranaries()) {
+            if (granary.isFree()) {
+                return granary;
             }
         }
         return null;
