@@ -75,7 +75,7 @@ global:
   casual_mode: 'false'
 
   # Attempt to validate structures to make sure they're not floating.
-  structure_validation: 'true'
+  structure_validation: true
 
   # Have speed checks only on chunk changes. Default: true
   # This means that players on roads need to move across a chunk to gain the movement bonus

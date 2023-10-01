@@ -421,6 +421,7 @@ public class Camp extends Buildable {
             switch (sb.command) {
                 case "/gardensign" -> {
                     if (!this.gardenEnabled) {
+                        absCoord.getBlock().setType(Material.SIGN);
                         Sign sign = (Sign) absCoord.getBlock().getState();
                         sign.setData(sb.getMaterialData());
                         sign.setLine(0, "Garden Disabled");
@@ -439,10 +440,7 @@ public class Camp extends Buildable {
                         this.growthLocations.add(absCoord);
                         CivGlobal.vanillaGrowthLocations.add(absCoord);
 
-                        Block b = absCoord.getBlock();
-                        if (b.getType() != Material.SOIL) {
-                            b.setType(Material.SOIL);
-                        }
+                        absCoord.getBlock().setType(Material.SOIL);
 
                         this.addCampBlock(absCoord, true);
                         this.addCampBlock(new BlockCoord(absCoord.getBlock().getRelative(0, 1, 0)), true);
@@ -458,7 +456,10 @@ public class Camp extends Buildable {
                 case "/fire" -> absCoord.getBlock().setType(Material.FIRE);
                 case "/firefurnace" -> {
                     this.fireFurnaceBlocks.add(absCoord);
-                    absCoord.getBlock().getState().setData(new org.bukkit.material.Furnace(((org.bukkit.material.Sign) sb.getMaterialData()).getFacing()));
+                    absCoord.getBlock().setType(Material.FURNACE);
+                    BlockState state = absCoord.getBlock().getState();
+                    state.setData(new org.bukkit.material.Furnace(((org.bukkit.material.Sign) sb.getMaterialData()).getFacing()));
+                    state.update(true, false);
                     this.addCampBlock(absCoord);
                 }
                 case "/sifter" -> {
@@ -469,9 +470,12 @@ public class Camp extends Buildable {
                         default -> CivLog.warning("Unknown ID for sifter in camp:" + id);
                     }
                     if (this.sifterEnabled) {
-                        absCoord.getBlock().getState().setData(new org.bukkit.material.Chest(((org.bukkit.material.Sign) sb.getMaterialData()).getFacing()));
+                        BlockState state = absCoord.getBlock().getState();
+                        state.setData(new org.bukkit.material.Chest(((org.bukkit.material.Sign) sb.getMaterialData()).getFacing()));
+                        state.update(true, false);
                     } else {
                         try {
+                            absCoord.getBlock().setType(Material.SIGN);
                             Sign sign = (Sign) absCoord.getBlock().getState();
                             sign.setData(sb.getMaterialData());
                             sign.setLine(0, CivSettings.localize.localizedString("camp_sifterUpgradeSign1"));
@@ -503,10 +507,17 @@ public class Camp extends Buildable {
                 case "/door" -> {
                     this.doors.add(absCoord);
                     Block doorBlock = absCoord.getBlock();
-                    Block doorBlock2 = absCoord.getBlock().getRelative(0, 1, 0);
-                    doorBlock.getState().setData(new Door(Material.WOODEN_DOOR, ((org.bukkit.material.Sign) sb.getMaterialData()).getFacing()));
-                    doorBlock2.getState().setData(new Door(Material.WOODEN_DOOR, false));
+                    doorBlock.setType(Material.WOODEN_DOOR);
+                    BlockState state = doorBlock.getState();
+                    state.setData(new Door(Material.WOODEN_DOOR, ((org.bukkit.material.Sign) sb.getMaterialData()).getFacing()));
+                    state.update(true, false);
                     this.addCampBlock(new BlockCoord(doorBlock));
+
+                    Block doorBlock2 = absCoord.getBlock().getRelative(0, 1, 0);
+                    doorBlock2.setType(Material.WOODEN_DOOR);
+                    BlockState state2 = doorBlock2.getState();
+                    state2.setData(new Door(Material.WOODEN_DOOR, false));
+                    state2.update(true, false);
                     this.addCampBlock(new BlockCoord(doorBlock2));
                 }
                 case "/control" -> this.createControlPoint(absCoord);
@@ -701,9 +712,8 @@ public class Camp extends Buildable {
                     }
 
                     try {
-                        if (nextBlock.getType() != tpl.blocks[x][y][z].getType()) {
-                            nextBlock.getState().setData(tpl.blocks[x][y][z].getMaterialData());
-                        }
+                        nextBlock.setType(tpl.blocks[x][y][z].getType());
+                        nextBlock.getState().setData(tpl.blocks[x][y][z].getMaterialData());
 
                         if (nextBlock.getType() != Material.AIR) {
                             this.addCampBlock(new BlockCoord(nextBlock.getLocation()));

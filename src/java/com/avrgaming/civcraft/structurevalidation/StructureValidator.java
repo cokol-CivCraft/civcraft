@@ -21,28 +21,15 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
+import javax.annotation.Nonnull;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class StructureValidator implements Runnable {
-
-    private static String playerName = null;
-    private static Buildable buildable = null;
-    private static String templateFilepath = null;
-    private static BlockCoord cornerLoc = null;
-    private static CallbackInterface callback = null;
-
-
     /* Only validate a single structure at a time. */
     private static final ReentrantLock validationLock = new ReentrantLock();
-    private static TemplateStream tplStream = null;
-
-
-    /* Private tasks we'll reuse. */
-    private static final SyncLoadSnapshotsFromLayer layerLoadTask = new SyncLoadSnapshotsFromLayer();
-
 
     private static final HashMap<ChunkCoord, ChunkSnapshot> chunks = new HashMap<>();
 
@@ -51,35 +38,31 @@ public class StructureValidator implements Runnable {
      */
 
     /* Instance variables that wait to be set while validator is running. */
-    private String iPlayerName = null;
+    private final String iPlayerName;
     private Buildable iBuildable = null;
-    private String iTemplateName = null;
-    private BlockCoord iCornerLoc = null;
-    private CallbackInterface iCallback = null;
+    private final String iTemplateName;
+    private final BlockCoord iCornerLoc;
+    private final CallbackInterface iCallback;
     private final boolean isWork = CivCraft.getIsValidate();
 
-    public static boolean isEnabled() {
-        boolean enabledStr;
-        try {
-            enabledStr = CivSettings.getBoolean(CivSettings.civConfig, "global.structure_validation");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            return false;
-        }
-
-        return enabledStr;
-    }
-
-    public StructureValidator(Player player, Buildable bld) {
+    public StructureValidator(Player player, @Nonnull Buildable bld) {
         if (player != null) {
             this.iPlayerName = player.getName();
+        } else {
+            this.iPlayerName = null;
         }
         this.iBuildable = bld;
+        this.iCornerLoc = new BlockCoord(bld.getCorner());
+        this.iCallback = (name) -> {
+        };
+        this.iTemplateName = bld.getSavedTemplatePath();
     }
 
-    public StructureValidator(Player player, String templateName, Location cornerLoc, CallbackInterface callback) {
+    public StructureValidator(Player player, @Nonnull String templateName, @Nonnull Location cornerLoc, @Nonnull CallbackInterface callback) {
         if (player != null) {
             this.iPlayerName = player.getName();
+        } else {
+            this.iPlayerName = null;
         }
 
         this.iTemplateName = templateName;
@@ -87,44 +70,23 @@ public class StructureValidator implements Runnable {
         this.iCallback = callback;
     }
 
-    private static class SyncLoadSnapshotsFromLayer implements Runnable {
-        public List<SimpleBlock> bottomLayer;
-        public StructureValidator notifyTask;
-
-        public SyncLoadSnapshotsFromLayer() {
+    public static boolean isDisabled() {
+        boolean enabledStr;
+        try {
+            enabledStr = CivSettings.getBoolean(CivSettings.civConfig, "global.structure_validation");
+        } catch (InvalidConfiguration e) {
+            e.printStackTrace();
+            return true;
         }
 
-        @Override
-        public void run() {
-            BlockCoord corner = new BlockCoord(cornerLoc);
-            /*
-             * Grab all of the chunk snapshots and go into async mode.
-             */
-            chunks.clear();
-
-            for (SimpleBlock sb : bottomLayer) {
-                Block next = corner.getBlock().getRelative(sb.x, corner.getY(), sb.z);
-                ChunkCoord coord = new ChunkCoord(next.getLocation());
-
-                if (chunks.containsKey(coord)) {
-                    continue;
-                }
-
-                chunks.put(coord, next.getChunk().getChunkSnapshot());
-            }
-
-            synchronized (notifyTask) {
-                notifyTask.notify();
-            }
-        }
+        return !enabledStr;
     }
 
-
-    public void finishValidate(HashMap<ChunkCoord, ChunkSnapshot> chunks, List<SimpleBlock> bottomLayer) {
+    private void finishValidate(List<SimpleBlock> bottomLayer) {
         Player player = null;
         try {
-            if (playerName != null) {
-                player = CivGlobal.getPlayer(playerName);
+            if (iPlayerName != null) {
+                player = CivGlobal.getPlayer(iPlayerName);
             }
         } catch (CivException ignored) {
         }
@@ -133,14 +95,11 @@ public class StructureValidator implements Runnable {
         boolean valid = true;
         String message = "";
 
-        if (buildable == null) {
-            return;
-        }
         if (!isWork) {
             return;
         }
 
-        for (int y = cornerLoc.getY() - 1; y > 0; y--) {
+        for (int y = iCornerLoc.getY() - 1; y > 0; y--) {
             checkedLevelCount++;
             double totalBlocks = 0;
             double reinforcementValue = 0;
@@ -151,12 +110,10 @@ public class StructureValidator implements Runnable {
                     continue;
                 }
                 try {
-                    int absX;
-                    int absZ;
-                    absX = cornerLoc.getX() + sb.x;
-                    absZ = cornerLoc.getZ() + sb.z;
+                    int absX = iCornerLoc.getX() + sb.x;
+                    int absZ = iCornerLoc.getZ() + sb.z;
 
-                    Material type = Buildable.getBlockIDFromSnapshotMap(chunks, absX, y, absZ, cornerLoc.getWorldname());
+                    Material type = Buildable.getBlockIDFromSnapshotMap(StructureValidator.chunks, absX, y, absZ, iCornerLoc.getWorldname());
                     totalBlocks++;
                     reinforcementValue += Buildable.getReinforcementValue(type);
                 } catch (CivException e) {
@@ -166,7 +123,9 @@ public class StructureValidator implements Runnable {
             }
 
             double percentValid = reinforcementValue / totalBlocks;
-            buildable.layerValidPercentages.put(y, new BuildableLayer((int) reinforcementValue, (int) totalBlocks));
+            if (iBuildable != null) {
+                iBuildable.layerValidPercentages.put(y, new BuildableLayer((int) reinforcementValue, (int) totalBlocks));
+            }
 
             if (valid) {
                 if (percentValid < Buildable.getReinforcementRequirementForLevel(checkedLevelCount)) {
@@ -176,10 +135,11 @@ public class StructureValidator implements Runnable {
                 }
             }
         }
-
-        buildable.validated = true;
-        buildable.invalidLayerMessage = message;
-        buildable.setValid(valid);
+        if (iBuildable != null) {
+            iBuildable.validated = true;
+            iBuildable.invalidLayerMessage = message;
+            iBuildable.setValid(valid);
+        }
 
         if (player != null) {
             CivMessage.sendError(player, message);
@@ -190,31 +150,24 @@ public class StructureValidator implements Runnable {
 
             if (valid) {
                 CivMessage.send(player, ChatColor.GREEN + CivSettings.localize.localizedString("structureValidator_isValid"));
-                buildable.setValid(true);
-                buildable.invalidLayerMessage = "";
+                if (iBuildable != null) {
+                    iBuildable.setValid(true);
+                    iBuildable.invalidLayerMessage = "";
+                }
             }
         }
 
-        if (callback != null) {
+        if (iCallback != null) {
             if (valid || (player != null && player.isOp())) {
-                callback.execute(playerName);
+                iCallback.execute(iPlayerName);
             }
         }
-    }
-
-    private static void cleanup() {
-        playerName = null;
-        buildable = null;
-        cornerLoc = null;
-        templateFilepath = null;
-        callback = null;
-        validationLock.unlock();
     }
 
 
     @Override
     public void run() {
-        if (!isEnabled()) {
+        if (isDisabled()) {
             iBuildable.validated = true;
             iBuildable.setValid(true);
             return;
@@ -225,48 +178,52 @@ public class StructureValidator implements Runnable {
 
         try {
             /* Copy over instance variables to static variables. */
-            playerName = iPlayerName;
             if (iBuildable != null) {
                 if (iBuildable.isIgnoreFloating()) {
                     iBuildable.validated = true;
                     iBuildable.setValid(true);
                     return;
                 }
-                buildable = iBuildable;
-                cornerLoc = this.iBuildable.getCorner();
-                templateFilepath = this.iBuildable.getSavedTemplatePath();
-            } else {
-                cornerLoc = this.iCornerLoc;
-                templateFilepath = this.iTemplateName;
             }
-            callback = this.iCallback;
-
-            List<SimpleBlock> bottomLayer;
 
             /* Load the template stream. */
-            if (tplStream == null) {
-                tplStream = new TemplateStream(templateFilepath);
-            } else {
-                tplStream.setSource(templateFilepath);
-            }
+            TemplateStream tplStream = new TemplateStream(this.iTemplateName);
 
-            bottomLayer = tplStream.getBlocksForLayer(0);
+            List<SimpleBlock> bottomLayer = tplStream.getBlocksForLayer(0);
 
             /* Launch sync layer load task. */
-            layerLoadTask.bottomLayer = bottomLayer;
-            layerLoadTask.notifyTask = this;
-            TaskMaster.syncTask(layerLoadTask);
+            TaskMaster.syncTask(() -> {
+                /*
+                 * Grab all of the chunk snapshots and go into async mode.
+                 */
+                chunks.clear();
+
+                for (SimpleBlock sb : bottomLayer) {
+                    Block next = iCornerLoc.getBlock().getRelative(sb.x, iCornerLoc.getY(), sb.z);
+                    ChunkCoord coord = new ChunkCoord(next.getLocation());
+
+                    if (chunks.containsKey(coord)) {
+                        continue;
+                    }
+
+                    chunks.put(coord, next.getChunk().getChunkSnapshot());
+                }
+
+                synchronized (StructureValidator.this) {
+                    StructureValidator.this.notify();
+                }
+            });
 
             /* Wait for sync task to notify us to continue. */
             synchronized (this) {
                 this.wait();
             }
 
-            this.finishValidate(chunks, bottomLayer);
+            this.finishValidate(bottomLayer);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            cleanup();
+            validationLock.unlock();
         }
     }
 }

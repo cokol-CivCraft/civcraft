@@ -11,7 +11,7 @@ public class StructureValidationPunisher implements Runnable {
 
     @Override
     public void run() {
-        if (!StructureValidator.isEnabled()) {
+        if (StructureValidator.isDisabled()) {
             return;
         }
 
