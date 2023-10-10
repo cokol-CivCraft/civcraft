@@ -16,20 +16,20 @@ public class JoinTeamResponse implements QuestionResponseInterface {
 
     @Override
     public void processResponse(String param) {
-        if (param.equalsIgnoreCase("accept")) {
-            CivMessage.send(sender, ChatColor.GRAY + CivSettings.localize.localizedString("var_joinTeam_accepted", resident.getName()));
-
-            try {
-                ArenaTeam.addMember(team.getName(), resident);
-            } catch (CivException e) {
-                CivMessage.sendError(sender, e.getMessage());
-                return;
-            }
-
-            CivMessage.sendTeam(team, CivSettings.localize.localizedString("var_joinTeam_Alert", resident.getName()));
-        } else {
+        if (!param.equalsIgnoreCase("accept")) {
             CivMessage.send(sender, ChatColor.GRAY + CivSettings.localize.localizedString("var_joinTeam_Declined", resident.getName()));
+            return;
         }
+        CivMessage.send(sender, ChatColor.GRAY + CivSettings.localize.localizedString("var_joinTeam_accepted", resident.getName()));
+
+        try {
+            ArenaTeam.addMember(team.getName(), resident);
+        } catch (CivException e) {
+            CivMessage.sendError(sender, e.getMessage());
+            return;
+        }
+
+        CivMessage.sendTeam(team, CivSettings.localize.localizedString("var_joinTeam_Alert", resident.getName()));
     }
 
     @Override

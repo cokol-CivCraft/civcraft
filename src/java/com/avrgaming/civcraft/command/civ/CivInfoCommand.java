@@ -211,7 +211,7 @@ public class CivInfoCommand extends CommandBase {
             CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("Advisors") + " " + ChatColor.GREEN + civ.getAdviserGroup().getMembersString());
         }
 
-        if (resident == null || civ.hasResident(resident)) {
+        if (civ.hasResident(resident)) {
             CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("cmd_civ_info_showTax") + " " + ChatColor.GREEN + civ.getIncomeTaxRateString() +
                     ChatColor.DARK_GREEN + " " + CivSettings.localize.localizedString("cmd_civ_info_showScience") + " " + ChatColor.GREEN + DecimalHelper.formatPercentage(civ.getSciencePercentage()));
             CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("Beakers") + " " + ChatColor.GREEN + civ.getBeakers() +

@@ -33,39 +33,38 @@ public class DiplomacyGiftResponse implements QuestionResponseInterface {
 
     @Override
     public void processResponse(String param) {
-        if (param.equalsIgnoreCase("accept")) {
-
-            if (giftedObject instanceof Town town) {
-
-                if (!toCiv.getTreasury().hasEnough(town.getGiftCost())) {
-                    CivMessage.sendCiv(toCiv, ChatColor.RED + CivSettings.localize.localizedString("var_diplomacy_gift_ErrorTooPoor", town.getName(), town.getGiftCost(), CivSettings.CURRENCY_NAME));
-                    CivMessage.sendCiv(fromCiv, ChatColor.RED + CivSettings.localize.localizedString("var_diplomacy_gift_ErrorTooPoor2", toCiv.getName(), town.getName(), town.getGiftCost(), CivSettings.CURRENCY_NAME));
-                    return;
-                }
-
-                toCiv.getTreasury().withdraw(town.getGiftCost());
-                town.changeCiv(toCiv);
-                CivMessage.sendCiv(fromCiv, ChatColor.GRAY + CivSettings.localize.localizedString("var_diplomacy_gift_accept", toCiv.getName(), town.getName()));
-            } else if (giftedObject instanceof Civilization) {
-                int coins = fromCiv.getMergeCost();
-
-                if (!toCiv.getTreasury().hasEnough(coins)) {
-                    CivMessage.sendCiv(toCiv, ChatColor.RED + CivSettings.localize.localizedString("var_diplomacy_merge_ErrorTooPoor", fromCiv.getName(), coins, CivSettings.CURRENCY_NAME));
-                    CivMessage.sendCiv(fromCiv, ChatColor.RED + CivSettings.localize.localizedString("var_diplomacy_merge_ErrorTooPoor2", toCiv.getName(), fromCiv.getName(), coins, CivSettings.CURRENCY_NAME));
-                    return;
-                }
-
-                toCiv.getTreasury().withdraw(coins);
-                CivMessage.sendCiv(fromCiv, ChatColor.YELLOW + CivSettings.localize.localizedString("var_diplomacy_merge_offerAccepted", toCiv.getName()));
-                toCiv.mergeInCiv(fromCiv);
-                CivMessage.global(CivSettings.localize.localizedString("var_diplomacy_merge_SuccessAlert1", fromCiv.getName(), toCiv.getName()));
-            } else {
-                CivLog.error(CivSettings.localize.localizedString("diplomacy_merge_UnexpectedError") + " " + giftedObject);
-            }
-        } else {
+        if (!param.equalsIgnoreCase("accept")) {
             CivMessage.sendCiv(fromCiv, ChatColor.GRAY + CivSettings.localize.localizedString("var_RequestDecline", toCiv.getName()));
+            return;
         }
 
+        if (giftedObject instanceof Town town) {
+
+            if (!toCiv.getTreasury().hasEnough(town.getGiftCost())) {
+                CivMessage.sendCiv(toCiv, ChatColor.RED + CivSettings.localize.localizedString("var_diplomacy_gift_ErrorTooPoor", town.getName(), town.getGiftCost(), CivSettings.CURRENCY_NAME));
+                CivMessage.sendCiv(fromCiv, ChatColor.RED + CivSettings.localize.localizedString("var_diplomacy_gift_ErrorTooPoor2", toCiv.getName(), town.getName(), town.getGiftCost(), CivSettings.CURRENCY_NAME));
+                return;
+            }
+
+            toCiv.getTreasury().withdraw(town.getGiftCost());
+            town.changeCiv(toCiv);
+            CivMessage.sendCiv(fromCiv, ChatColor.GRAY + CivSettings.localize.localizedString("var_diplomacy_gift_accept", toCiv.getName(), town.getName()));
+        } else if (giftedObject instanceof Civilization) {
+            int coins = fromCiv.getMergeCost();
+
+            if (!toCiv.getTreasury().hasEnough(coins)) {
+                CivMessage.sendCiv(toCiv, ChatColor.RED + CivSettings.localize.localizedString("var_diplomacy_merge_ErrorTooPoor", fromCiv.getName(), coins, CivSettings.CURRENCY_NAME));
+                CivMessage.sendCiv(fromCiv, ChatColor.RED + CivSettings.localize.localizedString("var_diplomacy_merge_ErrorTooPoor2", toCiv.getName(), fromCiv.getName(), coins, CivSettings.CURRENCY_NAME));
+                return;
+            }
+
+            toCiv.getTreasury().withdraw(coins);
+            CivMessage.sendCiv(fromCiv, ChatColor.YELLOW + CivSettings.localize.localizedString("var_diplomacy_merge_offerAccepted", toCiv.getName()));
+            toCiv.mergeInCiv(fromCiv);
+            CivMessage.global(CivSettings.localize.localizedString("var_diplomacy_merge_SuccessAlert1", fromCiv.getName(), toCiv.getName()));
+        } else {
+            CivLog.error(CivSettings.localize.localizedString("diplomacy_merge_UnexpectedError") + " " + giftedObject);
+        }
     }
 
     @Override

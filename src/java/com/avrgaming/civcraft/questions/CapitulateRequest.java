@@ -15,12 +15,12 @@ public class CapitulateRequest implements QuestionResponseInterface {
 
     @Override
     public void processResponse(String param) {
-        if (param.equalsIgnoreCase("accept")) {
-            capitulator.capitulate();
-            CivMessage.global(CivSettings.localize.localizedString("var_capitulateAccept", from, to));
-        } else {
+        if (!param.equalsIgnoreCase("accept")) {
             CivMessage.send(playerName, ChatColor.GRAY + CivSettings.localize.localizedString("var_RequestDecline", to));
+            return;
         }
+        capitulator.capitulate();
+        CivMessage.global(CivSettings.localize.localizedString("var_capitulateAccept", from, to));
     }
 
     @Override

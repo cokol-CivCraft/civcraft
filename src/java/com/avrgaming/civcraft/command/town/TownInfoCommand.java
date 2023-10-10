@@ -323,7 +323,7 @@ public class TownInfoCommand extends CommandBase {
             CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("Assitants") + " " + ChatColor.GREEN + town.getAssistantGroup().getMembersString());
         }
 
-        if (resident == null || civ.hasResident(resident)) {
+        if (civ.hasResident(resident)) {
 
             String color = String.valueOf(ChatColor.GREEN);
             int maxTileImprovements = level.tile_improvements;
