@@ -127,7 +127,7 @@ public class CivSettings {
 
     public static FileConfiguration warConfig; /* war.yml */
 
-    public static FileConfiguration scoreConfig; /* score.yml */
+    public static ConfigScore scoreConfig; /* score.yml */
 
     public static FileConfiguration perkConfig; /* perks.yml */
     public static HashMap<String, ArrayList<ConfigTemplate>> templates = new HashMap<>();
@@ -343,8 +343,8 @@ public class CivSettings {
     }
 
     public static FileConfiguration loadCivConfig(String filepath) throws IOException, InvalidConfigurationException {
-        CivLog.warning(plugin.getDataFolder().getPath() + "/data/" + filepath);
-        File file = new File(plugin.getDataFolder().getPath() + "/data/" + filepath);
+        File file = getConfigFileFromName(filepath);
+        CivLog.warning(file.getPath());
         if (!file.exists()) {
             CivLog.warning("Configuration file:" + filepath + " was missing. Streaming to disk from Jar.");
             streamResourceToDisk("/data/" + filepath);
@@ -355,6 +355,10 @@ public class CivSettings {
         YamlConfiguration cfg = new YamlConfiguration();
         cfg.load(file);
         return cfg;
+    }
+
+    public static File getConfigFileFromName(String name) {
+        return new File(plugin.getDataFolder().getPath() + "/data/" + name);
     }
 
     public static void reloadGovConfigFiles() throws IOException, InvalidConfigurationException {
@@ -377,7 +381,7 @@ public class CivSettings {
         wonderConfig = loadCivConfig("wonders.yml");
         unitConfig = loadCivConfig("units.yml");
         espionageConfig = loadCivConfig("espionage.yml");
-        scoreConfig = loadCivConfig("score.yml");
+        scoreConfig = ConfigScore.fromFile(getConfigFileFromName("score.yml"));
         perkConfig = loadCivConfig("perks.yml");
         enchantConfig = loadCivConfig("enchantments.yml");
         campConfig = loadCivConfig("camp.yml");

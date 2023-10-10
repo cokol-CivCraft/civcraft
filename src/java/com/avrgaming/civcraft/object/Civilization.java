@@ -1263,9 +1263,7 @@ public class Civilization extends SQLObject {
     }
 
     public double getForSalePriceFromCivOnly() {
-        int effectivePoints = this.getTechScore();
-        double coins_per_point = CivSettings.scoreConfig.getDouble("coins_per_point", 5.0);
-        return coins_per_point * effectivePoints;
+        return CivSettings.scoreConfig.coins_per_point * this.getTechScore();
     }
 
     public double getTotalSalePrice() {

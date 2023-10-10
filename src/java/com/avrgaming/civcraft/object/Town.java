@@ -2119,7 +2119,7 @@ public class Town extends SQLObject {
     }
 
     public double getForSalePrice() {
-        return CivSettings.scoreConfig.getDouble("coins_per_point", 5.0) * this.getScore();
+        return CivSettings.scoreConfig.coins_per_point * this.getScore();
     }
 
     public int getScore() {
@@ -2137,21 +2137,17 @@ public class Town extends SQLObject {
 
         // Count residents, town chunks, and culture chunks.
         // also coins.
-        double perResident = CivSettings.scoreConfig.getInt("town_scores.resident", 5000);
-        points += (int) (perResident * this.getResidents().size());
 
-        double perTownChunk = CivSettings.scoreConfig.getInt("town_scores.town_chunk", 200);
-        points += (int) (perTownChunk * this.getTownChunks().size());
+        points += (int) ((double) CivSettings.scoreConfig.town_scores.resident * this.getResidents().size());
+        points += (int) (CivSettings.scoreConfig.town_scores.town_chunk * this.getTownChunks().size());
 
-        double perCultureChunk = CivSettings.scoreConfig.getInt("town_scores.culture_chunk", 100);
         if (this.cultureChunks != null) {
-            points += (int) (perCultureChunk * this.cultureChunks.size());
+            points += (int) (CivSettings.scoreConfig.town_scores.culture_chunk * this.cultureChunks.size());
         } else {
             CivLog.warning("Town " + this.getName() + " has no culture chunks??");
         }
 
-        double coins_per_point = CivSettings.scoreConfig.getInt("coins_per_point", (int) 5.0);
-        points += (int) (this.getTreasury().getBalance() / coins_per_point);
+        points += (int) (this.getTreasury().getBalance() * CivSettings.scoreConfig.town_scores.coins);
 
         return points;
     }
