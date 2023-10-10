@@ -27,7 +27,6 @@ import com.avrgaming.civcraft.config.ConfigCampUpgrade;
 import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.exception.InvalidNameException;
 import com.avrgaming.civcraft.items.components.Tagged;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
@@ -146,12 +145,8 @@ public class Camp extends Buildable {
         nextRaidDate = new Date();
         nextRaidDate.setTime(nextRaidDate.getTime() + 24 * 60 * 60 * 1000);
 
-        try {
-            this.firepoints = CivSettings.getInteger(CivSettings.campConfig, "camp.firepoints");
-            this.hitpoints = CivSettings.getInteger(CivSettings.campConfig, "camp.hitpoints");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-        }
+        this.firepoints = CivSettings.campConfig.getInt("camp.firepoints", 24);
+        this.hitpoints = CivSettings.campConfig.getInt("camp.hitpoints", 5000);
         loadSettings();
     }
 
@@ -162,32 +157,24 @@ public class Camp extends Buildable {
 
     @Override
     public void loadSettings() {
-        try {
-            coal_per_firepoint = CivSettings.getInteger(CivSettings.campConfig, "camp.coal_per_firepoint");
-            maxFirePoints = CivSettings.getInteger(CivSettings.campConfig, "camp.firepoints");
+        coal_per_firepoint = CivSettings.campConfig.getInt("camp.coal_per_firepoint", 4);
+        maxFirePoints = CivSettings.campConfig.getInt("camp.firepoints", 24);
 
-            // Setup sifter
-            double gold_nugget_chance = CivSettings.getDouble(CivSettings.campConfig, "camp.sifter_gold_nugget_chance");
-            double iron_ignot_chance = CivSettings.getDouble(CivSettings.campConfig, "camp.sifter_iron_ingot_chance");
+        // Setup sifter
 
-            raidLength = CivSettings.getInteger(CivSettings.campConfig, "camp.raid_length");
+        raidLength = CivSettings.campConfig.getInt("camp.raid_length", 2);
 
-            sifter.addSiftItem(Material.COBBLESTONE, (short) 0, gold_nugget_chance, Material.GOLD_NUGGET, (short) 0, 1);
-            sifter.addSiftItem(Material.COBBLESTONE, (short) 0, iron_ignot_chance, Material.IRON_INGOT, (short) 0, 1);
-            sifter.addSiftItem(Material.COBBLESTONE, (short) 0, 1.0, Material.GRAVEL, (short) 0, 1);
+        sifter.addSiftItem(Material.COBBLESTONE, (short) 0, CivSettings.campConfig.getDouble("camp.sifter_gold_nugget_chance", 0.10), Material.GOLD_NUGGET, (short) 0, 1);
+        sifter.addSiftItem(Material.COBBLESTONE, (short) 0, CivSettings.campConfig.getDouble("camp.sifter_iron_ingot_chance", 0.025), Material.IRON_INGOT, (short) 0, 1);
+        sifter.addSiftItem(Material.COBBLESTONE, (short) 0, 1.0, Material.GRAVEL, (short) 0, 1);
 
-            consumeComponent = new ConsumeLevelComponent();
-            consumeComponent.setBuildable(this);
-            for (ConfigCampLonghouseLevel lvl : CivSettings.longhouseLevels.values()) {
-                consumeComponent.addLevel(lvl.level, lvl.count);
-                consumeComponent.setConsumes(lvl.level, lvl.consumes);
-            }
-            this.consumeComponent.onLoad();
-
-        } catch (InvalidConfiguration e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        consumeComponent = new ConsumeLevelComponent();
+        consumeComponent.setBuildable(this);
+        for (ConfigCampLonghouseLevel lvl : CivSettings.longhouseLevels.values()) {
+            consumeComponent.addLevel(lvl.level, lvl.count);
+            consumeComponent.setConsumes(lvl.level, lvl.consumes);
         }
+        this.consumeComponent.onLoad();
 
     }
 
@@ -222,11 +209,7 @@ public class Camp extends Buildable {
         this.nextRaidDate = new Date(rs.getLong("next_raid_date"));
         this.setTemplateName(rs.getString("template_name"));
 
-        try {
-            this.hitpoints = CivSettings.getInteger(CivSettings.campConfig, "camp.hitpoints");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-        }
+        this.hitpoints = CivSettings.campConfig.getInt("camp.hitpoints", 500);
 
         this.firepoints = rs.getInt("firepoints");
 
@@ -345,13 +328,7 @@ public class Camp extends Buildable {
 
     public void buildCamp(Player player, Location center) throws CivException {
 
-        String templateFile;
-        try {
-            templateFile = CivSettings.getString(CivSettings.campConfig, "camp.template");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            return;
-        }
+        String templateFile = CivSettings.campConfig.getString("camp.template", "camp");
         Resident resident = CivGlobal.getResident(player);
 
         /* Load in the template. */
@@ -543,26 +520,22 @@ public class Camp extends Buildable {
     }
 
     private void updateFirepit() {
-        try {
-            int maxFirePoints = CivSettings.getInteger(CivSettings.campConfig, "camp.firepoints");
-            int totalFireBlocks = this.firepitBlocks.size();
+        int maxFirePoints = CivSettings.campConfig.getInt("camp.firepoints", 24);
+        int totalFireBlocks = this.firepitBlocks.size();
 
-            double percentLeft = (double) this.firepoints / (double) maxFirePoints;
+        double percentLeft = (double) this.firepoints / (double) maxFirePoints;
 
-            //  x/totalFireBlocks = percentLeft / 100
-            int litFires = (int) (percentLeft * totalFireBlocks);
+        //  x/totalFireBlocks = percentLeft / 100
+        int litFires = (int) (percentLeft * totalFireBlocks);
 
-            for (int i = 0; i < totalFireBlocks; i++) {
-                BlockCoord next = this.firepitBlocks.get(i);
-                if (next == null) {
-                    CivLog.warning("Couldn't find firepit id:" + i);
-                    continue;
-                }
-
-                next.getBlock().setType(i < litFires ? Material.FIRE : Material.AIR);
+        for (int i = 0; i < totalFireBlocks; i++) {
+            BlockCoord next = this.firepitBlocks.get(i);
+            if (next == null) {
+                CivLog.warning("Couldn't find firepit id:" + i);
+                continue;
             }
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
+
+            next.getBlock().setType(i < litFires ? Material.FIRE : Material.AIR);
         }
     }
 
@@ -1038,13 +1011,7 @@ public class Camp extends Buildable {
         b.setType(Material.OBSIDIAN);
         this.addCampBlock(new StructureBlock(new BlockCoord(b), this).getCoord());
 
-        int campControlHitpoints;
-        try {
-            campControlHitpoints = CivSettings.getInteger(CivSettings.warConfig, "war.control_block_hitpoints_camp");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            campControlHitpoints = 100;
-        }
+        int campControlHitpoints = CivSettings.warConfig.getInt("war.control_block_hitpoints_camp", 80);
 
         BlockCoord coord = new BlockCoord(b);
         this.controlBlocks.put(coord, new ControlPoint(coord, this, campControlHitpoints));

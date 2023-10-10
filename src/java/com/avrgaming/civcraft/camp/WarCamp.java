@@ -3,7 +3,6 @@ package com.avrgaming.civcraft.camp;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigBuildableInfo;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
@@ -61,13 +60,7 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
                     throw new CivException(CivSettings.localize.localizedString("warcamp_mustHaveRank"));
                 }
 
-                int warCampMax;
-                try {
-                    warCampMax = CivSettings.getInteger(CivSettings.warConfig, "warcamp.max");
-                } catch (InvalidConfiguration e) {
-                    e.printStackTrace();
-                    return;
-                }
+                int warCampMax = CivSettings.warConfig.getInt("warcamp.max", 3);
 
                 if (resident.getCiv().getWarCamps().size() >= warCampMax) {
                     throw new CivException(CivSettings.localize.localizedString("var_warcamp_maxReached", warCampMax));
@@ -113,13 +106,7 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
             return 0;
         } else {
             Date then = new Date(Long.parseLong(entries.get(0).value));
-            int rebuild_timeout;
-            try {
-                rebuild_timeout = CivSettings.getInteger(CivSettings.warConfig, "warcamp.rebuild_timeout");
-            } catch (InvalidConfiguration e) {
-                e.printStackTrace();
-                return 0;
-            }
+            int rebuild_timeout = CivSettings.warConfig.getInt("warcamp.rebuild_timeout", 30);
 
             minsLeft = (then.getTime() + ((long) rebuild_timeout * 60 * 1000)) - now.getTime();
             minsLeft /= 1000;
@@ -139,13 +126,7 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
 
     public void buildCamp(Player player, Location center) throws CivException {
 
-        String templateFile;
-        try {
-            templateFile = CivSettings.getString(CivSettings.warConfig, "warcamp.template");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            return;
-        }
+        String templateFile = CivSettings.warConfig.getString("warcamp.template", "warcamp");
         Resident resident = CivGlobal.getResident(player);
 
         /* Load in the template. */
@@ -387,13 +368,7 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
         sb = new StructureBlock(new BlockCoord(b), this);
         this.addStructureBlock(sb.getCoord(), true);
 
-        int townhallControlHitpoints;
-        try {
-            townhallControlHitpoints = CivSettings.getInteger(CivSettings.warConfig, "warcamp.control_block_hitpoints");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            return;
-        }
+        int townhallControlHitpoints = CivSettings.warConfig.getInt("warcamp.control_block_hitpoints", 20);
 
         BlockCoord coord = new BlockCoord(b);
         this.controlPoints.put(coord, new ControlPoint(coord, this, townhallControlHitpoints));

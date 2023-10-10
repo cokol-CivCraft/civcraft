@@ -8,7 +8,6 @@ import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigArena;
 import com.avrgaming.civcraft.config.ConfigArenaTeam;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.loreenhancements.LoreEnhancement;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.main.CivGlobal;
@@ -63,11 +62,7 @@ public class Arena {
             throw new CivException("Couldn't find a free instance ID!");
         }
 
-        try {
-            this.timeleft = CivSettings.getInteger(CivSettings.arenaConfig, "timeout");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-        }
+        this.timeleft = CivSettings.arenaConfig.getInt("timeout", 1800);
         this.instanceID = id;
 
     }

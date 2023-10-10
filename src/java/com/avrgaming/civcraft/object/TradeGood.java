@@ -21,7 +21,6 @@ import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigTradeGood;
 import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.database.SQLUpdate;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.exception.InvalidNameException;
 import com.avrgaming.civcraft.items.BonusGoodie;
 import com.avrgaming.civcraft.main.CivGlobal;
@@ -257,16 +256,8 @@ public class TradeGood extends SQLObject {
     public static double getTradeGoodValue(BonusGoodie goodie, Town town) {
 
         TradeGood good = goodie.getOutpost().getGood();
-        double value = getBaseValue(good);
-        int goodMax;
-        try {
-            goodMax = CivSettings.getInteger(CivSettings.goodsConfig, "trade_good_multiplier_max");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            return 0;
-        }
-        int effectiveCount = getTradeGoodCount(goodie, town);
-        effectiveCount -= 1;
+        int goodMax = CivSettings.goodsConfig.getInt("trade_good_multiplier_max", 3);
+        int effectiveCount = getTradeGoodCount(goodie, town) - 1;
 
         if (effectiveCount > goodMax) {
             effectiveCount = goodMax;
@@ -277,8 +268,7 @@ public class TradeGood extends SQLObject {
         //Find any passives with trade_income_bonus for this good
         rate += getTradeGoodIncomeBonus(good, town);
 
-        value *= rate;
-        return value;
+        return getBaseValue(good) * rate;
     }
 
     public static double getTownBaseGoodPaymentViaGoodie(Town town) {

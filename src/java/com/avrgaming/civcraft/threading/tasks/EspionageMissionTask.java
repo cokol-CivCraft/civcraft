@@ -21,7 +21,6 @@ import com.avrgaming.civcraft.cache.PlayerLocationCache;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigMission;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.items.units.Unit;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
@@ -51,20 +50,12 @@ public class EspionageMissionTask implements Runnable {
         this.target = target;
         this.secondsLeft = seconds;
     }
-    @SuppressWarnings("BusyWait")
+
     @Override
     public void run() {
-        int exposePerSecond;
-        int exposePerPlayer;
-        int exposePerScout;
-        try {
-            exposePerSecond = CivSettings.getInteger(CivSettings.espionageConfig, "espionage.exposure_per_second");
-            exposePerPlayer = CivSettings.getInteger(CivSettings.espionageConfig, "espionage.exposure_per_player");
-            exposePerScout = CivSettings.getInteger(CivSettings.espionageConfig, "espionage.exposure_per_scout");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            return;
-        }
+        int exposePerSecond = CivSettings.espionageConfig.getInt("espionage.exposure_per_second", 1);
+        int exposePerPlayer = CivSettings.espionageConfig.getInt("espionage.exposure_per_player", 1);
+        int exposePerScout = CivSettings.espionageConfig.getInt("espionage.exposure_per_scout", 3);
 
         Player player;
         try {
@@ -90,18 +81,11 @@ public class EspionageMissionTask implements Runnable {
             resident.setSpyExposure(resident.getSpyExposure() + (playerCount * exposePerPlayer));
 
             /* Add scout tower exposure */
-            int amount = 0;
-            double range;
-            try {
-                range = CivSettings.getDouble(CivSettings.warConfig, "scout_tower.range");
-            } catch (InvalidConfiguration e) {
-                e.printStackTrace();
-                resident.setPerformingMission(false);
-                return;
-            }
+            double range = CivSettings.warConfig.getDouble("scout_tower.range", 400.0);
 
             BlockCoord bcoord = new BlockCoord(player.getLocation());
 
+            int amount = 0;
             for (Structure struct : target.getStructures()) {
                 if (!struct.isActive()) {
                     continue;

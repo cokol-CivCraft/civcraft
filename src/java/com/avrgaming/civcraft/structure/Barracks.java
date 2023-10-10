@@ -20,7 +20,6 @@ package com.avrgaming.civcraft.structure;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigUnit;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.interactive.InteractiveRepairItem;
 import com.avrgaming.civcraft.items.components.RepairCost;
 import com.avrgaming.civcraft.items.units.Settler;
@@ -233,27 +232,21 @@ public class Barracks extends Structure {
                 throw new CivException(CivSettings.localize.localizedString("barracks_repair_irreperable"));
             }
 
-            try {
-                double totalCost;
-                if (craftMat.hasComponent("RepairCost")) {
-                    RepairCost repairCost = (RepairCost) craftMat.getComponent("RepairCost");
-                    totalCost = repairCost.getDouble("value");
-                } else {
-                    double baseTierRepair = CivSettings.getDouble(CivSettings.structureConfig, "barracks.base_tier_repair");
-                    double tierDamp = CivSettings.getDouble(CivSettings.structureConfig, "barracks.tier_damp");
-                    double tierCost = Math.pow((craftMat.getConfigMaterial().tier), tierDamp);
-                    double fromTier = Math.pow(baseTierRepair, tierCost);
-                    totalCost = Math.round(fromTier + 0);
-                }
-
-                InteractiveRepairItem repairItem = new InteractiveRepairItem(totalCost, player.getName(), craftMat);
-                repairItem.displayMessage();
-                resident.setInteractiveMode(repairItem);
-
-            } catch (InvalidConfiguration e) {
-                e.printStackTrace();
-                throw new CivException(CivSettings.localize.localizedString("internalException"));
+            double totalCost;
+            if (craftMat.hasComponent("RepairCost")) {
+                RepairCost repairCost = (RepairCost) craftMat.getComponent("RepairCost");
+                totalCost = repairCost.getDouble("value");
+            } else {
+                double baseTierRepair = CivSettings.structureConfig.getDouble("barracks.base_tier_repair", 2000.0);
+                double tierDamp = CivSettings.structureConfig.getDouble("barracks.tier_damp", 0.175);
+                double tierCost = Math.pow((craftMat.getConfigMaterial().tier), tierDamp);
+                double fromTier = Math.pow(baseTierRepair, tierCost);
+                totalCost = Math.round(fromTier + 0);
             }
+
+            InteractiveRepairItem repairItem = new InteractiveRepairItem(totalCost, player.getName(), craftMat);
+            repairItem.displayMessage();
+            resident.setInteractiveMode(repairItem);
 
 
         } catch (CivException e) {

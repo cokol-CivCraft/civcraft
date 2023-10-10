@@ -18,7 +18,6 @@
 package com.avrgaming.civcraft.event;
 
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.timers.WarEndCheckTask;
@@ -45,11 +44,11 @@ public class WarEvent implements EventInterface {
     }
 
     @Override
-    public Calendar getNextDate() throws InvalidConfiguration {
+    public Calendar getNextDate() {
         Calendar cal = EventTimer.getCalendarInServerTimeZone();
 
-        int dayOfWeek = CivSettings.getInteger(CivSettings.warConfig, "war.time_day");
-        int hourOfWar = CivSettings.getInteger(CivSettings.warConfig, "war.time_hour");
+        int dayOfWeek = CivSettings.warConfig.getInt("war.time_day", 7);
+        int hourOfWar = CivSettings.warConfig.getInt("war.time_hour", 10);
 
         cal.set(Calendar.DAY_OF_WEEK, dayOfWeek);
         cal.set(Calendar.HOUR_OF_DAY, hourOfWar);

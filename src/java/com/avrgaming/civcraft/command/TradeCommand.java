@@ -2,7 +2,6 @@ package com.avrgaming.civcraft.command;
 
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
@@ -31,14 +30,6 @@ public class TradeCommand extends CommandBase {
             throw new CivException(CivSettings.localize.localizedString("cmd_trade_ArenaError"));
         }
 
-        double max_trade_distance;
-        try {
-            max_trade_distance = CivSettings.getDouble(CivSettings.civConfig, "global.max_trade_distance");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            return;
-        }
-
         Player traderPlayer = CivGlobal.getPlayer(trader);
         Player residentPlayer = CivGlobal.getPlayer(resident);
 
@@ -46,6 +37,7 @@ public class TradeCommand extends CommandBase {
             throw new CivException(CivSettings.localize.localizedString("cmd_trade_YourselfError"));
         }
 
+        double max_trade_distance = CivSettings.civConfig.getDouble("global.max_trade_distance", 10.0);
         if (traderPlayer.getLocation().distance(residentPlayer.getLocation()) > max_trade_distance) {
             throw new CivException(CivSettings.localize.localizedString("var_cmd_trade_tooFarError", resident.getName()));
         }

@@ -23,7 +23,6 @@ import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigCultureBiomeInfo;
 import com.avrgaming.civcraft.config.ConfigCultureLevel;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Civilization;
@@ -473,21 +472,16 @@ public class TownCommand extends CommandBase {
 
                     double potentialDistanceLow;
                     double potentialDistanceHigh;
-                    try {
-                        if (town.getTownHall() != null) {
-                            Location theirTownHallLoc = town.getTownHall().getCenterLocation().getLocation();
-                            potentialDistanceLow = civ.getDistanceUpkeepAtLocation(ourCapLoc, theirTownHallLoc, true);
-                            potentialDistanceHigh = civ.getDistanceUpkeepAtLocation(ourCapLoc, theirTownHallLoc, false);
+                    if (town.getTownHall() != null) {
+                        Location theirTownHallLoc = town.getTownHall().getCenterLocation().getLocation();
+                        potentialDistanceLow = civ.getDistanceUpkeepAtLocation(ourCapLoc, theirTownHallLoc, true);
+                        potentialDistanceHigh = civ.getDistanceUpkeepAtLocation(ourCapLoc, theirTownHallLoc, false);
 
-                            CivMessage.send(player, ChatColor.YELLOW + CivSettings.localize.localizedString("var_cmd_town_showCost1", potentialDistanceLow));
-                            CivMessage.send(player, ChatColor.YELLOW + CivSettings.localize.localizedString("cmd_town_showCost3"));
-                            CivMessage.send(player, ChatColor.YELLOW + CivSettings.localize.localizedString("var_cmd_town_showCost3", potentialDistanceHigh, CivSettings.CURRENCY_NAME));
-                        } else {
-                            CivMessage.send(player, ChatColor.YELLOW + CivSettings.localize.localizedString("cmd_town_showNoTownHall"));
-                        }
-                    } catch (InvalidConfiguration e) {
-                        e.printStackTrace();
-                        CivMessage.sendError(sender, CivSettings.localize.localizedString("internalException"));
+                        CivMessage.send(player, ChatColor.YELLOW + CivSettings.localize.localizedString("var_cmd_town_showCost1", potentialDistanceLow));
+                        CivMessage.send(player, ChatColor.YELLOW + CivSettings.localize.localizedString("cmd_town_showCost3"));
+                        CivMessage.send(player, ChatColor.YELLOW + CivSettings.localize.localizedString("var_cmd_town_showCost3", potentialDistanceHigh, CivSettings.CURRENCY_NAME));
+                    } else {
+                        CivMessage.send(player, ChatColor.YELLOW + CivSettings.localize.localizedString("cmd_town_showNoTownHall"));
                     }
                 }
             }

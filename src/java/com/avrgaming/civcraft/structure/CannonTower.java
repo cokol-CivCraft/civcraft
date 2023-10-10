@@ -20,7 +20,6 @@ package com.avrgaming.civcraft.structure;
 import com.avrgaming.civcraft.components.ProjectileCannonComponent;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.object.Buff;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.util.BlockCoord;
@@ -75,30 +74,25 @@ public class CannonTower extends Structure {
 
     @Override
     public void onCheck() throws CivException {
-        try {
-            double build_distance = CivSettings.getDouble(CivSettings.warConfig, "cannon_tower.build_distance");
+        double build_distance = CivSettings.warConfig.getDouble("cannon_tower.build_distance", 115.0);
 
-            for (Town town : this.getTown().getCiv().getTowns()) {
-                for (Structure struct : town.getStructures()) {
-                    if (struct instanceof CannonTower) {
-                        BlockCoord center = struct.getCenterLocation();
-                        double distance = center.distance(this.getCenterLocation());
-                        if (distance <= build_distance) {
-                            throw new CivException(CivSettings.localize.localizedString("var_buildable_tooCloseToCannonTower", (center.getX() + "," + center.getY() + "," + center.getZ())));
-                        }
+        for (Town town : this.getTown().getCiv().getTowns()) {
+            for (Structure struct : town.getStructures()) {
+                if (struct instanceof CannonTower) {
+                    BlockCoord center = struct.getCenterLocation();
+                    double distance = center.distance(this.getCenterLocation());
+                    if (distance <= build_distance) {
+                        throw new CivException(CivSettings.localize.localizedString("var_buildable_tooCloseToCannonTower", (center.getX() + "," + center.getY() + "," + center.getZ())));
                     }
-                    if (struct instanceof CannonShip) {
-                        BlockCoord center = struct.getCenterLocation();
-                        double distance = center.distance(this.getCenterLocation());
-                        if (distance <= build_distance) {
-                            throw new CivException(CivSettings.localize.localizedString("var_buildable_tooCloseToCannonShip", (center.getX() + "," + center.getY() + "," + center.getZ())));
-                        }
+                }
+                if (struct instanceof CannonShip) {
+                    BlockCoord center = struct.getCenterLocation();
+                    double distance = center.distance(this.getCenterLocation());
+                    if (distance <= build_distance) {
+                        throw new CivException(CivSettings.localize.localizedString("var_buildable_tooCloseToCannonShip", (center.getX() + "," + center.getY() + "," + center.getZ())));
                     }
                 }
             }
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            throw new CivException(e.getMessage());
         }
 
     }

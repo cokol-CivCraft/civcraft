@@ -37,7 +37,6 @@ import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.endgame.EndConditionNotificationTask;
 import com.avrgaming.civcraft.event.EventTimerTask;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.fishing.FishingListener;
 import com.avrgaming.civcraft.listener.*;
 import com.avrgaming.civcraft.listener.armor.ArmorListener;
@@ -125,15 +124,10 @@ public final class CivCraft extends JavaPlugin {
         TaskMaster.syncTimer("UnitTrainTimer", new UnitTrainTimer(), TimeTools.toTicks(1));
         TaskMaster.asyncTimer("ReduceExposureTimer", new ReduceExposureTimer(), 0, TimeTools.toTicks(5));
 
-        try {
-            double arrow_firerate = CivSettings.getDouble(CivSettings.warConfig, "arrow_tower.fire_rate");
-            TaskMaster.syncTimer("arrowTower", new ProjectileComponentTimer(), (int) (arrow_firerate * 20));
-            TaskMaster.asyncTimer("ScoutTowerTask", new ScoutTowerTask(), TimeTools.toTicks(1));
+        double arrow_fire_rate = CivSettings.warConfig.getDouble("arrow_tower.fire_rate", 1.0);
+        TaskMaster.syncTimer("arrowTower", new ProjectileComponentTimer(), (int) (arrow_fire_rate * 20));
+        TaskMaster.asyncTimer("ScoutTowerTask", new ScoutTowerTask(), TimeTools.toTicks(1));
 
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            return;
-        }
         TaskMaster.syncTimer("arrowhomingtask", new ArrowProjectileTask(), 5);
 
         // Global Event timers
@@ -177,15 +171,7 @@ public final class CivCraft extends JavaPlugin {
         pluginManager.registerEvents(new LoreCraftableMaterialListener(), this);
         pluginManager.registerEvents(new LoreGuiItemListener(), this);
 
-        boolean useEXPAsCurrency;
-        try {
-            useEXPAsCurrency = CivSettings.getBoolean(CivSettings.civConfig, "global.use_exp_as_currency");
-
-        } catch (InvalidConfiguration e) {
-            useEXPAsCurrency = true;
-            CivLog.error("Unable to check if EXP should be enabled. Disabling.");
-            e.printStackTrace();
-        }
+        boolean useEXPAsCurrency = CivSettings.civConfig.getBoolean("global.use_exp_as_currency", true);
 
         if (useEXPAsCurrency) {
             pluginManager.registerEvents(new DisableXPListener(), this);
@@ -222,7 +208,7 @@ public final class CivCraft extends JavaPlugin {
             CivGlobal.loadGlobals();
 
 
-        } catch (InvalidConfiguration | SQLException | IOException | InvalidConfigurationException e) {
+        } catch (SQLException | IOException | InvalidConfigurationException e) {
             e.printStackTrace();
             setError(true);
             return;

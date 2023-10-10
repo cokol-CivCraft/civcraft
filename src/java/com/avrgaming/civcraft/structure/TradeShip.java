@@ -8,7 +8,6 @@ import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigMineLevel;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.CivTaskAbortException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Buff;
@@ -23,7 +22,6 @@ import com.avrgaming.civcraft.util.TimeTools;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -243,7 +241,7 @@ public class TradeShip extends WaterStructure {
         return tradeResult;
     }
 
-    public void process_trade_ship(CivAsyncTask task) throws InterruptedException, InvalidConfiguration {
+    public void process_trade_ship(CivAsyncTask task) throws InterruptedException {
         TradeShipResults tradeResult = this.consume(task);
 
         switch (tradeResult.getResult()) {
@@ -276,7 +274,7 @@ public class TradeShip extends WaterStructure {
                 total_coins *= this.getTown().getBuffManager().getEffectiveDouble("buff_great_lighthouse_trade_ship_income");
             }
             if (this.getTown().hasStructure("s_lighthouse")) {
-                total_coins *= CivSettings.getDouble(CivSettings.townConfig, "town.lighthouse_trade_ship_boost");
+                total_coins *= CivSettings.townConfig.getDouble("town.lighthouse_trade_ship_boost", 1.2);
             }
 
             double taxesPaid = total_coins * this.getTown().getDepositCiv().getIncomeTaxRate();

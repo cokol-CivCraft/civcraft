@@ -20,7 +20,6 @@ package com.avrgaming.civcraft.structure;
 import com.avrgaming.civcraft.components.NonMemberFeeComponent;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.items.components.Catalyst;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.lorestorage.LoreMaterial;
@@ -72,12 +71,7 @@ public class Blacksmith extends Structure {
     }
 
     private long getCooldown() {
-        try {
-            return CivSettings.getInteger(CivSettings.structureConfig, "blacksmith.cooldown");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            return COOLDOWN;
-        }
+        return CivSettings.structureConfig.getInt("blacksmith.cooldown", 1);
     }
 
     public Blacksmith(ResultSet rs) throws SQLException, CivException {
@@ -101,11 +95,8 @@ public class Blacksmith extends Structure {
     @Override
     public void processSignAction(Player player, StructureSign sign, PlayerInteractEvent event) throws CivException {
         int special_id = Integer.parseInt(sign.getAction());
-
         Date now = new Date();
-
-        long diff = now.getTime() - lastUse.getTime();
-        diff /= 1000;
+        long diff = (now.getTime() - lastUse.getTime()) / 1000;
 
         if (diff < getCooldown()) {
             throw new CivException(CivSettings.localize.localizedString("var_blacksmith_onCooldown", (Blacksmith.COOLDOWN - diff)));
@@ -115,10 +106,8 @@ public class Blacksmith extends Structure {
 
         switch (special_id) {
             case 0 -> this.deposit_forge(player);
-            case 1 -> {
-                double cost = CivSettings.getDoubleStructure("blacksmith.forge_cost");
-                this.perform_forge(player, cost);
-            }
+            case 1 ->
+                    this.perform_forge(player, CivSettings.structureConfig.getDouble("blacksmith.forge_cost", 2500.0));
             case 2 -> this.depositSmelt(player, player.getInventory().getItemInMainHand());
             case 3 -> this.withdrawSmelt(player);
         }
@@ -127,12 +116,10 @@ public class Blacksmith extends Structure {
 
     @Override
     public void updateSignText() {
-        double cost = CivSettings.getDoubleStructure("blacksmith.forge_cost");
+        double cost = CivSettings.structureConfig.getDouble("blacksmith.forge_cost", 2500.0);
 
         for (StructureSign sign : getSigns()) {
-            int special_id = Integer.parseInt(sign.getAction());
-
-            switch (special_id) {
+            switch (Integer.parseInt(sign.getAction())) {
                 case 0 -> sign.setText(CivSettings.localize.localizedString("blacksmith_sign_catalyst"));
                 case 1 ->
                         sign.setText(CivSettings.localize.localizedString("blacksmith_sign_forgeCost") + " " + cost + CivSettings.CURRENCY_NAME + "\n" +

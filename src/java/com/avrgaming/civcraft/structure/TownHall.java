@@ -19,7 +19,6 @@ package com.avrgaming.civcraft.structure;
 
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.items.BonusGoodie;
 import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivGlobal;
@@ -225,37 +224,32 @@ public class TownHall extends Structure implements RespawnLocationHolder {
     }
 
     public int getRespawnTime() {
-        try {
-            int baseRespawn = CivSettings.getInteger(CivSettings.warConfig, "war.respawn_time");
-            int controlRespawn = CivSettings.getInteger(CivSettings.warConfig, "war.control_block_respawn_time");
-            int invalidRespawnPenalty = CivSettings.getInteger(CivSettings.warConfig, "war.invalid_respawn_penalty");
+        int baseRespawn = CivSettings.warConfig.getInt("war.respawn_time", 30);
+        int controlRespawn = CivSettings.warConfig.getInt("war.control_block_respawn_time", 15);
+        int invalidRespawnPenalty = CivSettings.warConfig.getInt("war.invalid_respawn_penalty", 2);
 
-            int totalRespawn = baseRespawn;
-            for (ControlPoint cp : this.controlPoints.values()) {
-                if (cp.isDestroyed()) {
-                    totalRespawn += controlRespawn;
-                }
+        int totalRespawn = baseRespawn;
+        for (ControlPoint cp : this.controlPoints.values()) {
+            if (cp.isDestroyed()) {
+                totalRespawn += controlRespawn;
             }
-
-            if (this.validated && !this.isValid()) {
-                totalRespawn += invalidRespawnPenalty * 60;
-            }
-
-            // Search for any town in our civ with the medicine goodie.
-            for (Town t : this.getCiv().getTowns()) {
-                if (t.getBuffManager().hasBuff(Buff.MEDICINE)) {
-                    int respawnTimeBonus = t.getBuffManager().getEffectiveInt(Buff.MEDICINE);
-                    totalRespawn = Math.max(1, (totalRespawn - respawnTimeBonus));
-                    break;
-                }
-            }
-
-
-            return totalRespawn;
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
         }
-        return 60;
+
+        if (this.validated && !this.isValid()) {
+            totalRespawn += invalidRespawnPenalty * 60;
+        }
+
+        // Search for any town in our civ with the medicine goodie.
+        for (Town t : this.getCiv().getTowns()) {
+            if (t.getBuffManager().hasBuff(Buff.MEDICINE)) {
+                int respawnTimeBonus = t.getBuffManager().getEffectiveInt(Buff.MEDICINE);
+                totalRespawn = Math.max(1, (totalRespawn - respawnTimeBonus));
+                break;
+            }
+        }
+
+
+        return totalRespawn;
     }
 
     public void setRevivePoint(BlockCoord absCoord) {
@@ -291,13 +285,7 @@ public class TownHall extends Structure implements RespawnLocationHolder {
         sb = new StructureBlock(new BlockCoord(b), this);
         this.addStructureBlock(sb.getCoord(), true);
 
-        int townhallControlHitpoints;
-        try {
-            townhallControlHitpoints = CivSettings.getInteger(CivSettings.warConfig, "war.control_block_hitpoints_townhall");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            townhallControlHitpoints = 100;
-        }
+        int townhallControlHitpoints = CivSettings.warConfig.getInt("war.control_block_hitpoints_townhall", 20);
 
         BlockCoord coord = new BlockCoord(b);
         this.controlPoints.put(coord, new ControlPoint(coord, this, townhallControlHitpoints));
@@ -506,14 +494,7 @@ public class TownHall extends Structure implements RespawnLocationHolder {
 
     @Override
     public void onInvalidPunish() {
-        int invalid_respawn_penalty;
-        try {
-            invalid_respawn_penalty = CivSettings.getInteger(CivSettings.warConfig, "war.invalid_respawn_penalty");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            return;
-        }
-
+        int invalid_respawn_penalty = CivSettings.warConfig.getInt("war.invalid_respawn_penalty", 2);
         CivMessage.sendTown(this.getTown(), String.valueOf(ChatColor.RED) + ChatColor.BOLD + CivSettings.localize.localizedString("var_townHall_invalidPunish", invalid_respawn_penalty));
     }
 

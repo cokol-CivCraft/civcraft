@@ -23,7 +23,6 @@ import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigCottageLevel;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.CivTaskAbortException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
@@ -224,13 +223,7 @@ public class Cottage extends Structure {
         }
 
         if (this.getCiv().hasTechnology("tech_taxation")) {
-            double taxation_bonus;
-            try {
-                taxation_bonus = CivSettings.getDouble(CivSettings.techsConfig, "taxation_cottage_buff");
-                total_coins *= taxation_bonus;
-            } catch (InvalidConfiguration e) {
-                e.printStackTrace();
-            }
+            total_coins *= CivSettings.techsConfig.getDouble("taxation_cottage_buff", 2.0);
         }
 
         //	this.getTown().depositTaxed(total_coins);

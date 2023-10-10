@@ -18,7 +18,6 @@
 package com.avrgaming.civcraft.event;
 
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
@@ -97,7 +96,7 @@ public class EffectEventTimer extends CivAsyncTask {
                     if (struct instanceof TradeShip tradeShip) {
                         try {
                             tradeShip.process_trade_ship(this);
-                        } catch (InterruptedException | InvalidConfiguration e) {
+						} catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
@@ -135,25 +134,19 @@ public class EffectEventTimer extends CivAsyncTask {
                 town.giveExtraHammers(unusedBeakers * town.getBuffManager().getEffectiveDouble("wonder_trade_great_library"));
             }
 
-            try {
-                double cultureToBeakerConversion = CivSettings.getDouble(CivSettings.cultureConfig, "beakers_per_culture");
-                if (unusedBeakers > 0) {
-                    double cultureFromBeakers = unusedBeakers * cultureToBeakerConversion;
-                    cultureFromBeakers = Math.round(cultureFromBeakers);
-                    unusedBeakers = Math.round(unusedBeakers);
+			if (unusedBeakers > 0) {
+				double cultureFromBeakers = unusedBeakers * CivSettings.cultureConfig.getDouble("beakers_per_culture", 0.1);
+				cultureFromBeakers = Math.round(cultureFromBeakers);
+				unusedBeakers = Math.round(unusedBeakers);
 
-                    if (cultureFromBeakers > 0) {
-                        CivMessage.sendTown(town, ChatColor.GREEN + CivSettings.localize.localizedString("var_effectEvent_convertBeakers", (ChatColor.LIGHT_PURPLE +
-								df.format(unusedBeakers) + ChatColor.GREEN), (ChatColor.LIGHT_PURPLE +
-								df.format(cultureFromBeakers) + ChatColor.GREEN)));
-						cultureGenerated += cultureFromBeakers;
-						town.addAccumulatedCulture(cultureFromBeakers);
-						town.setUnusedBeakers(0);
-					}
+				if (cultureFromBeakers > 0) {
+					CivMessage.sendTown(town, ChatColor.GREEN + CivSettings.localize.localizedString("var_effectEvent_convertBeakers", (ChatColor.LIGHT_PURPLE +
+							df.format(unusedBeakers) + ChatColor.GREEN), (ChatColor.LIGHT_PURPLE +
+							df.format(cultureFromBeakers) + ChatColor.GREEN)));
+					cultureGenerated += cultureFromBeakers;
+					town.addAccumulatedCulture(cultureFromBeakers);
+					town.setUnusedBeakers(0);
 				}
-			} catch (InvalidConfiguration e) {
-				e.printStackTrace();
-				return;
 			}
 			Granary granary = town.getFreeGranary();
 			if (granary != null) {

@@ -18,7 +18,6 @@
 package com.avrgaming.civcraft.event;
 
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.war.War;
@@ -43,11 +42,11 @@ public class DisableTeleportEvent implements EventInterface {
     }
 
     @Override
-    public Calendar getNextDate() throws InvalidConfiguration {
+    public Calendar getNextDate() {
         Calendar cal = EventTimer.getCalendarInServerTimeZone();
 
-        int dayOfWeek = CivSettings.getInteger(CivSettings.warConfig, "war.disable_tp_time_day");
-        int hourBeforeWar = CivSettings.getInteger(CivSettings.warConfig, "war.disable_tp_time_hour");
+        int dayOfWeek = CivSettings.warConfig.getInt("war.disable_tp_time_day", 7);
+        int hourBeforeWar = CivSettings.warConfig.getInt("war.disable_tp_time_hour", 9);
 
         cal.set(Calendar.DAY_OF_WEEK, dayOfWeek);
         cal.set(Calendar.HOUR_OF_DAY, hourBeforeWar);

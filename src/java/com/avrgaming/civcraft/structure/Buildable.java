@@ -23,7 +23,6 @@ import com.avrgaming.civcraft.config.ConfigBuildableInfo;
 import com.avrgaming.civcraft.config.ConfigTemplate;
 import com.avrgaming.civcraft.config.ConfigTownLevel;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.interactive.InteractiveBuildCommand;
 import com.avrgaming.civcraft.loregui.GuiActions;
 import com.avrgaming.civcraft.lorestorage.LoreGuiItem;
@@ -636,13 +635,7 @@ public abstract class Buildable extends SQLObject {
 
     public static void validateDistanceFromSpawn(Location loc) throws CivException {
         /* Check distance from spawn. */
-        double requiredDistance;
-        try {
-            requiredDistance = CivSettings.getDouble(CivSettings.civConfig, "global.distance_from_spawn");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            return;
-        }
+        double requiredDistance = CivSettings.civConfig.getDouble("global.distance_from_spawn", 1000.0);
 
         for (Civilization civ : CivGlobal.getAdminCivs()) {
             Location townHallLoc = civ.getCapitolTownHallLocation();
@@ -681,14 +674,7 @@ public abstract class Buildable extends SQLObject {
         }
 
         if (isTownHall()) {
-            double minDistance;
-            try {
-                minDistance = CivSettings.getDouble(CivSettings.townConfig, "town.min_town_distance");
-            } catch (InvalidConfiguration e) {
-                CivMessage.sendError(player, CivSettings.localize.localizedString("internalException"));
-                e.printStackTrace();
-                return;
-            }
+            double minDistance = CivSettings.townConfig.getDouble("town.min_town_distance", 150.0);
 
             for (Town town : CivGlobal.getTowns()) {
                 TownHall townhall = town.getTownHall();
@@ -904,16 +890,10 @@ public abstract class Buildable extends SQLObject {
 
     public int getBuildSpeed() {
         // buildTime is in hours, we need to return milliseconds.
-        boolean hour = false;
-        double millisecondsPerBlock;
-        try {
-            hour = CivSettings.getBoolean(CivSettings.civConfig, "global.structurespeed");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-        }
+        boolean hour = CivSettings.civConfig.getBoolean("global.structurespeed", false);
         // We should return the number of milliseconds to wait between each block placement.
         double hoursPerBlock = (this.getHammerCost() / this.town.getHammers().total) / this.totalBlockCount;
-        millisecondsPerBlock = hour ? hoursPerBlock * 60 * 60 * 1000 : hoursPerBlock * 60 * 30 * 1000;
+        double millisecondsPerBlock = hour ? hoursPerBlock * 60 * 60 * 1000 : hoursPerBlock * 60 * 30 * 1000;
         // Clip millisecondsPerBlock to 500 milliseconds.
         if (millisecondsPerBlock < 500) {
             millisecondsPerBlock = 500;
@@ -1412,15 +1392,8 @@ public abstract class Buildable extends SQLObject {
 
     public void onInvalidPunish() {
         BlockCoord center = this.getCenterLocation();
-        double invalid_hourly_penalty;
-        try {
-            invalid_hourly_penalty = CivSettings.getDouble(CivSettings.warConfig, "war.invalid_hourly_penalty");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            return;
-        }
 
-        int damage = (int) (this.getMaxHitPoints() * invalid_hourly_penalty);
+        int damage = (int) (this.getMaxHitPoints() * CivSettings.warConfig.getDouble("war.invalid_hourly_penalty", 0.1));
         if (damage <= 0) {
             damage = 10;
         }
@@ -1429,7 +1402,7 @@ public abstract class Buildable extends SQLObject {
 
         DecimalFormat df = new DecimalFormat("###");
         CivMessage.sendTown(this.getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_buildable_cannotSupport", this.getDisplayName(), (center.getX() + "," + center.getY() + "," + center.getZ())));
-        CivMessage.sendTown(this.getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_buildable_cannotSupportDamage", df.format(invalid_hourly_penalty * 100), (this.hitpoints + "/" + this.getMaxHitPoints())));
+        CivMessage.sendTown(this.getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_buildable_cannotSupportDamage", df.format(CivSettings.warConfig.getDouble("war.invalid_hourly_penalty", 0.1) * 100), (this.hitpoints + "/" + this.getMaxHitPoints())));
         CivMessage.sendTown(this.getTown(), ChatColor.RED + this.invalidLayerMessage);
         CivMessage.sendTown(this.getTown(), ChatColor.RED + CivSettings.localize.localizedString("buildable_validationPrompt"));
         this.save();

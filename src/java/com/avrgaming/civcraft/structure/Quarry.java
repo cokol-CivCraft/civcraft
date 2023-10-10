@@ -13,16 +13,16 @@ import java.sql.SQLException;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Quarry extends Structure {
-    public static final int MAX_CHANCE = CivSettings.getIntegerStructure("quarry.max");
-    public static final String NO_DIRT = CivSettings.getStringStructure("quarry.nodirt_buff");
-    private static final double COBBLESTONE_RATE = CivSettings.getDoubleStructure("quarry.cobblestone_rate"); //100%
-    private static final double OTHER_RATE = CivSettings.getDoubleStructure("quarry.other_rate"); //10%
-    private static final double COAL_RATE = CivSettings.getDoubleStructure("quarry.coal_rate"); //10%
-    private static final double REDSTONE_CHANCE = CivSettings.getDoubleStructure("quarry.redstone_chance");
-    private static final double IRON_CHANCE = CivSettings.getDoubleStructure("quarry.iron_chance");
-    private static final double GOLD_CHANCE = CivSettings.getDoubleStructure("quarry.gold_chance");
-    private static final double TUNGSTEN_CHANCE = CivSettings.getDoubleStructure("quarry.tungsten_chance");
-    private static final double RARE_CHANCE = CivSettings.getDoubleStructure("quarry.rare_chance");
+    public static final int MAX_CHANCE = CivSettings.structureConfig.getInt("quarry.max", 100000);
+    public static final String NO_DIRT = CivSettings.structureConfig.getString("quarry.nodirt_buff", "buff_rush");
+    private static final double COBBLESTONE_RATE = CivSettings.structureConfig.getDouble("quarry.cobblestone_rate", 0.5); //100%
+    private static final double OTHER_RATE = CivSettings.structureConfig.getDouble("quarry.other_rate", 0.1); //10%
+    private static final double COAL_RATE = CivSettings.structureConfig.getDouble("quarry.coal_rate", 0.05); //10%
+    private static final double REDSTONE_CHANCE = CivSettings.structureConfig.getDouble("quarry.redstone_chance", 0.0075);
+    private static final double IRON_CHANCE = CivSettings.structureConfig.getDouble("quarry.iron_chance", 0.02);
+    private static final double GOLD_CHANCE = CivSettings.structureConfig.getDouble("quarry.gold_chance", 0.002);
+    private static final double TUNGSTEN_CHANCE = CivSettings.structureConfig.getDouble("quarry.tungsten_chance", 0.0009);
+    private static final double RARE_CHANCE = CivSettings.structureConfig.getDouble("quarry.rare_chance", 0.0004);
 
     private int level = 1;
     public int skippedCounter = 0;

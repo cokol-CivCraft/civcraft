@@ -23,7 +23,6 @@ import com.avrgaming.civcraft.camp.Camp;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigMarketItem;
 import com.avrgaming.civcraft.event.EventTimer;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.items.BonusGoodie;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.*;
@@ -58,19 +57,19 @@ public class SQLController {
     //	public static Connection context = null;
     public static ConnectionPool gameDatabase;
 
-    public static void initialize() throws InvalidConfiguration {
+    public static void initialize() {
         CivLog.heading("Initializing SQLController");
 
-        SQLController.hostname = CivSettings.getStringBase("mysql.hostname");
-        SQLController.port = CivSettings.getStringBase("mysql.port");
-        SQLController.db_name = CivSettings.getStringBase("mysql.database");
-        SQLController.username = CivSettings.getStringBase("mysql.username");
-        SQLController.password = CivSettings.getStringBase("mysql.password");
-        SQLController.tb_prefix = CivSettings.getStringBase("mysql.table_prefix");
+        SQLController.hostname = CivSettings.plugin.getConfig().getString("mysql.hostname");
+        SQLController.port = CivSettings.plugin.getConfig().getString("mysql.port");
+        SQLController.db_name = CivSettings.plugin.getConfig().getString("mysql.database");
+        SQLController.username = CivSettings.plugin.getConfig().getString("mysql.username");
+        SQLController.password = CivSettings.plugin.getConfig().getString("mysql.password");
+        SQLController.tb_prefix = CivSettings.plugin.getConfig().getString("mysql.table_prefix");
         SQLController.dsn = "jdbc:mysql://" + hostname + ":" + port + "/" + tb_prefix + db_name + "?enabledTLSProtocols=TLSv1.2&useSSL=false";
-        SQLController.min_conns = Integer.valueOf(CivSettings.getStringBase("mysql.min_conns"));
-        SQLController.max_conns = Integer.valueOf(CivSettings.getStringBase("mysql.max_conns"));
-        SQLController.parts = Integer.valueOf(CivSettings.getStringBase("mysql.parts"));
+        SQLController.min_conns = Integer.valueOf(CivSettings.plugin.getConfig().getString("mysql.min_conns"));
+        SQLController.max_conns = Integer.valueOf(CivSettings.plugin.getConfig().getString("mysql.max_conns"));
+        SQLController.parts = Integer.valueOf(CivSettings.plugin.getConfig().getString("mysql.parts"));
 
         CivLog.info("\t Using " + SQLController.hostname + ":" + SQLController.port + " user:" + SQLController.username + " DB:" + SQLController.db_name);
 

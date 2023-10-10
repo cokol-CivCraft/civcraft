@@ -18,7 +18,6 @@
 package com.avrgaming.civcraft.event;
 
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.Civilization;
@@ -69,9 +68,9 @@ public class SpawnRegenEvent implements EventInterface {
     }
 
     @Override
-    public Calendar getNextDate() throws InvalidConfiguration {
+    public Calendar getNextDate() {
         Calendar cal = EventTimer.getCalendarInServerTimeZone();
-        int regen_hour = CivSettings.getInteger(CivSettings.civConfig, "global.regen_spawn_hour");
+        int regen_hour = CivSettings.civConfig.getInt("global.regen_spawn_hour", 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.add(Calendar.HOUR_OF_DAY, regen_hour);

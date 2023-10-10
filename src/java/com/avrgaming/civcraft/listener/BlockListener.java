@@ -24,7 +24,6 @@ import com.avrgaming.civcraft.camp.Camp;
 import com.avrgaming.civcraft.camp.CampBlock;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
@@ -239,12 +238,7 @@ public class BlockListener implements Listener {
 
         if (event.getDamager() instanceof LightningStrike) {
 //			CivLog.debug("onEntityDamageByEntityEvent LightningStrike: "+event.getDamager().getUniqueId());
-            try {
-                event.setDamage(CivSettings.getInteger(CivSettings.warConfig, "tesla_tower.damage"));
-            } catch (InvalidConfiguration e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            event.setDamage(CivSettings.warConfig.getInt("tesla_tower.damage", 7));
         }
 
         event.getDamager();

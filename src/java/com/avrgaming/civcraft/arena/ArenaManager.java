@@ -4,7 +4,6 @@ import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigArena;
 import com.avrgaming.civcraft.config.ConfigArenaTeam;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
@@ -151,8 +150,8 @@ public class ArenaManager implements Runnable {
         Score score1Team2 = points1.getScore(team2.getTeamScoreboardName());
         Score timeout1 = points1.getScore("TimeLeft");
         try {
-            timeout1.setScore(CivSettings.getInteger(CivSettings.arenaConfig, "timeout"));
-        } catch (IllegalStateException | InvalidConfiguration e1) {
+            timeout1.setScore(CivSettings.arenaConfig.getInt("timeout", 1800));
+        } catch (IllegalStateException e1) {
             timeout1.setScore(1800);
             e1.printStackTrace();
         }
@@ -164,8 +163,8 @@ public class ArenaManager implements Runnable {
         Score score2Team2 = points2.getScore(team2.getTeamScoreboardName());
         Score timeout2 = points1.getScore("TimeLeft");
         try {
-            timeout2.setScore(CivSettings.getInteger(CivSettings.arenaConfig, "timeout"));
-        } catch (IllegalStateException | InvalidConfiguration e1) {
+            timeout2.setScore(CivSettings.arenaConfig.getInt("timeout", 1800));
+        } catch (IllegalStateException e1) {
             timeout2.setScore(1800);
             e1.printStackTrace();
         }
@@ -436,23 +435,18 @@ public class ArenaManager implements Runnable {
             return "";
         }
 
-        try {
-            int slightly_favored_points = CivSettings.getInteger(CivSettings.arenaConfig, "slightly_favored_points");
-            int favored_points = CivSettings.getInteger(CivSettings.arenaConfig, "favored_points");
+        int slightly_favored_points = CivSettings.arenaConfig.getInt("slightly_favored_points", 400);
+        int favored_points = CivSettings.arenaConfig.getInt("favored_points", 1000);
 
-            int diff = target.getLadderPoints() - other.getLadderPoints();
-            if (diff > favored_points) {
-                return ChatColor.RED + "Favored";
-            } else if (diff > slightly_favored_points) {
-                return ChatColor.YELLOW + "Slightly Favored";
-            }
-
-            return "";
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
+        int diff = target.getLadderPoints() - other.getLadderPoints();
+        if (diff > favored_points) {
+            return ChatColor.RED + "Favored";
+        } else if (diff > slightly_favored_points) {
+            return ChatColor.YELLOW + "Slightly Favored";
         }
 
         return "";
+
     }
 
 
@@ -460,57 +454,52 @@ public class ArenaManager implements Runnable {
         CivMessage.sendArena(arena, CivSettings.localize.localizedString("var_arena_hasDefeated", String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + winner.getName(), String.valueOf(ChatColor.RED) + ChatColor.BOLD + loser.getName()));
         CivMessage.sendArena(arena, CivSettings.localize.localizedString("arena_leavingIn10"));
         TaskMaster.syncTask(() -> {
-            try {
-                int base_points = CivSettings.getInteger(CivSettings.arenaConfig, "base_ladder_points");
-                int slightly_favored_points = CivSettings.getInteger(CivSettings.arenaConfig, "slightly_favored_points");
-                int favored_points = CivSettings.getInteger(CivSettings.arenaConfig, "favored_points");
-                double slightly_favored_modifier = CivSettings.getDouble(CivSettings.arenaConfig, "slightly_favored_modifier");
-                double favored_modifier = CivSettings.getDouble(CivSettings.arenaConfig, "favored_modifier");
+            int base_points = CivSettings.arenaConfig.getInt("base_ladder_points", 100);
+            int slightly_favored_points = CivSettings.arenaConfig.getInt("slightly_favored_points", 400);
+            int favored_points = CivSettings.arenaConfig.getInt("favored_points", 1000);
+            double slightly_favored_modifier = CivSettings.arenaConfig.getDouble("slightly_favored_modifier", 0.5);
+            double favored_modifier = CivSettings.arenaConfig.getDouble("favored_modifier", 0.2);
 
-                /* Calculate points. */
-                int winnerDifference = winner.getLadderPoints() - loser.getLadderPoints();
-                int points;
+            /* Calculate points. */
+            int winnerDifference = winner.getLadderPoints() - loser.getLadderPoints();
+            int points;
 
-                if (winnerDifference > favored_points) {
-                    /* Winner was favored. */
-                    points = (int) (base_points * favored_modifier);
-                } else if (winnerDifference > slightly_favored_points) {
-                    /* Winner was slightly favored. */
-                    points = (int) (base_points * slightly_favored_modifier);
-                } else if (winnerDifference > 0) {
-                    /* Winner and loser were evenly matched. */
-                    points = base_points;
-                } else if (winnerDifference < -favored_points) {
-                    /* Loser was favored. */
-                    points = base_points + (int) (base_points * (1 - favored_modifier));
-                } else if (winnerDifference < -slightly_favored_points) {
-                    /* Loser was slightly favored. */
-                    points = base_points + (int) (base_points * (1 - slightly_favored_modifier));
-                } else {
-                    points = base_points;
-                }
-
-                winner.setLadderPoints(winner.getLadderPoints() + points);
-                loser.setLadderPoints(loser.getLadderPoints() - points);
-
-                winner.save();
-                loser.save();
-                Civilization c = winner.getCivilization();
-                c.getTreasury().deposit(c.getCurrentEra() * points * 150);
-                Civilization bc = loser.getCivilization();
-                bc.getTreasury().deposit(bc.getCurrentEra() * 1500);
-                for (Resident r : winner.teamMembers) {
-                    r.clearRespawnTimeArena();
-                }
-                for (Resident r : loser.teamMembers) {
-                    r.clearRespawnTimeArena();
-                }
-                CivMessage.global(String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + winner.getName() + "(+" + points + ")" + ChatColor.RESET + " defeated " +
-                        ChatColor.RED + ChatColor.BOLD + loser.getName() + "(-" + points + ")" + ChatColor.RESET + " in Arena!");
-
-            } catch (InvalidConfiguration e) {
-                e.printStackTrace();
+            if (winnerDifference > favored_points) {
+                /* Winner was favored. */
+                points = (int) (base_points * favored_modifier);
+            } else if (winnerDifference > slightly_favored_points) {
+                /* Winner was slightly favored. */
+                points = (int) (base_points * slightly_favored_modifier);
+            } else if (winnerDifference > 0) {
+                /* Winner and loser were evenly matched. */
+                points = base_points;
+            } else if (winnerDifference < -favored_points) {
+                /* Loser was favored. */
+                points = base_points + (int) (base_points * (1 - favored_modifier));
+            } else if (winnerDifference < -slightly_favored_points) {
+                /* Loser was slightly favored. */
+                points = base_points + (int) (base_points * (1 - slightly_favored_modifier));
+            } else {
+                points = base_points;
             }
+
+            winner.setLadderPoints(winner.getLadderPoints() + points);
+            loser.setLadderPoints(loser.getLadderPoints() - points);
+
+            winner.save();
+            loser.save();
+            Civilization c = winner.getCivilization();
+            c.getTreasury().deposit(c.getCurrentEra() * points * 150);
+            Civilization bc = loser.getCivilization();
+            bc.getTreasury().deposit(bc.getCurrentEra() * 1500);
+            for (Resident r : winner.teamMembers) {
+                r.clearRespawnTimeArena();
+            }
+            for (Resident r : loser.teamMembers) {
+                r.clearRespawnTimeArena();
+            }
+            CivMessage.global(String.valueOf(ChatColor.GREEN) + ChatColor.BOLD + winner.getName() + "(+" + points + ")" + ChatColor.RESET + " defeated " +
+                    ChatColor.RED + ChatColor.BOLD + loser.getName() + "(-" + points + ")" + ChatColor.RESET + " in Arena!");
 
             try {
                 ArenaManager.destroyArena(arena.getInstanceName());

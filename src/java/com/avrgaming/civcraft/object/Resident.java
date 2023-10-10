@@ -28,7 +28,6 @@ import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.event.EventTimer;
 import com.avrgaming.civcraft.exception.AlreadyRegisteredException;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.exception.InvalidNameException;
 import com.avrgaming.civcraft.interactive.InteractiveResponse;
 import com.avrgaming.civcraft.items.units.Unit;
@@ -971,16 +970,8 @@ public class Resident extends SQLObject {
             return;
         }
 
-        long cooldownTime;
-        int cooldownHours;
-        try {
-            cooldownHours = CivSettings.getInteger(CivSettings.civConfig, "global.join_civ_cooldown");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            return;
-        }
-
-        cooldownTime = (long) cooldownHours * 60 * 60 * 1000; /*convert hours to milliseconds. */
+        int cooldownHours = CivSettings.civConfig.getInt("global.join_civ_cooldown", 12);
+        long cooldownTime = (long) cooldownHours * 60 * 60 * 1000; /*convert hours to milliseconds. */
 
         ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getCooldownKey());
         if (!entries.isEmpty()) {
@@ -1011,12 +1002,10 @@ public class Resident extends SQLObject {
         this.controlBlockInstantBreak = controlBlockInstantBreak;
     }
 
-    @SuppressWarnings("unused")
     public boolean isMuted() {
         return muted;
     }
 
-    @SuppressWarnings("unused")
     public void setMuted(boolean muted) {
         this.muted = muted;
     }

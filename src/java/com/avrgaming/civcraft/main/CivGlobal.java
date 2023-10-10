@@ -26,7 +26,6 @@ import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.endgame.EndGameCondition;
 import com.avrgaming.civcraft.event.EventTimer;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.exception.InvalidNameException;
 import com.avrgaming.civcraft.items.BonusGoodie;
 import com.avrgaming.civcraft.object.*;
@@ -211,19 +210,8 @@ public class CivGlobal {
 
         checkForInvalidStructures();
 
-        try {
-            minBuildHeight = CivSettings.getInteger(CivSettings.civConfig, "global.min_build_height");
-        } catch (InvalidConfiguration e) {
-            minBuildHeight = 1;
-            e.printStackTrace();
-        }
-
-        try {
-            speedChunks = CivSettings.getBoolean(CivSettings.civConfig, "global.speed_check_chunks");
-        } catch (InvalidConfiguration e) {
-            speedChunks = false;
-            e.printStackTrace();
-        }
+        minBuildHeight = CivSettings.civConfig.getInt("global.min_build_height", 1);
+        speedChunks = CivSettings.civConfig.getBoolean("global.speed_check_chunks", false);
 
         loadCompleted = true;
     }
@@ -1469,13 +1457,7 @@ public class CivGlobal {
         Calendar now = Calendar.getInstance();
         Calendar nextSpawn = Calendar.getInstance();
 
-        int hourOfDay;
-        try {
-            hourOfDay = CivSettings.getInteger(CivSettings.civConfig, "global.regen_spawn_hour");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            return null;
-        }
+        int hourOfDay = CivSettings.civConfig.getInt("global.regen_spawn_hour", 0);
 
         nextSpawn.set(Calendar.HOUR_OF_DAY, hourOfDay);
         nextSpawn.set(Calendar.MINUTE, 0);
@@ -1611,13 +1593,7 @@ public class CivGlobal {
     }
 
     public static boolean isCasualMode() {
-        try {
-            String mode = CivSettings.getString(CivSettings.civConfig, "global.casual_mode");
-            return mode.equalsIgnoreCase("true");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            return false;
-        }
+        return CivSettings.civConfig.getBoolean("global.casual_mode");
     }
 
     public static Economy getEconomy() {

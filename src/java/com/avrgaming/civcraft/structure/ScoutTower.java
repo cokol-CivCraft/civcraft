@@ -21,7 +21,6 @@ import com.avrgaming.civcraft.cache.PlayerLocationCache;
 import com.avrgaming.civcraft.components.PlayerProximityComponent;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Buff;
@@ -50,8 +49,7 @@ public class ScoutTower extends Structure {
         super(rs);
     }
 
-    protected ScoutTower(Location center, String id, Town town)
-            throws CivException {
+    protected ScoutTower(Location center, String id, Town town) throws CivException {
         super(center, id, town);
         this.hitpoints = this.getMaxHitPoints();
     }
@@ -60,21 +58,15 @@ public class ScoutTower extends Structure {
     public void loadSettings() {
         super.loadSettings();
 
-        try {
-            range = CivSettings.getDouble(CivSettings.warConfig, "scout_tower.range");
-            proximityComponent = new PlayerProximityComponent();
-            proximityComponent.createComponent(this);
+        range = CivSettings.warConfig.getDouble("scout_tower.range", 400.0);
+        proximityComponent = new PlayerProximityComponent();
+        proximityComponent.createComponent(this);
 
-            proximityComponent.setBuildable(this);
-            proximityComponent.setCenter(this.getCenterLocation());
-            proximityComponent.setRadius(range);
+        proximityComponent.setBuildable(this);
+        proximityComponent.setCenter(this.getCenterLocation());
+        proximityComponent.setRadius(range);
 
-            reportSeconds = (int) CivSettings.getDouble(CivSettings.warConfig, "scout_tower.update");
-
-
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-        }
+        reportSeconds = (int) CivSettings.warConfig.getDouble("scout_tower.update", 120);
     }
 
     private void scoutDebug(String str) {

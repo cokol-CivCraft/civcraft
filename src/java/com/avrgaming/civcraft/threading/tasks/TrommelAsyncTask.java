@@ -432,9 +432,8 @@ public class TrommelAsyncTask extends CivAsyncTask {
                     if (this.trommel.getTown().getGovernment().id.equals("gov_theocracy") || this.trommel.getTown().getGovernment().id.equals("gov_monarchy")) {
                         Random rand = new Random();
                         int randMax = 100;
-                        int rand1 = rand.nextInt(randMax);
-                        double chance = CivSettings.getDouble(CivSettings.structureConfig, "trommel.penalty_rate") * 100;
-                        if (rand1 < chance) {
+                        double chance = CivSettings.structureConfig.getDouble("trommel.penalty_rate", 0.8) * 100;
+                        if (rand.nextInt(randMax) < chance) {
                             processTrommelUpdate();
                             debug(this.trommel, "Not penalized");
                         } else {

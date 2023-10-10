@@ -20,12 +20,12 @@ import java.sql.SQLException;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class FishHatchery extends Structure {
-    public static final int MAX_CHANCE = CivSettings.getIntegerStructure("fishery.tierMax");
-    public static final double FISH_T0_RATE = CivSettings.getDoubleStructure("fishery.t0_rate"); //100%
-    public static final double FISH_T1_RATE = CivSettings.getDoubleStructure("fishery.t1_rate"); //100%
-    public static final double FISH_T2_RATE = CivSettings.getDoubleStructure("fishery.t2_rate"); //100%
-    public static final double FISH_T3_RATE = CivSettings.getDoubleStructure("fishery.t3_rate"); //100%
-    public static final double FISH_T4_RATE = CivSettings.getDoubleStructure("fishery.t4_rate"); //100%
+    public static final int MAX_CHANCE = CivSettings.structureConfig.getInt("fishery.tierMax", 10000);
+    public static final double FISH_T0_RATE = CivSettings.structureConfig.getDouble("fishery.t0_rate", 1.0); //100%
+    public static final double FISH_T1_RATE = CivSettings.structureConfig.getDouble("fishery.t1_rate", 0.5); //100%
+    public static final double FISH_T2_RATE = CivSettings.structureConfig.getDouble("fishery.t2_rate", 0.05); //100%
+    public static final double FISH_T3_RATE = CivSettings.structureConfig.getDouble("fishery.t3_rate", 0.01); //100%
+    public static final double FISH_T4_RATE = CivSettings.structureConfig.getDouble("fishery.t4_rate", 0.001); //100%
 
     private int level = 1;
     private Biome biome = null;

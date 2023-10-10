@@ -19,7 +19,6 @@ package com.avrgaming.civcraft.event;
 
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.CultureProcessAsyncTask;
@@ -68,10 +67,9 @@ public class DailyEvent implements EventInterface {
     }
 
     @Override
-    public Calendar getNextDate() throws InvalidConfiguration {
+    public Calendar getNextDate() {
         Calendar cal = EventTimer.getCalendarInServerTimeZone();
-        int daily_upkeep_hour;
-        daily_upkeep_hour = CivSettings.getInteger(CivSettings.civConfig, "global.daily_upkeep_hour");
+        int daily_upkeep_hour = CivSettings.civConfig.getInt("global.daily_upkeep_hour", 20);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.HOUR_OF_DAY, daily_upkeep_hour);

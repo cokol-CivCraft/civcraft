@@ -19,7 +19,6 @@ package com.avrgaming.civcraft.event;
 
 import com.avrgaming.civcraft.camp.CampHourlyTick;
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.CultureProcessAsyncTask;
@@ -41,14 +40,13 @@ public class HourlyTickEvent implements EventInterface {
     }
 
     @Override
-    public Calendar getNextDate() throws InvalidConfiguration {
+    public Calendar getNextDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("M/dd h:mm:ss a z");
         Calendar cal = EventTimer.getCalendarInServerTimeZone();
 
-        int hourly_peroid = CivSettings.getInteger(CivSettings.civConfig, "global.hourly_tick");
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MINUTE, 0);
-        cal.add(Calendar.SECOND, hourly_peroid);
+        cal.add(Calendar.SECOND, CivSettings.civConfig.getInt("global.hourly_tick", 3600));
         sdf.setTimeZone(cal.getTimeZone());
         return cal;
     }

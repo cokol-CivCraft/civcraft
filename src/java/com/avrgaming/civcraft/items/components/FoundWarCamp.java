@@ -3,7 +3,6 @@ package com.avrgaming.civcraft.items.components;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigBuildableInfo;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.interactive.InteractiveWarCampFound;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
@@ -85,13 +84,7 @@ public class FoundWarCamp extends ItemComponent implements CallbackInterface {
             return;
         }
         Resident resident = CivGlobal.getResident(playerName);
-        int warTimeout;
-        try {
-            warTimeout = CivSettings.getInteger(CivSettings.warConfig, "warcamp.rebuild_timeout");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            return;
-        }
+        int warTimeout = CivSettings.warConfig.getInt("warcamp.rebuild_timeout", 30);
 
         CivMessage.sendHeading(player, CivSettings.localize.localizedString("buildWarCamp_heading"));
         CivMessage.send(player, ChatColor.GREEN + CivSettings.localize.localizedString("buildWarCamp_prompt1"));

@@ -20,7 +20,6 @@ package com.avrgaming.civcraft.structure;
 import com.avrgaming.civcraft.components.ProjectileArrowComponent;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
@@ -228,13 +227,7 @@ public class Capitol extends TownHall {
 
         this.addStructureBlock(new BlockCoord(centerBlock.getRelative(0, 1, 0)), true);
 
-        int capitolControlHitpoints;
-        try {
-            capitolControlHitpoints = CivSettings.getInteger(CivSettings.warConfig, "war.control_block_hitpoints_capitol");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            capitolControlHitpoints = 100;
-        }
+        int capitolControlHitpoints = CivSettings.warConfig.getInt("war.control_block_hitpoints_capitol", 100);
 
         BlockCoord coord = new BlockCoord(centerBlock.getRelative(0, 1, 0));
         this.controlPoints.put(coord, new ControlPoint(coord, this, capitolControlHitpoints));
@@ -242,14 +235,7 @@ public class Capitol extends TownHall {
 
     @Override
     public void onInvalidPunish() {
-        int invalid_respawn_penalty;
-        try {
-            invalid_respawn_penalty = CivSettings.getInteger(CivSettings.warConfig, "war.invalid_respawn_penalty");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            return;
-        }
-
+        int invalid_respawn_penalty = CivSettings.warConfig.getInt("war.invalid_respawn_penalty", 2);
         CivMessage.sendTown(this.getTown(), String.valueOf(ChatColor.RED) + ChatColor.BOLD + CivSettings.localize.localizedString("capitol_cannotSupport1") +
                 " " + CivSettings.localize.localizedString("var_capitol_cannotSupport2", invalid_respawn_penalty));
     }

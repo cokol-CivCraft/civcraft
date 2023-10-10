@@ -4,7 +4,6 @@ import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.exception.InvalidNameException;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
@@ -203,15 +202,10 @@ public class ArenaTeam extends SQLObject implements Comparable<ArenaTeam> {
             throw new CivException(CivSettings.localize.localizedString("arena_noTeamNamed") + " " + teamName);
         }
 
-        try {
-            int max_team_size = CivSettings.getInteger(CivSettings.arenaConfig, "max_team_size");
+        int max_team_size = CivSettings.arenaConfig.getInt("max_team_size", 5);
 
-            if (team.teamMembers.size() >= max_team_size) {
-                throw new CivException(CivSettings.localize.localizedString("var_arena_maxPlayers", max_team_size));
-            }
-
-        } catch (InvalidConfiguration e) {
-            throw new CivException(CivSettings.localize.localizedString("internalException"));
+        if (team.teamMembers.size() >= max_team_size) {
+            throw new CivException(CivSettings.localize.localizedString("var_arena_maxPlayers", max_team_size));
         }
 
         team.teamMembers.add(member);

@@ -2,7 +2,6 @@ package com.avrgaming.civcraft.structurevalidation;
 
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivCraft;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
@@ -71,15 +70,7 @@ public class StructureValidator implements Runnable {
     }
 
     public static boolean isDisabled() {
-        boolean enabledStr;
-        try {
-            enabledStr = CivSettings.getBoolean(CivSettings.civConfig, "global.structure_validation");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            return true;
-        }
-
-        return !enabledStr;
+        return !CivSettings.civConfig.getBoolean("global.structure_validation", true);
     }
 
     private void finishValidate(List<SimpleBlock> bottomLayer) {

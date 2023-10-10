@@ -1,7 +1,6 @@
 package com.avrgaming.civcraft.randomevents.components;
 
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.randomevents.RandomEventComponent;
@@ -18,19 +17,10 @@ public class PickRandomBlock extends RandomEventComponent {
     @Override
     public void process() {
         TaskMaster.syncTask(() -> {
-            int max_x;
-            int max_z;
-            int min_x;
-            int min_z;
-            try {
-                max_x = CivSettings.getInteger(CivSettings.randomEventsConfig, "max_x");
-                max_z = CivSettings.getInteger(CivSettings.randomEventsConfig, "max_z");
-                min_x = CivSettings.getInteger(CivSettings.randomEventsConfig, "min_x");
-                min_z = CivSettings.getInteger(CivSettings.randomEventsConfig, "min_z");
-            } catch (InvalidConfiguration e) {
-                e.printStackTrace();
-                return;
-            }
+            int max_x = CivSettings.randomEventsConfig.getInt("max_x", 6000);
+            int max_z = CivSettings.randomEventsConfig.getInt("max_z", 6000);
+            int min_x = CivSettings.randomEventsConfig.getInt("min_x", -6000);
+            int min_z = CivSettings.randomEventsConfig.getInt("min_z", -6000);
 
             int range_x = max_x - min_x;
             int range_z = max_z - min_z;

@@ -1,7 +1,6 @@
 package com.avrgaming.civcraft.items.components;
 
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.loreenhancements.LoreEnhancement;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.lorestorage.LoreMaterial;
@@ -71,33 +70,28 @@ public class Catalyst extends ItemComponent {
     }
 
     public boolean enchantSuccess(ItemStack stack) {
-        try {
-            int free_catalyst_amount = CivSettings.getInteger(CivSettings.civConfig, "global.free_catalyst_amount");
-            int extra_catalyst_amount = CivSettings.getInteger(CivSettings.civConfig, "global.extra_catalyst_amount");
-            double extra_catalyst_percent = CivSettings.getDouble(CivSettings.civConfig, "global.extra_catalyst_percent");
+        int free_catalyst_amount = CivSettings.civConfig.getInt("global.free_catalyst_amount", 3);
+        int extra_catalyst_amount = CivSettings.civConfig.getInt("global.extra_catalyst_amount", 3);
+        double extra_catalyst_percent = CivSettings.civConfig.getDouble("global.extra_catalyst_percent", 0.0);
 
-            int level = getEnhancedLevel(stack);
+        int level = getEnhancedLevel(stack);
 
-            if (level <= free_catalyst_amount) {
-                return true;
-            }
-
-            int chance = Integer.parseInt(getString("chance"));
-            Random rand = new Random();
-            int extra = 0;
-            int n = rand.nextInt(100);
-
-            if (level <= extra_catalyst_amount) {
-                n -= (int) (extra_catalyst_percent * 100);
-            }
-
-            n += extra;
-
-            return n <= chance;
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            return false;
+        if (level <= free_catalyst_amount) {
+            return true;
         }
+
+        int chance = Integer.parseInt(getString("chance"));
+        Random rand = new Random();
+        int extra = 0;
+        int n = rand.nextInt(100);
+
+        if (level <= extra_catalyst_amount) {
+            n -= (int) (extra_catalyst_percent * 100);
+        }
+
+        n = n + extra;
+
+        return n <= chance;
     }
 
 

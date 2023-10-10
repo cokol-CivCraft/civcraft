@@ -33,64 +33,65 @@ public class ChangeGovernmentTimer implements Runnable {
 
         // For each town in anarchy, search the session DB for it's timer.
         for (Civilization civ : CivGlobal.getCivs()) {
-            if (civ.getGovernment().id.equalsIgnoreCase("gov_anarchy")) {
-                String key = "changegov_" + civ.getId();
-                ArrayList<SessionEntry> entries;
+            if (!civ.getGovernment().id.equalsIgnoreCase("gov_anarchy")) {
+                continue;
+            }
+            String key = "changegov_" + civ.getId();
+            ArrayList<SessionEntry> entries;
 
-                entries = CivGlobal.getSessionDB().lookup(key);
-                if (entries == null || entries.isEmpty()) {
-                    //We are in anarchy but didn't have a sessiondb entry? huh...
-                    civ.setGovernment("gov_tribalism");
-                    return;
-                    //throw new TownyException("Town "+town.getName()+" in anarchy but cannot find its session DB entry with key:"+key);
+            entries = CivGlobal.getSessionDB().lookup(key);
+            if (entries == null || entries.isEmpty()) {
+                //We are in anarchy but didn't have a sessiondb entry? huh...
+                civ.setGovernment("gov_tribalism");
+                return;
+                //throw new TownyException("Town "+town.getName()+" in anarchy but cannot find its session DB entry with key:"+key);
+            }
+
+            SessionEntry se = entries.get(0);
+            // Our Hour
+            int duration = 3600;
+            if (CivGlobal.testFileFlag("debug")) {
+                duration = 1;
+            }
+
+            double memberHours = 0;
+
+            boolean noanarchy = false;
+            for (Town t : civ.getTowns()) {
+                //Get the Count of Residents in each town
+                double residentHours = t.getResidentCount();
+                double modifier = 1.0;
+                //If the town has a broadcast tower, reduce the modifer by the buff_reduced_anarchy value
+                if (t.getBuffManager().hasBuff("buff_reduced_anarchy")) {
+                    modifier -= t.getBuffManager().getEffectiveDouble("buff_reduced_anarchy");
                 }
 
-                SessionEntry se = entries.get(0);
-                // Our Hour
-                int duration = 3600;
-                if (CivGlobal.testFileFlag("debug")) {
-                    duration = 1;
+                //If the civ has a Notre Dame, reduce the modifer by the buff_noanarchy value
+                if (t.getBuffManager().hasBuff("buff_noanarchy")) {
+                    modifier -= t.getBuffManager().getEffectiveDouble("buff_noanarchy");
+                    noanarchy = true;
                 }
+                //Reduce the number of resident hours by the modifier, then add it to the member hours
+                memberHours += (residentHours * modifier);
+            }
+            //Get the maxAnarchy from the governments.yml (Default 24 hours)
+            double maxAnarchy = CivSettings.governmentConfig.getInt("anarchy_duration", 24);
 
-                double memberHours = 0;
+            if (noanarchy) {
+                //If the civ has completed Notre Dame, reduce the maxAnarchy to the lower penalty from the governments.yml (Default 2 hours)
+                maxAnarchy = CivSettings.governmentConfig.getInt("notre_dame_max_anarchy", 2);
+            }
+            //Finally, calculate the number of hours, taking the lower memberHours or maxAnarchy
+            double anarchyHours = Math.min(memberHours, maxAnarchy);
 
-                boolean noanarchy = false;
-                for (Town t : civ.getTowns()) {
-                    //Get the Count of Residents in each town
-                    double residentHours = t.getResidentCount();
-                    double modifier = 1.0;
-                    //If the town has a broadcast tower, reduce the modifer by the buff_reduced_anarchy value
-                    if (t.getBuffManager().hasBuff("buff_reduced_anarchy")) {
-                        modifier -= t.getBuffManager().getEffectiveDouble("buff_reduced_anarchy");
-                    }
+            //Check if enough time has elapsed in seconds since the anarchy started
+            if (CivGlobal.hasTimeElapsed(se, anarchyHours * duration)) {
 
-                    //If the civ has a Notre Dame, reduce the modifer by the buff_noanarchy value
-                    if (t.getBuffManager().hasBuff("buff_noanarchy")) {
-                        modifier -= t.getBuffManager().getEffectiveDouble("buff_noanarchy");
-                        noanarchy = true;
-                    }
-                    //Reduce the number of resident hours by the modifier, then add it to the member hours
-                    memberHours += (residentHours * modifier);
-                }
-                //Get the maxAnarchy from the governments.yml (Default 24 hours)
-                double maxAnarchy = CivSettings.getIntegerGovernment("anarchy_duration");
+                civ.setGovernment(se.value);
+                CivMessage.global(CivSettings.localize.localizedString("var_gov_emergeFromAnarchy", civ.getName(), CivSettings.governments.get(se.value).displayName));
 
-                if (noanarchy) {
-                    //If the civ has completed Notre Dame, reduce the maxAnarchy to the lower penalty from the governments.yml (Default 2 hours)
-                    maxAnarchy = CivSettings.getIntegerGovernment("notre_dame_max_anarchy");
-                }
-                //Finally, calculate the number of hours, taking the lower memberHours or maxAnarchy
-                double anarchyHours = Math.min(memberHours, maxAnarchy);
-
-                //Check if enough time has elapsed in seconds since the anarchy started
-                if (CivGlobal.hasTimeElapsed(se, anarchyHours * duration)) {
-
-                    civ.setGovernment(se.value);
-                    CivMessage.global(CivSettings.localize.localizedString("var_gov_emergeFromAnarchy", civ.getName(), CivSettings.governments.get(se.value).displayName));
-
-                    CivGlobal.getSessionDB().delete_all(key);
-                    civ.save();
-                }
+                CivGlobal.getSessionDB().delete_all(key);
+                civ.save();
             }
         }
     }

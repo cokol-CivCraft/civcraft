@@ -22,7 +22,6 @@ import com.avrgaming.civcraft.cache.CivCache;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigRemovedRecipes;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.items.ItemDurabilityEntry;
 import com.avrgaming.civcraft.items.components.Catalyst;
 import com.avrgaming.civcraft.listener.armor.ArmorType;
@@ -81,31 +80,27 @@ public class CustomItemManager implements Listener {
             block.setType(Material.AIR);
             block.setData((byte) 0);
 
-            try {
-                Random rand = new Random();
+            Random rand = new Random();
 
-                int min = CivSettings.getInteger(CivSettings.materialsConfig, "tungsten_min_drop");
-                int max;
-                if (event.getPlayer().getInventory().getItemInMainHand().containsEnchantment(Enchantment.LOOT_BONUS_BLOCKS)) {
-                    max = CivSettings.getInteger(CivSettings.materialsConfig, "tungsten_max_drop_with_fortune");
-                } else {
-                    max = CivSettings.getInteger(CivSettings.materialsConfig, "tungsten_max_drop");
-                }
-
-                int randAmount = rand.nextInt(min + max);
-                randAmount -= min;
-                if (randAmount <= 0) {
-                    randAmount = 1;
-                }
-
-                for (int i = 0; i < randAmount; i++) {
-                    ItemStack stack = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_ore"));
-                    event.getPlayer().getWorld().dropItemNaturally(event.getBlock().getLocation(), stack);
-                }
-
-            } catch (InvalidConfiguration e) {
-                e.printStackTrace();
+            int min = CivSettings.materialsConfig.getInt("tungsten_min_drop", 0);
+            int max;
+            if (event.getPlayer().getInventory().getItemInMainHand().containsEnchantment(Enchantment.LOOT_BONUS_BLOCKS)) {
+                max = CivSettings.materialsConfig.getInt("tungsten_max_drop_with_fortune", 3);
+            } else {
+                max = CivSettings.materialsConfig.getInt("tungsten_max_drop", 1);
             }
+
+            int randAmount = rand.nextInt(min + max);
+            randAmount -= min;
+            if (randAmount <= 0) {
+                randAmount = 1;
+            }
+
+            for (int i = 0; i < randAmount; i++) {
+                ItemStack stack = LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_tungsten_ore"));
+                event.getPlayer().getWorld().dropItemNaturally(event.getBlock().getLocation(), stack);
+            }
+
         }
     }
 
@@ -126,7 +121,7 @@ public class CustomItemManager implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerInteract(PlayerInteractEvent event) {
-        ItemStack stack = null;
+        ItemStack stack;
         if (event.getHand() == EquipmentSlot.OFF_HAND) {
             stack = event.getPlayer().getInventory().getItemInOffHand();
         } else {
@@ -274,13 +269,8 @@ public class CustomItemManager implements Listener {
 
         if (event.getDamager() instanceof LightningStrike) {
             /* Return after Tesla tower does damage, do not apply armor defense. */
-            try {
-                event.setDamage(CivSettings.getInteger(CivSettings.warConfig, "tesla_tower.damage"));
-                return;
-            } catch (InvalidConfiguration e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            event.setDamage(CivSettings.warConfig.getInt("tesla_tower.damage", 7));
+            return;
         }
 
         if (event.getDamager() instanceof Arrow) {

@@ -1,7 +1,6 @@
 package com.avrgaming.civcraft.loreenhancements;
 
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import gpl.AttributeUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
@@ -71,15 +70,8 @@ public class LoreEnhancementDefense extends LoreEnhancement {
     }
 
     public double getExtraDefense(AttributeUtil attrs) {
-        double m;
-        try {
-            m = CivSettings.getDouble(CivSettings.civConfig, "global.defense_catalyst_multiplier");
-            return getLevel(attrs) * m;
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-        }
+        return getLevel(attrs) * CivSettings.civConfig.getDouble("global.defense_catalyst_multiplier", 1);
 
-        return getLevel(attrs);
     }
 
     @Override

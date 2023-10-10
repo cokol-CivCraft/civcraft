@@ -2,7 +2,6 @@ package com.avrgaming.civcraft.war;
 
 import com.avrgaming.civcraft.camp.CampBlock;
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.CultureChunk;
@@ -38,13 +37,9 @@ public class WarListener implements Listener {
     public static int structureDamage;
 
     static {
-        try {
-            yield = CivSettings.getInteger(CivSettings.warConfig, "tnt.yield");
-            playerDamage = CivSettings.getDouble(CivSettings.warConfig, "tnt.player_damage");
-            structureDamage = CivSettings.getInteger(CivSettings.warConfig, "tnt.structure_damage");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-        }
+        yield = CivSettings.warConfig.getInt("tnt.yield", 3);
+        playerDamage = CivSettings.warConfig.getDouble("tnt.player_damage", 20);
+        structureDamage = CivSettings.warConfig.getInt("tnt.structure_damage", 30);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

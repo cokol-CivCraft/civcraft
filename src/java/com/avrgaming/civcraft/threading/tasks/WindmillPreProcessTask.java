@@ -19,7 +19,6 @@ package com.avrgaming.civcraft.threading.tasks;
 
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivTaskAbortException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.object.StructureChest;
 import com.avrgaming.civcraft.structure.Windmill;
 import com.avrgaming.civcraft.threading.CivAsyncTask;
@@ -46,23 +45,16 @@ public class WindmillPreProcessTask extends CivAsyncTask {
 
     @Override
     public void run() {
-        int plant_max;
-        try {
-            plant_max = CivSettings.getInteger(CivSettings.structureConfig, "windmill.plant_max");
+        int plant_max = CivSettings.structureConfig.getInt("windmill.plant_max", 16);
 
-            if (windmill.getCiv().hasTechnology("tech_machinery")) {
-                plant_max *= 2;
-            }
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            return;
+        if (windmill.getCiv().hasTechnology("tech_machinery")) {
+            plant_max *= 2;
         }
 
         /* Read in the source inventory's contents. Make sure we have seeds to plant. */
-        ArrayList<StructureChest> sources = windmill.getAllChestsById(0);
         MultiInventory source_inv = new MultiInventory();
 
-        for (StructureChest src : sources) {
+        for (StructureChest src : windmill.getAllChestsById(0)) {
             try {
                 this.syncLoadChunk(src.getCoord().getWorldname(), src.getCoord().getX(), src.getCoord().getZ());
                 Inventory tmp;

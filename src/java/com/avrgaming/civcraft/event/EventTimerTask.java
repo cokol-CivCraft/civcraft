@@ -17,7 +17,6 @@
  */
 package com.avrgaming.civcraft.event;
 
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivLog;
 
 import java.util.Calendar;
@@ -35,13 +34,7 @@ public class EventTimerTask implements Runnable {
             if (cal.after(timer.getNext())) {
                 timer.setLast(cal);
 
-                Calendar next;
-                try {
-                    next = timer.getEventFunction().getNextDate();
-                } catch (InvalidConfiguration e) {
-                    e.printStackTrace();
-                    continue;
-                }
+                Calendar next = timer.getEventFunction().getNextDate();
 
                 if (next == null) {
                     CivLog.warning("WARNING timer:" + timer.getName() + " did not return a next time.");

@@ -20,7 +20,6 @@ package com.avrgaming.civcraft.command.resident;
 import com.avrgaming.civcraft.command.CommandBase;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
@@ -203,13 +202,7 @@ public class ResidentCommand extends CommandBase {
                     throw new CivException(CivSettings.localize.localizedString("var_cmd_res_exchangeInvalid", type));
         };
 
-        double exchangeRate;
-        try {
-            exchangeRate = CivSettings.getDouble(CivSettings.civConfig, "global.exchange_rate");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            throw new CivException(CivSettings.localize.localizedString("internalException"));
-        }
+        double exchangeRate = CivSettings.civConfig.getDouble("global.exchange_rate", 0.3);
 
         ItemStack stack = new ItemStack(exchangeID, 1, (short) 0);
         int total = 0;

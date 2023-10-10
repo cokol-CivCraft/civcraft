@@ -24,7 +24,6 @@ import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.exception.AlreadyRegisteredException;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
@@ -239,21 +238,16 @@ public class TownChunk extends SQLObject {
         }
 
         //Test that we are not too close to another civ
-        try {
-            int min_distance = CivSettings.getInteger(CivSettings.civConfig, "civ.min_distance");
+        int min_distance = CivSettings.civConfig.getInt("civ.min_distance", 15);
 
-            for (TownChunk cc : CivGlobal.getTownChunks()) {
-                if (cc.getCiv() != town.getCiv()) {
-                    double dist = coord.distance(cc.getChunkCoord());
-                    if (dist <= min_distance) {
-                        DecimalFormat df = new DecimalFormat();
-                        throw new CivException(CivSettings.localize.localizedString("var_town_chunk_claimTooClose", cc.getCiv().getName(), df.format(dist), min_distance));
-                    }
+        for (TownChunk cc : CivGlobal.getTownChunks()) {
+            if (cc.getCiv() != town.getCiv()) {
+                double dist = coord.distance(cc.getChunkCoord());
+                if (dist <= min_distance) {
+                    DecimalFormat df = new DecimalFormat();
+                    throw new CivException(CivSettings.localize.localizedString("var_town_chunk_claimTooClose", cc.getCiv().getName(), df.format(dist), min_distance));
                 }
             }
-        } catch (InvalidConfiguration e1) {
-            e1.printStackTrace();
-            throw new CivException(CivSettings.localize.localizedString("internalException"));
         }
 
         //Test that we are not too far protruding from our own town chunks

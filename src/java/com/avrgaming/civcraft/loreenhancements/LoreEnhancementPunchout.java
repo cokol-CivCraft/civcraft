@@ -1,7 +1,6 @@
 package com.avrgaming.civcraft.loreenhancements;
 
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.object.BuildableDamageBlock;
 import gpl.AttributeUtil;
 import org.bukkit.ChatColor;
@@ -20,22 +19,10 @@ public class LoreEnhancementPunchout extends LoreEnhancement {
         return attrs;
     }
     private int getPunchoutPercent() {
-        int a = 50;
-        try {
-            a = CivSettings.getInteger(CivSettings.enchantConfig, "punchout_chance");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-        }
-        return a;
+        return CivSettings.enchantConfig.getInt("punchout_chance", 50);
     }
     private int getPunchoutDamage() {
-        int b = 5;
-        try {
-            b = CivSettings.getInteger(CivSettings.enchantConfig, "punchout_maxdamage");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-        }
-        return b;
+        return CivSettings.enchantConfig.getInt("punchout_maxdamage", 5);
     }
     @Override
     public int onStructureBlockBreak(BuildableDamageBlock sb, int damage) {

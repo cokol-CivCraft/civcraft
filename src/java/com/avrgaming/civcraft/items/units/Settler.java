@@ -20,7 +20,6 @@ package com.avrgaming.civcraft.items.units;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigUnit;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.interactive.InteractiveTownName;
 import com.avrgaming.civcraft.lorestorage.LoreMaterial;
 import com.avrgaming.civcraft.main.CivGlobal;
@@ -88,14 +87,7 @@ public class Settler extends UnitMaterial implements CallbackInterface {
             return;
         }
 
-        double minDistance;
-        try {
-            minDistance = CivSettings.getDouble(CivSettings.townConfig, "town.min_town_distance");
-        } catch (InvalidConfiguration e) {
-            CivMessage.sendError(player, CivSettings.localize.localizedString("internalException"));
-            e.printStackTrace();
-            return;
-        }
+        double minDistance = CivSettings.townConfig.getDouble("town.min_town_distance", 150.0);
 
         for (Town town : CivGlobal.getTowns()) {
             TownHall townhall = town.getTownHall();

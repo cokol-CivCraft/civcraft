@@ -18,7 +18,6 @@
 package com.avrgaming.civcraft.event;
 
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.items.BonusGoodie;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
@@ -64,14 +63,12 @@ public class GoodieRepoEvent implements EventInterface {
     }
 
     @Override
-    public Calendar getNextDate() throws InvalidConfiguration {
+    public Calendar getNextDate() {
         Calendar cal = EventTimer.getCalendarInServerTimeZone();
-        int repo_day = CivSettings.getInteger(CivSettings.goodsConfig, "trade_goodie_repo_day");
-        int repo_hour = CivSettings.getInteger(CivSettings.goodsConfig, "trade_goodie_repo_hour");
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.HOUR_OF_DAY, repo_hour);
-        cal.add(Calendar.DATE, repo_day);
+        cal.set(Calendar.HOUR_OF_DAY, CivSettings.goodsConfig.getInt("trade_goodie_repo_hour", 14));
+        cal.add(Calendar.DATE, CivSettings.goodsConfig.getInt("trade_goodie_repo_day", 7));
         return cal;
     }
 

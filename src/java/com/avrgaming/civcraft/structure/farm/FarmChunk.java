@@ -233,7 +233,7 @@ public class FarmChunk {
         }
         this.getFarm().setLastEffectiveGrowth(effectiveGrowthRate);
 
-        int crops_per_growth_tick = CivSettings.getIntegerStructure("farm.grows_per_tick");
+        int crops_per_growth_tick = CivSettings.structureConfig.getInt("farm.grows_per_tick", 6);
         int numberOfCropsToGrow = (int) (effectiveGrowthRate * crops_per_growth_tick); //Since this is a double, 1.0 means 100% so int cast is # of crops
         int chanceForLast = (int) (this.town.getGrowth().total % 100);
 

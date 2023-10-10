@@ -22,7 +22,6 @@ import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.endgame.EndGameCondition;
 import com.avrgaming.civcraft.event.DisableTeleportEvent;
 import com.avrgaming.civcraft.event.EventTimer;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
@@ -206,13 +205,7 @@ public class War {
                 e2.printStackTrace();
             }
 
-            int mins = 0;
-            try {
-                mins = CivSettings.getInteger(CivSettings.warConfig, "war.time_length");
-            } catch (InvalidConfiguration e2) {
-                // TODO Auto-generated catch block
-                e2.printStackTrace();
-            }
+            int mins = CivSettings.warConfig.getInt("war.time_length", 120);
 
             /* War time has started. */
             CivMessage.globalTitle(String.valueOf(ChatColor.DARK_RED) + ChatColor.BOLD + CivSettings.localize.localizedString("war_wartimeBeginHeading"), CivSettings.localize.localizedString("war_wartimeBegin_title_length", mins / 60.0));
@@ -461,21 +454,11 @@ public class War {
     }
 
     public static int getTimeDeclareDays() {
-        try {
-            return CivSettings.getInteger(CivSettings.warConfig, "war.time_declare_days");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            return 0;
-        }
+        return CivSettings.warConfig.getInt("war.time_declare_days", 3);
     }
 
     public static int getAllyDeclareHours() {
-        try {
-            return CivSettings.getInteger(CivSettings.warConfig, "war.ally_declare_hours");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            return 0;
-        }
+        return CivSettings.warConfig.getInt("war.ally_declare_hours", 24);
     }
 
     public static boolean isCivAggressor(Civilization civ) {

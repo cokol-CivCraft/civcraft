@@ -22,7 +22,6 @@ import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.endgame.EndConditionDiplomacy;
 import com.avrgaming.civcraft.endgame.EndGameCondition;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Civilization;
@@ -179,27 +178,21 @@ public class CivCommand extends CommandBase {
         }
 
 
-        try {
-            int revolution_cooldown = CivSettings.getInteger(CivSettings.civConfig, "civ.revolution_cooldown");
+        int revolution_cooldown = CivSettings.civConfig.getInt("civ.revolution_cooldown", 2);
 
-            Calendar cal = Calendar.getInstance();
-            Calendar revCal = Calendar.getInstance();
+        Calendar cal = Calendar.getInstance();
+        Calendar revCal = Calendar.getInstance();
 
-            Date conquered = town.getMotherCiv().getConqueredDate();
-            if (conquered == null) {
-                throw new CivException(CivSettings.localize.localizedString("cmd_civ_revolutionErrorNoMother"));
-            }
+        Date conquered = town.getMotherCiv().getConqueredDate();
+        if (conquered == null) {
+            throw new CivException(CivSettings.localize.localizedString("cmd_civ_revolutionErrorNoMother"));
+        }
 
-            revCal.setTime(town.getMotherCiv().getConqueredDate());
-            revCal.add(Calendar.DAY_OF_MONTH, revolution_cooldown);
+        revCal.setTime(town.getMotherCiv().getConqueredDate());
+        revCal.add(Calendar.DAY_OF_MONTH, revolution_cooldown);
 
-            if (!cal.after(revCal)) {
-                throw new CivException(CivSettings.localize.localizedString("var_cmd_civ_revolutionErrorTooSoon", revolution_cooldown));
-            }
-
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            throw new CivException(CivSettings.localize.localizedString("internalException"));
+        if (!cal.after(revCal)) {
+            throw new CivException(CivSettings.localize.localizedString("var_cmd_civ_revolutionErrorTooSoon", revolution_cooldown));
         }
 
 

@@ -19,7 +19,6 @@ package com.avrgaming.civcraft.main;
 
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.InvalidBlockLocation;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.util.BlockSnapshot;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -58,17 +57,9 @@ public class CivData {
     public static final short THICK_POTION_DATA = 32;
     public static final short DATA_WOOL_RED = 14;
     public static final int DATA_WOOL_WHITE = 0;
-    private static final String hp = "❤";
 
     private static String getHP() {
-        String hpCFG;
-        try {
-            hpCFG = CivSettings.getString(CivSettings.civConfig, "global.health");
-        } catch (InvalidConfiguration e) {
-            hpCFG = hp;
-            e.printStackTrace();
-        }
-        return hpCFG;
+        return CivSettings.civConfig.getString("global.health", "❤");
     }
 
     public enum TaskType {

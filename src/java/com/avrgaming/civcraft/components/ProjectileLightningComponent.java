@@ -19,7 +19,6 @@ package com.avrgaming.civcraft.components;
 
 
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.util.BlockCoord;
@@ -111,24 +110,20 @@ public class ProjectileLightningComponent extends ProjectileComponent {
 
     @Override
     public void loadSettings() {
-        try {
-            setDamage(CivSettings.getInteger(CivSettings.warConfig, "tesla_tower.damage"));
+        setDamage(CivSettings.warConfig.getInt("tesla_tower.damage", 7));
 //			speed = CivSettings.getInteger(CivSettings.warConfig, "tesla_tower.speed");
-            range = CivSettings.getDouble(CivSettings.warConfig, "tesla_tower.range");
-            if (this.getTown().getBuffManager().hasBuff("buff_great_lighthouse_tower_range") && this.getBuildable().getConfigId().equals("s_teslatower")) {
-                range *= this.getTown().getBuffManager().getEffectiveDouble("buff_great_lighthouse_tower_range");
-            }
-            min_range = CivSettings.getDouble(CivSettings.warConfig, "tesla_tower.min_range");
-//			splash = CivSettings.getInteger(CivSettings.warConfig, "tesla_tower.splash");
-            fireRate = CivSettings.getInteger(CivSettings.warConfig, "tesla_tower.fire_rate");
-
-
-            this.proximityComponent.setBuildable(buildable);
-            this.proximityComponent.setCenter(new BlockCoord(getTurretCenter()));
-            this.proximityComponent.setRadius(range);
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
+        range = CivSettings.warConfig.getDouble("tesla_tower.range", 150.0);
+        if (this.getTown().getBuffManager().hasBuff("buff_great_lighthouse_tower_range") && this.getBuildable().getConfigId().equals("s_teslatower")) {
+            range *= this.getTown().getBuffManager().getEffectiveDouble("buff_great_lighthouse_tower_range");
         }
+        min_range = CivSettings.warConfig.getDouble("tesla_tower.min_range", 10.0);
+//			splash = CivSettings.getInteger(CivSettings.warConfig, "tesla_tower.splash");
+        fireRate = CivSettings.warConfig.getInt("tesla_tower.fire_rate", 6);
+
+
+        this.proximityComponent.setBuildable(buildable);
+        this.proximityComponent.setCenter(new BlockCoord(getTurretCenter()));
+        this.proximityComponent.setRadius(range);
     }
 
     public int getHalfSecondCount() {

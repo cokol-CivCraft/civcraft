@@ -21,7 +21,6 @@ import com.avrgaming.civcraft.command.CommandBase;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.event.EventTimer;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivMessage;
 
 import java.text.ParseException;
@@ -50,13 +49,7 @@ public class AdminTimerCommand extends CommandBase {
             throw new CivException(CivSettings.localize.localizedString("var_adcmd_timer_runInvalid", args[1]));
         }
 
-        Calendar next;
-        try {
-            next = timer.getEventFunction().getNextDate();
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            throw new CivException(CivSettings.localize.localizedString("adcmd_timer_runError"));
-        }
+        Calendar next = timer.getEventFunction().getNextDate();
 
         timer.getEventFunction().process();
         timer.setLast(EventTimer.getCalendarInServerTimeZone());

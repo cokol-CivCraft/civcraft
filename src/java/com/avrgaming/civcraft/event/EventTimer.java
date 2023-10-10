@@ -18,7 +18,6 @@
 package com.avrgaming.civcraft.event;
 
 import com.avrgaming.civcraft.database.SQLController;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.randomevents.RandomEventTimer;
 import com.avrgaming.civcraft.threading.TaskMaster;
@@ -66,44 +65,24 @@ public class EventTimer {
 //		}
 
         /* Setup daily upkeep event. */
-        try {
-            DailyEvent upkeepEvent = new DailyEvent();
-            new EventTimer("daily", upkeepEvent, upkeepEvent.getNextDate());
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-        }
+        DailyEvent upkeepEvent = new DailyEvent();
+        new EventTimer("daily", upkeepEvent, upkeepEvent.getNextDate());
 
         /* Setup Hourly tick event. */
-        try {
-            HourlyTickEvent hourlyTickEvent = new HourlyTickEvent();
-            new EventTimer("hourly", hourlyTickEvent, hourlyTickEvent.getNextDate());
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-        }
+        HourlyTickEvent hourlyTickEvent = new HourlyTickEvent();
+        new EventTimer("hourly", hourlyTickEvent, hourlyTickEvent.getNextDate());
 
         /* Setup war event. */
-        try {
-            WarEvent WarEvent = new WarEvent();
-            new EventTimer("war", WarEvent, WarEvent.getNextDate());
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-        }
+        WarEvent WarEvent = new WarEvent();
+        new EventTimer("war", WarEvent, WarEvent.getNextDate());
 
         /* Setup disable Teleport event. */
-        try {
-            DisableTeleportEvent DisableTeleportEvent = new DisableTeleportEvent();
-            new EventTimer("disabletp", DisableTeleportEvent, DisableTeleportEvent.getNextDate());
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-        }
+        DisableTeleportEvent DisableTeleportEvent = new DisableTeleportEvent();
+        new EventTimer("disabletp", DisableTeleportEvent, DisableTeleportEvent.getNextDate());
 
         /* Setup repo event. */
-        try {
-            GoodieRepoEvent repoEvent = new GoodieRepoEvent();
-            new EventTimer("repo-goodies", repoEvent, repoEvent.getNextDate());
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-        }
+        GoodieRepoEvent repoEvent = new GoodieRepoEvent();
+        new EventTimer("repo-goodies", repoEvent, repoEvent.getNextDate());
 
         /* Setup random event timer. */
         RandomEventTimer randEvent = new RandomEventTimer();

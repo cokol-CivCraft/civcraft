@@ -2,7 +2,6 @@ package com.avrgaming.civcraft.siege;
 
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
@@ -68,17 +67,13 @@ public class Cannon extends Buildable {
     public static int baseStructureDamage;
     private boolean angleFlip = false;
     static {
-        try {
-            tntCost = CivSettings.getInteger(CivSettings.warConfig, "cannon.tnt_cost");
-            maxHeight = CivSettings.getInteger(CivSettings.warConfig, "cannon.height");
-            minPower = CivSettings.getDouble(CivSettings.warConfig, "cannon.min_power");
-            maxPower = CivSettings.getDouble(CivSettings.warConfig, "cannon.max_power");
-            maxCooldown = CivSettings.getInteger(CivSettings.warConfig, "cannon.cooldown");
-            maxHitpoints = CivSettings.getInteger(CivSettings.warConfig, "cannon.hitpoints");
-            baseStructureDamage = CivSettings.getInteger(CivSettings.warConfig, "cannon.structure_damage");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-        }
+        tntCost = CivSettings.warConfig.getInt("cannon.tnt_cost", 3);
+        maxHeight = CivSettings.warConfig.getInt("cannon.height", 135);
+        minPower = CivSettings.warConfig.getDouble("cannon.min_power", 0);
+        maxPower = CivSettings.warConfig.getDouble("cannon.max_power", 50);
+        maxCooldown = CivSettings.warConfig.getInt("cannon.cooldown", 30);
+        maxHitpoints = CivSettings.warConfig.getInt("cannon.hitpoints", 50);
+        baseStructureDamage = CivSettings.warConfig.getInt("cannon.structure_damage", 100);
     }
 
     public static void newCannon(Resident resident, Location loc) throws CivException {
@@ -127,13 +122,7 @@ public class Cannon extends Buildable {
     }
 
     public void buildCannon(Player player, Location center) throws CivException {
-        String templateFile;
-        try {
-            templateFile = CivSettings.getString(CivSettings.warConfig, "cannon.template");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            return;
-        }
+        String templateFile = CivSettings.warConfig.getString("cannon.template", "cannon");
 
         /* Load in the template. */
         Template tpl;

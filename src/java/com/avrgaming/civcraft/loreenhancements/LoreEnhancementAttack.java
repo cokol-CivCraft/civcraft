@@ -1,7 +1,6 @@
 package com.avrgaming.civcraft.loreenhancements;
 
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.main.CivLog;
 import gpl.AttributeUtil;
@@ -15,13 +14,7 @@ public class LoreEnhancementAttack extends LoreEnhancement {
     }
 
     public String getLoreString(double baseLevel) {
-        double m;
-        try {
-            m = CivSettings.getDouble(CivSettings.civConfig, "global.attack_catalyst_multiplier");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            m = 1;
-        }
+        double m = CivSettings.civConfig.getDouble("global.attack_catalyst_multiplier", 1.0);
         return ChatColor.DARK_AQUA + "+" + (baseLevel * m) + " " + CivSettings.localize.localizedString("itemLore_Attack");
     }
 
@@ -86,15 +79,8 @@ public class LoreEnhancementAttack extends LoreEnhancement {
     }
 
     public double getExtraAttack(AttributeUtil attrs) {
-        double m;
-        try {
-            m = CivSettings.getDouble(CivSettings.civConfig, "global.attack_catalyst_multiplier");
-            return getLevel(attrs) * m;
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-        }
+        return getLevel(attrs) * CivSettings.civConfig.getDouble("global.attack_catalyst_multiplier", 1.0);
 
-        return getLevel(attrs);
     }
 
     @Override

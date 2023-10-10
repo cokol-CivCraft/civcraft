@@ -3,7 +3,6 @@ package com.avrgaming.civcraft.siege;
 import com.avrgaming.civcraft.camp.CampBlock;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
@@ -40,14 +39,10 @@ public class CannonProjectile {
     public static int controlBlockHP;
 
     static {
-        try {
-            yield = CivSettings.getDouble(CivSettings.warConfig, "cannon.yield");
-            playerDamage = CivSettings.getDouble(CivSettings.warConfig, "cannon.player_damage");
-            maxRange = CivSettings.getDouble(CivSettings.warConfig, "cannon.max_range");
-            controlBlockHP = CivSettings.getInteger(CivSettings.warConfig, "cannon.control_block_hp");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-        }
+        yield = CivSettings.warConfig.getDouble("cannon.yield", 7.0);
+        playerDamage = CivSettings.warConfig.getDouble("cannon.player_damage", 50);
+        maxRange = CivSettings.warConfig.getDouble("cannon.max_range", 256.0);
+        controlBlockHP = CivSettings.warConfig.getInt("cannon.control_block_hp", 1);
     }
 
     public CannonProjectile(Cannon cannon, Location loc, Resident whoFired) {

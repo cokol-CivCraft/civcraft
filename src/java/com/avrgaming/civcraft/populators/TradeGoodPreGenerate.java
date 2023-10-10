@@ -20,7 +20,6 @@ package com.avrgaming.civcraft.populators;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigHemisphere;
 import com.avrgaming.civcraft.config.ConfigTradeGood;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.util.ChunkCoord;
 import org.bukkit.Bukkit;
@@ -94,17 +93,12 @@ public class TradeGoodPreGenerate {
      * save results to a file, and load if that file exists.
      */
     public void preGenerate() {
-        try {
-            chunks_min = CivSettings.getInteger(CivSettings.goodsConfig, "generation.chunks_min");
-            chunks_max = CivSettings.getInteger(CivSettings.goodsConfig, "generation.chunks_max");
-            chunks_x = CivSettings.getInteger(CivSettings.goodsConfig, "generation.chunks_x");
-            chunks_z = CivSettings.getInteger(CivSettings.goodsConfig, "generation.chunks_z");
-            seed = CivSettings.getInteger(CivSettings.goodsConfig, "generation.seed");
-            this.worldName = Bukkit.getWorlds().get(0).getName();
-
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-        }
+        chunks_min = CivSettings.goodsConfig.getInt("generation.chunks_min", 15);
+        chunks_max = CivSettings.goodsConfig.getInt("generation.chunks_max", 30);
+        chunks_x = CivSettings.goodsConfig.getInt("generation.chunks_x", 625);
+        chunks_z = CivSettings.goodsConfig.getInt("generation.chunks_z", 625);
+        seed = CivSettings.goodsConfig.getInt("generation.seed");
+        this.worldName = Bukkit.getWorlds().get(0).getName();
 
         Random rand = new Random();
         rand.setSeed(seed);

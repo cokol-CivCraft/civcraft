@@ -21,7 +21,6 @@ package com.avrgaming.civcraft.config;
 import com.avrgaming.civcraft.camp.Camp;
 import com.avrgaming.civcraft.endgame.ConfigEndCondition;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.items.units.Unit;
 import com.avrgaming.civcraft.loreenhancements.LoreEnhancement;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
@@ -40,10 +39,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class CivSettings {
@@ -182,10 +180,10 @@ public class CivSettings {
     public static Material previewMaterial = Material.GLASS;
     public static Boolean showPreview = true;
 
-    public static void init(JavaPlugin plugin) throws IOException, InvalidConfigurationException, InvalidConfiguration {
+    public static void init(JavaPlugin plugin) throws IOException, InvalidConfigurationException {
         CivSettings.plugin = (CivCraft) plugin;
 
-        String languageFile = CivSettings.getStringBase("localization_file");
+        String languageFile = plugin.getConfig().getString("localization_file", "default_lang.yml");
         localize = new Localize(plugin, languageFile);
 
         CivLog.debug(localize.localizedString("welcome_string", "test", 1337, 100.50));
@@ -206,16 +204,14 @@ public class CivSettings {
 
         Unit.init();
 
-        //CivSettings.leather_speed = (float)CivSettings.getDouble(CivSettings.unitConfig, "base.leather_speed");
-        //CivSettings.metal_speed = (float)CivSettings.getDouble(CivSettings.unitConfig, "base.metal_speed");
-        CivSettings.T1_leather_speed = (float) CivSettings.getDouble(CivSettings.unitConfig, "base.T1_leather_speed");
-        CivSettings.T2_leather_speed = (float) CivSettings.getDouble(CivSettings.unitConfig, "base.T2_leather_speed");
-        CivSettings.T3_leather_speed = (float) CivSettings.getDouble(CivSettings.unitConfig, "base.T3_leather_speed");
-        CivSettings.T4_leather_speed = (float) CivSettings.getDouble(CivSettings.unitConfig, "base.T4_leather_speed");
-        CivSettings.T1_metal_speed = (float) CivSettings.getDouble(CivSettings.unitConfig, "base.T1_metal_speed");
-        CivSettings.T2_metal_speed = (float) CivSettings.getDouble(CivSettings.unitConfig, "base.T2_metal_speed");
-        CivSettings.T3_metal_speed = (float) CivSettings.getDouble(CivSettings.unitConfig, "base.T3_metal_speed");
-        CivSettings.T4_metal_speed = (float) CivSettings.getDouble(CivSettings.unitConfig, "base.T4_metal_speed");
+        CivSettings.T1_leather_speed = (float) CivSettings.unitConfig.getDouble("base.T1_leather_speed", 1.05);
+        CivSettings.T2_leather_speed = (float) CivSettings.unitConfig.getDouble("base.T2_leather_speed", 1.1);
+        CivSettings.T3_leather_speed = (float) CivSettings.unitConfig.getDouble("base.T3_leather_speed", 1.15);
+        CivSettings.T4_leather_speed = (float) CivSettings.unitConfig.getDouble("base.T4_leather_speed", 1.2);
+        CivSettings.T1_metal_speed = (float) CivSettings.unitConfig.getDouble("base.T1_metal_speed", 0.95);
+        CivSettings.T2_metal_speed = (float) CivSettings.unitConfig.getDouble("base.T2_metal_speed", 0.9);
+        CivSettings.T3_metal_speed = (float) CivSettings.unitConfig.getDouble("base.T3_metal_speed", 0.85);
+        CivSettings.T4_metal_speed = (float) CivSettings.unitConfig.getDouble("base.T4_metal_speed", 0.8);
         CivSettings.normal_speed = 0.2f;
 
         for (Object obj : civConfig.getList("global.start_kit")) {
@@ -234,11 +230,11 @@ public class CivSettings {
         CivGlobal.banWords.add("http");
         CivGlobal.banWords.add("cunt");
 
-        iron_rate = CivSettings.getDouble(civConfig, "ore_rates.iron");
-        gold_rate = CivSettings.getDouble(civConfig, "ore_rates.gold");
-        diamond_rate = CivSettings.getDouble(civConfig, "ore_rates.diamond");
-        emerald_rate = CivSettings.getDouble(civConfig, "ore_rates.emerald");
-        startingCoins = CivSettings.getDouble(civConfig, "global.starting_coins");
+        iron_rate = civConfig.getDouble("ore_rates.iron", 20.0);
+        gold_rate = civConfig.getDouble("ore_rates.gold", 200.0);
+        diamond_rate = civConfig.getDouble("ore_rates.diamond", 400.0);
+        emerald_rate = civConfig.getDouble("ore_rates.emerald", 800.0);
+        startingCoins = civConfig.getDouble("global.starting_coins", 250.0);
 
         alwaysCrumble.add(Material.BEDROCK);
         alwaysCrumble.add(Material.COAL_BLOCK);
@@ -265,17 +261,9 @@ public class CivSettings {
             CivLog.warning("TitleAPI not found, not registering TitleAPI hooks. This is fine if you're not using TitleAPI.");
         }
 
-        try {
-            previewMaterial = Material.getMaterial(CivSettings.getString(structureConfig, "global.previewBlock"));
-        } catch (InvalidConfiguration e) {
-            CivLog.warning("Unable to change Preview Block. Defaulting to Glass.");
-        }
+        previewMaterial = Material.getMaterial(structureConfig.getString("global.previewBlock", Material.GLASS.name()));
 
-        try {
-            showPreview = CivSettings.getBoolean(structureConfig, "shouldShowPreview");
-        } catch (InvalidConfiguration e) {
-            CivLog.warning("Unable to change Structure Preview Settings. Defaulting to True.");
-        }
+        showPreview = structureConfig.getBoolean("shouldShowPreview", true);
 
     }
 
@@ -401,7 +389,7 @@ public class CivSettings {
         fishingConfig = loadCivConfig("fishing.yml");
     }
 
-    private static void loadConfigObjects() throws InvalidConfiguration {
+    private static void loadConfigObjects() {
         ConfigTownLevel.loadConfig(townConfig, townLevels);
         ConfigTownUpgrade.loadConfig(townConfig, townUpgrades);
         ConfigCultureLevel.loadConfig(cultureConfig, cultureLevels);
@@ -551,123 +539,9 @@ public class CivSettings {
         blockPlaceExceptions.put(Material.PORTAL, 0);
     }
 
-    public static String getStringBase(String path) throws InvalidConfiguration {
-        return getString(plugin.getConfig(), path);
-    }
-
-    public static double getDoubleTown(String path) throws InvalidConfiguration {
-        return getDouble(townConfig, path);
-    }
-
-    public static double getDoubleCiv(String path) throws InvalidConfiguration {
-        return getDouble(civConfig, path);
-    }
-
-    public static void saveGenID(String gen_id) {
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(Paths.get("plugins/CivCraft/genid.data"))))) {
-            writer.write(gen_id);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static String getGenID() {
-        try (BufferedReader br = new BufferedReader(new FileReader("plugins/CivCraft/genid.data"))) {
-            return br.readLine();
-        } catch (IOException ignored) {
-        }
-        return null;
-    }
-
-    public static Double getDoubleStructure(String path) {
-        try {
-            return getDouble(structureConfig, path);
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-        }
-        return 0.0;
-    }
-
-    public static String getStringStructure(String path) {
-        try {
-            return getString(structureConfig, path);
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static Boolean getBooleanStructure(String path) {
-        try {
-            return getBoolean(structureConfig, path);
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public static int getIntegerStructure(String path) {
-        try {
-            return getInteger(structureConfig, path);
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    public static Integer getIntegerGovernment(String path) {
-        try {
-            return getInteger(governmentConfig, path);
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    public static Integer getInteger(FileConfiguration cfg, String path) throws InvalidConfiguration {
-        if (!cfg.contains(path)) {
-            throw new InvalidConfiguration("Could not get configuration integer " + path);
-        }
-        return cfg.getInt(path);
-    }
-
-    public static String getString(FileConfiguration cfg, String path) throws InvalidConfiguration {
-        String data = cfg.getString(path);
-        if (data == null) {
-            throw new InvalidConfiguration("Could not get configuration string " + path);
-        }
-        return data;
-    }
-
-    public static double getDouble(FileConfiguration cfg, String path) throws InvalidConfiguration {
-        if (!cfg.contains(path)) {
-            throw new InvalidConfiguration("Could not get configuration double " + path);
-        }
-        return cfg.getDouble(path);
-    }
-
-    public static boolean getBoolean(FileConfiguration cfg, String path) throws InvalidConfiguration {
-        if (!cfg.contains(path)) {
-            throw new InvalidConfiguration("Could not get configuration boolean " + path);
-        }
-        return cfg.getBoolean(path);
-    }
-
     public static int getMaxNameLength() {
         // TODO make this configurable?
         return 32;
-    }
-
-    public static String getNameCheckRegex() throws InvalidConfiguration {
-        return getStringBase("regex.name_check_regex");
-    }
-
-    public static String getNameFilterRegex() throws InvalidConfiguration {
-        return getStringBase("regex.name_filter_regex");
-    }
-
-    public static String getNameRemoveRegex() throws InvalidConfiguration {
-        return getStringBase("regex.name_remove_regex");
     }
 
     public static ConfigTownUpgrade getUpgradeByName(String name) {
@@ -781,12 +655,7 @@ public class CivSettings {
     }
 
     public static boolean isUsingAC() {
-        try {
-            return getBoolean(civConfig, "global.anticheat");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-        }
-        return true;
+        return civConfig.getBoolean("global.anticheat", true);
     }
 
 

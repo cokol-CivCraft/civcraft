@@ -22,10 +22,10 @@ import java.util.Random;
 public class TradeLevelComponent extends Component {
 
     private static final int MaxRand = 10000;
-    private static final double PACK_CHANCE = MaxRand * CivSettings.getDoubleStructure("tradeship.pack_chance"); //0.5%
-    private static final double MEDIUMPACK_CHANCE = MaxRand * CivSettings.getDoubleStructure("tradeship.mediumpack_chance"); //0.1%
-    private static final double BIGPACK_CHANCE = MaxRand * CivSettings.getDoubleStructure("tradeship.bigpack_chance"); //0.05%
-    private static final double HUGEPACK_CHANCE = MaxRand * CivSettings.getDoubleStructure("tradeship.hugepack_chance"); //0.01%
+    private static final double PACK_CHANCE = MaxRand * CivSettings.structureConfig.getDouble("tradeship.pack_chance", 0.05); //0.5%
+    private static final double MEDIUMPACK_CHANCE = MaxRand * CivSettings.structureConfig.getDouble("tradeship.mediumpack_chance", 0.01); //0.1%
+    private static final double BIGPACK_CHANCE = MaxRand * CivSettings.structureConfig.getDouble("tradeship.bigpack_chance", 0.005); //0.05%
+    private static final double HUGEPACK_CHANCE = MaxRand * CivSettings.structureConfig.getDouble("tradeship.hugepack_chance", 0.001); //0.01%
 
 
     /* Current level we're operating at. */

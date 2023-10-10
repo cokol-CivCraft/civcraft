@@ -36,7 +36,7 @@ import java.util.ArrayList;
 
 public class Farm extends Structure {
 
-    public static final long GROW_RATE = CivSettings.getIntegerStructure("farm.grow_tick_rate");
+    public static final long GROW_RATE = CivSettings.structureConfig.getInt("farm.grow_tick_rate", 60);
     public static final int CROP_GROW_LIGHT_LEVEL = 9;
     public static final int MUSHROOM_GROW_LIGHT_LEVEL = 12;
     public static final int MAX_SUGARCANE_HEIGHT = 3;

@@ -2,7 +2,6 @@ package com.avrgaming.civcraft.structure;
 
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Town;
@@ -49,14 +48,7 @@ public class Pasture extends Structure {
     }
 
     public int getMobMax() {
-        int max;
-        try {
-            max = CivSettings.getInteger(CivSettings.structureConfig, "pasture.max_mobs");
-        } catch (InvalidConfiguration e) {
-            e.printStackTrace();
-            return 0;
-        }
-        return max;
+        return CivSettings.structureConfig.getInt("pasture.max_mobs", 30);
     }
 
     public boolean processMobBreed(Player player, EntityType type) {

@@ -20,7 +20,6 @@ package com.avrgaming.civcraft.threading.tasks;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.endgame.EndConditionDiplomacy;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.exception.InvalidConfiguration;
 import com.avrgaming.civcraft.exception.InvalidNameException;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
@@ -95,13 +94,7 @@ public class PlayerLoginAsyncTask implements Runnable {
                 resident.setRegistered(System.currentTimeMillis());
 //				CivTutorial.showTutorialInventory(getPlayer());
                 resident.setisProtected(true);
-                int mins;
-                try {
-                    mins = CivSettings.getInteger(CivSettings.civConfig, "global.pvp_timer");
-                } catch (InvalidConfiguration e1) {
-                    e1.printStackTrace();
-                    return;
-                }
+                int mins = CivSettings.civConfig.getInt("global.pvp_timer", 120);
                 CivMessage.send(resident, ChatColor.GRAY + CivSettings.localize.localizedString("var_PlayerLoginAsync_pvpTimerPropmt1", mins));
                 CivMessage.send(resident, ChatColor.GRAY + CivSettings.localize.localizedString("PlayerLoginAsync_pvpTimerPropmt2"));
 
