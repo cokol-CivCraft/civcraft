@@ -31,5 +31,6 @@
     <orderEntry type="library" name="TitleAPI-1.8.1" level="project" />
     <orderEntry type="library" name="mysql.connector.j" level="application" />
     <orderEntry type="library" name="jolbox.bonecp" level="application" />
+    <orderEntry type="library" name="mojang.brigadier" level="project" />
   </component>
 </module>

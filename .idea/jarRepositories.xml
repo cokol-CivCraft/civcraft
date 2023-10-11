@@ -26,5 +26,10 @@
       <option name="name" value="JitPack" />
       <option name="url" value="https://jitpack.io" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="51573252-64ec-4f36-88b8-0cf15eb2d19b" />
+      <option name="name" value="51573252-64ec-4f36-88b8-0cf15eb2d19b" />
+      <option name="url" value="https://libraries.minecraft.net" />
+    </remote-repository>
   </component>
 </project>

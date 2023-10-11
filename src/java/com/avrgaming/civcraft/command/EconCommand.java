@@ -17,6 +17,7 @@
  */
 package com.avrgaming.civcraft.command;
 
+import com.avrgaming.civcraft.command.arguments.PlayerArgumentType;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivGlobal;
@@ -24,37 +25,48 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.DoubleArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.builder.RequiredArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.suggestion.Suggestion;
+import com.mojang.brigadier.suggestion.Suggestions;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 public class EconCommand extends CommandBase {
+    static final CommandDispatcher<CommandSender> dispatcher = new CommandDispatcher<>();
+    static final LiteralArgumentBuilder<CommandSender> root = LiteralArgumentBuilder.literal("econ");
 
-    @Override
-    public void init() {
-        command = "/econ";
-        displayName = CivSettings.localize.localizedString("cmd_econ_Name");
+    static {
+        {
+            RequiredArgumentBuilder<CommandSender, Double> arg2 = RequiredArgumentBuilder.<CommandSender, Double>argument("number", DoubleArgumentType.doubleArg(0));
+            RequiredArgumentBuilder<CommandSender, Player> arg = RequiredArgumentBuilder.<CommandSender, Player>argument("player", PlayerArgumentType.player());
+            root.then(LiteralArgumentBuilder.<CommandSender>literal("add").then(arg.then(arg2.executes(EconCommand::add_cmd))));
+        }
 
-        register_sub("add", this::add_cmd, CivSettings.localize.localizedString("cmd_econ_addDesc"));
-        register_sub("give", this::give_cmd, CivSettings.localize.localizedString("cmd_econ_giveDesc"));
-        register_sub("set", this::set_cmd, CivSettings.localize.localizedString("cmd_econ_setDesc"));
-        register_sub("sub", this::sub_cmd, CivSettings.localize.localizedString("cmd_econ_subDesc"));
+        dispatcher.register(root);
+    }
 
-        register_sub("addtown", this::addtown_cmd, CivSettings.localize.localizedString("cmd_econ_addtownDesc"));
-        register_sub("settown", this::settown_cmd, CivSettings.localize.localizedString("cmd_econ_settownDesc"));
-        register_sub("subtown", this::subtown_cmd, CivSettings.localize.localizedString("cmd_econ_subtownDesc"));
-
-        register_sub("addciv", this::addciv_cmd, CivSettings.localize.localizedString("cmd_econ_addcivDesc"));
-        register_sub("setciv", this::setciv_cmd, CivSettings.localize.localizedString("cmd_econ_setcivDesc"));
-        register_sub("subciv", this::subciv_cmd, CivSettings.localize.localizedString("cmd_econ_subcivDesc"));
-
-        register_sub("setdebt", this::setdebt_cmd, CivSettings.localize.localizedString("cmd_econ_setdebtDesc"));
-        register_sub("setdebttown", this::setdebttown_cmd, CivSettings.localize.localizedString("cmd_econ_setdebttownDesc"));
-        register_sub("setdebtciv", this::setdebtciv_cmd, CivSettings.localize.localizedString("cmd_econ_setdebtcivDesc"));
-
-        register_sub("clearalldebt", this::clearalldebt_cmd, CivSettings.localize.localizedString("cmd_econ_clearAllDebtDesc"));
-
+    private static void validEcon(CommandContext<CommandSender> context) throws CommandFeedback {
+        // Allow Console commands to manipulate the economy.
+        if (context.getSource() instanceof ConsoleCommandSender) {
+            return;
+        }
+        if (context.getSource() instanceof Player player && !player.isOp()) {
+            throw new CommandFeedback(CivSettings.localize.localizedString("cmd_MustBeOP"));
+        }
     }
 
     public void clearalldebt_cmd() throws CivException {
@@ -134,23 +146,83 @@ public class EconCommand extends CommandBase {
         }
     }
 
-    public void add_cmd() throws CivException {
-        validEcon();
-
-        if (args.length < 3) {
-            throw new CivException(CivSettings.localize.localizedString("cmd_econ_ProvideNameAndNumberPrompt"));
+    public static Player getPlayer(CommandContext<CommandSender> context) throws CommandFeedback {
+        if (!(context.getSource() instanceof Player)) {
+            throw new CommandFeedback(CivSettings.localize.localizedString("cmd_MustBePlayer"));
         }
+        return (Player) context.getSource();
+    }
 
-        Resident resident = getNamedResident(1);
-
+    public static int add_cmd(CommandContext<CommandSender> context) {
         try {
+            validEcon(context);
+        } catch (CommandFeedback e) {
+            context.getSource().sendMessage(ChatColor.RED + e.getMessage());
+            return 0;
+        }
+        Player to = PlayerArgumentType.getPlayer(context, "player");
+        Resident resident = CivGlobal.getResident(to);
 
-            double amount = Double.parseDouble(args[2]);
-            resident.getTreasury().deposit(amount);
-            CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_econ_added", args[2], CivSettings.CURRENCY_NAME, args[1]));
+        double amount = DoubleArgumentType.getDouble(context, "number");
+        resident.getTreasury().deposit(amount);
+        CivMessage.sendSuccess(context.getSource(), CivSettings.localize.localizedString("var_cmd_econ_added", amount, CivSettings.CURRENCY_NAME, to.getName()));
+        return 1;
+    }
 
-        } catch (NumberFormatException e) {
-            throw new CivException(args[2] + " " + CivSettings.localize.localizedString("cmd_enterNumerError"));
+    @Override
+    public void init() {
+        command = "/econ";
+        displayName = CivSettings.localize.localizedString("cmd_econ_Name");
+
+//        register_sub("add", this::add_cmd, CivSettings.localize.localizedString("cmd_econ_addDesc"));
+        register_sub("give", this::give_cmd, CivSettings.localize.localizedString("cmd_econ_giveDesc"));
+        register_sub("set", this::set_cmd, CivSettings.localize.localizedString("cmd_econ_setDesc"));
+        register_sub("sub", this::sub_cmd, CivSettings.localize.localizedString("cmd_econ_subDesc"));
+
+        register_sub("addtown", this::addtown_cmd, CivSettings.localize.localizedString("cmd_econ_addtownDesc"));
+        register_sub("settown", this::settown_cmd, CivSettings.localize.localizedString("cmd_econ_settownDesc"));
+        register_sub("subtown", this::subtown_cmd, CivSettings.localize.localizedString("cmd_econ_subtownDesc"));
+
+        register_sub("addciv", this::addciv_cmd, CivSettings.localize.localizedString("cmd_econ_addcivDesc"));
+        register_sub("setciv", this::setciv_cmd, CivSettings.localize.localizedString("cmd_econ_setcivDesc"));
+        register_sub("subciv", this::subciv_cmd, CivSettings.localize.localizedString("cmd_econ_subcivDesc"));
+
+        register_sub("setdebt", this::setdebt_cmd, CivSettings.localize.localizedString("cmd_econ_setdebtDesc"));
+        register_sub("setdebttown", this::setdebttown_cmd, CivSettings.localize.localizedString("cmd_econ_setdebttownDesc"));
+        register_sub("setdebtciv", this::setdebtciv_cmd, CivSettings.localize.localizedString("cmd_econ_setdebtcivDesc"));
+
+        register_sub("clearalldebt", this::clearalldebt_cmd, CivSettings.localize.localizedString("cmd_econ_clearAllDebtDesc"));
+
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+        StringBuilder builder = new StringBuilder("econ");
+        for (String arg : args) {
+            builder.append(" ");
+            builder.append(arg);
+        }
+        try {
+            return dispatcher.execute(builder.toString(), sender) > 0;
+        } catch (CommandSyntaxException e) {
+            sender.sendMessage(ChatColor.RED + e.getMessage());
+            return false;
+        }
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        StringBuilder builder = new StringBuilder("econ");
+        for (String arg : args) {
+            builder.append(" ");
+            builder.append(arg);
+        }
+        try {
+            Suggestions suggestions = dispatcher.getCompletionSuggestions(dispatcher.parse(builder.toString(), sender)).get();
+            return suggestions.getList().stream().map(Suggestion::getText).collect(Collectors.toList());
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
         }
     }
 

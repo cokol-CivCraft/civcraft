@@ -3,6 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/civcraft_jar</output-path>
     <root id="archive" name="civcraft.jar">
       <element id="module-output" name="civcraft" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/mojang/brigadier/1.0.18/brigadier-1.0.18.jar" path-in-jar="/" />
       <element id="dir-copy" path="$PROJECT_DIR$/src/resources" />
     </root>
   </artifact>
