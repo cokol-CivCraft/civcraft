@@ -18,7 +18,7 @@
 package com.avrgaming.civcraft.command;
 
 import com.avrgaming.civcraft.command.arguments.CivArgumentType;
-import com.avrgaming.civcraft.command.arguments.PlayerArgumentType;
+import com.avrgaming.civcraft.command.arguments.ResidentArgumentType;
 import com.avrgaming.civcraft.command.arguments.TownArgumentType;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
@@ -54,7 +54,7 @@ public class EconCommand extends CommandBase {
     static {
         root.then(
                 LiteralArgumentBuilder.<CommandSender>literal("add").then(
-                        RequiredArgumentBuilder.<CommandSender, Player>argument("player", PlayerArgumentType.player()).then(
+                        RequiredArgumentBuilder.<CommandSender, Resident>argument("resident", ResidentArgumentType.resident()).then(
                                 RequiredArgumentBuilder.<CommandSender, Double>argument("amount", DoubleArgumentType.doubleArg(0)).executes(EconCommand::add_cmd))));
         root.then(
                 LiteralArgumentBuilder.<CommandSender>literal("setdebtciv").then(
@@ -66,6 +66,11 @@ public class EconCommand extends CommandBase {
                         RequiredArgumentBuilder.<CommandSender, Town>argument("town", TownArgumentType.town()).then(
                                 RequiredArgumentBuilder.<CommandSender, Double>argument("amount", DoubleArgumentType.doubleArg(0))
                                         .executes(EconCommand::setdebttown_cmd))));
+        root.then(
+                LiteralArgumentBuilder.<CommandSender>literal("setdebt").then(
+                        RequiredArgumentBuilder.<CommandSender, Resident>argument("res", ResidentArgumentType.resident()).then(
+                                RequiredArgumentBuilder.<CommandSender, Double>argument("amount", DoubleArgumentType.doubleArg(0))
+                                        .executes(EconCommand::setdebt_cmd))));
         dispatcher.register(root);
     }
 
@@ -146,15 +151,21 @@ public class EconCommand extends CommandBase {
         return 1;
     }
 
-    public void setdebt_cmd() throws CivException {
-        validEcon();
+    public static int setdebt_cmd(CommandContext<CommandSender> context) {
+        try {
+            validEcon(context);
+        } catch (CommandFeedback e) {
+            context.getSource().sendMessage(ChatColor.RED + e.getMessage());
+            return 0;
+        }
 
-        Resident resident = getNamedResident(1);
-        Double amount = getNamedDouble(2);
+        Resident resident = ResidentArgumentType.getResident(context, "resident");
+        double amount = DoubleArgumentType.getDouble(context, "amount");
         resident.getTreasury().setDebt(amount);
         resident.save();
 
-        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("SetSuccess"));
+        CivMessage.sendSuccess(context.getSource(), CivSettings.localize.localizedString("SetSuccess"));
+        return 1;
     }
 
     private void validEcon() throws CivException {
@@ -181,12 +192,11 @@ public class EconCommand extends CommandBase {
             context.getSource().sendMessage(ChatColor.RED + e.getMessage());
             return 0;
         }
-        Player to = PlayerArgumentType.getPlayer(context, "player");
-        Resident resident = CivGlobal.getResident(to);
+        Resident resident = ResidentArgumentType.getResident(context, "resident");
 
         double amount = DoubleArgumentType.getDouble(context, "amount");
         resident.getTreasury().deposit(amount);
-        CivMessage.sendSuccess(context.getSource(), CivSettings.localize.localizedString("var_cmd_econ_added", amount, CivSettings.CURRENCY_NAME, to.getName()));
+        CivMessage.sendSuccess(context.getSource(), CivSettings.localize.localizedString("var_cmd_econ_added", amount, CivSettings.CURRENCY_NAME, resident.getName()));
         return 1;
     }
 
@@ -208,7 +218,7 @@ public class EconCommand extends CommandBase {
         register_sub("setciv", this::setciv_cmd, CivSettings.localize.localizedString("cmd_econ_setcivDesc"));
         register_sub("subciv", this::subciv_cmd, CivSettings.localize.localizedString("cmd_econ_subcivDesc"));
 
-        register_sub("setdebt", this::setdebt_cmd, CivSettings.localize.localizedString("cmd_econ_setdebtDesc"));
+//        register_sub("setdebt", this::setdebt_cmd, CivSettings.localize.localizedString("cmd_econ_setdebtDesc"));
 //        register_sub("setdebttown", this::setdebttown_cmd, CivSettings.localize.localizedString("cmd_econ_setdebttownDesc"));
 //        register_sub("setdebtciv", this::setdebtciv_cmd, CivSettings.localize.localizedString("cmd_econ_setdebtcivDesc"));
 
