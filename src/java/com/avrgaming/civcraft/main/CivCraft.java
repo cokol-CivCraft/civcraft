@@ -227,7 +227,7 @@ public final class CivCraft extends JavaPlugin {
         getCommand("cc").setExecutor(new CivChatCommand());
         //getCommand("gc").setExecutor(new GlobalChatCommand());
         registerCommand("ad", new AdminCommand());
-        registerCommand("econ", new EconCommand());
+        registerAdminCommand("econ", new EconCommand());
         getCommand("pay").setExecutor(new PayCommand());
         registerCommand("build", new BuildCommand());
         registerCommand("market", new MarketCommand());
@@ -249,6 +249,12 @@ public final class CivCraft extends JavaPlugin {
     public void registerCommand(String name, CommandBase command) {
         getCommand(name).setExecutor(command);
         getCommand(name).setTabCompleter(command);
+    }
+
+    public void registerAdminCommand(String name, CommandBase command) {
+        getCommand(name).setExecutor(command);
+        getCommand(name).setPermission("executeAdminCommands");
+        getCommand(name).setPermissionMessage(CivSettings.localize.localizedString("adcmd_NotAdmin"));
     }
 
     @Override
