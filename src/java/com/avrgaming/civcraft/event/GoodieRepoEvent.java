@@ -25,6 +25,7 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.threading.TaskMaster;
 
+import javax.annotation.Nonnull;
 import java.util.Calendar;
 
 public class GoodieRepoEvent implements EventInterface {
@@ -62,6 +63,7 @@ public class GoodieRepoEvent implements EventInterface {
         CivMessage.global(CivSettings.localize.localizedString("goodieRepoBroadcast"));
     }
 
+    @Nonnull
     @Override
     public Calendar getNextDate() {
         Calendar cal = EventTimer.getCalendarInServerTimeZone();

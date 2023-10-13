@@ -24,6 +24,7 @@ import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.CultureProcessAsyncTask;
 import com.avrgaming.civcraft.threading.timers.SyncTradeTimer;
 
+import javax.annotation.Nonnull;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -39,6 +40,7 @@ public class HourlyTickEvent implements EventInterface {
         CivLog.info("TimerEvent: Hourly Finished -----------------------------");
     }
 
+    @Nonnull
     @Override
     public Calendar getNextDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("M/dd h:mm:ss a z");

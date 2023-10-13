@@ -36,17 +36,6 @@ public class ConfigCampLonghouseLevel {
 
     }
 
-    @SuppressWarnings("unused")
-    public ConfigCampLonghouseLevel(ConfigCampLonghouseLevel currentLVL) {
-        this.level = currentLVL.level;
-        this.count = currentLVL.count;
-        this.coins = currentLVL.coins;
-
-        this.consumes = new HashMap<>(currentLVL.consumes);
-
-    }
-
-
     public static void loadConfig(FileConfiguration cfg, Map<Integer, ConfigCampLonghouseLevel> longhouse_levels) {
         longhouse_levels.clear();
         List<Map<?, ?>> list = cfg.getMapList("longhouse_levels");

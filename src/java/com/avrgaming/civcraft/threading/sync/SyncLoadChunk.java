@@ -42,32 +42,32 @@ public class SyncLoadChunk implements Runnable {
     @Override
     public void run() {
 
-        if (lock.tryLock()) {
-            try {
-                for (int i = 0; i < UPDATE_LIMIT; i++) {
-                    LoadChunkRequest request = requestQueue.poll();
-                    if (request == null) {
-                        return;
-                    }
-
-                    Chunk chunk = Bukkit.getWorld(request.worldName).getChunkAt(request.x, request.z);
-                    if (!chunk.isLoaded()) {
-                        if (!chunk.load()) {
-                            CivLog.error("Couldn't load chunk at " + request.x + "," + request.z);
-                            continue;
-                        }
-                    }
-
-                    request.finished = true;
-                    request.condition.signalAll();
-                }
-            } finally {
-                lock.unlock();
-            }
-
-        } else {
+        if (!lock.tryLock()) {
             //CivLog.warning("SyncLoadChunk: lock was busy, try again next tick.");
+            return;
         }
+        try {
+            for (int i = 0; i < UPDATE_LIMIT; i++) {
+                LoadChunkRequest request = requestQueue.poll();
+                if (request == null) {
+                    return;
+                }
+
+                Chunk chunk = Bukkit.getWorld(request.worldName).getChunkAt(request.x, request.z);
+                if (!chunk.isLoaded()) {
+                    if (!chunk.load()) {
+                        CivLog.error("Couldn't load chunk at " + request.x + "," + request.z);
+                        continue;
+                    }
+                }
+
+                request.finished = true;
+                request.condition.signalAll();
+            }
+        } finally {
+            lock.unlock();
+        }
+
     }
 
 

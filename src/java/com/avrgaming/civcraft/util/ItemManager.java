@@ -37,14 +37,4 @@ public class ItemManager {
         skull.setItemMeta(meta);
         return skull;
     }
-
-    public static boolean removeItemFromPlayer(Player player, Material mat, int amount) {
-        ItemStack m = new ItemStack(mat, amount);
-        if (player.getInventory().contains(mat)) {
-            player.getInventory().removeItem(m);
-            return true;
-        }
-        return false;
-    }
-
 }

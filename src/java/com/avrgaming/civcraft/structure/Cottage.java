@@ -63,17 +63,7 @@ public class Cottage extends Structure {
 		return consumeComp;
 	}
 
-	/* @Override
-	public void loadSettings() {
-		super.loadSettings();
-
-    } */
-
-    public String getkey() {
-		return this.getTown().getName()+"_"+this.getConfigId()+"_"+this.getCorner().toString();
-	}
-
-	/*
+    /**
 	 * Returns true if the granary has been poisoned, false otherwise.
 	 */
 	public boolean processPoison(MultiInventory inv) {

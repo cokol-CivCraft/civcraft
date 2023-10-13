@@ -60,27 +60,30 @@ public class ConfigBuildableInfo {
     public StructuresTypes type;
 
     public boolean isAvailable(Town town) {
-        if (
-                town.hasTechnology(require_tech) &&
-                        town.hasUpgrade(require_upgrade) &&
-                        town.hasStructure(require_structure)
-        ) {
-            if (limit == 0 || town.getStructureTypeCount(id) < limit) {
-                boolean capitol = town.isCapitol();
+        if (!town.hasTechnology(require_tech)) {
+            return false;
+        }
+        if (!town.hasUpgrade(require_upgrade)) {
+            return false;
+        }
+        if (!town.hasStructure(require_structure)) {
+            return false;
+        }
+        if (limit == 0 || town.getStructureTypeCount(id) < limit) {
+            boolean capitol = town.isCapitol();
 
-                if (id.equals("s_townhall") && capitol) {
-                    return false;
-                }
-
-                if (id.equals("s_capitol") && !capitol) {
-                    return false;
-                }
-                if (id.equals("w_colosseum")) {
-                    return capitol && town.getStructureTypeCount(id) <= 0;
-                }
-
-                return true;
+            if (id.equals("s_townhall") && capitol) {
+                return false;
             }
+
+            if (id.equals("s_capitol") && !capitol) {
+                return false;
+            }
+            if (id.equals("w_colosseum")) {
+                return capitol && town.getStructureTypeCount(id) <= 0;
+            }
+
+            return true;
         }
         return false;
     }

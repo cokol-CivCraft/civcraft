@@ -17,8 +17,6 @@
  */
 package com.avrgaming.civcraft.event;
 
-import com.avrgaming.civcraft.main.CivLog;
-
 import java.util.Calendar;
 
 
@@ -31,21 +29,13 @@ public class EventTimerTask implements Runnable {
 
         for (EventTimer timer : EventTimer.timers.values()) {
 
-            if (cal.after(timer.getNext())) {
-                timer.setLast(cal);
-
-                Calendar next = timer.getEventFunction().getNextDate();
-
-                if (next == null) {
-                    CivLog.warning("WARNING timer:" + timer.getName() + " did not return a next time.");
-                    continue;
-                }
-
-                timer.setNext(next);
-                timer.save();
-
-                timer.getEventFunction().process();
+            if (!cal.after(timer.getNext())) {
+                continue;
             }
+            timer.setLast(cal);
+            timer.setNext(timer.getEventFunction().getNextDate());
+            timer.save();
+            timer.getEventFunction().process();
 
         }
 

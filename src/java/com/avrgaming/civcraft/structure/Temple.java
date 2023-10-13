@@ -35,7 +35,6 @@ import org.bukkit.inventory.Inventory;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class Temple extends Structure {
 
@@ -66,10 +65,6 @@ public class Temple extends Structure {
 //		attrComp.setAttrKey(Attribute.TypeKeys.COINS.name());
 //		attrComp.setSource("Cottage("+this.getCorner().toString()+")");
 //		attrComp.registerComponent();
-    }
-
-    public String getkey() {
-        return this.getTown().getName() + "_" + this.getConfigId() + "_" + this.getCorner().toString();
     }
 
     public Result consume(CivAsyncTask task) throws InterruptedException {

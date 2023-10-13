@@ -24,6 +24,7 @@ import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.CultureProcessAsyncTask;
 import com.avrgaming.civcraft.threading.timers.DailyTimer;
 
+import javax.annotation.Nonnull;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -66,6 +67,7 @@ public class DailyEvent implements EventInterface {
 
     }
 
+    @Nonnull
     @Override
     public Calendar getNextDate() {
         Calendar cal = EventTimer.getCalendarInServerTimeZone();

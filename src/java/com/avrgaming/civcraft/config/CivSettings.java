@@ -543,11 +543,6 @@ public class CivSettings {
         blockPlaceExceptions.put(Material.PORTAL, 0);
     }
 
-    public static int getMaxNameLength() {
-        // TODO make this configurable?
-        return 32;
-    }
-
     public static ConfigTownUpgrade getUpgradeByName(String name) {
         for (ConfigTownUpgrade upgrade : townUpgrades.values()) {
             if (upgrade.name.equalsIgnoreCase(name)) {
@@ -657,10 +652,4 @@ public class CivSettings {
     public static ConfigCultureBiomeInfo getCultureBiome(String name) {
         return Optional.ofNullable(cultureBiomes.get(name)).orElseGet(() -> cultureBiomes.get("UNKNOWN"));
     }
-
-    public static boolean isUsingAC() {
-        return civConfig.getBoolean("global.anticheat", true);
-    }
-
-
 }

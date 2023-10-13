@@ -24,6 +24,7 @@ import com.avrgaming.civcraft.threading.timers.WarEndCheckTask;
 import com.avrgaming.civcraft.util.TimeTools;
 import com.avrgaming.civcraft.war.War;
 
+import javax.annotation.Nonnull;
 import java.util.Calendar;
 
 public class WarEvent implements EventInterface {
@@ -43,6 +44,7 @@ public class WarEvent implements EventInterface {
         TaskMaster.syncTask(new WarEndCheckTask(), TimeTools.toTicks(1));
     }
 
+    @Nonnull
     @Override
     public Calendar getNextDate() {
         Calendar cal = EventTimer.getCalendarInServerTimeZone();

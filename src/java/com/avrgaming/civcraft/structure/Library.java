@@ -45,7 +45,7 @@ public class Library extends Structure {
     private int level;
     public AttributeBiome cultureBeakers;
 
-    ArrayList<LibraryEnchantment> enchantments = new ArrayList<>();
+    private ArrayList<LibraryEnchantment> enchantments = new ArrayList<>();
 
     private final NonMemberFeeComponent nonMemberFeeComponent;
 
@@ -245,7 +245,7 @@ public class Library extends Structure {
     }
 
 
-    public ArrayList<LibraryEnchantment> getEnchants() {
+    public ArrayList<LibraryEnchantment> getEnchantments() {
         return enchantments;
     }
 
