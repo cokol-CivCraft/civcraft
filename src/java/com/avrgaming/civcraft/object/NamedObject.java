@@ -19,11 +19,15 @@ package com.avrgaming.civcraft.object;
 
 import com.avrgaming.civcraft.exception.InvalidNameException;
 
+import java.util.UUID;
+
 
 public class NamedObject {
+    public static final UUID NULL_UUID = new UUID(0, 0);
 
     /* Unique Id of named object. */
     private int id;
+    private UUID uuid = NULL_UUID;
 
     /* Display name of the object. */
     private String name;
@@ -53,5 +57,13 @@ public class NamedObject {
         switch (name.toLowerCase()) {
             case "", "null", "none", "town", "group", "civ", "resident" -> throw new InvalidNameException(name);
         }
+    }
+
+    public UUID getUUID() {
+        return uuid;
+    }
+
+    public void setUUID(UUID uuid) {
+        this.uuid = uuid;
     }
 }

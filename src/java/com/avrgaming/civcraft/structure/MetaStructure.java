@@ -16,6 +16,7 @@ import org.bukkit.block.BlockFace;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.UUID;
 
 public abstract class MetaStructure extends Buildable {
     public static String TABLE_NAME = "STRUCTURES";
@@ -53,6 +54,7 @@ public abstract class MetaStructure extends Buildable {
         if (!SQLController.hasTable(TABLE_NAME)) {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
+                    "`uuid` VARCHAR(36) NOT NULL," +
                     "`type_id` mediumtext NOT NULL," +
                     "`town_id` int(11) DEFAULT NULL," +
                     "`complete` bool NOT NULL DEFAULT '0'," +
@@ -119,6 +121,7 @@ public abstract class MetaStructure extends Buildable {
     @Override
     public void load(ResultSet rs) throws SQLException, CivException {
         this.setId(rs.getInt("id"));
+        this.setUUID(UUID.fromString(rs.getString("uuid")));
         this.info = CivSettings.structures.get(rs.getString("type_id"));
 
         this.setTown(CivGlobal.getTownFromId(rs.getInt("town_id")));
