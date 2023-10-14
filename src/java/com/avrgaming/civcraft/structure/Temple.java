@@ -35,7 +35,6 @@ import org.bukkit.inventory.Inventory;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class Temple extends Structure {
 
@@ -60,12 +59,6 @@ public class Temple extends Structure {
     public void loadSettings() {
         super.loadSettings();
 
-//		attrComp = new AttributeComponent();
-//		attrComp.setType(AttributeType.DIRECT);
-//		attrComp.setOwnerKey(this.getTown().getName());
-//		attrComp.setAttrKey(Attribute.TypeKeys.COINS.name());
-//		attrComp.setSource("Cottage("+this.getCorner().toString()+")");
-//		attrComp.registerComponent();
     }
 
     public String getkey() {

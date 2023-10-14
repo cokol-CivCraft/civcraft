@@ -99,21 +99,18 @@ public class Capitol extends TownHall {
             CivMessage.sendSuccess(player, "capitol_leave_warroom");
         }
 
-        if (!War.isWarTime()) {
-            return;
-        }
         boolean hasPermission = (resident.getTown().isMayor(resident)) || (resident.getTown().getAssistantGroup().hasMember(resident)) || (resident.getCiv().getLeaderGroup().hasMember(resident)) || (resident.getCiv().getAdviserGroup().hasMember(resident));
 
         switch (sign.getAction()) {
             case "prev" -> {
-                if (hasPermission) {
+                if (hasPermission && War.isWarTime()) {
                     changeIndex((index - 1));
                 } else {
                     CivMessage.sendError(resident, CivSettings.localize.localizedString("capitol_Sign_noPermission"));
                 }
             }
             case "next" -> {
-                if (hasPermission) {
+                if (hasPermission && War.isWarTime()) {
                     changeIndex((index + 1));
                 } else {
                     CivMessage.sendError(resident, CivSettings.localize.localizedString("capitol_Sign_noPermission"));

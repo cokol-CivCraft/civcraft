@@ -39,10 +39,18 @@ public class Buff {
     public static final String EXTRACTION = "buff_extraction";
     public static final String FIRE_BOMB = "buff_fire_bomb";
     public static final String FISHING = "buff_fishing";
+    public static final String BUILDSPEED = "buff_golden_age";
+    public static final String BUILDSLOW = "buff_dark_age";
     public static final String MEDICINE = "buff_medicine";
     public static final String RUSH = "buff_rush";
 
     public static final String DEFENCE = "buff_wonder_def";
+    public static final String MOBILIZATION = "buff_wonder_mob";
+    public static final String MILITARISM = "buff_wonder_mil";
+
+    public static final String SPACE = "buff_wonder_space";
+
+    public static final String TOTHEMOON = "buff_wonder_moon";
     public static final String DEBUFF_PYRAMID_LEECH = "debuff_pyramid_leech";
 
     private ConfigBuff config;

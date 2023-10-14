@@ -115,27 +115,23 @@ public class Trommel extends Structure {
 
     public double getGravelChance(Mineral mineral) {
         HashMap<Mineral, Double> dd = getGravelChanceMap();
-        double chance = dd.get(mineral);
-        return this.modifyChance(chance);
+        return this.modifyChance(dd.get(mineral));
     }
 
     public double getGraniteChance(Mineral mineral) {
         HashMap<Mineral, Double> dd = getGraniteChanceMap();
-        double chance = dd.get(mineral);
-        return this.modifyChance(chance);
+        return this.modifyChance(dd.get(mineral));
     }
 
     public double getDioriteChance(Mineral mineral) {
         HashMap<Mineral, Double> dd = getDioriteChanceMap();
-        double chance = dd.get(mineral);
-        return this.modifyChance(chance);
+        return this.modifyChance(dd.get(mineral));
     }
 
 
     public double getAndesiteChance(Mineral mineral) {
         HashMap<Mineral, Double> dd = getAndesiteChanceMap();
-        double chance = dd.get(mineral);
-        return this.modifyChance(chance);
+        return this.modifyChance(dd.get(mineral));
     }
 
     private double modifyChance(Double chance) {

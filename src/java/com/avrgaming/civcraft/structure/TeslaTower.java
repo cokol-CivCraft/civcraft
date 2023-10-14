@@ -63,27 +63,11 @@ public class TeslaTower extends Structure {
         return (int) (info.max_hp * rate);
     }
 
-//	public void setDamage(int damage) {
-//		cannonComponent.setDamage(damage);
-//	}
-
 
     public void setTurretLocation(BlockCoord absCoord) {
         teslaComponent.setTurretLocation(absCoord);
     }
 
-
-//	@Override
-//	public void fire(Location turretLoc, Location playerLoc) {
-//		turretLoc = adjustTurretLocation(turretLoc, playerLoc);
-//		Vector dir = getVectorBetween(playerLoc, turretLoc);
-//		
-//		Fireball fb = turretLoc.getWorld().spawn(turretLoc, Fireball.class);
-//		fb.setDirection(dir);
-//		// NOTE cannon does not like it when the dir is normalized or when velocity is set.
-//		fb.setYield((float)yield);
-//		CivCache.cannonBallsFired.put(fb.getUniqueId(), new CannonFiredCache(this, playerLoc, fb));
-//	}
 
     @Override
     public void onCheck() throws CivException {
@@ -105,8 +89,18 @@ public class TeslaTower extends Structure {
 //							throw new CivException(CivSettings.localize.localizedString("var_buildable_tooCloseToCannonShip",(center.getX()+","+center.getY()+","+center.getZ())));
 //						}
 //					}
+                for (Town town : this.getTown().getCiv().getTowns()) {
+                    for (Structure struct : town.getStructures()) {
+                        if (struct instanceof TeslaTower) {
+                            BlockCoord center = struct.getCenterLocation();
+                            double distance = center.distance(this.getCenterLocation());
+                            if (distance < build_distance) {
+                                throw new CivException(CivSettings.localize.localizedString("var_buildable_tooCloseToTeslaTower", (center.getX() + "," + center.getY() + "," + center.getZ())));
+                            }
+                        }
+                    }
+                }
             }
-        }
 
     }
 

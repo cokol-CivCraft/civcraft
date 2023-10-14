@@ -20,6 +20,8 @@ package com.avrgaming.civcraft.config;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
+import com.avrgaming.civcraft.object.Buff;
+import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.Town;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -79,5 +81,22 @@ public class ConfigUnit {
             }
         }
         return false;
+    }
+
+    public double getCost(Civilization civ) {
+        if (this.id.equalsIgnoreCase("u_settler")) {
+            return cost;
+        }
+        double rate = 1.0;
+        rate -= civ.getCapitol().getBuffManager().getEffectiveDouble(Buff.MOBILIZATION);
+        rate -= civ.getCapitol().getBuffManager().getEffectiveDouble(Buff.MILITARISM);
+        return cost * Math.max(rate, 0.01);
+    }
+
+    public double getHammer_cost(Civilization civ) {
+        double rate = 1.0;
+        rate -= civ.getCapitol().getBuffManager().getEffectiveDouble(Buff.MOBILIZATION);
+        rate -= civ.getCapitol().getBuffManager().getEffectiveDouble(Buff.MILITARISM);
+        return hammer_cost * Math.max(rate, 0.01);
     }
 }

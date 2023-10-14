@@ -115,7 +115,7 @@ public class Cannon extends Buildable {
 
     public int getTntCost() {
         int tnt = tntCost;
-        if (owner.getNativeCiv() != null && owner.getNativeCiv().hasWonder("w_council_of_eight")) {
+        if (owner.getCiv() != null && owner.getCiv().hasWonder("w_council_of_eight")) {
             tnt -= 1;
         }
         return tnt;
@@ -667,10 +667,10 @@ public class Cannon extends Buildable {
 
     public int getCooldown() {
         int scd = shotCooldown;
-        if (owner.getNativeCiv().hasWonder("w_grand_ship_ingermanland")) {
+        if (owner.getCiv().hasWonder("w_grand_ship_ingermanland")) {
             scd = -10;
         }
-        if (owner.getNativeCiv().hasWonder("w_chichen_itza")) {
+        if (owner.getCiv().hasWonder("w_chichen_itza")) {
             scd *= 0.75;
         }
         return Math.max(scd, 1);
@@ -682,8 +682,8 @@ public class Cannon extends Buildable {
 
     public int getDamage() {
         int bsd = baseStructureDamage;
-        if (owner.getNativeTown().getBuffManager().hasBuff("wonder_trade_colossus")) {
-            bsd *= 1.0 + owner.getNativeTown().getBuffManager().getEffectiveDouble("wonder_trade_colossus");
+        if (owner.getTown().getBuffManager().hasBuff("wonder_trade_colossus")) {
+            bsd *= 1.0 + owner.getTown().getBuffManager().getEffectiveDouble("wonder_trade_colossus");
         }
         return bsd;
     }

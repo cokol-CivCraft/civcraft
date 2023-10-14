@@ -21,11 +21,13 @@ public class EiffelTower extends Wonder {
     @Override
     protected void removeBuffs() {
         this.removeBuffFromCiv(this.getCiv(), Buff.DEFENCE);
+        this.removeBuffFromCiv(this.getCiv(), Buff.MOBILIZATION);
     }
 
     @Override
     protected void addBuffs() {
         this.addBuffToCiv(this.getCiv(), Buff.DEFENCE);
+        this.addBuffToCiv(this.getCiv(), Buff.MOBILIZATION);
     }
 
 }

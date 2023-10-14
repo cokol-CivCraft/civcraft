@@ -1,6 +1,7 @@
 package com.avrgaming.civcraft.structure.wonders;
 
 import com.avrgaming.civcraft.exception.CivException;
+import com.avrgaming.civcraft.object.Buff;
 import com.avrgaming.civcraft.object.Town;
 import org.bukkit.Location;
 
@@ -19,10 +20,12 @@ public class Himeji extends Wonder {
 
     @Override
     protected void removeBuffs() {
+        this.removeBuffFromCiv(this.getCiv(), Buff.MOBILIZATION);
     }
 
     @Override
     protected void addBuffs() {
+        this.addBuffToCiv(this.getCiv(), Buff.MOBILIZATION);
     }
 
 }

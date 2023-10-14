@@ -145,7 +145,7 @@ public class Barracks extends Structure {
         }
 
         int previousSettlers = 1;
-        double coinCost = unit.cost;
+        double coinCost = unit.getCost(this.getCiv());
         if (unit.id.equals("u_settler")) {
             if (!this.getCiv().getLeaderGroup().hasMember(whoClicked) && !this.getCiv().getAdviserGroup().hasMember(whoClicked)) {
                 throw new CivException(CivSettings.localize.localizedString("barracks_trainSettler_NoPerms"));
@@ -432,7 +432,7 @@ public class Barracks extends Structure {
     }
 
     public void updateProgressBar() {
-        double percentageDone = this.currentHammers / this.trainingUnit.hammer_cost;
+        double percentageDone = this.currentHammers / this.trainingUnit.getHammer_cost(this.getCiv());
         int size = this.progresBar.size();
         int textCount = (int) (size * 16 * percentageDone);
         int textIndex = 0;
@@ -539,8 +539,8 @@ public class Barracks extends Structure {
             TaskMaster.asyncTask(new UnitSaveAsyncTask(this), 0);
         }
 
-        if (this.currentHammers >= this.trainingUnit.hammer_cost) {
-            this.currentHammers = this.trainingUnit.hammer_cost;
+        if (this.currentHammers >= this.trainingUnit.getHammer_cost(this.getCiv())) {
+            this.currentHammers = this.trainingUnit.getHammer_cost(this.getCiv());
             this.createUnit(this.trainingUnit);
         }
 

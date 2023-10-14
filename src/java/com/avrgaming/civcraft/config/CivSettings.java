@@ -548,6 +548,108 @@ public class CivSettings {
         return 32;
     }
 
+    public static String getStringBase(String path) throws InvalidConfiguration {
+        return getString(plugin.getConfig(), path);
+    }
+
+    public static double getDoubleTown(String path) throws InvalidConfiguration {
+        return getDouble(townConfig, path);
+    }
+
+    public static double getDoubleCiv(String path) throws InvalidConfiguration {
+        return getDouble(civConfig, path);
+    }
+
+    public static void saveGenID(String gen_id) {
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(Paths.get("plugins/CivCraft/genid.data"))))) {
+            writer.write(gen_id);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String getGenID() {
+        try (BufferedReader br = new BufferedReader(new FileReader("plugins/CivCraft/genid.data"))) {
+            return br.readLine();
+        } catch (IOException ignored) {
+        }
+        return null;
+    }
+
+    public static Double getDoubleStructure(String path) {
+        try {
+            return getDouble(structureConfig, path);
+        } catch (InvalidConfiguration e) {
+            e.printStackTrace();
+        }
+        return 0.0;
+    }
+
+    public static String getStringStructure(String path) {
+        try {
+            return getString(structureConfig, path);
+        } catch (InvalidConfiguration e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Boolean getBooleanStructure(String path) {
+        try {
+            return getBoolean(structureConfig, path);
+        } catch (InvalidConfiguration e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static int getIntegerStructure(String path) {
+        try {
+            return getInteger(structureConfig, path);
+        } catch (InvalidConfiguration e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static Integer getIntegerGovernment(String path) {
+        try {
+            return getInteger(governmentConfig, path);
+        } catch (InvalidConfiguration e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static Integer getInteger(FileConfiguration cfg, String path) throws InvalidConfiguration {
+        if (!cfg.contains(path)) {
+            throw new InvalidConfiguration("Could not get configuration integer " + path);
+        }
+        return cfg.getInt(path);
+    }
+
+    public static String getString(FileConfiguration cfg, String path) throws InvalidConfiguration {
+        String data = cfg.getString(path);
+        if (data == null) {
+            throw new InvalidConfiguration("Could not get configuration string " + path);
+        }
+        return data;
+    }
+
+    public static double getDouble(FileConfiguration cfg, String path) throws InvalidConfiguration {
+        if (!cfg.contains(path)) {
+            throw new InvalidConfiguration("Could not get configuration double " + path);
+        }
+        return cfg.getDouble(path);
+    }
+
+    public static boolean getBoolean(FileConfiguration cfg, String path) throws InvalidConfiguration {
+        if (!cfg.contains(path)) {
+            throw new InvalidConfiguration("Could not get configuration boolean " + path);
+        }
+        return cfg.getBoolean(path);
+    }
+
     public static ConfigTownUpgrade getUpgradeByName(String name) {
         for (ConfigTownUpgrade upgrade : townUpgrades.values()) {
             if (upgrade.name.equalsIgnoreCase(name)) {
@@ -640,18 +742,26 @@ public class CivSettings {
 
     public static int getCottageMaxLevel() {
         return cottageLevels.keySet().stream().mapToInt(level -> level).filter(level -> level >= 0).max().orElse(0);
+        /*
+        3:18:56 Логарифм по основанию три скольки? То есть, логарифм по основанию три трёх это один, а логарифм по основанию три нискольки( не ноль ибо ноль тоже нужно уточнять) это абсолютная ошибка, но я буду учитывать это как логарифм по основанию три трёх.  Десятичная однёрка? Реально, так никто не говорит, ты наверное хотел сказать одна десятая, хотя в твою голову мне не залезть, так что буду думать что ты имелл ввиду 0,(9) потому что именно так выглядит "десятичная однёрка в периоде", но только тогда это не одна десятая, а одна целая.
+И так закончили с перидсловием и давайте разбирёмся сколько это будет и того log3(3)*cos2π*300/10+1.(9). log3(3)= 1;cos2π=1; 1.(9)=2; 10+2=12; 300/12=25; 1*1*25=25. Но ты утверждал, что должно было выйти 3. И того 25≠3. На этом у меня всё.  Во всём остально класный видос.
+         */
     }
 
     public static int getTempleMaxLevel() {
         return templeLevels.keySet().stream().mapToInt(level -> level).filter(level -> level >= 0).max().orElse(0);
+        //3 дні тому
+        //аы
     }
 
     public static int getMineMaxLevel() {
         return mineLevels.keySet().stream().mapToInt(level -> level).filter(level -> level >= 0).max().orElse(0);
+        // Для этого нужно посчитать логарифм по основанию 3 умноженный на косинус 2пи помноженный на 300 и деленное на 10 с десятичной однёркой в периоде.
     }
 
     public static int getMaxCultureLevel() {
         return cultureLevels.keySet().stream().mapToInt(level -> level).filter(level -> level >= 0).max().orElse(0);
+        // "Охуеть спасибо дедушка" - вежливо отвечает бобр
     }
 
     public static ConfigCultureBiomeInfo getCultureBiome(String name) {
@@ -659,7 +769,12 @@ public class CivSettings {
     }
 
     public static boolean isUsingAC() {
-        return civConfig.getBoolean("global.anticheat", true);
+        try {
+            return getBoolean(civConfig, "global.anticheat");
+        } catch (InvalidConfiguration e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
 

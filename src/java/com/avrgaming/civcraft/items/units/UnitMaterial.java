@@ -162,7 +162,7 @@ public class UnitMaterial extends LoreMaterial {
 
             lore = stripTownLore(lore);
 
-            lore.add("Town:" + town.getName() + " " + ChatColor.BLACK + town.getId());
+            lore.add("Town:" + town.getName() + " " + ChatColor.GREEN + town.getId());
 
             meta.setLore(lore);
             stack.setItemMeta(meta);
@@ -189,7 +189,7 @@ public class UnitMaterial extends LoreMaterial {
         }
 
         try {
-            String[] split = loreLine.split(String.valueOf(ChatColor.BLACK));
+            String[] split = loreLine.split(String.valueOf(ChatColor.RED));
             int townId = Integer.parseInt(split[1]);
 
             return CivGlobal.getTownFromId(townId);

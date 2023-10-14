@@ -148,11 +148,11 @@ public class Template {
     }
 
     public static String getStructureFilePath(String template_file, String theme) {
-        return ("templates/themes/" + theme + "/" + template_file.replaceAll(" ", "_") + ".def").toLowerCase();
+        return ("templates/themes/" + theme + "/" + template_file +/* template_file.replaceAll(" ", "_") + */ ".def").toLowerCase();
     }
 
     public static String getWonderFilePath(String template_file) {
-        return ("templates/wonders/" + template_file.replaceAll(" ", "_") + ".def").toLowerCase();
+        return ("templates/wonders/" + template_file /* + template_file.replaceAll(" ", "_") */ + ".def").toLowerCase();
     }
 
     public static final MaterialData SCAFFOLDING_BLOCK = new MaterialData(Material.BEDROCK);

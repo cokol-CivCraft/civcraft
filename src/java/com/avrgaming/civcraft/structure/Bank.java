@@ -285,11 +285,11 @@ public class Bank extends Structure {
         /* Process the interest rate. */
         double effectiveInterestRate = interestRate;
         if (effectiveInterestRate == 0.0) {
-            this.getTown().getTreasury().setPrincipalAmount(0);
+            this.getCiv().getTreasury().setPrincipalAmount(0);
             return;
         }
 
-        double principal = this.getTown().getTreasury().getPrincipalAmount();
+        double principal = this.getCiv().getTreasury().getPrincipalAmount();
 
         if (this.getTown().getBuffManager().hasBuff("buff_greed")) {
             double increase = this.getTown().getBuffManager().getEffectiveDouble("buff_greed");
@@ -304,12 +304,12 @@ public class Bank extends Structure {
 
         if (newCoins != 0) {
             CivMessage.sendTown(this.getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_bank_interestMsg1", newCoins, CivSettings.CURRENCY_NAME, principal));
-            this.getTown().getTreasury().deposit(newCoins);
+            this.getCiv().getTreasury().deposit(newCoins);
 
         }
 
         /* Update the principal with the new value. */
-        this.getTown().getTreasury().setPrincipalAmount(this.getTown().getTreasury().getBalance());
+        this.getCiv().getTreasury().setPrincipalAmount(this.getCiv().getTreasury().getBalance());
 
     }
 

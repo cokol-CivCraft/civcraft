@@ -91,7 +91,7 @@ public class ConfigBuildableInfo {
 
     public static void loadConfig(FileConfiguration structures, FileConfiguration wonders, Map<String, ConfigBuildableInfo> structureMap) {
         structureMap.clear();
-        for (File config_file : Objects.requireNonNull(new File(CivCraft.getPlugin().getDataFolder().getPath() + "/data/structures").listFiles(File::isFile))) {
+        for (File config_file : Objects.requireNonNull(new File(CivCraft.getPlugin().getDataFolder().getPath() + "/data/structures/").listFiles(File::isFile))) {
             YamlConfiguration config = YamlConfiguration.loadConfiguration(config_file);
 
             ConfigBuildableInfo sinfo = new ConfigBuildableInfo();

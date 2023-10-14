@@ -36,6 +36,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class ConfigMarketItem {
     public int id;
@@ -124,11 +125,7 @@ public class ConfigMarketItem {
     }
 
     private String getIdent() {
-        if (this.custom_id == null) {
-            return type_id + ":" + data;
-        } else {
-            return this.custom_id;
-        }
+        return Objects.requireNonNullElseGet(this.custom_id, () -> type_id + ":" + data);
     }
 
     public void load() throws SQLException {
@@ -156,9 +153,6 @@ public class ConfigMarketItem {
                 this.sell_bulk = 1;
                 this.buy_value = this.inital_value + (int) ((double) this.inital_value * RATE);
                 this.sell_value = this.inital_value;
-                if (sell_value < inital_value) {
-                    sell_value = inital_value;
-                }
 
                 if (buy_value == sell_value) {
                     buy_value++;
