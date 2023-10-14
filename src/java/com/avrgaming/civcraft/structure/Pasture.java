@@ -129,7 +129,7 @@ public class Pasture extends Structure {
     }
 
     public String getEntityKey() {
-        return "pasture:" + this.getId();
+        return "pasture:" + this.getUUID();
     }
 
     public String getValue(String worldName, UUID id) {

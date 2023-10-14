@@ -47,6 +47,7 @@ public class RandomEvent extends SQLObject {
         if (!SQLController.hasTable(TABLE_NAME)) {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
+                    "`uuid` VARCHAR(36) NOT NULL," +
                     "`config_id` mediumtext," +
                     "`town_id` int(11)," +
                     "`start_date` long NOT NULL," +
@@ -63,9 +64,9 @@ public class RandomEvent extends SQLObject {
     }
 
     @Override
-    public void load(ResultSet rs) throws SQLException,
-            CivException {
+    public void load(ResultSet rs) throws SQLException, CivException {
         this.setId(rs.getInt("id"));
+        this.setUUID(UUID.fromString(rs.getString("uuid")));
         this.configRandomEvent = CivSettings.randomEvents.get(rs.getString("config_id"));
         if (this.configRandomEvent == null) {
             /* Delete the random event. */

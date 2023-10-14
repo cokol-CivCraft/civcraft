@@ -36,11 +36,11 @@ public class ScoreManager {
         // Check/Build SessionDB tables
         if (!SQLController.hasGlobalTable(TOWN_TABLE_NAME)) {
             String table_create = "CREATE TABLE " + TOWN_TABLE_NAME + " (" +
-                    "`local_id` int(11)," +
+                    "`local_uuid` VARCHAR(36)," +
                     "`local_name` mediumtext," +
                     "`local_civ_name` mediumtext," +
                     "`points` int(11)," +
-                    "PRIMARY KEY (`local_id`)" + ")";
+                    "PRIMARY KEY (`local_uuid`)" + ")";
 
             SQLController.makeGlobalTable(table_create);
             CivLog.info("Created " + TOWN_TABLE_NAME + " table");
@@ -55,11 +55,11 @@ public class ScoreManager {
         // Check/Build SessionDB tables
         if (!SQLController.hasGlobalTable(CIV_TABLE_NAME)) {
             String table_create = "CREATE TABLE " + CIV_TABLE_NAME + " (" +
-                    "`local_id` int(11)," +
+                    "`local_uuid` VARCHAR(36)," +
                     "`local_name` mediumtext," +
                     "`local_capitol_name` mediumtext," +
                     "`points` int(11)," +
-                    "PRIMARY KEY (`local_id`)" + ")";
+                    "PRIMARY KEY (`local_uuid`)" + ")";
 
             SQLController.makeGlobalTable(table_create);
             CivLog.info("Created " + CIV_TABLE_NAME + " table");
@@ -72,11 +72,11 @@ public class ScoreManager {
         PreparedStatement s = null;
 
         try {
-            String query = "INSERT INTO `" + CIV_TABLE_NAME + "` (`local_id`, `local_name`, `local_capitol_name`, `points`) " +
+            String query = "INSERT INTO `" + CIV_TABLE_NAME + "` (`local_uuid`, `local_name`, `local_capitol_name`, `points`) " +
                     "VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE `local_name`=?, `local_capitol_name`=?, `points`=?";
             s = SQLController.getGameConnection().prepareStatement(query);
 
-            s.setInt(1, civ.getId());
+            s.setString(1, civ.getUUID().toString());
             s.setString(2, civ.getName());
             s.setString(3, civ.getCapitolName());
             s.setInt(4, points);
@@ -98,11 +98,11 @@ public class ScoreManager {
         PreparedStatement s = null;
 
         try {
-            String query = "INSERT INTO `" + TOWN_TABLE_NAME + "` (`local_id`, `local_name`, `local_civ_name`, `points`) " +
+            String query = "INSERT INTO `" + TOWN_TABLE_NAME + "` (`local_uuid`, `local_name`, `local_civ_name`, `points`) " +
                     "VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE `local_name`=?, `local_civ_name`=?, `points`=?";
             s = SQLController.getGameConnection().prepareStatement(query);
 
-            s.setInt(1, town.getId());
+            s.setString(1, town.getUUID().toString());
             s.setString(2, town.getName());
             s.setString(3, town.getCiv().getName());
             s.setInt(4, points);

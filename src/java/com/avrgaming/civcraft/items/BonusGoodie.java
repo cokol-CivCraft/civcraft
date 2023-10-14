@@ -92,6 +92,7 @@ public class BonusGoodie extends LoreItem {
         if (!SQLController.hasTable(TABLE_NAME)) {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
+                    "`uuid` VARCHAR(36) NOT NULL," +
                     "`holder_location` mediumtext DEFAULT NULL," +
                     "`player_name` mediumtext DEFAULT NULL," +
                     "`frame_location` mediumtext DEFAULT NULL," +
@@ -483,7 +484,7 @@ public class BonusGoodie extends LoreItem {
     @Override
     public void load(ResultSet rs) throws SQLException {
         this.setId(rs.getInt("id"));
-
+        this.setUUID(UUID.fromString(rs.getString("uuid")));
         String holderLocString = rs.getString("holder_location");
         String outpostLocString = rs.getString("outpost_location");
         String frameUID = rs.getString("frame_uid");

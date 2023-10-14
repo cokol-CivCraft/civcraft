@@ -34,6 +34,7 @@ import org.bukkit.Chunk;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class TradeGood extends SQLObject {
 
@@ -67,6 +68,7 @@ public class TradeGood extends SQLObject {
         if (!SQLController.hasTable(TABLE_NAME)) {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
+                    "`uuid` VARCHAR(36) NOT NULL," +
                     "`name` VARCHAR(64) NOT NULL," +
                     "`town_id` int(11)," +
                     "`structure_id` int(11), " +
@@ -86,6 +88,7 @@ public class TradeGood extends SQLObject {
 	@Override
     public void load(ResultSet rs) throws SQLException, InvalidNameException {
         this.setId(rs.getInt("id"));
+        this.setUUID(UUID.fromString(rs.getString("uuid")));
         this.setName(rs.getString("name"));
         setInfo(CivSettings.goods.get(this.getName()));
         this.setTown(CivGlobal.getTownFromId(rs.getInt("town_id")));

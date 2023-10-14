@@ -30,6 +30,7 @@ import org.bukkit.block.Sign;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class StructureSign extends SQLObject {
 
@@ -56,6 +57,7 @@ public class StructureSign extends SQLObject {
         if (!SQLController.hasTable(TABLE_NAME)) {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
+                    "`uuid` VARCHAR(36) NOT NULL," +
                     "`text` mediumtext, " +
                     "`structure_id` int(11), " +
                     "`wonder_id` int(11)," +
@@ -75,6 +77,7 @@ public class StructureSign extends SQLObject {
     @Override
     public void load(ResultSet rs) throws SQLException {
         this.setId(rs.getInt("id"));
+        this.setUUID(UUID.fromString(rs.getString("uuid")));
         this.text = rs.getString("text");
         this.action = rs.getString("action");
         this.type = rs.getString("type");

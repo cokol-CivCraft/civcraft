@@ -25,6 +25,7 @@ import com.avrgaming.civcraft.util.BlockCoord;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class ProtectedBlock extends SQLObject {
 
@@ -55,6 +56,7 @@ public class ProtectedBlock extends SQLObject {
         if (!SQLController.hasTable(TABLE_NAME)) {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
+                    "`uuid` VARCHAR(36) NOT NULL," +
                     "`coord` mediumtext NOT NULL," +
                     "`type` mediumtext NOT NULL," +
                     "`structure_id` int(11) DEFAULT 0," +
@@ -69,6 +71,8 @@ public class ProtectedBlock extends SQLObject {
 
     @Override
     public void load(ResultSet rs) throws SQLException {
+        this.setId(rs.getInt("id"));
+        this.setUUID(UUID.fromString(rs.getString("uuid")));
         this.coord = new BlockCoord(rs.getString("coord"));
         this.type = Type.valueOf(rs.getString("type"));
         //	int structure_id = rs.getInt("structure_id");

@@ -38,6 +38,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class TownChunk extends SQLObject {
 
@@ -71,6 +72,7 @@ public class TownChunk extends SQLObject {
         if (!SQLController.hasTable(TABLE_NAME)) {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
+                    "`uuid` VARCHAR(36) NOT NULL," +
                     "`town_id` int(11) unsigned NOT NULL," +
                     "`world` VARCHAR(32) NOT NULL," +
                     "`x` bigint(20) NOT NULL," +
@@ -94,6 +96,7 @@ public class TownChunk extends SQLObject {
     @Override
     public void load(ResultSet rs) throws SQLException, CivException {
         this.setId(rs.getInt("id"));
+        this.setUUID(UUID.fromString(rs.getString("uuid")));
         this.setTown(CivGlobal.getTownFromId(rs.getInt("town_id")));
         if (this.getTown() == null) {
             CivLog.warning("TownChunk tried to load without a town...");

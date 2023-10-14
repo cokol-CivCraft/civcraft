@@ -129,17 +129,21 @@ public class Resident extends SQLObject {
     public ConcurrentHashMap<BlockCoord, SimpleBlock> previewUndo = null;
     private Date lastKilledTime = null;
     private String lastIP = "";
-    private UUID uid;
     private double walkingModifier = CivSettings.normal_speed;
     public String debugTown;
 
     public Resident(UUID uid, String name) throws InvalidNameException {
         this.setName(name);
-        this.uid = uid;
+        setUUID(uid);
         this.player = Bukkit.getPlayer(uid);
         this.treasury = CivGlobal.createEconObject(this);
         setTimezoneToServerDefault();
         loadSettings();
+    }
+
+    @Override
+    public void setUUID(UUID uuid) {
+        super.setUUID(uuid);
     }
 
     public Resident(ResultSet rs) throws SQLException, InvalidNameException {
@@ -191,17 +195,12 @@ public class Resident extends SQLObject {
     @Override
     public void load(ResultSet rs) throws SQLException, InvalidNameException {
         this.setId(rs.getInt("id"));
+        this.setUUID(UUID.fromString(rs.getString("uuid")));
         this.setName(rs.getString("name"));
         int townID = rs.getInt("town_id");
         int campID = rs.getInt("camp_id");
         this.lastIP = rs.getString("last_ip");
         this.debugTown = rs.getString("debug_town");
-
-        if (rs.getString("uuid").equalsIgnoreCase("UNKNOWN")) {
-            this.uid = null;
-        } else {
-            this.uid = UUID.fromString(rs.getString("uuid"));
-        }
 
         this.treasury = CivGlobal.createEconObject(this);
         this.getTreasury().setBalance(rs.getDouble("coins"), false);
@@ -1241,16 +1240,8 @@ public class Resident extends SQLObject {
         isProtected = prot;
     }
 
-    public UUID getUUID() {
-        return uid;
-    }
-
     public String getUUIDString() {
-        return uid.toString();
-    }
-
-    public void setUUID(UUID uid) {
-        this.uid = uid;
+        return getUUID().toString();
     }
 
     public double getWalkingModifier() {

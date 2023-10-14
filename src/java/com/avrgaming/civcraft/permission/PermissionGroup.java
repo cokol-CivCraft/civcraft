@@ -41,16 +41,16 @@ public class PermissionGroup extends SQLObject {
     /* Only cache towns as the 'civ' can change when a town gets conquered or gifted/moved. */
     private Town cacheTown = null;
 
-    private UUID civUUID;
-    private UUID townUUID;
+    private int civId;
+    private int townId;
 
     public PermissionGroup(Civilization civ, String name) throws InvalidNameException {
-        this.civUUID = civ.getUUID();
+        this.civId = civ.getId();
         this.setName(name);
     }
 
     public PermissionGroup(Town town, String name) throws InvalidNameException {
-        this.townUUID = town.getUUID();
+        this.townId = town.getId();
         this.cacheTown = town;
         this.setName(name);
     }
@@ -81,9 +81,10 @@ public class PermissionGroup extends SQLObject {
         if (!SQLController.hasTable(TABLE_NAME)) {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
+                    "`uuid` VARCHAR(36) NOT NULL," +
                     "`name` VARCHAR(64) NOT NULL," +
-                    "`town_uuid` VARCHAR(36)," +
-                    "`civ_uuid` VARCHAR(36)," +
+                    "`town_id` int(11)," +
+                    "`civ_id` int(11)," +
                     "`members` mediumtext," +
                     //"FOREIGN KEY (town_id) REFERENCES "+SQLController.tb_prefix+"TOWN(id),"+
                     //"FOREIGN KEY (civ_id) REFERENCES "+SQLController.tb_prefix+"CIVILIZATIONS(id),"+
@@ -99,20 +100,21 @@ public class PermissionGroup extends SQLObject {
     @Override
     public void load(ResultSet rs) throws SQLException, InvalidNameException {
         this.setId(rs.getInt("id"));
+        this.setUUID(UUID.fromString(rs.getString("uuid")));
         this.setName(rs.getString("name"));
-        this.setTownUUID(UUID.fromString(rs.getString("town_uuid")));
-        this.setCivUUID(UUID.fromString(rs.getString("civ_uuid")));
+        this.setTownId(rs.getInt("town_id"));
+        this.setCivId(rs.getInt("civ_id"));
         loadMembersFromSaveString(rs.getString("members"));
 
-        if (this.getTownUUID() != NULL_UUID) {
-            this.cacheTown = CivGlobal.getTownFromUUID(this.getTownUUID());
+        if (this.getTownId() != 0) {
+            this.cacheTown = CivGlobal.getTownFromId(this.getTownId());
             this.getTown().addGroup(this);
         } else {
-            Civilization civ = CivGlobal.getCivFromUUID(this.getCivUUID());
+            Civilization civ = CivGlobal.getCivFromId(this.getCivId());
             if (civ == null) {
-                civ = CivGlobal.getConqueredCivFromUUID(this.getCivUUID());
+                civ = CivGlobal.getConqueredCivFromId(this.getCivId());
                 if (civ == null) {
-                    CivLog.warning("COUlD NOT FIND CIV ID:" + this.getCivUUID() + " for group: " + this.getName() + " to load.");
+                    CivLog.warning("COUlD NOT FIND CIV ID:" + this.getCivId() + " for group: " + this.getName() + " to load.");
                     return;
                 }
             }
@@ -132,8 +134,8 @@ public class PermissionGroup extends SQLObject {
 
         hashmap.put("name", this.getName());
         hashmap.put("members", this.getMembersSaveString());
-        hashmap.put("town_uuid", this.getTownUUID());
-        hashmap.put("civ_uuid", this.getCivUUID());
+        hashmap.put("town_id", this.getTownId());
+        hashmap.put("civ_id", this.getCivId());
 
         SQLController.updateNamedObject(this, hashmap, TABLE_NAME);
     }
@@ -231,20 +233,19 @@ public class PermissionGroup extends SQLObject {
         return out.toString();
     }
 
-    public UUID getCivUUID() {
-        return civUUID;
+    public int getCivId() {
+        return civId;
     }
 
-
-    public void setCivUUID(UUID civUUID) {
-        this.civUUID = civUUID;
+    public void setCivId(int civId) {
+        this.civId = civId;
     }
 
-    public UUID getTownUUID() {
-        return townUUID;
+    public int getTownId() {
+        return townId;
     }
 
-    public void setTownUUID(UUID townUUID) {
-        this.townUUID = townUUID;
+    public void setTownId(int townId) {
+        this.townId = townId;
     }
 }

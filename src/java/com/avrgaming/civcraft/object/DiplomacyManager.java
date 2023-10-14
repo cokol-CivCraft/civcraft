@@ -50,7 +50,7 @@ public class DiplomacyManager {
 
 
     public boolean atWarWith(Civilization other) {
-        if (ourCiv.getUUID() == other.getUUID()) {
+        if (ourCiv.getUUID().equals(other.getUUID())) {
             return false;
         }
 
@@ -147,7 +147,7 @@ public class DiplomacyManager {
     }
 
     public Relation.Status getRelationStatus(Civilization otherCiv) {
-        if (otherCiv.getUUID() == ourCiv.getUUID()) {
+        if (otherCiv.getUUID().equals(ourCiv.getUUID())) {
             return Relation.Status.ALLY;
         }
 

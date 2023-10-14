@@ -29,6 +29,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class Relation extends SQLObject {
 
@@ -76,6 +77,7 @@ public class Relation extends SQLObject {
         if (!SQLController.hasTable(TABLE_NAME)) {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
+                    "`uuid` VARCHAR(36) NOT NULL," +
                     "`civ_id` int(11) NOT NULL DEFAULT 0," +
                     "`other_civ_id` int(11) NOT NULL DEFAULT 0," +
                     "`relation` mediumtext DEFAULT NULL," +
@@ -94,6 +96,7 @@ public class Relation extends SQLObject {
     @Override
     public void load(ResultSet rs) throws SQLException {
         this.setId(rs.getInt("id"));
+        this.setUUID(UUID.fromString(rs.getString("uuid")));
         civ = CivGlobal.getCivFromId(rs.getInt("civ_id"));
         if (civ == null) {
             CivLog.warning("Couldn't find civ id:" + rs.getInt("civ_id") + " deleting this relation.");

@@ -184,6 +184,7 @@ public class Camp extends Buildable {
         if (!SQLController.hasTable(TABLE_NAME)) {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
+                    "`uuid` VARCHAR(36) NOT NULL," +
                     "`name` VARCHAR(64) NOT NULL," +
                     "`owner_name` mediumtext NOT NULL," +
                     "`firepoints` int(11) DEFAULT 0," +
@@ -202,6 +203,7 @@ public class Camp extends Buildable {
     @Override
     public void load(ResultSet rs) throws SQLException, InvalidNameException {
         this.setId(rs.getInt("id"));
+        this.setUUID(UUID.fromString(rs.getString("uuid")));
         this.setName(rs.getString("name"));
         this.ownerName = rs.getString("owner_name");
 

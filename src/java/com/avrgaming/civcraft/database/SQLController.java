@@ -29,7 +29,6 @@ import com.avrgaming.civcraft.object.*;
 import com.avrgaming.civcraft.permission.PermissionGroup;
 import com.avrgaming.civcraft.randomevents.RandomEvent;
 import com.avrgaming.civcraft.sessiondb.SessionDatabase;
-import com.avrgaming.civcraft.structure.MetaStructure;
 import com.avrgaming.civcraft.structure.Structure;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.threading.TaskMaster;
@@ -222,15 +221,13 @@ public class SQLController {
         }
 
         if (obj.getId() == 0) {
-            if (obj instanceof MetaStructure || obj instanceof Town || obj instanceof Civilization || obj instanceof PermissionGroup) {
+            if (obj.getUUID().equals(NamedObject.NULL_UUID)) {
                 obj.setUUID(UUID.randomUUID());
                 hashmap.put("uuid", obj.getUUID().toString());
             }
             obj.setId(SQLController.insertNow(hashmap, tablename));
         } else {
-            if (obj instanceof MetaStructure || obj instanceof Town || obj instanceof Civilization || obj instanceof PermissionGroup) {
-                hashmap.put("uuid", obj.getUUID().toString());
-            }
+            hashmap.put("uuid", obj.getUUID().toString());
             SQLController.update(obj.getId(), hashmap, tablename);
         }
     }

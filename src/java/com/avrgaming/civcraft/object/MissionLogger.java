@@ -38,6 +38,7 @@ public class MissionLogger {
         if (!SQLController.hasTable(TABLE_NAME)) {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
+                    "`uuid` VARCHAR(36) NOT NULL," +
                     "`town_id` int(11) unsigned DEFAULT 0," +
                     "`target_id` int(11) unsigned DEFAULT 0," +
                     "`time` long," +

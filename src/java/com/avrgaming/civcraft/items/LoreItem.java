@@ -37,8 +37,6 @@ public abstract class LoreItem extends SQLObject {
 
     public abstract void load();
 
-    public LoreItem() {
-    }
 
     public void setLore(ItemStack stack, List<String> lore) {
         ItemMeta meta = stack.getItemMeta();

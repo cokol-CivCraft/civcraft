@@ -202,24 +202,24 @@ public class Town extends SQLObject {
         if (!nbt.getString("granaryResources").isEmpty()) {
             this.granaryResources = nbt.getString("granaryResources");
         }
-        this.setCiv(CivGlobal.getCivFromId(nbt.getInt("civ_id")));
+        this.setCiv(CivGlobal.getCivFromUUID(UUID.fromString(nbt.getString("civ_uuid"))));
 
-        int motherCivId = nbt.getInt("mother_civ_id");
-        if (motherCivId != 0) {
-            Civilization mother = CivGlobal.getConqueredCivFromId(motherCivId);
+        String motherCivUUID = nbt.getString("mother_civ_uuid");
+        if (!motherCivUUID.isEmpty()) {
+            Civilization mother = CivGlobal.getConqueredCivFromUUID(UUID.fromString(motherCivUUID));
             if (mother == null) {
-                mother = CivGlobal.getCivFromId(motherCivId);
+                mother = CivGlobal.getCivFromUUID(UUID.fromString(motherCivUUID));
             }
 
             if (mother == null) {
-                CivLog.warning("Unable to find a mother civ with ID:" + motherCivId + "!");
+                CivLog.warning("Unable to find a mother civ with UUID:" + motherCivUUID + "!");
             } else {
                 setMotherCiv(mother);
             }
         }
 
         if (this.getCiv() == null) {
-            CivLog.error("TOWN:" + this.getName() + " WITHOUT A CIV, id was:" + nbt.getInt("civ_id"));
+            CivLog.error("TOWN:" + this.getName() + " WITHOUT A CIV, UUID was:" + nbt.getString("civ_uuid"));
             //this.delete();
             CivGlobal.orphanTowns.add(this);
             throw new CivException("Failed to load town, bad data.");
@@ -262,10 +262,10 @@ public class Town extends SQLObject {
         NBTTagCompound nbt = new NBTTagCompound();
 
         nbt.setString("name", this.getName());
-        nbt.setInt("civ_id", this.getCiv().getId());
+        nbt.setString("civ_uuid", this.getCiv().getUUID().toString());
 
         if (this.motherCiv != null) {
-            nbt.setInt("mother_civ_id", this.motherCiv.getId());
+            nbt.setString("mother_civ_uuid", this.motherCiv.getUUID().toString());
         }
 
         nbt.setString("defaultGroupName", this.getDefaultGroupName());

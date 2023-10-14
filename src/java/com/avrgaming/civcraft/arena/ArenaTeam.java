@@ -50,6 +50,7 @@ public class ArenaTeam extends SQLObject implements Comparable<ArenaTeam> {
         if (!SQLController.hasTable(TABLE_NAME)) {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
+                    "`uuid` VARCHAR(36) NOT NULL," +
                     "`name` VARCHAR(64) NOT NULL," +
                     "`leader` mediumtext NULL," +
                     "`ladderPoints` int(11) DEFAULT 0," +
@@ -88,6 +89,7 @@ public class ArenaTeam extends SQLObject implements Comparable<ArenaTeam> {
     @Override
     public void load(ResultSet rs) throws SQLException, InvalidNameException {
         this.setId(rs.getInt("id"));
+        this.setUUID(UUID.fromString(rs.getString("uuid")));
         this.setName(rs.getString("name"));
 
         this.leader = CivGlobal.getResidentViaUUID(UUID.fromString(rs.getString("leader")));

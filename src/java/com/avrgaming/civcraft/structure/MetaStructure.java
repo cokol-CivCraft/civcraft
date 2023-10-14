@@ -106,7 +106,7 @@ public abstract class MetaStructure extends Buildable {
 
     @Override
     public void updateBuildProgess() {
-        if (this.getId() == 0) {
+        if (this.getUUID().equals(NULL_UUID)) {
             return;
         }
         HashMap<String, Object> struct_hm = new HashMap<>();
