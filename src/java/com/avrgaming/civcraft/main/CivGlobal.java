@@ -643,6 +643,18 @@ public class CivGlobal {
         }
         return null;
     }
+
+    public static Town getTownFromUUID(UUID id) {
+        if (id == NamedObject.NULL_UUID) {
+            return null;
+        }
+        for (Town t : towns.values()) {
+            if (t.getUUID() == id) {
+                return t;
+            }
+        }
+        return null;
+    }
 	
 	public static void addTown(Town town) {
 		towns.put(town.getName().toLowerCase(), town);
@@ -740,6 +752,15 @@ public class CivGlobal {
     public static Civilization getCivFromId(int id) {
         for (Civilization civ : civs.values()) {
             if (civ.getId() == id) {
+                return civ;
+            }
+        }
+        return null;
+    }
+
+    public static Civilization getCivFromUUID(UUID uuid) {
+        for (Civilization civ : civs.values()) {
+            if (civ.getUUID() == uuid) {
                 return civ;
             }
         }
@@ -1490,6 +1511,15 @@ public class CivGlobal {
     public static Civilization getConqueredCivFromId(int id) {
         for (Civilization civ : getConqueredCivs()) {
             if (civ.getId() == id) {
+                return civ;
+            }
+        }
+        return null;
+    }
+
+    public static Civilization getConqueredCivFromUUID(UUID id) {
+        for (Civilization civ : getConqueredCivs()) {
+            if (civ.getUUID() == id) {
                 return civ;
             }
         }

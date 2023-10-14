@@ -89,7 +89,7 @@ public class EndConditionScience extends EndGameCondition {
     }
 
     public static String getBeakerSessionKey(Civilization civ) {
-        return "endgame:sciencebeakers:" + civ.getId();
+        return "endgame:sciencebeakers:" + civ.getUUID();
     }
 
     public double getExtraBeakersInCiv(Civilization civ) {

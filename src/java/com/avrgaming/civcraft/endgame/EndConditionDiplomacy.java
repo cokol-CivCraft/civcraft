@@ -123,7 +123,7 @@ public class EndConditionDiplomacy extends EndGameCondition {
     }
 
     public static String getVoteSessionKey(Civilization civ) {
-        return "endgame:diplomacyvote:" + civ.getId();
+        return "endgame:diplomacyvote:" + civ.getUUID();
     }
 
     public static void deleteAllVotes(Civilization civ) {

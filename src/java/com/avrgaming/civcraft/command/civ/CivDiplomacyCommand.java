@@ -236,7 +236,7 @@ public class CivDiplomacyCommand extends CommandBase {
 
         Civilization otherCiv = getNamedCiv(1);
 
-        if (ourCiv.getId() == otherCiv.getId()) {
+        if (ourCiv.getUUID() == otherCiv.getUUID()) {
             throw new CivException(CivSettings.localize.localizedString("cmd_civ_dip_requestSameCiv"));
         }
 
@@ -299,7 +299,7 @@ public class CivDiplomacyCommand extends CommandBase {
 
         Civilization otherCiv = getNamedCiv(1);
 
-        if (ourCiv.getId() == otherCiv.getId()) {
+        if (ourCiv.getUUID() == otherCiv.getUUID()) {
             throw new CivException(CivSettings.localize.localizedString("cmd_civ_dip_declareYourself"));
         }
 

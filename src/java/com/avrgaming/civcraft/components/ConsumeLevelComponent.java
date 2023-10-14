@@ -25,6 +25,7 @@ import com.avrgaming.civcraft.config.ConfigTempleLevel;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
+import com.avrgaming.civcraft.object.NamedObject;
 import com.avrgaming.civcraft.sessiondb.SessionEntry;
 import com.avrgaming.civcraft.structure.Buildable;
 import com.avrgaming.civcraft.structure.Cottage;
@@ -130,7 +131,7 @@ public class ConsumeLevelComponent extends Component {
     }
 
     private String getKey() {
-        return getBuildable().getDisplayName() + ":" + getBuildable().getId() + ":" + "levelcount";
+        return getBuildable().getDisplayName() + ":" + getBuildable().getUUID() + ":" + "levelcount";
     }
 
     private String getValue() {
@@ -168,7 +169,7 @@ public class ConsumeLevelComponent extends Component {
             }
         }
 
-        if (getBuildable().getId() != 0) {
+        if (getBuildable().getUUID() != NamedObject.NULL_UUID) {
             TaskMaster.asyncTask(new AsyncTask(), 0);
         }
     }
@@ -181,7 +182,7 @@ public class ConsumeLevelComponent extends Component {
             }
         }
 
-        if (getBuildable().getId() != 0) {
+        if (getBuildable().getUUID() != NamedObject.NULL_UUID) {
             TaskMaster.asyncTask(new AsyncTask(), 0);
         }
     }

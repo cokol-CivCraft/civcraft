@@ -78,7 +78,7 @@ public abstract class EndGameCondition {
             }
         }
 
-        CivLog.error("Couldn't find civilization:" + civ.getName() + " with id:" + civ.getId() + " to fail end condition:" + this.victoryName);
+        CivLog.error("Couldn't find civilization:" + civ.getName() + " with UUID:" + civ.getUUID() + " to fail end condition:" + this.victoryName);
     }
 
 

@@ -41,16 +41,16 @@ public class PermissionGroup extends SQLObject {
     /* Only cache towns as the 'civ' can change when a town gets conquered or gifted/moved. */
     private Town cacheTown = null;
 
-    private int civId;
-    private int townId;
+    private UUID civUUID;
+    private UUID townUUID;
 
     public PermissionGroup(Civilization civ, String name) throws InvalidNameException {
-        this.civId = civ.getId();
+        this.civUUID = civ.getUUID();
         this.setName(name);
     }
 
     public PermissionGroup(Town town, String name) throws InvalidNameException {
-        this.townId = town.getId();
+        this.townUUID = town.getUUID();
         this.cacheTown = town;
         this.setName(name);
     }
@@ -82,8 +82,8 @@ public class PermissionGroup extends SQLObject {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`name` VARCHAR(64) NOT NULL," +
-                    "`town_id` int(11)," +
-                    "`civ_id` int(11)," +
+                    "`town_uuid` VARCHAR(36)," +
+                    "`civ_uuid` VARCHAR(36)," +
                     "`members` mediumtext," +
                     //"FOREIGN KEY (town_id) REFERENCES "+SQLController.tb_prefix+"TOWN(id),"+
                     //"FOREIGN KEY (civ_id) REFERENCES "+SQLController.tb_prefix+"CIVILIZATIONS(id),"+
@@ -100,19 +100,19 @@ public class PermissionGroup extends SQLObject {
     public void load(ResultSet rs) throws SQLException, InvalidNameException {
         this.setId(rs.getInt("id"));
         this.setName(rs.getString("name"));
-        this.setTownId(rs.getInt("town_id"));
-        this.setCivId(rs.getInt("civ_id"));
+        this.setTownUUID(UUID.fromString(rs.getString("town_uuid")));
+        this.setCivUUID(UUID.fromString(rs.getString("civ_uuid")));
         loadMembersFromSaveString(rs.getString("members"));
 
-        if (this.getTownId() != 0) {
-            this.cacheTown = CivGlobal.getTownFromId(this.getTownId());
+        if (this.getTownUUID() != NULL_UUID) {
+            this.cacheTown = CivGlobal.getTownFromUUID(this.getTownUUID());
             this.getTown().addGroup(this);
         } else {
-            Civilization civ = CivGlobal.getCivFromId(this.getCivId());
+            Civilization civ = CivGlobal.getCivFromUUID(this.getCivUUID());
             if (civ == null) {
-                civ = CivGlobal.getConqueredCivFromId(this.getCivId());
+                civ = CivGlobal.getConqueredCivFromUUID(this.getCivUUID());
                 if (civ == null) {
-                    CivLog.warning("COUlD NOT FIND CIV ID:" + this.getCivId() + " for group: " + this.getName() + " to load.");
+                    CivLog.warning("COUlD NOT FIND CIV ID:" + this.getCivUUID() + " for group: " + this.getName() + " to load.");
                     return;
                 }
             }
@@ -132,8 +132,8 @@ public class PermissionGroup extends SQLObject {
 
         hashmap.put("name", this.getName());
         hashmap.put("members", this.getMembersSaveString());
-        hashmap.put("town_id", this.getTownId());
-        hashmap.put("civ_id", this.getCivId());
+        hashmap.put("town_uuid", this.getTownUUID());
+        hashmap.put("civ_uuid", this.getCivUUID());
 
         SQLController.updateNamedObject(this, hashmap, TABLE_NAME);
     }
@@ -231,19 +231,20 @@ public class PermissionGroup extends SQLObject {
         return out.toString();
     }
 
-    public int getCivId() {
-        return civId;
+    public UUID getCivUUID() {
+        return civUUID;
     }
 
-    public void setCivId(int civId) {
-        this.civId = civId;
+
+    public void setCivUUID(UUID civUUID) {
+        this.civUUID = civUUID;
     }
 
-    public int getTownId() {
-        return townId;
+    public UUID getTownUUID() {
+        return townUUID;
     }
 
-    public void setTownId(int townId) {
-        this.townId = townId;
+    public void setTownUUID(UUID townUUID) {
+        this.townUUID = townUUID;
     }
 }

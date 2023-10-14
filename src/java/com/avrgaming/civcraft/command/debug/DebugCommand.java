@@ -1323,7 +1323,7 @@ public class DebugCommand extends CommandBase {
         Civilization civ = getNamedCiv(1);
 
         CivMessage.sendHeading(sender, "Civ " + civ.getName());
-        CivMessage.send(sender, "id:" + civ.getId() + " debt: " + civ.getTreasury().getDebt() + " balance:" + civ.getTreasury().getBalance());
+        CivMessage.send(sender, "id:" + civ.getUUID() + " debt: " + civ.getTreasury().getDebt() + " balance:" + civ.getTreasury().getBalance());
     }
 
     public void newday_cmd() {
@@ -1345,7 +1345,7 @@ public class DebugCommand extends CommandBase {
         Town town = getNamedTown(1);
 
         CivMessage.sendHeading(sender, "Town " + town.getName());
-        CivMessage.send(sender, "id:" + town.getId() + " level: " + town.getLevel());
+        CivMessage.send(sender, "id:" + town.getUUID() + " level: " + town.getLevel());
 
     }
 

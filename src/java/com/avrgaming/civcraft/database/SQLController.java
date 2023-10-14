@@ -222,13 +222,13 @@ public class SQLController {
         }
 
         if (obj.getId() == 0) {
-            if (obj instanceof MetaStructure || obj instanceof Town || obj instanceof Civilization) {
+            if (obj instanceof MetaStructure || obj instanceof Town || obj instanceof Civilization || obj instanceof PermissionGroup) {
                 obj.setUUID(UUID.randomUUID());
                 hashmap.put("uuid", obj.getUUID().toString());
             }
             obj.setId(SQLController.insertNow(hashmap, tablename));
         } else {
-            if (obj instanceof MetaStructure || obj instanceof Town || obj instanceof Civilization) {
+            if (obj instanceof MetaStructure || obj instanceof Town || obj instanceof Civilization || obj instanceof PermissionGroup) {
                 hashmap.put("uuid", obj.getUUID().toString());
             }
             SQLController.update(obj.getId(), hashmap, tablename);

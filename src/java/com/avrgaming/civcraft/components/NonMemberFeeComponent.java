@@ -35,7 +35,7 @@ public class NonMemberFeeComponent extends Component {
 
 
     private String getKey() {
-        return buildable.getDisplayName() + ":" + buildable.getId() + ":" + "fee";
+        return buildable.getDisplayName() + ":" + buildable.getUUID() + ":" + "fee";
     }
 
     @Override

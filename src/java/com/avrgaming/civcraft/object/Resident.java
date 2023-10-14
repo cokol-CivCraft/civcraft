@@ -1314,16 +1314,12 @@ public class Resident extends SQLObject {
         }
     }
 
-    public void setNativeTown(Town t) {
-        nativeTown = t;
+    public void setNativeTown(Town town) {
+        nativeTown = town;
     }
 
     public Town getNativeTown() {
         return nativeTown;
-    }
-
-    public int getNativeTownId() {
-        return nativeTown.getId();
     }
 
 
