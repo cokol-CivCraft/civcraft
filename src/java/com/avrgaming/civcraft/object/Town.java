@@ -175,6 +175,7 @@ public class Town extends SQLObject {
         if (!SQLController.hasTable(TABLE_NAME)) {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
+                    "`uuid` VARCHAR(36) NOT NULL," +
                     "`nbt` BLOB," +
                     "PRIMARY KEY (`id`)" + ")";
 
@@ -188,6 +189,7 @@ public class Town extends SQLObject {
     @Override
     public void load(ResultSet rs) throws SQLException, InvalidNameException, CivException {
         this.setId(rs.getInt("id"));
+        this.setUUID(UUID.fromString(rs.getString("uuid")));
         var data = new ByteArrayInputStream(rs.getBytes("nbt"));
         NBTTagCompound nbt;
         try {
