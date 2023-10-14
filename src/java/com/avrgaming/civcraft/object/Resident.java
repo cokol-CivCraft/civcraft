@@ -856,7 +856,7 @@ public class Resident extends SQLObject {
     public void setRejoinCooldown(Town town) {
         String value = String.valueOf(town.getCiv().getId());
         String key = getCooldownKey();
-        CivGlobal.getSessionDB().add(key, value, 0, 0, 0);
+        CivGlobal.getSessionDB().add(key, value, NamedObject.NULL_UUID, NamedObject.NULL_UUID, NamedObject.NULL_UUID);
     }
 
     public String getCooldownKey() {

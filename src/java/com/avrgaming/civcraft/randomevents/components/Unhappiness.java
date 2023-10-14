@@ -18,7 +18,7 @@ public class Unhappiness extends RandomEventComponent {
         int unhappiness = Integer.parseInt(this.getString("value"));
         int duration = Integer.parseInt(this.getString("duration"));
 
-        CivGlobal.getSessionDB().add(getKey(this.getParentTown()), unhappiness + ":" + duration, this.getParentTown().getCiv().getId(), this.getParentTown().getId(), 0);
+        CivGlobal.getSessionDB().add(getKey(this.getParentTown()), unhappiness + ":" + duration, this.getParentTown().getCiv().getUUID(), this.getParentTown().getUUID());
         sendMessage(CivSettings.localize.localizedString("var_re_unhappiness1", unhappiness, duration));
 
     }

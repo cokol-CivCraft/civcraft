@@ -1142,7 +1142,7 @@ public class Civilization extends SQLObject {
     }
 
     public void sessionAdd(String key, String value) {
-        CivGlobal.getSessionDB().add(key, value, this.getId(), 0, 0);
+        CivGlobal.getSessionDB().add(key, value, this.getUUID(), NamedObject.NULL_UUID, NamedObject.NULL_UUID);
     }
 
     public void sessionDeleteAll(String key) {
@@ -1479,7 +1479,7 @@ public class Civilization extends SQLObject {
 
     public void declareAsWinner(EndGameCondition end) {
         String out = CivSettings.localize.localizedString("var_civ_victory_end1", this.getName(), end.getVictoryName());
-        CivGlobal.getSessionDB().add("endgame:winningCiv", out, 0, 0, 0);
+        CivGlobal.getSessionDB().add("endgame:winningCiv", out, NamedObject.NULL_UUID, NamedObject.NULL_UUID, NamedObject.NULL_UUID);
         CivMessage.global(out);
     }
 

@@ -85,7 +85,7 @@ public class Cottage extends Structure {
 			max_poison_ticks--;
 
 			if (max_poison_ticks > 0)
-                CivGlobal.getSessionDB().add(key, String.valueOf(max_poison_ticks), this.getTown().getCiv().getId(), this.getTown().getId(), this.getId());
+                CivGlobal.getSessionDB().add(key, String.valueOf(max_poison_ticks), this.getTown().getCiv().getUUID(), this.getTown().getUUID(), this.getUUID());
 
 			// Add some rotten flesh to the chest lol
             CivMessage.sendTown(this.getTown(), ChatColor.RED + CivSettings.localize.localizedString("cottage_poisoned"));

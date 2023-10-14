@@ -19,6 +19,7 @@ package com.avrgaming.civcraft.sessiondb;
 
 import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.main.CivLog;
+import com.avrgaming.civcraft.object.NamedObject;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.sessiondb.SessionAsyncRequest.Database;
 import com.avrgaming.civcraft.sessiondb.SessionAsyncRequest.Operation;
@@ -28,6 +29,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -51,9 +53,9 @@ public class SessionDatabase {
                     "`request_id` int(11) unsigned NOT NULL auto_increment," +
                     "`key` mediumtext," +
                     "`value` mediumtext," +
-                    "`town_id` int(11)," +
-                    "`civ_id` int(11)," +
-                    "`struct_id` int(11)," +
+                    "`town_id` VARCHAR(36)," +
+                    "`civ_id` VARCHAR(36)," +
+                    "`struct_id` VARCHAR(36)," +
                     "`time` long," +
                     "PRIMARY KEY (`request_id`)" + ")";
 
@@ -65,13 +67,25 @@ public class SessionDatabase {
         CivLog.info("==================================================");
     }
 
-    public boolean add(String key, String value, int civ_id, int town_id, int struct_id) {
+    public boolean add(String key, String value) {
+        return add(key, value, NamedObject.NULL_UUID);
+    }
+
+    public boolean add(String key, String value, UUID civ_id) {
+        return add(key, value, civ_id, NamedObject.NULL_UUID);
+    }
+
+    public boolean add(String key, String value, UUID civ_id, UUID town_id) {
+        return add(key, value, civ_id, town_id, NamedObject.NULL_UUID);
+    }
+
+    public boolean add(String key, String value, UUID civ_id, UUID town_id, UUID struct_id) {
         SessionEntry se = new SessionEntry();
         se.key = key;
         se.value = value;
-        se.civ_id = civ_id;
-        se.town_id = town_id;
-        se.struct_id = struct_id;
+        se.civ_uuid = civ_id;
+        se.town_uuid = town_id;
+        se.struct_uuid = struct_id;
         se.time = System.currentTimeMillis();
         se.request_id = -1;
 
@@ -130,9 +144,9 @@ public class SessionDatabase {
                     else
                         se.value = line;
 
-                    se.civ_id = rs.getInt("civ_id");
-                    se.town_id = rs.getInt("town_id");
-                    se.struct_id = rs.getInt("struct_id");
+                    se.civ_uuid = UUID.fromString(rs.getString("civ_id"));
+                    se.town_uuid = UUID.fromString(rs.getString("town_id"));
+                    se.struct_uuid = UUID.fromString(rs.getString("struct_id"));
 
                     se.time = rs.getLong("time");
 
@@ -154,7 +168,7 @@ public class SessionDatabase {
 
     /* debug function to test the session DB */
     public void test() {
-        add("ThisTestKey", "ThisTestData", 0, 0, 0);
+        add("ThisTestKey", "ThisTestData", NamedObject.NULL_UUID, NamedObject.NULL_UUID, NamedObject.NULL_UUID);
 
         for (SessionEntry se : lookup("ThisTestKey")) {
             CivLog.info("GOT ME SOME:" + se.value);

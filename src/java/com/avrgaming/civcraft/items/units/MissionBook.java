@@ -155,7 +155,7 @@ public class MissionBook extends UnitItemMaterial {
         int posion_ticks = rand.nextInt((max - min)) + min;
         String value = String.valueOf(posion_ticks);
 
-        CivGlobal.getSessionDB().add("posiongranary:" + tc.getTown().getName(), value, tc.getTown().getId(), tc.getTown().getId(), granary.getId());
+        CivGlobal.getSessionDB().add("posiongranary:" + tc.getTown().getName(), value, tc.getTown().getUUID(), tc.getTown().getUUID(), granary.getUUID());
 
         double famine_chance = CivSettings.espionageConfig.getDouble("espionage.poison_granary_famine_chance", 0.075);
 
@@ -206,8 +206,7 @@ public class MissionBook extends UnitItemMaterial {
         return processMissionResult(player, target, mission, 1.0, 1.0);
     }
 
-    private static boolean processMissionResult(Player player, Town target, ConfigMission mission, double failModifier,
-                                                double compromiseModifier) {
+    private static boolean processMissionResult(Player player, Town target, ConfigMission mission, double failModifier, double compromiseModifier) {
 
         int fail_rate = (int) ((MissionBook.getMissionFailChance(mission, target) * failModifier) * 100);
         int compromise_rate = (int) ((MissionBook.getMissionCompromiseChance(mission, target) * compromiseModifier) * 100);

@@ -17,12 +17,14 @@
  */
 package com.avrgaming.civcraft.sessiondb;
 
+import java.util.UUID;
+
 public class SessionEntry {
     public int request_id;
     public String key;
     public String value;
-    public int civ_id;
-    public int town_id;
-    public int struct_id;
+    public UUID civ_uuid;
+    public UUID town_uuid;
+    public UUID struct_uuid;
     public long time;
 }

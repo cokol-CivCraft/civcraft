@@ -71,9 +71,9 @@ public class SessionDBAsyncTimer implements Runnable {
         s.setString(2, request.entry.key);
         s.setString(3, request.entry.value);
         s.setLong(4, request.entry.time);
-        s.setInt(5, request.entry.civ_id);
-        s.setInt(6, request.entry.town_id);
-        s.setInt(7, request.entry.struct_id);
+        s.setString(5, request.entry.civ_uuid.toString());
+        s.setString(6, request.entry.town_uuid.toString());
+        s.setString(7, request.entry.struct_uuid.toString());
 
 
         int rs = s.executeUpdate();

@@ -26,6 +26,7 @@ import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Civilization;
+import com.avrgaming.civcraft.object.NamedObject;
 import com.avrgaming.civcraft.object.Relation;
 import com.avrgaming.civcraft.object.Relation.Status;
 import com.avrgaming.civcraft.object.Town;
@@ -59,7 +60,7 @@ public class War {
         String key = "capturedTown";
         String value = townName + ":" + master.getId();
 
-        CivGlobal.getSessionDB().add(key, value, master.getId(), 0, 0);
+        CivGlobal.getSessionDB().add(key, value, master.getUUID(), NamedObject.NULL_UUID, NamedObject.NULL_UUID);
     }
 
     public static void saveDefeatedCiv(Civilization defeated, Civilization master) {
@@ -69,7 +70,7 @@ public class War {
         String value = defeated.getName() + ":" + master.getId();
 
         EndGameCondition.onCivilizationWarDefeat(defeated);
-        CivGlobal.getSessionDB().add(key, value, master.getId(), 0, 0);
+        CivGlobal.getSessionDB().add(key, value, master.getUUID(), NamedObject.NULL_UUID, NamedObject.NULL_UUID);
     }
 
     /*

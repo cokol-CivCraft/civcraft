@@ -92,7 +92,7 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
         ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getSessionKey());
         Date now = new Date();
         if (entries.isEmpty()) {
-            CivGlobal.getSessionDB().add(getSessionKey(), String.valueOf(now.getTime()), this.getCiv().getId(), this.getTown().getId(), 0);
+            CivGlobal.getSessionDB().add(getSessionKey(), String.valueOf(now.getTime()), this.getCiv().getUUID(), this.getTown().getUUID(), NamedObject.NULL_UUID);
         } else {
             CivGlobal.getSessionDB().update(entries.get(0).request_id, entries.get(0).key, String.valueOf(now.getTime()));
         }

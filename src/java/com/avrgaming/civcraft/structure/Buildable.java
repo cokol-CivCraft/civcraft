@@ -1019,7 +1019,7 @@ public abstract class Buildable extends SQLObject {
 
     /* SessionDB helpers */
     public void sessionAdd(String key, String value) {
-        CivGlobal.getSessionDB().add(key, value, this.getCiv().getId(), this.getTown().getId(), this.getId());
+        CivGlobal.getSessionDB().add(key, value, this.getCiv().getUUID(), this.getTown().getUUID(), this.getUUID());
     }
 
     /*

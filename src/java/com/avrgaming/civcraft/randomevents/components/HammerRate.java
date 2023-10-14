@@ -14,7 +14,7 @@ public class HammerRate extends RandomEventComponent {
         double rate = this.getDouble("value");
         int duration = Integer.parseInt(this.getString("duration"));
 
-        CivGlobal.getSessionDB().add(getKey(this.getParentTown()), rate + ":" + duration, this.getParentTown().getCiv().getId(), this.getParentTown().getId(), 0);
+        CivGlobal.getSessionDB().add(getKey(this.getParentTown()), rate + ":" + duration, this.getParentTown().getCiv().getUUID(), this.getParentTown().getUUID());
         DecimalFormat df = new DecimalFormat();
 
         if (rate > 1.0) {

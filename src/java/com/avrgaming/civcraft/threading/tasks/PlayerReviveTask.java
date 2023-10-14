@@ -45,7 +45,7 @@ public class PlayerReviveTask implements Runnable {
         //Player was logged out when the respawn event fired. Create a sessionDB entry
         //to respawn the player when they login.
         BlockCoord revive = townhall.getRandomRevivePoint();
-        CivGlobal.getSessionDB().add("global:respawnPlayer", playerName + ":" + revive.toString(), 0, 0, 0);
+        CivGlobal.getSessionDB().add("global:respawnPlayer", playerName + ":" + revive.toString());
     }
 
     @Override

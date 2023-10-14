@@ -1035,7 +1035,7 @@ public class Camp extends Buildable {
 
     @Override
     public void sessionAdd(String key, String value) {
-        CivGlobal.getSessionDB().add(key, value, 0, 0, 0);
+        CivGlobal.getSessionDB().add(key, value, NamedObject.NULL_UUID);
     }
 
     //XXX TODO make sure these all work...

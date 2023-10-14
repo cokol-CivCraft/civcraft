@@ -178,7 +178,7 @@ public class Barracks extends Structure {
         CivMessage.sendTown(getTown(), CivSettings.localize.localizedString("var_barracks_begin", unit.name));
         this.updateTraining();
         if (unit.id.equals("u_settler")) {
-            CivGlobal.getSessionDB().add("settlers:" + this.getCiv().getName(), "1", this.getCiv().getId(), this.getCiv().getId(), this.getId());
+            CivGlobal.getSessionDB().add("settlers:" + this.getCiv().getName(), "1", this.getCiv().getUUID(), this.getCiv().getUUID(), this.getUUID());
         }
         this.onTechUpdate();
     }

@@ -138,7 +138,7 @@ public class EndConditionDiplomacy extends EndGameCondition {
 
         ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getVoteSessionKey(civ));
         if (entries.isEmpty()) {
-            CivGlobal.getSessionDB().add(getVoteSessionKey(civ), "" + 1, civ.getId(), 0, 0);
+            CivGlobal.getSessionDB().add(getVoteSessionKey(civ), "" + 1, civ.getUUID());
         } else {
             int votes = Integer.parseInt(entries.get(0).value);
             votes++;
@@ -151,7 +151,7 @@ public class EndConditionDiplomacy extends EndGameCondition {
     public static void setVotes(Civilization civ, Integer votes) {
         ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getVoteSessionKey(civ));
         if (entries.isEmpty()) {
-            CivGlobal.getSessionDB().add(getVoteSessionKey(civ), String.valueOf(votes), civ.getId(), 0, 0);
+            CivGlobal.getSessionDB().add(getVoteSessionKey(civ), String.valueOf(votes), civ.getUUID());
         } else {
             CivGlobal.getSessionDB().update(entries.get(0).request_id, entries.get(0).key, String.valueOf(votes));
         }
@@ -170,7 +170,7 @@ public class EndConditionDiplomacy extends EndGameCondition {
         String key = "endgame:residentvote:" + resident.getName();
         ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(key);
         if (entries.isEmpty()) {
-            CivGlobal.getSessionDB().add(key, String.valueOf((new Date()).getTime()), 0, 0, 0);
+            CivGlobal.getSessionDB().add(key, String.valueOf((new Date()).getTime()));
             return true;
         } else {
             Date then = new Date(Long.parseLong(entries.get(0).value));

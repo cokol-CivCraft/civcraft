@@ -124,7 +124,7 @@ public class LoreCraftableMaterialListener implements Listener {
                     ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(key);
 
                     if (entries.isEmpty()) {
-                        CivGlobal.getSessionDB().add(key, String.valueOf(finalAmount), 0, 0, 0);
+                        CivGlobal.getSessionDB().add(key, String.valueOf(finalAmount));
 
                     } else {
                         int amount2 = Integer.parseInt(entries.get(0).value) + finalAmount;
