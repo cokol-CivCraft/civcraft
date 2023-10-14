@@ -319,16 +319,6 @@ public class ResidentCommand extends CommandBase {
         }
 
         CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("Groups") + " " + resident.getGroupsString());
-
-        try {
-            if (resident.isUsesAntiCheat()) {
-                CivMessage.send(sender, ChatColor.GREEN + CivSettings.localize.localizedString("cmd_res_showAC1"));
-            } else {
-                CivMessage.send(sender, ChatColor.RED + CivSettings.localize.localizedString("cmd_res_showAC2"));
-            }
-        } catch (CivException e) {
-            CivMessage.send(sender, ChatColor.GRAY + CivSettings.localize.localizedString("cmd_res_showOffline"));
-        }
     }
 
     @Override

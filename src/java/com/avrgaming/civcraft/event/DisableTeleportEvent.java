@@ -24,6 +24,7 @@ import com.avrgaming.civcraft.war.War;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
+import javax.annotation.Nonnull;
 import java.io.*;
 import java.util.Calendar;
 
@@ -41,6 +42,7 @@ public class DisableTeleportEvent implements EventInterface {
         }
     }
 
+    @Nonnull
     @Override
     public Calendar getNextDate() {
         Calendar cal = EventTimer.getCalendarInServerTimeZone();

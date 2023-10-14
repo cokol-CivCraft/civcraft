@@ -33,21 +33,21 @@ public class JoinTownResponse implements QuestionResponseInterface {
 
     @Override
     public void processResponse(String param) {
-        if (param.equalsIgnoreCase("accept")) {
-            CivMessage.send(sender, ChatColor.GRAY + CivSettings.localize.localizedString("var_joinTown_accepted", resident.getName()));
-
-            try {
-                town.addResident(resident);
-            } catch (AlreadyRegisteredException e) {
-                CivMessage.sendError(sender, CivSettings.localize.localizedString("var_joinTown_errorInTown", resident.getName()));
-                return;
-            }
-
-            CivMessage.sendTown(town, CivSettings.localize.localizedString("var_joinTown_alert", resident.getName()));
-            resident.save();
-        } else {
+        if (!param.equalsIgnoreCase("accept")) {
             CivMessage.send(sender, ChatColor.GRAY + CivSettings.localize.localizedString("var_joinTown_Declined", resident.getName()));
+            return;
         }
+        CivMessage.send(sender, ChatColor.GRAY + CivSettings.localize.localizedString("var_joinTown_accepted", resident.getName()));
+
+        try {
+            town.addResident(resident);
+        } catch (AlreadyRegisteredException e) {
+            CivMessage.sendError(sender, CivSettings.localize.localizedString("var_joinTown_errorInTown", resident.getName()));
+            return;
+        }
+
+        CivMessage.sendTown(town, CivSettings.localize.localizedString("var_joinTown_alert", resident.getName()));
+        resident.save();
     }
 
     @Override

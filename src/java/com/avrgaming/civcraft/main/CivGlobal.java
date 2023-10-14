@@ -102,10 +102,6 @@ public class CivGlobal {
     public static HashSet<BlockCoord> vanillaGrowthLocations = new HashSet<>();
     private static final Map<BlockCoord, Market> markets = new ConcurrentHashMap<>();
     public static HashSet<String> researchedTechs = new HashSet<>();
-
-    /* TODO change this to true for MC 1.8 */
-    public static boolean useUUID = true;
-
     public static Map<Integer, Boolean> CivColorInUse = new ConcurrentHashMap<>();
     public static TradeGoodPreGenerate tradeGoodPreGenerator = new TradeGoodPreGenerate();
 

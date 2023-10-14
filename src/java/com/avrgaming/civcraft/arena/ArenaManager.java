@@ -212,19 +212,6 @@ public class ArenaManager implements Runnable {
             throw new CivException(CivSettings.localize.localizedString("arena_alreadyInQueue"));
         }
 
-        for (Resident resident : team.teamMembers) {
-            try {
-                CivGlobal.getPlayer(resident);
-            } catch (CivException e) {
-                continue;
-            }
-
-
-            if (!resident.isUsesAntiCheat() && CivSettings.isUsingAC()) {
-                throw new CivException(CivSettings.localize.localizedString("var_arena_errorMissingAntiCheat", resident.getName()));
-            }
-        }
-
         CivMessage.sendTeam(team, CivSettings.localize.localizedString("arena_addingTeamToQueue"));
         if (teamQueue.size() > 2) {
             CivMessage.sendTeam(team, CivSettings.localize.localizedString("arena_waitingQueue") + teamQueue.size());

@@ -1941,6 +1941,8 @@ civGlobal_hasPendingRequest: "Player already has a question pending, wait 30 sec
 civGlobal_civHasPendingRequest: "Leaders of that Civilization already have a question pending, wait 30 seconds and try again."
 var_civGlobal_noResident: "No resident named '[%0]'"
 var_civGlobal_noPlayer: "No player named '[%0]'"
+var_civGlobal_noTown: "No town named '[%0]'"
+var_civGlobal_noCivilization: "No civilization named '[%0]'"
 
 var_civGlobal_relation_isNow: "[%0] is now [%1] with [%2]!"
 civGlobal_relation_Neutral: "NEUTRAL"

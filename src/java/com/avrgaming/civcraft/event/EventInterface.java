@@ -17,10 +17,12 @@
  */
 package com.avrgaming.civcraft.event;
 
+import javax.annotation.Nonnull;
 import java.util.Calendar;
 
 public interface EventInterface {
     void process();
 
+    @Nonnull
     Calendar getNextDate();
 }

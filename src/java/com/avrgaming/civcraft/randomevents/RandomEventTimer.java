@@ -6,6 +6,7 @@ import com.avrgaming.civcraft.event.EventTimer;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.object.Town;
 
+import javax.annotation.Nonnull;
 import java.util.Calendar;
 import java.util.Random;
 
@@ -65,6 +66,7 @@ public class RandomEventTimer implements EventInterface {
 
     }
 
+    @Nonnull
     @Override
     public Calendar getNextDate() {
         Calendar now = EventTimer.getCalendarInServerTimeZone();

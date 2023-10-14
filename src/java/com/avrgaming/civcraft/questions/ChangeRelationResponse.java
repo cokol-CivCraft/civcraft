@@ -33,11 +33,11 @@ public class ChangeRelationResponse implements QuestionResponseInterface {
 
     @Override
     public void processResponse(String param) {
-        if (param.equalsIgnoreCase("accept")) {
-            CivGlobal.setRelation(fromCiv, toCiv, status);
-        } else {
+        if (!param.equalsIgnoreCase("accept")) {
             CivMessage.sendCiv(fromCiv, ChatColor.GRAY + CivSettings.localize.localizedString("var_RequestDecline", toCiv.getName()));
+            return;
         }
+        CivGlobal.setRelation(fromCiv, toCiv, status);
     }
 
     @Override

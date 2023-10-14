@@ -35,26 +35,14 @@ public class ConfigCottageLevel {
 
     }
 
-    public ConfigCottageLevel(ConfigCottageLevel currentLVL) {
-        this.level = currentLVL.level;
-        this.count = currentLVL.count;
-        this.coins = currentLVL.coins;
-
-        this.consumes = new HashMap<>(currentLVL.consumes);
-
-    }
-
-
     public static void loadConfig(FileConfiguration cfg, Map<Integer, ConfigCottageLevel> cottage_levels) {
         cottage_levels.clear();
-        List<Map<?, ?>> cottage_list = cfg.getMapList("cottage_levels");
-        Map<Material, Integer> consumes_list;
-        for (Map<?, ?> cl : cottage_list) {
+        for (Map<?, ?> cl : cfg.getMapList("cottage_levels")) {
             List<?> consumes = (List<?>) cl.get("consumes");
             if (consumes == null) {
                 continue;
             }
-            consumes_list = new HashMap<>();
+            Map<Material, Integer> consumes_list = new HashMap<>();
             for (Object consume : consumes) {
                 String[] split = ((String) consume).split(",");
                 consumes_list.put(Material.getMaterial(split[0]), Integer.valueOf(split[1]));

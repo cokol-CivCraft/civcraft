@@ -1,6 +1,5 @@
 package com.avrgaming.civcraft.structure;
 
-import com.avrgaming.civcraft.components.AttributeBiomeRadiusPerLevel;
 import com.avrgaming.civcraft.components.TradeLevelComponent;
 import com.avrgaming.civcraft.components.TradeLevelComponent.Result;
 import com.avrgaming.civcraft.components.TradeShipResults;
@@ -10,7 +9,6 @@ import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.CivTaskAbortException;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
-import com.avrgaming.civcraft.object.Buff;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.threading.CivAsyncTask;
@@ -54,10 +52,6 @@ public class TradeShip extends WaterStructure {
     @Override
     public void loadSettings() {
         super.loadSettings();
-    }
-
-    public String getkey() {
-        return getTown().getName() + "_" + this.getConfigId() + "_" + this.getCorner().toString();
     }
 
     public TradeLevelComponent getConsumeComponent() {
@@ -335,15 +329,6 @@ public class TradeShip extends WaterStructure {
         } catch (Exception e) {
             return 1;
         }
-    }
-
-    public double getHammersPerTile() {
-        AttributeBiomeRadiusPerLevel attrBiome = (AttributeBiomeRadiusPerLevel) this.getComponent("AttributeBiomeBase");
-        double base = attrBiome.getBaseValue();
-
-        double rate = 1;
-        rate += this.getTown().getBuffManager().getEffectiveDouble(Buff.ADVANCED_TOOLING);
-        return (rate * base);
     }
 
     public int getCount() {

@@ -154,9 +154,7 @@ public class PermissionGroup extends SQLObject {
     }
 
     private void loadMembersFromSaveString(String src) {
-        String[] names = src.split(",");
-
-        for (String n : names) {
+        for (String n : src.split(",")) {
             Resident res;
 
             if (!n.isEmpty()) {

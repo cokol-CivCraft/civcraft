@@ -22,74 +22,53 @@ import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import org.bukkit.ChatColor;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class AnnouncementTimer implements Runnable {
 
-    List<String> announcements;
-    int minutes = 5;
+    private final List<String> announcements = new ArrayList<>();
 
 
-    public AnnouncementTimer(String filename, int interval) {
-        minutes = interval;
-
-        File file = new File(CivSettings.plugin.getDataFolder().getPath() + "/data/" + filename);
-        if (!file.exists()) {
-            CivLog.warning("Configuration file: " + filename + " was missing. Streaming to disk from Jar.");
-            try {
-                CivSettings.streamResourceToDisk("/data/" + filename);
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-
-        CivLog.info("Loading Configuration file: " + filename);
-
-
-        announcements = new ArrayList<>();
-
-        if (!file.exists()) {
-            CivLog.warning("No " + filename + " to run announcements on.");
-            return;
-        }
-
+    public AnnouncementTimer(String filename) {
         try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
-
-            String line;
-            try {
-                while ((line = br.readLine()) != null) {
-                    announcements.add(line);
-                }
-
-                br.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            File file = new File(CivSettings.plugin.getDataFolder().getPath() + "/data/" + filename);
+            if (!file.exists()) {
+                CivLog.warning("Configuration file: " + filename + " was missing. Streaming to disk from Jar.");
+                CivSettings.streamResourceToDisk("/data/" + filename);
             }
 
-        } catch (FileNotFoundException e) {
+            CivLog.info("Loading Configuration file: " + filename);
+
+            if (!file.exists()) {
+                CivLog.warning("No " + filename + " to run announcements on.");
+                return;
+            }
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+            while ((line = br.readLine()) != null) {
+                announcements.add(line);
+            }
+
+            br.close();
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
 
     @Override
     public void run() {
+        Random random = new Random();
 
-        for (String str : announcements) {
-            CivMessage.sendAll(ChatColor.GOLD + CivSettings.localize.localizedString("TipHeading") + " " + ChatColor.WHITE + str);
+        String str = announcements.get(random.nextInt(0, announcements.size()));
 
-            try {
-                Thread.sleep(60L * minutes * 1000); //sleep for x mins
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                return;
-            }
-        }
+        CivMessage.sendAll(ChatColor.GOLD + CivSettings.localize.localizedString("TipHeading") + " " + ChatColor.WHITE + str);
     }
 
 }

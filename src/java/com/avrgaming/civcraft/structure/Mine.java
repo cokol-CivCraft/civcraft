@@ -17,16 +17,13 @@
  */
 package com.avrgaming.civcraft.structure;
 
-import com.avrgaming.civcraft.components.AttributeBiomeRadiusPerLevel;
 import com.avrgaming.civcraft.components.ConsumeLevelComponent;
 import com.avrgaming.civcraft.components.ConsumeLevelComponent.Result;
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.config.ConfigMineLevel;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.CivTaskAbortException;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
-import com.avrgaming.civcraft.object.Buff;
 import com.avrgaming.civcraft.object.StructureChest;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.threading.CivAsyncTask;
@@ -37,8 +34,6 @@ import org.bukkit.inventory.Inventory;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Optional;
 
 public class Mine extends Structure {
 
@@ -50,11 +45,6 @@ public class Mine extends Structure {
 
     public Mine(ResultSet rs) throws SQLException, CivException {
         super(rs);
-    }
-
-
-    public String getkey() {
-        return getTown().getName() + "_" + this.getConfigId() + "_" + this.getCorner().toString();
     }
 
     public ConsumeLevelComponent getConsumeComponent() {
@@ -134,13 +124,6 @@ public class Mine extends Structure {
             return 1;
         }
         return this.getConsumeComponent().getLevel();
-    }
-
-    public double getHammersPerTile() {
-        AttributeBiomeRadiusPerLevel attrBiome = (AttributeBiomeRadiusPerLevel) this.getComponent("AttributeBiomeRadiusPerLevel");
-        double base = Optional.ofNullable(attrBiome).map(AttributeBiomeRadiusPerLevel::getBaseValue).orElse(1.0);
-        double rate = 1 + this.getTown().getBuffManager().getEffectiveDouble(Buff.ADVANCED_TOOLING);
-        return rate * base;
     }
 
     public int getCount() {

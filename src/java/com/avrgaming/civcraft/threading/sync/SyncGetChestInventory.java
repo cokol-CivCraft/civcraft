@@ -49,43 +49,43 @@ public class SyncGetChestInventory implements Runnable {
     @Override
     public void run() {
 
-        if (lock.tryLock()) {
-            try {
-                for (int i = 0; i < UPDATE_LIMIT; i++) {
-                    GetChestRequest request = requestQueue.poll();
-                    if (request == null) {
-                        return;
-                    }
-
-                    Block b = Bukkit.getWorld(request.worldName).getBlockAt(request.block_x, request.block_y, request.block_z);
-                    Chest chest = null;
-
-                    // We will return NULL if the chunk was not loaded.
-                    if (b.getChunk().isLoaded()) {
-                        try {
-                            chest = (Chest) b.getState();
-                        } catch (ClassCastException e) {
-                            /* The block wasn't a chest, but force it. */
-                            b.setType(Material.CHEST);
-                            BlockState block = b.getState();
-                            block.setType(Material.CHEST);
-                            b.getState().update();
-                            chest = (Chest) b.getState();
-
-                        }
-                    }
-
-                    /* Set the result and signal all threads we're complete. */
-                    request.result = chest.getBlockInventory();
-                    request.finished = true;
-                    request.condition.signalAll();
-
-                }
-            } finally {
-                lock.unlock();
-            }
-        } else {
+        if (!lock.tryLock()) {
             //	CivLog.warning("Unable to aquire lock in sync tick thread. Lock busy.");
+            return;
+        }
+        try {
+            for (int i = 0; i < UPDATE_LIMIT; i++) {
+                GetChestRequest request = requestQueue.poll();
+                if (request == null) {
+                    return;
+                }
+
+                Block b = Bukkit.getWorld(request.worldName).getBlockAt(request.block_x, request.block_y, request.block_z);
+                Chest chest = null;
+
+                // We will return NULL if the chunk was not loaded.
+                if (b.getChunk().isLoaded()) {
+                    try {
+                        chest = (Chest) b.getState();
+                    } catch (ClassCastException e) {
+                        /* The block wasn't a chest, but force it. */
+                        b.setType(Material.CHEST);
+                        BlockState block = b.getState();
+                        block.setType(Material.CHEST);
+                        block.update(true, false);
+                        chest = (Chest) b.getState();
+
+                    }
+                }
+
+                /* Set the result and signal all threads we're complete. */
+                request.result = chest.getBlockInventory();
+                request.finished = true;
+                request.condition.signalAll();
+
+            }
+        } finally {
+            lock.unlock();
         }
     }
 }

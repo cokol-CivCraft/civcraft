@@ -1,8 +1,6 @@
 package com.avrgaming.civcraft.structure;
 
-import com.avrgaming.civcraft.components.AttributeBiomeRadiusPerLevel;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.object.Buff;
 import com.avrgaming.civcraft.object.Town;
 import org.bukkit.Location;
 
@@ -18,23 +16,4 @@ public class Shipyard extends WaterStructure {
     public Shipyard(ResultSet rs) throws SQLException, CivException {
         super(rs);
     }
-
-    @Override
-    public void loadSettings() {
-        super.loadSettings();
-    }
-
-    public String getkey() {
-        return getTown().getName() + "_" + this.getConfigId() + "_" + this.getCorner().toString();
-    }
-
-    public double getHammersPerTile() {
-        AttributeBiomeRadiusPerLevel attrBiome = (AttributeBiomeRadiusPerLevel) this.getComponent("AttributeBiomeBase");
-        double base = attrBiome.getBaseValue();
-
-        double rate = 1;
-        rate += this.getTown().getBuffManager().getEffectiveDouble(Buff.ADVANCED_TOOLING);
-        return (rate * base);
-    }
-
 }

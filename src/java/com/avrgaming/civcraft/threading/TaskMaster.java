@@ -19,6 +19,7 @@ package com.avrgaming.civcraft.threading;
 
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.util.BukkitObjects;
+import com.avrgaming.civcraft.util.CivTime;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.*;
@@ -63,21 +64,36 @@ public class TaskMaster {
         BukkitObjects.scheduleSyncDelayedTask(runnable, l);
     }
 
-    public static void asyncTimer(String name, Runnable runnable,
-                                  long delay, long repeat) {
+    public static void asyncTimer(String name, Runnable runnable, long delay, long repeat) {
         addTimer(name, BukkitObjects.scheduleAsyncRepeatingTask(runnable, delay, repeat));
+    }
+
+    public static void asyncTimer(String name, Runnable runnable, CivTime delay, CivTime repeat) {
+        asyncTimer(name, runnable, delay.toTicks(), repeat.toTicks());
     }
 
     public static void asyncTimer(String name, Runnable runnable, long time) {
         addTimer(name, BukkitObjects.scheduleAsyncRepeatingTask(runnable, time, time));
     }
 
+    public static void asyncTimer(String name, Runnable runnable, CivTime time) {
+        asyncTimer(name, runnable, time.toTicks());
+    }
+
     public static void asyncTask(String name, Runnable runnable, long delay) {
         addTask(name, BukkitObjects.scheduleAsyncDelayedTask(runnable, delay));
     }
 
+    public static void asyncTask(String name, Runnable runnable, CivTime delay) {
+        asyncTask(name, runnable, delay.toTicks());
+    }
+
     public static void asyncTask(Runnable runnable, long delay) {
         BukkitObjects.scheduleAsyncDelayedTask(runnable, delay);
+    }
+
+    public static void asyncTask(Runnable runnable, CivTime delay) {
+        asyncTask(runnable, delay.toTicks());
     }
 
     private static void addTimer(String name, BukkitTask timer) {

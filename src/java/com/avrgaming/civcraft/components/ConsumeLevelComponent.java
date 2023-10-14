@@ -202,7 +202,6 @@ public class ConsumeLevelComponent extends Component {
         this.exchanges.put(baseType, ee);
     }
 
-    @SuppressWarnings("unused")
     public void removeEquivExchange(Material baseType) {
         this.exchanges.remove(baseType);
     }
@@ -431,7 +430,6 @@ public class ConsumeLevelComponent extends Component {
         this.count = count;
     }
 
-    @SuppressWarnings("unused")
     public double getConsumeRate() {
         return consumeRate;
     }

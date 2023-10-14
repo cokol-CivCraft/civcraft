@@ -71,7 +71,7 @@ public class Town extends SQLObject {
 
     private final ConcurrentHashMap<ChunkCoord, TownChunk> townChunks = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<ChunkCoord, TownChunk> outposts = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<ChunkCoord, CultureChunk> cultureChunks = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<ChunkCoord, CultureChunk> cultureChunks = new ConcurrentHashMap<>();
 
     private final ConcurrentHashMap<BlockCoord, Wonder> wonders = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<BlockCoord, Structure> structures = new ConcurrentHashMap<>();
@@ -340,12 +340,10 @@ public class Town extends SQLObject {
             wonder.delete();
         }
 
-        if (this.cultureChunks != null) {
-            for (CultureChunk cc : this.cultureChunks.values()) {
-                CivGlobal.removeCultureChunk(cc);
-            }
+        for (CultureChunk cc : this.cultureChunks.values()) {
+            CivGlobal.removeCultureChunk(cc);
         }
-        this.cultureChunks = null;
+        this.cultureChunks.clear();
 
         //TODO remove protected blocks?
 
@@ -2140,13 +2138,7 @@ public class Town extends SQLObject {
 
         points += (int) ((double) CivSettings.scoreConfig.town_scores.resident * this.getResidents().size());
         points += (int) (CivSettings.scoreConfig.town_scores.town_chunk * this.getTownChunks().size());
-
-        if (this.cultureChunks != null) {
-            points += (int) (CivSettings.scoreConfig.town_scores.culture_chunk * this.cultureChunks.size());
-        } else {
-            CivLog.warning("Town " + this.getName() + " has no culture chunks??");
-        }
-
+        points += (int) (CivSettings.scoreConfig.town_scores.culture_chunk * this.cultureChunks.size());
         points += (int) (this.getTreasury().getBalance() * CivSettings.scoreConfig.town_scores.coins);
 
         return points;
@@ -2387,12 +2379,7 @@ public class Town extends SQLObject {
         HashMap<String, Double> sources = new HashMap<>();
 
         /* Grab beakers generated from culture. */
-        double fromCulture;
-        if (this.cultureChunks != null) {
-            fromCulture = this.cultureChunks.values().stream().mapToDouble(CultureChunk::getFaith).sum();
-        } else {
-            fromCulture = 0;
-        }
+        double fromCulture = this.cultureChunks.values().stream().mapToDouble(CultureChunk::getFaith).sum();
         sources.put("Culture Biomes", fromCulture);
 
         /* Grab beakers generated from structures with components. */
@@ -2535,10 +2522,8 @@ public class Town extends SQLObject {
 
         /* Grab beakers generated from culture. */
         double fromCulture = 0;
-        if (this.cultureChunks != null) {
-            for (CultureChunk cc : this.cultureChunks.values()) {
-                fromCulture += cc.getBeakers();
-            }
+        for (CultureChunk cc : this.cultureChunks.values()) {
+            fromCulture += cc.getBeakers();
         }
         sources.put("Culture Biomes", fromCulture);
         beakers += fromCulture;

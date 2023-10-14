@@ -138,7 +138,8 @@ public abstract class LoreMaterial {
      * to re-add it to the inventory, if it fails, then
      * we drop it on the ground.
      */
-    @SuppressWarnings("unused")
+
+
     public void moveDropSet(Player player, Inventory inv, int slot, ItemStack newItem) {
 
         ItemStack stack = inv.getItem(slot);

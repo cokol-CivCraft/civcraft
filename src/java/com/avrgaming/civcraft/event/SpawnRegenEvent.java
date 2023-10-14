@@ -27,6 +27,7 @@ import com.avrgaming.civcraft.object.TownChunk;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import org.bukkit.Bukkit;
 
+import javax.annotation.Nonnull;
 import java.util.Calendar;
 
 public class SpawnRegenEvent implements EventInterface {
@@ -67,6 +68,7 @@ public class SpawnRegenEvent implements EventInterface {
 
     }
 
+    @Nonnull
     @Override
     public Calendar getNextDate() {
         Calendar cal = EventTimer.getCalendarInServerTimeZone();

@@ -52,7 +52,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.material.MaterialData;
-import org.bukkit.scoreboard.*;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -69,15 +68,10 @@ public class Resident extends SQLObject {
     private Camp camp = null;
     private boolean townChat = false;
     private boolean civChat = false;
-    private boolean adminChat = false;
     private boolean combatInfo = true;
     private boolean titleAPI = true;
     private int respawntime;
     private Player player;
-
-    private boolean usesAntiCheat = false;
-
-    public static HashSet<String> allchatters = new HashSet<>();
 
     /* Town or civ to chat in besides your own. */
     private Town townChatOverride = null;
@@ -87,17 +81,12 @@ public class Resident extends SQLObject {
     private boolean controlBlockInstantBreak = false;
     private boolean dontSaveTown = false;
     private String timezone;
-
-    private final boolean banned = false;
-
     private long registered;
     private long lastOnline;
     private int daysTilEvict;
     private boolean givenKit;
     private final ConcurrentHashMap<String, Integer> friends = new ConcurrentHashMap<>();
     private EconObject treasury;
-    private boolean muted;
-    private Date muteExpires = null;
 
     private boolean interactiveMode = false;
     private InteractiveResponse interactiveResponse = null;
@@ -109,14 +98,11 @@ public class Resident extends SQLObject {
 
     private Town selectedTown = null;
 
-    private Scoreboard scoreboard = null;
     public String desiredCivName;
     public String desiredCapitolName;
     public String desiredTownName;
     public Location desiredTownLocation = null;
     public Template desiredTemplate = null;
-
-    public boolean allchat = false;
 
     /* XXX
      * This buildable is used as place to store which buildable we're working on when interacting
@@ -143,7 +129,6 @@ public class Resident extends SQLObject {
     private String lastIP = "";
     private UUID uid;
     private double walkingModifier = CivSettings.normal_speed;
-    private boolean onRoad = false;
     public String debugTown;
 
     public Resident(UUID uid, String name) throws InvalidNameException {
@@ -575,15 +560,6 @@ public class Resident extends SQLObject {
         this.civChat = civChat;
     }
 
-    @SuppressWarnings("unused")
-    public boolean isAdminChat() {
-        return adminChat;
-    }
-
-    @SuppressWarnings("unused")
-    public void setAdminChat(boolean adminChat) {
-        this.adminChat = adminChat;
-    }
 
     public Town getTownChatOverride() {
         return townChatOverride;
@@ -625,7 +601,6 @@ public class Resident extends SQLObject {
         return count;
     }
 
-    @SuppressWarnings("deprecation")
     public boolean takeItem(Material itemId, int itemData, int amount) throws CivException {
         Player player = CivGlobal.getPlayer(this);
         Inventory inv = player.getInventory();
@@ -684,60 +659,6 @@ public class Resident extends SQLObject {
             return null;
         }
         return this.getTown().getCiv();
-    }
-
-    @SuppressWarnings("unused")
-    public void setScoreboardName(String name, String key) {
-        if (this.scoreboard == null) {
-            this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-            Team team = this.scoreboard.registerNewTeam("team");
-            team.addPlayer(CivGlobal.getFakeOfflinePlayer(key));
-            team.setDisplayName(name);
-        } else {
-            Team team = this.scoreboard.getTeam("team");
-            team.setDisplayName(name);
-        }
-
-    }
-
-    @SuppressWarnings("unused")
-    public void setScoreboardValue(String name, String key, int value) {
-        if (this.scoreboard == null) {
-            return;
-        }
-
-        Objective obj = scoreboard.getObjective("obj:" + key);
-        if (obj == null) {
-            obj = scoreboard.registerNewObjective(name, "dummy");
-            obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-            Score score = obj.getScore(CivGlobal.getFakeOfflinePlayer(key));
-            score.setScore(value);
-        } else {
-            Score score = obj.getScore(CivGlobal.getFakeOfflinePlayer(key));
-            score.setScore(value);
-        }
-    }
-
-    @SuppressWarnings("unused")
-    public void showScoreboard() {
-        if (this.scoreboard != null) {
-            Player player;
-            try {
-                player = CivGlobal.getPlayer(this);
-                player.setScoreboard(this.scoreboard);
-            } catch (CivException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @SuppressWarnings("unused")
-    public void hideScoreboard() {
-        try {
-            CivGlobal.getPlayer(this).setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
-        } catch (CivException e) {
-            e.printStackTrace();
-        }
     }
 
     public boolean isGivenKit() {
@@ -892,7 +813,7 @@ public class Resident extends SQLObject {
         this.showInfo = showInfo;
     }
 
-    @SuppressWarnings("unused")
+
     public boolean isBanned() {
         return this.getPlayer().isBanned();
     }
@@ -924,23 +845,6 @@ public class Resident extends SQLObject {
 
     public void setPerformingMission(boolean performingMission) {
         this.performingMission = performingMission;
-    }
-
-    public void onRoadTest(BlockCoord coord, Player player) {
-        /* Test the block beneath us for a road, if so, set the road flag. */
-        BlockCoord feet = new BlockCoord(coord);
-        feet.setY(feet.getY() - 1);
-
-        onRoad = false;
-    }
-
-    public boolean isOnRoad() {
-        return onRoad;
-    }
-
-    @SuppressWarnings("unused")
-    public void setOnRoad(boolean onRoad) {
-        this.onRoad = onRoad;
     }
 
     public void setRejoinCooldown(Town town) {
@@ -993,14 +897,6 @@ public class Resident extends SQLObject {
 
     public void setControlBlockInstantBreak(boolean controlBlockInstantBreak) {
         this.controlBlockInstantBreak = controlBlockInstantBreak;
-    }
-
-    public boolean isMuted() {
-        return muted;
-    }
-
-    public void setMuted(boolean muted) {
-        this.muted = muted;
     }
 
     public boolean isCombatInfo() {
@@ -1132,8 +1028,7 @@ public class Resident extends SQLObject {
         }
 
         /* Parse technoloies */
-        String[] split = craftMat.getConfigMaterial().required_tech.split(",");
-        for (String tech : split) {
+        for (String tech : craftMat.getConfigMaterial().required_tech.split(",")) {
             tech = tech.replace(" ", "");
             if (!this.getCiv().hasTechnology(tech)) {
                 return false;
@@ -1166,21 +1061,11 @@ public class Resident extends SQLObject {
         }
     }
 
-    @SuppressWarnings("unused")
-    public Date getMuteExpires() {
-        return muteExpires;
-    }
-
-    @SuppressWarnings("unused")
-    public void setMuteExpires(Date muteExpires) {
-        this.muteExpires = muteExpires;
-    }
 
     public String getItemMode() {
         return itemMode;
     }
 
-    @SuppressWarnings("unused")
     public void setItemMode(String itemMode) {
         this.itemMode = itemMode;
     }
@@ -1237,15 +1122,6 @@ public class Resident extends SQLObject {
         return true;
     }
 
-    public boolean isUsesAntiCheat() throws CivException {
-        CivGlobal.getPlayer(this);
-        return usesAntiCheat;
-    }
-
-    @SuppressWarnings("unused")
-    public void setUsesAntiCheat(boolean usesAntiCheat) {
-        this.usesAntiCheat = usesAntiCheat;
-    }
 
     public boolean hasTeam() {
         ArenaTeam team = ArenaTeam.getTeamForResident(this);
@@ -1305,7 +1181,6 @@ public class Resident extends SQLObject {
         }
     }
 
-    @SuppressWarnings("unused")
     public String getSavedInventory() {
         return savedInventory;
     }
@@ -1372,7 +1247,6 @@ public class Resident extends SQLObject {
         return walkingModifier;
     }
 
-    @SuppressWarnings("unused")
     public void setWalkingModifier(double walkingModifier) {
         this.walkingModifier = walkingModifier;
     }

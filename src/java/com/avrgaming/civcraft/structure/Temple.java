@@ -61,10 +61,6 @@ public class Temple extends Structure {
 
     }
 
-    public String getkey() {
-        return this.getTown().getName() + "_" + this.getConfigId() + "_" + this.getCorner().toString();
-    }
-
     public Result consume(CivAsyncTask task) throws InterruptedException {
 
         //Look for the temple's chest.

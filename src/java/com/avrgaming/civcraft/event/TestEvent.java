@@ -19,6 +19,7 @@ package com.avrgaming.civcraft.event;
 
 import com.avrgaming.civcraft.main.CivMessage;
 
+import javax.annotation.Nonnull;
 import java.util.Calendar;
 
 public class TestEvent implements EventInterface {
@@ -28,6 +29,7 @@ public class TestEvent implements EventInterface {
         CivMessage.global("This is a test event firing!");
     }
 
+    @Nonnull
     @Override
     public Calendar getNextDate() {
         Calendar cal = Calendar.getInstance();

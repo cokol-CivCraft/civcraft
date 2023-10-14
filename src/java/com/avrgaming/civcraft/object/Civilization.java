@@ -57,6 +57,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.Nullable;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -156,13 +157,11 @@ public class Civilization extends SQLObject {
             throw new CivException(CivSettings.localize.localizedString("civ_found_notItem"));
         }
 
-        Civilization existCiv = CivGlobal.getCiv(name);
-        if (existCiv != null) {
+        if (CivGlobal.getCiv(name) != null) {
             throw new CivException(CivSettings.localize.localizedString("var_civ_found_civExists", name));
         }
 
-        Town existTown = CivGlobal.getTown(capitolName);
-        if (existTown != null) {
+        if (CivGlobal.getTown(capitolName) != null) {
             throw new CivException(CivSettings.localize.localizedString("var_civ_found_townExists", capitolName));
         }
 
@@ -502,8 +501,8 @@ public class Civilization extends SQLObject {
         }
 
         /* Delete all of our towns. */
-        for (Town t : getTowns()) {
-            t.delete();
+        for (Town town : getTowns()) {
+            town.delete();
         }
 
         /* Delete all relationships with other civs. */
@@ -1265,12 +1264,8 @@ public class Civilization extends SQLObject {
         return daysInDebt >= CivSettings.CIV_DEBT_GRACE_DAYS;
     }
 
-    public double getForSalePriceFromCivOnly() {
-        return CivSettings.scoreConfig.coins_per_point * this.getTechScore();
-    }
-
     public double getTotalSalePrice() {
-        double price = getForSalePriceFromCivOnly();
+        double price = CivSettings.scoreConfig.coins_per_point * this.getTechScore();
         for (Town town : this.getTowns()) {
             price += town.getForSalePrice();
         }
@@ -1306,7 +1301,7 @@ public class Civilization extends SQLObject {
         return points;
     }
 
-    public boolean hasResident(Resident resident) {
+    public boolean hasResident(@Nullable Resident resident) {
         if (resident == null) {
             return false;
         }
