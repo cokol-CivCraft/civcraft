@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="EssentialsX" type="repository">
+    <properties include-transitive-deps="false" maven-id="net.essentialsx:EssentialsX:LATEST" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/EssentialsX-2.20.1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/lib/EssentialsX-2.20.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/EssentialsX-2.20.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

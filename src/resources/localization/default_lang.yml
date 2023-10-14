@@ -1715,6 +1715,7 @@ itemLore_Unbreaking: "can't broke"
 itemLore_defenseHalfPower: "You do not have the required technology to use this item. It's defense output will be reduced in half."
 itemLore_Soulbound: "Soulbound"
 itemLore_RangedAttack: "Ranged Attack"
+var_attack_in_cooldown: "Cannot damage enemy during cooldown!"
 itemLore_RangedAttack_errorMetal: "Cannot use a bow while wearing metal armor."
 
 rightClickFor: "Right click for"

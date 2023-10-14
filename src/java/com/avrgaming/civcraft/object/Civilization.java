@@ -108,6 +108,8 @@ public class Civilization extends SQLObject {
     /* Used to prevent spam of tech % complete message. */
     private int lastTechPercentage = 0;
 
+    private Town capitol;
+
     private final DiplomacyManager diplomacyManager = new DiplomacyManager(this);
 
     private boolean adminCiv = false;
@@ -127,6 +129,7 @@ public class Civilization extends SQLObject {
         this.setName(name);
         this.leaderName = leader.getUUID().toString();
         this.setCapitolName(capitolName);
+        this.capitol = CivGlobal.getTown(capitolName);
 
         this.government = CivSettings.governments.get("gov_tribalism");
         this.color = this.pickCivColor();
@@ -1778,4 +1781,12 @@ public class Civilization extends SQLObject {
         return null;
     }
 
+    public Town getCapitol() {
+        return capitol;
+    }
+
+    public Capitol getKapa() {
+        return (Capitol) capitol.getStructureByType("s_capitol");
+    }
+    // получаем саму капу для работы с ней
 }

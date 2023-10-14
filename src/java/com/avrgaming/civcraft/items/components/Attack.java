@@ -32,6 +32,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Random;
+
 
 public class Attack extends ItemComponent {
 
@@ -58,8 +60,14 @@ public class Attack extends ItemComponent {
     @Override
     public void onAttack(EntityDamageByEntityEvent event, ItemStack inHand) {
         AttributeUtil attrs = new AttributeUtil(inHand);
+        Player player = (Player) event.getDamager();
         Resident resident = CivGlobal.getResident(((Player) event.getDamager()));
         double dmg = this.getDouble("value");
+        if (player.hasCooldown(player.getInventory().getItemInMainHand().getType())) {
+            event.setCancelled(true);
+            CivMessage.sendError(player, CivSettings.localize.localizedString("var_attack_in_cooldown"));
+            return;
+        } // эту хуйню протестить, попробуем защититсья от кликеров \\
 
         double extraAtt = 0.0;
         for (LoreEnhancement enh : attrs.getEnhancements()) {
@@ -68,8 +76,8 @@ public class Attack extends ItemComponent {
             }
         }
         dmg += extraAtt;
-        if (resident.getNativeTown() != null && resident.getNativeTown().getBuffManager().hasBuff("wonder_trade_chichen_itza")) {
-            dmg += resident.getNativeTown().getBuffManager().getEffectiveDouble("wonder_trade_chichen_itza");
+        if (resident.getTown() != null && resident.getTown().getBuffManager().hasBuff("wonder_trade_chichen_itza")) {
+            dmg += resident.getTown().getBuffManager().getEffectiveDouble("wonder_trade_chichen_itza");
         }
         if (resident.hasEnlightenment()) {
             dmg += 1;
@@ -80,6 +88,8 @@ public class Attack extends ItemComponent {
                 dmg = dmg / 2;
             }
         }
+        Random random = new Random();
+        player.setCooldown(player.getInventory().getItemInMainHand().getType(), random.nextInt(4, 8));
         event.setDamage(Math.max(dmg, 0.5));
     }
 

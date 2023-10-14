@@ -32,6 +32,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.Random;
 
@@ -87,9 +89,9 @@ public class StructureBlockHitEvent implements Runnable {
             if (damage > 1) {
                 CivMessage.send(player, ChatColor.YELLOW + CivSettings.localize.localizedString("var_StructureBlockHitEvent_punchoutDmg", (damage - 1)));
             }
-            if (r.getNativeTown() != null && r.getNativeTown().getBuffManager().hasBuff("wonder_trade_colossus") && !dmgBlock.getTown().getBuffManager().hasBuff(Buff.DEFENCE)) {
+            if (r.getTown().getBuffManager().hasBuff("wonder_trade_colossus") && !dmgBlock.getTown().getBuffManager().hasBuff(Buff.DEFENCE)) {
                 Random rn = new Random();
-                if (rn.nextInt(100) <= r.getNativeTown().getBuffManager().getEffectiveDouble("wonder_trade_colossus") * 100) {
+                if (rn.nextInt(100) <= r.getTown().getBuffManager().getEffectiveDouble("wonder_trade_colossus") * 100) {
                     int p = rn.nextInt(5);
                     damage += p;
                     if (p != 0) {
@@ -100,6 +102,11 @@ public class StructureBlockHitEvent implements Runnable {
 
             dmgBlock.getOwner().onDamage(damage, world, player, dmgBlock.getCoord(), dmgBlock);
             // TaskMaster.asyncTask(new UpdateBlockUnderAttack(dmgBlock.getCoord().getBlock()), 0);
+            Random ran = new Random();
+            player.setCooldown(player.getInventory().getItemInMainHand().getType(), ran.nextInt(4, 6));
+            if (dmgBlock.getCiv().hasWonder("w_himeji_castle")) {
+                player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 3, 0, false, false));
+            }
         } else {
             CivMessage.sendErrorNoRepeat(player,
                     CivSettings.localize.localizedString("var_StructureBlockHitEvent_Invulnerable", dmgBlock.getOwner().getDisplayName(), dmgBlock.getTown().getName()));

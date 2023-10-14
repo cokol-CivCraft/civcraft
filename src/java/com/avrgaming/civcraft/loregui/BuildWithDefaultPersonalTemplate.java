@@ -6,6 +6,7 @@ import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.structure.Buildable;
+import com.avrgaming.civcraft.structure.MetaStructure;
 import com.avrgaming.civcraft.structurevalidation.StructureValidator;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.template.Template.TemplateType;
@@ -31,6 +32,7 @@ public class BuildWithDefaultPersonalTemplate extends GuiAction {
         try {
             String path = Template.getTemplateFilePath(info.template_base_name, TemplateType.STRUCTURE, "default");
             Template tpl;
+            MetaStructure struct = MetaStructure.newStructOrWonder(player.getLocation(), info, resident.pendingBuildable.town());
             try {
                 //tpl.load_template(path);
                 tpl = Template.getTemplate(path, player.getLocation());
@@ -41,6 +43,7 @@ public class BuildWithDefaultPersonalTemplate extends GuiAction {
 
             Location centerLoc = Buildable.repositionCenterStatic(player.getLocation(), info, Template.getDirection(player.getLocation()), tpl.size_x, tpl.size_z);
             //Buildable.validate(player, null, tpl, centerLoc, resident.pendingCallback);
+            struct.buildPlayerPreview(player, tpl);
             TaskMaster.asyncTask(new StructureValidator(player, tpl.getFilepath(), centerLoc, resident.pendingCallback), 0);
             player.closeInventory();
 

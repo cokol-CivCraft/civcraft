@@ -446,7 +446,6 @@ public abstract class Buildable extends SQLObject {
                 tpl = Template.getTemplate(path, player.getLocation());
             } catch (IOException | CivException e) {
                 e.printStackTrace();
-                tpl = null;
                 return;
             }
 
@@ -894,9 +893,10 @@ public abstract class Buildable extends SQLObject {
         // We should return the number of milliseconds to wait between each block placement.
         double hoursPerBlock = (this.getHammerCost() / this.town.getHammers().total) / this.totalBlockCount;
         double millisecondsPerBlock = hour ? hoursPerBlock * 60 * 60 * 1000 : hoursPerBlock * 60 * 30 * 1000;
-        // Clip millisecondsPerBlock to 500 milliseconds.
-        if (millisecondsPerBlock < 500) {
-            millisecondsPerBlock = 500;
+        millisecondsPerBlock *= this.town.getBuildSpeed();
+        // Clip millisecondsPerBlock to 150 milliseconds.
+        if (millisecondsPerBlock < 150) {
+            millisecondsPerBlock = 150;
         }
 
         return (int) millisecondsPerBlock;

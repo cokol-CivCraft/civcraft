@@ -2228,11 +2228,6 @@ public class Town extends SQLObject {
 
     public void disband() {
         getCiv().removeTown(this);
-        for (Resident r : getResidents()) {
-            if (r.getNativeTown() == this) {
-                r.setNativeTown(null);
-            }
-        }
         try {
             delete();
         } catch (SQLException e) {
@@ -3115,6 +3110,14 @@ public class Town extends SQLObject {
             }
         }
         return globeTrade * modifier;
+    }
+
+    public double getBuildSpeed() {
+        double rate = 1.0;
+        rate -= this.getBuffManager().getEffectiveDouble(Buff.BUILDSPEED);
+        rate += this.getBuffManager().getEffectiveDouble(Buff.BUILDSLOW);
+
+        return rate;
     }
 
 

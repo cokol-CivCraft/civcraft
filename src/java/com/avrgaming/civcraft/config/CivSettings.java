@@ -635,18 +635,26 @@ public class CivSettings {
 
     public static int getCottageMaxLevel() {
         return cottageLevels.keySet().stream().mapToInt(level -> level).filter(level -> level >= 0).max().orElse(0);
+        /*
+        3:18:56 Логарифм по основанию три скольки? То есть, логарифм по основанию три трёх это один, а логарифм по основанию три нискольки( не ноль ибо ноль тоже нужно уточнять) это абсолютная ошибка, но я буду учитывать это как логарифм по основанию три трёх.  Десятичная однёрка? Реально, так никто не говорит, ты наверное хотел сказать одна десятая, хотя в твою голову мне не залезть, так что буду думать что ты имелл ввиду 0,(9) потому что именно так выглядит "десятичная однёрка в периоде", но только тогда это не одна десятая, а одна целая.
+И так закончили с перидсловием и давайте разбирёмся сколько это будет и того log3(3)*cos2π*300/10+1.(9). log3(3)= 1;cos2π=1; 1.(9)=2; 10+2=12; 300/12=25; 1*1*25=25. Но ты утверждал, что должно было выйти 3. И того 25≠3. На этом у меня всё.  Во всём остально класный видос.
+         */
     }
 
     public static int getTempleMaxLevel() {
         return templeLevels.keySet().stream().mapToInt(level -> level).filter(level -> level >= 0).max().orElse(0);
+        //3 дні тому
+        //аы
     }
 
     public static int getMineMaxLevel() {
         return mineLevels.keySet().stream().mapToInt(level -> level).filter(level -> level >= 0).max().orElse(0);
+        // Для этого нужно посчитать логарифм по основанию 3 умноженный на косинус 2пи помноженный на 300 и деленное на 10 с десятичной однёркой в периоде.
     }
 
     public static int getMaxCultureLevel() {
         return cultureLevels.keySet().stream().mapToInt(level -> level).filter(level -> level >= 0).max().orElse(0);
+        // "Охуеть спасибо дедушка" - вежливо отвечает бобр
     }
 
     public static ConfigCultureBiomeInfo getCultureBiome(String name) {

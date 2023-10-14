@@ -6,11 +6,11 @@ File("./run/plugins").let { sourceFile ->
     }
     sourceFile.mkdir()
 }
-File("./lib/EssentialsX-2.20.0.jar").let { sourceFile ->
-    if (File("./run/plugins/EssentialsX-2.20.0.jar").exists()) {
+File("./lib/EssentialsX-2.20.1.jar").let { sourceFile ->
+    if (File("./run/plugins/EssentialsX-2.20.1.jar").exists()) {
         return@let;
     }
-    sourceFile.copyTo(File("./run/plugins/EssentialsX-2.20.0.jar"))
+    sourceFile.copyTo(File("./run/plugins/EssentialsX-2.20.1.jar"))
 }
 File("./lib/TitleAPI-1.8.1.jar").let { sourceFile ->
     if (File("./run/plugins/TitleAPI-1.8.1.jar").exists()) {

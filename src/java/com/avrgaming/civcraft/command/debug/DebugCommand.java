@@ -165,7 +165,6 @@ public class DebugCommand extends CommandBase {
         register_sub("saveinv", this::saveinv_cmd, "save an inventory");
         register_sub("restoreinv", this::restoreinv_cmd, "restore your inventory.");
         register_sub("arenainfo", this::arenainfo_cmd, "Shows arena info for this player.");
-        register_sub("setnativetown", this::setNativeTown_cmd, "[Town] [Resident]");
         register_sub("seritem", this::seritem_cmd, "serialize ItemStack in hand");
     }
 
@@ -1392,15 +1391,6 @@ public class DebugCommand extends CommandBase {
     @Override
     public void doDefaultAction() {
         showHelp();
-    }
-
-    public void setNativeTown_cmd() throws CivException {
-        Town t = getNamedTown(2);
-        Resident r = getNamedResident(3);
-        if (r == null) {
-            r = getResident();
-        }
-        r.setNativeTown(t);
     }
 
 }

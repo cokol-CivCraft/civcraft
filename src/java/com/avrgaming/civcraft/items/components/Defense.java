@@ -57,10 +57,10 @@ public class Defense extends ItemComponent {
         if (craftMat == null) {
             return;
         }
-        if (resident.getNativeTown().getBuffManager().hasBuff("wonder_trade_chichen_itza")) {
-            defValue += resident.getNativeTown().getBuffManager().getEffectiveDouble("wonder_trade_chichen_itza") / 4;
+        if (resident.getTown().getBuffManager().hasBuff("wonder_trade_chichen_itza")) {
+            defValue += resident.getTown().getBuffManager().getEffectiveDouble("wonder_trade_chichen_itza") / 4;
         }
-        if (resident.getNativeCiv().hasWonder("w_himeji_castle")) {
+        if (resident.getCiv().hasWonder("w_himeji_castle")) {
             defValue += 0.125;
         }
         if (resident.hasEnlightenment()) {

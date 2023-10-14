@@ -61,44 +61,10 @@ public class LoreCraftableMaterialListener implements Listener {
                 event.setCancelled(true);
                 return;
             }
-//			String matName =craftMat.getId(); 
-//			if (matName.contains("_alt"))
-//			{
-//				ItemStack resultStack = event.getInventory().getResult();
-//				String id = matName.replaceAll("_alt(.*)", "");
-//				ItemStack newStack = LoreMaterial.spawn(LoreMaterial.materialMap.get(id));
-//				newStack.setAmount(resultStack.getAmount());
-//				event.getInventory().setResult(newStack);
-//				CivLog.debug("Item Crafting: " +id);
-//			}
-
-//			if (craftMat.hasComponent("Tagged")) {
-//				String tag = Tagged.matrixHasSameTag(event.getInventory().getMatrix());
-//				if (tag == null) {
-//					CivMessage.sendError(player, "All items must have been generated from the same camp.");
-//					event.setCancelled(true);
-//					return;
-//				}
-//				
-//				Tagged tagged = (Tagged)craftMat.getComponent("Tagged");
-//				ItemStack stack = tagged.addTag(event.getInventory().getResult(), tag);
-//				AttributeUtil attrs = new AttributeUtil(stack);
-//				attrs.addLore(CivColor.LightGray+tag);
-//				stack = attrs.getStack();
-//				event.getInventory().setResult(stack);
-//			}
 
             Resident resident = CivGlobal.getResident(player);
             if (craftMat.getId().equals("mat_found_camp")) {
-//				PlatinumManager.givePlatinumOnce(resident, 
-//						CivSettings.platinumRewards.get("buildCamp").name,
-//						CivSettings.platinumRewards.get("buildCamp").amount, 
-//						"Achievement! You've founded your first camp and earned %d");
             } else if (craftMat.getId().equals("mat_found_civ")) {
-//				PlatinumManager.givePlatinumOnce(resident, 
-//						CivSettings.platinumRewards.get("buildCiv").name,
-//						CivSettings.platinumRewards.get("buildCiv").amount, 
-//						"Achievement! You've founded your first Civilization and earned %d");				
             } else {
 
                 /* if shift clicked, the amount crafted is always min. */
@@ -141,40 +107,6 @@ public class LoreCraftableMaterialListener implements Listener {
     }
 
 
-    //	private boolean checkCustomMismatch(ItemStack item1, ItemStack item2) {
-//		if (LoreMaterial.isCustom(item1)) {
-//		//	CivLog.debug("\tmatrix is custom.");
-//			if (!LoreMaterial.isCustom(item2)) {
-//				/* custom item mismatch. */
-//			//	CivLog.debug("custom mismatch.");
-//				return false;
-//			}
-//			
-//			LoreMaterial mMatrixMaterial = LoreMaterial.getMaterial(item2);
-//			
-//			if (!(mMatrixMaterial instanceof LoreCraftableMaterial)) {
-//				/* some other kind of custom item, not valid. */
-//			//	CivLog.debug("another type of lorecraft.");
-//				return false;
-//			}
-//			
-//			LoreCraftableMaterial isMaterial = (LoreCraftableMaterial) LoreMaterial.getMaterial(item1);
-//			LoreCraftableMaterial matrixCraftMaterial = (LoreCraftableMaterial)mMatrixMaterial;
-//			
-//		//	CivLog.debug("\tmatrix:"+isMaterial.getConfigId()+" vs "+matrixCraftMaterial.getConfigId());
-//			if (!isMaterial.getConfigId().equals(matrixCraftMaterial.getConfigId())) {
-//				/* custom item id's don't match. */
-//			//	CivLog.debug("invalid custom");
-//				return false;
-//			}
-//			
-//			/* By reaching this point, this itemstack is in the right location and matches this recipe. */
-//			//CivLog.debug("item ok.");
-//		} else {
-//			//CivLog.debug("\tmatrix not custom");
-//		}
-//		return true;
-//	}
     private boolean matrixContainsCustom(ItemStack[] matrix) {
         for (ItemStack stack : matrix) {
             if (LoreMaterial.isCustom(stack)) {

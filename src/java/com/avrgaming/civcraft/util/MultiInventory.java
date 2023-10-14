@@ -21,10 +21,12 @@ import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.lorestorage.LoreMaterial;
 import com.avrgaming.civcraft.main.CivLog;
+import com.avrgaming.civcraft.object.StructureChest;
 import com.avrgaming.civcraft.threading.sync.SyncUpdateInventory;
 import com.avrgaming.civcraft.threading.sync.request.UpdateInventoryRequest;
 import com.avrgaming.civcraft.threading.sync.request.UpdateInventoryRequest.Action;
 import org.bukkit.Material;
+import org.bukkit.block.Chest;
 import org.bukkit.inventory.DoubleChestInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -66,6 +68,13 @@ public class MultiInventory {
         }
 
         return true;
+    }
+
+    public void addChests(ArrayList<StructureChest> sc) {
+        for (StructureChest chest : sc) {
+            Chest ch = (Chest) chest.getCoord().getBlock();
+            this.invs.add(ch.getBlockInventory());
+        }
     }
 
 

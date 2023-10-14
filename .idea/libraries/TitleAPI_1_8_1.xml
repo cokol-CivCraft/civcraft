@@ -1,6 +1,6 @@
 <component name="libraryTable">
   <library name="TitleAPI-1.8.1" type="repository">
-    <properties include-transitive-deps="false" maven-id="com.github.ConnorLinfoot:TitleAPI:1.8.1" />
+    <properties include-transitive-deps="false" maven-id="com.github.ConnorLinfoot:TitleAPI:LATEST" />
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/lib/TitleAPI-1.8.1.jar!/" />
     </CLASSES>

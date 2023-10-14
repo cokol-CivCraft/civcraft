@@ -71,7 +71,6 @@ public class Resident extends SQLObject {
     private boolean combatInfo = true;
     private boolean titleAPI = true;
     private int respawntime;
-    private Civilization nativeCiv;
     private Player player;
 
     /* Town or civ to chat in besides your own. */
@@ -80,7 +79,6 @@ public class Resident extends SQLObject {
     private boolean permOverride = false;
     private boolean sbperm = false;
     private boolean controlBlockInstantBreak = false;
-    private Town nativeTown;
     private boolean dontSaveTown = false;
     private String timezone;
     private long registered;
@@ -165,7 +163,6 @@ public class Resident extends SQLObject {
                     "`uuid` VARCHAR(256) NOT NULL DEFAULT 'UNKNOWN'," +
                     "`currentName` VARCHAR(64) DEFAULT NULL," +
                     "`town_id` int(11)," +
-                    "`nativetown_id` int(11)," +
                     "`lastOnline` BIGINT NOT NULL," +
                     "`registered` BIGINT NOT NULL," +
                     "`friends` mediumtext," +
@@ -210,6 +207,7 @@ public class Resident extends SQLObject {
         this.savedInventory = rs.getString("savedInventory");
         this.insideArena = rs.getBoolean("insideArena");
         this.isProtected = rs.getBoolean("isProtected");
+        this.player = Bukkit.getPlayer(getUUID());
 
         if (this.getTimezone() == null) {
             this.setTimezoneToServerDefault();
@@ -341,11 +339,6 @@ public class Resident extends SQLObject {
             if (!dontSaveTown) {
                 hashmap.put("town_id", null);
             }
-        }
-        if (this.getNativeTown() != null) {
-            hashmap.put("nativetown_id", this.getNativeTown().getId());
-        } else {
-            hashmap.put("nativetown_id", null);
         }
 
         if (this.getCamp() != null) {
@@ -1024,11 +1017,8 @@ public class Resident extends SQLObject {
         }
 
         LoreCraftableMaterial craftMat = LoreCraftableMaterial.getCraftMaterial(stack);
-        if (craftMat == null) {
-            return true;
-        }
 
-        if (craftMat.getConfigMaterial().required_tech == null) {
+        if (craftMat == null || craftMat.getConfigMaterial().required_tech == null) {
             return true;
         }
 
@@ -1286,35 +1276,27 @@ public class Resident extends SQLObject {
         this.titleAPI = titleAPI;
     }
 
-    public Civilization getNativeCiv() {
-        return nativeCiv;
-    }
 
     public boolean hasEnlightenment() {
-        return this.getNativeCiv().hasTechnology("tech_enlightenment");
-    }
-
-    public void setNativeCiv(Civilization c) {
-        nativeCiv = getNativeTown().getMotherCiv();
-    }
-
-    public void LoadNativeCiv(int townId) {
-        Town t = CivGlobal.getTownFromId(townId);
-        if (t != null && t.getMotherCiv() != null) {
-            nativeCiv = t.getMotherCiv();
+        if (this.hasTown()) {
+            return this.getTown().hasTechnology("tech_enlightenment");
         }
+        return false;
     }
 
-    public void setNativeTown(Town town) {
-        nativeTown = town;
-    }
 
-    public Town getNativeTown() {
-        return nativeTown;
-    }
+    /* NativeTown вернётся после изменения системы резидентов, я ебал*/
 
 
     public Player getPlayer() {
         return player;
+    }
+
+    public ConfigBuildableInfo getPendingBuildable() {
+        return this.pendingBuildableInfo;
+    }
+
+    public void setPendingBuildable(ConfigBuildableInfo p) {
+        this.pendingBuildableInfo = p;
     }
 }

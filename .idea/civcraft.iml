@@ -26,7 +26,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Vault" level="project" />
     <orderEntry type="library" name="WorldBorder" level="project" />
-    <orderEntry type="library" name="EssentialsX-2.20.0" level="project" />
+    <orderEntry type="library" name="EssentialsX" level="project" />
     <orderEntry type="library" name="spigot-1.12.2" level="project" />
     <orderEntry type="library" name="TitleAPI-1.8.1" level="project" />
     <orderEntry type="library" name="mysql.connector.j" level="application" />
