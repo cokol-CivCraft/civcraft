@@ -685,7 +685,7 @@ public class TownCommand extends CommandBase {
 //			CivMessage.send(player, "Claiming an outpost!");
 //		}
 
-        TownChunk.claim(town, player, false);
+        TownChunk.claim(town, player);
     }
 
     public void unclaim_cmd() throws CivException {
@@ -715,11 +715,7 @@ public class TownCommand extends CommandBase {
         }
 
         TownChunk.unclaim(tc);
-        if (tc.isOutpost()) {
-            CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_unclaimOutpostSuccess", tc.getCenterString()));
-        } else {
-            CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_unclaimSuccess", tc.getCenterString()));
-        }
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_unclaimSuccess", tc.getCenterString()));
 
     }
 

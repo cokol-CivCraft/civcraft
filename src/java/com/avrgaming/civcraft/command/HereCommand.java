@@ -46,9 +46,6 @@ public class HereCommand implements CommandExecutor {
             TownChunk tc = CivGlobal.getTownChunk(coord);
             if (tc != null) {
                 CivMessage.send(sender, ChatColor.DARK_GREEN + CivSettings.localize.localizedString("var_cmd_here_inTown", ChatColor.GREEN + tc.getTown().getName()));
-                if (tc.isOutpost()) {
-                    CivMessage.send(sender, ChatColor.YELLOW + CivSettings.localize.localizedString("cmd_here_outPost"));
-                }
             }
 
             if (cc == null && tc == null) {

@@ -84,11 +84,7 @@ public class PlayerChunkNotifyAsyncTask implements Runnable {
             }
         }
 
-        if (!tc.isOutpost()) {
-            return ChatColor.GRAY + CivSettings.localize.localizedString("var_playerChunkNotify_EnterTown", ChatColor.WHITE + town.getName(), town.getPvpString());
-        } else {
-            return ChatColor.GRAY + CivSettings.localize.localizedString("var_playerChunkNotify_EnterOutpost", ChatColor.WHITE + town.getName(), town.getPvpString());
-        }
+        return ChatColor.GRAY + CivSettings.localize.localizedString("var_playerChunkNotify_EnterTown", ChatColor.WHITE + town.getName(), town.getPvpString());
     }
 
     private void showPlotMoveMessage() {

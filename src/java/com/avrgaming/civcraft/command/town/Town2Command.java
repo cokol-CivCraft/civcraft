@@ -83,7 +83,7 @@ public class Town2Command extends DispatcherCommand {
 //		}
 
         try {
-            TownChunk.claim(town, player, false);
+            TownChunk.claim(town, player);
         } catch (CivException e) {
             context.getSource().sendMessage(ChatColor.RED + e.getMessage());
             return 0;

@@ -73,11 +73,7 @@ public class AsciiMap {
                         }
                     }
 
-                    if (tc.isOutpost()) {
-                        outRow.append(ChatColor.YELLOW + "O");
-                    } else {
-                        outRow.append(color).append("T");
-                    }
+                    outRow.append(color).append("T");
                 } else {
                     outRow.append(color).append("-");
                 }

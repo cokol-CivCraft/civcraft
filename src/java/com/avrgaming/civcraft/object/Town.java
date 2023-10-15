@@ -70,7 +70,6 @@ public class Town extends SQLObject {
     private final ConcurrentHashMap<String, Resident> fakeResidents = new ConcurrentHashMap<>();
 
     private final ConcurrentHashMap<ChunkCoord, TownChunk> townChunks = new ConcurrentHashMap<>();
-    private final ConcurrentHashMap<ChunkCoord, TownChunk> outposts = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<ChunkCoord, CultureChunk> cultureChunks = new ConcurrentHashMap<>();
 
     private final ConcurrentHashMap<BlockCoord, Wonder> wonders = new ConcurrentHashMap<>();
@@ -1187,7 +1186,6 @@ public class Town extends SQLObject {
         upkeep += this.getBaseUpkeep();
         //upkeep += this.getSpreadUpkeep();
         upkeep += this.getStructureUpkeep();
-        upkeep += this.getOutpostUpkeep();
 
         upkeep *= getGovernment().upkeep_rate;
 
@@ -1769,10 +1767,6 @@ public class Town extends SQLObject {
 
         double total = 0.0;
         for (TownChunk tc : this.getTownChunks()) {
-            if (tc.isOutpost()) {
-                continue;
-            }
-
             if (tc.getChunkCoord().equals(townHallChunk))
                 continue;
 
@@ -1790,7 +1784,7 @@ public class Town extends SQLObject {
     }
 
     public double getTotalUpkeep() {
-        return this.getBaseUpkeep() + this.getStructureUpkeep() + this.getSpreadUpkeep() + this.getOutpostUpkeep();
+        return this.getBaseUpkeep() + this.getStructureUpkeep() + this.getSpreadUpkeep();
     }
 
     public double getTradeRate() {
@@ -1829,11 +1823,7 @@ public class Town extends SQLObject {
     }
 
     public void removeTownChunk(TownChunk tc) {
-        if (tc.isOutpost()) {
-            this.outposts.remove(tc.getChunkCoord());
-        } else {
-            this.townChunks.remove(tc.getChunkCoord());
-        }
+        this.townChunks.remove(tc.getChunkCoord());
     }
 
     public Double getHammersFromCulture() {
@@ -2144,21 +2134,6 @@ public class Town extends SQLObject {
         points += (int) (this.getTreasury().getBalance() * CivSettings.scoreConfig.town_scores.coins);
 
         return points;
-    }
-
-    public void addOutpostChunk(TownChunk tc) throws AlreadyRegisteredException {
-        if (outposts.containsKey(tc.getChunkCoord())) {
-            throw new AlreadyRegisteredException(CivSettings.localize.localizedString("var_town_outpost_alreadyRegistered", tc.getChunkCoord(), this.getName()));
-        }
-        outposts.put(tc.getChunkCoord(), tc);
-    }
-
-    public Collection<TownChunk> getOutpostChunks() {
-        return outposts.values();
-    }
-
-    public double getOutpostUpkeep() {
-        return 0;
     }
 
     public boolean isOutlaw(Resident res) {
