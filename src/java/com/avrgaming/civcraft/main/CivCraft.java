@@ -30,6 +30,7 @@ import com.avrgaming.civcraft.command.market.MarketCommand;
 import com.avrgaming.civcraft.command.plot.PlotCommand;
 import com.avrgaming.civcraft.command.resident.ResidentCommand;
 import com.avrgaming.civcraft.command.team.TeamCommand;
+import com.avrgaming.civcraft.command.town.Town2Command;
 import com.avrgaming.civcraft.command.town.TownChatCommand;
 import com.avrgaming.civcraft.command.town.TownCommand;
 import com.avrgaming.civcraft.config.CivSettings;
@@ -65,7 +66,7 @@ import com.avrgaming.civcraft.util.CivTime;
 import com.avrgaming.civcraft.util.TimeTools;
 import com.avrgaming.civcraft.war.WarListener;
 import com.avrgaming.global.scores.CalculateScoreTimer;
-import org.bukkit.command.TabExecutor;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -199,6 +200,7 @@ public final class CivCraft extends JavaPlugin {
 
         // Init commands
         registerCommand("town", new TownCommand());
+        registerCommand("town2", new Town2Command());
         registerCommand("resident", new ResidentCommand());
         registerAdminCommand("dbg", new DebugCommand());
         registerCommand("plot", new PlotCommand());
@@ -228,11 +230,11 @@ public final class CivCraft extends JavaPlugin {
         //creativeInvPacketManager.init(this);
     }
 
-    public void registerCommand(String name, CommandBase command) {
+    public void registerCommand(String name, CommandExecutor command) {
         getCommand(name).setExecutor(command);
     }
 
-    public void registerAdminCommand(String name, TabExecutor command) {
+    public void registerAdminCommand(String name, CommandExecutor command) {
         getCommand(name).setExecutor(command);
         getCommand(name).setPermission("executeAdminCommands");
         getCommand(name).setPermissionMessage(CivSettings.localize.localizedString("adcmd_NotAdmin"));

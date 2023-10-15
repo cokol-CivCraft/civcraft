@@ -36,7 +36,7 @@ public class Sender implements CommandSender {
 
     public Town getTown() {
         Resident resident = getResident();
-        if (resident.hasTown()) {
+        if (!resident.hasTown()) {
             throw new CommandProblemException(ChatColor.RED + CivSettings.localize.localizedString("cmd_notPartOfTown"));
         }
         return resident.getTown();

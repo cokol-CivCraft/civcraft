@@ -6,6 +6,8 @@ version: 1.0.1-Beta
 commands:
   town:
       aliases: [ t, е, ещцт ]
+  town2:
+
   plot:
     aliases: [ p, з, здще ]
   resident:
