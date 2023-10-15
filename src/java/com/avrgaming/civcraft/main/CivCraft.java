@@ -65,6 +65,7 @@ import com.avrgaming.civcraft.util.CivTime;
 import com.avrgaming.civcraft.util.TimeTools;
 import com.avrgaming.civcraft.war.WarListener;
 import com.avrgaming.global.scores.CalculateScoreTimer;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -231,7 +232,7 @@ public final class CivCraft extends JavaPlugin {
         getCommand(name).setExecutor(command);
     }
 
-    public void registerAdminCommand(String name, CommandBase command) {
+    public void registerAdminCommand(String name, TabExecutor command) {
         getCommand(name).setExecutor(command);
         getCommand(name).setPermission("executeAdminCommands");
         getCommand(name).setPermissionMessage(CivSettings.localize.localizedString("adcmd_NotAdmin"));

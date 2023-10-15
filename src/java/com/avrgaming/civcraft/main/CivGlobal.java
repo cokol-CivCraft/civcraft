@@ -55,6 +55,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -594,8 +595,12 @@ public class CivGlobal {
         return null;
     }
 
-    public static Resident getResident(Player player) {
-        return residents.get(player.getName());
+    @Nullable
+    public static Resident getResident(@Nullable Player player) {
+        if (player == null) {
+            return null;
+        }
+        return getResidentViaUUID(player.getUniqueId());
     }
 
     public static Resident getResident(Resident resident) {
