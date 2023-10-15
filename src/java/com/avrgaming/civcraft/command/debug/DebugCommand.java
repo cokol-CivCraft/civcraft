@@ -1322,7 +1322,7 @@ public class DebugCommand extends CommandBase {
         Civilization civ = getNamedCiv(1);
 
         CivMessage.sendHeading(sender, "Civ " + civ.getName());
-        CivMessage.send(sender, "id:" + civ.getUUID() + " debt: " + civ.getTreasury().getDebt() + " balance:" + civ.getTreasury().getBalance());
+        CivMessage.send(sender, "uuid:" + civ.getUUID() + " debt: " + civ.getTreasury().getDebt() + " balance:" + civ.getTreasury().getBalance());
     }
 
     public void newday_cmd() {
@@ -1344,22 +1344,23 @@ public class DebugCommand extends CommandBase {
         Town town = getNamedTown(1);
 
         CivMessage.sendHeading(sender, "Town " + town.getName());
-        CivMessage.send(sender, "id:" + town.getUUID() + " level: " + town.getLevel());
+        CivMessage.send(sender, "uuid:" + town.getUUID() + " level: " + town.getLevel());
 
     }
 
     public void townchunk_cmd() {
-        if (sender instanceof Player player) {
-
-            TownChunk tc = CivGlobal.getTownChunk(player.getLocation());
-
-            if (tc == null) {
-                CivMessage.send(sender, "No town chunk found here.");
-                return;
-            }
-
-            CivMessage.send(sender, "id:" + tc.getId() + " coord:" + tc.getChunkCoord());
+        if (!(sender instanceof Player player)) {
+            return;
         }
+
+        TownChunk tc = CivGlobal.getTownChunk(player.getLocation());
+
+        if (tc == null) {
+            CivMessage.send(sender, "No town chunk found here.");
+            return;
+        }
+
+        CivMessage.send(sender, "uuid:" + tc.getUUID() + " coord:" + tc.getChunkCoord());
     }
 
     public void resident_cmd() throws CivException {
@@ -1371,7 +1372,7 @@ public class DebugCommand extends CommandBase {
         Resident res = getNamedResident(1);
 
         CivMessage.sendHeading(sender, "Resident " + res.getName());
-        CivMessage.send(sender, "id: " + res.getId() + " lastOnline: " + res.getLastOnline() + " registered: " + res.getRegistered());
+        CivMessage.send(sender, "uuid: " + res.getUUID() + " lastOnline: " + res.getLastOnline() + " registered: " + res.getRegistered());
         CivMessage.send(sender, "debt: " + res.getTreasury().getDebt());
 
     }

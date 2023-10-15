@@ -26,7 +26,6 @@ import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Civilization;
-import com.avrgaming.civcraft.object.NamedObject;
 import com.avrgaming.civcraft.object.Relation;
 import com.avrgaming.civcraft.object.Relation.Status;
 import com.avrgaming.civcraft.object.Town;
@@ -58,19 +57,19 @@ public class War {
         defeatedTowns.put(townName, master);
         /* Save in the SessionDB just in case the server goes down. */
         String key = "capturedTown";
-        String value = townName + ":" + master.getId();
+        String value = townName + ":" + master.getUUID();
 
-        CivGlobal.getSessionDB().add(key, value, master.getUUID(), NamedObject.NULL_UUID, NamedObject.NULL_UUID);
+        CivGlobal.getSessionDB().add(key, value, master.getUUID());
     }
 
     public static void saveDefeatedCiv(Civilization defeated, Civilization master) {
         defeatedCivs.put(defeated.getName(), master);
         /* Save in the SessionDB just in case the server goes down. */
         String key = "capturedCiv";
-        String value = defeated.getName() + ":" + master.getId();
+        String value = defeated.getName() + ":" + master.getUUID();
 
         EndGameCondition.onCivilizationWarDefeat(defeated);
-        CivGlobal.getSessionDB().add(key, value, master.getUUID(), NamedObject.NULL_UUID, NamedObject.NULL_UUID);
+        CivGlobal.getSessionDB().add(key, value, master.getUUID());
     }
 
     /*

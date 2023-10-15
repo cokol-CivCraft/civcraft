@@ -216,7 +216,7 @@ public class Camp extends Buildable {
         this.firepoints = rs.getInt("firepoints");
 
         if (this.ownerName == null) {
-            CivLog.error("COULD NOT FIND OWNER FOR CAMP ID:" + this.getId());
+            CivLog.error("COULD NOT FIND OWNER FOR CAMP UUID:" + this.getUUID());
             return;
         }
 
