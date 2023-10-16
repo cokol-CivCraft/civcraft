@@ -68,11 +68,10 @@ public class AdminCivCommand extends CommandBase {
         Civilization motherCiv = getNamedCiv(1);
 
         /* Liberate the civ. */
-        for (Town t : Town.getTowns()) {
-            if (t.getMotherCiv() == motherCiv) {
-                t.changeCiv(motherCiv);
-                t.setMotherCiv(null);
-                t.save();
+        for (Town town : Town.getTowns()) {
+            if (town.getMotherCiv() == motherCiv) {
+                town.changeCiv(motherCiv);
+                town.setMotherCiv(null);
             }
         }
 
@@ -147,7 +146,6 @@ public class AdminCivCommand extends CommandBase {
 
         for (Town town : civ.getTowns()) {
             town.getTreasury().setBalance(0);
-            town.save();
 
             for (Resident resident : town.getResidents()) {
                 resident.getTreasury().setBalance(0);

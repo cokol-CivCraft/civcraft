@@ -283,7 +283,6 @@ public class TownCommand extends CommandBase {
 
         /* Town is capitulating, no longer need a mother civ. */
         town.setMotherCiv(null);
-        town.save();
 
         CivMessage.global(CivSettings.localize.localizedString("var_cmd_town_capitulateSuccess1", town.getName(), town.getCiv().getName()));
     }
@@ -514,7 +513,6 @@ public class TownCommand extends CommandBase {
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_leaveSuccess", town.getName()));
         CivMessage.sendTown(town, CivSettings.localize.localizedString("var_cmd_town_leaveBroadcast", resident.getName()));
 
-        town.save();
         resident.save();
     }
 

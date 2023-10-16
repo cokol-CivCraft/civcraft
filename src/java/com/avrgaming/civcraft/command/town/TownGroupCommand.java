@@ -59,7 +59,6 @@ public class TownGroupCommand extends CommandBase {
             }
 
             town.removeGroup(grp);
-            town.save();
             grp.delete();
 
         } catch (SQLException e) {
@@ -89,7 +88,6 @@ public class TownGroupCommand extends CommandBase {
 
             grp.save();
             town.addGroup(grp);
-            town.save();
 
         } catch (InvalidNameException e) {
             throw new CivException(CivSettings.localize.localizedString("cmd_town_group_newInvalidName"));

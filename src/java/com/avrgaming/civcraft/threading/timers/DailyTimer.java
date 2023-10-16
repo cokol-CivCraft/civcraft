@@ -136,16 +136,13 @@ public class DailyTimer implements Runnable {
     }
 
     private void payTownUpkeep() {
-        for (Town t : Town.getTowns()) {
+        for (Town town : Town.getTowns()) {
             try {
-                double total = 0;
-                total = t.payUpkeep();
-                if (t.inDebt()) {
-                    t.incrementDaysInDebt();
+                double total = town.payUpkeep();
+                if (town.inDebt()) {
+                    town.incrementDaysInDebt();
                 }
-
-                t.save();
-                CivMessage.sendTown(t, ChatColor.YELLOW + CivSettings.localize.localizedString("var_daily_townUpkeep", total, CivSettings.CURRENCY_NAME));
+                CivMessage.sendTown(town, ChatColor.YELLOW + CivSettings.localize.localizedString("var_daily_townUpkeep", total, CivSettings.CURRENCY_NAME));
 
             } catch (Exception e) {
                 e.printStackTrace();

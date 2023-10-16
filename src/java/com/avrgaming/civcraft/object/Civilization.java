@@ -1356,7 +1356,6 @@ public class Civilization extends SQLObject {
             town.changeCiv(this);
             town.setDebt(0);
             town.setDaysInDebt(0);
-            town.save();
         }
 
         if (!oldciv.towns.isEmpty()) {
@@ -1384,7 +1383,6 @@ public class Civilization extends SQLObject {
         town.setMotherCiv(null);
         town.setDebt(0);
         town.setDaysInDebt(0);
-        town.save();
         CivGlobal.processCulture();
         CivMessage.global(CivSettings.localize.localizedString("var_civ_buyTown_Success1", this.getName(), this.getName()));
 
@@ -1435,10 +1433,9 @@ public class Civilization extends SQLObject {
     }
 
     public void capitulate() {
-        for (Town t : Town.getTowns()) {
-            if (t.getMotherCiv() == this) {
-                t.setMotherCiv(null);
-                t.save();
+        for (Town town : Town.getTowns()) {
+            if (town.getMotherCiv() == this) {
+                town.setMotherCiv(null);
             }
         }
 

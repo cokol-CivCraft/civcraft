@@ -799,7 +799,6 @@ return null;
         ConfigCultureLevel clc = CivSettings.cultureLevels.get(this.getCultureLevel());
 
         this.culture += generated;
-        this.save();
         if (this.getCultureLevel() != CivSettings.getMaxCultureLevel()) {
             if (this.culture >= clc.amount) {
                 CivGlobal.processCulture();
@@ -1136,7 +1135,6 @@ return null;
         }
 
         this.upgrades.put(upgrade.id, upgrade);
-        this.save();
     }
 
     public Structure findStructureByConfigId(String require_structure) {
@@ -1194,16 +1192,11 @@ return null;
         this.residents.remove(resident.getName().toLowerCase());
 
         resident.save();
-        this.save();
         Player player = Bukkit.getPlayer(resident.getUUID());
     }
 
     public Collection<TownChunk> getTownChunks() {
         return this.townChunks.values();
-    }
-
-    public void quicksave() {
-        this.save();
     }
 
     public boolean isInGroup(String name, Resident resident) {
@@ -1268,7 +1261,6 @@ return null;
                     diff -= this.getCiv().getTreasury().getBalance();
                     this.getCiv().getTreasury().setBalance(0);
                     this.getCiv().getTreasury().setDebt(this.getCiv().getTreasury().getDebt() + diff);
-                    this.getCiv().save();
                 }
             } else {
                 this.getTreasury().setDebt(this.getTreasury().getDebt() + diff);
@@ -1415,7 +1407,6 @@ return null;
 
             extraHammers = leftovers;
         }
-        this.save();
     }
 
     public void buildWonder(Player player, ConfigBuildableInfo info, Location center, Template tpl) throws CivException {
@@ -1488,7 +1479,6 @@ return null;
 
         this.getTreasury().withdraw(cost);
         CivMessage.sendTown(this, ChatColor.YELLOW + CivSettings.localize.localizedString("var_town_buildwonder_success", wonder.getDisplayName()));
-        this.save();
     }
 
     public void buildStructure(Player player, ConfigBuildableInfo info, Location center, Template tpl) throws CivException {
@@ -1540,7 +1530,6 @@ return null;
             }
 
             struct.build(player, center, tpl);
-            struct.save();
 
             // Go through and add any town chunks that were claimed to this list
             // of saved objects.
@@ -1981,7 +1970,6 @@ return null;
         }
 
         this.changeCiv(attackingCiv);
-        this.save();
     }
 
     public Civilization getDepositCiv() {
@@ -2228,8 +2216,6 @@ return null;
 
         this.setCiv(newCiv);
         CivGlobal.processCulture();
-
-        this.save();
     }
 
     public void validateResidentSelect(Resident resident) throws CivException {
@@ -2336,8 +2322,6 @@ return null;
             this.getTreasury().deposit(amount);
             resident.getTreasury().withdraw(amount);
         }
-
-        this.save();
     }
 
     public Civilization getMotherCiv() {
@@ -2377,7 +2361,6 @@ return null;
 
         /* Town is capitulating, no longer need a mother civ. */
         this.setMotherCiv(null);
-        this.save();
         CivMessage.global(CivSettings.localize.localizedString("var_town_capitulate1", this.getName(), this.getCiv().getName()));
     }
 
@@ -2963,7 +2946,6 @@ return null;
         removeTown(this);
 
         this.setName(name);
-        this.save();
 
         addTown(this);
 
@@ -3037,7 +3019,6 @@ return null;
             struct.getTown().removeStructure(struct);
             struct.getTown().addStructure(struct);
             struct.setTown(this);
-            struct.save();
         }
     }
 

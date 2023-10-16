@@ -914,7 +914,6 @@ public class DebugCommand extends CommandBase {
 
         for (Town town : Town.getTowns()) {
             town.addAccumulatedCulture(culture);
-            town.save();
         }
 
         CivGlobal.processCulture();

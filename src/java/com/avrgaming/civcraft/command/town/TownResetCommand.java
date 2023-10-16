@@ -60,7 +60,6 @@ public class TownResetCommand extends CommandBase {
 
         library.reset();
 
-        town.save();
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_town_reset_librarySuccess"));
     }
 
@@ -85,7 +84,6 @@ public class TownResetCommand extends CommandBase {
 
         store.reset();
 
-        town.save();
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_town_reset_storeSuccess"));
     }
 

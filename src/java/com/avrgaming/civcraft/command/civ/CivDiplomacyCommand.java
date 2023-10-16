@@ -140,7 +140,7 @@ public class CivDiplomacyCommand extends CommandBase {
             motherCiv.setConquered(false);
             CivGlobal.removeConqueredCiv(motherCiv);
             Civilization.addCiv(motherCiv);
-            motherCiv.save();
+            ;
             CivMessage.global(CivSettings.localize.localizedString("var_cmd_civ_liberateSuccess1", motherCiv.getName(), civ.getName()));
         } else {
             if (motherCiv.isConquered()) {
@@ -150,7 +150,6 @@ public class CivDiplomacyCommand extends CommandBase {
             /* Liberate just the town. */
             town.changeCiv(motherCiv);
             town.setMotherCiv(null);
-            town.save();
             CivMessage.global(CivSettings.localize.localizedString("var_cmd_town_liberateSuccess", town.getName(), civ.getName(), motherCiv.getName()));
         }
     }

@@ -133,7 +133,6 @@ public class AdminTownCommand extends CommandBase {
         Civilization civ = getNamedCiv(2);
 
         town.setMotherCiv(civ);
-        town.save();
 
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_town_setMotherCivSuccess", town.getName(), civ.getName()));
     }
@@ -218,8 +217,6 @@ public class AdminTownCommand extends CommandBase {
                 }
             }
         }
-
-        town.save();
         return count;
     }
 
@@ -282,7 +279,6 @@ public class AdminTownCommand extends CommandBase {
         Integer culture = getNamedInteger(2);
 
         town.addAccumulatedCulture(culture);
-        town.save();
 
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_var_adcmd_town_cultureSuccess", town.getName(), culture));
     }
@@ -415,8 +411,6 @@ public class AdminTownCommand extends CommandBase {
         } catch (NumberFormatException e) {
             throw new CivException(args[2] + " " + CivSettings.localize.localizedString("cmd_enterNumerError"));
         }
-
-        town.save();
     }
 
     public void unclaim_cmd() throws CivException {
@@ -433,9 +427,6 @@ public class AdminTownCommand extends CommandBase {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
-            town.save();
-
             CivMessage.sendSuccess(player, CivSettings.localize.localizedString("var_adcmd_town_unclaimSuccess", town.getName()));
         } else {
             CivMessage.sendError(sender, CivSettings.localize.localizedString("adcmd_town_unclaimErrorNotOwned"));
@@ -458,7 +449,6 @@ public class AdminTownCommand extends CommandBase {
             }
 
             tc.save();
-            town.save();
 
             CivMessage.sendSuccess(player, CivSettings.localize.localizedString("var_adcmd_town_claimSucess", town.getName()));
         } else {

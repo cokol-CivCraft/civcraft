@@ -71,7 +71,6 @@ public class TownOutlawCommand extends CommandBase {
         for (Resident resident : targetTown.getResidents()) {
             town.removeOutlaw(resident.getName());
         }
-        town.save();
     }
 
     public void addallciv_cmd() throws CivException {
@@ -101,7 +100,6 @@ public class TownOutlawCommand extends CommandBase {
                 town.removeOutlaw(resident.getName());
             }
         }
-        town.save();
     }
 
     public void add_cmd() throws CivException {
@@ -134,7 +132,6 @@ public class TownOutlawCommand extends CommandBase {
         }
 
         town.removeOutlaw(args[1]);
-        town.save();
 
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_outlaw_removeSuccess", args[1]));
     }

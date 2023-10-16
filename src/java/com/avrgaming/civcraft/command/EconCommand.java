@@ -24,7 +24,6 @@ import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.EconObject;
 import com.avrgaming.civcraft.object.Resident;
-import com.avrgaming.civcraft.object.Town;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -148,8 +147,7 @@ public class EconCommand extends DispatcherCommand {
 
         }
         try {
-            Town town = TownArgumentType.getTown(context, "town");
-            town.save();
+            TownArgumentType.getTown(context, "town");
             return;
         } catch (IllegalArgumentException ignored) {
 

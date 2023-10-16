@@ -256,7 +256,6 @@ public class TradeShip extends WaterStructure {
             int total_culture = tradeResult.getCulture();
 
             this.getTown().addAccumulatedCulture(total_culture);
-            this.getTown().save();
         }
         if (tradeResult.getMoney() >= 1) {
             double total_coins = tradeResult.getMoney() * (getTown().getTradeRate() / 2);

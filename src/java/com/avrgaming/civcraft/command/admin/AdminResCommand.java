@@ -167,7 +167,6 @@ public class AdminResCommand extends CommandBase {
             throw new CivException(CivSettings.localize.localizedString("adcmd_res_settownErrorInTown"));
         }
 
-        town.save();
         resident.save();
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_res_setTownSuccess", resident.getName(), town.getName()));
     }

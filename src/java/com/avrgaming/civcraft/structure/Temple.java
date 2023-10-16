@@ -133,7 +133,6 @@ public class Temple extends Structure {
 //			total_coins *= this.getTown().getBuffManager().getEffectiveDouble("buff_pyramid_cottage_bonus");
 //		}
         this.getTown().addAccumulatedCulture(total_culture);
-        this.getTown().save();
 
         CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_temple_cultureGenerated", (String.valueOf(ChatColor.LIGHT_PURPLE) + total_culture + ChatColor.GREEN)));
 

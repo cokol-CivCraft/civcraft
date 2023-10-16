@@ -46,7 +46,6 @@ public class TownAddOutlawTask implements Runnable {
         }
 
         town.addOutlaw(name);
-        town.save();
         CivMessage.sendTown(town, ChatColor.YELLOW + CivSettings.localize.localizedString("var_TownAddOutlawTask_Message", name));
 
     }
