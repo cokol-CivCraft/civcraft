@@ -56,7 +56,7 @@ public abstract class MetaStructure extends Buildable {
                     "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`uuid` VARCHAR(36) NOT NULL," +
                     "`type_id` mediumtext NOT NULL," +
-                    "`town_id` int(11) DEFAULT NULL," +
+                    "`town_uuid` VARCHAR(36) DEFAULT NULL," +
                     "`complete` bool NOT NULL DEFAULT '0'," +
                     "`builtBlockCount` int(11) DEFAULT NULL, " +
                     "`cornerBlockHash` mediumtext DEFAULT NULL," +
@@ -94,7 +94,7 @@ public abstract class MetaStructure extends Buildable {
     public void saveNow() throws SQLException {
         HashMap<String, Object> hashmap = new HashMap<>();
         hashmap.put("type_id", this.getConfigId());
-        hashmap.put("town_id", this.getTown().getId());
+        hashmap.put("town_uuid", this.getTown().getUUID());
         hashmap.put("complete", this.isComplete());
         hashmap.put("builtBlockCount", this.getBuiltBlockCount());
         hashmap.put("cornerBlockHash", this.getCorner().toString());
@@ -124,11 +124,11 @@ public abstract class MetaStructure extends Buildable {
         this.setUUID(UUID.fromString(rs.getString("uuid")));
         this.info = CivSettings.structures.get(rs.getString("type_id"));
 
-        this.setTown(Town.getTownFromId(rs.getInt("town_id")));
+        this.setTown(Town.getTownFromUUID(UUID.fromString(rs.getString("town_uuid"))));
 
         if (this.getTown() == null) {
             this.delete();
-            throw new CivException("Coudln't find town ID:" + rs.getInt("town_id") + " for structure " + this.getDisplayName() + " ID:" + this.getId());
+            throw new CivException("Coudln't find town ID:" + rs.getInt("town_uuid") + " for structure " + this.getDisplayName() + " ID:" + this.getUUID());
         }
 
         this.setCorner(new BlockCoord(rs.getString("cornerBlockHash")));

@@ -94,7 +94,7 @@ public class ArenaTeam extends SQLObject implements Comparable<ArenaTeam> {
 
         this.leader = CivGlobal.getResidentViaUUID(UUID.fromString(rs.getString("leader")));
         if (leader == null) {
-            CivLog.error("Couldn't load leader for team:" + this.getName() + "(" + this.getId() + ")");
+            CivLog.error("Couldn't load leader for team:" + this.getName() + "(" + this.getUUID() + ")");
             return;
         }
 

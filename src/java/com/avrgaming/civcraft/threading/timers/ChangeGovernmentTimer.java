@@ -36,7 +36,7 @@ public class ChangeGovernmentTimer implements Runnable {
             if (!civ.getGovernment().id.equalsIgnoreCase("gov_anarchy")) {
                 continue;
             }
-            String key = "changegov_" + civ.getId();
+            String key = "changegov_" + civ.getUUID();
             ArrayList<SessionEntry> entries;
 
             entries = CivGlobal.getSessionDB().lookup(key);

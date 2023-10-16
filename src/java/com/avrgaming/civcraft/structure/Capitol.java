@@ -66,7 +66,7 @@ public class Capitol extends TownHall {
         ArrayList<RespawnLocationHolder> respawnables = this.getTown().getCiv().getAvailableRespawnables();
 
         if (this.respawnSign == null) {
-            CivLog.warning("Could not find civ spawn sign:" + this.getId() + " at " + this.getCorner());
+            CivLog.warning("Could not find civ spawn sign:" + this.getUUID() + " at " + this.getCorner());
             return;
         }
         try {

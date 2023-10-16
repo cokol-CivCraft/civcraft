@@ -26,13 +26,14 @@ import org.bukkit.scoreboard.Scoreboard;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.UUID;
 
 public class Arena {
     public ConfigArena config;
     public int instanceID;
 
     private final HashMap<Integer, ArenaTeam> teams = new HashMap<>();
-    private final HashMap<Integer, Integer> teamIDmap = new HashMap<>();
+    private final HashMap<UUID, Integer> teamIDmap = new HashMap<>();
     private final HashMap<Integer, Integer> teamHP = new HashMap<>();
     private final HashMap<String, Inventory> playerInvs = new HashMap<>();
     public HashMap<String, Scoreboard> scoreboards = new HashMap<>();
@@ -80,7 +81,7 @@ public class Arena {
         this.scoreboards.put(team.getName(), ArenaManager.scoreboardManager.getNewScoreboard());
 
         teams.put(teamCount, team);
-        teamIDmap.put(team.getId(), teamCount);
+        teamIDmap.put(team.getUUID(), teamCount);
         teamHP.put(teamCount, config.teams.get(teamCount).controlPoints.size());
         team.setScoreboardTeam(getScoreboard(team.getName()).registerNewTeam(team.getName()));
         team.getScoreboardTeam().setAllowFriendlyFire(false);
@@ -268,7 +269,7 @@ public class Arena {
     }
 
     public Location getRespawnLocation(Resident resident) {
-        int teamID = teamIDmap.get(resident.getTeam().getId());
+        int teamID = teamIDmap.get(resident.getTeam().getUUID());
         for (int i = 0; i < config.teams.size(); i++) {
             ConfigArenaTeam configTeam = config.teams.get(i);
             if (configTeam.number == teamID) {
@@ -282,7 +283,7 @@ public class Arena {
     }
 
     public BlockCoord getRandomReviveLocation(Resident resident) {
-        int teamID = teamIDmap.get(resident.getTeam().getId());
+        int teamID = teamIDmap.get(resident.getTeam().getUUID());
         for (int i = 0; i < config.teams.size(); i++) {
             ConfigArenaTeam configTeam = config.teams.get(i);
             if (configTeam.number == teamID) {
