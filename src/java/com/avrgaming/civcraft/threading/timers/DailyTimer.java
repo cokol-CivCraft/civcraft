@@ -129,7 +129,6 @@ public class DailyTimer implements Runnable {
                     civ.incrementDaysInDebt();
                 }
                 CivMessage.sendCiv(civ, ChatColor.YELLOW + CivSettings.localize.localizedString("var_daily_civUpkeep", total, CivSettings.CURRENCY_NAME));
-                civ.save();
             } catch (Exception e) {
                 e.printStackTrace();
             }

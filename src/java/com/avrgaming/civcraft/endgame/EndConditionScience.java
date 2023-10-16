@@ -84,7 +84,6 @@ public class EndConditionScience extends EndGameCondition {
         civ.removeTech(techname);
         CivMessage.sendCiv(civ, CivSettings.localize.localizedString("end_scienceWarDefeat"));
 
-        civ.save();
         this.onFailure(civ);
     }
 

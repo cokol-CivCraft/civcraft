@@ -2207,11 +2207,9 @@ return null;
         /* Remove this town from its old civ. */
         Civilization oldCiv = this.civ;
         oldCiv.removeTown(this);
-        oldCiv.save();
 
         /* Add this town to the new civ. */
         newCiv.addTown(this);
-        newCiv.save();
 
         /* Remove any outlaws which are in our new civ. */
         LinkedList<String> removeUs = new LinkedList<>();
@@ -2958,7 +2956,6 @@ return null;
 
         if (this.isCapitol()) {
             this.getCiv().setCapitolName(name);
-            this.getCiv().save();
         }
 
         String oldName = this.getName();

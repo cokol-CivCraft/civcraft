@@ -233,8 +233,6 @@ public class CivCommand extends CommandBase {
         motherCiv.setConquered(false);
         CivGlobal.removeConqueredCiv(motherCiv);
         Civilization.addCiv(motherCiv);
-        motherCiv.save();
-
 
         town.getTreasury().withdraw(revolutionFee);
         CivMessage.global(String.valueOf(ChatColor.YELLOW) + ChatColor.BOLD + CivSettings.localize.localizedString("var_cmd_civ_revolutionSuccess1", motherCiv.getName()));

@@ -91,7 +91,6 @@ public class ChangeGovernmentTimer implements Runnable {
                 CivMessage.global(CivSettings.localize.localizedString("var_gov_emergeFromAnarchy", civ.getName(), CivSettings.governments.get(se.value).displayName));
 
                 CivGlobal.getSessionDB().delete_all(key);
-                civ.save();
             }
         }
     }

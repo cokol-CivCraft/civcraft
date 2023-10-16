@@ -50,7 +50,6 @@ public class CivMotdCommand extends CommandBase {
 
         String motd = combineArgs(this.stripArgs(args, 1));
         civ.setMotd(motd);
-        civ.save();
 
         CivMessage.sendCiv(civ, "MOTD:" + " " + motd);
     }
@@ -63,7 +62,6 @@ public class CivMotdCommand extends CommandBase {
             throw new CivException(CivSettings.localize.localizedString("cmd_civ_motd_notallowed"));
         }
         civ.setMotd(null);
-        civ.save();
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_civ_motd_removeSuccess"));
     }
 

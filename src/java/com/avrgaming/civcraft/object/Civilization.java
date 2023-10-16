@@ -850,7 +850,6 @@ public class Civilization extends SQLObject {
 
         // warn sell..
         CivMessage.global(CivSettings.localize.localizedString("var_civ_debtGlobalAnnounce", this.getName()) + " " + getDaysLeftWarning());
-        this.save();
     }
 
     public String getDaysLeftWarning() {
@@ -973,7 +972,6 @@ public class Civilization extends SQLObject {
     }
 
     public void addBeakers(double beakers) {
-
         if (beakers == 0) {
             return;
         }
@@ -986,8 +984,6 @@ public class Civilization extends SQLObject {
             this.addTech(this.getResearchTech());
             this.setResearchProgress(0);
             this.setResearchTech(null);
-
-            this.save();
 
             return;
         }
@@ -1004,9 +1000,6 @@ public class Civilization extends SQLObject {
                 }
             }
         }
-
-        this.save();
-
     }
 
     public void startTechnologyResearch(ConfigTech tech) throws CivException {
@@ -1074,10 +1067,6 @@ public class Civilization extends SQLObject {
             civ.setGovernment(gov.id);
             CivMessage.global(CivSettings.localize.localizedString("var_civ_gov_success", civ.getName(), CivSettings.governments.get(gov.id).displayName));
         }
-
-
-        civ.save();
-
     }
 
     public String getUpkeepPaid(Town town, String type) {
@@ -1104,7 +1093,6 @@ public class Civilization extends SQLObject {
         double beakerAmount = amount * this.sciencePercentage;
         amount -= beakerAmount;
         this.getTreasury().deposit(amount);
-        this.save();
 
         double coins_per_beaker = CivSettings.civConfig.getDouble("civ.coins_per_beaker", 10);
 
@@ -1137,7 +1125,6 @@ public class Civilization extends SQLObject {
             ((EndConditionScience) scienceVictory).addExtraBeakersToCiv(this, totalBeakers);
         } else {
             this.getTreasury().deposit(totalBeakers);
-            this.save();
         }
     }
 
@@ -1182,7 +1169,6 @@ public class Civilization extends SQLObject {
             this.getTreasury().deposit(amount);
             resident.getTreasury().withdraw(amount);
         }
-        this.save();
     }
 
     public void sessionAdd(String key, String value) {
@@ -1233,7 +1219,6 @@ public class Civilization extends SQLObject {
         CivGlobal.addConqueredCiv(this);
         this.conquered = true;
         this.conquer_date = new Date();
-        this.save();
     }
 
     public boolean isConquered() {
@@ -1258,7 +1243,6 @@ public class Civilization extends SQLObject {
         } else {
             CivGlobal.removeAdminCiv(this);
         }
-        this.save();
     }
 
     public void repositionPlayers(String reason) {
@@ -1606,7 +1590,6 @@ public class Civilization extends SQLObject {
 
         String oldName = this.getName();
         this.setName(name);
-        this.save();
 
         if (this.conquered) {
             CivGlobal.addConqueredCiv(this);

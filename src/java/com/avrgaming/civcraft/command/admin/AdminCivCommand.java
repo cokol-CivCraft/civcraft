@@ -79,7 +79,6 @@ public class AdminCivCommand extends CommandBase {
         motherCiv.setConquered(false);
         CivGlobal.removeConqueredCiv(motherCiv);
         Civilization.addCiv(motherCiv);
-        motherCiv.save();
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_liberateSuccess") + " " + motherCiv.getName());
     }
 
@@ -112,7 +111,6 @@ public class AdminCivCommand extends CommandBase {
         civ.setConquered(true);
         Civilization.removeCiv(civ);
         CivGlobal.addConqueredCiv(civ);
-        civ.save();
 
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_conqueredSuccess"));
     }
@@ -132,7 +130,6 @@ public class AdminCivCommand extends CommandBase {
         civ.setConquered(false);
         CivGlobal.removeConqueredCiv(civ);
         Civilization.addCiv(civ);
-        civ.save();
 
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_unconquerSuccess"));
     }
@@ -158,7 +155,6 @@ public class AdminCivCommand extends CommandBase {
             }
         }
 
-        civ.save();
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_bankruptSuccess", civ.getName()));
     }
 
@@ -224,14 +220,11 @@ public class AdminCivCommand extends CommandBase {
     }
 
     public void alltech_cmd() throws CivException {
-
         Civilization civ = getNamedCiv(1);
 
         for (ConfigTech tech : CivSettings.techs.values()) {
             civ.addTech(tech);
         }
-
-        civ.save();
 
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_alltechSuccess"));
     }
@@ -240,7 +233,6 @@ public class AdminCivCommand extends CommandBase {
         Civilization civ = getNamedCiv(1);
 
         civ.setAdminCiv(!civ.isAdminCiv());
-        civ.save();
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_toggleAdminCivSuccess", civ.getName(), civ.isAdminCiv()));
     }
 
@@ -249,7 +241,6 @@ public class AdminCivCommand extends CommandBase {
         Double amount = getNamedDouble(2);
 
         civ.setBaseBeakers(amount);
-        civ.save();
 
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_beakerRateSuccess", civ.getName(), amount));
     }
@@ -271,7 +262,6 @@ public class AdminCivCommand extends CommandBase {
         }
 
         civ.addTech(tech);
-        civ.save();
 
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_giveTechSuccess", tech.name(), civ.getName()));
 
@@ -283,7 +273,6 @@ public class AdminCivCommand extends CommandBase {
 
         if (civ.getAdviserGroup().hasMember(resident)) {
             civ.getAdviserGroup().removeMember(resident);
-            civ.save();
             CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_rmAdvisorSuccess", resident.getName(), civ.getName()));
         } else {
             CivMessage.sendError(sender, CivSettings.localize.localizedString("var_adcmd_civ_rmAdvisorNotInGroup", resident.getName(), civ.getName()));
@@ -296,7 +285,6 @@ public class AdminCivCommand extends CommandBase {
 
         if (civ.getLeaderGroup().hasMember(resident)) {
             civ.getLeaderGroup().removeMember(resident);
-            civ.save();
             CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_rmLeaderSuccess", resident.getName(), civ.getName()));
         } else {
             CivMessage.sendError(sender, CivSettings.localize.localizedString("var_adcmd_civ_rmLeaderNotInGroup", resident.getName(), civ.getName()));
@@ -309,7 +297,6 @@ public class AdminCivCommand extends CommandBase {
 
         civ.getAdviserGroup().addMember(resident);
         civ.getAdviserGroup().save();
-        civ.save();
 
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_addAdvisorSuccess", resident.getName(), civ.getName()));
     }
@@ -320,7 +307,6 @@ public class AdminCivCommand extends CommandBase {
 
         civ.getLeaderGroup().addMember(resident);
         civ.getLeaderGroup().save();
-        civ.save();
 
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_addLeaderSuccess", resident.getName(), civ.getName()));
     }

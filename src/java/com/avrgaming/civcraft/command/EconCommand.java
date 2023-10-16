@@ -22,7 +22,6 @@ import com.avrgaming.civcraft.command.arguments.ResidentArgumentType;
 import com.avrgaming.civcraft.command.arguments.TownArgumentType;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.main.CivMessage;
-import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.EconObject;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
@@ -143,8 +142,7 @@ public class EconCommand extends DispatcherCommand {
 
     protected static void saveTarget(CommandContext<Sender> context) {
         try {
-            Civilization civilization = CivArgumentType.getCiv(context, "civ");
-            civilization.save();
+            CivArgumentType.getCiv(context, "civ");
             return;
         } catch (IllegalArgumentException ignored) {
 

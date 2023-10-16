@@ -74,8 +74,6 @@ public class CivSetCommand extends CommandBase {
 
         civ.setIncomeTaxRate(newPercentage);
 
-        civ.save();
-
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_civ_set_taxesSuccess") + " " + args[1] + " " + "%");
     }
 
@@ -90,7 +88,6 @@ public class CivSetCommand extends CommandBase {
         double newPercentage = vaildatePercentage(args[1]);
 
         civ.setSciencePercentage(newPercentage);
-        civ.save();
 
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_civ_set_scienceSuccess", args[1]));
     }
@@ -115,7 +112,6 @@ public class CivSetCommand extends CommandBase {
             }
 
             civ.setColor(color);
-            civ.save();
             CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_civ_set_colorSuccess", Integer.toHexString(color)));
         } catch (NumberFormatException e) {
             throw new CivException(args[1] + " " + CivSettings.localize.localizedString("cmd_civ_set_colorInvalid"));
