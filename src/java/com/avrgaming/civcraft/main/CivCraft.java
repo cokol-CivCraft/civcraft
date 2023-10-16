@@ -156,6 +156,7 @@ public final class CivCraft extends JavaPlugin {
         pluginManager.registerEvents(new DebugListener(), this);
         pluginManager.registerEvents(new LoreCraftableMaterialListener(), this);
         pluginManager.registerEvents(new LoreGuiItemListener(), this);
+        pluginManager.registerEvents(new WorldListner(), this);
 
         if (CivSettings.civConfig.getBoolean("global.use_exp_as_currency", true)) {
             pluginManager.registerEvents(new DisableXPListener(), this);
@@ -242,8 +243,8 @@ public final class CivCraft extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        super.onDisable();
         isDisable = true;
+        WorldListner.save_all();
         SQLUpdate.save();
     }
 
