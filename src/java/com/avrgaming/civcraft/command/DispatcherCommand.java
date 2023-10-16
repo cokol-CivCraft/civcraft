@@ -1,6 +1,7 @@
 package com.avrgaming.civcraft.command;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.ParseResults;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestion;
 import com.mojang.brigadier.suggestion.Suggestions;
@@ -25,7 +26,8 @@ public abstract class DispatcherCommand implements TabExecutor {
             builder.append(arg);
         }
         try {
-            return getDispatcher().execute(builder.toString(), new Sender(sender)) > 0;
+            ParseResults<Sender> results = getDispatcher().parse(builder.toString(), new Sender(sender));
+            return getDispatcher().execute(results) > 0;
         } catch (CommandSyntaxException e) {
             sender.sendMessage(ChatColor.RED + e.getMessage());
             return false;
@@ -43,7 +45,8 @@ public abstract class DispatcherCommand implements TabExecutor {
             builder.append(arg);
         }
         try {
-            Suggestions suggestions = getDispatcher().getCompletionSuggestions(getDispatcher().parse(builder.toString(), new Sender(sender))).get();
+            ParseResults<Sender> results = getDispatcher().parse(builder.toString(), new Sender(sender));
+            Suggestions suggestions = getDispatcher().getCompletionSuggestions(results).get();
             return suggestions.getList().stream().map(Suggestion::getText).collect(Collectors.toList());
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();

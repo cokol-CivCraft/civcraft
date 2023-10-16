@@ -23,8 +23,11 @@ public class Town2Command extends DispatcherCommand {
     static final LiteralArgumentBuilder<Sender> root = literal("town2");
 
     static {
+        root.then(literal("list").executes(Town2Command::list_cmd));
+
         root.then(literal("claim").requires(source -> source.getResident().hasTown()).executes(Town2Command::claim_cmd));
         root.then(literal("unclaim").requires(source -> source.getResident().hasTown()).executes(Town2Command::unclaim_cmd));
+        root.then(literal("members").requires(source -> source.getResident().hasTown()).executes(Town2Command::members_cmd));
         dispatcher.register(root);
     }
 
@@ -76,12 +79,6 @@ public class Town2Command extends DispatcherCommand {
             throw new CommandProblemException(CivSettings.localize.localizedString("cmd_town_claimNoPerm"));
         }
 
-//		boolean outpost = false;
-//		if (args.length >= 2 && args[1].equalsIgnoreCase("outpost")) {
-//			outpost = true;
-//			CivMessage.send(player, "Claiming an outpost!");
-//		}
-
         try {
             TownChunk.claim(town, player);
         } catch (CivException e) {
@@ -94,5 +91,29 @@ public class Town2Command extends DispatcherCommand {
     @Override
     public CommandDispatcher<Sender> getDispatcher() {
         return dispatcher;
+    }
+
+    public static int members_cmd(CommandContext<Sender> context) {
+        Town town = context.getSource().getTown();
+
+        CivMessage.sendHeading(context.getSource(), CivSettings.localize.localizedString("var_town_membersHeading", town.getName()));
+        StringBuilder out = new StringBuilder();
+        for (Resident res : town.getResidents()) {
+            out.append(res.getName()).append(", ");
+        }
+        CivMessage.send(context.getSource(), out.toString());
+        return 1;
+    }
+
+    public static int list_cmd(CommandContext<Sender> context) {
+        StringBuilder out = new StringBuilder();
+
+        CivMessage.sendHeading(context.getSource(), CivSettings.localize.localizedString("cmd_town_listHeading"));
+        for (Town town : CivGlobal.getTowns()) {
+            out.append(town.getName()).append("(").append(town.getCiv().getName()).append(")").append(", ");
+        }
+
+        CivMessage.send(context.getSource(), out.toString());
+        return 1;
     }
 }
