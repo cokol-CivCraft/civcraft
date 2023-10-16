@@ -278,7 +278,7 @@ public abstract class Wonder extends MetaStructure {
 
     public void processCoinsFromColosseum() {
         int townCount = 0;
-        for (Civilization civ : CivGlobal.getCivs()) {
+        for (Civilization civ : Civilization.getCivs()) {
             townCount += civ.getTownCount();
         }
         double coinsPerTown = Double.parseDouble(CivSettings.buffs.get("buff_colosseum_coins_from_towns").value);

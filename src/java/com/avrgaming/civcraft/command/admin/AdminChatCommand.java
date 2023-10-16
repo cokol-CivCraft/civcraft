@@ -51,7 +51,7 @@ public class AdminChatCommand extends CommandBase {
     public void tclistenall_cmd() throws CivException {
         Resident resident = getResident();
 
-        for (Town t : CivGlobal.getTowns()) {
+        for (Town t : Town.getTowns()) {
             CivMessage.addExtraTownChatListener(t, resident.getName());
         }
 
@@ -61,7 +61,7 @@ public class AdminChatCommand extends CommandBase {
     public void cclistenall_cmd() throws CivException {
         Resident resident = getResident();
 
-        for (Civilization civ : CivGlobal.getCivs()) {
+        for (Civilization civ : Civilization.getCivs()) {
             CivMessage.addExtraCivChatListener(civ, resident.getName());
         }
 
@@ -71,11 +71,11 @@ public class AdminChatCommand extends CommandBase {
     public void listenoff_cmd() throws CivException {
         Resident resident = getResident();
 
-        for (Town t : CivGlobal.getTowns()) {
+        for (Town t : Town.getTowns()) {
             CivMessage.removeExtraTownChatListener(t, resident.getName());
         }
 
-        for (Civilization civ : CivGlobal.getCivs()) {
+        for (Civilization civ : Civilization.getCivs()) {
             CivMessage.removeExtraCivChatListener(civ, resident.getName());
         }
 

@@ -107,10 +107,10 @@ public class PermissionGroup extends SQLObject {
         loadMembersFromSaveString(rs.getString("members"));
 
         if (this.getTownId() != 0) {
-            this.cacheTown = CivGlobal.getTownFromId(this.getTownId());
+            this.cacheTown = Town.getTownFromId(this.getTownId());
             this.getTown().addGroup(this);
         } else {
-            Civilization civ = CivGlobal.getCivFromId(this.getCivId());
+            Civilization civ = Civilization.getCivFromId(this.getCivId());
             if (civ == null) {
                 civ = CivGlobal.getConqueredCivFromId(this.getCivId());
                 if (civ == null) {

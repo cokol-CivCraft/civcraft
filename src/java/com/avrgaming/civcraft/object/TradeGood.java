@@ -91,7 +91,7 @@ public class TradeGood extends SQLObject {
         this.setUUID(UUID.fromString(rs.getString("uuid")));
         this.setName(rs.getString("name"));
         setInfo(CivSettings.goods.get(this.getName()));
-        this.setTown(CivGlobal.getTownFromId(rs.getInt("town_id")));
+        this.setTown(Town.getTownFromId(rs.getInt("town_id")));
         String bonusLocation = rs.getString("bonusLocation");
         if (bonusLocation != null) {
             this.bonusLocation = new BlockCoord(bonusLocation);

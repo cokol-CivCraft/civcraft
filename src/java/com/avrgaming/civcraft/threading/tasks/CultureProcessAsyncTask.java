@@ -220,7 +220,7 @@ public class CultureProcessAsyncTask extends CivAsyncTask {
     public void run() {
         lock.lock();
         try {
-            for (Town t : CivGlobal.getTowns()) {
+            for (Town t : Town.getTowns()) {
                 try {
                     processTownCulture(t);
                 } catch (Exception e) {
@@ -251,13 +251,13 @@ public class CultureProcessAsyncTask extends CivAsyncTask {
             centerCoords.put(coord, struct);
         }
 
-        for (Town t : CivGlobal.getTowns()) {
+        for (Town t : Town.getTowns()) {
             t.processStructureFlipping(centerCoords);
         }
     }
 
     private static void recalculateTouchingCultures() {
-        for (Town t : CivGlobal.getTowns()) {
+        for (Town t : Town.getTowns()) {
             // Search for towns touching our town.
             t.townTouchList.clear();
             for (CultureChunk cc : t.getCultureChunks()) {

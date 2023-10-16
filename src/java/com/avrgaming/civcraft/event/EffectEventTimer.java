@@ -45,7 +45,7 @@ public class EffectEventTimer extends CivAsyncTask {
 
 	private void processTick() {
 		/* Clear the last taxes so they don't accumulate. */
-		for (Civilization civ : CivGlobal.getCivs()) {
+		for (Civilization civ : Civilization.getCivs()) {
 			civ.lastTaxesPaidMap.clear();
 		}
 
@@ -110,7 +110,7 @@ public class EffectEventTimer extends CivAsyncTask {
 		 *  - Culture
 		 *
 		 */
-		for (Town town : CivGlobal.getTowns()) {
+		for (Town town : Town.getTowns()) {
 			double cultureGenerated;
 
 			// highjack this loop to display town hall warning.

@@ -4,7 +4,6 @@
 package com.avrgaming.civcraft.command.arguments;
 
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.object.Town;
 import com.mojang.brigadier.LiteralMessage;
 import com.mojang.brigadier.StringReader;
@@ -39,7 +38,7 @@ public class TownArgumentType implements ArgumentType<Town> {
     @Override
     public Town parse(final StringReader reader) throws CommandSyntaxException {
         String name = reader.readUnquotedString();
-        Town town = CivGlobal.getTown(name);
+        Town town = Town.getTown(name);
         if (town == null) {
             throw UNKNOWN_TOWN_EXCEPTION.createWithContext(reader, name);
         }
@@ -48,7 +47,7 @@ public class TownArgumentType implements ArgumentType<Town> {
 
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
-        for (Town town : CivGlobal.getTowns()) {
+        for (Town town : Town.getTowns()) {
             if (town.getName().startsWith(builder.getRemaining())) {
                 builder.suggest(town.getName());
             }

@@ -109,7 +109,7 @@ public class Town2Command extends DispatcherCommand {
         StringBuilder out = new StringBuilder();
 
         CivMessage.sendHeading(context.getSource(), CivSettings.localize.localizedString("cmd_town_listHeading"));
-        for (Town town : CivGlobal.getTowns()) {
+        for (Town town : Town.getTowns()) {
             out.append(town.getName()).append("(").append(town.getCiv().getName()).append(")").append(", ");
         }
 

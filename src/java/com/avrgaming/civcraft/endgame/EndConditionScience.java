@@ -61,7 +61,7 @@ public class EndConditionScience extends EndGameCondition {
         double most = 0;
         Civilization mostCiv = null;
 
-        for (Civilization civ : CivGlobal.getCivs()) {
+        for (Civilization civ : Civilization.getCivs()) {
             double beakers = getExtraBeakersInCiv(civ);
             if (beakers > most) {
                 most = beakers;

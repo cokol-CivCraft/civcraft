@@ -391,7 +391,7 @@ public class TownCommand extends CommandBase {
         StringBuilder out = new StringBuilder();
 
         CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_town_listHeading"));
-        for (Town town : CivGlobal.getTowns()) {
+        for (Town town : Town.getTowns()) {
             out.append(town.getName()).append("(").append(town.getCiv().getName()).append(")").append(", ");
         }
 

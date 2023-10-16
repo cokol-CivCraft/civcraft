@@ -71,6 +71,7 @@ import static java.lang.Double.min;
 
 public class Civilization extends SQLObject {
 
+    public static final Map<String, Civilization> civs = new ConcurrentHashMap<>();
     private final Map<String, ConfigTech> techs = new ConcurrentHashMap<>();
 
     private int color;
@@ -129,7 +130,7 @@ public class Civilization extends SQLObject {
         this.setName(name);
         this.leaderName = leader.getUUID().toString();
         this.setCapitolName(capitolName);
-        this.capitol = CivGlobal.getTown(capitolName);
+        this.capitol = Town.getTown(capitolName);
 
         this.government = CivSettings.governments.get("gov_tribalism");
         this.color = this.pickCivColor();
@@ -157,11 +158,11 @@ public class Civilization extends SQLObject {
             throw new CivException(CivSettings.localize.localizedString("civ_found_notItem"));
         }
 
-        if (CivGlobal.getCiv(name) != null) {
+        if (getByName(name) != null) {
             throw new CivException(CivSettings.localize.localizedString("var_civ_found_civExists", name));
         }
 
-        if (CivGlobal.getTown(capitolName) != null) {
+        if (Town.getTown(capitolName) != null) {
             throw new CivException(CivSettings.localize.localizedString("var_civ_found_townExists", capitolName));
         }
 
@@ -214,7 +215,7 @@ public class Civilization extends SQLObject {
                 throw e;
             }
 
-            CivGlobal.addCiv(civ);
+            addCiv(civ);
             ItemStack newStack = new ItemStack(Material.AIR);
             player.getInventory().setItemInMainHand(newStack);
             CivMessage.globalTitle(CivSettings.localize.localizedString("var_civ_found_successTitle", civ.getName()), CivSettings.localize.localizedString("var_civ_found_successSubTitle", civ.getCapitolName(), player.getName()));
@@ -243,6 +244,46 @@ public class Civilization extends SQLObject {
         } else {
             CivLog.info(TABLE_NAME + " table OK!");
             SQLController.makeCol("nbt", "BLOB", TABLE_NAME);
+        }
+    }
+
+    public static void addCiv(Civilization civ) {
+        civs.put(civ.getName().toLowerCase(), civ);
+        if (civ.isAdminCiv()) {
+            CivGlobal.addAdminCiv(civ);
+        }
+    }
+
+    public static Civilization getByName(String name) {
+        return civs.get(name.toLowerCase());
+    }
+
+    public static Civilization getCivFromId(int id) {
+        for (Civilization civ : civs.values()) {
+            if (civ.getId() == id) {
+                return civ;
+            }
+        }
+        return null;
+    }
+
+    public static Civilization getCivFromUUID(UUID uuid) {
+        for (Civilization civ : civs.values()) {
+            if (civ.getUUID().equals(uuid)) {
+                return civ;
+            }
+        }
+        return null;
+    }
+
+    public static Collection<Civilization> getCivs() {
+        return civs.values();
+    }
+
+    public static void removeCiv(Civilization civilization) {
+        civs.remove(civilization.getName().toLowerCase());
+        if (civilization.isAdminCiv()) {
+            CivGlobal.removeAdminCiv(civilization);
         }
     }
 
@@ -511,7 +552,7 @@ public class Civilization extends SQLObject {
         this.diplomacyManager.deleteAllRelations();
 
         SQLController.deleteNamedObject(this, TABLE_NAME);
-        CivGlobal.removeCiv(this);
+        removeCiv(this);
         if (this.isConquered()) {
             CivGlobal.removeConqueredCiv(this);
         }
@@ -1188,7 +1229,7 @@ public class Civilization extends SQLObject {
 
 
         /* Remove ourselves from the main global civ list and into a special conquered list. */
-        CivGlobal.removeCiv(this);
+        removeCiv(this);
         CivGlobal.addConqueredCiv(this);
         this.conquered = true;
         this.conquer_date = new Date();
@@ -1374,7 +1415,7 @@ public class Civilization extends SQLObject {
         double total_coins = base_coins;
 
         double motherCivPoints = this.getTechScore();
-        for (Town town : CivGlobal.getTowns()) {
+        for (Town town : Town.getTowns()) {
             if (town.getMotherCiv() == this) {
                 motherCivPoints += town.getScore();
                 total_coins += coins_per_town;
@@ -1410,7 +1451,7 @@ public class Civilization extends SQLObject {
     }
 
     public void capitulate() {
-        for (Town t : CivGlobal.getTowns()) {
+        for (Town t : Town.getTowns()) {
             if (t.getMotherCiv() == this) {
                 t.setMotherCiv(null);
                 t.save();
@@ -1492,11 +1533,11 @@ public class Civilization extends SQLObject {
 
     public double getPercentageConquered() {
 
-        int totalCivs = CivGlobal.getCivs().size() + CivGlobal.getConqueredCivs().size();
+        int totalCivs = getCivs().size() + CivGlobal.getConqueredCivs().size();
         int conqueredCivs = 1; /* Your civ already counts */
 
         for (Civilization civ : CivGlobal.getConqueredCivs()) {
-            Town capitol = CivGlobal.getTown(civ.getCapitolName());
+            Town capitol = Town.getTown(civ.getCapitolName());
             if (capitol == null) {
                 /* Invalid civ? */
                 totalCivs--;
@@ -1547,7 +1588,7 @@ public class Civilization extends SQLObject {
 
     public void rename(String name) throws CivException, InvalidNameException {
 
-        Civilization other = CivGlobal.getCiv(name);
+        Civilization other = getByName(name);
         if (other != null) {
             throw new CivException(CivSettings.localize.localizedString("civ_rename_errorExists"));
         }
@@ -1560,7 +1601,7 @@ public class Civilization extends SQLObject {
         if (this.conquered) {
             CivGlobal.removeConqueredCiv(this);
         } else {
-            CivGlobal.removeCiv(this);
+            removeCiv(this);
         }
 
         String oldName = this.getName();
@@ -1570,7 +1611,7 @@ public class Civilization extends SQLObject {
         if (this.conquered) {
             CivGlobal.addConqueredCiv(this);
         } else {
-            CivGlobal.addCiv(this);
+            addCiv(this);
         }
 
         CivMessage.global(CivSettings.localize.localizedString("var_civ_rename_success1", oldName, this.getName()));

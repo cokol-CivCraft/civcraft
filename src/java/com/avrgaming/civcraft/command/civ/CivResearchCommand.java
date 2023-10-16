@@ -105,7 +105,7 @@ public class CivResearchCommand extends CommandBase {
             throw new CivException(CivSettings.localize.localizedString("cmd_civ_research_onPrompt"));
         }
 
-        Town capitol = CivGlobal.getTown(civ.getCapitolName());
+        Town capitol = Town.getTown(civ.getCapitolName());
         if (capitol == null) {
             throw new CivException(CivSettings.localize.localizedString("var_cmd_civ_research_missingCapitol", civ.getCapitolName()) + " " + CivSettings.localize.localizedString("internalCommandException"));
         }

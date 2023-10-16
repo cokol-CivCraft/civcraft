@@ -36,7 +36,7 @@ public class EndGameCheckTask implements Runnable {
             return;
         }
 
-        for (Civilization civ : CivGlobal.getCivs()) {
+        for (Civilization civ : Civilization.getCivs()) {
             if (civ.isAdminCiv()) {
                 continue;
             }

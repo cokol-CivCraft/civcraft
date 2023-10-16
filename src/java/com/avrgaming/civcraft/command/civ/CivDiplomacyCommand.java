@@ -129,7 +129,7 @@ public class CivDiplomacyCommand extends CommandBase {
             Civilization capitolOwnerCiv = town.getCiv();
 
             /* Liberate the civ. */
-            for (Town t : CivGlobal.getTowns()) {
+            for (Town t : Town.getTowns()) {
                 if (t.getMotherCiv() == motherCiv && t.getCiv() == capitolOwnerCiv) {
                     t.changeCiv(motherCiv);
                     t.setMotherCiv(null);
@@ -139,7 +139,7 @@ public class CivDiplomacyCommand extends CommandBase {
 
             motherCiv.setConquered(false);
             CivGlobal.removeConqueredCiv(motherCiv);
-            CivGlobal.addCiv(motherCiv);
+            Civilization.addCiv(motherCiv);
             motherCiv.save();
             CivMessage.global(CivSettings.localize.localizedString("var_cmd_civ_liberateSuccess1", motherCiv.getName(), civ.getName()));
         } else {
@@ -167,7 +167,7 @@ public class CivDiplomacyCommand extends CommandBase {
     public void global_cmd() {
         CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_civ_globalHeading"));
 
-        for (Civilization civ : CivGlobal.getCivs()) {
+        for (Civilization civ : Civilization.getCivs()) {
             for (Relation relation : civ.getDiplomacyManager().getRelations()) {
                 CivMessage.send(sender, civ.getName() + ": " + relation.toString());
             }
@@ -178,7 +178,7 @@ public class CivDiplomacyCommand extends CommandBase {
         CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_civ_warsHeading"));
         HashSet<String> usedRelations = new HashSet<>();
 
-        for (Civilization civ : CivGlobal.getCivs()) {
+        for (Civilization civ : Civilization.getCivs()) {
             for (Relation relation : civ.getDiplomacyManager().getRelations()) {
                 if (relation.getStatus().equals(Status.WAR)) {
                     if (!usedRelations.contains(relation.getPairKey())) {

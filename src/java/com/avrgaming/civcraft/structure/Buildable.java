@@ -675,7 +675,7 @@ public abstract class Buildable extends SQLObject {
         if (isTownHall()) {
             double minDistance = CivSettings.townConfig.getDouble("town.min_town_distance", 150.0);
 
-            for (Town town : CivGlobal.getTowns()) {
+            for (Town town : Town.getTowns()) {
                 TownHall townhall = town.getTownHall();
                 if (townhall == null) {
                     continue;

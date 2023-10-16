@@ -245,7 +245,7 @@ public class TownChunk extends SQLObject {
     public void load(ResultSet rs) throws SQLException, CivException {
         this.setId(rs.getInt("id"));
         this.setUUID(UUID.fromString(rs.getString("uuid")));
-        this.setTown(CivGlobal.getTownFromId(rs.getInt("town_id")));
+        this.setTown(Town.getTownFromId(rs.getInt("town_id")));
         if (this.getTown() == null) {
             CivLog.warning("TownChunk tried to load without a town...");
             if (CivGlobal.testFileFlag("cleanupDatabase")) {

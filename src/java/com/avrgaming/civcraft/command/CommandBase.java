@@ -386,7 +386,7 @@ public abstract class CommandBase implements TabExecutor {
         }
         String name = args[index].toLowerCase().replace("%", "(\\w*)");
         ArrayList<Civilization> potentialMatches = new ArrayList<>();
-        for (Civilization civ : CivGlobal.getCivs()) {
+        for (Civilization civ : Civilization.getCivs()) {
             String str = civ.getName().toLowerCase();
             try {
                 if (str.matches(name)) {
@@ -482,7 +482,7 @@ public abstract class CommandBase implements TabExecutor {
         String name = args[index].toLowerCase().replace("%", "(\\w*)");
 
         ArrayList<Town> potentialMatches = new ArrayList<>();
-        for (Town town : CivGlobal.getTowns()) {
+        for (Town town : Town.getTowns()) {
             String str = town.getName().toLowerCase();
             try {
                 if (str.matches(name)) {

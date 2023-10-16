@@ -214,7 +214,7 @@ public class Resident extends SQLObject {
         }
 
         if (townID != 0) {
-            this.setTown(CivGlobal.getTownFromId(townID));
+            this.setTown(Town.getTownFromId(townID));
             if (this.town == null) {
                 CivLog.error("COULD NOT FIND TOWN(" + townID + ") FOR RESIDENT(" + this.getId() + ") Name:" + this.getName());
                 /*
@@ -871,7 +871,7 @@ public class Resident extends SQLObject {
 
         ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getCooldownKey());
         if (!entries.isEmpty()) {
-            Civilization oldCiv = CivGlobal.getCivFromId(Integer.parseInt(entries.get(0).value));
+            Civilization oldCiv = Civilization.getCivFromId(Integer.parseInt(entries.get(0).value));
             if (oldCiv == null) {
                 /* Hmm, old civ is gone. */
                 cleanupCooldown();

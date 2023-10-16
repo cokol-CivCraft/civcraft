@@ -3,7 +3,6 @@ package com.avrgaming.civcraft.randomevents;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.event.EventInterface;
 import com.avrgaming.civcraft.event.EventTimer;
-import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.object.Town;
 
 import javax.annotation.Nonnull;
@@ -16,7 +15,7 @@ public class RandomEventTimer implements EventInterface {
     public void process() {
         //CivMessage.global("Random Event Timer!");
 
-        for (Town town : CivGlobal.getTowns()) {
+        for (Town town : Town.getTowns()) {
             if (town.getActiveEvent() != null) {
                 /* Event is already active in this town. Lets skip checking it. */
                 continue;

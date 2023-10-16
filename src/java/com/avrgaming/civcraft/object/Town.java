@@ -66,6 +66,7 @@ import static java.lang.Math.max;
 
 public class Town extends SQLObject {
 
+    public static final Map<String, Town> towns = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<String, Resident> residents = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<String, Resident> fakeResidents = new ConcurrentHashMap<>();
 
@@ -159,6 +160,50 @@ public class Town extends SQLObject {
      */
     public static final int ATTR_TIMEOUT_SECONDS = 5;
 
+    public static Town getTown(String name) {
+        if (name == null) {
+            return null;
+        }
+        return towns.get(name.toLowerCase());
+    }
+
+    //TODO make lookup via ID faster(use hashtable)
+    public static Town getTownFromId(int id) {
+if (id == 0) {
+return null;
+}
+for (Town t : towns.values()) {
+if (t.getId() == id) {
+return t;
+}
+}
+return null;
+}
+
+    public static Town getTownFromUUID(UUID id) {
+if (id == null) {
+return null;
+}
+for (Town t : towns.values()) {
+if (t.getUUID().equals(id)) {
+return t;
+}
+}
+return null;
+}
+
+    public static void addTown(Town town) {
+        towns.put(town.getName().toLowerCase(), town);
+    }
+
+    public static Collection<Town> getTowns() {
+        return towns.values();
+    }
+
+    public static void removeTown(Town town) {
+        towns.remove(town.getName().toLowerCase());
+    }
+
     public static class AttrCache {
         public Date lastUpdate;
         public AttrSource sources;
@@ -201,13 +246,13 @@ public class Town extends SQLObject {
         if (!nbt.getString("granaryResources").isEmpty()) {
             this.granaryResources = nbt.getString("granaryResources");
         }
-        this.setCiv(CivGlobal.getCivFromUUID(UUID.fromString(nbt.getString("civ_uuid"))));
+        this.setCiv(Civilization.getCivFromUUID(UUID.fromString(nbt.getString("civ_uuid"))));
 
         String motherCivUUID = nbt.getString("mother_civ_uuid");
         if (!motherCivUUID.isEmpty()) {
             Civilization mother = CivGlobal.getConqueredCivFromUUID(UUID.fromString(motherCivUUID));
             if (mother == null) {
-                mother = CivGlobal.getCivFromUUID(UUID.fromString(motherCivUUID));
+                mother = Civilization.getCivFromUUID(UUID.fromString(motherCivUUID));
             }
 
             if (mother == null) {
@@ -352,7 +397,7 @@ public class Town extends SQLObject {
         CivGlobal.getSessionDB().deleteAllForTown(this);
 
         SQLController.deleteNamedObject(this, TABLE_NAME);
-        CivGlobal.removeTown(this);
+        removeTown(this);
     }
 
 
@@ -397,7 +442,7 @@ public class Town extends SQLObject {
                 throw new CivException(CivSettings.localize.localizedString("town_found_errorInCamp"));
             }
 
-            Town existTown = CivGlobal.getTown(name);
+            Town existTown = getTown(name);
             if (existTown != null) {
                 throw new CivException(CivSettings.localize.localizedString("var_town_found_errorNameExists", name));
             }
@@ -423,7 +468,7 @@ public class Town extends SQLObject {
             double minDistanceFriend = CivSettings.townConfig.getDouble("town.min_town_distance", 150.0);
             double minDistanceEnemy = CivSettings.townConfig.getDouble("town.min_town_distance_enemy", 300.0);
 
-            for (Town town : CivGlobal.getTowns()) {
+            for (Town town : getTowns()) {
                 TownHall townhall = town.getTownHall();
                 if (townhall == null) {
                     continue;
@@ -466,7 +511,7 @@ public class Town extends SQLObject {
             }
             newTown.saveNow();
 
-            CivGlobal.addTown(newTown);
+            addTown(newTown);
 
             // Create permission groups for town.
             PermissionGroup residentsGroup;
@@ -721,7 +766,7 @@ public class Town extends SQLObject {
 
         if (this.getBuffManager().hasBuff("buff_globe_theatre_culture_from_towns")) {
             int townCount = 0;
-            for (Civilization civ : CivGlobal.getCivs()) {
+            for (Civilization civ : Civilization.getCivs()) {
                 townCount += civ.getTownCount();
             }
             double culturePerTown = Double.parseDouble(CivSettings.buffs.get("buff_globe_theatre_culture_from_towns").value);
@@ -2907,7 +2952,7 @@ public class Town extends SQLObject {
     }
 
     public void rename(String name) throws CivException, InvalidNameException {
-        if (CivGlobal.getTown(name) != null) {
+        if (getTown(name) != null) {
             throw new CivException(CivSettings.localize.localizedString("town_rename_errorExists"));
         }
 
@@ -2918,12 +2963,12 @@ public class Town extends SQLObject {
 
         String oldName = this.getName();
 
-        CivGlobal.removeTown(this);
+        removeTown(this);
 
         this.setName(name);
         this.save();
 
-        CivGlobal.addTown(this);
+        addTown(this);
 
         CivMessage.global(CivSettings.localize.localizedString("var_town_rename_success1", oldName, this.getName()));
     }

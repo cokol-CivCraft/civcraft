@@ -74,7 +74,7 @@ public class RandomEvent extends SQLObject {
             throw new CivException("Couldn't find random event config id:" + rs.getString("config_id"));
         }
 
-        this.town = CivGlobal.getTownFromId(rs.getInt("town_id"));
+        this.town = Town.getTownFromId(rs.getInt("town_id"));
         if (this.town == null) {
             this.delete();
             throw new CivException("Couldn't find town id:" + rs.getInt("town_id") + " while loading random event.");

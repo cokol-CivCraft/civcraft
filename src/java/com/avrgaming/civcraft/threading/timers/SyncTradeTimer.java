@@ -62,7 +62,7 @@ public class SyncTradeTimer implements Runnable {
 
         CivGlobal.checkForDuplicateGoodies();
 
-        for (Town town : CivGlobal.getTowns()) {
+        for (Town town : Town.getTowns()) {
             try {
                 processTownsTradePayments(town);
             } catch (Exception e) {

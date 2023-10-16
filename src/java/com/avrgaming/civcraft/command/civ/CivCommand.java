@@ -117,7 +117,7 @@ public class CivCommand extends CommandBase {
     public void votes_cmd() {
 
         CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_civ_votesHeading"));
-        for (Civilization civ : CivGlobal.getCivs()) {
+        for (Civilization civ : Civilization.getCivs()) {
             Integer votes = EndConditionDiplomacy.getVotesFor(civ);
             if (votes != 0) {
                 CivMessage.send(sender, String.valueOf(ChatColor.AQUA) +
@@ -212,7 +212,7 @@ public class CivCommand extends CommandBase {
 
         /* Starting a revolution! Give back all of our towns to us. */
         HashSet<String> warCivs = new HashSet<>();
-        for (Town t : CivGlobal.getTowns()) {
+        for (Town t : Town.getTowns()) {
             if (t.getMotherCiv() == motherCiv) {
                 warCivs.add(t.getCiv().getName());
                 t.changeCiv(motherCiv);
@@ -222,7 +222,7 @@ public class CivCommand extends CommandBase {
         }
 
         for (String warCivName : warCivs) {
-            Civilization civ = CivGlobal.getCiv(warCivName);
+            Civilization civ = Civilization.getByName(warCivName);
             if (civ != null) {
                 CivGlobal.setRelation(civ, motherCiv, Status.WAR);
                 /* THEY are the aggressor in a revolution. */
@@ -232,7 +232,7 @@ public class CivCommand extends CommandBase {
 
         motherCiv.setConquered(false);
         CivGlobal.removeConqueredCiv(motherCiv);
-        CivGlobal.addCiv(motherCiv);
+        Civilization.addCiv(motherCiv);
         motherCiv.save();
 
 
@@ -379,7 +379,7 @@ public class CivCommand extends CommandBase {
         if (args.length < 2) {
             StringBuilder out = new StringBuilder();
             CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_civ_listHeading"));
-            for (Civilization civ : CivGlobal.getCivs()) {
+            for (Civilization civ : Civilization.getCivs()) {
                 out.append(civ.getName()).append(", ");
             }
 
@@ -499,7 +499,7 @@ public class CivCommand extends CommandBase {
             return;
         }
 
-        Civilization civ = CivGlobal.getCiv(args[1]);
+        Civilization civ = Civilization.getByName(args[1]);
         if (civ == null) {
             CivMessage.sendError(sender, CivSettings.localize.localizedString("var_cmd_civ_voteInvalidCiv", args[1]));
             return;

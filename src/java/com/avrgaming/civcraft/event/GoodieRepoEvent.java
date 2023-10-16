@@ -35,7 +35,7 @@ public class GoodieRepoEvent implements EventInterface {
             @Override
             public void run() {
 
-                for (Town town : CivGlobal.getTowns()) {
+                for (Town town : Town.getTowns()) {
                     for (BonusGoodie goodie : town.getBonusGoodies()) {
                         town.removeGoodie(goodie);
                     }

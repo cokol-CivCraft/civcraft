@@ -324,8 +324,8 @@ public class DebugCommand extends CommandBase {
             spawnCapitol.save();
             resident.save();
 
-            CivGlobal.addTown(spawnCapitol);
-            CivGlobal.addCiv(spawnCiv);
+            Town.addTown(spawnCapitol);
+            Civilization.addCiv(spawnCiv);
 
             /* Setup leader and adivsers groups. */
             try {
@@ -912,7 +912,7 @@ public class DebugCommand extends CommandBase {
     public void setallculture_cmd() throws CivException {
         Integer culture = getNamedInteger(1);
 
-        for (Town town : CivGlobal.getTowns()) {
+        for (Town town : Town.getTowns()) {
             town.addAccumulatedCulture(culture);
             town.save();
         }
@@ -1086,7 +1086,7 @@ public class DebugCommand extends CommandBase {
         }
 
 
-        for (Town town : CivGlobal.getTowns()) {
+        for (Town town : Town.getTowns()) {
             for (Structure struct : town.getStructures()) {
                 if (struct instanceof ArrowTower) {
                     ((ArrowTower) struct).setPower(Float.parseFloat(args[1]));

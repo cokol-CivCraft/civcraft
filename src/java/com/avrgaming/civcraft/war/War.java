@@ -80,7 +80,7 @@ public class War {
 
         for (String civName : defeatedCivs.keySet()) {
             Civilization master = defeatedCivs.get(civName);
-            saveDefeatedCiv(CivGlobal.getCiv(civName), master);
+            saveDefeatedCiv(Civilization.getByName(civName), master);
         }
     }
 
@@ -98,7 +98,7 @@ public class War {
 
         for (SessionEntry entry : entries) {
             String[] split = entry.value.split(":");
-            defeatedTowns.put(split[0], CivGlobal.getCivFromId(Integer.parseInt(split[1])));
+            defeatedTowns.put(split[0], Civilization.getCivFromId(Integer.parseInt(split[1])));
         }
     }
 
@@ -107,7 +107,7 @@ public class War {
 
         for (SessionEntry entry : entries) {
             String[] split = entry.value.split(":");
-            defeatedCivs.put(split[0], CivGlobal.getCivFromId(Integer.parseInt(split[1])));
+            defeatedCivs.put(split[0], Civilization.getCivFromId(Integer.parseInt(split[1])));
         }
     }
 
@@ -131,7 +131,7 @@ public class War {
 
     public static boolean hasWars() {
 
-        for (Civilization civ : CivGlobal.getCivs()) {
+        for (Civilization civ : Civilization.getCivs()) {
             for (Relation relation : civ.getDiplomacyManager().getRelations()) {
                 if (relation.getStatus().equals(Status.WAR)) {
                     return true;
@@ -193,7 +193,7 @@ public class War {
             }
             WarStats.clearStats();
 
-            for (Civilization civ : CivGlobal.getCivs()) {
+            for (Civilization civ : Civilization.getCivs()) {
                 civ.onWarEnd();
             }
 
@@ -256,7 +256,7 @@ public class War {
         for (String townName : defeatedTowns.keySet()) {
             Civilization civ = defeatedTowns.get(townName);
             if (civ == loser) {
-                Town town = CivGlobal.getTown(townName);
+                Town town = Town.getTown(townName);
                 if (town.getCiv() == winner) {
                     removeUs.add(townName);
                 } else {
@@ -288,7 +288,7 @@ public class War {
         if (!CivGlobal.isCasualMode()) {
             for (String townName : defeatedTowns.keySet()) {
                 try {
-                    Town town = CivGlobal.getTown(townName);
+                    Town town = Town.getTown(townName);
                     if (town == null) {
                         continue;
                     }
@@ -304,7 +304,7 @@ public class War {
 
             for (String civName : defeatedCivs.keySet()) {
                 try {
-                    Civilization civ = CivGlobal.getCiv(civName);
+                    Civilization civ = Civilization.getByName(civName);
                     if (civ == null) {
                         /*
                          * Civ is no longer on the list of active civs. Which means it's
@@ -329,7 +329,7 @@ public class War {
             /* Defeated Civs cause the war to 'reset' */
             for (String civName : defeatedCivs.keySet()) {
                 try {
-                    Civilization civ = CivGlobal.getCiv(civName);
+                    Civilization civ = Civilization.getByName(civName);
                     if (civ == null) {
                         /*
                          * Civ is no longer on the list of active civs. Which means it's
@@ -358,14 +358,14 @@ public class War {
      * When war time starts, we should reset the claim flag so it can be claimed by someone else.
      */
     private static void resetTownClaimFlags() {
-        for (Town t : CivGlobal.getTowns()) {
+        for (Town t : Town.getTowns()) {
             t.claimed = false;
             t.defeated = false;
         }
     }
 
     private static void repositionPlayers(String reason) {
-        for (Civilization civ : CivGlobal.getCivs()) {
+        for (Civilization civ : Civilization.getCivs()) {
             try {
                 civ.repositionPlayers(reason);
             } catch (Exception e) {
@@ -375,7 +375,7 @@ public class War {
     }
 
     private static void restoreAllTowns() {
-        for (Town town : CivGlobal.getTowns()) {
+        for (Town town : Town.getTowns()) {
             try {
                 WarRegen.restoreBlocksFor(town.getName());
                 if (town.getTownHall() != null && town.getTownHall().isActive()) {

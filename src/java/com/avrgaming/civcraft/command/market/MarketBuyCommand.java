@@ -20,7 +20,6 @@ package com.avrgaming.civcraft.command.market;
 import com.avrgaming.civcraft.command.CommandBase;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
-import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.Town;
@@ -42,7 +41,7 @@ public class MarketBuyCommand extends CommandBase {
     private void list_towns_for_sale(Civilization ourCiv) {
 
         CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_market_buy_townsHeading"));
-        for (Town town : CivGlobal.getTowns()) {
+        for (Town town : Town.getTowns()) {
             if (!town.isCapitol()) {
                 if (town.isForSale()) {
                     CivMessage.send(sender, town.getName() + " - " + ChatColor.YELLOW +
@@ -56,7 +55,7 @@ public class MarketBuyCommand extends CommandBase {
     private void list_civs_for_sale(Civilization ourCiv) {
 
         CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_market_buy_civsHeading"));
-        for (Civilization civ : CivGlobal.getCivs()) {
+        for (Civilization civ : Civilization.getCivs()) {
             if (civ.isForSale()) {
                 CivMessage.send(sender, civ.getName() + " - " + ChatColor.YELLOW +
                         df.format(civ.getTotalSalePrice()) + " " + CivSettings.CURRENCY_NAME);

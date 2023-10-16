@@ -4,7 +4,6 @@
 package com.avrgaming.civcraft.command.arguments;
 
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.object.Civilization;
 import com.mojang.brigadier.LiteralMessage;
 import com.mojang.brigadier.StringReader;
@@ -39,7 +38,7 @@ public class CivArgumentType implements ArgumentType<Civilization> {
     @Override
     public Civilization parse(final StringReader reader) throws CommandSyntaxException {
         String name = reader.readUnquotedString();
-        Civilization civilization = CivGlobal.getCiv(name);
+        Civilization civilization = Civilization.getByName(name);
         if (civilization == null) {
             throw UNKNOWN_TOWN_EXCEPTION.createWithContext(reader, name);
         }
@@ -48,7 +47,7 @@ public class CivArgumentType implements ArgumentType<Civilization> {
 
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
-        for (Civilization civilization : CivGlobal.getCivs()) {
+        for (Civilization civilization : Civilization.getCivs()) {
             if (civilization.getName().startsWith(builder.getRemaining())) {
                 builder.suggest(civilization.getName());
             }

@@ -192,7 +192,7 @@ public class UnitMaterial extends LoreMaterial {
             String[] split = loreLine.split(String.valueOf(ChatColor.RED));
             int townId = Integer.parseInt(split[1]);
 
-            return CivGlobal.getTownFromId(townId);
+            return Town.getTownFromId(townId);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

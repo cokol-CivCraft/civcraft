@@ -18,7 +18,6 @@
 package com.avrgaming.civcraft.threading.timers;
 
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.Town;
@@ -39,14 +38,14 @@ public class BeakerTimer extends CivAsyncTask {
     @Override
     public void run() {
 
-        for (Civilization civ : CivGlobal.getCivs()) {
+        for (Civilization civ : Civilization.getCivs()) {
 
             if (civ.getCapitolName() == null) {
                 CivMessage.sendCiv(civ, CivSettings.localize.localizedString("beaker_ErrorNoCapitol"));
                 continue;
             }
 
-            Town town = CivGlobal.getTown(civ.getCapitolName());
+            Town town = Town.getTown(civ.getCapitolName());
             if (town == null) {
                 CivMessage.sendCiv(civ, CivSettings.localize.localizedString("var_beaker_noCapitol", civ.getCapitolName()));
                 continue;

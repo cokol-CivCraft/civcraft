@@ -68,7 +68,7 @@ public class AdminCivCommand extends CommandBase {
         Civilization motherCiv = getNamedCiv(1);
 
         /* Liberate the civ. */
-        for (Town t : CivGlobal.getTowns()) {
+        for (Town t : Town.getTowns()) {
             if (t.getMotherCiv() == motherCiv) {
                 t.changeCiv(motherCiv);
                 t.setMotherCiv(null);
@@ -78,7 +78,7 @@ public class AdminCivCommand extends CommandBase {
 
         motherCiv.setConquered(false);
         CivGlobal.removeConqueredCiv(motherCiv);
-        CivGlobal.addCiv(motherCiv);
+        Civilization.addCiv(motherCiv);
         motherCiv.save();
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_liberateSuccess") + " " + motherCiv.getName());
     }
@@ -110,7 +110,7 @@ public class AdminCivCommand extends CommandBase {
     public void conquered_cmd() throws CivException {
         Civilization civ = getNamedCiv(1);
         civ.setConquered(true);
-        CivGlobal.removeCiv(civ);
+        Civilization.removeCiv(civ);
         CivGlobal.addConqueredCiv(civ);
         civ.save();
 
@@ -122,7 +122,7 @@ public class AdminCivCommand extends CommandBase {
 
         Civilization civ = CivGlobal.getConqueredCiv(conquerCiv);
         if (civ == null) {
-            civ = CivGlobal.getCiv(conquerCiv);
+            civ = Civilization.getByName(conquerCiv);
         }
 
         if (civ == null) {
@@ -131,7 +131,7 @@ public class AdminCivCommand extends CommandBase {
 
         civ.setConquered(false);
         CivGlobal.removeConqueredCiv(civ);
-        CivGlobal.addCiv(civ);
+        Civilization.addCiv(civ);
         civ.save();
 
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_unconquerSuccess"));

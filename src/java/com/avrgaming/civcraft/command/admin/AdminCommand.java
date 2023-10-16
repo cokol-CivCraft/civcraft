@@ -86,7 +86,7 @@ public class AdminCommand extends CommandBase {
             e.printStackTrace();
             throw new CivException(e.getMessage());
         }
-        for (Civilization civ : CivGlobal.getCivs()) {
+        for (Civilization civ : Civilization.getCivs()) {
             ConfigGovernment gov = civ.getGovernment();
 
             civ.setGovernment(gov.id);

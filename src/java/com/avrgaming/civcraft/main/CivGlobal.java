@@ -73,8 +73,6 @@ public class CivGlobal {
     private static final Map<String, Resident> residents = new ConcurrentHashMap<>();
     private static final Map<UUID, Resident> residentsViaUUID = new ConcurrentHashMap<>();
 
-    private static final Map<String, Town> towns = new ConcurrentHashMap<>();
-    private static final Map<String, Civilization> civs = new ConcurrentHashMap<>();
     private static final Map<String, Civilization> conqueredCivs = new ConcurrentHashMap<>();
     private static final Map<String, Civilization> adminCivs = new ConcurrentHashMap<>();
     private static final Map<ChunkCoord, TownChunk> townChunks = new ConcurrentHashMap<>();
@@ -95,9 +93,6 @@ public class CivGlobal {
     private static final Queue<FarmChunk> farmGrowQueue = new LinkedList<>();
     private static final Map<UUID, ItemFrameStorage> protectedItemFrames = new ConcurrentHashMap<>();
     private static final Map<BlockCoord, BonusGoodie> bonusGoodies = new ConcurrentHashMap<>();
-    //    private static final Map<ChunkCoord, HashSet<Wall>> wallChunks = new ConcurrentHashMap<>();
-//    private static final Map<BlockCoord, RoadBlock> roadBlocks = new ConcurrentHashMap<>();
-    private static final Map<BlockCoord, CustomMapMarker> customMapMarkers = new ConcurrentHashMap<>();
     private static final Map<String, Camp> camps = new ConcurrentHashMap<>();
     private static final Map<ChunkCoord, Camp> campChunks = new ConcurrentHashMap<>();
     public static HashSet<BlockCoord> vanillaGrowthLocations = new HashSet<>();
@@ -178,7 +173,7 @@ public class CivGlobal {
         TaskMaster.syncTask(postBuildSyncTask);
 
         /* Check for orphan civs now */
-        for (Civilization civ : civs.values()) {
+        for (Civilization civ : Civilization.civs.values()) {
             Town capitol = civ.getTown(civ.getCapitolName());
 
             if (capitol == null) {
@@ -282,7 +277,7 @@ public class CivGlobal {
     }
 
     private static void processUpgrades() {
-        for (Town town : towns.values()) {
+        for (Town town : Town.towns.values()) {
             try {
                 town.loadUpgrades();
             } catch (Exception e) {
@@ -342,7 +337,7 @@ public class CivGlobal {
                     }
 
                     if (!civ.isConquered()) {
-                        CivGlobal.addCiv(civ);
+                        Civilization.addCiv(civ);
                     } else {
                         CivGlobal.addConqueredCiv(civ);
                     }
@@ -441,7 +436,7 @@ public class CivGlobal {
             while (rs.next()) {
                 try {
                     Town town = new Town(rs);
-                    towns.put(town.getName().toLowerCase(), town);
+                    Town.towns.put(town.getName().toLowerCase(), town);
                     WarRegen.restoreBlocksFor(town.getName());
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -449,7 +444,7 @@ public class CivGlobal {
             }
 
             WarRegen.restoreBlocksFor(WarCamp.RESTORE_NAME);
-            CivLog.info("Loaded " + towns.size() + " Towns");
+            CivLog.info("Loaded " + Town.towns.size() + " Towns");
         } finally {
             SQLController.close(rs, ps);
         }
@@ -629,42 +624,6 @@ public class CivGlobal {
         return residentsViaUUID.get(uuid);
     }
 
-	public static Town getTown(String name) {
-		if (name == null) {
-			return null;
-		}
-		return towns.get(name.toLowerCase());
-	}
-	
-	//TODO make lookup via ID faster(use hashtable)
-	public static Town getTownFromId(int id) {
-        if (id == 0) {
-            return null;
-        }
-        for (Town t : towns.values()) {
-            if (t.getId() == id) {
-                return t;
-            }
-        }
-        return null;
-    }
-
-    public static Town getTownFromUUID(UUID id) {
-        if (id == null) {
-            return null;
-        }
-        for (Town t : towns.values()) {
-            if (t.getUUID().equals(id)) {
-                return t;
-            }
-        }
-        return null;
-    }
-	
-	public static void addTown(Town town) {
-		towns.put(town.getName().toLowerCase(), town);
-	}
-
     public static TownChunk getTownChunk(Location location) {
         ChunkCoord coord = new ChunkCoord(location);
         return townChunks.get(coord);
@@ -672,17 +631,6 @@ public class CivGlobal {
 
     public static void addTownChunk(TownChunk tc) {
         townChunks.put(tc.getChunkCoord(), tc);
-    }
-
-    public static void addCiv(Civilization civ) {
-        civs.put(civ.getName().toLowerCase(), civ);
-        if (civ.isAdminCiv()) {
-            addAdminCiv(civ);
-        }
-    }
-
-    public static Civilization getCiv(String name) {
-        return civs.get(name.toLowerCase());
     }
 
     public static PermissionGroup getPermissionGroup(Town town, Integer id) {
@@ -746,51 +694,14 @@ public class CivGlobal {
         questions.remove(name);
     }
 
-    public static Collection<Town> getTowns() {
-        return towns.values();
-    }
-
     public static Collection<Resident> getResidents() {
         return residents.values();
-    }
-
-    public static Civilization getCivFromId(int id) {
-        for (Civilization civ : civs.values()) {
-            if (civ.getId() == id) {
-                return civ;
-            }
-        }
-        return null;
-    }
-
-    public static Civilization getCivFromUUID(UUID uuid) {
-        for (Civilization civ : civs.values()) {
-            if (civ.getUUID().equals(uuid)) {
-                return civ;
-            }
-        }
-        return null;
-    }
-
-    public static Collection<Civilization> getCivs() {
-        return civs.values();
-    }
-
-    public static void removeCiv(Civilization civilization) {
-        civs.remove(civilization.getName().toLowerCase());
-        if (civilization.isAdminCiv()) {
-            removeAdminCiv(civilization);
-        }
-    }
-
-    public static void removeTown(Town town) {
-        towns.remove(town.getName().toLowerCase());
     }
 
     public static Collection<PermissionGroup> getGroups() {
         ArrayList<PermissionGroup> groups = new ArrayList<>();
 
-        for (Town t : towns.values()) {
+        for (Town t : Town.towns.values()) {
             for (PermissionGroup grp : t.getGroups()) {
                 if (grp != null) {
                     groups.add(grp);
@@ -798,7 +709,7 @@ public class CivGlobal {
             }
         }
 
-        for (Civilization civ : civs.values()) {
+        for (Civilization civ : Civilization.civs.values()) {
             if (civ.getLeaderGroup() != null) {
                 groups.add(civ.getLeaderGroup());
             }
@@ -1284,7 +1195,7 @@ public class CivGlobal {
         Date now = new Date();
 
         ArrayList<Relation> deletedRelations = new ArrayList<>();
-        for (Civilization civ : CivGlobal.getCivs()) {
+        for (Civilization civ : Civilization.getCivs()) {
             for (Relation relation : civ.getDiplomacyManager().getRelations()) {
                 if (relation.getExpireDate() != null && now.after(relation.getExpireDate())) {
                     deletedRelations.add(relation);
@@ -1432,7 +1343,7 @@ public class CivGlobal {
             return returnMap;
         }
 
-        for (Civilization civ : CivGlobal.getCivs()) {
+        for (Civilization civ : Civilization.getCivs()) {
             if (civ == town.getCiv()) {
                 continue;
             }
@@ -1457,11 +1368,6 @@ public class CivGlobal {
 
         // Map returned will be sorted.
         return returnMap;
-    }
-
-    @SuppressWarnings("deprecation")
-    public static OfflinePlayer getFakeOfflinePlayer(String name) {
-        return Bukkit.getOfflinePlayer(name);
     }
 
     public static Collection<CultureChunk> getCultureChunks() {

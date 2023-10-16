@@ -20,7 +20,6 @@ package com.avrgaming.civcraft.object;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.database.SQLUpdate;
-import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import org.bukkit.ChatColor;
 
@@ -97,14 +96,14 @@ public class Relation extends SQLObject {
     public void load(ResultSet rs) throws SQLException {
         this.setId(rs.getInt("id"));
         this.setUUID(UUID.fromString(rs.getString("uuid")));
-        civ = CivGlobal.getCivFromId(rs.getInt("civ_id"));
+        civ = Civilization.getCivFromId(rs.getInt("civ_id"));
         if (civ == null) {
             CivLog.warning("Couldn't find civ id:" + rs.getInt("civ_id") + " deleting this relation.");
             this.delete();
             return;
         }
 
-        other_civ = CivGlobal.getCivFromId(rs.getInt("other_civ_id"));
+        other_civ = Civilization.getCivFromId(rs.getInt("other_civ_id"));
         if (other_civ == null) {
             CivLog.warning("Couldn't find other civ id:" + rs.getInt("other_civ_id") + " deleting this relation.");
             this.civ = null;
@@ -120,7 +119,7 @@ public class Relation extends SQLObject {
 
         int aggressor_id = rs.getInt("aggressor_civ_id");
         if (aggressor_id != 0) {
-            setAggressor(CivGlobal.getCivFromId(aggressor_id));
+            setAggressor(Civilization.getCivFromId(aggressor_id));
         }
 
 

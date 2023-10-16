@@ -32,7 +32,7 @@ public class ChangeGovernmentTimer implements Runnable {
     public void run() {
 
         // For each town in anarchy, search the session DB for it's timer.
-        for (Civilization civ : CivGlobal.getCivs()) {
+        for (Civilization civ : Civilization.getCivs()) {
             if (!civ.getGovernment().id.equalsIgnoreCase("gov_anarchy")) {
                 continue;
             }

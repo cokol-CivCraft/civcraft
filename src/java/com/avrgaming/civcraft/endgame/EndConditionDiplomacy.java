@@ -107,7 +107,7 @@ public class EndConditionDiplomacy extends EndGameCondition {
     public boolean finalWinCheck(Civilization civ) {
         Integer votes = getVotesFor(civ);
 
-        for (Civilization otherCiv : CivGlobal.getCivs()) {
+        for (Civilization otherCiv : Civilization.getCivs()) {
             if (otherCiv == civ) {
                 continue;
             }

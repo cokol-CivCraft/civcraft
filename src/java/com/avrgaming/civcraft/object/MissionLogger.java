@@ -18,7 +18,6 @@
 package com.avrgaming.civcraft.object;
 
 import com.avrgaming.civcraft.database.SQLController;
-import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 
 import java.sql.PreparedStatement;
@@ -87,7 +86,7 @@ public class MissionLogger {
 
             SimpleDateFormat sdf = new SimpleDateFormat("M/dd h:mm:ss a z");
             while (rs.next()) {
-                Town target = CivGlobal.getTownFromId(rs.getInt("target_id"));
+                Town target = Town.getTownFromId(rs.getInt("target_id"));
                 if (target == null) {
                     continue;
                 }

@@ -89,7 +89,7 @@ public class Settler extends UnitMaterial implements CallbackInterface {
 
         double minDistance = CivSettings.townConfig.getDouble("town.min_town_distance", 150.0);
 
-        for (Town town : CivGlobal.getTowns()) {
+        for (Town town : Town.getTowns()) {
             TownHall townhall = town.getTownHall();
             if (townhall == null) {
                 continue;

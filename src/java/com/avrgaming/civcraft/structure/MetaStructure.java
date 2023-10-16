@@ -124,7 +124,7 @@ public abstract class MetaStructure extends Buildable {
         this.setUUID(UUID.fromString(rs.getString("uuid")));
         this.info = CivSettings.structures.get(rs.getString("type_id"));
 
-        this.setTown(CivGlobal.getTownFromId(rs.getInt("town_id")));
+        this.setTown(Town.getTownFromId(rs.getInt("town_id")));
 
         if (this.getTown() == null) {
             this.delete();

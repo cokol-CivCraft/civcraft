@@ -71,7 +71,7 @@ public class AdminRecoverCommand extends CommandBase {
     public void fixtownresidents_cmd() {
         for (Resident resident : CivGlobal.getResidents()) {
             if (resident.debugTown != null && !resident.debugTown.isEmpty()) {
-                Town town = CivGlobal.getTown(resident.debugTown);
+                Town town = Town.getTown(resident.debugTown);
                 if (town == null) {
                     CivLog.error(CivSettings.localize.localizedString("var_admcd_recover_FixTownError1", resident.debugTown, resident.getName()));
                     continue;
@@ -90,9 +90,9 @@ public class AdminRecoverCommand extends CommandBase {
 
     public void listnocapitols_cmd() {
         CivMessage.sendHeading(sender, CivSettings.localize.localizedString("adcmd_recover_ListNoCapitolHeading"));
-        for (Civilization civ : CivGlobal.getCivs()) {
+        for (Civilization civ : Civilization.getCivs()) {
 
-            Town town = CivGlobal.getTown(civ.getCapitolName());
+            Town town = Town.getTown(civ.getCapitolName());
             if (town == null) {
                 CivMessage.send(sender, civ.getName());
             }
@@ -101,9 +101,9 @@ public class AdminRecoverCommand extends CommandBase {
 
 
     public void cleannocapitols_cmd() {
-        for (Civilization civ : CivGlobal.getCivs()) {
+        for (Civilization civ : Civilization.getCivs()) {
 
-            Town town = CivGlobal.getTown(civ.getCapitolName());
+            Town town = Town.getTown(civ.getCapitolName());
             if (town == null) {
                 CivMessage.send(sender, CivSettings.localize.localizedString("Deleting") + " " + civ.getName());
                 try {
@@ -118,7 +118,7 @@ public class AdminRecoverCommand extends CommandBase {
 
     public void listdefunctcivs_cmd() {
         CivMessage.sendHeading(sender, CivSettings.localize.localizedString("adcmd_recover_ListNoCapitolHeading"));
-        for (Civilization civ : CivGlobal.getCivs()) {
+        for (Civilization civ : Civilization.getCivs()) {
             if (civ.getLeaderGroup() == null) {
                 CivMessage.send(sender, civ.getName());
             }
@@ -127,7 +127,7 @@ public class AdminRecoverCommand extends CommandBase {
 
 
     public void killdefunctcivs_cmd() {
-        for (Civilization civ : CivGlobal.getCivs()) {
+        for (Civilization civ : Civilization.getCivs()) {
             if (civ.getLeaderGroup() == null) {
                 CivMessage.send(sender, CivSettings.localize.localizedString("Deleting") + " " + civ.getName());
                 try {
@@ -142,7 +142,7 @@ public class AdminRecoverCommand extends CommandBase {
 
     public void listdefuncttowns_cmd() {
         CivMessage.sendHeading(sender, CivSettings.localize.localizedString("adcmd_recover_listDefunctTownsHeading"));
-        for (Town town : CivGlobal.getTowns()) {
+        for (Town town : Town.getTowns()) {
             if (town.getMayorGroup() == null) {
                 CivMessage.send(sender, town.getName());
             }
@@ -151,7 +151,7 @@ public class AdminRecoverCommand extends CommandBase {
 
 
     public void killdefuncttowns_cmd() {
-        for (Town town : CivGlobal.getTowns()) {
+        for (Town town : Town.getTowns()) {
             if (town.getMayorGroup() == null) {
                 CivMessage.send(sender, CivSettings.localize.localizedString("Deleting") + " " + town.getName());
                 try {
@@ -181,31 +181,31 @@ public class AdminRecoverCommand extends CommandBase {
 
     public void forcesavetowns_cmd() throws CivException {
         try {
-            for (Town town : CivGlobal.getTowns()) {
+            for (Town town : Town.getTowns()) {
                 town.saveNow();
             }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new CivException(e.getMessage());
         }
-        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_recover_forceSaveTownsSuccess", CivGlobal.getTowns().size()));
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_recover_forceSaveTownsSuccess", Town.getTowns().size()));
     }
 
 
     public void forcesavecivs_cmd() throws CivException {
         try {
-            for (Civilization civ : CivGlobal.getCivs()) {
+            for (Civilization civ : Civilization.getCivs()) {
                 civ.saveNow();
             }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new CivException(e.getMessage());
         }
-        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_recover_forceSaveCivsSuccess", CivGlobal.getCivs().size()));
+        CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_recover_forceSaveCivsSuccess", Civilization.getCivs().size()));
     }
 
     public void listorphanmayors_cmd() {
-        for (Civilization civ : CivGlobal.getCivs()) {
+        for (Civilization civ : Civilization.getCivs()) {
             Town capitol = civ.getTown(civ.getCapitolName());
             if (capitol == null) {
                 continue;
@@ -226,7 +226,7 @@ public class AdminRecoverCommand extends CommandBase {
 
     public void fixmayors_cmd() {
 
-        for (Civilization civ : CivGlobal.getCivs()) {
+        for (Civilization civ : Civilization.getCivs()) {
             Town capitol = civ.getTown(civ.getCapitolName());
             if (capitol == null) {
                 continue;
@@ -259,7 +259,7 @@ public class AdminRecoverCommand extends CommandBase {
 
     public void fixleaders_cmd() {
 
-        for (Civilization civ : CivGlobal.getCivs()) {
+        for (Civilization civ : Civilization.getCivs()) {
             Resident res = civ.getLeader();
             if (res == null) {
                 continue;
@@ -296,7 +296,7 @@ public class AdminRecoverCommand extends CommandBase {
     public void listorphanleaders_cmd() {
         CivMessage.sendHeading(sender, CivSettings.localize.localizedString("adcmd_recover_listOrphanLeadersHeading"));
 
-        for (Civilization civ : CivGlobal.getCivs()) {
+        for (Civilization civ : Civilization.getCivs()) {
             Resident res = civ.getLeader();
             if (res == null) {
                 continue;

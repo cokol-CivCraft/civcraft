@@ -116,7 +116,7 @@ public class DailyTimer implements Runnable {
         }
 
 
-        for (Civilization civ : CivGlobal.getCivs()) {
+        for (Civilization civ : Civilization.getCivs()) {
             if (civ.isAdminCiv()) {
                 continue;
             }
@@ -137,7 +137,7 @@ public class DailyTimer implements Runnable {
     }
 
     private void payTownUpkeep() {
-        for (Town t : CivGlobal.getTowns()) {
+        for (Town t : Town.getTowns()) {
             try {
                 double total = 0;
                 total = t.payUpkeep();
