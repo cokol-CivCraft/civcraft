@@ -49,7 +49,7 @@ public class RandomEvent extends SQLObject {
                     "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`uuid` VARCHAR(36) NOT NULL," +
                     "`config_id` mediumtext," +
-                    "`town_id` int(11)," +
+                    "`town_uuid` VARCHAR(36)," +
                     "`start_date` long NOT NULL," +
                     "`active` boolean DEFAULT false," +
                     "`component_vars` mediumtext," +
@@ -74,7 +74,7 @@ public class RandomEvent extends SQLObject {
             throw new CivException("Couldn't find random event config id:" + rs.getString("config_id"));
         }
 
-        this.town = Town.getTownFromId(rs.getInt("town_id"));
+        this.town = Town.getTownFromId(rs.getInt("town_uuid"));
         if (this.town == null) {
             this.delete();
             throw new CivException("Couldn't find town id:" + rs.getInt("town_id") + " while loading random event.");
@@ -143,7 +143,7 @@ public class RandomEvent extends SQLObject {
         HashMap<String, Object> hashmap = new HashMap<>();
 
         hashmap.put("config_id", this.configRandomEvent.id);
-        hashmap.put("town_id", this.getTown().getId());
+        hashmap.put("town_uuid", this.getTown().getUUID());
         hashmap.put("start_date", this.startDate.getTime());
         hashmap.put("component_vars", this.getComponentVarsSaveString());
         hashmap.put("saved_messages", this.getSavedMessagesSaveString());

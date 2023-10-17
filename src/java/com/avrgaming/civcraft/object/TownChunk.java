@@ -72,7 +72,7 @@ public class TownChunk extends SQLObject {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`uuid` VARCHAR(36) NOT NULL," +
-                    "`town_id` int(11) unsigned NOT NULL," +
+                    "`town_uuid` VARCHAR(36) unsigned NOT NULL," +
                     "`world` VARCHAR(32) NOT NULL," +
                     "`x` bigint(20) NOT NULL," +
                     "`z` bigint(20) NOT NULL," +
@@ -176,7 +176,7 @@ public class TownChunk extends SQLObject {
         HashMap<String, Object> hashmap = new HashMap<>();
 
         hashmap.put("id", this.getId());
-        hashmap.put("town_id", this.getTown().getId());
+        hashmap.put("town_uuid", this.getTown().getUUID().toString());
         hashmap.put("world", this.getChunkCoord().getWorldname());
         hashmap.put("x", this.getChunkCoord().getX());
         hashmap.put("z", this.getChunkCoord().getZ());
@@ -245,7 +245,7 @@ public class TownChunk extends SQLObject {
     public void load(ResultSet rs) throws SQLException, CivException {
         this.setId(rs.getInt("id"));
         this.setUUID(UUID.fromString(rs.getString("uuid")));
-        this.setTown(Town.getTownFromId(rs.getInt("town_id")));
+        this.setTown(Town.getTownFromUUID(UUID.fromString(rs.getString("town_uuid"))));
         if (this.getTown() == null) {
             CivLog.warning("TownChunk tried to load without a town...");
             if (CivGlobal.testFileFlag("cleanupDatabase")) {

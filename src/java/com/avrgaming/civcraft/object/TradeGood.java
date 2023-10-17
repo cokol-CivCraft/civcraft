@@ -70,7 +70,7 @@ public class TradeGood extends SQLObject {
                     "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`uuid` VARCHAR(36) NOT NULL," +
                     "`name` VARCHAR(64) NOT NULL," +
-                    "`town_id` int(11)," +
+                    "`town_uuid` VARCHAR(36)," +
                     "`structure_id` int(11), " +
                     "`coord` mediumtext DEFAULT NULL," +
                     "`bonusLocation` mediumtext DEFAULT NULL," +
@@ -91,7 +91,7 @@ public class TradeGood extends SQLObject {
         this.setUUID(UUID.fromString(rs.getString("uuid")));
         this.setName(rs.getString("name"));
         setInfo(CivSettings.goods.get(this.getName()));
-        this.setTown(Town.getTownFromId(rs.getInt("town_id")));
+        this.setTown(Town.getTownFromUUID(UUID.fromString(rs.getString("town_uuid"))));
         String bonusLocation = rs.getString("bonusLocation");
         if (bonusLocation != null) {
             this.bonusLocation = new BlockCoord(bonusLocation);
@@ -146,9 +146,9 @@ public class TradeGood extends SQLObject {
 
         hashmap.put("name", this.getName());
         if (this.getTown() != null) {
-            hashmap.put("town_id", this.getTown().getId());
+            hashmap.put("town_uuid", this.getTown().getUUID().toString());
         } else {
-            hashmap.put("town_id", null);
+            hashmap.put("town_uuid", null);
         }
         if (this.bonusLocation != null) {
             hashmap.put("bonusLocation", this.bonusLocation.toString());

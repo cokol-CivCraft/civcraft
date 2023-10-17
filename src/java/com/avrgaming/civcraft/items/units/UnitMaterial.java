@@ -51,6 +51,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
 public class UnitMaterial extends LoreMaterial {
 
@@ -162,7 +163,7 @@ public class UnitMaterial extends LoreMaterial {
 
             lore = stripTownLore(lore);
 
-            lore.add("Town:" + town.getName() + " " + ChatColor.GREEN + town.getId());
+            lore.add("Town:" + town.getName() + " " + ChatColor.GREEN + town.getUUID());
 
             meta.setLore(lore);
             stack.setItemMeta(meta);
@@ -189,10 +190,10 @@ public class UnitMaterial extends LoreMaterial {
         }
 
         try {
-            String[] split = loreLine.split(String.valueOf(ChatColor.RED));
-            int townId = Integer.parseInt(split[1]);
+            String[] split = loreLine.split(String.valueOf(ChatColor.GREEN));
+            UUID townUUID = UUID.fromString((split[1]));
 
-            return Town.getTownFromId(townId);
+            return Town.getTownFromUUID(townUUID);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

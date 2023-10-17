@@ -169,28 +169,28 @@ public class Town extends SQLObject {
 
     //TODO make lookup via ID faster(use hashtable)
     public static Town getTownFromId(int id) {
-if (id == 0) {
-return null;
-}
-for (Town t : towns.values()) {
-if (t.getId() == id) {
-return t;
-}
-}
-return null;
-}
+        if (id == 0) {
+            return null;
+        }
+        for (Town t : towns.values()) {
+            if (t.getId() == id) {
+                return t;
+            }
+        }
+        return null;
+    }
 
     public static Town getTownFromUUID(UUID id) {
-if (id == null) {
-return null;
-}
-for (Town t : towns.values()) {
-if (t.getUUID().equals(id)) {
-return t;
-}
-}
-return null;
-}
+        if (id == null) {
+            return null;
+        }
+        for (Town t : towns.values()) {
+            if (t.getUUID().equals(id)) {
+                return t;
+            }
+        }
+        return null;
+    }
 
     public static void addTown(Town town) {
         towns.put(town.getName().toLowerCase(), town);
