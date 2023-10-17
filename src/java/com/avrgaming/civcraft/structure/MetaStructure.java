@@ -10,6 +10,7 @@ import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.util.BlockCoord;
+import com.avrgaming.civcraft.util.INBTSerializable;
 import net.minecraft.server.v1_12_R1.NBTCompressedStreamTools;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.Location;
@@ -23,7 +24,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.UUID;
 
-public abstract class MetaStructure extends Buildable {
+public abstract class MetaStructure extends Buildable implements INBTSerializable {
     public static String TABLE_NAME = "STRUCTURES";
 
     public MetaStructure(ResultSet rs) throws SQLException, CivException {
@@ -92,15 +93,7 @@ public abstract class MetaStructure extends Buildable {
     public void saveNow() throws SQLException {
         HashMap<String, Object> hashmap = new HashMap<>();
         NBTTagCompound nbt = new NBTTagCompound();
-        nbt.setString("type_id", this.getConfigId());
-        nbt.setString("town_uuid", this.getTown().getUUID().toString());
-        nbt.setBoolean("complete", this.isComplete());
-        nbt.setLong("builtBlockCount", this.getBuiltBlockCount());
-        nbt.setString("cornerBlockHash", this.getCorner().toString());
-        nbt.setLong("hitpoints", this.getHitpoints());
-        nbt.setString("template_name", this.getSavedTemplatePath());
-        nbt.setString("direction", this.dir.toString());
-
+        this.saveToNBT(nbt);
         var data = new ByteArrayOutputStream();
         try {
             NBTCompressedStreamTools.a(nbt, data);
@@ -109,6 +102,18 @@ public abstract class MetaStructure extends Buildable {
         }
         hashmap.put("nbt", data.toByteArray());
         SQLController.updateNamedObject(this, hashmap, TABLE_NAME);
+    }
+
+    @Override
+    public void saveToNBT(NBTTagCompound nbt) {
+        nbt.setString("type_id", this.getConfigId());
+        nbt.setString("town_uuid", this.getTown().getUUID().toString());
+        nbt.setBoolean("complete", this.isComplete());
+        nbt.setLong("builtBlockCount", this.getBuiltBlockCount());
+        nbt.setString("cornerBlockHash", this.getCorner().toString());
+        nbt.setLong("hitpoints", this.getHitpoints());
+        nbt.setString("template_name", this.getSavedTemplatePath());
+        nbt.setString("direction", this.dir.toString());
     }
 
     @Override
@@ -122,21 +127,12 @@ public abstract class MetaStructure extends Buildable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        this.info = CivSettings.structures.get(nbt.getString("type_id"));
-
-        this.setTown(Town.getTownFromUUID(UUID.fromString(nbt.getString("town_uuid"))));
+        this.loadFromNBT(nbt);
 
         if (this.getTown() == null) {
             this.delete();
             throw new CivException("Coudln't find town ID:" + nbt.getString("town_uuid") + " for structure " + this.getDisplayName() + " ID:" + this.getUUID());
         }
-
-        this.setCorner(new BlockCoord(nbt.getString("cornerBlockHash")));
-        this.hitpoints = nbt.getInt("hitpoints");
-        this.setTemplateName(nbt.getString("template_name"));
-        this.dir = BlockFace.valueOf(nbt.getString("direction"));
-        this.setComplete(nbt.getBoolean("complete"));
-        this.setBuiltBlockCount(nbt.getInt("builtBlockCount"));
         if (this instanceof Wonder) {
             this.getTown().addWonder(this);
         } else {
@@ -151,5 +147,17 @@ public abstract class MetaStructure extends Buildable {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void loadFromNBT(NBTTagCompound nbt) {
+        this.info = CivSettings.structures.get(nbt.getString("type_id"));
+        this.setTown(Town.getTownFromUUID(UUID.fromString(nbt.getString("town_uuid"))));
+        this.setCorner(new BlockCoord(nbt.getString("cornerBlockHash")));
+        this.hitpoints = nbt.getInt("hitpoints");
+        this.setTemplateName(nbt.getString("template_name"));
+        this.dir = BlockFace.valueOf(nbt.getString("direction"));
+        this.setComplete(nbt.getBoolean("complete"));
+        this.setBuiltBlockCount(nbt.getInt("builtBlockCount"));
     }
 }
