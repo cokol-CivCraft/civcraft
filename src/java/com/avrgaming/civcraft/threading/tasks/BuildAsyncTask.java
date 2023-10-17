@@ -139,7 +139,6 @@ public class BuildAsyncTask extends CivAsyncTask {
             Date now = new Date();
             /* once every 5 sec. */
             if (now.getTime() > lastSave.getTime() + 5000) {
-                buildable.updateBuildProgess();
                 lastSave = now;
             }
 
@@ -231,8 +230,6 @@ public class BuildAsyncTask extends CivAsyncTask {
             buildable.getTown().setCurrentStructureInProgress(null);
         }
         buildable.savedBlockCount = buildable.builtBlockCount;
-        buildable.updateBuildProgess();
-        buildable.save();
 
         tpl.deleteInProgessTemplate(buildable.getCorner().toString(), buildable.getTown());
         buildable.getTown().build_tasks.remove(this);

@@ -1046,12 +1046,6 @@ public class Camp extends Buildable {
     }
 
     @Override
-    public void updateBuildProgess() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
     public void build(Player player, Location centerLoc, Template tpl) {
     }
 

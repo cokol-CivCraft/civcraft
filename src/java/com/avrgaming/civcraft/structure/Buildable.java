@@ -269,8 +269,6 @@ public abstract class Buildable extends SQLObject {
         this.complete = complete;
     }
 
-    public abstract void updateBuildProgess();
-
     public BlockCoord getCorner() {
         return corner;
     }

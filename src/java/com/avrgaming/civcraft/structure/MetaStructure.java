@@ -10,9 +10,14 @@ import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.util.BlockCoord;
+import net.minecraft.server.v1_12_R1.NBTCompressedStreamTools;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -55,14 +60,7 @@ public abstract class MetaStructure extends Buildable {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`uuid` VARCHAR(36) NOT NULL," +
-                    "`type_id` mediumtext NOT NULL," +
-                    "`town_uuid` VARCHAR(36) DEFAULT NULL," +
-                    "`complete` bool NOT NULL DEFAULT '0'," +
-                    "`builtBlockCount` int(11) DEFAULT NULL, " +
-                    "`cornerBlockHash` mediumtext DEFAULT NULL," +
-                    "`template_name` mediumtext DEFAULT NULL," +
-                    "`direction` mediumtext DEFAULT NULL," +
-                    "`hitpoints` int(11) DEFAULT '100'," +
+                    "`nbt` BLOB," +
                     "PRIMARY KEY (`id`)" + ")";
 
             SQLController.makeTable(table_create);
@@ -93,50 +91,52 @@ public abstract class MetaStructure extends Buildable {
     @Override
     public void saveNow() throws SQLException {
         HashMap<String, Object> hashmap = new HashMap<>();
-        hashmap.put("type_id", this.getConfigId());
-        hashmap.put("town_uuid", this.getTown().getUUID());
-        hashmap.put("complete", this.isComplete());
-        hashmap.put("builtBlockCount", this.getBuiltBlockCount());
-        hashmap.put("cornerBlockHash", this.getCorner().toString());
-        hashmap.put("hitpoints", this.getHitpoints());
-        hashmap.put("template_name", this.getSavedTemplatePath());
-        hashmap.put("direction", this.dir.toString());
-        SQLController.updateNamedObject(this, hashmap, TABLE_NAME);
-    }
+        NBTTagCompound nbt = new NBTTagCompound();
+        nbt.setString("type_id", this.getConfigId());
+        nbt.setString("town_uuid", this.getTown().getUUID().toString());
+        nbt.setBoolean("complete", this.isComplete());
+        nbt.setLong("builtBlockCount", this.getBuiltBlockCount());
+        nbt.setString("cornerBlockHash", this.getCorner().toString());
+        nbt.setLong("hitpoints", this.getHitpoints());
+        nbt.setString("template_name", this.getSavedTemplatePath());
+        nbt.setString("direction", this.dir.toString());
 
-    @Override
-    public void updateBuildProgess() {
-        if (this.getUUID().equals(NULL_UUID)) {
-            return;
+        var data = new ByteArrayOutputStream();
+        try {
+            NBTCompressedStreamTools.a(nbt, data);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        HashMap<String, Object> struct_hm = new HashMap<>();
-        struct_hm.put("id", this.getId());
-        struct_hm.put("type_id", this.getConfigId());
-        struct_hm.put("complete", this.isComplete());
-        struct_hm.put("builtBlockCount", this.savedBlockCount);
-
-        SQLController.updateNamedObjectAsync(this, struct_hm, TABLE_NAME);
+        hashmap.put("nbt", data.toByteArray());
+        SQLController.updateNamedObject(this, hashmap, TABLE_NAME);
     }
 
     @Override
     public void load(ResultSet rs) throws SQLException, CivException {
         this.setId(rs.getInt("id"));
         this.setUUID(UUID.fromString(rs.getString("uuid")));
-        this.info = CivSettings.structures.get(rs.getString("type_id"));
+        var data = new ByteArrayInputStream(rs.getBytes("nbt"));
+        NBTTagCompound nbt;
+        try {
+            nbt = NBTCompressedStreamTools.a(data);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        this.info = CivSettings.structures.get(nbt.getString("type_id"));
 
-        this.setTown(Town.getTownFromUUID(UUID.fromString(rs.getString("town_uuid"))));
+        this.setTown(Town.getTownFromUUID(UUID.fromString(nbt.getString("town_uuid"))));
 
         if (this.getTown() == null) {
             this.delete();
-            throw new CivException("Coudln't find town ID:" + rs.getInt("town_uuid") + " for structure " + this.getDisplayName() + " ID:" + this.getUUID());
+            throw new CivException("Coudln't find town ID:" + nbt.getString("town_uuid") + " for structure " + this.getDisplayName() + " ID:" + this.getUUID());
         }
 
-        this.setCorner(new BlockCoord(rs.getString("cornerBlockHash")));
-        this.hitpoints = rs.getInt("hitpoints");
-        this.setTemplateName(rs.getString("template_name"));
-        this.dir = BlockFace.valueOf(rs.getString("direction"));
-        this.setComplete(rs.getBoolean("complete"));
-        this.setBuiltBlockCount(rs.getInt("builtBlockCount"));
+        this.setCorner(new BlockCoord(nbt.getString("cornerBlockHash")));
+        this.hitpoints = nbt.getInt("hitpoints");
+        this.setTemplateName(nbt.getString("template_name"));
+        this.dir = BlockFace.valueOf(nbt.getString("direction"));
+        this.setComplete(nbt.getBoolean("complete"));
+        this.setBuiltBlockCount(nbt.getInt("builtBlockCount"));
         if (this instanceof Wonder) {
             this.getTown().addWonder(this);
         } else {

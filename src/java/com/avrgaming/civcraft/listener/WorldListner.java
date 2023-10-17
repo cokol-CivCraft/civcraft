@@ -1,8 +1,11 @@
 package com.avrgaming.civcraft.listener;
 
+import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.Town;
+import com.avrgaming.civcraft.structure.Structure;
+import com.avrgaming.civcraft.structure.wonders.Wonder;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.WorldSaveEvent;
@@ -15,6 +18,12 @@ public class WorldListner implements Listener {
         }
         for (Town town : Town.getTowns()) {
             town.save();
+        }
+        for (Structure structure : CivGlobal.getStructures()) {
+            structure.save();
+        }
+        for (Wonder wonder : CivGlobal.getWonders()) {
+            wonder.save();
         }
     }
 
