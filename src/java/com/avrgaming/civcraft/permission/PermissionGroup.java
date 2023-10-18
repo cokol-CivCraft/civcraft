@@ -18,7 +18,6 @@
 package com.avrgaming.civcraft.permission;
 
 import com.avrgaming.civcraft.database.SQLController;
-import com.avrgaming.civcraft.database.SQLUpdate;
 import com.avrgaming.civcraft.exception.InvalidNameException;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
@@ -49,6 +48,7 @@ public class PermissionGroup extends SQLObject implements INBTSerializable {
     public PermissionGroup(Civilization civ, String name) throws InvalidNameException {
         this.civUUID = civ.getUUID();
         this.townUUID = NULL_UUID;
+        this.setUUID(UUID.randomUUID());
         this.setName(name);
     }
 
@@ -62,6 +62,7 @@ public class PermissionGroup extends SQLObject implements INBTSerializable {
         this.townUUID = town.getUUID();
         this.civUUID = NULL_UUID;
         this.cacheTown = town;
+        this.setUUID(UUID.randomUUID());
         this.setName(name);
     }
 
@@ -70,10 +71,6 @@ public class PermissionGroup extends SQLObject implements INBTSerializable {
         this.civUUID = NULL_UUID;
         this.cacheTown = town;
         this.loadFromNBT(nbt);
-    }
-
-    public PermissionGroup(ResultSet rs) throws SQLException, InvalidNameException {
-        this.load(rs);
     }
 
     public void addMember(Resident res) {
@@ -86,10 +83,6 @@ public class PermissionGroup extends SQLObject implements INBTSerializable {
 
     public boolean hasMember(Resident res) {
         return members.containsKey(res.getUUIDString());
-    }
-
-    public void clearMembers() {
-        members.clear();
     }
 
     public static final String TABLE_NAME = "GROUPS";
@@ -142,10 +135,7 @@ public class PermissionGroup extends SQLObject implements INBTSerializable {
 
     @Override
     public void save() {
-        if (!civUUID.equals(NULL_UUID)) {
-            return;
-        }
-        SQLUpdate.add(this);
+
     }
 
     @Override
@@ -285,21 +275,5 @@ public class PermissionGroup extends SQLObject implements INBTSerializable {
             throw new RuntimeException(e);
         }
         loadMembersFromSaveString(nbt.getString("members"));
-
-        if (!this.getTownUUID().equals(NULL_UUID)) {
-            this.cacheTown = Town.getTownFromUUID(this.getTownUUID());
-            this.getTown().addGroup(this);
-        } else {
-            Civilization civ = Civilization.getCivFromUUID(this.getCivUUID());
-            if (civ == null) {
-                civ = CivGlobal.getConqueredCivFromUUID(this.getCivUUID());
-                if (civ == null) {
-                    CivLog.warning("COUlD NOT FIND CIV ID:" + this.getCivUUID() + " for group: " + this.getName() + " to load.");
-                    return;
-                }
-            }
-
-            civ.addGroup(this);
-        }
     }
 }

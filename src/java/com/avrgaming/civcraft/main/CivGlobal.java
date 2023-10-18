@@ -388,7 +388,7 @@ public class CivGlobal {
 
             while (rs.next()) {
                 try {
-                    new PermissionGroup(rs);
+                    // new PermissionGroup(rs);
                     count++;
                 } catch (Exception e) {
                     e.printStackTrace();

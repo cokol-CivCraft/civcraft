@@ -261,6 +261,11 @@ public class Town extends SQLObject {
                 setMotherCiv(mother);
             }
         }
+        NBTTagCompound perms = nbt.getCompound("permission_groups");
+        for (String groups : perms.c()) {
+            addGroup(new PermissionGroup(this, perms.getCompound(groups)));
+        }
+
 
         if (this.getCiv() == null) {
             CivLog.error("TOWN:" + this.getName() + " WITHOUT A CIV, UUID was:" + nbt.getString("civ_uuid"));
@@ -323,6 +328,13 @@ public class Town extends SQLObject {
         nbt.setString("upgrades", this.getUpgradesString());
         nbt.setDouble("coins", this.getTreasury().getBalance());
         nbt.setString("dbg_civ_name", this.getCiv().getName());
+        NBTTagCompound perms = new NBTTagCompound();
+        for (PermissionGroup groups : this.getGroups()) {
+            perms.set(groups.getUUID().toString(), new NBTTagCompound());
+            groups.saveToNBT(perms.getCompound(groups.getUUID().toString()));
+
+        }
+        nbt.set("permission_groups", perms);
 
         if (granaryResources != null) {
             nbt.setString("granaryResources", this.granaryResources);
