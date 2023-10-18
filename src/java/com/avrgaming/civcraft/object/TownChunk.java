@@ -72,7 +72,7 @@ public class TownChunk extends SQLObject {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`uuid` VARCHAR(36) NOT NULL," +
-                    "`town_uuid` VARCHAR(36) unsigned NOT NULL," +
+                    "`town_uuid` VARCHAR(36) NOT NULL," +
                     "`world` VARCHAR(32) NOT NULL," +
                     "`x` bigint(20) NOT NULL," +
                     "`z` bigint(20) NOT NULL," +
@@ -252,7 +252,7 @@ public class TownChunk extends SQLObject {
                 CivLog.info("CLEANING");
                 this.delete();
             }
-            throw new CivException("No town(" + rs.getInt("town_id") + ") to load this town chunk(" + rs.getInt("id"));
+            throw new CivException("No town(" + rs.getInt("town_uuid") + ") to load this town chunk(" + rs.getInt("id"));
         }
 
         ChunkCoord cord = new ChunkCoord(rs.getString("world"), rs.getInt("x"), rs.getInt("z"));

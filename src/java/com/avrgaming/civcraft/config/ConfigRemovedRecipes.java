@@ -14,8 +14,7 @@ public class ConfigRemovedRecipes {
 
 
     public static void removeRecipes(FileConfiguration cfg, HashMap<Material, ConfigRemovedRecipes> removedRecipes) {
-        List<Map<?, ?>> configMaterials = cfg.getMapList("removed_recipes");
-        for (Map<?, ?> b : configMaterials) {
+        for (Map<?, ?> b : cfg.getMapList("removed_recipes")) {
             ConfigRemovedRecipes item = new ConfigRemovedRecipes();
             item.type_id = Material.valueOf((String) b.get("type_id"));
             item.data = (Integer) b.get("data");

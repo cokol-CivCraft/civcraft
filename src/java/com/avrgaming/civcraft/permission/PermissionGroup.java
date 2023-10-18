@@ -108,7 +108,7 @@ public class PermissionGroup extends SQLObject {
         this.setCivUUID(UUID.fromString(rs.getString("civ_uuid")));
         loadMembersFromSaveString(rs.getString("members"));
 
-        if (this.getTownUUID().equals(NULL_UUID)) {
+        if (!this.getTownUUID().equals(NULL_UUID)) {
             this.cacheTown = Town.getTownFromUUID(this.getTownUUID());
             this.getTown().addGroup(this);
         } else {
@@ -136,8 +136,8 @@ public class PermissionGroup extends SQLObject {
 
         hashmap.put("name", this.getName());
         hashmap.put("members", this.getMembersSaveString());
-        hashmap.put("town_id", this.getTownUUID());
-        hashmap.put("civ_id", this.getCivUUID());
+        hashmap.put("town_uuid", this.getTownUUID().toString());
+        hashmap.put("civ_uuid", this.getCivUUID().toString());
 
         SQLController.updateNamedObject(this, hashmap, TABLE_NAME);
     }
