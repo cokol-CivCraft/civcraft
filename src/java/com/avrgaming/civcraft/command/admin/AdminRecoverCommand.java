@@ -243,11 +243,6 @@ public class AdminRecoverCommand extends CommandBase {
             }
 
             capitol.getMayorGroup().addMember(leader);
-            try {
-                capitol.getMayorGroup().saveNow();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
             CivMessage.send(sender, CivSettings.localize.localizedString("Fixed") + " " + leader.getName() + " " + CivSettings.localize.localizedString("inCiv") + " " + civ.getName() + " " + CivSettings.localize.localizedString("inCapitol") + " " + capitol.getName());
 
         }
@@ -282,11 +277,6 @@ public class AdminRecoverCommand extends CommandBase {
 
             if (!civ.getLeaderGroup().hasMember(res)) {
                 civ.getLeaderGroup().addMember(res);
-                try {
-                    civ.getLeaderGroup().saveNow();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
             }
 
         }

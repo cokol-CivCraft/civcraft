@@ -70,7 +70,7 @@ public class CivGroupCommand extends CommandBase {
         }
 
         grp.removeMember(oldMember);
-        grp.save();
+
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_civ_group_removeSuccess", oldMember.getName(), groupName));
         try {
             Player newPlayer = CivGlobal.getPlayer(oldMember);
@@ -105,7 +105,6 @@ public class CivGroupCommand extends CommandBase {
         }
 
         grp.addMember(newMember);
-        grp.save();
 
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_civ_group_addSuccess", newMember.getName(), groupName));
 

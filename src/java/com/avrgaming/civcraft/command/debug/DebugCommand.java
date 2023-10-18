@@ -290,28 +290,23 @@ public class DebugCommand extends CommandBase {
             leaders.addMember(resident);
             spawnCiv.setLeader(resident);
             spawnCiv.setLeaderGroup(leaders);
-            leaders.save();
 
             PermissionGroup advisers = new PermissionGroup(spawnCiv, "advisers");
             spawnCiv.addGroup(advisers);
             spawnCiv.setAdviserGroup(advisers);
-            advisers.save();
 
             PermissionGroup mayors = new PermissionGroup(spawnCapitol, "mayors");
             spawnCapitol.addGroup(mayors);
             spawnCapitol.setMayorGroup(mayors);
             mayors.addMember(resident);
-            mayors.save();
 
             PermissionGroup assistants = new PermissionGroup(spawnCapitol, "assistants");
             spawnCapitol.addGroup(assistants);
             spawnCapitol.setAssistantGroup(assistants);
-            assistants.save();
 
             PermissionGroup residents = new PermissionGroup(spawnCapitol, "residents");
             spawnCapitol.addGroup(residents);
             spawnCapitol.setDefaultGroup(residents);
-            residents.save();
 
             spawnCiv.addTown(spawnCapitol);
             spawnCiv.setCapitolName(spawnCapitol.getName());

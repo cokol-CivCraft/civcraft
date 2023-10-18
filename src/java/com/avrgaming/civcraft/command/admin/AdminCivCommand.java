@@ -294,7 +294,6 @@ public class AdminCivCommand extends CommandBase {
         Resident resident = getNamedResident(2);
 
         civ.getAdviserGroup().addMember(resident);
-        civ.getAdviserGroup().save();
 
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("adcmd_civ_addAdvisorSuccess", resident.getName(), civ.getName()));
     }
@@ -304,7 +303,6 @@ public class AdminCivCommand extends CommandBase {
         Resident resident = getNamedResident(2);
 
         civ.getLeaderGroup().addMember(resident);
-        civ.getLeaderGroup().save();
 
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_civ_addLeaderSuccess", resident.getName(), civ.getName()));
     }

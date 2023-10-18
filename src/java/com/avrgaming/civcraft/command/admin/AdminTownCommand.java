@@ -154,7 +154,6 @@ public class AdminTownCommand extends CommandBase {
                 residents = new PermissionGroup(town, "residents");
                 town.setDefaultGroup(residents);
                 try {
-                    residents.saveNow();
                     town.saveNow();
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -172,7 +171,6 @@ public class AdminTownCommand extends CommandBase {
 
                 town.setAssistantGroup(assistant);
                 try {
-                    assistant.saveNow();
                     town.saveNow();
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -189,7 +187,6 @@ public class AdminTownCommand extends CommandBase {
                 mayor = new PermissionGroup(town, "mayors");
                 town.setMayorGroup(mayor);
                 try {
-                    mayor.saveNow();
                     town.saveNow();
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -320,11 +317,6 @@ public class AdminTownCommand extends CommandBase {
         }
 
         town.getAssistantGroup().removeMember(resident);
-        try {
-            town.getAssistantGroup().saveNow();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_town_rmassistantSuccess", resident.getName(), town.getName()));
 
@@ -340,11 +332,6 @@ public class AdminTownCommand extends CommandBase {
         }
 
         town.getMayorGroup().removeMember(resident);
-        try {
-            town.getMayorGroup().saveNow();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_town_rmmayorSuccess", resident.getName(), town.getName()));
 
@@ -356,11 +343,6 @@ public class AdminTownCommand extends CommandBase {
         Resident resident = getNamedResident(2);
 
         town.getAssistantGroup().addMember(resident);
-        try {
-            town.getAssistantGroup().saveNow();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_town_addAssistantSuccess", resident.getName(), town.getName()));
 
@@ -371,11 +353,6 @@ public class AdminTownCommand extends CommandBase {
         Resident resident = getNamedResident(2);
 
         town.getMayorGroup().addMember(resident);
-        try {
-            town.getMayorGroup().saveNow();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_adcmd_town_addmayorSuccess", resident.getName(), town.getName()));
 

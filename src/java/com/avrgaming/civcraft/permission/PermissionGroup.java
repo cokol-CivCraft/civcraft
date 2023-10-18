@@ -22,53 +22,40 @@ import com.avrgaming.civcraft.exception.InvalidNameException;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.Civilization;
+import com.avrgaming.civcraft.object.NamedObject;
 import com.avrgaming.civcraft.object.Resident;
-import com.avrgaming.civcraft.object.SQLObject;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.util.INBTSerializable;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class PermissionGroup extends SQLObject implements INBTSerializable {
+public class PermissionGroup extends NamedObject implements INBTSerializable {
 
     private final Map<String, Resident> members = new ConcurrentHashMap<>();
     /* Only cache towns as the 'civ' can change when a town gets conquered or gifted/moved. */
     private Town cacheTown = null;
 
-    private UUID civUUID;
-    private UUID townUUID;
-
     public PermissionGroup(Civilization civ, String name) throws InvalidNameException {
-        this.civUUID = civ.getUUID();
-        this.townUUID = NULL_UUID;
         this.setUUID(UUID.randomUUID());
         this.setName(name);
     }
 
     public PermissionGroup(Civilization civ, NBTTagCompound nbt) throws InvalidNameException {
-        this.civUUID = civ.getUUID();
-        this.townUUID = NULL_UUID;
         this.loadFromNBT(nbt);
     }
 
     public PermissionGroup(Town town, String name) throws InvalidNameException {
-        this.townUUID = town.getUUID();
-        this.civUUID = NULL_UUID;
         this.cacheTown = town;
         this.setUUID(UUID.randomUUID());
         this.setName(name);
     }
 
     public PermissionGroup(Town town, NBTTagCompound nbt) throws InvalidNameException {
-        this.townUUID = town.getUUID();
-        this.civUUID = NULL_UUID;
         this.cacheTown = town;
         this.loadFromNBT(nbt);
     }
@@ -105,54 +92,6 @@ public class PermissionGroup extends SQLObject implements INBTSerializable {
         } else {
             CivLog.info(TABLE_NAME + " table OK!");
         }
-    }
-
-    @Override
-    public void load(ResultSet rs) throws SQLException, InvalidNameException {
-        this.setId(rs.getInt("id"));
-        this.setUUID(UUID.fromString(rs.getString("uuid")));
-        this.setName(rs.getString("name"));
-        this.setTownUUID(UUID.fromString(rs.getString("town_uuid")));
-        this.setCivUUID(UUID.fromString(rs.getString("civ_uuid")));
-        loadMembersFromSaveString(rs.getString("members"));
-
-        if (!this.getTownUUID().equals(NULL_UUID)) {
-            this.cacheTown = Town.getTownFromUUID(this.getTownUUID());
-            this.getTown().addGroup(this);
-        } else {
-            Civilization civ = Civilization.getCivFromUUID(this.getCivUUID());
-            if (civ == null) {
-                civ = CivGlobal.getConqueredCivFromUUID(this.getCivUUID());
-                if (civ == null) {
-                    CivLog.warning("COUlD NOT FIND CIV ID:" + this.getCivUUID() + " for group: " + this.getName() + " to load.");
-                    return;
-                }
-            }
-
-            civ.addGroup(this);
-        }
-    }
-
-    @Override
-    public void save() {
-
-    }
-
-    @Override
-    public void saveNow() throws SQLException {
-        HashMap<String, Object> hashmap = new HashMap<>();
-
-        hashmap.put("name", this.getName());
-        hashmap.put("members", this.getMembersSaveString());
-        hashmap.put("town_uuid", this.getTownUUID().toString());
-        hashmap.put("civ_uuid", this.getCivUUID().toString());
-
-        SQLController.updateNamedObject(this, hashmap, TABLE_NAME);
-    }
-
-    @Override
-    public void delete() throws SQLException {
-        SQLController.deleteNamedObject(this, TABLE_NAME);
     }
 
     private String getMembersSaveString() {
@@ -243,22 +182,6 @@ public class PermissionGroup extends SQLObject implements INBTSerializable {
         return out.toString();
     }
 
-    public UUID getCivUUID() {
-        return civUUID;
-    }
-
-    public void setCivUUID(UUID civUUID) {
-        this.civUUID = civUUID;
-    }
-
-    public UUID getTownUUID() {
-        return townUUID;
-    }
-
-    public void setTownUUID(UUID townId) {
-        this.townUUID = townId;
-    }
-
     @Override
     public void saveToNBT(NBTTagCompound nbt) {
         nbt.setString("uuid", this.getUUID().toString());
@@ -276,4 +199,5 @@ public class PermissionGroup extends SQLObject implements INBTSerializable {
         }
         loadMembersFromSaveString(nbt.getString("members"));
     }
+
 }

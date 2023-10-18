@@ -150,7 +150,6 @@ public class CivGlobal {
         loadRelations();
         loadTowns();
         loadResidents();
-        loadPermissionGroups();
         loadTownChunks();
         loadStructures();
         loadTradeGoods();
@@ -377,29 +376,6 @@ public class CivGlobal {
         }
     }
 
-    public static void loadPermissionGroups() throws SQLException {
-        ResultSet rs = null;
-        PreparedStatement ps = null;
-
-        try {
-            ps = SQLController.getGameConnection().prepareStatement("SELECT * FROM " + SQLController.tb_prefix + PermissionGroup.TABLE_NAME);
-            rs = ps.executeQuery();
-            int count = 0;
-
-            while (rs.next()) {
-                try {
-                    // new PermissionGroup(rs);
-                    count++;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            CivLog.info("Loaded " + count + " PermissionGroups");
-        } finally {
-            SQLController.close(rs, ps);
-        }
-    }
 
     public static void loadResidents() throws SQLException {
         ResultSet rs = null;

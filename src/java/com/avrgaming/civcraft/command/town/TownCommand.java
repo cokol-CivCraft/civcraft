@@ -156,7 +156,7 @@ public class TownCommand extends CommandBase {
         }
 
         town.getMayorGroup().addMember(resident);
-        town.getMayorGroup().save();
+
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_claimmayorSuccess", town.getName()));
         CivMessage.sendTown(town, CivSettings.localize.localizedString("var_cmd_town_claimmayorSuccess2", resident.getName()));
     }
@@ -324,7 +324,7 @@ public class TownCommand extends CommandBase {
         }
 
         grp.removeMember(resident);
-        grp.save();
+
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_leavegroupSuccess", grp.getName(), town.getName()));
     }
 

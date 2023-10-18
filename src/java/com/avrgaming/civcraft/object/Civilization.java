@@ -197,11 +197,9 @@ public class Civilization extends SQLObject {
             // Create permission groups for civs.
             PermissionGroup leadersGroup = new PermissionGroup(civ, "leaders");
             leadersGroup.addMember(resident);
-            leadersGroup.saveNow();
             civ.setLeaderGroup(leadersGroup);
 
             PermissionGroup adviserGroup = new PermissionGroup(civ, "advisers");
-            adviserGroup.saveNow();
             civ.setAdviserGroup(adviserGroup);
 
             /* Save this civ in the db and hashtable. */
@@ -210,8 +208,6 @@ public class Civilization extends SQLObject {
             } catch (CivException e) {
                 e.printStackTrace();
                 civ.delete();
-                leadersGroup.delete();
-                adviserGroup.delete();
                 throw e;
             }
 
@@ -538,11 +534,9 @@ public class Civilization extends SQLObject {
 
         /* First delete all of our groups. */
         if (this.leaderGroup != null) {
-            this.leaderGroup.delete();
         }
 
         if (this.adviserGroup != null) {
-            this.adviserGroup.delete();
         }
 
         /* Delete all of our towns. */

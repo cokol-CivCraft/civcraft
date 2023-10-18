@@ -108,7 +108,7 @@ public class CivCommand extends CommandBase {
         }
 
         civ.getLeaderGroup().addMember(resident);
-        civ.getLeaderGroup().save();
+
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_civ_claimLeaderSuccess", civ.getName()));
         CivMessage.sendCiv(civ, CivSettings.localize.localizedString("var_cmd_civ_claimLeaderBroadcast", resident.getName()));
     }

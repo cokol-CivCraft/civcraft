@@ -29,8 +29,6 @@ import com.avrgaming.civcraft.permission.PermissionGroup;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.sql.SQLException;
-
 public class TownGroupCommand extends CommandBase {
 
     @Override
@@ -49,22 +47,15 @@ public class TownGroupCommand extends CommandBase {
         Town town = getSelectedTown();
         PermissionGroup grp = this.getNamedPermissionGroup(town, 1);
 
-        try {
-            if (grp.getMemberCount() > 0) {
-                throw new CivException(CivSettings.localize.localizedString("cmd_town_group_deleteNotEmpty"));
-            }
-
-            if (town.isProtectedGroup(grp)) {
-                throw new CivException(CivSettings.localize.localizedString("cmd_town_group_deleteProtected"));
-            }
-
-            town.removeGroup(grp);
-            grp.delete();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new CivException(CivSettings.localize.localizedString("internalDatabaseException"));
+        if (grp.getMemberCount() > 0) {
+            throw new CivException(CivSettings.localize.localizedString("cmd_town_group_deleteNotEmpty"));
         }
+
+        if (town.isProtectedGroup(grp)) {
+            throw new CivException(CivSettings.localize.localizedString("cmd_town_group_deleteProtected"));
+        }
+
+        town.removeGroup(grp);
 
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("cmd_town_group_deleteSuccess") + " " + args[1]);
     }
@@ -86,7 +77,6 @@ public class TownGroupCommand extends CommandBase {
         try {
             PermissionGroup grp = new PermissionGroup(town, args[1]);
 
-            grp.save();
             town.addGroup(grp);
 
         } catch (InvalidNameException e) {
@@ -113,7 +103,6 @@ public class TownGroupCommand extends CommandBase {
         }
 
         grp.removeMember(oldMember);
-        grp.save();
 
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_group_removeSuccess1", oldMember.getName(), grp.getName(), town.getName()));
 
@@ -156,7 +145,6 @@ public class TownGroupCommand extends CommandBase {
         }
 
         grp.addMember(newMember);
-        grp.save();
 
         CivMessage.sendSuccess(sender, CivSettings.localize.localizedString("var_cmd_town_group_addSuccess1", newMember.getName(), grp.getName(), town.getName()));
 

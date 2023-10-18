@@ -360,12 +360,6 @@ public class Town extends SQLObject {
 
     @Override
     public void delete() throws SQLException {
-
-        /* Remove all our Groups */
-        for (PermissionGroup grp : this.groups.values()) {
-            grp.delete();
-        }
-
         /* Remove all of our residents from town. */
         for (Resident resident : this.residents.values()) {
             resident.setTown(null);
@@ -530,17 +524,14 @@ public class Town extends SQLObject {
             try {
                 residentsGroup = new PermissionGroup(newTown, "residents");
                 residentsGroup.addMember(resident);
-                residentsGroup.saveNow();
                 newTown.setDefaultGroup(residentsGroup);
 
 
                 PermissionGroup mayorGroup = new PermissionGroup(newTown, "mayors");
                 mayorGroup.addMember(resident);
-                mayorGroup.saveNow();
                 newTown.setMayorGroup(mayorGroup);
 
                 PermissionGroup assistantGroup = new PermissionGroup(newTown, "assistants");
-                assistantGroup.saveNow();
                 newTown.setAssistantGroup(assistantGroup);
             } catch (InvalidNameException e2) {
                 e2.printStackTrace();
@@ -650,7 +641,6 @@ public class Town extends SQLObject {
         residents.put(key, res);
         if (this.defaultGroup != null && !this.defaultGroup.hasMember(res)) {
             this.defaultGroup.addMember(res);
-            this.defaultGroup.save();
         }
         Player player = Bukkit.getPlayer(res.getUUID());
     }
@@ -1305,7 +1295,6 @@ public class Town extends SQLObject {
         for (PermissionGroup group : groups.values()) {
             if (group.hasMember(resident)) {
                 group.removeMember(resident);
-                group.save();
             }
         }
 
