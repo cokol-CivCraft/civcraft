@@ -305,8 +305,8 @@ public class Civilization extends SQLObject {
 
 
         capitolName = nbt.getString("capitolName");
-        setLeaderGroupName(nbt.getString("leaderGroupName"));
-        setAdvisersGroupName(nbt.getString("advisersGroupName"));
+        this.addGroup(new PermissionGroup(this, nbt.getCompound("leaderGroup")));
+        this.addGroup(new PermissionGroup(this, nbt.getCompound("advisersGroup")));
         daysInDebt = nbt.getInt("daysInDebt");
         this.color = nbt.getInt("color");
         this.setResearchTech(CivSettings.techs.get(nbt.getString("researchTech")));
@@ -369,8 +369,10 @@ public class Civilization extends SQLObject {
         nbt.setString("leaderName", this.getLeader().getUUIDString());
 
         nbt.setString("capitolName", this.capitolName);
-        nbt.setString("leaderGroupName", this.getLeaderGroupName());
-        nbt.setString("advisersGroupName", this.getAdvisersGroupName());
+        nbt.set("leaderGroup", new NBTTagCompound());
+        this.getLeaderGroup().saveToNBT(nbt.getCompound("leaderGroup"));
+        nbt.set("advisersGroup", new NBTTagCompound());
+        this.getAdviserGroup().saveToNBT(nbt.getCompound("advisersGroup"));
         nbt.setDouble("debt", this.getTreasury().getDebt());
         nbt.setDouble("coins", this.getTreasury().getBalance());
         nbt.setInt("daysInDebt", this.daysInDebt);

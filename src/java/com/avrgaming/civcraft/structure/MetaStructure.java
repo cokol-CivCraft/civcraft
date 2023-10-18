@@ -61,6 +61,7 @@ public abstract class MetaStructure extends Buildable implements INBTSerializabl
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`uuid` VARCHAR(36) NOT NULL," +
+                    "`type_id` mediumtext NOT NULL," +
                     "`nbt` BLOB," +
                     "PRIMARY KEY (`id`)" + ")";
 
@@ -92,6 +93,7 @@ public abstract class MetaStructure extends Buildable implements INBTSerializabl
     @Override
     public void saveNow() throws SQLException {
         HashMap<String, Object> hashmap = new HashMap<>();
+        hashmap.put("type_id", this.getConfigId());
         NBTTagCompound nbt = new NBTTagCompound();
         this.saveToNBT(nbt);
         var data = new ByteArrayOutputStream();

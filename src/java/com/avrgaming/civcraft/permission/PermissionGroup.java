@@ -26,6 +26,8 @@ import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.SQLObject;
 import com.avrgaming.civcraft.object.Town;
+import com.avrgaming.civcraft.util.INBTSerializable;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,7 +37,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class PermissionGroup extends SQLObject {
+public class PermissionGroup extends SQLObject implements INBTSerializable {
 
     private final Map<String, Resident> members = new ConcurrentHashMap<>();
     /* Only cache towns as the 'civ' can change when a town gets conquered or gifted/moved. */
@@ -50,11 +52,24 @@ public class PermissionGroup extends SQLObject {
         this.setName(name);
     }
 
+    public PermissionGroup(Civilization civ, NBTTagCompound nbt) throws InvalidNameException {
+        this.civUUID = civ.getUUID();
+        this.townUUID = NULL_UUID;
+        this.loadFromNBT(nbt);
+    }
+
     public PermissionGroup(Town town, String name) throws InvalidNameException {
         this.townUUID = town.getUUID();
         this.civUUID = NULL_UUID;
         this.cacheTown = town;
         this.setName(name);
+    }
+
+    public PermissionGroup(Town town, NBTTagCompound nbt) throws InvalidNameException {
+        this.townUUID = town.getUUID();
+        this.civUUID = NULL_UUID;
+        this.cacheTown = town;
+        this.loadFromNBT(nbt);
     }
 
     public PermissionGroup(ResultSet rs) throws SQLException, InvalidNameException {
@@ -127,6 +142,9 @@ public class PermissionGroup extends SQLObject {
 
     @Override
     public void save() {
+        if (!civUUID.equals(NULL_UUID)) {
+            return;
+        }
         SQLUpdate.add(this);
     }
 
@@ -249,5 +267,39 @@ public class PermissionGroup extends SQLObject {
 
     public void setTownUUID(UUID townId) {
         this.townUUID = townId;
+    }
+
+    @Override
+    public void saveToNBT(NBTTagCompound nbt) {
+        nbt.setString("uuid", this.getUUID().toString());
+        nbt.setString("name", this.getName());
+        nbt.setString("members", this.getMembersSaveString());
+    }
+
+    @Override
+    public void loadFromNBT(NBTTagCompound nbt) {
+        this.setUUID(UUID.fromString(nbt.getString("uuid")));
+        try {
+            this.setName(nbt.getString("name"));
+        } catch (InvalidNameException e) {
+            throw new RuntimeException(e);
+        }
+        loadMembersFromSaveString(nbt.getString("members"));
+
+        if (!this.getTownUUID().equals(NULL_UUID)) {
+            this.cacheTown = Town.getTownFromUUID(this.getTownUUID());
+            this.getTown().addGroup(this);
+        } else {
+            Civilization civ = Civilization.getCivFromUUID(this.getCivUUID());
+            if (civ == null) {
+                civ = CivGlobal.getConqueredCivFromUUID(this.getCivUUID());
+                if (civ == null) {
+                    CivLog.warning("COUlD NOT FIND CIV ID:" + this.getCivUUID() + " for group: " + this.getName() + " to load.");
+                    return;
+                }
+            }
+
+            civ.addGroup(this);
+        }
     }
 }

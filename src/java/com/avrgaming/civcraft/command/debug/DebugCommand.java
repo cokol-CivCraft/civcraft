@@ -71,7 +71,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -282,11 +281,9 @@ public class DebugCommand extends CommandBase {
         try {
             /* Build a spawn civ. */
             Civilization spawnCiv = new Civilization(civName, capitolName, resident);
-            spawnCiv.saveNow();
 
             /* Build a spawn capitol */
             Town spawnCapitol = new Town(capitolName, resident, spawnCiv);
-            spawnCapitol.saveNow();
 
             PermissionGroup leaders = new PermissionGroup(spawnCiv, "leaders");
             spawnCiv.addGroup(leaders);
@@ -447,9 +444,6 @@ public class DebugCommand extends CommandBase {
             });
         } catch (InvalidNameException e) {
             throw new CivException(e.getMessage());
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new CivException("Internal DB Error.");
         }
 
     }
