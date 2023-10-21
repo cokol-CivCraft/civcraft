@@ -22,6 +22,7 @@ import com.avrgaming.civcraft.main.CivData;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.structure.Buildable;
+import com.avrgaming.civcraft.structure.MetaStructure;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.threading.CivAsyncTask;
@@ -48,7 +49,7 @@ public class BuildAsyncTask extends CivAsyncTask {
      * thread to build individual blocks.
      */
 
-    public Buildable buildable;
+    public MetaStructure buildable;
     public int speed;
     public int blocks_per_tick;
     public Template tpl;
@@ -61,7 +62,7 @@ public class BuildAsyncTask extends CivAsyncTask {
     public Boolean aborted = false;
     public Date lastSave;
 
-    public BuildAsyncTask(Buildable bld, Template t, int s, int blocks_per_tick, Block center) {
+    public BuildAsyncTask(MetaStructure bld, Template t, int s, int blocks_per_tick, Block center) {
         buildable = bld;
         speed = s;
         tpl = t;

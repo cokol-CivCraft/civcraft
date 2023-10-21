@@ -2,25 +2,41 @@ package com.avrgaming.civcraft.structure;
 
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.config.ConfigBuildableInfo;
+import com.avrgaming.civcraft.config.ConfigTownLevel;
 import com.avrgaming.civcraft.database.SQLController;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
+import com.avrgaming.civcraft.main.CivMessage;
+import com.avrgaming.civcraft.object.CultureChunk;
+import com.avrgaming.civcraft.object.ProtectedBlock;
 import com.avrgaming.civcraft.object.Town;
+import com.avrgaming.civcraft.object.TownChunk;
+import com.avrgaming.civcraft.permission.PlotPermissions;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.template.Template;
+import com.avrgaming.civcraft.threading.tasks.BuildAsyncTask;
 import com.avrgaming.civcraft.util.BlockCoord;
+import com.avrgaming.civcraft.util.BukkitObjects;
+import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.INBTSerializable;
+import com.wimbli.WorldBorder.BorderData;
+import com.wimbli.WorldBorder.Config;
 import net.minecraft.server.v1_12_R1.NBTCompressedStreamTools;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -161,5 +177,272 @@ public abstract class MetaStructure extends Buildable implements INBTSerializabl
         this.dir = BlockFace.valueOf(nbt.getString("direction"));
         this.setComplete(nbt.getBoolean("complete"));
         this.setBuiltBlockCount(nbt.getInt("builtBlockCount"));
+    }
+
+    public void resumeBuildFromTemplate() throws Exception {
+
+        Location corner = getCorner().getLocation();
+
+        Template tpl = new Template();
+        tpl.resumeTemplate(this.getSavedTemplatePath(), this);
+
+        this.setTotalBlockCount(tpl.size_x * tpl.size_y * tpl.size_z);
+
+        if (this instanceof Wonder) {
+            this.getTown().setCurrentWonderInProgress(this);
+        } else {
+            this.getTown().setCurrentStructureInProgress(this);
+        }
+
+        this.startBuildTask(tpl, corner);
+    }
+
+    protected void startBuildTask(Template tpl, Location center) {
+        if (this instanceof Structure) {
+            this.getTown().setCurrentStructureInProgress(this);
+        } else {
+            this.getTown().setCurrentWonderInProgress(this);
+        }
+        BuildAsyncTask task = new BuildAsyncTask(this, tpl, this.getBuildSpeed(), this.getBlocksPerTick(), center.getBlock());
+
+        this.getTown().build_tasks.add(task);
+        BukkitObjects.scheduleAsyncDelayedTask(task, 0);
+    }
+
+    public int getBuildSpeed() {
+        // buildTime is in hours, we need to return milliseconds.
+        boolean hour = CivSettings.civConfig.getBoolean("global.structurespeed", false);
+        // We should return the number of milliseconds to wait between each block placement.
+        double hoursPerBlock = (this.getHammerCost() / this.getTown().getHammers().total) / this.getTotalBlockCount();
+        double millisecondsPerBlock = hour ? hoursPerBlock * 60 * 60 * 1000 : hoursPerBlock * 60 * 30 * 1000;
+        millisecondsPerBlock *= this.getTown().getBuildSpeed();
+        // Clip millisecondsPerBlock to 150 milliseconds.
+        if (millisecondsPerBlock < 150) {
+            millisecondsPerBlock = 150;
+        }
+
+        return (int) millisecondsPerBlock;
+    }
+
+    /* Checks to see if the area is covered by another structure */
+    public void canBuildHere(Location center, double distance) {
+
+        // Do not let tile improvements be built on top of each other.
+        //String chunkHash = Civ.chunkHash(center.getChunk());
+
+        //TODO Revisit for walls and farms?
+
+
+    }
+
+    public int getBlocksPerTick() {
+        // We do not want the blocks to be placed faster than 500 milliseconds.
+        // So in order to deal with speeds that are faster than that, we will
+        // increase the number of blocks given per tick.
+        double hoursPerBlock = (this.getHammerCost() / this.getTown().getHammers().total) / this.getTotalBlockCount();
+        double millisecondsPerBlock = hoursPerBlock * 60 * 60 * 1000;
+
+        // Don't let this get lower than 1 just in case to prevent any crazyiness...
+
+        double blocks = (500 / millisecondsPerBlock);
+
+        if (blocks < 1) {
+            blocks = 1;
+        }
+
+        return (int) blocks;
+    }
+
+    protected void checkBlockPermissionsAndRestrictions(Player player, Block centerBlock, int regionX, int regionY, int regionZ, Location origin) throws CivException {
+
+        boolean foundTradeGood = false;
+        TradeOutpost tradeOutpost = null;
+        boolean ignoreBorders = false;
+        boolean autoClaim = this.autoClaim;
+
+        if (this instanceof TradeOutpost) {
+            tradeOutpost = (TradeOutpost) this;
+        }
+
+        //Make sure we are building this building inside of culture.
+        if (isTownHall()) {
+            /* Structure is a town hall, auto-claim the borders. */
+            ignoreBorders = true;
+        } else {
+            CultureChunk cc = CivGlobal.getCultureChunk(centerBlock.getLocation());
+            if (cc == null || cc.getTown().getCiv() != this.getTown().getCiv()) {
+                throw new CivException(CivSettings.localize.localizedString("buildable_notInCulture"));
+            }
+        }
+
+        if (isTownHall()) {
+            double minDistance = CivSettings.townConfig.getDouble("town.min_town_distance", 150.0);
+
+            for (Town town : Town.getTowns()) {
+                TownHall townhall = town.getTownHall();
+                if (townhall == null) {
+                    continue;
+                }
+
+                double dist = townhall.getCenterLocation().distance(new BlockCoord(centerBlock));
+                if (dist < minDistance) {
+                    DecimalFormat df = new DecimalFormat();
+                    CivMessage.sendError(player, CivSettings.localize.localizedString("var_settler_errorTooClose", town.getName(), df.format(dist), minDistance));
+                    return;
+                }
+            }
+        }
+
+        if (this.isWaterStructure() && !this.isOnWater(centerBlock.getBiome())) {
+            throw new CivException(CivSettings.localize.localizedString("var_buildable_notEnoughWater", this.getDisplayName()));
+
+        }
+
+        Structure struct = CivGlobal.getStructure(new BlockCoord(centerBlock));
+        if (struct != null) {
+            throw new CivException(CivSettings.localize.localizedString("buildable_structureExistsHere"));
+        }
+
+        ignoreBorders = this.isAllowOutsideTown();
+
+        if (!player.isOp()) {
+            validateDistanceFromSpawn(centerBlock.getLocation());
+        }
+
+        if (this.isTileImprovement()) {
+            ignoreBorders = true;
+            ConfigTownLevel level = CivSettings.townLevels.get(getTown().getLevel());
+
+            int maxTileImprovements = level.tile_improvements;
+            if (getTown().getBuffManager().hasBuff("buff_mother_tree_tile_improvement_bonus")) {
+                maxTileImprovements *= 2;
+            }
+            if (getTown().getTileImprovementCount() >= maxTileImprovements) {
+                throw new CivException(CivSettings.localize.localizedString("buildable_errorTILimit"));
+            }
+
+            ChunkCoord coord = new ChunkCoord(centerBlock.getLocation());
+            for (Structure s : getTown().getStructures()) {
+                if (!s.isTileImprovement()) {
+                    continue;
+                }
+                ChunkCoord sCoord = new ChunkCoord(s.getCorner());
+                if (sCoord.equals(coord)) {
+                    throw new CivException(CivSettings.localize.localizedString("buildable_errorTIHere"));
+                }
+            }
+
+        }
+
+        TownChunk centertc = CivGlobal.getTownChunk(origin);
+        if (centertc == null && !ignoreBorders) {
+            throw new CivException(CivSettings.localize.localizedString("buildable_errorNotInTown"));
+        }
+
+        if (centerBlock.getLocation().getY() >= 255) {
+            throw new CivException(CivSettings.localize.localizedString("buildable_errorTooHigh"));
+        }
+
+        if (centerBlock.getLocation().getY() <= 7) {
+            throw new CivException(CivSettings.localize.localizedString("buildable_errorTooLow"));
+        }
+
+        if (centerBlock.getLocation().getY() < CivGlobal.minBuildHeight) {
+            throw new CivException(CivSettings.localize.localizedString("cannotBuild_toofarUnderground"));
+        }
+
+        if ((regionY + centerBlock.getLocation().getBlockY()) >= 255) {
+            throw new CivException(CivSettings.localize.localizedString("buildable_errorHeightLimit"));
+        }
+
+        /* Check that we're not overlapping with another structure's template outline. */
+        /* XXX this needs to check actual blocks, not outlines cause thats more annoying than actual problems caused by building into each other. */
+
+        onCheck();
+
+//        LinkedList<RoadBlock> deletedRoadBlocks = new LinkedList<>();
+        ArrayList<ChunkCoord> claimCoords = new ArrayList<>();
+        for (int x = 0; x < regionX; x++) {
+            for (int y = 0; y < regionY; y++) {
+                for (int z = 0; z < regionZ; z++) {
+                    Block b = centerBlock.getRelative(x, y, z);
+
+                    if (b.getType() == Material.CHEST) {
+                        throw new CivException(CivSettings.localize.localizedString("cannotBuild_chestInWay"));
+                    }
+
+                    TownChunk tc = CivGlobal.getTownChunk(b.getLocation());
+                    if (tc == null && autoClaim) {
+                        claimCoords.add(new ChunkCoord(b.getLocation()));
+                    }
+
+                    if (tc != null && !tc.perms.hasPermission(PlotPermissions.Type.DESTROY, CivGlobal.getResident(player))) {
+                        // Make sure we have permission to destroy any block in this area.
+                        throw new CivException(CivSettings.localize.localizedString("cannotBuild_needPermissions") + " " + b.getX() + "," + b.getY() + "," + b.getZ());
+                    }
+
+                    BlockCoord coord = new BlockCoord(b);
+                    ChunkCoord chunkCoord = new ChunkCoord(coord.getLocation());
+
+                    if (tradeOutpost == null) {
+                        //not building a trade outpost, prevent protected blocks from being destroyed.
+                        ProtectedBlock pb = CivGlobal.getProtectedBlock(coord);
+                        if (pb != null) {
+                            CivLog.debug("Type: " + pb.getType());
+                            throw new CivException(CivSettings.localize.localizedString("cannotBuild_protectedInWay"));
+                        }
+                    } else {
+                        if (CivGlobal.getTradeGood(coord) != null) {
+                            // Make sure we encompass entire trade good.
+                            if ((y + 3) < regionY) {
+                                foundTradeGood = true;
+                                tradeOutpost.setTradeGoodCoord(coord);
+                            }
+                        }
+                    }
+
+                    if (CivGlobal.getStructureBlock(coord) != null) {
+                        throw new CivException(CivSettings.localize.localizedString("cannotBuild_structureInWay"));
+                    }
+
+                    if (CivGlobal.getFarmChunk(new ChunkCoord(coord.getLocation())) != null) {
+                        throw new CivException(CivSettings.localize.localizedString("cannotBuild_farmInWay"));
+                    }
+
+                    if (CivGlobal.getCampBlock(coord) != null) {
+                        throw new CivException(CivSettings.localize.localizedString("cannotBuild_structureInWay"));
+                    }
+
+                    if (CivGlobal.getBuildablesAt(coord) != null) {
+                        throw new CivException(CivSettings.localize.localizedString("cannotBuild_structureHere"));
+                    }
+
+                    BorderData border = Config.Border(b.getWorld().getName());
+                    if (border != null) {
+                        if (!border.insideBorder(b.getLocation().getX(), b.getLocation().getZ(), Config.ShapeRound())) {
+                            throw new CivException(CivSettings.localize.localizedString("cannotBuild_outsideBorder"));
+                        }
+                    }
+                }
+            }
+        }
+
+        if (tradeOutpost != null) {
+            if (!foundTradeGood) {
+                throw new CivException(CivSettings.localize.localizedString("buildable_errorNotOnTradeGood"));
+            }
+        }
+
+        for (ChunkCoord c : claimCoords) {
+            try {
+                //XXX These will be added to the array list of objects to save in town.buildStructure();
+                this.townChunksToSave.add(TownChunk.townHallClaim(this.getTown(), c));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        /* Delete any road blocks we happen to come across. */
+
     }
 }
