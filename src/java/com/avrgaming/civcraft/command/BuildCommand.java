@@ -25,6 +25,7 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.structure.Buildable;
+import com.avrgaming.civcraft.structure.MetaStructure;
 import com.avrgaming.civcraft.structure.Structure;
 import com.avrgaming.civcraft.threading.tasks.BuildAsyncTask;
 import com.avrgaming.civcraft.util.BlockCoord;
@@ -182,7 +183,7 @@ public class BuildCommand extends CommandBase {
         CivMessage.sendHeading(sender, CivSettings.localize.localizedString("cmd_build_undoHeader"));
         Town town = getSelectedTown();
         for (BuildAsyncTask task : town.build_tasks) {
-            Buildable b = task.buildable;
+            MetaStructure b = task.buildable;
             DecimalFormat df = new DecimalFormat();
             double total = b.getHammerCost();
             double current = b.getBuiltHammers();

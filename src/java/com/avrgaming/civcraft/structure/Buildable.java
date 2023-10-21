@@ -230,8 +230,6 @@ public abstract class Buildable extends SQLObject {
         return this.isComplete() && (this.isTownHall() || !isDestroyed()) && isEnabled();
     }
 
-    public abstract void processUndo() throws CivException;
-
     public int getBuiltBlockCount() {
         return builtBlockCount;
     }
@@ -302,8 +300,6 @@ public abstract class Buildable extends SQLObject {
     }
 
     public abstract void build(Player player, Location centerLoc, Template tpl) throws Exception;
-
-    protected abstract void runOnBuild(Location centerLoc, Template tpl) throws CivException;
 
     public void bindStructureBlocks() {
         // Called mostly on a reload, determines which blocks should be protected based on the corner
@@ -921,12 +917,6 @@ public abstract class Buildable extends SQLObject {
             }
         });
     }
-
-    public abstract void onComplete();
-
-    public abstract void onLoad() throws CivException;
-
-    public abstract void onUnload();
 
     public void onPostBuild(BlockCoord absCoord, SimpleBlock commandBlock) {
     }

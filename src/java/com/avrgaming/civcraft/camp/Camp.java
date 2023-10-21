@@ -1038,37 +1038,8 @@ public class Camp extends Buildable {
         CivGlobal.getSessionDB().add(key, value, NamedObject.NULL_UUID);
     }
 
-    //XXX TODO make sure these all work...
-    @Override
-    public void processUndo() {
-        // TODO Auto-generated method stub
-
-    }
-
     @Override
     public void build(Player player, Location centerLoc, Template tpl) {
-    }
-
-    @Override
-    protected void runOnBuild(Location centerLoc, Template tpl) {
-    }
-
-    @Override
-    public void onComplete() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void onLoad() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void onUnload() {
-        // TODO Auto-generated method stub
-
     }
 
     public Collection<Resident> getMembers() {

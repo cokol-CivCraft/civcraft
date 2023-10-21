@@ -297,31 +297,7 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
     }
 
     @Override
-    public void processUndo() {
-    }
-
-    @Override
     public void build(Player player, Location centerLoc, Template tpl) {
-
-    }
-
-    @Override
-    protected void runOnBuild(Location centerLoc, Template tpl) {
-
-    }
-
-    @Override
-    public void onComplete() {
-
-    }
-
-    @Override
-    public void onLoad() {
-
-    }
-
-    @Override
-    public void onUnload() {
 
     }
 

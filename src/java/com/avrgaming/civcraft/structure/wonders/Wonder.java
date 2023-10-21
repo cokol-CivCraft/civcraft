@@ -150,7 +150,7 @@ public abstract class Wonder extends MetaStructure {
         this.setTemplateAABB(new BlockCoord(centerLoc), tpl);
 
         checkBlockPermissionsAndRestrictions(player, centerBlock, tpl.size_x, tpl.size_y, tpl.size_z, savedLocation);
-        this.runOnBuild(centerLoc, tpl);
+        this.runOnBuildStart(centerLoc, tpl);
 
         // Setup undo information
         getTown().lastBuildableBuilt = this;
@@ -170,7 +170,7 @@ public abstract class Wonder extends MetaStructure {
 
 
     @Override
-    protected void runOnBuild(Location centerLoc, Template tpl) {
+    protected void runOnBuildStart(Location centerLoc, Template tpl) {
     }
 
     public void onDestroy() {

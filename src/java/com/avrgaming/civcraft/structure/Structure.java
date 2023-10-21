@@ -199,7 +199,7 @@ public class Structure extends MetaStructure {
 
         checkBlockPermissionsAndRestrictions(player, centerBlock, tpl.size_x, tpl.size_y, tpl.size_z, savedLocation);
         // Before we place the blocks, give our build function a chance to work on it
-        this.runOnBuild(centerLoc, tpl);
+        this.runOnBuildStart(centerLoc, tpl);
 
         // Setup undo information
         getTown().lastBuildableBuilt = this;
@@ -218,7 +218,7 @@ public class Structure extends MetaStructure {
     }
 
 
-    protected void runOnBuild(Location centerLoc, Template tpl) throws CivException {
+    protected void runOnBuildStart(Location centerLoc, Template tpl) throws CivException {
         if (this.getOnBuildEvent() == null || this.getOnBuildEvent().isEmpty()) {
             return;
         }

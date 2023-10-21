@@ -445,4 +445,14 @@ public abstract class MetaStructure extends Buildable implements INBTSerializabl
         /* Delete any road blocks we happen to come across. */
 
     }
+
+    protected abstract void runOnBuildStart(Location centerLoc, Template tpl) throws CivException;
+
+    public abstract void onComplete();
+
+    public abstract void onLoad() throws CivException;
+
+    public abstract void onUnload();
+
+    public abstract void processUndo() throws CivException;
 }
