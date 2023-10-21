@@ -660,14 +660,14 @@ public abstract class Buildable extends SQLObject {
         }
 
         //Make sure we are building this building inside of culture.
-        if (!isTownHall()) {
+        if (isTownHall()) {
+            /* Structure is a town hall, auto-claim the borders. */
+            ignoreBorders = true;
+        } else {
             CultureChunk cc = CivGlobal.getCultureChunk(centerBlock.getLocation());
             if (cc == null || cc.getTown().getCiv() != this.town.getCiv()) {
                 throw new CivException(CivSettings.localize.localizedString("buildable_notInCulture"));
             }
-        } else {
-            /* Structure is a town hall, auto-claim the borders. */
-            ignoreBorders = true;
         }
 
         if (isTownHall()) {

@@ -22,6 +22,7 @@ import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class PlotPermissions {
 
@@ -56,10 +57,10 @@ public class PlotPermissions {
             ownerString = owner.getName();
         }
 
-        StringBuilder groupString = new StringBuilder("0");
+        StringBuilder groupString = new StringBuilder("0:");
         if (!groups.isEmpty()) {
             for (PermissionGroup grp : groups) {
-                groupString.append(grp.getId()).append(":");
+                groupString.append(grp.getUUID().toString()).append(":");
             }
         }
 
@@ -82,7 +83,7 @@ public class PlotPermissions {
             if (gstr.equals("0") || gstr.isEmpty()) {
                 continue;
             }
-            PermissionGroup group = CivGlobal.getPermissionGroup(town, Integer.valueOf(gstr));
+            PermissionGroup group = town.getGroupFromUUID(UUID.fromString(gstr));
             addGroup(group);
         }
 

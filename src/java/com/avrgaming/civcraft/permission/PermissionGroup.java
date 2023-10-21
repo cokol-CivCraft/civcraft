@@ -29,14 +29,11 @@ import com.avrgaming.civcraft.util.INBTSerializable;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
 
 import java.sql.SQLException;
-import java.util.Collection;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.*;
 
 public class PermissionGroup extends NamedObject implements INBTSerializable {
 
-    private final Map<String, Resident> members = new ConcurrentHashMap<>();
+    private final Set<UUID> members = new HashSet<>();
     /* Only cache towns as the 'civ' can change when a town gets conquered or gifted/moved. */
     private Town cacheTown = null;
 
@@ -61,15 +58,15 @@ public class PermissionGroup extends NamedObject implements INBTSerializable {
     }
 
     public void addMember(Resident res) {
-        members.put(res.getUUIDString(), res);
+        members.add(res.getUUID());
     }
 
     public void removeMember(Resident res) {
-        members.remove(res.getUUIDString());
+        members.remove(res.getUUID());
     }
 
     public boolean hasMember(Resident res) {
-        return members.containsKey(res.getUUIDString());
+        return members.contains(res.getUUID());
     }
 
     public static final String TABLE_NAME = "GROUPS";
@@ -97,8 +94,8 @@ public class PermissionGroup extends NamedObject implements INBTSerializable {
     private String getMembersSaveString() {
         StringBuilder ret = new StringBuilder();
 
-        for (Resident resident : members.values()) {
-            ret.append(resident.getUUID()).append(",");
+        for (UUID uuid : members) {
+            ret.append(uuid).append(",");
         }
 
         return ret.toString();
@@ -106,14 +103,8 @@ public class PermissionGroup extends NamedObject implements INBTSerializable {
 
     private void loadMembersFromSaveString(String src) {
         for (String n : src.split(",")) {
-            Resident res;
-
             if (!n.isEmpty()) {
-                res = CivGlobal.getResidentViaUUID(UUID.fromString(n));
-
-                if (res != null) {
-                    members.put(n, res);
-                }
+                members.add(UUID.fromString(n));
             }
         }
     }
@@ -131,7 +122,14 @@ public class PermissionGroup extends NamedObject implements INBTSerializable {
     }
 
     public Collection<Resident> getMemberList() {
-        return members.values();
+        ArrayList<Resident> list = new ArrayList<>();
+        for (UUID uuid : members) {
+            Resident res = CivGlobal.getResidentViaUUID(uuid);
+            if (res != null) {
+                list.add(res);
+            }
+        }
+        return list;
     }
 
     public Civilization getCiv() {
@@ -175,8 +173,7 @@ public class PermissionGroup extends NamedObject implements INBTSerializable {
     public String getMembersString() {
         StringBuilder out = new StringBuilder();
 
-        for (String uuid : members.keySet()) {
-            Resident res = CivGlobal.getResidentViaUUID(UUID.fromString(uuid));
+        for (Resident res : getMemberList()) {
             out.append(res.getName()).append(", ");
         }
         return out.toString();

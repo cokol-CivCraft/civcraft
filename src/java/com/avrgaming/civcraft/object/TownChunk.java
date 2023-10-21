@@ -191,7 +191,7 @@ public class TownChunk extends SQLObject {
         if (!this.perms.getGroups().isEmpty()) {
             StringBuilder out = new StringBuilder();
             for (PermissionGroup grp : this.perms.getGroups()) {
-                out.append(grp.getId()).append(":");
+                out.append(grp.getUUID()).append(":");
             }
             hashmap.put("cc_groups", out.toString());
         } else {
@@ -266,7 +266,7 @@ public class TownChunk extends SQLObject {
         if (grpString != null) {
             String[] groups = grpString.split(":");
             for (String grp : groups) {
-                this.perms.addGroup(CivGlobal.getPermissionGroup(this.getTown(), Integer.valueOf(grp)));
+                this.perms.addGroup(this.getTown().getGroupFromUUID(UUID.fromString(grp)));
             }
         }
 

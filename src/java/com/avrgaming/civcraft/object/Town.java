@@ -261,10 +261,6 @@ public class Town extends SQLObject {
                 setMotherCiv(mother);
             }
         }
-        NBTTagCompound perms = nbt.getCompound("permission_groups");
-        for (String groups : perms.c()) {
-            addGroup(new PermissionGroup(this, perms.getCompound(groups)));
-        }
 
 
         if (this.getCiv() == null) {
@@ -283,6 +279,10 @@ public class Town extends SQLObject {
         defaultGroupName = "residents";
         mayorGroupName = "mayors";
         assistantGroupName = "assistants";
+        NBTTagCompound perms = nbt.getCompound("permission_groups");
+        for (String groups : perms.c()) {
+            addGroup(new PermissionGroup(this, perms.getCompound(groups)));
+        }
 
         this.setTreasury(CivGlobal.createEconObject(this));
         this.getTreasury().setBalance(nbt.getDouble("coins"), false);
@@ -962,9 +962,9 @@ public class Town extends SQLObject {
         return groups.get(name);
     }
 
-    public PermissionGroup getGroupFromId(Integer id) {
+    public PermissionGroup getGroupFromUUID(UUID id) {
         for (PermissionGroup grp : groups.values()) {
-            if (grp.getId() == id) {
+            if (grp.getUUID().equals(id)) {
                 return grp;
             }
         }

@@ -143,7 +143,7 @@ public class RandomEvent extends SQLObject {
         HashMap<String, Object> hashmap = new HashMap<>();
 
         hashmap.put("config_id", this.configRandomEvent.id);
-        hashmap.put("town_uuid", this.getTown().getUUID());
+        hashmap.put("town_uuid", this.getTown().getUUID().toString());
         hashmap.put("start_date", this.startDate.getTime());
         hashmap.put("component_vars", this.getComponentVarsSaveString());
         hashmap.put("saved_messages", this.getSavedMessagesSaveString());

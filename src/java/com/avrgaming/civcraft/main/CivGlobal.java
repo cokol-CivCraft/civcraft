@@ -609,10 +609,6 @@ public class CivGlobal {
         townChunks.put(tc.getChunkCoord(), tc);
     }
 
-    public static PermissionGroup getPermissionGroup(Town town, Integer id) {
-        return town.getGroupFromId(id);
-    }
-
     //TODO make lookup via ID faster(use hashtable)
 
     public static TownChunk getTownChunk(ChunkCoord coord) {
