@@ -1038,10 +1038,6 @@ public class Camp extends Buildable {
         CivGlobal.getSessionDB().add(key, value, NamedObject.NULL_UUID);
     }
 
-    @Override
-    public void build(Player player, Location centerLoc, Template tpl) {
-    }
-
     public Collection<Resident> getMembers() {
         return this.members.values();
     }

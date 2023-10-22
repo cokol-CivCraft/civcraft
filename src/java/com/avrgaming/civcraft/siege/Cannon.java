@@ -328,10 +328,6 @@ public class Cannon extends Buildable {
     }
 
     @Override
-    public void build(Player player, Location centerLoc, Template tpl) {
-    }
-
-    @Override
     public void load(ResultSet rs) {
     }
 

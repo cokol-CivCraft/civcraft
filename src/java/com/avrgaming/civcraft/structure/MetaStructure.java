@@ -8,10 +8,7 @@ import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
-import com.avrgaming.civcraft.object.CultureChunk;
-import com.avrgaming.civcraft.object.ProtectedBlock;
-import com.avrgaming.civcraft.object.Town;
-import com.avrgaming.civcraft.object.TownChunk;
+import com.avrgaming.civcraft.object.*;
 import com.avrgaming.civcraft.permission.PlotPermissions;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.template.Template;
@@ -44,6 +41,7 @@ public abstract class MetaStructure extends Buildable implements INBTSerializabl
     public static String TABLE_NAME = "STRUCTURES";
     public int builtBlockCount = 0;
     public int savedBlockCount = 0;
+    public static final double DEFAULT_HAMMERRATE = 1.0;
 
     public MetaStructure(ResultSet rs) throws SQLException, CivException {
         this.load(rs);
@@ -482,4 +480,18 @@ public abstract class MetaStructure extends Buildable implements INBTSerializabl
 
     public void onUpdate() {
     }
+
+    public void onPreBuild(Location centerLoc) throws CivException {
+    }
+
+    public double getHammerCost() {
+        double rate = 1;
+        rate -= this.getTown().getBuffManager().getEffectiveDouble(Buff.RUSH);
+        if (this.isTileImprovement()) {
+            rate -= this.getTown().getBuffManager().getEffectiveDouble("buff_mother_tree_tile_improvement_cost");
+        }
+        return rate * info.hammer_cost;
+    }
+
+    public abstract void build(Player player, Location centerLoc, Template tpl) throws Exception;
 }

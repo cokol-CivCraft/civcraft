@@ -195,7 +195,7 @@ public class Structure extends MetaStructure {
         this.setTemplateX(tpl.size_x);
         this.setTemplateY(tpl.size_y);
         this.setTemplateZ(tpl.size_z);
-        this.setTemplateAABB(new BlockCoord(centerLoc), tpl);
+        this.setCorner(new BlockCoord(centerLoc));
 
         checkBlockPermissionsAndRestrictions(player, centerBlock, tpl.size_x, tpl.size_y, tpl.size_z, savedLocation);
         // Before we place the blocks, give our build function a chance to work on it

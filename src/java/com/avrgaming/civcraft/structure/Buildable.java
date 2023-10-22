@@ -96,8 +96,6 @@ public abstract class Buildable extends SQLObject {
 
     private String invalidReason = "";
 
-    public static final double DEFAULT_HAMMERRATE = 1.0;
-    public AABB templateBoundingBox = null;
     public String invalidLayerMessage = "";
 
     public Town getTown() {
@@ -131,11 +129,6 @@ public abstract class Buildable extends SQLObject {
         return this.getTown().getCiv();
     }
 
-    public String getHash() {
-        return corner.toString();
-    }
-
-
     public String getConfigId() {
         return info.id;
     }
@@ -162,17 +155,6 @@ public abstract class Buildable extends SQLObject {
         return Objects.requireNonNullElse(this.info.regenRate, 0);
 
     }
-
-
-    public double getHammerCost() {
-        double rate = 1;
-        rate -= this.getTown().getBuffManager().getEffectiveDouble(Buff.RUSH);
-        if (this.isTileImprovement()) {
-            rate -= this.getTown().getBuffManager().getEffectiveDouble("buff_mother_tree_tile_improvement_cost");
-        }
-        return rate * info.hammer_cost;
-    }
-
 
     public double getUpkeepCost() {
         return info.upkeep;
@@ -280,8 +262,6 @@ public abstract class Buildable extends SQLObject {
         this.hitpoints = hitpoints;
     }
 
-    public abstract void build(Player player, Location centerLoc, Template tpl) throws Exception;
-
     public void bindStructureBlocks() {
         // Called mostly on a reload, determines which blocks should be protected based on the corner
         // location and the template's size. We need to verify that each block is a part of the template.
@@ -291,7 +271,7 @@ public abstract class Buildable extends SQLObject {
 
         Template tpl;
         try {
-            tpl = Template.getTemplate(this.templateName, null);
+            tpl = Template.getTemplate(this.getSavedTemplatePath(), null);
         } catch (IOException | CivException e) {
             e.printStackTrace();
             return;
@@ -300,7 +280,7 @@ public abstract class Buildable extends SQLObject {
         this.setTemplateX(tpl.size_x);
         this.setTemplateY(tpl.size_y);
         this.setTemplateZ(tpl.size_z);
-        this.setTemplateAABB(getCorner(), tpl);
+        this.setCorner(getCorner());
 
         for (int y = 0; y < this.getTemplateY(); y++) {
             for (int z = 0; z < this.getTemplateZ(); z++) {
@@ -571,18 +551,6 @@ public abstract class Buildable extends SQLObject {
         }
 
         return loc;
-    }
-
-
-    protected void setTemplateAABB(BlockCoord corner, Template tpl) {
-
-        this.setCorner(corner);
-        this.templateBoundingBox = new AABB();
-        this.templateBoundingBox.setPosition(this.getCenterLocation());
-        this.templateBoundingBox.setExtents(new BlockCoord(getCorner().getWorldname(),
-                this.getTemplateX() / 2,
-                this.getTemplateY() / 2,
-                this.getTemplateZ() / 2));
     }
 
     public static void validateDistanceFromSpawn(Location loc) throws CivException {
@@ -932,9 +900,6 @@ public abstract class Buildable extends SQLObject {
 
 
     public void onDailyEvent() {
-    }
-
-    public void onPreBuild(Location centerLoc) throws CivException {
     }
 
     public void updateSignText() {
