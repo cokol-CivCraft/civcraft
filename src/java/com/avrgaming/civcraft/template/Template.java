@@ -27,6 +27,7 @@ import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.structure.Buildable;
+import com.avrgaming.civcraft.structure.MetaStructure;
 import com.avrgaming.civcraft.structure.wonders.Wonder;
 import com.avrgaming.civcraft.threading.sync.SyncBuildUpdateTask;
 import com.avrgaming.civcraft.util.BlockCoord;
@@ -384,7 +385,7 @@ public class Template {
         return parseDirection(center).getOppositeFace();
     }
 
-    public void resumeTemplate(String templatePath, Buildable buildable) throws IOException, CivException {
+    public void resumeTemplate(String templatePath, MetaStructure buildable) throws IOException, CivException {
         this.setFilepath(templatePath);
         load_template(templatePath);
         buildable.setTotalBlockCount(size_x * size_y * size_z);

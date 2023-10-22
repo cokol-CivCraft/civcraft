@@ -42,6 +42,8 @@ import java.util.UUID;
 
 public abstract class MetaStructure extends Buildable implements INBTSerializable {
     public static String TABLE_NAME = "STRUCTURES";
+    public int builtBlockCount = 0;
+    public int savedBlockCount = 0;
 
     public MetaStructure(ResultSet rs) throws SQLException, CivException {
         this.load(rs);
@@ -455,4 +457,29 @@ public abstract class MetaStructure extends Buildable implements INBTSerializabl
     public abstract void onUnload();
 
     public abstract void processUndo() throws CivException;
+
+    public double getBuiltHammers() {
+        double hoursPerBlock = (this.getHammerCost() / DEFAULT_HAMMERRATE) / this.getTotalBlockCount();
+        return this.getBuiltBlockCount() * hoursPerBlock;
+    }
+
+    public double getBlocksPerHammer() {
+        // no hammer cost should be instant...
+        if (this.getHammerCost() == 0)
+            return this.getTotalBlockCount();
+
+        return this.getTotalBlockCount() / this.getHammerCost();
+    }
+
+    public int getBuiltBlockCount() {
+        return builtBlockCount;
+    }
+
+    public void setBuiltBlockCount(int builtBlockCount) {
+        this.builtBlockCount = builtBlockCount;
+        this.savedBlockCount = builtBlockCount;
+    }
+
+    public void onUpdate() {
+    }
 }

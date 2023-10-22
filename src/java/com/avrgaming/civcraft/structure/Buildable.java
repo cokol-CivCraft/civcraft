@@ -63,8 +63,6 @@ public abstract class Buildable extends SQLObject {
     public ConfigBuildableInfo info = new ConfigBuildableInfo(); //Blank buildable info for buildables which do not have configs.
     protected int hitpoints;
 
-    public int builtBlockCount = 0;
-    public int savedBlockCount = 0;
     private int totalBlockCount = 0;
     private boolean complete = false;
     protected boolean autoClaim = false;
@@ -230,15 +228,6 @@ public abstract class Buildable extends SQLObject {
         return this.isComplete() && (this.isTownHall() || !isDestroyed()) && isEnabled();
     }
 
-    public int getBuiltBlockCount() {
-        return builtBlockCount;
-    }
-
-    public void setBuiltBlockCount(int builtBlockCount) {
-        this.builtBlockCount = builtBlockCount;
-        this.savedBlockCount = builtBlockCount;
-    }
-
     public int getTotalBlockCount() {
         return totalBlockCount;
     }
@@ -281,14 +270,6 @@ public abstract class Buildable extends SQLObject {
         }
 
         return this.centerLocation;
-    }
-
-    public double getBlocksPerHammer() {
-        // no hammer cost should be instant...
-        if (this.getHammerCost() == 0)
-            return this.totalBlockCount;
-
-        return this.totalBlockCount / this.getHammerCost();
     }
 
     public int getHitpoints() {
@@ -654,11 +635,6 @@ public abstract class Buildable extends SQLObject {
         }
     }
 
-    public double getBuiltHammers() {
-        double hoursPerBlock = (this.getHammerCost() / DEFAULT_HAMMERRATE) / this.getTotalBlockCount();
-        return this.getBuiltBlockCount() * hoursPerBlock;
-    }
-
 
     public int getTemplateX() {
         return templateX;
@@ -942,9 +918,6 @@ public abstract class Buildable extends SQLObject {
                 }
             }
         }
-    }
-
-    public void onUpdate() {
     }
 
     /*

@@ -18,6 +18,7 @@
 package com.avrgaming.civcraft.threading.sync;
 
 import com.avrgaming.civcraft.main.CivLog;
+import com.avrgaming.civcraft.structure.MetaStructure;
 import com.avrgaming.civcraft.util.SimpleBlock;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -96,8 +97,8 @@ public class SyncBuildUpdateTask implements Runnable {
                     }
                 }
 
-                if (next.buildable != null) {
-                    next.buildable.savedBlockCount++;
+                if (next.buildable instanceof MetaStructure structure) {
+                    structure.savedBlockCount++;
                 }
             }
         } finally {
