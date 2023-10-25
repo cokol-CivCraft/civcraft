@@ -1051,7 +1051,7 @@ public class Civilization extends SQLObject {
         boolean noanarchy = this.hasWonder("w_notre_dame");
 
         if (!noanarchy) {
-            String key = "changegov_" + this.getId();
+            String key = "changegov_" + this.getUUID();
             String value = gov.id;
 
             sessionAdd(key, value);

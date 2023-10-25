@@ -10,6 +10,7 @@ import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 public abstract class EndGameCondition {
 
@@ -169,12 +170,12 @@ public abstract class EndGameCondition {
 
     }
 
-    public String getSessionData(Civilization civ, Integer daysHeld) {
-        return civ.getId() + ":" + daysHeld;
+    public static Civilization getCivFromSessionData(String data) {
+        return Civilization.getCivFromUUID(UUID.fromString(data.split(":")[0]));
     }
 
-    public static Civilization getCivFromSessionData(String data) {
-        return Civilization.getCivFromId(Integer.parseInt(data.split(":")[0]));
+    public String getSessionData(Civilization civ, Integer daysHeld) {
+        return civ.getUUID() + ":" + daysHeld;
     }
 
     public Integer getDaysHeldFromSessionData(String data) {

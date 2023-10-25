@@ -25,7 +25,7 @@ public class HammerRate extends RandomEventComponent {
     }
 
     public static String getKey(Town town) {
-        return "randomevent:hammerrate" + town.getId();
+        return "randomevent:hammerrate" + town.getUUID();
     }
 
 }

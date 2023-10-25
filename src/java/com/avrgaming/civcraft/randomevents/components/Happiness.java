@@ -17,7 +17,7 @@ public class Happiness extends RandomEventComponent {
     }
 
     public static String getKey(Town town) {
-        return "randomevent:happiness:" + town.getId();
+        return "randomevent:happiness:" + town.getUUID();
     }
 
 }

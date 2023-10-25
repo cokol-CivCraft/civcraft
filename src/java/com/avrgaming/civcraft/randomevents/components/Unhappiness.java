@@ -8,7 +8,7 @@ import com.avrgaming.civcraft.randomevents.RandomEventComponent;
 public class Unhappiness extends RandomEventComponent {
 
     public static String getKey(Town town) {
-        return "randomevent:unhappiness:" + town.getId();
+        return "randomevent:unhappiness:" + town.getUUID();
     }
 
 

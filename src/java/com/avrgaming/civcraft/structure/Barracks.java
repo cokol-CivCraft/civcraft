@@ -106,17 +106,17 @@ public class Barracks extends Structure {
     }
 
     private void changeIndex(int newIndex) {
-        if (this.unitNameSign != null) {
-            try {
-                this.unitNameSign.setText(getUnitSignText(newIndex));
-                index = newIndex;
-            } catch (IndexOutOfBoundsException e) {
-                e.printStackTrace();
-            }
-            this.unitNameSign.update();
-        } else {
-            CivLog.warning("Could not find unit name sign for barracks:" + this.getId() + " at " + this.getCorner());
+        if (this.unitNameSign == null) {
+            CivLog.warning("Could not find unit name sign for barracks:" + this.getUUID() + " at " + this.getCorner());
+            return;
         }
+        try {
+            this.unitNameSign.setText(getUnitSignText(newIndex));
+            index = newIndex;
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
+        this.unitNameSign.update();
     }
 
 
@@ -465,7 +465,7 @@ public class Barracks extends Structure {
     }
 
     public String getSessionKey() {
-        return this.getTown().getName() + ":" + "barracks" + ":" + this.getId();
+        return this.getTown().getName() + ":" + "barracks" + ":" + this.getUUID();
     }
 
     public void saveProgress() {

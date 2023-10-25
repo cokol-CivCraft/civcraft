@@ -1114,12 +1114,18 @@ public class DebugCommand extends CommandBase {
 
     public void repogoodie_cmd() throws CivException {
         if (args.length < 2) {
-            throw new CivException("Enter the id of the goodie you want to repo.");
+            throw new CivException("Enter the uuid of the goodie you want to repo.");
         }
-
+        UUID uuid;
+        try {
+            uuid = UUID.fromString(args[1]);
+        } catch (IllegalArgumentException e) {
+            CivMessage.send(sender, ChatColor.RED + e.getMessage());
+            return;
+        }
         for (BonusGoodie goodie : CivGlobal.getBonusGoodies()) {
-            if (goodie.getId() == Integer.parseInt(args[1])) {
-                CivMessage.send(sender, "Repo'd Goodie " + goodie.getId() + " (" + goodie.getDisplayName() + ")");
+            if (goodie.getUUID().equals(uuid)) {
+                CivMessage.send(sender, "Repo'd Goodie " + goodie.getUUID() + " (" + goodie.getDisplayName() + ")");
                 goodie.replenish();
                 return;
             }
@@ -1133,12 +1139,18 @@ public class DebugCommand extends CommandBase {
         if (args.length < 2) {
             throw new CivException("Enter the id of the goodie you want to inspect.");
         }
-
+        UUID uuid;
+        try {
+            uuid = UUID.fromString(args[1]);
+        } catch (IllegalArgumentException e) {
+            CivMessage.send(sender, ChatColor.RED + e.getMessage());
+            return;
+        }
         for (BonusGoodie goodie : CivGlobal.getBonusGoodies()) {
-            if (goodie.getId() != Integer.parseInt(args[1])) {
+            if (goodie.getUUID() != uuid) {
                 continue;
             }
-            CivMessage.sendHeading(sender, "Goodie " + goodie.getId() + " (" + goodie.getDisplayName() + ")");
+            CivMessage.sendHeading(sender, "Goodie " + goodie.getUUID() + " (" + goodie.getDisplayName() + ")");
 
             if (goodie.getItem() != null) {
                 CivMessage.send(sender, "Item: " + goodie.getItem().getUniqueId() + " loc:" + goodie.getItem().getLocation());

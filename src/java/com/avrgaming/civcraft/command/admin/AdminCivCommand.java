@@ -168,7 +168,7 @@ public class AdminCivCommand extends CommandBase {
             throw new CivException(CivSettings.localize.localizedString("adcmd_civ_setGovInvalidGov") + " gov_monarchy, gov_depostism... etc");
         }
         // Remove any anarchy timers
-        String key = "changegov_" + civ.getId();
+        String key = "changegov_" + civ.getUUID();
         CivGlobal.getSessionDB().delete_all(key);
 
         civ.setGovernment(gov.id);

@@ -264,10 +264,10 @@ public class Relation extends SQLObject {
      * where id1 is always less than id2.
      */
     public String getPairKey() {
-        if (this.getCiv().getId() < this.getOtherCiv().getId()) {
-            return this.getCiv().getId() + ":" + this.getOtherCiv().getId();
+        if (this.getCiv().getUUID().compareTo(this.getOtherCiv().getUUID()) < 0) {
+            return this.getCiv().getUUID() + ":" + this.getOtherCiv().getUUID();
         } else {
-            return this.getOtherCiv().getId() + ":" + this.getCiv().getId();
+            return this.getOtherCiv().getUUID() + ":" + this.getCiv().getUUID();
         }
     }
 }
