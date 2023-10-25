@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class AdminBuildCommand extends CommandBase {
 
@@ -204,20 +205,21 @@ public class AdminBuildCommand extends CommandBase {
         if (args.length < 3) {
             CivMessage.sendHeading(sender, CivSettings.localize.localizedString("adcmd_build_unbuildHeading"));
             for (Structure struct : town.getStructures()) {
-                CivMessage.send(sender, struct.getDisplayName() + ": " + ChatColor.YELLOW + struct.getId() +
+                CivMessage.send(sender, struct.getDisplayName() + ": " + ChatColor.YELLOW + struct.getUUID() +
                         ChatColor.WHITE + " - " + CivSettings.localize.localizedString("Location") + " " + ChatColor.YELLOW + struct.getCorner().toString());
             }
             return;
         }
 
-        String id = args[2];
+        UUID uuid = UUID.fromString(args[2]);
 
         ResultSet rs = null;
         PreparedStatement ps = null;
         Structure struct = null;
 
         try {
-            ps = SQLController.getGameConnection().prepareStatement("SELECT * FROM " + SQLController.tb_prefix + Structure.TABLE_NAME + " WHERE id = " + id);
+            ps = SQLController.getGameConnection().prepareStatement("SELECT * FROM " + SQLController.tb_prefix + Structure.TABLE_NAME + " WHERE uuid = ?");
+            ps.setString(1, uuid.toString());
             rs = ps.executeQuery();
 
             while (rs.next()) {

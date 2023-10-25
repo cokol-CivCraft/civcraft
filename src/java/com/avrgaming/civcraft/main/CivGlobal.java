@@ -556,16 +556,6 @@ public class CivGlobal {
         return player;
     }
 
-    //TODO make lookup via ID faster(use hashtable)
-    public static Resident getResidentFromId(int id) {
-        for (Resident resident : residents.values()) {
-            if (resident.getId() == id) {
-                return resident;
-            }
-        }
-        return null;
-    }
-
     public static Resident getResidentFromUUID(UUID uuid) {
         for (Resident resident : residents.values()) {
             if (resident.getUUID().equals(uuid)) {
@@ -817,15 +807,6 @@ public class CivGlobal {
 
     public static String getXYKey(BlockCoord coord) {
         return coord.getX() + ":" + coord.getZ() + ":" + coord.getWorldname();
-    }
-
-    public static Structure getStructureById(int id) {
-        for (Structure struct : structures.values()) {
-            if (struct.getId() == id) {
-                return struct;
-            }
-        }
-        return null;
     }
 
     public static Structure getStructureByUUID(UUID uuid) {
@@ -1310,16 +1291,6 @@ public class CivGlobal {
         return null;
     }
 
-    public static Wonder getWonderById(int id) {
-        for (Wonder wonder : wonders.values()) {
-            if (wonder.getId() == id) {
-                return wonder;
-            }
-        }
-
-        return null;
-    }
-
     public static Wonder getWonderByUUID(UUID uuid) {
         for (Wonder wonder : wonders.values()) {
             if (wonder.getUUID().equals(uuid)) {
@@ -1455,15 +1426,6 @@ public class CivGlobal {
         return conqueredCivs.values();
     }
 
-    public static Civilization getConqueredCivFromId(int id) {
-        for (Civilization civ : getConqueredCivs()) {
-            if (civ.getId() == id) {
-                return civ;
-            }
-        }
-        return null;
-    }
-
     public static Civilization getConqueredCivFromUUID(UUID id) {
         for (Civilization civ : getConqueredCivs()) {
             if (civ.getUUID().equals(id)) {
@@ -1522,15 +1484,6 @@ public class CivGlobal {
 
     public static void removeMarket(Market market) {
         markets.remove(market.getCorner());
-    }
-
-    public static Camp getCampFromId(int campID) {
-        for (Camp camp : camps.values()) {
-            if (camp.getId() == campID) {
-                return camp;
-            }
-        }
-        return null;
     }
 
     public static Camp getCampFromUUID(UUID campUUID) {
