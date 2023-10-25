@@ -34,6 +34,7 @@ import com.avrgaming.civcraft.threading.tasks.NotificationTask;
 import com.avrgaming.civcraft.util.BukkitObjects;
 import com.avrgaming.civcraft.util.TimeTools;
 import gpl.AttributeUtil;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -44,12 +45,12 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class Blacksmith extends Structure {
 
@@ -74,8 +75,8 @@ public class Blacksmith extends Structure {
         return CivSettings.structureConfig.getInt("blacksmith.cooldown", 1);
     }
 
-    public Blacksmith(ResultSet rs) throws SQLException, CivException {
-        super(rs);
+    public Blacksmith(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(id, uuid, nbt);
         nonMemberFeeComponent = new NonMemberFeeComponent(this);
         nonMemberFeeComponent.onLoad();
     }

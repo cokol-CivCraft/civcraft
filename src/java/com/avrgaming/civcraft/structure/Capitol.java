@@ -27,6 +27,7 @@ import com.avrgaming.civcraft.object.*;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.SimpleBlock;
 import com.avrgaming.civcraft.war.War;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -35,11 +36,11 @@ import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class Capitol extends TownHall {
 
@@ -47,8 +48,8 @@ public class Capitol extends TownHall {
     private StructureSign respawnSign;
     private int index = 0;
 
-    public Capitol(ResultSet rs) throws SQLException, CivException {
-        super(rs);
+    public Capitol(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(id, uuid, nbt);
     }
 
 

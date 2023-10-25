@@ -29,6 +29,7 @@ import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.FireworkEffectPlayer;
 import com.avrgaming.civcraft.util.ItemFrameStorage;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
@@ -40,9 +41,9 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.inventory.ItemStack;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Random;
+import java.util.UUID;
 
 public class TradeOutpost extends Structure {
 
@@ -58,8 +59,8 @@ public class TradeOutpost extends Structure {
         loadSettings();
     }
 
-    public TradeOutpost(ResultSet rs) throws SQLException, CivException {
-        super(rs);
+    public TradeOutpost(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(id, uuid, nbt);
         loadSettings();
     }
 

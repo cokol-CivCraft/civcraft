@@ -6,11 +6,12 @@ import com.avrgaming.civcraft.object.Buff;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.SimpleBlock;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.Location;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class ArrowShip extends WaterStructure {
 
@@ -23,8 +24,8 @@ public class ArrowShip extends WaterStructure {
         super(center, id, town);
     }
 
-    protected ArrowShip(ResultSet rs) throws SQLException, CivException {
-        super(rs);
+    public ArrowShip(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(id, uuid, nbt);
     }
 
     @Override

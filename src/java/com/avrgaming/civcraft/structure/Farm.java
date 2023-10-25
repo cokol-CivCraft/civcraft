@@ -26,13 +26,14 @@ import com.avrgaming.civcraft.structure.farm.FarmChunk;
 import com.avrgaming.civcraft.threading.CivAsyncTask;
 import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.util.ChunkCoord;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Farm extends Structure {
 
@@ -48,8 +49,8 @@ public class Farm extends Structure {
         super(center, id, town);
     }
 
-    public Farm(ResultSet rs) throws SQLException, CivException {
-        super(rs);
+    public Farm(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(id, uuid, nbt);
         build_farm(this.getCorner().getLocation());
     }
 

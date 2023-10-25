@@ -20,21 +20,22 @@ package com.avrgaming.civcraft.structure;
 import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.object.Town;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class WaterStructure extends Structure {
 
     public static int WATER_LEVEL = 62;
     public static int TOLERANCE = 20;
 
-    public WaterStructure(ResultSet rs) throws SQLException, CivException {
-        super(rs);
+    public WaterStructure(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(id, uuid, nbt);
     }
 
     protected WaterStructure(Location center, String id, Town town)

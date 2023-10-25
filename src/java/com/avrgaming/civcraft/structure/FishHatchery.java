@@ -10,13 +10,14 @@ import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ChunkCoord;
 import com.avrgaming.civcraft.util.SimpleBlock;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.*;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class FishHatchery extends Structure {
@@ -37,8 +38,8 @@ public class FishHatchery extends Structure {
         setLevel(town.saved_fish_hatchery_level);
     }
 
-    public FishHatchery(ResultSet rs) throws SQLException, CivException {
-        super(rs);
+    public FishHatchery(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(id, uuid, nbt);
     }
 
     public double getChance(double chance) {

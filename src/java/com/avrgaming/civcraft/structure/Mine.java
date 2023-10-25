@@ -28,12 +28,13 @@ import com.avrgaming.civcraft.object.StructureChest;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.threading.CivAsyncTask;
 import com.avrgaming.civcraft.util.MultiInventory;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.inventory.Inventory;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class Mine extends Structure {
 
@@ -43,8 +44,8 @@ public class Mine extends Structure {
         super(center, id, town);
     }
 
-    public Mine(ResultSet rs) throws SQLException, CivException {
-        super(rs);
+    public Mine(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(id, uuid, nbt);
     }
 
     public ConsumeLevelComponent getConsumeComponent() {

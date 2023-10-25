@@ -22,10 +22,11 @@ import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.Town;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.Location;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class NotreDame extends Wonder {
 
@@ -33,8 +34,8 @@ public class NotreDame extends Wonder {
         super(center, id, town);
     }
 
-    public NotreDame(ResultSet rs) throws SQLException, CivException {
-        super(rs);
+    public NotreDame(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(id, uuid, nbt);
     }
 
     @Override

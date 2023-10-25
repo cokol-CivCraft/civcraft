@@ -6,10 +6,11 @@ import com.avrgaming.civcraft.object.Buff;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.SimpleBlock;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.Location;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Quarry extends Structure {
@@ -37,8 +38,8 @@ public class Quarry extends Structure {
         setLevel(town.saved_quarry_level);
     }
 
-    public Quarry(ResultSet rs) throws SQLException, CivException {
-        super(rs);
+    public Quarry(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(id, uuid, nbt);
     }
 
     public double getChance(Mineral mineral) {

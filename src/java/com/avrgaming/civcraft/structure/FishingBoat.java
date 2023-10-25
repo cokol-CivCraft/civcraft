@@ -22,13 +22,14 @@ import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.object.TradeGood;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 //import com.avrgaming.civcraft.util.BlockCoord;
 //import com.avrgaming.civcraft.util.ItemFrameStorage;
 //import com.avrgaming.civcraft.util.ItemManager;
@@ -48,8 +49,8 @@ public class FishingBoat extends TradeOutpost {
         super(center, id, town);
     }
 
-    protected FishingBoat(ResultSet rs) throws SQLException, CivException {
-        super(rs);
+    public FishingBoat(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(id, uuid, nbt);
     }
 
     @Override

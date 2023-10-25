@@ -5,12 +5,13 @@ import com.avrgaming.civcraft.object.Buff;
 import com.avrgaming.civcraft.object.StructureChest;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.util.MultiInventory;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.Location;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.UUID;
 
 public class SpaceShuttle extends Wonder {
     private int level = 1;
@@ -20,8 +21,8 @@ public class SpaceShuttle extends Wonder {
     MultiInventory fuel = new MultiInventory();
     ArrayList<StructureChest> fc = getAllChestsById(0), mc = getAllChestsById(1);
 
-    public SpaceShuttle(ResultSet rs) throws SQLException, CivException {
-        super(rs);
+    public SpaceShuttle(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(id, uuid, nbt);
     }
 
     public SpaceShuttle(Location center, String id, Town town) throws CivException {

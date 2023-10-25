@@ -27,15 +27,16 @@ import com.avrgaming.civcraft.object.Buff;
 import com.avrgaming.civcraft.object.Relation;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.UUID;
 
 public class ScoutTower extends Structure {
 
@@ -45,8 +46,8 @@ public class ScoutTower extends Structure {
     private int reportSeconds = 60;
     private int count = 0;
 
-    public ScoutTower(ResultSet rs) throws SQLException, CivException {
-        super(rs);
+    public ScoutTower(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(id, uuid, nbt);
     }
 
     protected ScoutTower(Location center, String id, Town town) throws CivException {

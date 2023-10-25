@@ -33,15 +33,16 @@ import com.avrgaming.civcraft.sessiondb.SessionEntry;
 import com.avrgaming.civcraft.structure.wonders.TheHangingGardens;
 import com.avrgaming.civcraft.threading.CivAsyncTask;
 import com.avrgaming.civcraft.util.MultiInventory;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Cottage extends Structure {
 
@@ -52,8 +53,8 @@ public class Cottage extends Structure {
         super(center, id, town);
     }
 
-    public Cottage(ResultSet rs) throws SQLException, CivException {
-        super(rs);
+    public Cottage(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(id, uuid, nbt);
     }
 
 	public ConsumeLevelComponent getConsumeComponent() {

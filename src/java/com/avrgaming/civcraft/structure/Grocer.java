@@ -27,14 +27,15 @@ import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.StructureSign;
 import com.avrgaming.civcraft.object.Town;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class Grocer extends Structure {
 
@@ -49,8 +50,8 @@ public class Grocer extends Structure {
         setLevel(town.saved_grocer_levels);
     }
 
-    public Grocer(ResultSet rs) throws SQLException, CivException {
-        super(rs);
+    public Grocer(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(id, uuid, nbt);
         nonMemberFeeComponent = new NonMemberFeeComponent(this);
         nonMemberFeeComponent.onLoad();
     }

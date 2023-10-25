@@ -24,15 +24,16 @@ import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.MultiInventory;
 import com.avrgaming.civcraft.util.SimpleBlock;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Chest;
 import org.bukkit.inventory.ItemStack;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Granary extends Structure {
     private final MultiInventory dest_inv = new MultiInventory();
@@ -47,8 +48,8 @@ public class Granary extends Structure {
         super(center, id, town);
     }
 
-    public Granary(ResultSet rs) throws SQLException, CivException {
-        super(rs);
+    public Granary(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(id, uuid, nbt);
     }
 
     public boolean isFree() {

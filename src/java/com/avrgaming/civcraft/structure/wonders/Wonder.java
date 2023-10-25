@@ -33,6 +33,7 @@ import com.avrgaming.civcraft.structure.MetaStructure;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.ItemFrameStorage;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -40,8 +41,8 @@ import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public abstract class Wonder extends MetaStructure {
     private ConfigWonderBuff wonderBuffs = null;
@@ -51,8 +52,8 @@ public abstract class Wonder extends MetaStructure {
     protected TradeGood good = null;
     protected BonusGoodie goodie = null;
 
-    public Wonder(ResultSet rs) throws SQLException, CivException {
-        super(rs);
+    public Wonder(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(id, uuid, nbt);
     }
 
     public Wonder(Location center, String id, Town town) throws CivException {

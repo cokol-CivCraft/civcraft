@@ -3,10 +3,11 @@ package com.avrgaming.civcraft.structure;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.structure.wonders.*;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.Location;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 @SuppressWarnings("unused")
 public enum StructuresTypes {
@@ -76,8 +77,8 @@ public enum StructuresTypes {
         this.createTown = createTown;
     }
 
-    MetaStructure create(ResultSet rs) throws SQLException, CivException {
-        return createRS.run(rs);
+    MetaStructure create(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        return createRS.run(id, uuid, nbt);
     }
 
     MetaStructure create(Location center, String id, Town town) throws CivException {
@@ -86,7 +87,7 @@ public enum StructuresTypes {
 
     @FunctionalInterface
     interface CreateRS {
-        MetaStructure run(ResultSet rs) throws SQLException, CivException;
+        MetaStructure run(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException;
     }
 
     @FunctionalInterface

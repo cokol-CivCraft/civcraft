@@ -21,19 +21,20 @@ import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.object.Civilization;
 import com.avrgaming.civcraft.object.Town;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.Location;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.TreeMap;
+import java.util.UUID;
 
 public class TheGreatPyramid extends Wonder {
     public TheGreatPyramid(Location center, String id, Town town)throws CivException {
         super(center, id, town);
     }
 
-    public TheGreatPyramid(ResultSet rs) throws SQLException, CivException {
-        super(rs);
+    public TheGreatPyramid(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(id, uuid, nbt);
     }
 
     private Civilization calculateNearestCivilization() {

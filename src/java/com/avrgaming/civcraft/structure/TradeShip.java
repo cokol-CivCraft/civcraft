@@ -17,6 +17,7 @@ import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.MultiInventory;
 import com.avrgaming.civcraft.util.SimpleBlock;
 import com.avrgaming.civcraft.util.TimeTools;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -27,9 +28,9 @@ import org.bukkit.material.Chest;
 import org.bukkit.material.MaterialData;
 
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.UUID;
 
 public class TradeShip extends WaterStructure {
 
@@ -45,8 +46,8 @@ public class TradeShip extends WaterStructure {
         setUpgradeLvl(town.saved_tradeship_upgrade_levels);
     }
 
-    public TradeShip(ResultSet rs) throws SQLException, CivException {
-        super(rs);
+    public TradeShip(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(id, uuid, nbt);
     }
 
     @Override

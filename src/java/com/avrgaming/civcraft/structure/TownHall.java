@@ -32,6 +32,7 @@ import com.avrgaming.civcraft.util.FireworkEffectPlayer;
 import com.avrgaming.civcraft.util.ItemFrameStorage;
 import com.avrgaming.civcraft.war.War;
 import com.avrgaming.civcraft.war.WarStats;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.*;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.block.Block;
@@ -42,11 +43,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.UUID;
 
 public class TownHall extends Structure implements RespawnLocationHolder {
 
@@ -74,10 +75,9 @@ public class TownHall extends Structure implements RespawnLocationHolder {
         super(center, id, town);
     }
 
-    public TownHall(ResultSet rs) throws SQLException, CivException {
-        super(rs);
+    public TownHall(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(id, uuid, nbt);
     }
-
     @Override
     public void delete() throws SQLException {
         if (this.getTown() == null) {

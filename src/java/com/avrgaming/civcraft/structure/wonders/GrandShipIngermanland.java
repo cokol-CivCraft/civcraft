@@ -6,10 +6,11 @@ import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.object.Buff;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.util.BlockCoord;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.Location;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class GrandShipIngermanland extends Wonder {
 
@@ -21,8 +22,8 @@ public class GrandShipIngermanland extends Wonder {
         super(center, id, town);
     }
 
-    public GrandShipIngermanland(ResultSet rs) throws SQLException, CivException {
-        super(rs);
+    public GrandShipIngermanland(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(id, uuid, nbt);
     }
 
     @Override

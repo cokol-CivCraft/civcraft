@@ -20,10 +20,11 @@ package com.avrgaming.civcraft.structure.wonders;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.object.ControlPoint;
 import com.avrgaming.civcraft.object.Town;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.Location;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 
 public class ChichenItza extends Wonder {
@@ -32,9 +33,10 @@ public class ChichenItza extends Wonder {
         super(center, id, town);
     }
 
-    public ChichenItza(ResultSet rs) throws SQLException, CivException {
-        super(rs);
+    public ChichenItza(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(id, uuid, nbt);
     }
+
 
     @Override
     protected void removeBuffs() {

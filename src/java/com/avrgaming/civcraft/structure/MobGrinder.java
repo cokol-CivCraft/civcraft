@@ -4,10 +4,11 @@ import com.avrgaming.civcraft.config.CivSettings;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.object.Buff;
 import com.avrgaming.civcraft.object.Town;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.Location;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class MobGrinder extends Structure {
@@ -36,8 +37,8 @@ public class MobGrinder extends Structure {
         super(center, id, town);
     }
 
-    public MobGrinder(ResultSet rs) throws SQLException, CivException {
-        super(rs);
+    public MobGrinder(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(id, uuid, nbt);
     }
 
     public double getMineralChance(Crystal crystal) {

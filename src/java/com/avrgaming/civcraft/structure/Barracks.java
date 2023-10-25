@@ -38,6 +38,7 @@ import com.avrgaming.civcraft.threading.TaskMaster;
 import com.avrgaming.civcraft.threading.tasks.UnitSaveAsyncTask;
 import com.avrgaming.civcraft.util.BlockCoord;
 import com.avrgaming.civcraft.util.SimpleBlock;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -50,12 +51,8 @@ import org.bukkit.inventory.ItemStack;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Barracks extends Structure {
 
@@ -70,13 +67,12 @@ public class Barracks extends Structure {
     private final TreeMap<Integer, StructureSign> progresBar = new TreeMap<>();
     private Date lastSave = null;
 
-    protected Barracks(Location center, String id, Town town)
-            throws CivException {
+    protected Barracks(Location center, String id, Town town) throws CivException {
         super(center, id, town);
     }
 
-    public Barracks(ResultSet rs) throws SQLException, CivException {
-        super(rs);
+    public Barracks(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(id, uuid, nbt);
     }
 
     private String getUnitSignText(int index) throws IndexOutOfBoundsException {

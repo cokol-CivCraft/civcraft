@@ -43,8 +43,29 @@ public abstract class MetaStructure extends Buildable implements INBTSerializabl
     public int savedBlockCount = 0;
     public static final double DEFAULT_HAMMERRATE = 1.0;
 
-    public MetaStructure(ResultSet rs) throws SQLException, CivException {
-        this.load(rs);
+    public MetaStructure(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        this.setId(id);
+        this.setUUID(uuid);
+        loadFromNBT(nbt);
+
+        if (this.getTown() == null) {
+            this.delete();
+            throw new CivException("Coudln't find town ID:" + nbt.getString("town_uuid") + " for structure " + this.getDisplayName() + " ID:" + this.getUUID());
+        }
+        if (this instanceof Wonder) {
+            this.getTown().addWonder(this);
+        } else {
+            this.getTown().addStructure((Structure) this);
+        }
+        bindStructureBlocks();
+
+        if (!this.isComplete()) {
+            try {
+                this.resumeBuildFromTemplate();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
         if (this.hitpoints == 0) {
             this.delete();
@@ -89,12 +110,21 @@ public abstract class MetaStructure extends Buildable implements INBTSerializabl
     }
 
     public static MetaStructure newStructOrWonder(ResultSet rs) throws CivException, SQLException {
-        String id = rs.getString("type_id");
+        int id = rs.getInt("id");
+        UUID uuid = UUID.fromString(rs.getString("uuid"));
+        String typeId = rs.getString("type_id");
+        var data = new ByteArrayInputStream(rs.getBytes("nbt"));
+        NBTTagCompound nbt;
+        try {
+            nbt = NBTCompressedStreamTools.a(data);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         MetaStructure structure;
-        if (CivSettings.structures.get(id) != null) {
-            structure = CivSettings.structures.get(id).type.create(rs);
+        if (CivSettings.structures.get(typeId) != null) {
+            structure = CivSettings.structures.get(typeId).type.create(id, uuid, nbt);
         } else {
-            structure = StructuresTypes.BASE.create(rs);
+            structure = StructuresTypes.BASE.create(id, uuid, nbt);
         }
         structure.loadSettings();
         return structure;
@@ -136,35 +166,6 @@ public abstract class MetaStructure extends Buildable implements INBTSerializabl
 
     @Override
     public void load(ResultSet rs) throws SQLException, CivException {
-        this.setId(rs.getInt("id"));
-        this.setUUID(UUID.fromString(rs.getString("uuid")));
-        var data = new ByteArrayInputStream(rs.getBytes("nbt"));
-        NBTTagCompound nbt;
-        try {
-            nbt = NBTCompressedStreamTools.a(data);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        this.loadFromNBT(nbt);
-
-        if (this.getTown() == null) {
-            this.delete();
-            throw new CivException("Coudln't find town ID:" + nbt.getString("town_uuid") + " for structure " + this.getDisplayName() + " ID:" + this.getUUID());
-        }
-        if (this instanceof Wonder) {
-            this.getTown().addWonder(this);
-        } else {
-            this.getTown().addStructure((Structure) this);
-        }
-        bindStructureBlocks();
-
-        if (!this.isComplete()) {
-            try {
-                this.resumeBuildFromTemplate();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     @Override

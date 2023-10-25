@@ -38,6 +38,7 @@ import com.avrgaming.civcraft.util.SimpleBlock;
 import gpl.HorseModifier;
 import gpl.HorseModifier.HorseType;
 import gpl.HorseModifier.HorseVariant;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -48,10 +49,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Stable extends Structure {
@@ -66,8 +67,8 @@ public class Stable extends Structure {
     public HashTreeSet<ChunkCoord> chunks = new HashTreeSet<>();
     public static Map<ChunkCoord, Stable> stableChunks = new ConcurrentHashMap<>();
 
-    public Stable(ResultSet rs) throws SQLException, CivException {
-        super(rs);
+    public Stable(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(id, uuid, nbt);
         nonMemberFeeComponent = new NonMemberFeeComponent(this);
         nonMemberFeeComponent.onLoad();
     }

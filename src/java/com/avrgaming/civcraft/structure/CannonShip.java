@@ -6,10 +6,11 @@ import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.object.Buff;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.util.BlockCoord;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.Location;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class CannonShip extends WaterStructure {
 
@@ -20,8 +21,8 @@ public class CannonShip extends WaterStructure {
         super(center, id, town);
     }
 
-    protected CannonShip(ResultSet rs) throws SQLException, CivException {
-        super(rs);
+    public CannonShip(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(id, uuid, nbt);
     }
 
     @Override

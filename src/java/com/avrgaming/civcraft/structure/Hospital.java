@@ -5,11 +5,12 @@ import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.object.Resident;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.object.TownChunk;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class Hospital extends Structure {
 
@@ -18,8 +19,8 @@ public class Hospital extends Structure {
         super(center, id, town);
     }
 
-    public Hospital(ResultSet rs) throws SQLException, CivException {
-        super(rs);
+    public Hospital(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(id, uuid, nbt);
     }
 
     @Override
