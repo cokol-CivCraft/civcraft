@@ -1,4 +1,4 @@
-type: lighthouse
+type: structure
 template: lighthouse
 template_y_shift: -1
 displayName: Lighthouse

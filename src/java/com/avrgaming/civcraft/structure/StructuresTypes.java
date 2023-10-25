@@ -45,7 +45,6 @@ public enum StructuresTypes {
     BLACKSMITH(Blacksmith::new, Blacksmith::new),
     GRANARY(Granary::new, Granary::new),
     COTTAGE(Cottage::new, Cottage::new),
-    MONUMENT(Monument::new, Monument::new),
     TEMPLE(Temple::new, Temple::new),
     MINE(Mine::new, Mine::new),
     FARM(Farm::new, Farm::new),
@@ -66,7 +65,6 @@ public enum StructuresTypes {
     MARKET(Market::new, Market::new),
     STABLE(Stable::new, Stable::new),
     PASTURE(Pasture::new, Pasture::new),
-    LIGHTHOUSE(Lighthouse::new, Lighthouse::new),
     TESLA_TOWER(TeslaTower::new, TeslaTower::new),
     ;
     private final CreateRS createRS;

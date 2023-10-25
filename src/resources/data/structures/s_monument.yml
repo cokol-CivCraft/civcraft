@@ -1,4 +1,4 @@
-type: monument
+type: structure
 template: monument
 template_y_shift: -2
 displayName: Monument
