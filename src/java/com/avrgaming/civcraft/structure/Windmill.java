@@ -29,8 +29,8 @@ import java.util.UUID;
 
 public class Windmill extends Structure {
 
-    public Windmill(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public Windmill(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     public Windmill(Location center, String id, Town town)

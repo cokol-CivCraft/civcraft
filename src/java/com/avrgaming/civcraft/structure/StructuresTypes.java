@@ -75,8 +75,8 @@ public enum StructuresTypes {
         this.createTown = createTown;
     }
 
-    MetaStructure create(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        return createRS.run(id, uuid, nbt);
+    MetaStructure create(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        return createRS.run(uuid, nbt);
     }
 
     MetaStructure create(Location center, String id, Town town) throws CivException {
@@ -85,7 +85,7 @@ public enum StructuresTypes {
 
     @FunctionalInterface
     interface CreateRS {
-        MetaStructure run(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException;
+        MetaStructure run(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException;
     }
 
     @FunctionalInterface

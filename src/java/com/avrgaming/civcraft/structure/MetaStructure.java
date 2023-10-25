@@ -43,7 +43,7 @@ public abstract class MetaStructure extends Buildable implements INBTSerializabl
     public int savedBlockCount = 0;
     public static final double DEFAULT_HAMMERRATE = 1.0;
 
-    public MetaStructure(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+    public MetaStructure(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
         this.setUUID(uuid);
         loadFromNBT(nbt);
 
@@ -119,9 +119,9 @@ public abstract class MetaStructure extends Buildable implements INBTSerializabl
         }
         MetaStructure structure;
         if (CivSettings.structures.get(typeId) != null) {
-            structure = CivSettings.structures.get(typeId).type.create(0, uuid, nbt);
+            structure = CivSettings.structures.get(typeId).type.create(uuid, nbt);
         } else {
-            structure = StructuresTypes.BASE.create(0, uuid, nbt);
+            structure = StructuresTypes.BASE.create(uuid, nbt);
         }
         structure.loadSettings();
         return structure;

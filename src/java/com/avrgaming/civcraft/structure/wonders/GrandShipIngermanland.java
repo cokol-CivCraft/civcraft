@@ -22,8 +22,8 @@ public class GrandShipIngermanland extends Wonder {
         super(center, id, town);
     }
 
-    public GrandShipIngermanland(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public GrandShipIngermanland(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     @Override

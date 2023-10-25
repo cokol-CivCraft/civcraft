@@ -105,8 +105,8 @@ public class Library extends Structure {
         setLevel(town.saved_library_level);
     }
 
-    public Library(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public Library(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
         nonMemberFeeComponent = new NonMemberFeeComponent(this);
         nonMemberFeeComponent.onLoad();
     }

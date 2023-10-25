@@ -38,8 +38,8 @@ public class FishHatchery extends Structure {
         setLevel(town.saved_fish_hatchery_level);
     }
 
-    public FishHatchery(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public FishHatchery(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     public double getChance(double chance) {

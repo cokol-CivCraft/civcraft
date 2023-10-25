@@ -46,8 +46,8 @@ public class TradeShip extends WaterStructure {
         setUpgradeLvl(town.saved_tradeship_upgrade_levels);
     }
 
-    public TradeShip(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public TradeShip(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     @Override

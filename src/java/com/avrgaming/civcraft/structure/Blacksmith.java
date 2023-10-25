@@ -75,8 +75,8 @@ public class Blacksmith extends Structure {
         return CivSettings.structureConfig.getInt("blacksmith.cooldown", 1);
     }
 
-    public Blacksmith(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public Blacksmith(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
         nonMemberFeeComponent = new NonMemberFeeComponent(this);
         nonMemberFeeComponent.onLoad();
     }

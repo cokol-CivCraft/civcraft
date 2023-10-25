@@ -28,8 +28,8 @@ public class ScoutShip extends WaterStructure {
     private int reportSeconds = 60;
     private int count = 0;
 
-    public ScoutShip(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public ScoutShip(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     protected ScoutShip(Location center, String id, Town town) throws CivException {

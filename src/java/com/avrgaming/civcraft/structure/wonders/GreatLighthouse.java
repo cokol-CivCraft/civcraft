@@ -10,8 +10,8 @@ import java.util.UUID;
 
 public class GreatLighthouse extends Wonder {
 
-    public GreatLighthouse(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public GreatLighthouse(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     public GreatLighthouse(Location center, String id, Town town) throws CivException {

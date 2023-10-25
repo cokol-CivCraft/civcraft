@@ -37,8 +37,8 @@ public class MobGrinder extends Structure {
         super(center, id, town);
     }
 
-    public MobGrinder(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public MobGrinder(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     public double getMineralChance(Crystal crystal) {

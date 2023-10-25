@@ -48,8 +48,8 @@ public class Capitol extends TownHall {
     private StructureSign respawnSign;
     private int index = 0;
 
-    public Capitol(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public Capitol(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
 

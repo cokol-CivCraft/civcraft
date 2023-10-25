@@ -50,8 +50,8 @@ public class Grocer extends Structure {
         setLevel(town.saved_grocer_levels);
     }
 
-    public Grocer(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public Grocer(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
         nonMemberFeeComponent = new NonMemberFeeComponent(this);
         nonMemberFeeComponent.onLoad();
     }

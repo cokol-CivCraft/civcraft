@@ -67,8 +67,8 @@ public class Stable extends Structure {
     public HashTreeSet<ChunkCoord> chunks = new HashTreeSet<>();
     public static Map<ChunkCoord, Stable> stableChunks = new ConcurrentHashMap<>();
 
-    public Stable(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public Stable(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
         nonMemberFeeComponent = new NonMemberFeeComponent(this);
         nonMemberFeeComponent.onLoad();
     }

@@ -31,8 +31,8 @@ import java.util.UUID;
 
 public class TheHangingGardens extends Wonder {
 
-    public TheHangingGardens(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public TheHangingGardens(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     public TheHangingGardens(Location center, String id, Town town)

@@ -44,8 +44,8 @@ public class GreatLibrary extends Wonder {
         super(center, id, town);
     }
 
-    public GreatLibrary(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public GreatLibrary(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     @Override

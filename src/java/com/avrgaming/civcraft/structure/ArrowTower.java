@@ -38,8 +38,8 @@ public class ArrowTower extends Structure {
         this.hitpoints = this.getMaxHitPoints();
     }
 
-    public ArrowTower(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public ArrowTower(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     @Override

@@ -39,8 +39,8 @@ public class TeslaTower extends Structure {
         this.hitpoints = this.getMaxHitPoints();
     }
 
-    public TeslaTower(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public TeslaTower(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     @Override

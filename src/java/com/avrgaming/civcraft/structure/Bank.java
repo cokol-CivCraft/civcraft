@@ -69,8 +69,8 @@ public class Bank extends Structure {
         setInterestRate(town.saved_bank_interest_amount);
     }
 
-    public Bank(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public Bank(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
         nonMemberFeeComponent = new NonMemberFeeComponent(this);
         nonMemberFeeComponent.onLoad();
     }

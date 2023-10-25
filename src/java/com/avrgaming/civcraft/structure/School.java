@@ -15,8 +15,8 @@ public class School extends Structure {
         super(center, id, town);
     }
 
-    public School(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public School(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
 

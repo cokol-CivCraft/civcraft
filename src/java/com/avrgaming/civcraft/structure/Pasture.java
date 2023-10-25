@@ -39,8 +39,8 @@ public class Pasture extends Structure {
         super(center, id, town);
     }
 
-    public Pasture(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public Pasture(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     public int getMobCount() {

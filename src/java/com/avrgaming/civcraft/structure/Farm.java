@@ -49,8 +49,8 @@ public class Farm extends Structure {
         super(center, id, town);
     }
 
-    public Farm(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public Farm(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
         build_farm(this.getCorner().getLocation());
     }
 

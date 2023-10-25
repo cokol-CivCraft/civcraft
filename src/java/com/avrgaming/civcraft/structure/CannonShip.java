@@ -21,8 +21,8 @@ public class CannonShip extends WaterStructure {
         super(center, id, town);
     }
 
-    public CannonShip(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public CannonShip(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     @Override

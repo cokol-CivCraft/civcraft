@@ -38,8 +38,8 @@ public class CannonTower extends Structure {
         this.hitpoints = this.getMaxHitPoints();
     }
 
-    public CannonTower(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public CannonTower(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     @Override

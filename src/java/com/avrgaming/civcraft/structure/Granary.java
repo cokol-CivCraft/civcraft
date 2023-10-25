@@ -48,8 +48,8 @@ public class Granary extends Structure {
         super(center, id, town);
     }
 
-    public Granary(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public Granary(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     public boolean isFree() {

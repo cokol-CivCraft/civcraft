@@ -33,8 +33,8 @@ public class ChichenItza extends Wonder {
         super(center, id, town);
     }
 
-    public ChichenItza(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public ChichenItza(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
 

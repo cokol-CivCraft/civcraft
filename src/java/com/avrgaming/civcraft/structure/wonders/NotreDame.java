@@ -34,8 +34,8 @@ public class NotreDame extends Wonder {
         super(center, id, town);
     }
 
-    public NotreDame(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public NotreDame(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     @Override

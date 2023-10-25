@@ -71,8 +71,8 @@ public class Barracks extends Structure {
         super(center, id, town);
     }
 
-    public Barracks(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public Barracks(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     private String getUnitSignText(int index) throws IndexOutOfBoundsException {

@@ -34,8 +34,8 @@ public class WaterStructure extends Structure {
     public static int WATER_LEVEL = 62;
     public static int TOLERANCE = 20;
 
-    public WaterStructure(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public WaterStructure(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     protected WaterStructure(Location center, String id, Town town)

@@ -46,8 +46,8 @@ public class ScoutTower extends Structure {
     private int reportSeconds = 60;
     private int count = 0;
 
-    public ScoutTower(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public ScoutTower(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     protected ScoutTower(Location center, String id, Town town) throws CivException {

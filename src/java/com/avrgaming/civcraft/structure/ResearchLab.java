@@ -15,8 +15,8 @@ public class ResearchLab extends Structure {
         super(center, id, town);
     }
 
-    public ResearchLab(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public ResearchLab(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     @Override

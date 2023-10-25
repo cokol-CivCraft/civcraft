@@ -33,8 +33,8 @@ public class TheGreatPyramid extends Wonder {
         super(center, id, town);
     }
 
-    public TheGreatPyramid(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public TheGreatPyramid(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     private Civilization calculateNearestCivilization() {

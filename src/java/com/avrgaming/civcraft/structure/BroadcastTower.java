@@ -15,8 +15,8 @@ public class BroadcastTower extends Structure {
         super(center, id, town);
     }
 
-    public BroadcastTower(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public BroadcastTower(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
 

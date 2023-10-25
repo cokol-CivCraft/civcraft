@@ -24,8 +24,8 @@ public class ArrowShip extends WaterStructure {
         super(center, id, town);
     }
 
-    public ArrowShip(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public ArrowShip(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     @Override

@@ -110,8 +110,8 @@ public class Trommel extends Structure {
         setLevel(town.saved_trommel_level);
     }
 
-    public Trommel(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public Trommel(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     public double getGravelChance(Mineral mineral) {

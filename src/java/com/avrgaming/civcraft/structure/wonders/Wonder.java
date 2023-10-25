@@ -52,8 +52,8 @@ public abstract class Wonder extends MetaStructure {
     protected TradeGood good = null;
     protected BonusGoodie goodie = null;
 
-    public Wonder(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public Wonder(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     public Wonder(Location center, String id, Town town) throws CivException {

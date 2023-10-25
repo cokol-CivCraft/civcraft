@@ -14,7 +14,7 @@ public class Shipyard extends WaterStructure {
         super(center, id, town);
     }
 
-    public Shipyard(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public Shipyard(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 }

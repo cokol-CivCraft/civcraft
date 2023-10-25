@@ -10,8 +10,8 @@ import java.util.UUID;
 
 public class GlobeTheatre extends Wonder {
 
-    public GlobeTheatre(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public GlobeTheatre(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     public GlobeTheatre(Location center, String id, Town town) throws CivException {

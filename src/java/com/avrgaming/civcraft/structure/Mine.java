@@ -44,8 +44,8 @@ public class Mine extends Structure {
         super(center, id, town);
     }
 
-    public Mine(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public Mine(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     public ConsumeLevelComponent getConsumeComponent() {

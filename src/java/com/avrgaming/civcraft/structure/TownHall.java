@@ -75,8 +75,8 @@ public class TownHall extends Structure implements RespawnLocationHolder {
         super(center, id, town);
     }
 
-    public TownHall(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public TownHall(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
     @Override
     public void delete() throws SQLException {

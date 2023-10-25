@@ -53,8 +53,8 @@ public class Market extends Structure {
         CivGlobal.addMarket(this);
     }
 
-    public Market(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public Market(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
         CivGlobal.addMarket(this);
     }
 

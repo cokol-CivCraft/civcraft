@@ -11,8 +11,8 @@ import java.util.UUID;
 
 public class Himeji extends Wonder {
 
-    public Himeji(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public Himeji(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     public Himeji(Location center, String id, Town town) throws CivException {

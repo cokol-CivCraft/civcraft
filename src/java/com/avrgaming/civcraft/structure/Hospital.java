@@ -19,8 +19,8 @@ public class Hospital extends Structure {
         super(center, id, town);
     }
 
-    public Hospital(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public Hospital(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     @Override

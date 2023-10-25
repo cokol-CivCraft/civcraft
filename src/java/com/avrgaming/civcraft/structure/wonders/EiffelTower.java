@@ -11,8 +11,8 @@ import java.util.UUID;
 
 public class EiffelTower extends Wonder {
 
-    public EiffelTower(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public EiffelTower(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     public EiffelTower(Location center, String id, Town town) throws CivException {

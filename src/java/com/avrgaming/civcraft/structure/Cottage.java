@@ -53,8 +53,8 @@ public class Cottage extends Structure {
         super(center, id, town);
     }
 
-    public Cottage(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public Cottage(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
 	public ConsumeLevelComponent getConsumeComponent() {

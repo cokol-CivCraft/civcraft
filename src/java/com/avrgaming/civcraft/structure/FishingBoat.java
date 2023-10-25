@@ -49,8 +49,8 @@ public class FishingBoat extends TradeOutpost {
         super(center, id, town);
     }
 
-    public FishingBoat(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public FishingBoat(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     @Override

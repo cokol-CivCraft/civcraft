@@ -10,8 +10,8 @@ import java.util.UUID;
 
 public class CouncilOfEight extends Wonder {
 
-    public CouncilOfEight(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public CouncilOfEight(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     public CouncilOfEight(Location center, String id, Town town) throws CivException {

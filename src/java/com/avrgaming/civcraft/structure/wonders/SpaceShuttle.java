@@ -21,8 +21,8 @@ public class SpaceShuttle extends Wonder {
     MultiInventory fuel = new MultiInventory();
     ArrayList<StructureChest> fc = getAllChestsById(0), mc = getAllChestsById(1);
 
-    public SpaceShuttle(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public SpaceShuttle(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     public SpaceShuttle(Location center, String id, Town town) throws CivException {

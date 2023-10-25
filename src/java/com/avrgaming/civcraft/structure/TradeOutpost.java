@@ -59,8 +59,8 @@ public class TradeOutpost extends Structure {
         loadSettings();
     }
 
-    public TradeOutpost(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public TradeOutpost(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
         loadSettings();
     }
 

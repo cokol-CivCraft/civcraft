@@ -14,8 +14,8 @@ public class Museum extends Structure {
         super(center, id, town);
     }
 
-    public Museum(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public Museum(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     @Override

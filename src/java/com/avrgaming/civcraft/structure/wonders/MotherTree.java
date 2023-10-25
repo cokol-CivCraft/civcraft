@@ -10,8 +10,8 @@ import java.util.UUID;
 
 public class MotherTree extends Wonder {
 
-    public MotherTree(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public MotherTree(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     public MotherTree(Location center, String id, Town town)

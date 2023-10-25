@@ -15,8 +15,8 @@ public class Stadium extends Structure {
         super(center, id, town);
     }
 
-    public Stadium(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public Stadium(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
 }

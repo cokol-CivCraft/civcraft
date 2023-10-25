@@ -44,8 +44,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class Structure extends MetaStructure {
-    public Structure(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public Structure(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     public Structure(Location center, String id, Town town) throws CivException {

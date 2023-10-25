@@ -38,8 +38,8 @@ public class TheColossus extends Wonder {
         super(center, id, town);
     }
 
-    public TheColossus(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public TheColossus(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     private TreeMap<Double, Civilization> nearestCivs;

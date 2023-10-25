@@ -38,8 +38,8 @@ public class Quarry extends Structure {
         setLevel(town.saved_quarry_level);
     }
 
-    public Quarry(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        super(id, uuid, nbt);
+    public Quarry(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
+        super(uuid, nbt);
     }
 
     public double getChance(Mineral mineral) {
