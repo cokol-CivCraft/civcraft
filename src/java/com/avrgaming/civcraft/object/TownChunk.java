@@ -76,7 +76,7 @@ public class TownChunk extends SQLObject {
                     "`world` VARCHAR(32) NOT NULL," +
                     "`x` bigint(20) NOT NULL," +
                     "`z` bigint(20) NOT NULL," +
-                    "`owner_id` int(11) unsigned DEFAULT NULL," +
+                    "`owner_uuid` VARCHAR(36)," +
                     "`cc_groups` mediumtext DEFAULT NULL," +
                     "`permissions` mediumtext NOT NULL," +
                     "`canunclaim` bool DEFAULT '1'," +
@@ -175,7 +175,6 @@ public class TownChunk extends SQLObject {
     public void saveNow() throws SQLException {
         HashMap<String, Object> hashmap = new HashMap<>();
 
-        hashmap.put("id", this.getId());
         hashmap.put("town_uuid", this.getTown().getUUID().toString());
         hashmap.put("world", this.getChunkCoord().getWorldname());
         hashmap.put("x", this.getChunkCoord().getX());
@@ -183,9 +182,9 @@ public class TownChunk extends SQLObject {
         hashmap.put("permissions", perms.getSaveString());
 
         if (this.perms.getOwner() != null) {
-            hashmap.put("owner_id", this.perms.getOwner().getId());
+            hashmap.put("owner_uuid", this.perms.getOwner().getUUID().toString());
         } else {
-            hashmap.put("owner_id", null);
+            hashmap.put("owner_uuid", NULL_UUID.toString());
         }
 
         if (!this.perms.getGroups().isEmpty()) {
@@ -260,7 +259,7 @@ public class TownChunk extends SQLObject {
 
         this.perms.loadFromSaveString(town, rs.getString("permissions"));
 
-        this.perms.setOwner(CivGlobal.getResidentFromId(rs.getInt("owner_id")));
+        this.perms.setOwner(CivGlobal.getResidentFromUUID(UUID.fromString(rs.getString("owner_uuid"))));
         //this.perms.setGroup(CivGlobal.getPermissionGroup(this.getTown(), rs.getInt("groups")));
         String grpString = rs.getString("cc_groups");
         if (grpString != null) {

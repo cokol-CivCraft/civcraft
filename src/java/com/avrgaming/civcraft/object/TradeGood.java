@@ -71,7 +71,7 @@ public class TradeGood extends SQLObject {
                     "`uuid` VARCHAR(36) NOT NULL," +
                     "`name` VARCHAR(64) NOT NULL," +
                     "`town_uuid` VARCHAR(36)," +
-                    "`structure_id` int(11), " +
+                    "`structure_uuid` VARCHAR(36), " +
                     "`coord` mediumtext DEFAULT NULL," +
                     "`bonusLocation` mediumtext DEFAULT NULL," +
                     //	 "FOREIGN KEY (town_id) REFERENCES "+SQLController.tb_prefix+"TOWNS(id),"+
@@ -102,7 +102,7 @@ public class TradeGood extends SQLObject {
         this.coord = new BlockCoord(rs.getString("coord"));
         this.addProtectedBlocks(this.coord);
 
-        this.setStruct(CivGlobal.getStructureById(rs.getInt("structure_id")));
+        this.setStruct(CivGlobal.getStructureByUUID(UUID.fromString(rs.getString("structure_uuid"))));
 
         if (this.getStruct() != null) {
             if (struct instanceof TradeOutpost) {
@@ -157,9 +157,9 @@ public class TradeGood extends SQLObject {
         }
         hashmap.put("coord", this.coord.toString());
         if (this.getStruct() == null) {
-            hashmap.put("structure_id", null);
+            hashmap.put("structure_uuid", NULL_UUID.toString());
         } else {
-            hashmap.put("structure_id", this.getStruct().getId());
+            hashmap.put("structure_uuid", this.getStruct().getUUID().toString());
 
         }
 

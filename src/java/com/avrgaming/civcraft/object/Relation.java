@@ -77,10 +77,10 @@ public class Relation extends SQLObject {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`uuid` VARCHAR(36) NOT NULL," +
-                    "`civ_id` int(11) NOT NULL DEFAULT 0," +
-                    "`other_civ_id` int(11) NOT NULL DEFAULT 0," +
+                    "`civ_uuid` VARCHAR(36)," +
+                    "`other_civ_uuid` VARCHAR(36)," +
                     "`relation` mediumtext DEFAULT NULL," +
-                    "`aggressor_civ_id` int(11) NOT NULL DEFAULT 0," +
+                    "`aggressor_civ_uuid` int(11) VARCHAR(36)," +
                     "`created` long," +
                     "`expires` long," +
                     "PRIMARY KEY (`id`)" + ")";
@@ -96,16 +96,16 @@ public class Relation extends SQLObject {
     public void load(ResultSet rs) throws SQLException {
         this.setId(rs.getInt("id"));
         this.setUUID(UUID.fromString(rs.getString("uuid")));
-        civ = Civilization.getCivFromId(rs.getInt("civ_id"));
+        civ = Civilization.getCivFromUUID(UUID.fromString(rs.getString("civ_uuid")));
         if (civ == null) {
-            CivLog.warning("Couldn't find civ id:" + rs.getInt("civ_id") + " deleting this relation.");
+            CivLog.warning("Couldn't find civ id:" + rs.getString("civ_uuid") + " deleting this relation.");
             this.delete();
             return;
         }
 
-        other_civ = Civilization.getCivFromId(rs.getInt("other_civ_id"));
+        other_civ = Civilization.getCivFromUUID(UUID.fromString(rs.getString("other_civ_uuid")));
         if (other_civ == null) {
-            CivLog.warning("Couldn't find other civ id:" + rs.getInt("other_civ_id") + " deleting this relation.");
+            CivLog.warning("Couldn't find other civ id:" + rs.getString("other_civ_uuid") + " deleting this relation.");
             this.civ = null;
             this.delete();
             return;
@@ -117,9 +117,9 @@ public class Relation extends SQLObject {
             relation = Status.WAR;
         }
 
-        int aggressor_id = rs.getInt("aggressor_civ_id");
-        if (aggressor_id != 0) {
-            setAggressor(Civilization.getCivFromId(aggressor_id));
+        UUID aggressor_uuid = UUID.fromString(rs.getString("aggressor_civ_uuid"));
+        if (!aggressor_uuid.equals(NULL_UUID)) {
+            setAggressor(Civilization.getCivFromUUID(aggressor_uuid));
         }
 
 
@@ -144,11 +144,11 @@ public class Relation extends SQLObject {
     public void saveNow() throws SQLException {
         HashMap<String, Object> hashmap = new HashMap<>();
 
-        hashmap.put("civ_id", civ.getId());
-        hashmap.put("other_civ_id", other_civ.getId());
+        hashmap.put("civ_uuid", civ.getUUID().toString());
+        hashmap.put("other_civ_uuid", other_civ.getUUID().toString());
         hashmap.put("relation", relation.name());
         if (aggressor_civ != null) {
-            hashmap.put("aggressor_civ_id", aggressor_civ.getId());
+            hashmap.put("aggressor_civ_uuid", aggressor_civ.getUUID().toString());
         }
 
         if (created != null) {

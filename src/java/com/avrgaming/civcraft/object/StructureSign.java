@@ -59,8 +59,8 @@ public class StructureSign extends SQLObject {
                     "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`uuid` VARCHAR(36) NOT NULL," +
                     "`text` mediumtext, " +
-                    "`structure_id` int(11), " +
-                    "`wonder_id` int(11)," +
+                    "`structure_uuid` VARCHAR(36), " +
+                    "`wonder_uuid` VARCHAR(36)," +
                     "`type` mediumtext, " +
                     "`action` mediumtext, " +
                     "`coordHash` mediumtext, " +
@@ -81,14 +81,14 @@ public class StructureSign extends SQLObject {
         this.text = rs.getString("text");
         this.action = rs.getString("action");
         this.type = rs.getString("type");
-        int structure_id = rs.getInt("structure_id");
-        int wonder_id = rs.getInt("wonder_id");
+        UUID structure_uuid = UUID.fromString(rs.getString("structure_uuid"));
+        UUID wonder_uuid = UUID.fromString(rs.getString("wonder_uuid"));
         this.owner = null;
 
-        if (structure_id != 0) {
-            this.owner = CivGlobal.getStructureById(structure_id);
-        } else if (wonder_id != 0) {
-            this.owner = CivGlobal.getWonderById(wonder_id);
+        if (!structure_uuid.equals(NULL_UUID)) {
+            this.owner = CivGlobal.getStructureByUUID(structure_uuid);
+        } else if (!wonder_uuid.equals(NULL_UUID)) {
+            this.owner = CivGlobal.getWonderByUUID(wonder_uuid);
         }
 
 
@@ -111,14 +111,14 @@ public class StructureSign extends SQLObject {
         hashmap.put("text", this.getText());
 
         if (this.owner == null) {
-            hashmap.put("structure_id", 0);
-            hashmap.put("wonder_id", 0);
+            hashmap.put("structure_uuid", NULL_UUID.toString());
+            hashmap.put("wonder_uuid", NULL_UUID.toString());
         } else if (this.owner instanceof Structure) {
-            hashmap.put("structure_id", owner.getId());
-            hashmap.put("wonder_id", 0);
+            hashmap.put("structure_uuid", owner.getUUID().toString());
+            hashmap.put("wonder_uuid", NULL_UUID.toString());
         } else if (this.owner instanceof Wonder) {
-            hashmap.put("structure_id", 0);
-            hashmap.put("wonder_id", owner.getId());
+            hashmap.put("structure_uuid", NULL_UUID.toString());
+            hashmap.put("wonder_uuid", owner.getUUID().toString());
         }
 
         hashmap.put("type", this.getType());

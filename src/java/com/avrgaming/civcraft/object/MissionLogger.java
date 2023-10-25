@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class MissionLogger {
 
@@ -38,8 +39,8 @@ public class MissionLogger {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`uuid` VARCHAR(36) NOT NULL," +
-                    "`town_id` int(11) unsigned DEFAULT 0," +
-                    "`target_id` int(11) unsigned DEFAULT 0," +
+                    "`town_uuid` VARCHAR(36)," +
+                    "`target_uuid` VARCHAR(36)," +
                     "`time` long," +
                     "`playerName` mediumtext," +
                     "`missionName` mediumtext," +
@@ -57,8 +58,8 @@ public class MissionLogger {
     public static void logMission(Town town, Town target, Resident resident, String missionName, String result) {
         HashMap<String, Object> hashmap = new HashMap<>();
 
-        hashmap.put("town_id", town.getId());
-        hashmap.put("target_id", target.getId());
+        hashmap.put("town_uuid", town.getUUID().toString());
+        hashmap.put("target_uuid", target.getUUID().toString());
         hashmap.put("time", new Date());
         hashmap.put("playerName", resident.getUUIDString());
 
@@ -80,13 +81,13 @@ public class MissionLogger {
 
         ArrayList<String> out = new ArrayList<>();
         try {
-            ps = SQLController.getGameConnection().prepareStatement("SELECT * FROM " + SQLController.tb_prefix + TABLE_NAME + " WHERE `town_id` = ?");
-            ps.setInt(1, town.getId());
+            ps = SQLController.getGameConnection().prepareStatement("SELECT * FROM " + SQLController.tb_prefix + TABLE_NAME + " WHERE `town_uuid` = ?");
+            ps.setString(1, town.getUUID().toString());
             rs = ps.executeQuery();
 
             SimpleDateFormat sdf = new SimpleDateFormat("M/dd h:mm:ss a z");
             while (rs.next()) {
-                Town target = Town.getTownFromId(rs.getInt("target_id"));
+                Town target = Town.getTownFromUUID(UUID.fromString(rs.getString("target_uuid")));
                 if (target == null) {
                     continue;
                 }

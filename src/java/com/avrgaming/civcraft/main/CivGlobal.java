@@ -566,6 +566,15 @@ public class CivGlobal {
         return null;
     }
 
+    public static Resident getResidentFromUUID(UUID uuid) {
+        for (Resident resident : residents.values()) {
+            if (resident.getUUID().equals(uuid)) {
+                return resident;
+            }
+        }
+        return null;
+    }
+
     @Nullable
     public static Resident getResident(@Nullable Player player) {
         if (player == null) {
@@ -813,6 +822,15 @@ public class CivGlobal {
     public static Structure getStructureById(int id) {
         for (Structure struct : structures.values()) {
             if (struct.getId() == id) {
+                return struct;
+            }
+        }
+        return null;
+    }
+
+    public static Structure getStructureByUUID(UUID uuid) {
+        for (Structure struct : structures.values()) {
+            if (struct.getUUID().equals(uuid)) {
                 return struct;
             }
         }
@@ -1108,7 +1126,7 @@ public class CivGlobal {
     }
 
     public static void setRelation(Civilization civ, Civilization otherCiv, Status status) {
-        if (civ.getId() == otherCiv.getId()) {
+        if (civ.getUUID() == otherCiv.getUUID()) {
             return;
         }
 
@@ -1295,6 +1313,16 @@ public class CivGlobal {
     public static Wonder getWonderById(int id) {
         for (Wonder wonder : wonders.values()) {
             if (wonder.getId() == id) {
+                return wonder;
+            }
+        }
+
+        return null;
+    }
+
+    public static Wonder getWonderByUUID(UUID uuid) {
+        for (Wonder wonder : wonders.values()) {
+            if (wonder.getUUID().equals(uuid)) {
                 return wonder;
             }
         }
@@ -1499,6 +1527,15 @@ public class CivGlobal {
     public static Camp getCampFromId(int campID) {
         for (Camp camp : camps.values()) {
             if (camp.getId() == campID) {
+                return camp;
+            }
+        }
+        return null;
+    }
+
+    public static Camp getCampFromUUID(UUID campUUID) {
+        for (Camp camp : camps.values()) {
+            if (camp.getUUID().equals(campUUID)) {
                 return camp;
             }
         }

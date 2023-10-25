@@ -38,6 +38,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.text.DecimalFormat;
+import java.util.UUID;
 
 public class Settler extends UnitMaterial implements CallbackInterface {
 
@@ -57,7 +58,7 @@ public class Settler extends UnitMaterial implements CallbackInterface {
         attrs.addEnhancement("LoreEnhancementSoulBound", null, null);
         attrs.addLore(ChatColor.GOLD + CivSettings.localize.localizedString("Soulbound"));
 
-        attrs.setCivCraftProperty("owner_civ_id", String.valueOf(town.getCiv().getId()));
+        attrs.setCivCraftProperty("owner_civ_uuid", String.valueOf(town.getCiv().getUUID()));
 
 
         if (!Unit.addItemNoStack(inv, attrs.getStack())) {
@@ -77,12 +78,12 @@ public class Settler extends UnitMaterial implements CallbackInterface {
             return;
         }
 
-        if (new AttributeUtil(event.getItem()).getCivCraftProperty("owner_civ_id") == null) {
+        if (new AttributeUtil(event.getItem()).getCivCraftProperty("owner_civ_uuid") == null) {
             CivMessage.sendError(player, CivSettings.localize.localizedString("settler_errorInvalidOwner"));
             return;
         }
 
-        if (Integer.parseInt(new AttributeUtil(event.getItem()).getCivCraftProperty("owner_civ_id")) != resident.getCiv().getId()) {
+        if (UUID.fromString(new AttributeUtil(event.getItem()).getCivCraftProperty("owner_civ_uuid")) != resident.getCiv().getUUID()) {
             CivMessage.sendError(player, CivSettings.localize.localizedString("settler_errorNotOwner"));
             return;
         }

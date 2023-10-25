@@ -98,7 +98,7 @@ public class War {
 
         for (SessionEntry entry : entries) {
             String[] split = entry.value.split(":");
-            defeatedTowns.put(split[0], Civilization.getCivFromId(Integer.parseInt(split[1])));
+            defeatedTowns.put(split[0], Civilization.getCivFromUUID(UUID.fromString(split[1])));
         }
     }
 
@@ -107,7 +107,7 @@ public class War {
 
         for (SessionEntry entry : entries) {
             String[] split = entry.value.split(":");
-            defeatedCivs.put(split[0], Civilization.getCivFromId(Integer.parseInt(split[1])));
+            defeatedCivs.put(split[0], Civilization.getCivFromUUID(UUID.fromString(split[1])));
         }
     }
 

@@ -162,7 +162,7 @@ public class Resident extends SQLObject {
                     "`name` VARCHAR(64) NOT NULL," +
                     "`uuid` VARCHAR(256) NOT NULL DEFAULT 'UNKNOWN'," +
                     "`currentName` VARCHAR(64) DEFAULT NULL," +
-                    "`town_id` int(11)," +
+                    "`town_uuid` VARCHAR(36)," +
                     "`lastOnline` BIGINT NOT NULL," +
                     "`registered` BIGINT NOT NULL," +
                     "`friends` mediumtext," +
@@ -170,7 +170,7 @@ public class Resident extends SQLObject {
                     "`coins` double DEFAULT 0," +
                     "`daysTilEvict` mediumint DEFAULT NULL," +
                     "`givenKit` bool NOT NULL DEFAULT '0'," +
-                    "`camp_id` int(11)," +
+                    "`camp_uuid` VARCHAR(36)," +
                     "`timezone` mediumtext," +
                     "`banned` bool NOT NULL DEFAULT '0'," +
                     "`bannedMessage` mediumtext DEFAULT NULL," +
@@ -194,8 +194,8 @@ public class Resident extends SQLObject {
         this.setId(rs.getInt("id"));
         this.setUUID(UUID.fromString(rs.getString("uuid")));
         this.setName(rs.getString("name"));
-        int townID = rs.getInt("town_id");
-        int campID = rs.getInt("camp_id");
+        UUID townUUID = UUID.fromString(rs.getString("town_uuid"));
+        UUID campUUID = UUID.fromString(rs.getString("camp_uuid"));
         this.lastIP = rs.getString("last_ip");
         this.debugTown = rs.getString("debug_town");
 
@@ -213,34 +213,30 @@ public class Resident extends SQLObject {
             this.setTimezoneToServerDefault();
         }
 
-        if (townID != 0) {
-            this.setTown(Town.getTownFromId(townID));
-            if (this.town == null) {
-                CivLog.error("COULD NOT FIND TOWN(" + townID + ") FOR RESIDENT(" + this.getId() + ") Name:" + this.getName());
-                /*
-                 * When a town fails to load, we wont be able to find it above.
-                 * However this can cause a cascade effect where because we couldn't find
-                 * the town above, we save this resident's town as NULL which wipes
-                 * their town information from the database when the resident gets saved.
-                 * Just to make sure this doesn't happen the boolean below guards resident saves.
-                 * There ought to be a better way...
-                 */
-                if (CivGlobal.testFileFlag("cleanupDatabase")) {
-                    this.saveNow();
-                } else {
-                    this.dontSaveTown = true;
-                }
-                return;
+        this.setTown(Town.getTownFromUUID(townUUID));
+        if (this.town == null && !townUUID.equals(NULL_UUID)) {
+            CivLog.error("COULD NOT FIND TOWN(" + townUUID + ") FOR RESIDENT(" + this.getUUID() + ") Name:" + this.getName());
+            /*
+             * When a town fails to load, we wont be able to find it above.
+             * However this can cause a cascade effect where because we couldn't find
+             * the town above, we save this resident's town as NULL which wipes
+             * their town information from the database when the resident gets saved.
+             * Just to make sure this doesn't happen the boolean below guards resident saves.
+             * There ought to be a better way...
+             */
+            if (CivGlobal.testFileFlag("cleanupDatabase")) {
+                this.saveNow();
+            } else {
+                this.dontSaveTown = true;
             }
+            return;
         }
 
-        if (campID != 0) {
-            this.setCamp(CivGlobal.getCampFromId(campID));
-            if (this.camp == null) {
-                CivLog.error("COULD NOT FIND CAMP(" + campID + ") FOR RESIDENT(" + this.getId() + ") Name:" + this.getName());
-            } else {
-                camp.addMember(this);
-            }
+        this.setCamp(CivGlobal.getCampFromUUID(campUUID));
+        if (this.camp != null) {
+            camp.addMember(this);
+        } else if (!campUUID.equals(NULL_UUID)) {
+            CivLog.error("COULD NOT FIND CAMP(" + campUUID + ") FOR RESIDENT(" + this.getUUID() + ") Name:" + this.getName());
         }
 
         if (this.getTown() != null) {
@@ -334,17 +330,17 @@ public class Resident extends SQLObject {
         hashmap.put("name", this.getName());
         hashmap.put("uuid", this.getUUIDString());
         if (this.getTown() != null) {
-            hashmap.put("town_id", this.getTown().getId());
+            hashmap.put("town_uuid", this.getTown().getUUID().toString());
         } else {
             if (!dontSaveTown) {
-                hashmap.put("town_id", null);
+                hashmap.put("town_uuid", NULL_UUID);
             }
         }
 
         if (this.getCamp() != null) {
-            hashmap.put("camp_id", this.getCamp().getId());
+            hashmap.put("camp_uuid", this.getCamp().getUUID().toString());
         } else {
-            hashmap.put("camp_id", null);
+            hashmap.put("camp_uuid", NULL_UUID.toString());
         }
 
         hashmap.put("lastOnline", this.getLastOnline());
@@ -847,7 +843,7 @@ public class Resident extends SQLObject {
     }
 
     public void setRejoinCooldown(Town town) {
-        String value = String.valueOf(town.getCiv().getId());
+        String value = String.valueOf(town.getCiv().getUUID());
         String key = getCooldownKey();
         CivGlobal.getSessionDB().add(key, value, NamedObject.NULL_UUID, NamedObject.NULL_UUID, NamedObject.NULL_UUID);
     }
@@ -871,7 +867,7 @@ public class Resident extends SQLObject {
 
         ArrayList<SessionEntry> entries = CivGlobal.getSessionDB().lookup(getCooldownKey());
         if (!entries.isEmpty()) {
-            Civilization oldCiv = Civilization.getCivFromId(Integer.parseInt(entries.get(0).value));
+            Civilization oldCiv = Civilization.getCivFromUUID(UUID.fromString(entries.get(0).value));
             if (oldCiv == null) {
                 /* Hmm, old civ is gone. */
                 cleanupCooldown();

@@ -254,15 +254,6 @@ public class Civilization extends SQLObject {
         return civs.get(name.toLowerCase());
     }
 
-    public static Civilization getCivFromId(int id) {
-        for (Civilization civ : civs.values()) {
-            if (civ.getId() == id) {
-                return civ;
-            }
-        }
-        return null;
-    }
-
     public static Civilization getCivFromUUID(UUID uuid) {
         for (Civilization civ : civs.values()) {
             if (civ.getUUID().equals(uuid)) {
