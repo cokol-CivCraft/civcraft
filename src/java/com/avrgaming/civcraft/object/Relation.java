@@ -75,7 +75,6 @@ public class Relation extends SQLObject {
     public static void init() throws SQLException {
         if (!SQLController.hasTable(TABLE_NAME)) {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
-                    "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`uuid` VARCHAR(36) NOT NULL," +
                     "`civ_uuid` VARCHAR(36)," +
                     "`other_civ_uuid` VARCHAR(36)," +
@@ -83,7 +82,7 @@ public class Relation extends SQLObject {
                     "`aggressor_civ_uuid` int(11) VARCHAR(36)," +
                     "`created` long," +
                     "`expires` long," +
-                    "PRIMARY KEY (`id`)" + ")";
+                    "PRIMARY KEY (`uuid`)" + ")";
 
             SQLController.makeTable(table_create);
             CivLog.info("Created " + TABLE_NAME + " table");
@@ -94,7 +93,6 @@ public class Relation extends SQLObject {
 
     @Override
     public void load(ResultSet rs) throws SQLException {
-        this.setId(rs.getInt("id"));
         this.setUUID(UUID.fromString(rs.getString("uuid")));
         civ = Civilization.getCivFromUUID(UUID.fromString(rs.getString("civ_uuid")));
         if (civ == null) {

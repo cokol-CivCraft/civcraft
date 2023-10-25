@@ -26,7 +26,6 @@ public class NamedObject {
     public static final UUID NULL_UUID = new UUID(0, 0);
 
     /* Unique Id of named object. */
-    private int id;
     private UUID uuid = NULL_UUID;
 
     /* Display name of the object. */
@@ -39,14 +38,6 @@ public class NamedObject {
 
     public String getName() {
         return this.name;
-    }
-
-    public void setId(int i) {
-        this.id = i;
-    }
-
-    public int getId() {
-        return id;
     }
 
     private void validateName(String name) throws InvalidNameException {

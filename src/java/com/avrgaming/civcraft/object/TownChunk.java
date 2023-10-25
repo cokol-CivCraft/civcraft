@@ -70,7 +70,6 @@ public class TownChunk extends SQLObject {
     public static void init() throws SQLException {
         if (!SQLController.hasTable(TABLE_NAME)) {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
-                    "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`uuid` VARCHAR(36) NOT NULL," +
                     "`town_uuid` VARCHAR(36) NOT NULL," +
                     "`world` VARCHAR(32) NOT NULL," +
@@ -82,7 +81,7 @@ public class TownChunk extends SQLObject {
                     "`canunclaim` bool DEFAULT '1'," +
                     //	 "FOREIGN KEY (owner_id) REFERENCES "+SQLController.tb_prefix+Resident.TABLE_NAME+"(id),"+
                     //	 "FOREIGN KEY (town_id) REFERENCES "+SQLController.tb_prefix+Town.TABLE_NAME+"(id),"+
-                    "PRIMARY KEY (`id`)" + ")";
+                    "PRIMARY KEY (`uuid`)" + ")";
 
             SQLController.makeTable(table_create);
             CivLog.info("Created " + TABLE_NAME + " table");
@@ -242,7 +241,6 @@ public class TownChunk extends SQLObject {
 
     @Override
     public void load(ResultSet rs) throws SQLException, CivException {
-        this.setId(rs.getInt("id"));
         this.setUUID(UUID.fromString(rs.getString("uuid")));
         this.setTown(Town.getTownFromUUID(UUID.fromString(rs.getString("town_uuid"))));
         if (this.getTown() == null) {

@@ -158,7 +158,6 @@ public class Resident extends SQLObject {
     public static void init() throws SQLException {
         if (!SQLController.hasTable(TABLE_NAME)) {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
-                    "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`name` VARCHAR(64) NOT NULL," +
                     "`uuid` VARCHAR(256) NOT NULL DEFAULT 'UNKNOWN'," +
                     "`currentName` VARCHAR(64) DEFAULT NULL," +
@@ -182,7 +181,7 @@ public class Resident extends SQLObject {
                     "`debug_town` mediumtext DEFAULT NULL," +
                     "`debug_civ` mediumtext DEFAULT NuLL," +
                     "UNIQUE KEY (`name`), " +
-                    "PRIMARY KEY (`id`)" + ")";
+                    "PRIMARY KEY (`uuid`)" + ")";
 
             SQLController.makeTable(table_create);
             CivLog.info("Created " + TABLE_NAME + " table");
@@ -191,7 +190,6 @@ public class Resident extends SQLObject {
 
     @Override
     public void load(ResultSet rs) throws SQLException, InvalidNameException {
-        this.setId(rs.getInt("id"));
         this.setUUID(UUID.fromString(rs.getString("uuid")));
         this.setName(rs.getString("name"));
         UUID townUUID = UUID.fromString(rs.getString("town_uuid"));

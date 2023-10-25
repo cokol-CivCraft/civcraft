@@ -220,21 +220,14 @@ public class SQLController {
             return;
         }
 
-        if (obj.getId() == 0) {
-            if (obj.getUUID().equals(NamedObject.NULL_UUID)) {
-                obj.setUUID(UUID.randomUUID());
-                hashmap.put("uuid", obj.getUUID().toString());
-            }
-            obj.setId(SQLController.insertNow(hashmap, tablename));
+        if (obj.getUUID().equals(NamedObject.NULL_UUID)) {
+            obj.setUUID(UUID.randomUUID());
+            hashmap.put("uuid", obj.getUUID().toString());
+            insertNow(hashmap, tablename);
         } else {
             hashmap.put("uuid", obj.getUUID().toString());
-            SQLController.update(obj.getId(), hashmap, tablename);
+            update(hashmap, "uuid", tablename);
         }
-    }
-
-    public static void update(int id, HashMap<String, Object> hashmap, String tablename) throws SQLException {
-        hashmap.put("id", id);
-        update(hashmap, "id", tablename);
     }
 
 
@@ -372,9 +365,9 @@ public class SQLController {
         PreparedStatement ps = null;
 
         try {
-            String sql = "DELETE FROM " + SQLController.tb_prefix + tablename + " WHERE `id` = ?";
+            String sql = "DELETE FROM " + SQLController.tb_prefix + tablename + " WHERE `uuid` = ?";
             ps = SQLController.getGameConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, obj.getId());
+            ps.setString(1, obj.getUUID().toString());
             ps.execute();
             ps.close();
             obj.setDeleted(true);

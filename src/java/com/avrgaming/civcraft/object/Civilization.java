@@ -230,10 +230,9 @@ public class Civilization extends SQLObject {
     public static void init() throws SQLException {
         if (!SQLController.hasTable(TABLE_NAME)) {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
-                    "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`uuid` VARCHAR(36) NOT NULL," +
                     "`nbt` BLOB," +
-                    "PRIMARY KEY (`id`)" + ")";
+                    "PRIMARY KEY (`uuid`)" + ")";
 
             SQLController.makeTable(table_create);
             CivLog.info("Created " + TABLE_NAME + " table");
@@ -276,7 +275,6 @@ public class Civilization extends SQLObject {
 
     @Override
     public void load(ResultSet rs) throws SQLException, InvalidNameException {
-        this.setId(rs.getInt("id"));
         this.setUUID(UUID.fromString(rs.getString("uuid")));
         var data = new ByteArrayInputStream(rs.getBytes("nbt"));
         NBTTagCompound nbt;

@@ -37,7 +37,6 @@ public class MissionLogger {
     public static void init() throws SQLException {
         if (!SQLController.hasTable(TABLE_NAME)) {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
-                    "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`uuid` VARCHAR(36) NOT NULL," +
                     "`town_uuid` VARCHAR(36)," +
                     "`target_uuid` VARCHAR(36)," +
@@ -45,7 +44,7 @@ public class MissionLogger {
                     "`playerName` mediumtext," +
                     "`missionName` mediumtext," +
                     "`result` mediumtext," +
-                    "PRIMARY KEY (`id`)" + ")";
+                    "PRIMARY KEY (`uuid`)" + ")";
 
             SQLController.makeTable(table_create);
             CivLog.info("Created " + TABLE_NAME + " table");

@@ -74,7 +74,6 @@ public class PermissionGroup extends NamedObject implements INBTSerializable {
     public static void init() throws SQLException {
         if (!SQLController.hasTable(TABLE_NAME)) {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
-                    "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`uuid` VARCHAR(36) NOT NULL," +
                     "`name` VARCHAR(64) NOT NULL," +
                     "`town_uuid` VARCHAR(36)," +
@@ -82,7 +81,7 @@ public class PermissionGroup extends NamedObject implements INBTSerializable {
                     "`members` mediumtext," +
                     //"FOREIGN KEY (town_id) REFERENCES "+SQLController.tb_prefix+"TOWN(id),"+
                     //"FOREIGN KEY (civ_id) REFERENCES "+SQLController.tb_prefix+"CIVILIZATIONS(id),"+
-                    "PRIMARY KEY (`id`)" + ")";
+                    "PRIMARY KEY (`uuid`)" + ")";
 
             SQLController.makeTable(table_create);
             CivLog.info("Created " + TABLE_NAME + " table");

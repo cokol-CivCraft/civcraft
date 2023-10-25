@@ -56,7 +56,6 @@ public class StructureSign extends SQLObject {
     public static void init() throws SQLException {
         if (!SQLController.hasTable(TABLE_NAME)) {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
-                    "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`uuid` VARCHAR(36) NOT NULL," +
                     "`text` mediumtext, " +
                     "`structure_uuid` VARCHAR(36), " +
@@ -65,7 +64,7 @@ public class StructureSign extends SQLObject {
                     "`action` mediumtext, " +
                     "`coordHash` mediumtext, " +
                     "`direction` int(11), " +
-                    "PRIMARY KEY (`id`)" + ")";
+                    "PRIMARY KEY (`uuid`)" + ")";
 
             SQLController.makeTable(table_create);
             CivLog.info("Created " + TABLE_NAME + " table");
@@ -76,7 +75,6 @@ public class StructureSign extends SQLObject {
 
     @Override
     public void load(ResultSet rs) throws SQLException {
-        this.setId(rs.getInt("id"));
         this.setUUID(UUID.fromString(rs.getString("uuid")));
         this.text = rs.getString("text");
         this.action = rs.getString("action");

@@ -44,7 +44,6 @@ public abstract class MetaStructure extends Buildable implements INBTSerializabl
     public static final double DEFAULT_HAMMERRATE = 1.0;
 
     public MetaStructure(int id, UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
-        this.setId(id);
         this.setUUID(uuid);
         loadFromNBT(nbt);
 
@@ -96,11 +95,10 @@ public abstract class MetaStructure extends Buildable implements INBTSerializabl
     public static void init() throws SQLException {
         if (!SQLController.hasTable(TABLE_NAME)) {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
-                    "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`uuid` VARCHAR(36) NOT NULL," +
                     "`type_id` mediumtext NOT NULL," +
                     "`nbt` BLOB," +
-                    "PRIMARY KEY (`id`)" + ")";
+                    "PRIMARY KEY (`uuid`)" + ")";
 
             SQLController.makeTable(table_create);
             CivLog.info("Created " + TABLE_NAME + " table");
@@ -110,7 +108,6 @@ public abstract class MetaStructure extends Buildable implements INBTSerializabl
     }
 
     public static MetaStructure newStructOrWonder(ResultSet rs) throws CivException, SQLException {
-        int id = rs.getInt("id");
         UUID uuid = UUID.fromString(rs.getString("uuid"));
         String typeId = rs.getString("type_id");
         var data = new ByteArrayInputStream(rs.getBytes("nbt"));
@@ -122,9 +119,9 @@ public abstract class MetaStructure extends Buildable implements INBTSerializabl
         }
         MetaStructure structure;
         if (CivSettings.structures.get(typeId) != null) {
-            structure = CivSettings.structures.get(typeId).type.create(id, uuid, nbt);
+            structure = CivSettings.structures.get(typeId).type.create(0, uuid, nbt);
         } else {
-            structure = StructuresTypes.BASE.create(id, uuid, nbt);
+            structure = StructuresTypes.BASE.create(0, uuid, nbt);
         }
         structure.loadSettings();
         return structure;

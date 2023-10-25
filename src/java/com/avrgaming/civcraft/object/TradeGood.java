@@ -67,7 +67,6 @@ public class TradeGood extends SQLObject {
     public static void init() throws SQLException {
         if (!SQLController.hasTable(TABLE_NAME)) {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
-                    "`id` int(11) unsigned NOT NULL auto_increment," +
                     "`uuid` VARCHAR(36) NOT NULL," +
                     "`name` VARCHAR(64) NOT NULL," +
                     "`town_uuid` VARCHAR(36)," +
@@ -75,7 +74,7 @@ public class TradeGood extends SQLObject {
                     "`coord` mediumtext DEFAULT NULL," +
                     "`bonusLocation` mediumtext DEFAULT NULL," +
                     //	 "FOREIGN KEY (town_id) REFERENCES "+SQLController.tb_prefix+"TOWNS(id),"+
-                    "PRIMARY KEY (`id`)" + ")";
+                    "PRIMARY KEY (`uuid`)" + ")";
 
             SQLController.makeTable(table_create);
             CivLog.info("Created " + TABLE_NAME + " table");
@@ -87,7 +86,6 @@ public class TradeGood extends SQLObject {
 	
 	@Override
     public void load(ResultSet rs) throws SQLException, InvalidNameException {
-        this.setId(rs.getInt("id"));
         this.setUUID(UUID.fromString(rs.getString("uuid")));
         this.setName(rs.getString("name"));
         setInfo(CivSettings.goods.get(this.getName()));
