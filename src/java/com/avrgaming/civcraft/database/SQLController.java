@@ -36,10 +36,7 @@ import com.avrgaming.civcraft.util.BiomeCache;
 import com.avrgaming.global.scores.ScoreManager;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.UUID;
+import java.util.*;
 
 public class SQLController {
 
@@ -269,6 +266,8 @@ public class SQLController {
                     ps.setFloat(i, (Float) value);
                 } else if (value instanceof Long) {
                     ps.setLong(i, (Long) value);
+                } else if (value instanceof UUID) {
+                    ps.setString(i, value.toString());
                 } else {
                     ps.setObject(i, value);
                 }
@@ -285,11 +284,11 @@ public class SQLController {
         }
     }
 
-    public static void insert(HashMap<String, Object> hashmap, String tablename) {
+    public static void insert(Map<String, Object> hashmap, String tablename) {
         TaskMaster.asyncTask(new SQLInsertTask(hashmap, tablename), 0);
     }
 
-    public static int insertNow(HashMap<String, Object> hashmap, String tablename) throws SQLException {
+    public static int insertNow(Map<String, Object> hashmap, String tablename) throws SQLException {
         ResultSet rs = null;
         PreparedStatement ps = null;
 
@@ -331,6 +330,8 @@ public class SQLController {
                     ps.setFloat(i, (Float) value);
                 } else if (value instanceof Long) {
                     ps.setLong(i, (Long) value);
+                } else if (value instanceof UUID) {
+                    ps.setString(i, value.toString());
                 } else {
                     ps.setObject(i, value);
                 }

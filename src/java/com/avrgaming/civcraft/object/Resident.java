@@ -159,7 +159,7 @@ public class Resident extends SQLObject {
         if (!SQLController.hasTable(TABLE_NAME)) {
             String table_create = "CREATE TABLE " + SQLController.tb_prefix + TABLE_NAME + " (" +
                     "`name` VARCHAR(64) NOT NULL," +
-                    "`uuid` VARCHAR(256) NOT NULL DEFAULT 'UNKNOWN'," +
+                    "`uuid` VARCHAR(256) NOT NULL," +
                     "`currentName` VARCHAR(64) DEFAULT NULL," +
                     "`town_uuid` VARCHAR(36)," +
                     "`lastOnline` BIGINT NOT NULL," +
@@ -331,7 +331,7 @@ public class Resident extends SQLObject {
             hashmap.put("town_uuid", this.getTown().getUUID().toString());
         } else {
             if (!dontSaveTown) {
-                hashmap.put("town_uuid", NULL_UUID);
+                hashmap.put("town_uuid", NULL_UUID.toString());
             }
         }
 

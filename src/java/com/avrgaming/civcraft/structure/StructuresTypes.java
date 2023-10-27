@@ -12,6 +12,7 @@ import java.util.UUID;
 @SuppressWarnings("unused")
 public enum StructuresTypes {
     BASE(Structure::new, Structure::new),
+    STRUCTURE(Structure::new, Structure::new),
     THE_GREAT_PYRAMID(TheGreatPyramid::new, TheGreatPyramid::new),
     GREAT_LIBRARY(GreatLibrary::new, GreatLibrary::new),
     THE_HANGING_GARDENS(TheHangingGardens::new, TheHangingGardens::new),

@@ -18,14 +18,14 @@
 package com.avrgaming.civcraft.database;
 
 import java.sql.SQLException;
-import java.util.HashMap;
+import java.util.Map;
 
 public class SQLInsertTask implements Runnable {
 
-    HashMap<String, Object> hashmap;
+    Map<String, Object> hashmap;
     String tablename;
 
-    public SQLInsertTask(HashMap<String, Object> hashmap, String tablename) {
+    public SQLInsertTask(Map<String, Object> hashmap, String tablename) {
 
     }
 

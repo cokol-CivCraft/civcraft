@@ -79,7 +79,7 @@ public class Relation extends SQLObject {
                     "`civ_uuid` VARCHAR(36)," +
                     "`other_civ_uuid` VARCHAR(36)," +
                     "`relation` mediumtext DEFAULT NULL," +
-                    "`aggressor_civ_uuid` int(11) VARCHAR(36)," +
+                    "`aggressor_civ_uuid` VARCHAR(36)," +
                     "`created` long," +
                     "`expires` long," +
                     "PRIMARY KEY (`uuid`)" + ")";
