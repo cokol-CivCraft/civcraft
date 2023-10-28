@@ -277,6 +277,7 @@ public class SQLController {
             ps.setObject(i, keyValue);
 
             if (ps.executeUpdate() == 0) {
+                hashmap.put(keyname, keyValue);
                 insertNow(hashmap, tablename);
             }
         } finally {
@@ -288,8 +289,7 @@ public class SQLController {
         TaskMaster.asyncTask(new SQLInsertTask(hashmap, tablename), 0);
     }
 
-    public static int insertNow(Map<String, Object> hashmap, String tablename) throws SQLException {
-        ResultSet rs = null;
+    public static void insertNow(Map<String, Object> hashmap, String tablename) throws SQLException {
         PreparedStatement ps = null;
 
         try {
@@ -314,7 +314,7 @@ public class SQLController {
             sql += keycodes;
             sql += valuecodes;
 
-            ps = SQLController.getGameConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps = SQLController.getGameConnection().prepareStatement(sql);
 
             int i = 1;
             for (Object value : values) {
@@ -339,25 +339,9 @@ public class SQLController {
             }
 
             ps.execute();
-            int id = 0;
-            rs = ps.getGeneratedKeys();
-
-            if (rs.next()) {
-                id = rs.getInt(1);
-            }
-
-            if (id == 0) {
-                String name = (String) hashmap.get("name");
-                if (name == null) {
-                    name = "Unknown";
-                }
-
-                CivLog.error("SQLController ERROR: Saving an SQLObject returned a 0 ID! Name:" + name + " Table:" + tablename);
-            }
-            return id;
 
         } finally {
-            SQLController.close(rs, ps);
+            SQLController.close(null, ps);
         }
     }
 
