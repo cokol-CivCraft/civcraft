@@ -21,4 +21,3 @@ components:
     attribute: 'HAMMERS'
     biomes: 'EXTREME_HILLS:3,SMALL_MOUNTAINS:3,ICE_MOUNTAINS:3,DESERT_HILLS:1,FOREST_HILLS:1,TAGIA_HILLS:1,JUNGLE_HILLS:1'
     base_value: '7.0'
-  - name: 'ConsumeLevelComponent'

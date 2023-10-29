@@ -19,8 +19,7 @@ public class ArrowShip extends WaterStructure {
     private final HashMap<Integer, ProjectileArrowComponent> arrowTowers = new HashMap<>();
 
 
-    protected ArrowShip(Location center, String id, Town town)
-            throws CivException {
+    protected ArrowShip(Location center, String id, Town town) throws CivException {
         super(center, id, town);
     }
 
@@ -51,17 +50,11 @@ public class ArrowShip extends WaterStructure {
         }
     }
 
-    /**
-     * @return the damage
-     */
     public int getDamage() {
         double rate = 1 + this.getTown().getBuffManager().getEffectiveDouble(Buff.FIRE_BOMB);
         return (int) (arrowComponent.getDamage() * rate);
     }
 
-    /**
-     * @param power the power to set
-     */
     public void setPower(double power) {
         arrowComponent.setPower(power);
     }

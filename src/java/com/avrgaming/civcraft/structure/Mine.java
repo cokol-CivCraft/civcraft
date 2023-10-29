@@ -17,12 +17,11 @@
  */
 package com.avrgaming.civcraft.structure;
 
-import com.avrgaming.civcraft.components.ConsumeLevelComponent;
 import com.avrgaming.civcraft.components.ConsumeLevelComponent.Result;
 import com.avrgaming.civcraft.config.CivSettings;
+import com.avrgaming.civcraft.config.ConfigMineLevel;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.CivTaskAbortException;
-import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.main.CivMessage;
 import com.avrgaming.civcraft.object.StructureChest;
 import com.avrgaming.civcraft.object.Town;
@@ -31,14 +30,17 @@ import com.avrgaming.civcraft.util.MultiInventory;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.UUID;
 
 public class Mine extends Structure {
 
-    private ConsumeLevelComponent consumeComp = null;
+    private int level = 1;
+    private int xp = 0;
 
     protected Mine(Location center, String id, Town town) throws CivException {
         super(center, id, town);
@@ -48,14 +50,11 @@ public class Mine extends Structure {
         super(uuid, nbt);
     }
 
-    public ConsumeLevelComponent getConsumeComponent() {
-        if (consumeComp == null) {
-            consumeComp = (ConsumeLevelComponent) this.getComponent(ConsumeLevelComponent.class.getSimpleName());
-        }
-        return consumeComp;
-    }
-
     public Result consume(CivAsyncTask task) throws InterruptedException {
+        ConfigMineLevel current = CivSettings.mineLevels.get(this.getLevel());
+        if (CivSettings.mineLevels.get(this.getLevel() + 1) == null) {
+            return Result.MAXED;
+        }
 
         //Look for the mine's chest.
         if (this.getChests().isEmpty())
@@ -74,16 +73,21 @@ public class Mine extends Structure {
             }
             multiInv.addInventory(tmp);
         }
-        getConsumeComponent().setSource(multiInv);
-        getConsumeComponent().setConsumeRate(1.0);
         try {
-            Result result = getConsumeComponent().processConsumption();
-            getConsumeComponent().onSave();
-            return result;
-        } catch (IllegalStateException e) {
-            CivLog.exception(this.getDisplayName() + " Process Error in town: " + this.getTown().getName() + " and Location: " + this.getCorner(), e);
+            if (!multiInv.removeItem(Material.REDSTONE, current.amount())) {
+                return Result.STAGNATE;
+            }
+        } catch (CivException e) {
+            e.printStackTrace();
             return Result.STAGNATE;
         }
+        xp += 1;
+        if (xp >= getMaxXp()) {
+            xp = 0;
+            level += 1;
+            return Result.LEVELUP;
+        }
+        return Result.GROW;
     }
 
     public void process_mine(CivAsyncTask task) {
@@ -96,20 +100,25 @@ public class Mine extends Structure {
         }
         switch (result) {
             case STARVE ->
-                    CivMessage.sendTown(getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_mine_productionFell", getConsumeComponent().getLevel(), ChatColor.GREEN + getConsumeComponent().getCountString()));
+                    CivMessage.sendTown(getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_mine_productionFell", getLevel(), ChatColor.GREEN + getXpString()));
             case LEVELDOWN ->
-                    CivMessage.sendTown(getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_mine_lostalvl", getConsumeComponent().getLevel()));
+                    CivMessage.sendTown(getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_mine_lostalvl", getLevel()));
             case STAGNATE ->
-                    CivMessage.sendTown(getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_mine_stagnated", getConsumeComponent().getLevel(), ChatColor.GREEN + getConsumeComponent().getCountString()));
+                    CivMessage.sendTown(getTown(), ChatColor.RED + CivSettings.localize.localizedString("var_mine_stagnated", getLevel(), ChatColor.GREEN + getXpString()));
             case GROW ->
-                    CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_mine_productionGrew", getConsumeComponent().getLevel(), getConsumeComponent().getCountString()));
+                    CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_mine_productionGrew", getLevel(), getXpString()));
             case LEVELUP ->
-                    CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_mine_lvlUp", getConsumeComponent().getLevel()));
+                    CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_mine_lvlUp", getLevel()));
             case MAXED ->
-                    CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_mine_maxed", getConsumeComponent().getLevel(), ChatColor.GREEN + getConsumeComponent().getCountString()));
+                    CivMessage.sendTown(getTown(), ChatColor.GREEN + CivSettings.localize.localizedString("var_mine_maxed", getLevel(), ChatColor.GREEN + getXpString()));
             default -> {
             }
         }
+    }
+
+    public String getXpString() {
+        int currentCountMax = CivSettings.mineLevels.get(getLevel()).count();
+        return "(" + this.getXp() + "/" + (Optional.of(currentCountMax).map(countMax -> countMax + ")").orElse("?)"));
     }
 
     public double getBonusHammers() {
@@ -121,22 +130,14 @@ public class Mine extends Structure {
     }
 
     public int getLevel() {
-        if (!this.isComplete()) {
-            return 1;
-        }
-        return this.getConsumeComponent().getLevel();
+        return level;
     }
 
-    public int getCount() {
-        return this.getConsumeComponent().getCount();
+    public int getXp() {
+        return xp;
     }
 
-    public int getMaxCount() {
+    public int getMaxXp() {
         return CivSettings.mineLevels.get(getLevel()).count();
     }
-
-    public Result getLastResult() {
-        return this.getConsumeComponent().getLastResult();
-    }
-
 }

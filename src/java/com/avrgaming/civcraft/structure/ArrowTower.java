@@ -32,8 +32,7 @@ public class ArrowTower extends Structure {
 
     ProjectileArrowComponent arrowComponent;
 
-    protected ArrowTower(Location center, String id, Town town)
-            throws CivException {
+    protected ArrowTower(Location center, String id, Town town) throws CivException {
         super(center, id, town);
         this.hitpoints = this.getMaxHitPoints();
     }
@@ -49,9 +48,6 @@ public class ArrowTower extends Structure {
         arrowComponent.createComponent(this);
     }
 
-    /**
-     * @return the damage
-     */
     public int getDamage() {
         double rate = 1;
         rate += this.getTown().getBuffManager().getEffectiveDouble(Buff.FIRE_BOMB);
@@ -66,9 +62,6 @@ public class ArrowTower extends Structure {
         return (int) (info.max_hp * rate);
     }
 
-    /**
-     * @param power the power to set
-     */
     public void setPower(double power) {
         arrowComponent.setPower(power);
     }

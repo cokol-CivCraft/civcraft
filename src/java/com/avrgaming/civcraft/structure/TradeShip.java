@@ -4,7 +4,6 @@ import com.avrgaming.civcraft.components.TradeLevelComponent;
 import com.avrgaming.civcraft.components.TradeLevelComponent.Result;
 import com.avrgaming.civcraft.components.TradeShipResults;
 import com.avrgaming.civcraft.config.CivSettings;
-import com.avrgaming.civcraft.config.ConfigMineLevel;
 import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.exception.CivTaskAbortException;
 import com.avrgaming.civcraft.main.CivLog;
@@ -335,12 +334,12 @@ public class TradeShip extends WaterStructure {
         return this.getConsumeComponent().getCount();
     }
 
-    public int getMaxCount() {
-        int level = getLevel();
-
-        ConfigMineLevel lvl = CivSettings.mineLevels.get(level);
-        return lvl.count();
-    }
+//    public int getMaxCount() {
+//        int level = getLevel();
+//
+//        ConfigMineLevel lvl = CivSettings.mineLevels.get(level);
+//        return lvl.count();
+//    }
 
     public Result getLastResult() {
         return this.getConsumeComponent().getLastResult();
