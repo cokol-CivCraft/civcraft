@@ -21,3 +21,25 @@ components:
     attribute: 'HAMMERS'
     biomes: 'EXTREME_HILLS:3,SMALL_MOUNTAINS:3,ICE_MOUNTAINS:3,DESERT_HILLS:1,FOREST_HILLS:1,TAGIA_HILLS:1,JUNGLE_HILLS:1'
     base_value: '7.0'
+
+################# Mine Settings #################
+mine_levels:
+  - hammers: 150.00
+    amount: 10
+    count: 24
+
+  - hammers: 200.00
+    amount: 15
+    count: 48
+
+  - hammers: 275.00
+    amount: 20
+    count: 96
+
+  - hammers: 350.00
+    amount: 25
+    count: 120
+
+  - hammers: 400.00
+    amount: 30
+    count: 144

@@ -87,7 +87,6 @@ public class CivSettings {
     public static Map<String, ConfigBuildableInfo> structures = new HashMap<>();
     public static Map<Integer, ConfigGrocerLevel> grocerLevels = new HashMap<>();
     public static Map<Integer, ConfigCottageLevel> cottageLevels = new HashMap<>();
-    public static Map<Integer, ConfigMineLevel> mineLevels = new HashMap<>();
     public static Map<Integer, ConfigTempleLevel> templeLevels = new HashMap<>();
     public static Map<Integer, ConfigTradeShipLevel> tradeShipLevels = new HashMap<>();
 
@@ -409,7 +408,6 @@ public class CivSettings {
         ConfigGrocerLevel.loadConfig(structureConfig, grocerLevels);
         ConfigCottageLevel.loadConfig(structureConfig, cottageLevels);
         ConfigTempleLevel.loadConfig(structureConfig, templeLevels);
-        ConfigMineLevel.loadConfig(structureConfig, mineLevels);
         ConfigGovernment.loadConfig(governmentConfig, governments);
         ConfigEnchant.loadConfig(enchantConfig, enchants);
         ConfigUnit.loadConfig(unitConfig, units);
@@ -645,11 +643,6 @@ public class CivSettings {
         return templeLevels.keySet().stream().mapToInt(level -> level).filter(level -> level >= 0).max().orElse(0);
         //3 дні тому
         //аы
-    }
-
-    public static int getMineMaxLevel() {
-        return mineLevels.keySet().stream().mapToInt(level -> level).filter(level -> level >= 0).max().orElse(0);
-        // Для этого нужно посчитать логарифм по основанию 3 умноженный на косинус 2пи помноженный на 300 и деленное на 10 с десятичной однёркой в периоде.
     }
 
     public static int getMaxCultureLevel() {

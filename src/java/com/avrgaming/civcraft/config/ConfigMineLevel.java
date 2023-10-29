@@ -18,8 +18,10 @@
 package com.avrgaming.civcraft.config;
 
 import com.avrgaming.civcraft.main.CivLog;
-import org.bukkit.configuration.file.FileConfiguration;
+import com.google.common.collect.ImmutableList;
+import org.bukkit.configuration.MemoryConfiguration;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -30,17 +32,18 @@ import java.util.Map;
  */
 public record ConfigMineLevel(int level, int amount, int count, double hammers) {
 
-    public static void loadConfig(FileConfiguration cfg, Map<Integer, ConfigMineLevel> levels) {
-        levels.clear();
+    public static ImmutableList<ConfigMineLevel> loadConfig(MemoryConfiguration cfg) {
+        ArrayList<ConfigMineLevel> list = new ArrayList<>();
         for (Map<?, ?> level : cfg.getMapList("mine_levels")) {
             ConfigMineLevel mine_level = new ConfigMineLevel(
-                    (Integer) level.get("level"),
+                    list.size(),
                     (Integer) level.get("amount"),
                     (Integer) level.get("count"),
                     (Double) level.get("hammers")
             );
-            levels.put(mine_level.level, mine_level);
+            list.add(mine_level.level, mine_level);
         }
-        CivLog.info("Loaded " + levels.size() + " mine levels.");
+        CivLog.debug("Loaded " + list.size() + " mine levels.");
+        return ImmutableList.copyOf(list);
     }
 }

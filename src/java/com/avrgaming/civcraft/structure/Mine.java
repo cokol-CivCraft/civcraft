@@ -27,6 +27,7 @@ import com.avrgaming.civcraft.object.StructureChest;
 import com.avrgaming.civcraft.object.Town;
 import com.avrgaming.civcraft.threading.CivAsyncTask;
 import com.avrgaming.civcraft.util.MultiInventory;
+import com.google.common.collect.ImmutableList;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -39,15 +40,22 @@ import java.util.UUID;
 
 public class Mine extends Structure {
 
-    private int level = 0;
-    private int xp = 0;
+    private final ImmutableList<ConfigMineLevel> levels;
+    private int level;
+    private int xp;
 
     protected Mine(Location center, String id, Town town) throws CivException {
         super(center, id, town);
+        level = 0;
+        xp = 0;
+        levels = ConfigMineLevel.loadConfig(info.memoryConfiguration);
     }
 
     public Mine(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
         super(uuid, nbt);
+        levels = ConfigMineLevel.loadConfig(info.memoryConfiguration);
+        if (level >= levels.size())
+            level = levels.size() - 1;
     }
 
     @Override
@@ -61,12 +69,12 @@ public class Mine extends Structure {
     public void saveToNBT(NBTTagCompound nbt) {
         super.saveToNBT(nbt);
         nbt.setInt("xp", xp);
-        nbt.setInt("level", xp);
+        nbt.setInt("level", level);
     }
 
     public Result consume(CivAsyncTask task) throws InterruptedException {
-        ConfigMineLevel current = CivSettings.mineLevels.get(this.getLevel());
-        if (CivSettings.mineLevels.get(this.getLevel() + 1) == null) {
+        ConfigMineLevel current = levels.get(this.getLevel());
+        if (this.getLevel() + 1 >= levels.size()) {
             return Result.MAXED;
         }
 
@@ -95,12 +103,15 @@ public class Mine extends Structure {
             e.printStackTrace();
             return Result.STAGNATE;
         }
+
         xp += 1;
         if (xp >= getMaxXp()) {
             xp = 0;
             level += 1;
+            this.save();
             return Result.LEVELUP;
         }
+        this.save();
         return Result.GROW;
     }
 
@@ -131,7 +142,7 @@ public class Mine extends Structure {
     }
 
     public String getXpString() {
-        int currentCountMax = CivSettings.mineLevels.get(getLevel()).count();
+        int currentCountMax = levels.get(getLevel()).count();
         return "(" + this.getXp() + "/" + (Optional.of(currentCountMax).map(countMax -> countMax + ")").orElse("?)"));
     }
 
@@ -140,7 +151,7 @@ public class Mine extends Structure {
             return 0.0;
         }
 
-        return CivSettings.mineLevels.get(getLevel()).hammers();
+        return levels.get(getLevel()).hammers();
     }
 
     public int getLevel() {
@@ -152,6 +163,6 @@ public class Mine extends Structure {
     }
 
     public int getMaxXp() {
-        return CivSettings.mineLevels.get(getLevel()).count();
+        return levels.get(getLevel()).count();
     }
 }
