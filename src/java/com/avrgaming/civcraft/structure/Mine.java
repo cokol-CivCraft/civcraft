@@ -39,7 +39,7 @@ import java.util.UUID;
 
 public class Mine extends Structure {
 
-    private int level = 1;
+    private int level = 0;
     private int xp = 0;
 
     protected Mine(Location center, String id, Town town) throws CivException {
@@ -48,6 +48,20 @@ public class Mine extends Structure {
 
     public Mine(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
         super(uuid, nbt);
+    }
+
+    @Override
+    public void loadFromNBT(NBTTagCompound nbt) {
+        super.loadFromNBT(nbt);
+        xp = nbt.getInt("xp");
+        level = nbt.getInt("level");
+    }
+
+    @Override
+    public void saveToNBT(NBTTagCompound nbt) {
+        super.saveToNBT(nbt);
+        nbt.setInt("xp", xp);
+        nbt.setInt("level", xp);
     }
 
     public Result consume(CivAsyncTask task) throws InterruptedException {
