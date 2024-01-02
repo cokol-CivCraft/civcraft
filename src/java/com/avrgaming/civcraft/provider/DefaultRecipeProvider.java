@@ -11,6 +11,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.Map;
 import static com.avrgaming.civcraft.provider.DefaultMaterialProvider.CARVED_LEATHER;
 import static com.avrgaming.civcraft.provider.DefaultMaterialProvider.REFINED_STONE;
 
-
+@ParametersAreNonnullByDefault
 public class DefaultRecipeProvider {
     public final Map<NamespacedKey, ConfigRecipe> entries = new HashMap<>();
 
@@ -37,18 +38,11 @@ public class DefaultRecipeProvider {
                 .ingridient(new MaterialData(Material.COBBLESTONE).toItemStack(9))
                 .end();
         shapeless(CARVED_LEATHER).ingridient(new MaterialData(Material.LEATHER).toItemStack(9)).end();
+        shapeless(LoreCraftableMaterial.materials.get("mat_refined_feathers").getConfigMaterial()).ingridient(new MaterialData(Material.FEATHER).toItemStack(9)).end();
     }
 
     public static Map<NamespacedKey, ConfigRecipe> provide() {
         Map<NamespacedKey, ConfigRecipe> data = new HashMap<>(new DefaultRecipeProvider().entries);
-        data.put(
-                new NamespacedKey(CivCraft.getPlugin(), "mat_refined_feathers"),
-                new ConfigRecipeShapless(
-                        LoreCraftableMaterial.materials.get("mat_refined_feathers").getConfigMaterial(),
-                        new ItemStack[]{
-                                new MaterialData(Material.FEATHER).toItemStack(9)
-                        }
-                ));
         data.put(
                 new NamespacedKey(CivCraft.getPlugin(), "mat_crafted_string"),
                 new ConfigRecipeShapless(

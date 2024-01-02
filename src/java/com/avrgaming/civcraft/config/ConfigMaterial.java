@@ -4,6 +4,7 @@ import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.Resident;
+import com.avrgaming.civcraft.provider.DefaultMaterialProvider;
 import com.avrgaming.civcraft.util.CivColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -134,6 +135,10 @@ public class ConfigMaterial {
 
 
             /* Add to category map. */
+            ConfigMaterialCategory.addMaterial(mat);
+            materials.put(mat.id, mat);
+        }
+        for (ConfigMaterial mat : DefaultMaterialProvider.entries) {
             ConfigMaterialCategory.addMaterial(mat);
             materials.put(mat.id, mat);
         }

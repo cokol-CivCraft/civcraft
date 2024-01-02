@@ -73,26 +73,6 @@ materials:
   # Primary Materials, Tier 1
   #
 
-  # Checked 10/8/13
-  mat_carved_leather:
-    item_id: LEATHER
-    item_data: 0
-    item:
-      ==: org.bukkit.inventory.ItemStack
-      type: LEATHER
-    name: 'T1 Carved Leather'
-    category: '<lightgreen>Tier 1 Materials'
-
-  # Checked 10/8/13
-  mat_refined_stone:
-    item_id: STONE
-    item_data: 0
-    item:
-      ==: org.bukkit.inventory.ItemStack
-      type: STONE
-    name: 'T1 Refined Stone'
-    category: '<lightgreen>Tier 1 Materials'
-
 
   # Checked 10/8/13
   mat_refined_feathers:

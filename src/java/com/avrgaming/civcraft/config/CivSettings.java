@@ -276,7 +276,7 @@ public class CivSettings {
     private static void loadRecipes() {
         for (Map.Entry<NamespacedKey, ConfigRecipe> recipe : DefaultRecipeProvider.provide().entrySet()) {
             if (recipe.getValue() instanceof ConfigRecipeShapless config) {
-                ShapelessRecipe shapeless = new ShapelessRecipe(recipe.getKey(), LoreMaterial.spawn(config.material));
+                ShapelessRecipe shapeless = new ShapelessRecipe(recipe.getKey(), LoreMaterial.spawn(LoreMaterial.materialMap.get(config.material.id)));
                 for (ItemStack itemStack : config.ingridients) {
                     shapeless.addIngredient(itemStack.getAmount(), itemStack.getData());
                 }
