@@ -1,6 +1,5 @@
 package com.avrgaming.civcraft.config;
 
-import com.avrgaming.civcraft.lorestorage.LoreMaterial;
 import com.avrgaming.civcraft.main.CivLog;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -13,10 +12,10 @@ import java.util.List;
 import java.util.Map;
 
 public class ConfigRecipeShapless extends ConfigRecipe implements ConfigurationSerializable {
-    public final LoreMaterial material;
+    public final ConfigMaterial material;
     public final ItemStack[] ingridients;
 
-    public ConfigRecipeShapless(LoreMaterial material, ItemStack[] ingridients) {
+    public ConfigRecipeShapless(ConfigMaterial material, ItemStack[] ingridients) {
         this.material = material;
         this.ingridients = ingridients;
     }
@@ -40,7 +39,7 @@ public class ConfigRecipeShapless extends ConfigRecipe implements ConfigurationS
     @Override
     public Map<String, Object> serialize() {
         Map<String, Object> data = new HashMap<>();
-        data.put("output", this.material.getId());
+        data.put("output", this.material.id);
         data.put("ingruduents", this.ingridients);
         return data;
     }
