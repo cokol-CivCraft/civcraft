@@ -81,13 +81,7 @@ materials:
       ==: org.bukkit.inventory.ItemStack
       type: LEATHER
     name: 'T1 Carved Leather'
-    craftable: true
-    shaped: false
     category: '<lightgreen>Tier 1 Materials'
-    ingredients:
-      - type_id: LEATHER
-        data: 0
-        count: 9
 
   # Checked 10/8/13
   mat_refined_stone:
@@ -108,13 +102,7 @@ materials:
       ==: org.bukkit.inventory.ItemStack
       type: QUARTZ
     name: 'T1 Packed Feathers'
-    craftable: true
-    shaped: false
     category: '<lightgreen>Tier 1 Materials'
-    ingredients:
-      - type_id: FEATHER
-        data: 0
-        count: 9
   
   # Checked 10/8/13
   mat_crafted_string:
@@ -124,13 +112,7 @@ materials:
       ==: org.bukkit.inventory.ItemStack
       type: STRING
     name: 'T1 Crafted String'
-    craftable: true
-    shaped: false
     category: '<lightgreen>Tier 1 Materials'
-    ingredients:
-      - type_id: STRING
-        data: 0
-        count: 9
 
   # Checked 10/8/13
   mat_refined_slime:
@@ -148,19 +130,6 @@ materials:
         custom_id: 'mat_vanilla_slime'
         data: 0
         count: 2
-  
-  # Replaced with block of iron
-  #        mat_forged_iron_ingot'
-  #          item_id: IRON_INGOT
-  #          item_data: 0
-  #          name: 'Forged Iron Ingot'
-  #          craftable: true
-  #          shaped: false
-  #          category: '<lightgreen>Tier 1 Materials'
-  #          ingredients:
-  #              - type_id: IRON_INGOT
-  #                data: 0
-  #                count: 9
 
   # Checked 10/8/13
   mat_crafted_reeds:
@@ -170,28 +139,9 @@ materials:
       ==: org.bukkit.inventory.ItemStack
       type: SUGAR_CANE
     name: 'T1 Crafted Reeds'
-    craftable: true
-    shaped: false
     tradeable: true
     tradeValue: 0.5
     category: '<lightgreen>Tier 1 Materials'
-    ingredients:
-      - type_id: SUGAR_CANE
-        data: 0
-        count: 9
-  
-  # Replcaed with block of coal.
-  #        mat_refined_coal:
-  #          item_id: 263
-  #          item_data: 0
-  #          name: 'Refined Coal'
-  #          craftable: true
-  #          shaped: false
-  #          category: '<lightgreen>Tier 1 Materials'
-  #          ingredients:
-  #              - type_id: 263
-  #                data: 0
-  #                count: 9
 
   # Checked 10/8/13
   mat_crafted_sticks:
@@ -201,13 +151,7 @@ materials:
       ==: org.bukkit.inventory.ItemStack
       type: STICK
     name: 'T1 Crafted Sticks'
-    craftable: true
-    shaped: false
     category: '<lightgreen>Tier 1 Materials'
-    ingredients:
-      - type_id: STICK
-        data: 0
-        count: 9
 
   # Checked 10/8/13
   mat_refined_sulphur:
@@ -217,13 +161,7 @@ materials:
       ==: org.bukkit.inventory.ItemStack
       type: SULPHUR
     name: 'T1 Refined Sulphur'
-    craftable: true
-    shaped: false
     category: '<lightgreen>Tier 1 Materials'
-    ingredients:
-      - type_id: SULPHUR
-        data: 0
-        count: 9
 
   mat_compacted_sand:
     item_id: SANDSTONE
@@ -232,13 +170,7 @@ materials:
       ==: org.bukkit.inventory.ItemStack
       type: SANDSTONE
     name: 'T1 Compacted Sand'
-    craftable: true
-    shaped: false
     category: '<lightgreen>Tier 1 Materials'
-    ingredients:
-      - type_id: SAND
-        data: -1
-        count: 9
 
   # Checked 10/8/13
   mat_forged_clay:
