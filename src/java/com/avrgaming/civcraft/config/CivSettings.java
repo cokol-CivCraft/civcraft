@@ -24,19 +24,25 @@ import com.avrgaming.civcraft.exception.CivException;
 import com.avrgaming.civcraft.items.units.Unit;
 import com.avrgaming.civcraft.loreenhancements.LoreEnhancement;
 import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
+import com.avrgaming.civcraft.lorestorage.LoreMaterial;
 import com.avrgaming.civcraft.main.CivCraft;
 import com.avrgaming.civcraft.main.CivGlobal;
 import com.avrgaming.civcraft.main.CivLog;
 import com.avrgaming.civcraft.object.Town;
+import com.avrgaming.civcraft.provider.DefaultRecipeProvider;
 import com.avrgaming.civcraft.randomevents.ConfigRandomEvent;
 import com.avrgaming.civcraft.template.Template;
 import localize.Localize;
 import org.apache.commons.io.FileUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -251,10 +257,11 @@ public class CivSettings {
         LoreEnhancement.init();
         LoreCraftableMaterial.buildStaticMaterials();
         LoreCraftableMaterial.buildRecipes();
+        loadRecipes();
         Template.initAttachableTypes();
 
-        if (CivSettings.plugin.hasPlugin("TitleAPI")) {
-            hasTitleAPI = true;
+        hasTitleAPI = CivSettings.plugin.hasPlugin("TitleAPI");
+        if (hasTitleAPI) {
             CivLog.info("TitleAPI hooks enabled");
         } else {
             CivLog.warning("TitleAPI not found, not registering TitleAPI hooks. This is fine if you're not using TitleAPI.");
@@ -264,6 +271,18 @@ public class CivSettings {
 
         showPreview = structureConfig.getBoolean("shouldShowPreview", true);
 
+    }
+
+    private static void loadRecipes() {
+        for (Map.Entry<NamespacedKey, ConfigRecipe> recipe : DefaultRecipeProvider.provide().entrySet()) {
+            if (recipe.getValue() instanceof ConfigRecipeShapless config) {
+                ShapelessRecipe shapeless = new ShapelessRecipe(recipe.getKey(), LoreMaterial.spawn(config.material));
+                for (ItemStack itemStack : config.ingridients) {
+                    shapeless.addIngredient(itemStack.getAmount(), itemStack.getData());
+                }
+                Bukkit.getServer().addRecipe(shapeless);
+            }
+        }
     }
 
     private static void initRestrictedUndoBlocks() {

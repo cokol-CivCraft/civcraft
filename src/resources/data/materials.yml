@@ -97,74 +97,8 @@ materials:
       ==: org.bukkit.inventory.ItemStack
       type: STONE
     name: 'T1 Refined Stone'
-    craftable: true
-    shaped: false
     category: '<lightgreen>Tier 1 Materials'
-    ingredients:
-      - type_id: COBBLESTONE
-        data: -1
-        count: 9
-  
-  # Checked 10/8/13 delete?
-  mat_refined_stone_alt0:
-    item_id: STONE
-    item_data: 0
-    item:
-      ==: org.bukkit.inventory.ItemStack
-      type: STONE
-    name: 'T1 Refined Stone'
-    craftable: true
-    shaped: false
-    category: '<lightgreen>Tier 1 Materials'
-    ingredients:
-      - type_id: STONE
-        data: 1
-        count: 9
 
-  # Checked 10/8/13
-  mat_refined_stone_alt1:
-    item_id: STONE
-    item_data: 0
-    item:
-      ==: org.bukkit.inventory.ItemStack
-      type: STONE
-    name: 'T1 Refined Stone'
-    craftable: true
-    shaped: false
-    category: '<lightgreen>Tier 1 Materials'
-    ingredients:
-      - type_id: STONE
-        data: 3
-        count: 9
-
-  # Checked 10/8/13
-  mat_refined_stone_alt2:
-    item_id: STONE
-    item_data: 0
-    item:
-      ==: org.bukkit.inventory.ItemStack
-      type: STONE
-    name: 'T1 Refined Stone'
-    craftable: true
-    shaped: false
-    category: '<lightgreen>Tier 1 Materials'
-    ingredients:
-      - type_id: STONE
-        data: 5
-        count: 9
-  
-  # Replaced with gold block
-  #        mat_refined_gold:
-  #          item_id: 147
-  #          item_data: 0
-  #          name: 'Refined Gold'
-  #          craftable: true
-  #          shaped: false
-  #          category: '<lightgreen>Tier 1 Materials'
-  #          ingredients:
-  #              - type_id: GOLD_INGOT
-  #                data: 0
-  #                count: 9
 
   # Checked 10/8/13
   mat_refined_feathers:
@@ -6207,7 +6141,7 @@ removed_recipes:
       #    - type_id: IRON_HOE
       #      data: 0
       #    - type_id: GOLD_HOE
-      #      data: 0
+    #      data: 0
     #    - type_id: DIAMOND_HOE
     #      data: 0
   
