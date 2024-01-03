@@ -17,8 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.avrgaming.civcraft.provider.DefaultMaterialProvider.CARVED_LEATHER;
-import static com.avrgaming.civcraft.provider.DefaultMaterialProvider.REFINED_STONE;
+import static com.avrgaming.civcraft.provider.DefaultMaterialProvider.*;
 
 @ParametersAreNonnullByDefault
 public class DefaultRecipeProvider {
@@ -38,49 +37,24 @@ public class DefaultRecipeProvider {
                 .ingridient(new MaterialData(Material.COBBLESTONE).toItemStack(9))
                 .end();
         shapeless(CARVED_LEATHER).ingridient(new MaterialData(Material.LEATHER).toItemStack(9)).end();
-        shapeless(LoreCraftableMaterial.materials.get("mat_refined_feathers").getConfigMaterial()).ingridient(new MaterialData(Material.FEATHER).toItemStack(9)).end();
+        shapeless(REFINED_FEATHERS).ingridient(new MaterialData(Material.FEATHER).toItemStack(9)).end();
+        shapeless(FORGED_CLAY).ingridient(new MaterialData(Material.CLAY_BALL).toItemStack(9)).end();
+        shapeless(CRAFTED_STRING).ingridient(new MaterialData(Material.STRING).toItemStack(9)).end();
+        shapeless(CRAFTED_STICK).ingridient(new MaterialData(Material.STICK).toItemStack(9)).end();
+        shapeless(REFINED_SULPHUR).ingridient(new MaterialData(Material.SULPHUR).toItemStack(9)).end();
+        shapeless(COMPACTED_SAND).ingridient(new MaterialData(Material.SAND, (byte) -1).toItemStack(9)).end();
+        shapeless(CRAFTED_REEDS).ingridient(new MaterialData(Material.SUGAR_CANE).toItemStack(9)).end();
+
     }
 
     public static Map<NamespacedKey, ConfigRecipe> provide() {
         Map<NamespacedKey, ConfigRecipe> data = new HashMap<>(new DefaultRecipeProvider().entries);
-        data.put(
-                new NamespacedKey(CivCraft.getPlugin(), "mat_crafted_string"),
-                new ConfigRecipeShapless(
-                        LoreCraftableMaterial.materials.get("mat_crafted_string").getConfigMaterial(),
-                        new ItemStack[]{
-                                new MaterialData(Material.STRING).toItemStack(9)
-                        }
-                ));
         data.put(
                 new NamespacedKey(CivCraft.getPlugin(), "mat_crafted_reeds"),
                 new ConfigRecipeShapless(
                         LoreCraftableMaterial.materials.get("mat_crafted_reeds").getConfigMaterial(),
                         new ItemStack[]{
                                 new MaterialData(Material.SUGAR_CANE).toItemStack(9)
-                        }
-                ));
-        data.put(
-                new NamespacedKey(CivCraft.getPlugin(), "mat_crafted_sticks"),
-                new ConfigRecipeShapless(
-                        LoreCraftableMaterial.materials.get("mat_crafted_sticks").getConfigMaterial(),
-                        new ItemStack[]{
-                                new MaterialData(Material.STICK).toItemStack(9)
-                        }
-                ));
-        data.put(
-                new NamespacedKey(CivCraft.getPlugin(), "mat_refined_sulphur"),
-                new ConfigRecipeShapless(
-                        LoreCraftableMaterial.materials.get("mat_refined_sulphur").getConfigMaterial(),
-                        new ItemStack[]{
-                                new MaterialData(Material.SULPHUR).toItemStack(9)
-                        }
-                ));
-        data.put(
-                new NamespacedKey(CivCraft.getPlugin(), "mat_compacted_sand"),
-                new ConfigRecipeShapless(
-                        LoreCraftableMaterial.materials.get("mat_compacted_sand").getConfigMaterial(),
-                        new ItemStack[]{
-                                new MaterialData(Material.SAND, (byte) -1).toItemStack(9)
                         }
                 ));
         return data;

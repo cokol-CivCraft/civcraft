@@ -73,27 +73,6 @@ materials:
   # Primary Materials, Tier 1
   #
 
-
-  # Checked 10/8/13
-  mat_refined_feathers:
-    item_id: QUARTZ
-    item_data: 0
-    item:
-      ==: org.bukkit.inventory.ItemStack
-      type: QUARTZ
-    name: 'T1 Packed Feathers'
-    category: '<lightgreen>Tier 1 Materials'
-  
-  # Checked 10/8/13
-  mat_crafted_string:
-    item_id: STRING
-    item_data: 0
-    item:
-      ==: org.bukkit.inventory.ItemStack
-      type: STRING
-    name: 'T1 Crafted String'
-    category: '<lightgreen>Tier 1 Materials'
-
   # Checked 10/8/13
   mat_refined_slime:
     item_id: SLIME_BALL
@@ -110,63 +89,6 @@ materials:
         custom_id: 'mat_vanilla_slime'
         data: 0
         count: 2
-
-  # Checked 10/8/13
-  mat_crafted_reeds:
-    item_id: SUGAR_CANE
-    item_data: 0
-    item:
-      ==: org.bukkit.inventory.ItemStack
-      type: SUGAR_CANE
-    name: 'T1 Crafted Reeds'
-    tradeable: true
-    tradeValue: 0.5
-    category: '<lightgreen>Tier 1 Materials'
-
-  # Checked 10/8/13
-  mat_crafted_sticks:
-    item_id: STICK
-    item_data: 0
-    item:
-      ==: org.bukkit.inventory.ItemStack
-      type: STICK
-    name: 'T1 Crafted Sticks'
-    category: '<lightgreen>Tier 1 Materials'
-
-  # Checked 10/8/13
-  mat_refined_sulphur:
-    item_id: SULPHUR
-    item_data: 0
-    item:
-      ==: org.bukkit.inventory.ItemStack
-      type: SULPHUR
-    name: 'T1 Refined Sulphur'
-    category: '<lightgreen>Tier 1 Materials'
-
-  mat_compacted_sand:
-    item_id: SANDSTONE
-    item_data: 1
-    item:
-      ==: org.bukkit.inventory.ItemStack
-      type: SANDSTONE
-    name: 'T1 Compacted Sand'
-    category: '<lightgreen>Tier 1 Materials'
-
-  # Checked 10/8/13
-  mat_forged_clay:
-    item_id: CLAY_BRICK
-    item_data: 0
-    item:
-      ==: org.bukkit.inventory.ItemStack
-      type: CLAY_BRICK
-    name: 'T1 Forged Clay'
-    craftable: true
-    shaped: false
-    category: '<lightgreen>Tier 1 Materials'
-    ingredients:
-      - type_id: CLAY_BALL
-        data: 0
-        count: 9
 
   # Checked 10/8/13
   mat_refined_sugar:
