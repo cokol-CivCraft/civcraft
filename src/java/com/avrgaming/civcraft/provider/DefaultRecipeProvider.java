@@ -2,8 +2,8 @@ package com.avrgaming.civcraft.provider;
 
 import com.avrgaming.civcraft.config.ConfigMaterial;
 import com.avrgaming.civcraft.config.ConfigRecipe;
+import com.avrgaming.civcraft.config.ConfigRecipeShaped;
 import com.avrgaming.civcraft.config.ConfigRecipeShapless;
-import com.avrgaming.civcraft.lorestorage.LoreCraftableMaterial;
 import com.avrgaming.civcraft.main.CivCraft;
 import com.avrgaming.civcraft.main.CivData;
 import org.bukkit.Material;
@@ -45,19 +45,11 @@ public class DefaultRecipeProvider {
         shapeless(COMPACTED_SAND).ingridient(new MaterialData(Material.SAND, (byte) -1).toItemStack(9)).end();
         shapeless(CRAFTED_REEDS).ingridient(new MaterialData(Material.SUGAR_CANE).toItemStack(9)).end();
 
+
     }
 
     public static Map<NamespacedKey, ConfigRecipe> provide() {
-        Map<NamespacedKey, ConfigRecipe> data = new HashMap<>(new DefaultRecipeProvider().entries);
-        data.put(
-                new NamespacedKey(CivCraft.getPlugin(), "mat_crafted_reeds"),
-                new ConfigRecipeShapless(
-                        LoreCraftableMaterial.materials.get("mat_crafted_reeds").getConfigMaterial(),
-                        new ItemStack[]{
-                                new MaterialData(Material.SUGAR_CANE).toItemStack(9)
-                        }
-                ));
-        return data;
+        return new HashMap<>(new DefaultRecipeProvider().entries);
     }
 
     private BuilderShapeless shapeless(ConfigMaterial material) {
@@ -89,6 +81,42 @@ public class DefaultRecipeProvider {
 
         public ConfigRecipeShapless end() {
             var conf = new ConfigRecipeShapless(this.material, ingridents.toArray(new ItemStack[0]));
+            entries.put(key, conf);
+            return conf;
+        }
+    }
+
+    private BuilderShaped shaped(ConfigMaterial material, String[] rows) {
+        return shaped(new NamespacedKey(CivCraft.getPlugin(), material.id), material, rows);
+    }
+
+    private BuilderShaped shaped(ConfigMaterial material, String alt, String[] rows) {
+        return shaped(new NamespacedKey(CivCraft.getPlugin(), material.id + "_" + alt), material, rows);
+    }
+
+    private BuilderShaped shaped(NamespacedKey key, ConfigMaterial material, String[] rows) {
+        return new BuilderShaped(key, material, rows);
+    }
+
+    private class BuilderShaped {
+        private final NamespacedKey key;
+        private final ConfigMaterial material;
+        private final String[] rows;
+        private final Map<Character, ItemStack> ingredients = new HashMap<>();
+
+        public BuilderShaped(NamespacedKey key, ConfigMaterial material, String[] rows) {
+            this.key = key;
+            this.material = material;
+            this.rows = rows;
+        }
+
+        public BuilderShaped ingridient(Character key, ItemStack stack) {
+            this.ingredients.put(key, stack);
+            return this;
+        }
+
+        public ConfigRecipeShaped end() {
+            var conf = new ConfigRecipeShaped(this.material, rows, ingredients);
             entries.put(key, conf);
             return conf;
         }

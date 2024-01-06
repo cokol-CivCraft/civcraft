@@ -281,6 +281,8 @@ public class CivSettings {
                     shapeless.addIngredient(itemStack.getAmount(), itemStack.getData());
                 }
                 Bukkit.getServer().addRecipe(shapeless);
+            } else if (recipe.getValue() instanceof ConfigRecipeShaped config) {
+
             }
         }
     }
