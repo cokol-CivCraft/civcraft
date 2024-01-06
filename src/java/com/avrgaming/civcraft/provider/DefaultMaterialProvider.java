@@ -167,6 +167,207 @@ public class DefaultMaterialProvider {
                     .tradeValue(5.0)
                     .noRightClick().category("<lightgreen>Fish Tier 1").end();
 
+    public static final ConfigMaterial FISH_BROWN_TROUT =
+            material(
+                    "mat_fish_brown_trout",
+                    "Brown Trout",
+                    new MaterialData(Material.RAW_FISH))
+                    .tradeValue(5.0)
+                    .shiny()
+                    .noRightClick().category("<lightgreen>Fish Tier 1").end();
+
+    public static final ConfigMaterial FISH_BROOK_TROUT =
+            material(
+                    "mat_fish_brook_trout",
+                    "Brook Trout",
+                    new MaterialData(Material.RAW_FISH, (byte) 1))
+                    .tradeValue(10.0)
+                    .shiny()
+                    .noRightClick().category("<lightblue>Fish Tier 2").end();
+
+    public static final ConfigMaterial FISH_CUTTHROAT_TROUT =
+            material(
+                    "mat_fish_cutthroat_trout",
+                    "Cutthroat Trout",
+                    new MaterialData(Material.RAW_FISH, (byte) 1))
+                    .tradeValue(250.0)
+                    .shiny()
+                    .noRightClick().category("<lightpurple>Fish Tier 3").end();
+
+    public static final ConfigMaterial FISH_RAINBOW_TROUT =
+            material(
+                    "mat_fish_rainbow_trout",
+                    "Rainbow Trout",
+                    new MaterialData(Material.RAW_FISH, (byte) 1))
+                    .tradeValue(2500.0)
+                    .shiny()
+                    .noRightClick().category("<gold>Fish Tier 4").end();
+
+    public static final ConfigMaterial FISH_ATLANTIC_STRIPED_BASS =
+            material(
+                    "mat_fish_atlantic_striped_bass",
+                    "Atlantic Striped Bass",
+                    new MaterialData(Material.COOKED_FISH))
+                    .tradeValue(5.0)
+                    .shiny()
+                    .noRightClick().category("<lightgreen>Fish Tier 1").end();
+
+    public static final ConfigMaterial FISH_PACIFIC_OCEAN_PERCH =
+            material(
+                    "mat_fish_pacific_ocean_perch",
+                    "Pacific Ocean Perch",
+                    new MaterialData(Material.RAW_FISH, (byte) 1))
+                    .tradeValue(10.0)
+                    .shiny()
+                    .noRightClick().category("<lightblue>Fish Tier 2").end();
+
+    public static final ConfigMaterial FISH_ACADIAN_REDFISH =
+            material(
+                    "mat_fish_acadian_redfish",
+                    "Acadian Redfish",
+                    new MaterialData(Material.RAW_FISH, (byte) 2))
+                    .tradeValue(250.0)
+                    .shiny()
+                    .noRightClick().category("<lightpurple>Fish Tier 3").end();
+
+    public static final ConfigMaterial FISH_WIDOW_ROCKFISH =
+            material(
+                    "mat_fish_widow_rockfish",
+                    "Widow Rockfish",
+                    new MaterialData(Material.RAW_FISH))
+                    .tradeValue(2500.0)
+                    .shiny()
+                    .noRightClick().category("<gold>Fish Tier 4").end();
+
+    public static final ConfigMaterial FISH_ATLANTIC_SURFCLAM =
+            material(
+                    "mat_fish_atlantic_surfclam",
+                    "Atlantic Surf Clam",
+                    new MaterialData(Material.SUGAR))
+                    .tradeValue(5.0)
+                    .shiny()
+                    .noRightClick().category("<lightgreen>Fish Tier 1").end();
+
+    public static final ConfigMaterial FISH_OCEAN_QUAHOG =
+            material(
+                    "mat_fish_ocean_quahog",
+                    "Ocean Quahog",
+                    new MaterialData(Material.SULPHUR))
+                    .tradeValue(10.0)
+                    .shiny()
+                    .noRightClick().category("<lightblue>Fish Tier 2").end();
+    public static final ConfigMaterial FISH_NORTHERN_QUAHOG =
+            material(
+                    "mat_fish_northern_quahog",
+                    "Northern Quahog",
+                    new MaterialData(Material.CLAY_BALL))
+                    .tradeValue(250.0)
+                    .shiny()
+                    .noRightClick().category("<lightpurple>Fish Tier 3").end();
+    public static final ConfigMaterial FISH_GEODUCK =
+            material(
+                    "mat_fish_geoduck",
+                    "Geoduck",
+                    new MaterialData(Material.RABBIT_FOOT))
+                    .tradeValue(2500.0)
+                    .shiny()
+                    .noRightClick().category("<gold>Fish Tier 4").end();
+    public static final ConfigMaterial FISH_ATLANTIC_COD =
+            material(
+                    "mat_fish_atlantic_cod",
+                    "Atlantic Cod",
+                    new MaterialData(Material.COOKED_FISH))
+                    .tradeValue(5.0)
+                    .shiny()
+                    .noRightClick().category("<lightgreen>Fish Tier 1").end();
+    public static final ConfigMaterial FISH_PACIFIC_COD =
+            material(
+                    "mat_fish_pacific_cod",
+                    "Pacific Cod",
+                    new MaterialData(Material.RAW_FISH, (byte) 1))
+                    .tradeValue(10.0)
+                    .shiny()
+                    .noRightClick().category("<lightblue>Fish Tier 2").end();
+    public static final ConfigMaterial FISH_LINGCOD =
+            material(
+                    "mat_fish_lingcod",
+                    "Lingcod",
+                    new MaterialData(Material.COOKED_FISH, (byte) 1))
+                    .tradeValue(250.0)
+                    .shiny()
+                    .noRightClick().category("<lightpurple>Fish Tier 3").end();
+    public static final ConfigMaterial FISH_SABLEFISH =
+            material(
+                    "mat_fish_sablefish",
+                    "Sablefish",
+                    new MaterialData(Material.RAW_FISH))
+                    .tradeValue(2500.0)
+                    .shiny()
+                    .noRightClick().category("<gold>Fish Tier 4").end();
+    public static final ConfigMaterial FISH_ARROWTOOTH_FLOUNDER =
+            material(
+                    "mat_fish_arrowtooth_flounder",
+                    "Arrowtooth Flounder",
+                    new MaterialData(Material.RAW_FISH, (byte) 3))
+                    .tradeValue(5.0)
+                    .shiny()
+                    .noRightClick().category("<lightgreen>Fish Tier 1").end();
+    public static final ConfigMaterial FISH_SUMMER_FLOUNDER =
+            material(
+                    "mat_fish_summer_flounder",
+                    "Summer Flounder",
+                    new MaterialData(Material.RAW_FISH, (byte) 3))
+                    .tradeValue(10.0)
+                    .shiny()
+                    .noRightClick().category("<lightblue>Fish Tier 2").end();
+    public static final ConfigMaterial FISH_WINTER_FLOUNDER =
+            material(
+                    "mat_fish_winter_flounder",
+                    "Winter Flounder",
+                    new MaterialData(Material.RAW_FISH, (byte) 3))
+                    .tradeValue(250.0)
+                    .shiny()
+                    .noRightClick().category("<lightpurple>Fish Tier 3").end();
+    public static final ConfigMaterial FISH_YELLOWTAIL_FLOUNDER =
+            material(
+                    "mat_fish_yellowtail_flounder",
+                    "Yellowtail Flounder",
+                    new MaterialData(Material.RAW_FISH, (byte) 3))
+                    .tradeValue(2500.0)
+                    .shiny()
+                    .noRightClick().category("<gold>Fish Tier 4").end();
+    public static final ConfigMaterial FISH_GAG_GROUPER =
+            material(
+                    "mat_fish_gag_grouper",
+                    "Gag Grouper",
+                    new MaterialData(Material.RAW_FISH, (byte) 1))
+                    .tradeValue(5.0)
+                    .shiny()
+                    .noRightClick().category("<lightgreen>Fish Tier 1").end();
+    public static final ConfigMaterial FISH_RED_GROUPER =
+            material(
+                    "mat_fish_red_grouper",
+                    "Red Grouper",
+                    new MaterialData(Material.RAW_FISH, (byte) 2))
+                    .tradeValue(10.0)
+                    .shiny()
+                    .noRightClick().category("<lightblue>Fish Tier 2").end();
+    public static final ConfigMaterial FISH_BLACK_SEA_BASS =
+            material(
+                    "mat_fish_black_sea_bass",
+                    "Black Sea Bass",
+                    new MaterialData(Material.RAW_FISH))
+                    .tradeValue(250.0)
+                    .shiny()
+                    .noRightClick().category("<lightpurple>Fish Tier 3").end();
+    public static final ConfigMaterial FISH_WRECKFISH =
+            material(
+                    "mat_fish_wreckfish",
+                    "Wreckfish",
+                    new MaterialData(Material.COOKED_FISH))
+                    .tradeValue(2500.0)
+                    .shiny()
+                    .noRightClick().category("<gold>Fish Tier 4").end();
     private static Builder material(String id, String name, MaterialData data) {
         return new Builder(id, name, data);
     }
@@ -186,6 +387,10 @@ public class DefaultMaterialProvider {
         }
 
         public Builder noRightClick() {
+            return this;
+        }
+
+        public Builder shiny() {
             return this;
         }
         public Builder tradeValue(double value) {
