@@ -47,7 +47,27 @@ public class DefaultRecipeProvider {
         shapeless(CRAFTED_REEDS).ingridient(new MaterialData(Material.SUGAR_CANE).toItemStack(9)).end();
 
         eggs(new MaterialData(Material.SULPHUR).toItemStack(1), CREEPER_EGG, CREEPER_EGG_2, CREEPER_EGG_3, CREEPER_EGG_4);
+        eggs(new MaterialData(Material.BONE).toItemStack(1), SKELETON_EGG, SKELETON_EGG_2, SKELETON_EGG_3, SKELETON_EGG_4);
+        eggs(new MaterialData(Material.SPIDER_EYE).toItemStack(1), SPIDER_EGG, SPIDER_EGG_2, SPIDER_EGG_3, SPIDER_EGG_4);
+        eggs(new MaterialData(Material.ROTTEN_FLESH).toItemStack(1), ZOMBIE_EGG, ZOMBIE_EGG_2, ZOMBIE_EGG_3, ZOMBIE_EGG_4);
+        eggs(new MaterialData(Material.SLIME_BALL).toItemStack(1), SLIME_EGG, SLIME_EGG_2, SLIME_EGG_3, SLIME_EGG_4);
+        eggs(new MaterialData(Material.ENDER_PEARL).toItemStack(1), ENDERMAN_EGG, ENDERMAN_EGG_2, ENDERMAN_EGG_3, ENDERMAN_EGG_4);
+        shaped(
+                ENDERMAN_EGG,
+                new String[]{
+                        " t ",
+                        "tet",
+                        " t "
+                })
+                .ingridient('t', new MaterialData(Material.ENDER_PEARL).toItemStack(1))
+                .ingridient('e', LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_fragment_1")))
+                .end();
 
+        eggs(new MaterialData(Material.GRILLED_PORK).toItemStack(1), PIG_EGG, PIG_EGG_2, PIG_EGG_3, PIG_EGG_4);
+        eggs(new MaterialData(Material.COOKED_BEEF).toItemStack(1), COW_EGG, COW_EGG_2, COW_EGG_3, COW_EGG_4);
+        eggs(new MaterialData(Material.COBBLESTONE).toItemStack(1), SHEEP_EGG, SHEEP_EGG_2, SHEEP_EGG_3, SHEEP_EGG_4);
+        eggs(new MaterialData(Material.COOKED_CHICKEN).toItemStack(1), CHICKEN_EGG, CHICKEN_EGG_2, CHICKEN_EGG_3, CHICKEN_EGG_4);
+        eggs(new MaterialData(Material.COOKED_RABBIT).toItemStack(1), RABBIT_EGG, RABBIT_EGG_2, RABBIT_EGG_3, RABBIT_EGG_4);
 
     }
 
