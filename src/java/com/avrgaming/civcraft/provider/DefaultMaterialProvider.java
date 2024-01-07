@@ -132,6 +132,26 @@ public class DefaultMaterialProvider {
                     new MaterialData(Material.SPIDER_EYE))
                     .tradeValue(0.2)
                     .noRightClick().category("<lightpurple>Fishing Junk").end();
+    public static final ConfigMaterial MERCURY =
+            material(
+                    "mat_mercury",
+                    "Mercury",
+                    new MaterialData(Material.MELON_SEEDS))
+                    .noRightClick()
+                    .category("<lightblue>Tier 1 Materials").end();
+    public static final ConfigMaterial MERCURY_BATH =
+            material(
+                    "mat_mercury_bath",
+                    "T2 Mercury Bath",
+                    new MaterialData(Material.ENDER_PEARL))
+                    .noRightClick()
+                    .category("<lightblue>Tier 2 Materials").end();
+    public static final ConfigMaterial INDUSTRIAL_DIAMOND =
+            material(
+                    "mat_industrial_diamond",
+                    "T2 Industrial Diamond",
+                    new MaterialData(Material.DIAMOND))
+                    .category("<lightblue>Tier 2 Materials").end();
 
     public static final ConfigMaterial FISH_FISH =
             material(

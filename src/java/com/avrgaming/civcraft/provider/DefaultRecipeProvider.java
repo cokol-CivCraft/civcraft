@@ -26,25 +26,32 @@ public class DefaultRecipeProvider {
 
     public DefaultRecipeProvider() {
         shapeless(REFINED_STONE, "granite")
-                .ingridient(new MaterialData(Material.STONE, (byte) CivData.GRANITE).toItemStack(9))
+                .ingredient(new MaterialData(Material.STONE, (byte) CivData.GRANITE).toItemStack(9))
                 .end();
         shapeless(REFINED_STONE, "diorite")
-                .ingridient(new MaterialData(Material.STONE, (byte) CivData.DIORITE).toItemStack(9))
+                .ingredient(new MaterialData(Material.STONE, (byte) CivData.DIORITE).toItemStack(9))
                 .end();
         shapeless(REFINED_STONE, "andesite")
-                .ingridient(new MaterialData(Material.STONE, (byte) CivData.ANDESITE).toItemStack(9))
+                .ingredient(new MaterialData(Material.STONE, (byte) CivData.ANDESITE).toItemStack(9))
                 .end();
         shapeless(REFINED_STONE, "cobblestone")
-                .ingridient(new MaterialData(Material.COBBLESTONE).toItemStack(9))
+                .ingredient(new MaterialData(Material.COBBLESTONE).toItemStack(9))
                 .end();
-        shapeless(CARVED_LEATHER).ingridient(new MaterialData(Material.LEATHER).toItemStack(9)).end();
-        shapeless(REFINED_FEATHERS).ingridient(new MaterialData(Material.FEATHER).toItemStack(9)).end();
-        shapeless(FORGED_CLAY).ingridient(new MaterialData(Material.CLAY_BALL).toItemStack(9)).end();
-        shapeless(CRAFTED_STRING).ingridient(new MaterialData(Material.STRING).toItemStack(9)).end();
-        shapeless(CRAFTED_STICK).ingridient(new MaterialData(Material.STICK).toItemStack(9)).end();
-        shapeless(REFINED_SULPHUR).ingridient(new MaterialData(Material.SULPHUR).toItemStack(9)).end();
-        shapeless(COMPACTED_SAND).ingridient(new MaterialData(Material.SAND, (byte) -1).toItemStack(9)).end();
-        shapeless(CRAFTED_REEDS).ingridient(new MaterialData(Material.SUGAR_CANE).toItemStack(9)).end();
+        shapeless(CARVED_LEATHER).ingredient(new MaterialData(Material.LEATHER).toItemStack(9)).end();
+        shapeless(REFINED_FEATHERS).ingredient(new MaterialData(Material.FEATHER).toItemStack(9)).end();
+        shapeless(FORGED_CLAY).ingredient(new MaterialData(Material.CLAY_BALL).toItemStack(9)).end();
+        shapeless(CRAFTED_STRING).ingredient(new MaterialData(Material.STRING).toItemStack(9)).end();
+        shapeless(CRAFTED_STICK).ingredient(new MaterialData(Material.STICK).toItemStack(9)).end();
+        shapeless(REFINED_SULPHUR).ingredient(new MaterialData(Material.SULPHUR).toItemStack(9)).end();
+        shapeless(COMPACTED_SAND).ingredient(new MaterialData(Material.SAND, (byte) -1).toItemStack(9)).end();
+        shapeless(CRAFTED_REEDS).ingredient(new MaterialData(Material.SUGAR_CANE).toItemStack(9)).end();
+
+        shapeless(MERCURY)
+                .ingredient(new MaterialData(Material.IRON_BLOCK).toItemStack(1))
+                .ingredient(new MaterialData(Material.GOLD_BLOCK).toItemStack(1))
+                .ingredient(new MaterialData(Material.EMERALD_BLOCK).toItemStack(1)).end();
+        shapeless(MERCURY_BATH).ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(MERCURY.id), 9)).end();
+        shapeless(INDUSTRIAL_DIAMOND).ingredient(new MaterialData(Material.DIAMOND_BLOCK).toItemStack(3)).end();
 
         eggs(new MaterialData(Material.SULPHUR).toItemStack(1), CREEPER_EGG, CREEPER_EGG_2, CREEPER_EGG_3, CREEPER_EGG_4);
         eggs(new MaterialData(Material.BONE).toItemStack(1), SKELETON_EGG, SKELETON_EGG_2, SKELETON_EGG_3, SKELETON_EGG_4);
@@ -59,8 +66,8 @@ public class DefaultRecipeProvider {
                         "tet",
                         " t "
                 })
-                .ingridient('t', new MaterialData(Material.ENDER_PEARL).toItemStack(1))
-                .ingridient('e', LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_fragment_1")))
+                .ingredient('t', new MaterialData(Material.ENDER_PEARL).toItemStack(1))
+                .ingredient('e', LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_fragment_1")))
                 .end();
 
         eggs(new MaterialData(Material.GRILLED_PORK).toItemStack(1), PIG_EGG, PIG_EGG_2, PIG_EGG_3, PIG_EGG_4);
@@ -68,7 +75,6 @@ public class DefaultRecipeProvider {
         eggs(new MaterialData(Material.COBBLESTONE).toItemStack(1), SHEEP_EGG, SHEEP_EGG_2, SHEEP_EGG_3, SHEEP_EGG_4);
         eggs(new MaterialData(Material.COOKED_CHICKEN).toItemStack(1), CHICKEN_EGG, CHICKEN_EGG_2, CHICKEN_EGG_3, CHICKEN_EGG_4);
         eggs(new MaterialData(Material.COOKED_RABBIT).toItemStack(1), RABBIT_EGG, RABBIT_EGG_2, RABBIT_EGG_3, RABBIT_EGG_4);
-
     }
 
     private void eggs(ItemStack stack, ConfigMaterial egg1, ConfigMaterial egg2, ConfigMaterial egg3, ConfigMaterial egg4) {
@@ -79,8 +85,8 @@ public class DefaultRecipeProvider {
                         "tet",
                         "ttt"
                 })
-                .ingridient('t', stack)
-                .ingridient('e', LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_fragment_1")))
+                .ingredient('t', stack)
+                .ingredient('e', LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_fragment_1")))
                 .end();
         shaped(
                 egg2,
@@ -89,8 +95,8 @@ public class DefaultRecipeProvider {
                         "cec",
                         " c "
                 })
-                .ingridient('e', LoreMaterial.spawn(LoreMaterial.materialMap.get(egg1.id)))
-                .ingridient('c', LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_1")))
+                .ingredient('e', LoreMaterial.spawn(LoreMaterial.materialMap.get(egg1.id)))
+                .ingredient('c', LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_1")))
                 .end();
         shaped(
                 egg3,
@@ -99,8 +105,8 @@ public class DefaultRecipeProvider {
                         "cec",
                         " c "
                 })
-                .ingridient('e', LoreMaterial.spawn(LoreMaterial.materialMap.get(egg2.id)))
-                .ingridient('c', LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_2")))
+                .ingredient('e', LoreMaterial.spawn(LoreMaterial.materialMap.get(egg2.id)))
+                .ingredient('c', LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_2")))
                 .end();
         shaped(
                 egg4,
@@ -109,8 +115,8 @@ public class DefaultRecipeProvider {
                         "cec",
                         " c "
                 })
-                .ingridient('e', LoreMaterial.spawn(LoreMaterial.materialMap.get(egg3.id)))
-                .ingridient('c', LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_3")))
+                .ingredient('e', LoreMaterial.spawn(LoreMaterial.materialMap.get(egg3.id)))
+                .ingredient('c', LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_3")))
                 .end();
     }
 
@@ -133,20 +139,20 @@ public class DefaultRecipeProvider {
     private class BuilderShapeless {
         private final NamespacedKey key;
         private final ConfigMaterial material;
-        private final List<ItemStack> ingridents = new ArrayList<>();
+        private final List<ItemStack> ingredients = new ArrayList<>();
 
         public BuilderShapeless(NamespacedKey key, ConfigMaterial material) {
             this.key = key;
             this.material = material;
         }
 
-        public BuilderShapeless ingridient(ItemStack stack) {
-            ingridents.add(stack);
+        public BuilderShapeless ingredient(ItemStack stack) {
+            ingredients.add(stack);
             return this;
         }
 
         public ConfigRecipeShapless end() {
-            var conf = new ConfigRecipeShapless(this.material, ingridents.toArray(new ItemStack[0]));
+            var conf = new ConfigRecipeShapless(this.material, ingredients.toArray(new ItemStack[0]));
             entries.put(key, conf);
             return conf;
         }
@@ -176,7 +182,7 @@ public class DefaultRecipeProvider {
             this.rows = rows;
         }
 
-        public BuilderShaped ingridient(Character key, ItemStack stack) {
+        public BuilderShaped ingredient(Character key, ItemStack stack) {
             this.ingredients.put(key, stack);
             return this;
         }

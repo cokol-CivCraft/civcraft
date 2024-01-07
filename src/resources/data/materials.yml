@@ -3258,56 +3258,6 @@ materials:
         custom_id: 'mat_ionic_crystal_fragment_4'
         data: 0
         count: 9
-
-  mat_mercury:
-    item_id: MELON_SEEDS
-    item_data: 0
-    item:
-      ==: org.bukkit.inventory.ItemStack
-      type: MELON_SEEDS
-    name: 'Mercury'
-    shaped: false
-    craftable: true
-    category: '<lightgreen>Tier 1 Materials'
-    ingredients:
-      - type_id: GOLD_BLOCK
-        data: 0
-        count: 1
-      - type_id: IRON_BLOCK
-        data: 0
-        count: 1
-      - type_id: EMERALD_BLOCK
-        data: 0
-        count: 1
-
-  mat_mercury_bath:
-    item_id: ENDER_PEARL
-    item_data: 0
-    name: 'T2 Mercury Bath'
-    shaped: false
-    craftable: true
-    category: '<lightblue>Tier 2 Materials'
-    components:
-      - name: 'NoRightClick'
-    ingredients:
-      - type_id: AIR
-        custom_id: 'mat_mercury'
-        data: 0
-        count: 9
-
-  mat_industrial_diamond:
-    item_id: DIAMOND
-    item_data: 0
-    name: 'T2 Industrial Diamond'
-    shaped: false
-    craftable: true
-    category: '<lightblue>Tier 2 Materials'
-    components:
-      - name: 'NoRightClick'
-    ingredients:
-      - type_id: DIAMOND_BLOCK
-        data: 0
-        count: 3
   
   # --======================= Catalysts ====================================
   mat_common_attack_catalyst:
