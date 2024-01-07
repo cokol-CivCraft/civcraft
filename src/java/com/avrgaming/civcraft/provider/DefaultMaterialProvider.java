@@ -72,17 +72,41 @@ public class DefaultMaterialProvider {
             material(
                     "mat_crafted_reeds",
                     "T1 Crafted Reeds",
-                    new MaterialData(Material.SUGAR_CANE)
-            )
+                    new MaterialData(Material.SUGAR_CANE))
                     .tradeValue(0.5)
+                    .category("<lightgreen>Tier 1 Materials").end();
+    public static final ConfigMaterial REFINED_SUGAR =
+            material(
+                    "mat_refined_sugar",
+                    "T1 Refined Sugar",
+                    new MaterialData(Material.SUGAR))
+                    .category("<lightgreen>Tier 1 Materials").end();
+    public static final ConfigMaterial REFINED_WART =
+            material(
+                    "mat_refined_wart",
+                    "T1 Refined Wart",
+                    new MaterialData(Material.NETHER_STALK))
+                    .category("<lightgreen>Tier 1 Materials").end();
+
+    public static final ConfigMaterial REFINED_WOOD =
+            material(
+                    "mat_refined_wood",
+                    "T1 Refined Wood",
+                    new MaterialData(Material.WOOD_STEP))
                     .category("<lightgreen>Tier 1 Materials").end();
     public static final ConfigMaterial CHROMIUM_ORE =
             material(
                     "mat_chromium_ore",
                     "Chromium Ore",
-                    new MaterialData(Material.GHAST_TEAR)
-            )
+                    new MaterialData(Material.GHAST_TEAR))
                     .tradeValue(0.1)
+                    .category("<lightgreen>Tier 1 Materials").end();
+
+    public static final ConfigMaterial FORGED_CHROMIUM =
+            material(
+                    "mat_forged_chromium",
+                    "T1 Forged Chromium",
+                    new MaterialData(Material.IRON_INGOT))
                     .category("<lightgreen>Tier 1 Materials").end();
 
     public static final ConfigMaterial TUNGSTEN_ORE =
@@ -92,6 +116,14 @@ public class DefaultMaterialProvider {
                     new MaterialData(Material.FIREBALL))
                     .tradeValue(0.5)
                     .noRightClick().category("<lightgreen>Tier 1 Materials").end();
+
+    public static final ConfigMaterial FORGED_TUNGSTEN =
+            material(
+                    "mat_forged_tungsten",
+                    "T1 Forged Tungsten",
+                    new MaterialData(Material.EMERALD_BLOCK))
+                    .noRightClick()
+                    .category("<lightgreen>Tier 1 Materials").end();
 
     public static final ConfigMaterial POND_SCUM =
             material(

@@ -45,6 +45,13 @@ public class DefaultRecipeProvider {
         shapeless(REFINED_SULPHUR).ingredient(new MaterialData(Material.SULPHUR).toItemStack(9)).end();
         shapeless(COMPACTED_SAND).ingredient(new MaterialData(Material.SAND, (byte) -1).toItemStack(9)).end();
         shapeless(CRAFTED_REEDS).ingredient(new MaterialData(Material.SUGAR_CANE).toItemStack(9)).end();
+        shapeless(REFINED_SUGAR).ingredient(new MaterialData(Material.SUGAR).toItemStack(9)).end();
+        shapeless(REFINED_WART).ingredient(new MaterialData(Material.NETHER_STALK).toItemStack(9)).end();
+        shapeless(REFINED_WOOD, "1").ingredient(new MaterialData(Material.LOG, (byte) -1).toItemStack(9)).end();
+        shapeless(REFINED_WOOD, "2").ingredient(new MaterialData(Material.LOG_2, (byte) -1).toItemStack(9)).end();
+        shapeless(FORGED_CHROMIUM).ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(CHROMIUM_ORE.id), 9)).end();
+        shapeless(FORGED_TUNGSTEN).ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(TUNGSTEN_ORE.id), 9)).end();
+
 
         shapeless(MERCURY)
                 .ingredient(new MaterialData(Material.IRON_BLOCK).toItemStack(1))
