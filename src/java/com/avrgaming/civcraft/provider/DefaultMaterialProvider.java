@@ -366,77 +366,77 @@ public class DefaultMaterialProvider {
                     .tradeValue(2500.0)
                     .shiny()
                     .noRightClick().category("<gold>Fish Tier 4").end();
-    public static final ConfigMaterial CREEPER_EGG = egg1("mat_creeper_egg", "Creeper Egg", EntityType.CREEPER).end();
-    public static final ConfigMaterial CREEPER_EGG_2 = egg2("mat_creeper_egg_2", "Creeper Egg 2", EntityType.CREEPER).end();
-    public static final ConfigMaterial CREEPER_EGG_3 = egg3("mat_creeper_egg_3", "Creeper Egg 3", EntityType.CREEPER).end();
-    public static final ConfigMaterial CREEPER_EGG_4 = egg4("mat_creeper_egg_4", "Creeper Egg 4", EntityType.CREEPER).end();
+    public static final ConfigMaterial CREEPER_EGG = eggHostile1("mat_creeper_egg", "Creeper Egg", EntityType.CREEPER).end();
+    public static final ConfigMaterial CREEPER_EGG_2 = eggHostile2("mat_creeper_egg_2", "Creeper Egg 2", EntityType.CREEPER).end();
+    public static final ConfigMaterial CREEPER_EGG_3 = eggHostile3("mat_creeper_egg_3", "Creeper Egg 3", EntityType.CREEPER).end();
+    public static final ConfigMaterial CREEPER_EGG_4 = eggHostile4("mat_creeper_egg_4", "Creeper Egg 4", EntityType.CREEPER).end();
 
 
-    public static final ConfigMaterial SKELETON_EGG = egg1("mat_skeleton_egg", "Skeleton Egg", EntityType.SKELETON).end();
-    public static final ConfigMaterial SKELETON_EGG_2 = egg2("mat_skeleton_egg_2", "Skeleton Egg 2", EntityType.SKELETON).end();
-    public static final ConfigMaterial SKELETON_EGG_3 = egg3("mat_skeleton_egg_3", "Skeleton Egg 3", EntityType.SKELETON).end();
-    public static final ConfigMaterial SKELETON_EGG_4 = egg4("mat_skeleton_egg_4", "Skeleton Egg 4", EntityType.SKELETON).end();
+    public static final ConfigMaterial SKELETON_EGG = eggHostile1("mat_skeleton_egg", "Skeleton Egg", EntityType.SKELETON).end();
+    public static final ConfigMaterial SKELETON_EGG_2 = eggHostile2("mat_skeleton_egg_2", "Skeleton Egg 2", EntityType.SKELETON).end();
+    public static final ConfigMaterial SKELETON_EGG_3 = eggHostile3("mat_skeleton_egg_3", "Skeleton Egg 3", EntityType.SKELETON).end();
+    public static final ConfigMaterial SKELETON_EGG_4 = eggHostile4("mat_skeleton_egg_4", "Skeleton Egg 4", EntityType.SKELETON).end();
 
 
-    public static final ConfigMaterial SPIDER_EGG = egg1("mat_spider_egg", "Spider Egg", EntityType.SPIDER).end();
-    public static final ConfigMaterial SPIDER_EGG_2 = egg2("mat_spider_egg_2", "Spider Egg 2", EntityType.SPIDER).end();
-    public static final ConfigMaterial SPIDER_EGG_3 = egg3("mat_spider_egg_3", "Spider Egg 3", EntityType.SPIDER).end();
-    public static final ConfigMaterial SPIDER_EGG_4 = egg4("mat_spider_egg_4", "Spider Egg 4", EntityType.SPIDER).end();
+    public static final ConfigMaterial SPIDER_EGG = eggHostile1("mat_spider_egg", "Spider Egg", EntityType.SPIDER).end();
+    public static final ConfigMaterial SPIDER_EGG_2 = eggHostile2("mat_spider_egg_2", "Spider Egg 2", EntityType.SPIDER).end();
+    public static final ConfigMaterial SPIDER_EGG_3 = eggHostile3("mat_spider_egg_3", "Spider Egg 3", EntityType.SPIDER).end();
+    public static final ConfigMaterial SPIDER_EGG_4 = eggHostile4("mat_spider_egg_4", "Spider Egg 4", EntityType.SPIDER).end();
 
 
-    public static final ConfigMaterial ZOMBIE_EGG = egg1("mat_zombie_egg", "Zombie Egg", EntityType.ZOMBIE).end();
-    public static final ConfigMaterial ZOMBIE_EGG_2 = egg2("mat_zombie_egg_2", "Zombie Egg 2", EntityType.ZOMBIE).end();
-    public static final ConfigMaterial ZOMBIE_EGG_3 = egg3("mat_zombie_egg_3", "Zombie Egg 3", EntityType.ZOMBIE).end();
-    public static final ConfigMaterial ZOMBIE_EGG_4 = egg4("mat_zombie_egg_4", "Zombie Egg 4", EntityType.ZOMBIE).end();
+    public static final ConfigMaterial ZOMBIE_EGG = eggHostile1("mat_zombie_egg", "Zombie Egg", EntityType.ZOMBIE).end();
+    public static final ConfigMaterial ZOMBIE_EGG_2 = eggHostile2("mat_zombie_egg_2", "Zombie Egg 2", EntityType.ZOMBIE).end();
+    public static final ConfigMaterial ZOMBIE_EGG_3 = eggHostile3("mat_zombie_egg_3", "Zombie Egg 3", EntityType.ZOMBIE).end();
+    public static final ConfigMaterial ZOMBIE_EGG_4 = eggHostile4("mat_zombie_egg_4", "Zombie Egg 4", EntityType.ZOMBIE).end();
 
 
-    public static final ConfigMaterial SLIME_EGG = egg1("mat_slime_egg", "Slime Egg", EntityType.SLIME).end();
-    public static final ConfigMaterial SLIME_EGG_2 = egg2("mat_slime_egg_2", "Slime Egg 2", EntityType.SLIME).end();
-    public static final ConfigMaterial SLIME_EGG_3 = egg3("mat_slime_egg_3", "Slime Egg 3", EntityType.SLIME).end();
-    public static final ConfigMaterial SLIME_EGG_4 = egg4("mat_slime_egg_4", "Slime Egg 4", EntityType.SLIME).end();
+    public static final ConfigMaterial SLIME_EGG = eggHostile1("mat_slime_egg", "Slime Egg", EntityType.SLIME).end();
+    public static final ConfigMaterial SLIME_EGG_2 = eggHostile2("mat_slime_egg_2", "Slime Egg 2", EntityType.SLIME).end();
+    public static final ConfigMaterial SLIME_EGG_3 = eggHostile3("mat_slime_egg_3", "Slime Egg 3", EntityType.SLIME).end();
+    public static final ConfigMaterial SLIME_EGG_4 = eggHostile4("mat_slime_egg_4", "Slime Egg 4", EntityType.SLIME).end();
 
 
-    public static final ConfigMaterial ENDERMAN_EGG = egg1("mat_enderman_egg", "Enderman Egg", EntityType.ENDERMAN).end();
-    public static final ConfigMaterial ENDERMAN_EGG_2 = egg2("mat_enderman_egg_2", "Enderman Egg 2", EntityType.ENDERMAN).end();
-    public static final ConfigMaterial ENDERMAN_EGG_3 = egg3("mat_enderman_egg_3", "Enderman Egg 3", EntityType.ENDERMAN).end();
-    public static final ConfigMaterial ENDERMAN_EGG_4 = egg4("mat_enderman_egg_4", "Enderman Egg 4", EntityType.ENDERMAN).end();
+    public static final ConfigMaterial ENDERMAN_EGG = eggHostile1("mat_enderman_egg", "Enderman Egg", EntityType.ENDERMAN).end();
+    public static final ConfigMaterial ENDERMAN_EGG_2 = eggHostile2("mat_enderman_egg_2", "Enderman Egg 2", EntityType.ENDERMAN).end();
+    public static final ConfigMaterial ENDERMAN_EGG_3 = eggHostile3("mat_enderman_egg_3", "Enderman Egg 3", EntityType.ENDERMAN).end();
+    public static final ConfigMaterial ENDERMAN_EGG_4 = eggHostile4("mat_enderman_egg_4", "Enderman Egg 4", EntityType.ENDERMAN).end();
 
 
-    public static final ConfigMaterial PIG_EGG = egg1("mat_pig_egg", "Pig Egg", EntityType.PIG).end();
-    public static final ConfigMaterial PIG_EGG_2 = egg2("mat_pig_egg_2", "Pig Egg 2", EntityType.PIG).end();
-    public static final ConfigMaterial PIG_EGG_3 = egg3("mat_pig_egg_3", "Pig Egg 3", EntityType.PIG).end();
-    public static final ConfigMaterial PIG_EGG_4 = egg4("mat_pig_egg_4", "Pig Egg 4", EntityType.PIG).end();
+    public static final ConfigMaterial PIG_EGG = eggPassive1("mat_pig_egg", "Pig Egg", EntityType.PIG).end();
+    public static final ConfigMaterial PIG_EGG_2 = eggPassive2("mat_pig_egg_2", "Pig Egg 2", EntityType.PIG).end();
+    public static final ConfigMaterial PIG_EGG_3 = eggPassive3("mat_pig_egg_3", "Pig Egg 3", EntityType.PIG).end();
+    public static final ConfigMaterial PIG_EGG_4 = eggPassive4("mat_pig_egg_4", "Pig Egg 4", EntityType.PIG).end();
 
 
-    public static final ConfigMaterial COW_EGG = egg1("mat_cow_egg", "Cow Egg", EntityType.COW).end();
-    public static final ConfigMaterial COW_EGG_2 = egg2("mat_cow_egg_2", "Cow Egg 2", EntityType.COW).end();
-    public static final ConfigMaterial COW_EGG_3 = egg3("mat_cow_egg_3", "Cow Egg 3", EntityType.COW).end();
-    public static final ConfigMaterial COW_EGG_4 = egg4("mat_cow_egg_4", "Cow Egg 4", EntityType.COW).end();
+    public static final ConfigMaterial COW_EGG = eggPassive1("mat_cow_egg", "Cow Egg", EntityType.COW).end();
+    public static final ConfigMaterial COW_EGG_2 = eggPassive2("mat_cow_egg_2", "Cow Egg 2", EntityType.COW).end();
+    public static final ConfigMaterial COW_EGG_3 = eggPassive3("mat_cow_egg_3", "Cow Egg 3", EntityType.COW).end();
+    public static final ConfigMaterial COW_EGG_4 = eggPassive4("mat_cow_egg_4", "Cow Egg 4", EntityType.COW).end();
 
 
-    public static final ConfigMaterial SHEEP_EGG = egg1("mat_sheep_egg", "Sheep Egg", EntityType.SHEEP).end();
-    public static final ConfigMaterial SHEEP_EGG_2 = egg2("mat_sheep_egg_2", "Sheep Egg 2", EntityType.SHEEP).end();
-    public static final ConfigMaterial SHEEP_EGG_3 = egg3("mat_sheep_egg_3", "Sheep Egg 3", EntityType.SHEEP).end();
-    public static final ConfigMaterial SHEEP_EGG_4 = egg4("mat_sheep_egg_4", "Sheep Egg 4", EntityType.SHEEP).end();
+    public static final ConfigMaterial SHEEP_EGG = eggPassive1("mat_sheep_egg", "Sheep Egg", EntityType.SHEEP).end();
+    public static final ConfigMaterial SHEEP_EGG_2 = eggPassive2("mat_sheep_egg_2", "Sheep Egg 2", EntityType.SHEEP).end();
+    public static final ConfigMaterial SHEEP_EGG_3 = eggPassive3("mat_sheep_egg_3", "Sheep Egg 3", EntityType.SHEEP).end();
+    public static final ConfigMaterial SHEEP_EGG_4 = eggPassive4("mat_sheep_egg_4", "Sheep Egg 4", EntityType.SHEEP).end();
 
 
-    public static final ConfigMaterial CHICKEN_EGG = egg1("mat_chicken_egg", "Chicken Egg", EntityType.CHICKEN).end();
-    public static final ConfigMaterial CHICKEN_EGG_2 = egg2("mat_chicken_egg_2", "Chicken Egg 2", EntityType.CHICKEN).end();
-    public static final ConfigMaterial CHICKEN_EGG_3 = egg3("mat_chicken_egg_3", "Chicken Egg 3", EntityType.CHICKEN).end();
-    public static final ConfigMaterial CHICKEN_EGG_4 = egg4("mat_chicken_egg_4", "Chicken Egg 4", EntityType.CHICKEN).end();
+    public static final ConfigMaterial CHICKEN_EGG = eggPassive1("mat_chicken_egg", "Chicken Egg", EntityType.CHICKEN).end();
+    public static final ConfigMaterial CHICKEN_EGG_2 = eggPassive2("mat_chicken_egg_2", "Chicken Egg 2", EntityType.CHICKEN).end();
+    public static final ConfigMaterial CHICKEN_EGG_3 = eggPassive3("mat_chicken_egg_3", "Chicken Egg 3", EntityType.CHICKEN).end();
+    public static final ConfigMaterial CHICKEN_EGG_4 = eggPassive4("mat_chicken_egg_4", "Chicken Egg 4", EntityType.CHICKEN).end();
 
 
-    public static final ConfigMaterial RABBIT_EGG = egg1("mat_rabbit_egg", "Rabbit Egg", EntityType.RABBIT).end();
-    public static final ConfigMaterial RABBIT_EGG_2 = egg2("mat_rabbit_egg_2", "Rabbit Egg 2", EntityType.RABBIT).end();
-    public static final ConfigMaterial RABBIT_EGG_3 = egg3("mat_rabbit_egg_3", "Rabbit Egg 3", EntityType.RABBIT).end();
-    public static final ConfigMaterial RABBIT_EGG_4 = egg4("mat_rabbit_egg_4", "Rabbit Egg 4", EntityType.RABBIT).end();
+    public static final ConfigMaterial RABBIT_EGG = eggPassive1("mat_rabbit_egg", "Rabbit Egg", EntityType.RABBIT).end();
+    public static final ConfigMaterial RABBIT_EGG_2 = eggPassive2("mat_rabbit_egg_2", "Rabbit Egg 2", EntityType.RABBIT).end();
+    public static final ConfigMaterial RABBIT_EGG_3 = eggPassive3("mat_rabbit_egg_3", "Rabbit Egg 3", EntityType.RABBIT).end();
+    public static final ConfigMaterial RABBIT_EGG_4 = eggPassive4("mat_rabbit_egg_4", "Rabbit Egg 4", EntityType.RABBIT).end();
 
 
     private static Builder material(String id, String name, MaterialData data) {
         return new Builder(id, name, data);
     }
 
-    private static Builder egg1(String id, String name, EntityType type) {
+    private static Builder eggHostile1(String id, String name, EntityType type) {
         return material(
                 id,
                 name,
@@ -445,31 +445,47 @@ public class DefaultMaterialProvider {
                 .category("<lightgreen>Eggs Tier 1");
     }
 
-    private static Builder egg2(String id, String name, EntityType type) {
-        return material(
-                id,
-                name,
-                new SpawnEgg(type))
-                .tradeValue(50)
-                .category("<lightgreen>Eggs Tier 2");
+    private static Builder eggPassive1(String id, String name, EntityType type) {
+        return eggHostile1(id, name, type).tradeValue(10);
     }
 
-    private static Builder egg3(String id, String name, EntityType type) {
+    private static Builder eggHostile2(String id, String name, EntityType type) {
         return material(
                 id,
                 name,
                 new SpawnEgg(type))
                 .tradeValue(500)
-                .category("<lightgreen>Eggs Tier 3");
+                .category("<lightgreen>Eggs Tier 2");
     }
 
-    private static Builder egg4(String id, String name, EntityType type) {
+    private static Builder eggPassive2(String id, String name, EntityType type) {
+        return eggHostile2(id, name, type).tradeValue(50);
+    }
+
+    private static Builder eggHostile3(String id, String name, EntityType type) {
         return material(
                 id,
                 name,
                 new SpawnEgg(type))
-                .tradeValue(1000)
+                .tradeValue(2500)
+                .category("<lightgreen>Eggs Tier 3");
+    }
+
+    private static Builder eggPassive3(String id, String name, EntityType type) {
+        return eggHostile3(id, name, type).tradeValue(500);
+    }
+
+    private static Builder eggHostile4(String id, String name, EntityType type) {
+        return material(
+                id,
+                name,
+                new SpawnEgg(type))
+                .tradeValue(5000)
                 .category("<lightgreen>Eggs Tier 4");
+    }
+
+    private static Builder eggPassive4(String id, String name, EntityType type) {
+        return eggHostile4(id, name, type).tradeValue(1000);
     }
 
     private static class Builder {

@@ -4,6 +4,7 @@ import com.avrgaming.civcraft.config.ConfigMaterial;
 import com.avrgaming.civcraft.config.ConfigRecipe;
 import com.avrgaming.civcraft.config.ConfigRecipeShaped;
 import com.avrgaming.civcraft.config.ConfigRecipeShapless;
+import com.avrgaming.civcraft.lorestorage.LoreMaterial;
 import com.avrgaming.civcraft.main.CivCraft;
 import com.avrgaming.civcraft.main.CivData;
 import org.bukkit.Material;
@@ -45,7 +46,52 @@ public class DefaultRecipeProvider {
         shapeless(COMPACTED_SAND).ingridient(new MaterialData(Material.SAND, (byte) -1).toItemStack(9)).end();
         shapeless(CRAFTED_REEDS).ingridient(new MaterialData(Material.SUGAR_CANE).toItemStack(9)).end();
 
+        eggs(new MaterialData(Material.SULPHUR).toItemStack(1), CREEPER_EGG, CREEPER_EGG_2, CREEPER_EGG_3, CREEPER_EGG_4);
 
+
+    }
+
+    private void eggs(ItemStack stack, ConfigMaterial egg1, ConfigMaterial egg2, ConfigMaterial egg3, ConfigMaterial egg4) {
+        shaped(
+                egg1,
+                new String[]{
+                        "ttt",
+                        "tet",
+                        "ttt"
+                })
+                .ingridient('t', stack)
+                .ingridient('e', LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_fragment_1")))
+                .end();
+        shaped(
+                egg2,
+                new String[]{
+                        " c ",
+                        "cec",
+                        " c "
+                })
+                .ingridient('e', LoreMaterial.spawn(LoreMaterial.materialMap.get(egg1.id)))
+                .ingridient('c', LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_1")))
+                .end();
+        shaped(
+                egg3,
+                new String[]{
+                        " c ",
+                        "cec",
+                        " c "
+                })
+                .ingridient('e', LoreMaterial.spawn(LoreMaterial.materialMap.get(egg2.id)))
+                .ingridient('c', LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_2")))
+                .end();
+        shaped(
+                egg4,
+                new String[]{
+                        " c ",
+                        "cec",
+                        " c "
+                })
+                .ingridient('e', LoreMaterial.spawn(LoreMaterial.materialMap.get(egg3.id)))
+                .ingridient('c', LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_3")))
+                .end();
     }
 
     public static Map<NamespacedKey, ConfigRecipe> provide() {
