@@ -25,18 +25,10 @@ public class DefaultRecipeProvider {
     public final Map<NamespacedKey, ConfigRecipe> entries = new HashMap<>();
 
     public DefaultRecipeProvider() {
-        shapeless(REFINED_STONE, "granite")
-                .ingredient(new MaterialData(Material.STONE, (byte) CivData.GRANITE).toItemStack(9))
-                .end();
-        shapeless(REFINED_STONE, "diorite")
-                .ingredient(new MaterialData(Material.STONE, (byte) CivData.DIORITE).toItemStack(9))
-                .end();
-        shapeless(REFINED_STONE, "andesite")
-                .ingredient(new MaterialData(Material.STONE, (byte) CivData.ANDESITE).toItemStack(9))
-                .end();
-        shapeless(REFINED_STONE, "cobblestone")
-                .ingredient(new MaterialData(Material.COBBLESTONE).toItemStack(9))
-                .end();
+        shapeless(REFINED_STONE, "granite").ingredient(new MaterialData(Material.STONE, (byte) CivData.GRANITE).toItemStack(9)).end();
+        shapeless(REFINED_STONE, "diorite").ingredient(new MaterialData(Material.STONE, (byte) CivData.DIORITE).toItemStack(9)).end();
+        shapeless(REFINED_STONE, "andesite").ingredient(new MaterialData(Material.STONE, (byte) CivData.ANDESITE).toItemStack(9)).end();
+        shapeless(REFINED_STONE, "cobblestone").ingredient(new MaterialData(Material.COBBLESTONE).toItemStack(9)).end();
         shapeless(CARVED_LEATHER).ingredient(new MaterialData(Material.LEATHER).toItemStack(9)).end();
         shapeless(REFINED_FEATHERS).ingredient(new MaterialData(Material.FEATHER).toItemStack(9)).end();
         shapeless(FORGED_CLAY).ingredient(new MaterialData(Material.CLAY_BALL).toItemStack(9)).end();
@@ -49,10 +41,12 @@ public class DefaultRecipeProvider {
         shapeless(REFINED_WART).ingredient(new MaterialData(Material.NETHER_STALK).toItemStack(9)).end();
         shapeless(REFINED_WOOD, "1").ingredient(new MaterialData(Material.LOG, (byte) -1).toItemStack(9)).end();
         shapeless(REFINED_WOOD, "2").ingredient(new MaterialData(Material.LOG_2, (byte) -1).toItemStack(9)).end();
+        shapeless(REFINED_SLIME).ingredient(new MaterialData(Material.SLIME_BALL).toItemStack(2));
         shapeless(FORGED_CHROMIUM).ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(CHROMIUM_ORE.id), 9)).end();
         shapeless(FORGED_TUNGSTEN).ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(TUNGSTEN_ORE.id), 9)).end();
 
 
+        // T2
         shapeless(MERCURY)
                 .ingredient(new MaterialData(Material.IRON_BLOCK).toItemStack(1))
                 .ingredient(new MaterialData(Material.GOLD_BLOCK).toItemStack(1))
@@ -60,6 +54,15 @@ public class DefaultRecipeProvider {
         shapeless(MERCURY_BATH).ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(MERCURY.id), 9)).end();
         shapeless(INDUSTRIAL_DIAMOND).ingredient(new MaterialData(Material.DIAMOND_BLOCK).toItemStack(3)).end();
 
+        shapeless(CRAFTED_LEATHER)
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(CARVED_LEATHER.id), 1))
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(CRAFTED_STRING.id), 1)).end();
+
+        shapeless(DECORATIVE_JEWELS).ingredient(new MaterialData(Material.DIAMOND_BLOCK).toItemStack(2)).end();
+        shapeless(CRUSHED_STONE).ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(CRUSHED_STONE.id), 9)).end();
+        shapeless(JEWELRY_GRADE_GOLD).ingredient(new MaterialData(Material.GOLD_BLOCK).toItemStack(9)).end();
+
+        // eggs
         eggs(new MaterialData(Material.SULPHUR).toItemStack(1), CREEPER_EGG, CREEPER_EGG_2, CREEPER_EGG_3, CREEPER_EGG_4);
         eggs(new MaterialData(Material.BONE).toItemStack(1), SKELETON_EGG, SKELETON_EGG_2, SKELETON_EGG_3, SKELETON_EGG_4);
         eggs(new MaterialData(Material.SPIDER_EYE).toItemStack(1), SPIDER_EGG, SPIDER_EGG_2, SPIDER_EGG_3, SPIDER_EGG_4);

@@ -94,6 +94,12 @@ public class DefaultMaterialProvider {
                     "T1 Refined Wood",
                     new MaterialData(Material.WOOD_STEP))
                     .category("<lightgreen>Tier 1 Materials").end();
+    public static final ConfigMaterial REFINED_SLIME =
+            material(
+                    "mat_refined_slime",
+                    "T1 Refined Slime",
+                    new MaterialData(Material.SLIME_BALL))
+                    .category("<lightgreen>Tier 1 Materials").end();
     public static final ConfigMaterial CHROMIUM_ORE =
             material(
                     "mat_chromium_ore",
@@ -171,6 +177,8 @@ public class DefaultMaterialProvider {
                     new MaterialData(Material.MELON_SEEDS))
                     .noRightClick()
                     .category("<lightblue>Tier 1 Materials").end();
+
+    // T2
     public static final ConfigMaterial MERCURY_BATH =
             material(
                     "mat_mercury_bath",
@@ -185,6 +193,35 @@ public class DefaultMaterialProvider {
                     new MaterialData(Material.DIAMOND))
                     .category("<lightblue>Tier 2 Materials").end();
 
+    public static final ConfigMaterial CRAFTED_LEATHER =
+            material(
+                    "mat_crafted_leather",
+                    "T2 Industrial Diamond",
+                    new MaterialData(Material.LONG_GRASS))
+                    .tradeValue(1)
+                    .category("<lightblue>Tier 2 Materials").end();
+    public static final ConfigMaterial DECORATIVE_JEWELS =
+            material(
+                    "mat_decorative_jewels",
+                    "T2 Decorative Jewels",
+                    new MaterialData(Material.NETHER_STALK))
+                    .category("<lightblue>Tier 2 Materials").end();
+
+    public static final ConfigMaterial CRUSHED_STONE =
+            material(
+                    "mat_crushed_stone",
+                    "T2 Crushed Stone",
+                    new MaterialData(Material.STEP))
+                    .category("<lightblue>Tier 2 Materials").end();
+    public static final ConfigMaterial JEWELRY_GRADE_GOLD =
+            material(
+                    "mat_jewelry_grade_gold",
+                    "T2 Jewelry Grade Gold",
+                    new MaterialData(Material.GOLDEN_APPLE))
+                    .tradeValue(1400)
+                    .category("<lightblue>Tier 2 Materials").end();
+
+    // fish
     public static final ConfigMaterial FISH_FISH =
             material(
                     "mat_fish_fish",
