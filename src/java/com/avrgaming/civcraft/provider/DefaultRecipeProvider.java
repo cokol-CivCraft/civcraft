@@ -46,11 +46,11 @@ public class DefaultRecipeProvider {
         shapeless(FORGED_TUNGSTEN).ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(TUNGSTEN_ORE.id), 9)).end();
 
 
-        // T2
         shapeless(MERCURY)
                 .ingredient(new MaterialData(Material.IRON_BLOCK).toItemStack(1))
                 .ingredient(new MaterialData(Material.GOLD_BLOCK).toItemStack(1))
                 .ingredient(new MaterialData(Material.EMERALD_BLOCK).toItemStack(1)).end();
+        // T2
         shapeless(MERCURY_BATH).ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(MERCURY.id), 9)).end();
         shapeless(INDUSTRIAL_DIAMOND).ingredient(new MaterialData(Material.DIAMOND_BLOCK).toItemStack(3)).end();
 
@@ -61,6 +61,54 @@ public class DefaultRecipeProvider {
         shapeless(DECORATIVE_JEWELS).ingredient(new MaterialData(Material.DIAMOND_BLOCK).toItemStack(2)).end();
         shapeless(CRUSHED_STONE).ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(CRUSHED_STONE.id), 9)).end();
         shapeless(JEWELRY_GRADE_GOLD).ingredient(new MaterialData(Material.GOLD_BLOCK).toItemStack(9)).end();
+        shapeless(MILLED_LUMBER).ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(REFINED_WOOD.id), 9)).end();
+        shapeless(WOVEN_MESH_PATCH)
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(CRAFTED_STRING.id), 3))
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(CRAFTED_REEDS.id), 3))
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(REFINED_SLIME.id), 1)).end();
+        shapeless(STEEL_INGOT)
+                .ingredient(new MaterialData(Material.COBBLESTONE).toItemStack(3))
+                .ingredient(new MaterialData(Material.COAL_BLOCK).toItemStack(3))
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(REFINED_SULPHUR.id), 1)).end();
+        shapeless(VARNISH)
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(REFINED_SLIME.id), 1))
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(REFINED_SUGAR.id), 1))
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(REFINED_WART.id), 2)).end();
+        shapeless(STICKY_RESIN)
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(REFINED_SLIME.id), 2))
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(REFINED_SUGAR.id), 1))
+                .ingredient(new MaterialData(Material.BOWL).toItemStack(1)).end();
+        shapeless(CLAY_MOLDING)
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(FORGED_CLAY.id), 3))
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(CRAFTED_REEDS.id), 2))
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(CRAFTED_STICK.id), 3)).end();
+        shapeless(CHROMIUM_INGOT)
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(FORGED_CHROMIUM.id), 2))
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(REFINED_SULPHUR.id), 2))
+                .ingredient(new MaterialData(Material.COAL_BLOCK).toItemStack(3))
+                .ingredient(new MaterialData(Material.DIAMOND).toItemStack(1)).end();
+        shapeless(AGED_WOOD_STAVE)
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(CRAFTED_STICK.id), 3))
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(CRAFTED_REEDS.id), 2))
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(CRAFTED_STRING.id), 2)).end();
+        shapeless(WOVEN_THREADING)
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(CRAFTED_STRING.id), 4))
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(REFINED_SLIME.id), 1)).end();
+        shapeless(STEEL_SWORD_BLADE)
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(STEEL_INGOT.id), 2))
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(CLAY_STEEL_CAST.id), 1)).end();
+        shapeless(STEEL_SWORD_HILT)
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(STEEL_INGOT.id), 2))
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(VARNISH.id), 2))
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(LEATHER_STRAPS.id), 2))
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(STICKY_RESIN.id), 1)).end();
+        shapeless(STEEL_PLATE)
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(STEEL_INGOT.id), 1))
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(VARNISH.id), 1))
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(CLAY_MOLDING.id), 1)).end();
+
+
+
 
         // eggs
         eggs(new MaterialData(Material.SULPHUR).toItemStack(1), CREEPER_EGG, CREEPER_EGG_2, CREEPER_EGG_3, CREEPER_EGG_4);

@@ -228,6 +228,95 @@ public class DefaultMaterialProvider {
                     new MaterialData(Material.GOLDEN_APPLE))
                     .tradeValue(1400)
                     .category(T2_MATERIAL).end();
+    public static final ConfigMaterial MILLED_LUMBER =
+            material(
+                    "mat_milled_lumber",
+                    "T2 Milled Lumber",
+                    new MaterialData(Material.WOOD_STAIRS))
+                    .tradeValue(1)
+                    .category(T2_MATERIAL).end();
+
+    public static final ConfigMaterial WOVEN_MESH_PATCH =
+            material(
+                    "mat_woven_mesh_patch",
+                    "T2 Woven Mesh Patch",
+                    new MaterialData(Material.MAP))
+                    .tradeValue(1)
+                    .category(T2_MATERIAL).end();
+
+    public static final ConfigMaterial STEEL_INGOT =
+            material(
+                    "mat_steel_ingot",
+                    "T2 Steel Ingot",
+                    new MaterialData(Material.IRON_INGOT))
+                    .tradeValue(400)
+                    .category(T2_MATERIAL).end();
+
+    public static final ConfigMaterial VARNISH =
+            material(
+                    "mat_varnish",
+                    "T2 Varnish",
+                    new MaterialData(Material.EXP_BOTTLE))
+                    .noRightClick()
+                    .tradeValue(1)
+                    .category(T2_MATERIAL).end();
+    public static final ConfigMaterial STICKY_RESIN =
+            material(
+                    "mat_sticky_resin",
+                    "T2 Sticky Resin",
+                    new MaterialData(Material.GLASS_BOTTLE))
+                    .tradeValue(1)
+                    .category(T2_MATERIAL).end();
+    public static final ConfigMaterial CLAY_MOLDING =
+            material(
+                    "mat_clay_molding",
+                    "T2 Clay Molding",
+                    new MaterialData(Material.BRICK))
+                    .tradeValue(1)
+                    .category(T2_MATERIAL).end();
+    public static final ConfigMaterial CHROMIUM_INGOT =
+            material(
+                    "mat_chromium_ingot",
+                    "T2 Chromium Ingot",
+                    new MaterialData(Material.NETHER_STAR))
+                    .tradeValue(2)
+                    .category(T2_MATERIAL).end();
+    public static final ConfigMaterial AGED_WOOD_STAVE =
+            material(
+                    "mat_aged_wood_stave",
+                    "T2 Aged Wood Stave",
+                    new MaterialData(Material.STICK))
+                    .tradeValue(1)
+                    .category(T2_MATERIAL).end();
+    public static final ConfigMaterial WOVEN_THREADING =
+            material(
+                    "mat_woven_threading",
+                    "T2 Woven Threading",
+                    new MaterialData(Material.LEASH))
+                    .tradeValue(1)
+                    .noRightClick()
+                    .category(T2_MATERIAL).end();
+    public static final ConfigMaterial STEEL_SWORD_BLADE =
+            material(
+                    "mat_steel_sword_blade",
+                    "T2 Steel Sword Blade",
+                    new MaterialData(Material.IRON_INGOT))
+                    .category(T2_MATERIAL).end();
+    public static final ConfigMaterial STEEL_SWORD_HILT =
+            material(
+                    "mat_steel_sword_hilt",
+                    "T2 Steel Sword Hilt",
+                    new MaterialData(Material.STICK))
+                    .tradeValue(1)
+                    .category(T2_MATERIAL).end();
+    public static final ConfigMaterial STEEL_PLATE =
+            material(
+                    "mat_steel_plate",
+                    "T2 Steel Plate",
+                    new MaterialData(Material.IRON_PLATE))
+                    .tradeValue(400)
+                    .category(T2_MATERIAL).end();
+
 
     // fish
     public static final ConfigMaterial FISH_FISH =
