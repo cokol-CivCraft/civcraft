@@ -617,6 +617,90 @@ public class DefaultMaterialProvider {
     public static final ConfigMaterial RABBIT_EGG_3 = eggPassive3("mat_rabbit_egg_3", "Rabbit Egg 3", EntityType.RABBIT).end();
     public static final ConfigMaterial RABBIT_EGG_4 = eggPassive4("mat_rabbit_egg_4", "Rabbit Egg 4", EntityType.RABBIT).end();
 
+    public static final ConfigMaterial METALLIC_CRYSTAL_FRAGMENT_1 = material(
+            "mat_metallic_crystal_fragment_1",
+            "Common Metallic Crystal Fragment",
+            new MaterialData(Material.GHAST_TEAR))
+            .category(T1_MATERIAL).end();
+    public static final ConfigMaterial METALLIC_CRYSTAL_1 = material(
+            "mat_metallic_crystal_1",
+            "T1 Common Metallic Crystal",
+            new MaterialData(Material.NETHER_STAR))
+            .category(T1_MATERIAL).end();
+    public static final ConfigMaterial METALLIC_CRYSTAL_FRAGMENT_2 = material(
+            "mat_metallic_crystal_fragment_2",
+            "Uncommon Metallic Crystal Fragment",
+            new MaterialData(Material.GHAST_TEAR))
+            .category(T2_MATERIAL).end();
+    public static final ConfigMaterial METALLIC_CRYSTAL_2 = material(
+            "mat_metallic_crystal_2",
+            "T2 Uncommon Metallic Crystal",
+            new MaterialData(Material.NETHER_STAR))
+            .category(T2_MATERIAL).end();
+    public static final ConfigMaterial METALLIC_CRYSTAL_FRAGMENT_3 = material(
+            "mat_metallic_crystal_fragment_3",
+            "Rare Metallic Crystal Fragment",
+            new MaterialData(Material.GHAST_TEAR))
+            .category(T3_MATERIAL).end();
+    public static final ConfigMaterial METALLIC_CRYSTAL_3 = material(
+            "mat_metallic_crystal_3",
+            "T3 Rare Metallic Crystal",
+            new MaterialData(Material.NETHER_STAR))
+            .category(T3_MATERIAL).end();
+    public static final ConfigMaterial METALLIC_CRYSTAL_FRAGMENT_4 = material(
+            "mat_metallic_crystal_fragment_4",
+            "Legendary Metallic Crystal Fragment",
+            new MaterialData(Material.GHAST_TEAR))
+            .category(T4_MATERIAL).end();
+    public static final ConfigMaterial METALLIC_CRYSTAL_4 = material(
+            "mat_metallic_crystal_4",
+            "T4 Legendary Metallic Crystal",
+            new MaterialData(Material.NETHER_STAR))
+            .category(T4_MATERIAL).end();
+
+    public static final ConfigMaterial IONIC_CRYSTAL_FRAGMENT_1 = material(
+            "mat_ionic_crystal_fragment_1",
+            "Common Ionic Crystal Fragment",
+            new MaterialData(Material.BLAZE_POWDER))
+            .category(T1_MATERIAL).end();
+    public static final ConfigMaterial IONIC_CRYSTAL_1 = material(
+            "mat_ionic_crystal_1",
+            "T1 Common Ionic Crystal",
+            new MaterialData(Material.MAGMA_CREAM))
+            .category(T1_MATERIAL).end();
+
+    public static final ConfigMaterial IONIC_CRYSTAL_FRAGMENT_2 = material(
+            "mat_ionic_crystal_fragment_2",
+            "Uncommon Ionic Crystal Fragment",
+            new MaterialData(Material.BLAZE_POWDER))
+            .category(T2_MATERIAL).end();
+    public static final ConfigMaterial IONIC_CRYSTAL_2 = material(
+            "mat_ionic_crystal_2",
+            "T1 Uncommon Ionic Crystal",
+            new MaterialData(Material.MAGMA_CREAM))
+            .category(T2_MATERIAL).end();
+    public static final ConfigMaterial IONIC_CRYSTAL_FRAGMENT_3 = material(
+            "mat_ionic_crystal_fragment_3",
+            "Rare Ionic Crystal Fragment",
+            new MaterialData(Material.BLAZE_POWDER))
+            .category(T3_MATERIAL).end();
+    public static final ConfigMaterial IONIC_CRYSTAL_3 = material(
+            "mat_ionic_crystal_3",
+            "T3 Rare Ionic Crystal",
+            new MaterialData(Material.MAGMA_CREAM))
+            .category(T3_MATERIAL).end();
+    public static final ConfigMaterial IONIC_CRYSTAL_FRAGMENT_4 = material(
+            "mat_ionic_crystal_fragment_4",
+            "Legendary Ionic Crystal Fragment",
+            new MaterialData(Material.BLAZE_POWDER))
+            .category(T1_MATERIAL).end();
+    public static final ConfigMaterial IONIC_CRYSTAL_4 = material(
+            "mat_ionic_crystal_4",
+            "T4 Legendary Ionic Crystal",
+            new MaterialData(Material.MAGMA_CREAM))
+            .category(T4_MATERIAL).end();
+
+
 
     private static Builder material(String id, String name, MaterialData data) {
         return new Builder(id, name, data);

@@ -108,8 +108,6 @@ public class DefaultRecipeProvider {
                 .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(CLAY_MOLDING.id), 1)).end();
 
 
-
-
         // eggs
         eggs(new MaterialData(Material.SULPHUR).toItemStack(1), CREEPER_EGG, CREEPER_EGG_2, CREEPER_EGG_3, CREEPER_EGG_4);
         eggs(new MaterialData(Material.BONE).toItemStack(1), SKELETON_EGG, SKELETON_EGG_2, SKELETON_EGG_3, SKELETON_EGG_4);
@@ -118,14 +116,12 @@ public class DefaultRecipeProvider {
         eggs(new MaterialData(Material.SLIME_BALL).toItemStack(1), SLIME_EGG, SLIME_EGG_2, SLIME_EGG_3, SLIME_EGG_4);
         eggs(new MaterialData(Material.ENDER_PEARL).toItemStack(1), ENDERMAN_EGG, ENDERMAN_EGG_2, ENDERMAN_EGG_3, ENDERMAN_EGG_4);
         shaped(
-                ENDERMAN_EGG,
-                new String[]{
+                ENDERMAN_EGG, new String[]{
                         " t ",
                         "tet",
-                        " t "
-                })
+                        " t "})
                 .ingredient('t', new MaterialData(Material.ENDER_PEARL).toItemStack(1))
-                .ingredient('e', LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_fragment_1")))
+                .ingredient('e', LoreMaterial.spawn(LoreMaterial.materialMap.get(IONIC_CRYSTAL_FRAGMENT_1.id)))
                 .end();
 
         eggs(new MaterialData(Material.GRILLED_PORK).toItemStack(1), PIG_EGG, PIG_EGG_2, PIG_EGG_3, PIG_EGG_4);
@@ -133,48 +129,76 @@ public class DefaultRecipeProvider {
         eggs(new MaterialData(Material.COBBLESTONE).toItemStack(1), SHEEP_EGG, SHEEP_EGG_2, SHEEP_EGG_3, SHEEP_EGG_4);
         eggs(new MaterialData(Material.COOKED_CHICKEN).toItemStack(1), CHICKEN_EGG, CHICKEN_EGG_2, CHICKEN_EGG_3, CHICKEN_EGG_4);
         eggs(new MaterialData(Material.COOKED_RABBIT).toItemStack(1), RABBIT_EGG, RABBIT_EGG_2, RABBIT_EGG_3, RABBIT_EGG_4);
+
+        shapeless(METALLIC_CRYSTAL_FRAGMENT_1)
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(CHROMIUM_ORE.id), 2))
+                .ingredient(new MaterialData(Material.IRON_INGOT).toItemStack(2)).end();
+        shapeless(METALLIC_CRYSTAL_1).ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(METALLIC_CRYSTAL_1.id), 9));
+        shapeless(METALLIC_CRYSTAL_FRAGMENT_2)
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(FORGED_CHROMIUM.id), 1))
+                .ingredient(new MaterialData(Material.COBBLESTONE).toItemStack(1)).end();
+        shapeless(METALLIC_CRYSTAL_2).ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(METALLIC_CRYSTAL_2.id), 9));
+        shapeless(METALLIC_CRYSTAL_FRAGMENT_3)
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(FORGED_CHROMIUM.id), 2))
+                .ingredient(new MaterialData(Material.IRON_BLOCK).toItemStack(2)).end();
+        shapeless(METALLIC_CRYSTAL_3).ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(METALLIC_CRYSTAL_3.id), 9));
+        shapeless(METALLIC_CRYSTAL_FRAGMENT_4)
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(FORGED_CHROMIUM.id), 3))
+                .ingredient(new MaterialData(Material.IRON_BLOCK).toItemStack(6)).end();
+        shapeless(METALLIC_CRYSTAL_4).ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(METALLIC_CRYSTAL_4.id), 9));
+
+        shapeless(IONIC_CRYSTAL_FRAGMENT_1)
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(TUNGSTEN_ORE.id), 2))
+                .ingredient(new MaterialData(Material.GOLD_INGOT).toItemStack(2)).end();
+        shapeless(IONIC_CRYSTAL_1).ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(IONIC_CRYSTAL_1.id), 9));
+        shapeless(IONIC_CRYSTAL_FRAGMENT_2)
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(FORGED_TUNGSTEN.id), 1))
+                .ingredient(new MaterialData(Material.GOLD_BLOCK).toItemStack(1)).end();
+        shapeless(IONIC_CRYSTAL_2).ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(IONIC_CRYSTAL_2.id), 9));
+        shapeless(IONIC_CRYSTAL_FRAGMENT_3)
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(FORGED_TUNGSTEN.id), 2))
+                .ingredient(new MaterialData(Material.GOLD_BLOCK).toItemStack(2)).end();
+        shapeless(IONIC_CRYSTAL_3).ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(IONIC_CRYSTAL_3.id), 9));
+        shapeless(IONIC_CRYSTAL_FRAGMENT_4)
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(FORGED_TUNGSTEN.id), 3))
+                .ingredient(new MaterialData(Material.GOLD_BLOCK).toItemStack(3)).end();
+        shapeless(IONIC_CRYSTAL_4).ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(IONIC_CRYSTAL_4.id), 9));
+
+
     }
 
     private void eggs(ItemStack stack, ConfigMaterial egg1, ConfigMaterial egg2, ConfigMaterial egg3, ConfigMaterial egg4) {
         shaped(
-                egg1,
-                new String[]{
+                egg1, new String[]{
                         "ttt",
                         "tet",
-                        "ttt"
-                })
+                        "ttt"})
                 .ingredient('t', stack)
-                .ingredient('e', LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_fragment_1")))
+                .ingredient('e', LoreMaterial.spawn(LoreMaterial.materialMap.get(IONIC_CRYSTAL_FRAGMENT_1.id)))
                 .end();
         shaped(
-                egg2,
-                new String[]{
+                egg2, new String[]{
                         " c ",
                         "cec",
-                        " c "
-                })
+                        " c "})
                 .ingredient('e', LoreMaterial.spawn(LoreMaterial.materialMap.get(egg1.id)))
-                .ingredient('c', LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_1")))
+                .ingredient('c', LoreMaterial.spawn(LoreMaterial.materialMap.get(IONIC_CRYSTAL_1.id)))
                 .end();
         shaped(
-                egg3,
-                new String[]{
+                egg3, new String[]{
                         " c ",
                         "cec",
-                        " c "
-                })
+                        " c "})
                 .ingredient('e', LoreMaterial.spawn(LoreMaterial.materialMap.get(egg2.id)))
-                .ingredient('c', LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_2")))
+                .ingredient('c', LoreMaterial.spawn(LoreMaterial.materialMap.get(IONIC_CRYSTAL_2.id)))
                 .end();
         shaped(
-                egg4,
-                new String[]{
+                egg4, new String[]{
                         " c ",
                         "cec",
-                        " c "
-                })
+                        " c "})
                 .ingredient('e', LoreMaterial.spawn(LoreMaterial.materialMap.get(egg3.id)))
-                .ingredient('c', LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_ionic_crystal_3")))
+                .ingredient('c', LoreMaterial.spawn(LoreMaterial.materialMap.get(IONIC_CRYSTAL_3.id)))
                 .end();
     }
 
