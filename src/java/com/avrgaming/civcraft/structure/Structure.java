@@ -38,7 +38,6 @@ import org.bukkit.entity.Player;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -276,9 +275,6 @@ public class Structure extends MetaStructure {
 
     public void onBonusGoodieUpdate() {
 
-    }
-
-    public void onMarkerPlacement(Player player, Location next, ArrayList<Location> locs) throws CivException {
     }
 
     @Override

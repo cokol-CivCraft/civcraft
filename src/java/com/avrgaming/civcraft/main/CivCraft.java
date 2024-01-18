@@ -150,7 +150,6 @@ public final class CivCraft extends JavaPlugin {
         pluginManager.registerEvents(new BlockListener(), this);
         pluginManager.registerEvents(new ChatListener(), this);
         pluginManager.registerEvents(new BonusGoodieManager(), this);
-        pluginManager.registerEvents(new MarkerPlacementManager(), this);
         pluginManager.registerEvents(new CustomItemManager(), this);
         pluginManager.registerEvents(new PlayerListener(), this);
         pluginManager.registerEvents(new DebugListener(), this);

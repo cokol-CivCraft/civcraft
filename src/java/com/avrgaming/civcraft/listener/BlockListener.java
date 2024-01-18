@@ -816,25 +816,6 @@ public class BlockListener implements Listener {
 
         if (event.getClickedBlock() != null) {
 
-            if (MarkerPlacementManager.isPlayerInPlacementMode(event.getPlayer())) {
-                Block block;
-                if (event.getBlockFace().equals(BlockFace.UP)) {
-                    block = event.getClickedBlock().getRelative(event.getBlockFace());
-                } else {
-                    block = event.getClickedBlock();
-                }
-
-                try {
-                    MarkerPlacementManager.setMarker(event.getPlayer(), block.getLocation());
-                    CivMessage.send(event.getPlayer(), ChatColor.GREEN + CivSettings.localize.localizedString("itemUse_marked"));
-                } catch (CivException e) {
-                    CivMessage.send(event.getPlayer(), ChatColor.RED + e.getMessage());
-                }
-
-                event.setCancelled(true);
-                return;
-            }
-
             // Check for clicked structure signs.
             bcoord.setFromLocation(event.getClickedBlock().getLocation());
             StructureSign sign = CivGlobal.getStructureSign(bcoord);
