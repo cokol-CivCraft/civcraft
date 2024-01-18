@@ -42,6 +42,7 @@ public abstract class MetaStructure extends Buildable implements INBTSerializabl
     public int builtBlockCount = 0;
     public int savedBlockCount = 0;
     public static final double DEFAULT_HAMMERRATE = 1.0;
+    protected boolean autoClaim = false;
 
     public MetaStructure(UUID uuid, NBTTagCompound nbt) throws SQLException, CivException {
         this.setUUID(uuid);
@@ -263,7 +264,7 @@ public abstract class MetaStructure extends Buildable implements INBTSerializabl
         }
 
         //Make sure we are building this building inside of culture.
-        if (isTownHall()) {
+        if (this instanceof TownHall) {
             /* Structure is a town hall, auto-claim the borders. */
             ignoreBorders = true;
         } else {
@@ -273,7 +274,7 @@ public abstract class MetaStructure extends Buildable implements INBTSerializabl
             }
         }
 
-        if (isTownHall()) {
+        if (this instanceof TownHall) {
             double minDistance = CivSettings.townConfig.getDouble("town.min_town_distance", 150.0);
 
             for (Town town : Town.getTowns()) {
@@ -492,4 +493,66 @@ public abstract class MetaStructure extends Buildable implements INBTSerializabl
     }
 
     public abstract void build(Player player, Location centerLoc, Template tpl) throws Exception;
+
+    public boolean isValid() {
+        return super.isValid() | this.getCiv().isAdminCiv();
+    }
+
+    public void setValid(boolean valid) {
+        super.setValid(valid | this.getCiv().isAdminCiv());
+    }
+
+    public void markInvalid() {
+        if (this.getCiv().isAdminCiv()) {
+            this.setValid(true);
+        } else {
+            this.setValid(false);
+            this.getTown().invalidStructures.add(this);
+        }
+    }
+
+    public void onGoodieFromFrame() {
+    }
+
+    public void onGoodieToFrame() {
+    }
+
+    public boolean isPartOfAdminCiv() {
+        return (this.getCiv().isAdminCiv());
+    }
+
+    public void onDailyEvent() {
+    }
+
+    public void onTechUpdate() {
+    }
+
+    public int getLimit() {
+        return info.limit;
+    }
+
+    public boolean isStrategic() {
+        return info.strategic;
+    }
+
+    public boolean isNationalWonder() {
+        return info.nationalWonder;
+    }
+
+    public boolean isWaterStructure() {
+        return info.water_structure;
+    }
+
+    public void onDemolish() throws CivException {
+    }
+
+    public void onEffectEvent() {
+    }
+
+    public boolean isAllowOutsideTown() {
+        return (info.allow_outside_town != null) && (info.allow_outside_town);
+    }
+
+    public void runCheck(Location center) {
+    }
 }

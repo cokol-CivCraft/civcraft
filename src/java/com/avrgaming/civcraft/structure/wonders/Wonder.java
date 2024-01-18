@@ -32,7 +32,6 @@ import com.avrgaming.civcraft.object.TradeGood;
 import com.avrgaming.civcraft.structure.MetaStructure;
 import com.avrgaming.civcraft.template.Template;
 import com.avrgaming.civcraft.util.BlockCoord;
-import com.avrgaming.civcraft.util.ItemFrameStorage;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -46,9 +45,7 @@ import java.util.UUID;
 
 public abstract class Wonder extends MetaStructure {
     private ConfigWonderBuff wonderBuffs = null;
-    protected BlockCoord tradeGoodCoord;
     protected BlockCoord tradeOutpostTower = null;
-    protected ItemFrameStorage frameStore = null;
     protected TradeGood good = null;
     protected BonusGoodie goodie = null;
 

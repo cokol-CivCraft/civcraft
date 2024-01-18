@@ -661,4 +661,7 @@ public class Cannon extends Buildable {
     }
 
 
+    public boolean isStrategic() {
+        return info.strategic;
+    }
 }

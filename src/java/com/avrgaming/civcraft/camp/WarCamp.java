@@ -451,4 +451,8 @@ public class WarCamp extends Buildable implements RespawnLocationHolder {
 
         this.structureBlocks.clear();
     }
+
+    public boolean isStrategic() {
+        return info.strategic;
+    }
 }

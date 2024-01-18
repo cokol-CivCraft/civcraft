@@ -210,14 +210,15 @@ public class CivGlobal {
     public static void checkForInvalidStructures() {
         Iterator<Entry<BlockCoord, Structure>> iter = CivGlobal.getStructureIterator();
         while (iter.hasNext()) {
-            Structure struct = iter.next().getValue();
-            if (struct instanceof Capitol) {
-                if (struct.getTown().getMotherCiv() == null) {
-                    if (!struct.getTown().isCapitol()) {
-                        struct.markInvalid();
-                        struct.setInvalidReason("Capitol structures can only exist in the civilization's capitol. Use '/build town hall' to build a town-hall instead.");
-                    }
-                }
+            if (!(iter.next().getValue() instanceof Capitol cap)) {
+                continue;
+            }
+            if (cap.getTown().getMotherCiv() != null) {
+                continue;
+            }
+            if (!cap.getTown().isCapitol()) {
+                cap.markInvalid();
+                cap.setInvalidReason("Capitol structures can only exist in the civilization's capitol. Use '/build town hall' to build a town-hall instead.");
             }
         }
     }

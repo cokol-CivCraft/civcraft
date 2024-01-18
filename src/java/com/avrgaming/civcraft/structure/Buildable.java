@@ -65,7 +65,6 @@ public abstract class Buildable extends SQLObject {
 
     private int totalBlockCount = 0;
     private boolean complete = false;
-    protected boolean autoClaim = false;
     private boolean enabled = true;
 
     private String templateName;
@@ -112,14 +111,6 @@ public abstract class Buildable extends SQLObject {
                     true;
             default -> false;
         };
-    }
-
-    public boolean isNationalWonder() {
-        return info.nationalWonder;
-    }
-
-    public boolean isWaterStructure() {
-        return info.water_structure;
     }
 
     public Civilization getCiv() {
@@ -191,9 +182,6 @@ public abstract class Buildable extends SQLObject {
         return info.effect_event;
     }
 
-    public void onEffectEvent() {
-    }
-
     public String getOnBuildEvent() {
         return info.onBuild_event;
     }
@@ -207,7 +195,7 @@ public abstract class Buildable extends SQLObject {
     }
 
     public boolean isActive() {
-        return this.isComplete() && (this.isTownHall() || !isDestroyed()) && isEnabled();
+        return this.isComplete() && (this instanceof TownHall || !isDestroyed()) && isEnabled();
     }
 
     public int getTotalBlockCount() {
@@ -780,21 +768,6 @@ public abstract class Buildable extends SQLObject {
         return info.isAvailable(this.getTown());
     }
 
-    public int getLimit() {
-        return info.limit;
-    }
-
-    public boolean isAllowOutsideTown() {
-        return (info.allow_outside_town != null) && (info.allow_outside_town);
-    }
-
-    public boolean isStrategic() {
-        return info.strategic;
-    }
-
-    public void runCheck(Location center) {
-    }
-
     public void fancyDestroyStructureBlocks() {
         TaskMaster.syncTask(() -> {
             for (BlockCoord coord : structureBlocks.keySet()) {
@@ -865,9 +838,6 @@ public abstract class Buildable extends SQLObject {
     public void onPostBuild(BlockCoord absCoord, SimpleBlock commandBlock) {
     }
 
-    public void onTechUpdate() {
-    }
-
     public void processRegen() {
         if (this.validated && !this.isValid()) {
             /* Do not regen invalid structures. */
@@ -898,10 +868,6 @@ public abstract class Buildable extends SQLObject {
         }
     }
 
-
-    public void onDailyEvent() {
-    }
-
     public void updateSignText() {
     }
 
@@ -911,28 +877,7 @@ public abstract class Buildable extends SQLObject {
         TaskMaster.syncTask(new PostBuildSyncTask(tpl, this));
     }
 
-    public boolean isPartOfAdminCiv() {
-        return (this.getCiv().isAdminCiv());
-    }
-
-    public boolean isTownHall() {
-        return (this instanceof TownHall);
-    }
-
-    public void markInvalid() {
-        if (this.getCiv().isAdminCiv()) {
-            this.valid = true;
-        } else {
-            this.valid = false;
-            this.getTown().invalidStructures.add(this);
-        }
-    }
-
     public boolean isValid() {
-        if (this.getCiv().isAdminCiv()) {
-            return true;
-        }
-
         return valid;
     }
 
@@ -985,18 +930,8 @@ public abstract class Buildable extends SQLObject {
         TaskMaster.asyncTask(new StructureValidator(player, this), 0);
     }
 
-    public void setValid(boolean b) {
-        if (this.getCiv().isAdminCiv()) {
-            this.valid = true;
-        } else {
-            this.valid = b;
-        }
-    }
-
-    public void onGoodieFromFrame() {
-    }
-
-    public void onGoodieToFrame() {
+    public void setValid(boolean valid) {
+        this.valid = valid;
     }
 
     @Override
@@ -1022,9 +957,6 @@ public abstract class Buildable extends SQLObject {
     }
 
     public void loadSettings() {
-    }
-
-    public void onDemolish() throws CivException {
     }
 
     public static double getReinforcementValue(Material material) {

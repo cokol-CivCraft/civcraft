@@ -249,7 +249,7 @@ public class Structure extends MetaStructure {
     @Override
     public void processUndo() throws CivException {
 
-        if (isTownHall()) {
+        if (this instanceof TownHall) {
             throw new CivException(CivSettings.localize.localizedString("structure_move_notCaporHall"));
         }
 

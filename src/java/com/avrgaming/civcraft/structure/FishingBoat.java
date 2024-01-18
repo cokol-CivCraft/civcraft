@@ -77,60 +77,6 @@ public class FishingBoat extends TradeOutpost {
         this.setGood(good);
     }
 
-//	@Override
-//	public void build_trade_outpost_tower() throws CivException {
-//		/* Add trade good to town. */
-//		
-//		/* this.good is set by the good's load function or by the onBuild function. */
-//		TradeGood good = this.good;
-//		if (good == null) {
-//			throw new CivException("Couldn't find trade good at location:"+good);
-//		}
-//		
-//		/* Build the 'trade good tower' */
-//		/* This is always set on post build using the post build sync task. */
-//		if (tradeOutpostTower == null) {
-//			throw new CivException("Couldn't find trade outpost tower.");
-//		}
-//		
-//		Location centerLoc = tradeOutpostTower.getLocation();
-//		
-//		/* Build the bedrock tower. */
-//		for (int i = 0; i < 3; i++) {
-//			Block b = centerLoc.getBlock().getRelative(0, i, 0);
-//			ItemManager.setTypeId(b, CivData.BEDROCK); ItemManager.setData(b, 0);
-//			
-//			StructureBlock sb = new StructureBlock(new BlockCoord(b), this);
-//			this.addStructureBlock(sb.getCoord(), false);
-//			//CivGlobal.addStructureBlock(sb.getCoord(), this);
-//		}
-//		
-//		/* Place the sign. */
-//		Block b = centerLoc.getBlock().getRelative(1, 2, 0);
-//		ItemManager.setTypeId(b, CivData.WALL_SIGN); 
-//		ItemManager.setData(b, CivData.DATA_SIGN_EAST);
-//		Sign s = (Sign)b.getState();
-//		s.setLine(0, good.getInfo().name);
-//		s.update();
-//		StructureBlock sb = new StructureBlock(new BlockCoord(b), this);
-//		//CivGlobal.addStructureBlock(sb.getCoord(), this);
-//		this.addStructureBlock(sb.getCoord(), false);
-//		
-//		/* Place the itemframe. */
-//		b = centerLoc.getBlock().getRelative(1,1,0);
-//		this.addStructureBlock(new BlockCoord(b), false);
-//		Block b2 = b.getRelative(0, 0, 0);
-//		Entity entity = CivGlobal.getEntityAtLocation(b2.getLocation());
-//		
-//		if (entity == null || (!(entity instanceof ItemFrame))) {
-//			this.frameStore = new ItemFrameStorage(b.getLocation(), BlockFace.EAST);	
-//		} else {
-//			this.frameStore = new ItemFrameStorage((ItemFrame)entity, b.getLocation());
-//		}
-//		
-//		this.frameStore.setBuildable(this);
-//	}
-
 
     @Override
     protected Location repositionCenter(Location center, BlockFace dir, double x_size, double z_size) {

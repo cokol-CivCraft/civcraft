@@ -96,11 +96,11 @@ public class DefaultRecipeProvider {
                 .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(REFINED_SLIME.id), 1)).end();
         shapeless(STEEL_SWORD_BLADE)
                 .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(STEEL_INGOT.id), 2))
-                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(CLAY_STEEL_CAST.id), 1)).end();
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_clay_steel_cast"), 1)).end();
         shapeless(STEEL_SWORD_HILT)
                 .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(STEEL_INGOT.id), 2))
                 .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(VARNISH.id), 2))
-                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(LEATHER_STRAPS.id), 2))
+                .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get("mat_leather_straps"), 2))
                 .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(STICKY_RESIN.id), 1)).end();
         shapeless(STEEL_PLATE)
                 .ingredient(LoreMaterial.spawn(LoreMaterial.materialMap.get(STEEL_INGOT.id), 1))

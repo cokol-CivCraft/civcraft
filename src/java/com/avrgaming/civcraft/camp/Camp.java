@@ -1112,32 +1112,33 @@ public class Camp extends Buildable {
     public void onDamage(int amount, World world, Player player, BlockCoord hit, BuildableDamageBlock hit2) {
 
         ControlPoint cp = this.controlBlocks.get(hit);
-        if (cp != null) {
-            Date now = new Date();
-            Resident resident = CivGlobal.getResident(player);
+        if (cp == null) {
+            return;
+        }
+        Date now = new Date();
+        Resident resident = CivGlobal.getResident(player);
 
-            if (resident.isProtected()) {
-                CivMessage.sendError(player, CivSettings.localize.localizedString("camp_protected"));
-                return;
-            }
+        if (resident.isProtected()) {
+            CivMessage.sendError(player, CivSettings.localize.localizedString("camp_protected"));
+            return;
+        }
 
-            if (now.after(getNextRaidDate())) {
-                if (!cp.isDestroyed()) {
-                    cp.damage(amount);
-                    if (cp.isDestroyed()) {
-                        onControlBlockDestroy(cp, world, player);
-                    } else {
-                        onControlBlockHit(cp, world, player);
-                    }
+        if (now.after(getNextRaidDate())) {
+            if (!cp.isDestroyed()) {
+                cp.damage(amount);
+                if (cp.isDestroyed()) {
+                    onControlBlockDestroy(cp, world, player);
                 } else {
-                    CivMessage.send(player, ChatColor.RED + CivSettings.localize.localizedString("camp_controlBlockAlreadyDestroyed"));
+                    onControlBlockHit(cp, world, player);
                 }
             } else {
-                SimpleDateFormat sdf = new SimpleDateFormat("M/dd h:mm:ss a z");
-                CivMessage.send(player, ChatColor.RED + CivSettings.localize.localizedString("camp_protectedUntil") + " " + sdf.format(getNextRaidDate()));
+                CivMessage.send(player, ChatColor.RED + CivSettings.localize.localizedString("camp_controlBlockAlreadyDestroyed"));
             }
-
+        } else {
+            SimpleDateFormat sdf = new SimpleDateFormat("M/dd h:mm:ss a z");
+            CivMessage.send(player, ChatColor.RED + CivSettings.localize.localizedString("camp_protectedUntil") + " " + sdf.format(getNextRaidDate()));
         }
+
     }
 
     public void setNextRaidDate(Date next) {
